@@ -27,7 +27,7 @@ public class HaAreaController {
      */
     @RequestMapping("/area/area_list.html")
     public String showArea_list(HaArea haArea, Model model){
-        System.out.println("你好我叫小可爱");
+        System.out.println("你好蔡徐坤");
         List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         if(haAreaList!=null){
             model.addAttribute("areaListName",haAreaList);
