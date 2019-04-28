@@ -12,8 +12,6 @@
     <artifactId>ktamr-a-datacopycontrol</artifactId>
     <dependencies>
 
-
-        <!--<dependency>-->
         <dependency>
 
             <groupId>com.ktamr</groupId>
