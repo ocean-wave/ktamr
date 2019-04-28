@@ -14,11 +14,6 @@
 
 
         <!--<dependency>-->
-            <!--<groupId>com.sun.jna</groupId>-->
-            <!--<artifactId>jna</artifactId>-->
-            <!--<version>3.0.9</version>-->
-        <!--</dependency>-->
-        <!--调用配ktamr-framework模块 初始化加载配置类-->
         <dependency>
 
             <groupId>com.ktamr</groupId>
