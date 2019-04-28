@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<body class="myPage-body" style="overflow-x:hidden;overflow-y:auto;">
+<div class="container myContainer">
+	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+		<div class="col-xs-2 my-form-col">
+			<select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-style="btn-default btn-sm" data-size="5">
+                    <option th:each="entries,stat:${listArea}" th:value="${entries['areaId']}" th:text="${entries['name']}"  th:selected="${ areaid eq entries['areaId']}" >
+                    </option>
+			</select>
+		</div>
+		<div class="col-xs-2 my-form-col">
+			<input  id="date_range" class="input-sm form-control" type="text" th:value="${daterange}" readonly="readonly" placeholder="选择查询月份范围"/>
+		</div>
+		<div class="col-xs-1 my-form-col">
+			<button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+		</div>
+	</div>
+	<div class="row my-form-no-edge">
+		<div class="col-md-12 my-form-no-edge">
+			<div class="well well-sm">
+				<div id="myChart" style="height:460px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+
+<script th:inline="javascript">
+
+    $('#date_range').click(function(){
+        var options = {};
+        options.startDate = [[${startDate}]];
+        options.endDate =[[${endDate}]];
+        options.format_start = "YYYY-MM";
+        options.format_end = "YYYY-MM";
+        options.align="right";
+        myData.DataRangePicker(this, "MonthRange", options);
+    });
+    $(document).keydown(function(event){
+        if(event.keyCode==13){
+            $(".search").click();
+        }
+    });
+    $(".search").click(function(){
+        var  url = "/dataselect/audit";
+        var  _areaId = $("#areas").val();
+        var  _date_range = $("#date_range").val().split("~");
+        var startDate = _date_range[0];
+        var endDate = _date_range[1];
+        window.location.href = url+"?areaId="+_areaId+"&startDate="+startDate+"&endDate="+endDate;
+    });
+
+	var xAxisData = eval([[${xAxisData}]]);
+	var branchMeterData = eval([[${branchMeterData}]]);
+	var TotalMeterData = eval([[${TotalMeterData}]]);
+	var sTitle = "总分表稽核累计用量统计：";
+	var mnDate = [[${mnDate}]];;
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('myChart'));
+
+	// 指定图表的配置项和数据
+	var option = {
+		title: {
+			text: sTitle,
+			subtext: mnDate+'个月内'
+		},
+		grid:{
+			x:100,
+			y:80,
+			x2:100,
+			y2:50,
+			borderWidth:1
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		toolbox: {
+			show : true,
+			feature : {
+				dataView : {show: true, readOnly: false},
+				magicType : {show: true, type: ['line', 'bar']},
+				restore : {show: true},
+				saveAsImage : {show: true}
+			}
+		},
+		calculable : true,
+		legend: {
+			data:['分表','总表']
+		},
+		xAxis: [
+			{
+				type: 'category',
+				name: '月份',
+				data: xAxisData,
+			axisLabel:{
+		interval:0,//横轴信息全部显示
+				rotate:-30//-30度角倾斜显示
+	}
+	}
+	],
+	yAxis: [
+		{
+			type: 'value',
+			name: '累积用量',
+			axisLabel: {
+				formatter: '{value} m³'
+			}
+		}
+	],
+			series: [
+		{
+			name: '分表',
+			type: 'bar',
+			data: branchMeterData,
+		markPoint : {
+		data : [
+			{type : 'max', name: '最大值'},
+			{type : 'min', name: '最小值'}
+		]
+	},
+	markLine : {
+		data : [
+			{type : 'average', name: '平均值'}
+		]
+	}
+	},
+	{
+		name: '总表',
+				type: 'bar',
+			data: TotalMeterData,
+			markPoint : {
+		data : [
+			{type : 'max', name: '最大值'},
+			{type : 'min', name: '最小值'}
+		]
+	},
+		markLine : {
+			data : [
+				{type : 'average', name: '平均值'}
+			]
+		}
+	}
+	]
+	};
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+	$(window).resize(function(){
+		myChart.resize();
+	});
+</script>
+</body>
+</html>

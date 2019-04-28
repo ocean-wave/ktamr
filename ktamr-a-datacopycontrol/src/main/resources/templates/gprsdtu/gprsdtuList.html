@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="手抄器" th:include="include :: header"></head>
+
+<body class="myPage-body">
+<div class="container myContainer">
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <div class="layui-tab layui-tab-brief" lay-filter="device" style="margin:0;">
+                <ul class="layui-tab-title hide" style="margin-bottom: 0px;">
+                    <li class="layui-this" lay-id="ccentor">DTU列表</li>
+                </ul>
+                <div class="layui-tab-content" style="padding: 0;">
+                    <div class="layui-tab-item layui-show">
+                        <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+                            <div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
+                                <input id="nodeType" type="text" class="input-sm form-control hide" value="">
+                                <input id="nodeIds" type="text" class="input-sm form-control hide" value="">
+                                <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"  placeholder="---请选择区域---"/>
+                                <div id="menuContent" class="menuContent">
+                                    <div class="ztreeInput">
+                                        <div>
+                                            <input type="text" class="input-key input-sm form-control" id="zTreeKey" placeholder="请输入节点关键字">
+                                        </div>
+                                        <div class="ztreeSkip">
+                                            <label type="text" id="resultKey" class="form-control ztreeSkipLabel">
+                                                <div class="ztreeSkipBtns">
+                                                    <a id="clickUp" class="glyphicon glyphicon-menu-up ztreeSkipUp"></a>
+                                                    <a id="clickDown" class="glyphicon glyphicon-menu-down ztreeSkipDown"></a>
+                                                </div>
+                                                <label id="number" class="ztreeSkipNum"></label>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <ul id="areaTree" class="ztree"></ul>
+                                    <div class="clearfloat"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 my-form-col">
+                                <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+                            </div>
+                            <div class="col-xs-1 my-form-col">
+                                <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" id="jqgridForm" role="form">
+                            <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                            <div id="jqGridPager"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script>
+    layui.config({
+        base : '/common/js/',
+        version: '2.8.2'
+    }).extend({
+        myLayui: 'myLayui'
+    });
+    layui.use(['layer','element','myLayui'], function(){
+        var layer = layui.layer,
+            element = layui.element,
+            myLayui = layui.myLayui;
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,'/equipment/gprsdtuListJson');
+        GridObj.jqdefaultGridConfig.caption = "";
+        GridObj.jqdefaultGridConfig.multiselect = false;
+        GridObj.jqdefaultGridConfig.postData = {};
+        GridObj.jqdefaultGridConfig.colNames = ['终端编号','电话号码','安装地址','下属集采器数目','状态','说明','最近抄收时间','抄收间隔时间'];
+        GridObj.jqdefaultGridConfig.colModel = [
+            { name: 'uid',  width: 120, key: true, hidden: false},
+            { name: 'telnubmer', width: 100 },
+            { name: 'addr', width: 200 },
+            { name: 'xsjcqsm', width: 100, align: 'right' },
+            { name: 'state', width: 100, cellattr: deviceStateCellColor },
+            { name: 'dscrp', width: 200 },
+            { name: 'oplasttime', width: 120 },
+            { name: 'idle', width: 120, align: 'right' }
+        ];
+        GridObj.jqdefaultGridConfig.footerrow = true;
+        GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+
+        var zOption = {
+            url: "/nodes/getEquipmentNodes",
+            selectedMulti: true,
+            nodeTypeId: "nodeType",
+            nodeIdsId: "nodeIds",
+            nodeNamesId: "areaSel",
+            clickCallBack: ""
+        };
+        var tree = new myzTree("areaTree", zOption);
+        tree.dropDownTreeOpen();
+        tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
+        $("#areaSel").click(function(){
+            tree.showMenu();
+        });
+
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $(".search").click();
+            }
+        });
+        $(".search").click(function(){
+            var  _pdArray = "";
+            _pdArray = {
+                "keyWord": $("#keyWord").val(),
+                "nodeType": $("#nodeType").val(),
+                "nodeIds": $("#nodeIds").val()
+            };
+            fullTextSearch("jqGrid", _pdArray);
+        });
+    });
+</script>
+</body></html>

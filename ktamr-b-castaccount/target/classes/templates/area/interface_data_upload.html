@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head  th:include="include :: header">
+    <title>接口数据上传</title>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+
+    <style type="text/css">
+       /* .layui-form-label {
+		padding: 6px 10px;
+		width: 100px;
+	}
+	.page-btn{
+		text-align: left;
+		padding-left: 143px;
+	}
+        }*/
+
+    </style>
+</head>
+<body style="padding:0px 10px;">
+<form class="layui-form my-form-class" action="">
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label style="padding: 6px 10px; width: 100px " class="layui-form-label">接口名称</label>
+            <div class="layui-input-inline mySelect my-form-input">
+                <select id="inter_name" lay-filter="inter_name" lay-verify="required">
+                    <option value="黄平">成聪接口：黄平</option>
+                    <option value="安仁">成聪接口：安仁</option>
+                    <option value="资兴">成聪接口：资兴</option>
+                    <option value="茶陵">成聪接口：茶陵</option>
+                    <option value="新宁">成聪接口：新宁</option>
+                    <option value="宁远">德山接口：宁远</option>
+                    <option value="绥宁">德山接口：绥宁</option>
+                    <option value="岳阳">德山接口：岳阳</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+<div style="text-align: left;padding-left: 143px" class="form-inline page-btn">
+    <button lay-submit type="button" id="sure" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../../images/tick.png" />确定</button>
+    <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../../images/cancel.png" />关闭</button>
+</div>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,get_result_url = "/interface_data_upload_do";
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+        $(":input").dblclick(function(){
+            $(this).removeAttr("readonly");
+        });
+        function submitInfo(sendData){
+            $.ajax({
+                url: get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        parent.layer.msg("执行成功！", {icon: 1});
+                        //parent.layer.close(index); //再执行关闭
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+        $("#close").click(function(){
+            parent.layer.close(index); //再执行关闭
+        });
+        $("#sure").click(function(){
+            var data = {
+                cmd: '结算上传'
+                ,parms: $("#inter_name").val()
+            };
+            submitInfo(data);
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+	<style type="text/css">
+		.my-page-btn1{
+			margin: 20px 5px;
+			text-align: right;
+		}
+	</style>
+</head>
+<body class="myPage-body">
+<div class="container myContainer">
+	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+		<div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
+			<input id="appPage" type="text" class="input-sm form-control hide" value="<%=appPage%>">
+			<input id="operatorCompany" type="text" class="input-sm form-control hide" value='<%=Session("operator_company_id")%>'>
+			<input id="nodeType" type="text" class="input-sm form-control hide" value="">
+			<input id="nodeId" type="text" class="input-sm form-control hide" value="">
+			<input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"  placeholder="---请选择区域(点我)---"/>
+			<div id="menuContent" class="menuContent">
+				<div class="ztreeInput">
+					<div>
+						<input type="text" class="input-key input-sm form-control" id="zTreeKey" placeholder="请输入节点关键字">
+					</div>
+					<div class="ztreeSkip">
+						<label type="text" id="resultKey" class="form-control ztreeSkipLabel">
+							<div class="ztreeSkipBtns">
+								<a id="clickUp" class="glyphicon glyphicon-menu-up ztreeSkipUp"></a>
+								<a id="clickDown" class="glyphicon glyphicon-menu-down ztreeSkipDown"></a>
+							</div>
+							<label id="number" class="ztreeSkipNum"></label>
+						</label>
+					</div>
+				</div>
+				<ul id="areaTree" class="ztree"></ul>
+				<div class="clearfloat"></div>
+			</div>
+		</div>
+		<div class="col-xs-2 my-form-col month-type-div">
+			<select id='month_type' class="selectpicker input-sm form-control" data-style="btn-default btn-sm" title="选择月份类型">
+				<option value='' >未选择</option>
+				<option value='S' >单月</option>
+				<option value='D' >双月</option>
+			</select>
+		</div>
+		<div class="col-xs-2 my-form-col">
+			<input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+		</div>
+		<div class="col-xs-1 my-form-col">
+			<button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+		</div>
+		<div id="nav1" class="my-btns pull-right" name="ControlButtons" style="display:none;">
+			<button data-modal="" data-title="抄收" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-stats"></span> 抄收</button>
+			<button data-modal="" data-title="刷新" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-refresh"></span> 刷新数据</button>
+		</div>
+		<div id="nav5" class="my-btns pull-right" name="MngButtons" style="display:none;">
+			<button data-modal="" id="btn4" data-title="初始化" class="layui-btn layui-btn-danger layui-btn-sm"><span class="glyphicon glyphicon-remove-circle"></span> 初始化</button>
+		</div>
+		<div id="nav6" class="my-btns pull-right" style="display:none;">
+			<button data-modal="" data-title="换表业务" class="layui-btn layui-btn-primary layui-btn-sm">换表业务</button>
+		</div>
+		<div id="nav2" class="my-btns pull-right" name="MngButtons" style="display:none;">
+			<button data-modal="" data-title="新增" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-plus"></span> 新增</button>
+			<button data-modal="" data-title="修改" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
+			<button data-modal="" data-title="删除" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+		</div>
+		<div id="nav3" class="my-btns pull-right" name="ControlButtons" style="display:none;">
+			<button data-modal="" id="btn2" data-title="费用结算" class="layui-btn layui-btn-sm">费用结算</button>
+			<button data-modal="" id="btn3" data-title="完成结算" class="layui-btn layui-btn-sm">完成结算</button>
+			<button data-modal="" id="btn1" data-title="结算上传" class="layui-btn layui-btn-sm">结算上传</button>
+		</div>
+		<div id="nav4" class="my-btns pull-right" style="display:none;">
+			<button data-modal="" data-title="批量单抄" class="layui-btn layui-btn-sm multiOperation">批量单抄</button>
+			<button data-modal="" data-title="批量开阀" class="layui-btn layui-btn-sm multiOperation">批量开阀</button>
+			<button data-modal="" data-title="批量关阀" class="layui-btn layui-btn-sm multiOperation">批量关阀</button>
+			<button data-modal="" data-title="单表记录" class="layui-btn layui-btn-primary layui-btn-sm meterQuery">单表记录</button>
+		</div>
+	</div>
+	<div class="row my-form-no-edge">
+		<div class="col-xs-12 col-md-12 my-form-no-edge">
+			<form class="form-horizontal" id="jqgridForm" role="form">
+				<table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+				<div id="jqGridPager"></div>
+			</form>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+	layui.config({
+		base : '/common/js/',
+		version: '2.8.2'
+	}).extend({
+		myLayui: 'myLayui'
+	});
+	var tree = null, _myLayui = null;
+	layui.use(['layer', 'form', 'myLayui'], function() {
+		var layer = layui.layer,
+				form = layui.form,
+				myLayui = layui.myLayui;
+
+		$('.selectpicker').selectpicker({
+			actionsBox: true //保留全选,全不选按键
+			, noneSelectedText: '请选择小区'
+			, selectAllText: '选择所有'
+			, deselectAllText: '取消全选'
+			, liveSearchPlaceholder: '搜索'
+		});
+
+		function gridChange() {
+			var appPage = $("#appPage").val();
+			var operatorCompany = $("#operatorCompany").val();
+			var listType = $('#nodeType').val() ? $('#nodeType').val() : "allRgn";
+			var nodeId = $('#nodeId').val();
+			var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/area/areasOpManageJson");
+			GridObj.unloadGrid();
+			GridObj.removeGridResize();
+			//GridObj.jqdefaultGridConfig.caption = "大区列表：";
+			GridObj.jqdefaultGridConfig.multiselect = true;
+			GridObj.jqdefaultGridConfig.colNames = ['rgnid', '大区名称', '简称', '行政区号', '小区数', '集中器数', '采集器数', '表数'];
+			GridObj.jqdefaultGridConfig.colModel = [
+				{name: 'rgnid', width: 5, key: true, hidden: true},
+				{name: 'name', width: 120},
+				{name: 'shortName', width: 100},
+				{name: 'zCode', width: 80},
+				{name: 'haAreaCount', align: 'right', width: 80},
+				{name: 'haCentorCount', align: 'right', width: 80},
+				{name: 'haCollectorCount', align: 'right', width: 80},
+				{name: 'haMeterCount', align: 'right', width: 80}
+			];
+			GridObj.jqdefaultGridConfig.footerrow = true;
+			GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+			GridObj.drawGrid();
+			GridObj.drawGridPager();
+			GridObj.setGridSize();
+			GridObj.gridResize();
+		}
+        gridChange();
+	})
+</script>
+</body>
+</html>

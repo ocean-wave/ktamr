@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaRngMapper">
+
+    <resultMap id="HaRngMap" type="com.ktamr.domain.HaRgn">
+        <id column="rgnid" property="id" javaType="java.lang.String" jdbcType="VARCHAR"></id>
+        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="shortName" property="shortName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="zCode" property="zCode" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="createtime" property="createTime" javaType="java.util.Date" jdbcType="DATE"></result>
+        <result column="modifytime" property="modifyTime" javaType="java.util.Date" jdbcType="DATE"></result>
+        <result column="haAreaCount" property="resultParams.haAreaCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haCentorCount" property="resultParams.haCentorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haCollectorCount" property="resultParams.haCollectorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haMeterCount" property="resultParams.haMeterCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+
+    </resultMap>
+
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+          <if test=" params.operatorRgnType == 'rgn' ">
+              and LEFT(n.id,1) in (#{params.rgnStr})
+          </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and n.id = left(#{params.areaNo},1)
+            </if>
+        </if>
+    </sql>
+
+    <select id="selectAllRngAndCount" resultMap="HaRngMap" parameterType="com.ktamr.domain.HaRgn">
+      SELECT n.id AS rgnid
+        , n.name AS name
+        , n.shortName AS shortName
+        , n.zcode AS zCode
+        ,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount
+        ,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount
+        ,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount
+        ,(SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount
+      FROM ha_rgn n
+      where 1=1
+      <include refid="getRightCondition"></include>
+      <if test=" params.keyWord != null and params.keyWord != ''">
+            and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like '%${params.keyWord}%')
+      </if>
+       ORDER BY n.name
+    </select>
+
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaCmdMapper">
+
+    <resultMap id="cmdMap" type="com.ktamr.domain.HaCmd">
+        <id column="cmdid" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <result column="cmd" property="cmd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="parms" property="parms" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="createTime" property="createTime" javaType="java.util.Date"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="lastEndTime" property="lastEndTime" javaType="java.util.Date"></result>
+        <result column="processing" property="processing" javaType="java.lang.String"></result>
+        <result column="xgrws" property="resultParams.xgrws"></result>
+    </resultMap>
+
+    <select id="selectCmdById" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT id
+        FROM ha_cmd
+        WHERE cmd= #{mcmd}
+        AND parms= #{parms}
+        AND centorid=#{centorid}
+        AND state != '完成' AND state != '失败'
+    </select>
+
+    <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
+        insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
+        values (
+          <if test=" mcmd != null and mcmd != '' ">
+              #{mcmd},
+          </if>
+          <if test=" parms != null and parms != '' ">
+              #{parms},
+          </if>
+          <if test=" centorid >= 0  ">
+              #{centorid},
+          </if>
+          <if test=" operatorCode != null and operatorCode != '' ">
+              #{operatorCode},
+          </if>
+          <if test=" createTime != null  ">
+              #{createTime},
+          </if>
+          <if test=" state != null and state != '' ">
+              #{state}
+          </if>
+        )
+    </insert>
+
+    <select id="selectCmdParmsById" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT state,processing
+        FROM ha_cmd
+        WHERE id=#{id}
+    </select>
+
+    <select id="selectCentorById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT description FROM ha_centor WHERE id=#{centorid}
+    </select>
+
+    <select id="selectAllCmd" resultMap="cmdMap">
+        SELECT
+        c.id AS cmdid
+        ,c.cmd AS cmd
+        , c.parms AS parms
+        ,to_char(c.createtime, 'yyyy-mm-dd hh24:mi:ss') AS  createTime
+        , c.state AS state
+        , to_char(c.lastEndTime,'hh:mi:ss') AS lastEndTime
+        , c.processing AS processing
+        ,COUNT(*) AS xgrws
+        FROM ha_cmd c,hti_bd_job j
+        WHERE c.id=j.cmdid
+
+        <if test=" params.keyWord != null and params.keyWord != ''  ">
+            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' )
+        </if>
+
+        GROUP BY c.id,c.cmd,c.parms,c.createtime,c.state,c.lastEndTime,c.processing
+        ORDER BY c.id DESC
+    </select>
+
+    <insert id="insertCmdTwo" useGeneratedKeys="true"  keyProperty="resultParams.meterId" parameterType="com.ktamr.domain.HaMeter">
+        insert into ha_cmd(cmd,parms,centorid,uid,createTime,lastBeginTime,lastEndTime,processing,state)
+        select '手工录入单',meterNumber, NULL,#{params.operatorCode},#{params.nowStr},#{params.nowStr}
+        ,#{params.nowStr},'读数:'||#{thNumber}||',状态:'||#{state},'完成'
+        from ha_meter
+        WHERE meterid=#{meterId}
+    </insert>
+</mapper>

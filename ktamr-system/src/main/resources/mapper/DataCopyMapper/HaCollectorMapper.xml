@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaCollectorMapper">
+
+    <resultMap id="collectorMap" type="com.ktamr.domain.HaCollector">
+        <id column="collectorId" property="collectorId"></id>
+        <result column="addr" property="addr"></result>
+        <result column="nconf" property="resultParams.nconf"></result>
+        <result column="ver" property="ver"></result>
+        <result column="state" property="state"></result>
+    </resultMap>
+
+    <select id="selectCollector" resultMap="collectorMap" parameterType="com.ktamr.domain.HaCollector">
+        SELECT
+        collectorid as collectorId
+        , addr AS addr
+        , to_hex(nconf) AS nconf
+        ,ver AS ver
+        , state AS state
+        FROM ha_collector
+        WHERE centorid=#{haCentor.centorId}
+    </select>
+
+</mapper>

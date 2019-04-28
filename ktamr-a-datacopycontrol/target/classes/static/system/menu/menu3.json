@@ -1,0 +1,135 @@
+{
+	"data": {
+		"list": [
+			{
+				"id": "0",
+				"url": "main/main",
+				"name": "首页",
+				"iconfont": "fa fa-home fa-fw",
+				"sub": []
+			},
+			{
+				"id": "3-1",
+				"url": "",
+				"name": "区域管理",
+				"iconfont": "fa fa-list fa-fw",
+				"sub": [
+					{
+						"id": "3-1-1",
+						"url": "area/area_op_manage",
+						"name": "区域表档案",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "3-2",
+				"url": "",
+				"name": "设备管理",
+				"iconfont": "fa fa-info-circle fa-fw",
+				"sub": [
+					{
+						"id": "3-2-1",
+						"url": "devices/device_data_mng",
+						"name": "设备档案",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "3-2-2",
+						"url": "gprsdtu/gprsdtu_list",
+						"name": "DTU档案",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "3-2-3",
+						"url": "devices/device_addr_set",
+						"name": "设备放码",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "3-3",
+				"url": "",
+				"name": "价格管理",
+				"iconfont": "fa fa-jpy fa-fw",
+				"sub": [
+					{
+						"id": "3-3-1",
+						"url": "priceStandard/price_list",
+						"name": "价格类型",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "3-4",
+				"url": "",
+				"name": "用户管理",
+				"iconfont": "fa fa-address-book fa-fw",
+				"sub": [
+					{
+						"id": "3-4-1",
+						"url": "custom/cust_list",
+						"name": "用户档案",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "3-4-2",
+						"url": "uploads/upload_users",
+						"name": "用户档案导入",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "3-5",
+				"url": "",
+				"name": "系统管理",
+				"iconfont": "fa fa-cog fa-fw",
+				"sub": [
+					{
+						"id": "3-5-1",
+						"url": "system/config_list",
+						"name": "参数配置",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "3-5-2",
+						"url": "operator/operator_list",
+						"name": "操作员档案",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			}
+		]
+	},
+	"status": 200
+}

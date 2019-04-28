@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaDayFreezeMapper">
+
+    <select id="selectDayFreezeMeterIdCount" resultType="java.lang.Integer"  parameterType="com.ktamr.domain.HaMeter">
+        SELECT Count(meterid) FROM ha_dayfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
+    </select>
+
+    <update id="updateDayFreeze"  parameterType="com.ktamr.domain.HaMeter">
+        UPDATE ha_dayfreeze SET t_read=#{thNumber},l_read=#{thNumber},readTime=to_date(#{thRTime},'yyyy-mm-dd'),
+        amount=0,state=#{state}
+        WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
+    </update>
+
+    <insert id="insertDayFreeze" useGeneratedKeys="true"  keyProperty="resultParams.dayFreezeId"  parameterType="com.ktamr.domain.HaMeter">
+        INSERT INTO ha_dayfreeze(meterid, meterNumber, centorid, collectorid, fday, lday, readTime, state, t_read, l_read, amount)
+        SELECT m.meterId, m.meterNumber, m.centorid, m.collectorid, to_date(#{thRTime},'yyyy-mm-dd')-1,m.fday,
+         to_date(#{thRTime},'yyyy-mm-dd'),#{state},#{thNumber},#{thNumber},0
+         from ha_meter m
+         WHERE m.meterId=#{meterId}
+    </insert>
+
+</mapper>

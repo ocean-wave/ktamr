@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .layui-form-label {
+            padding: 6px 10px;
+        //width: 80px;
+        }
+        .layui-input{
+            height: 32px;
+            line-height: 32px;
+        }
+        .layui-form-select dl dd{
+            overflow: visible;
+        }
+        .mySelect dl{max-height: 170px;}
+        .my-form-col {
+            margin-right:10px;padding:0;height:34px;
+        }
+        .my-form-class {
+            padding: 15px 10px 0px 10px;
+        }
+        .my-form-item {
+            margin-left:-15px;margin-right:-15px;
+        }
+        legend {
+            display: block;
+            width: auto;
+            margin-bottom: 10px;
+            line-height: inherit;
+            color: #333;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="myPage-body">
+<div class="layui-form my-form-class">
+    <fieldset class="layui-elem-field layui-box">
+        <legend>修改房间资料</legend>
+        <div class="layui-form-item my-form-item">
+            <div class="layui-block" >
+                <label class="layui-form-label">房间名称</label>
+                <div class="layui-input-inline" style="width:110px;">
+                    <input id="roomName" name="roomName"  lay-verify="required|roomName" autocomplete="off" placeholder="" class="layui-input" maxlength="32" value="<%=roomName%>">
+                </div>
+            </div>
+            <div class="layui-block">
+                <label class="layui-form-label">房间备注</label>
+                <div class="layui-input-inline">
+                    <input id="roomRemark" lay-verify="roomRemark" autocomplete="off" placeholder="" class="layui-input" maxlength="20" value="<%=roomRemark%>">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-left:20px;">
+            <div class="layui-block">
+                <input type="radio" name="updateMeter" lay-filter="updateMeter" value="updateMeter" title="修改表资料" checked>
+                <input type="radio" name="updateMeter" lay-filter="updateMeter" value="selectMeter" title="调换表资料">
+            </div>
+        </div>
+        <div class="alert alert-warning alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+            </button>
+            说明："修改表资料"仅用于表号资料的勘误，如果用户换表请使用"换表业务";
+            "调换表资料"用于房间与表不对应的串户调换，选择对应的表资料即可。
+        </div>
+    </fieldset>
+    <div class="meterUpdate">
+        <fieldset class="layui-elem-field layui-box">
+            <legend>修改表资料</legend>
+            <div class="layui-form-item my-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+                    <div class="layui-input-inline" style="width:150px;">
+                        <input id="meterNumber" name="meterNumber" lay-verify="meterNumber" autocomplete="off" placeholder="数字,1~14位" maxlength="16" class="layui-input" onkeyup="generalMask(this)" value="<%=meterNumber%>">
+                    </div>
+                </div>
+                <div class="layui-block">
+                    <label class="layui-form-label">抄收设备</label>
+                    <div class="layui-input-inline mySelect" style="width:150px;">
+                        <select name="deviceType" lay-filter="deviceType">
+                            <option value="centor" <%if deviceType="centor" then%>selected=""<%end if%>>集中器</option>
+                            <option value="ccentor" <%if deviceType="ccentor" then%>selected=""<%end if%>>集采器</option>
+                            <option value="handDevice" <%if deviceType="handDevice" then%>selected=""<%end if%>>手抄器</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item my-form-item">
+                <div id="centor_block" class="layui-block">
+                    <label id="centor_label" class="layui-form-label">集&nbsp;&nbsp;中&nbsp;器</label>
+                    <div class="layui-input-inline mySelect" style="width:150px;">
+                        <select id="centor" name="centor" lay-filter="centor" lay-search>
+                            <option value=""></option>
+                            <%DeviceByWhere dbconn, GetRightCondition("centorNo", "centor", ""), centorid, deviceType%>
+                        </select>
+                    </div>
+                </div>
+                <div id="collector_block" class="layui-block">
+                    <label id="collector_label" class="layui-form-label">采&nbsp;&nbsp;集&nbsp;器</label>
+                    <div class="layui-input-inline mySelect" style="width:150px;">
+                        <select id="collector" name="collector" lay-filter="collector" lay-search>
+                            <option value=""></option>
+                            <%if Len(collectorid)=0 then
+                            CollectorByWhere dbconn, "centorid="&centorid, ""
+                            else
+                            CollectorByWhere dbconn, "centorid="&centorid, collectorid
+                            end if
+                            %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item my-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">收费类型</label>
+                    <div class="layui-input-inline mySelect" style="width:150px;">
+                        <select id="priceStand" lay-verify="priceStand">
+                            <option value=""></option>
+                            <% PriceStandard_GenOptionSelected dbconn, pricestand_id%>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-block">
+                    <label class="layui-form-label">倍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率</label>
+                    <div class="layui-input-inline" style="width:150px;">
+                        <input id="rate" lay-verify="rate" autocomplete="off" placeholder="数字" class="layui-input" value="<%=rate%>" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item my-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">安装时间</label>
+                    <div class="layui-input-inline" style="width:150px;">
+                        <input id="setupTime" name="setupTime" lay-verify="setupTime" autocomplete="off" placeholder="时间" class="layui-input" value="<%=starttime%>" readonly="readonly">
+                    </div>
+                </div>
+                <div class="layui-block">
+                    <label class="layui-form-label">总&nbsp;&nbsp;分&nbsp;表</label>
+                    <div class="layui-input-inline mySelect" style="width:150px;">
+                        <select id="isBranch" lay-verify="isBranch">
+                            <option value="1" <%if isbranch = 1 then%>selected=""<%end if%>>分表</option>
+                            <option value="0" <%if isbranch = 0 then%>selected=""<%end if%>>总表</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item my-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">表&nbsp;&nbsp;底&nbsp;数</label>
+                    <div class="layui-input-inline" style="width:150px;">
+                        <input id="primalNumber" name="primalNumber" lay-verify="primalNumber" autocomplete="off" placeholder="数字" maxlength="12" class="layui-input my-layui-input" onkeyup="generalMask(this)" value="<%=primalNumber%>" <%if meter.m_state<>"建档" then%>readonly=""<%end if%>>
+                    </div>
+                </div>
+                <div class="layui-block">
+                    <label class="layui-form-label">调&nbsp;&nbsp;节&nbsp;数</label>
+                    <div class="layui-input-inline" style="width:150px;">
+                        <input id="offsetNumber" name="offsetNumber" lay-verify="num" autocomplete="off" placeholder="选填,数字" maxlength="12" class="layui-input" value="<%=offsetNumber%>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                </button>
+                说明：KT410集中器的表号前面必须加"10",为12位表号;
+                [表底数]请以装表时表盘实际读数为准,未结算过的表修改表底数时同时会修改上期结算读数。
+            </div>
+        </fieldset>
+    </div>
+    <div class="meterSelect">
+        <fieldset class="layui-elem-field">
+            <legend>调换表资料</legend>
+            <div class="container myContainer">
+                <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+                    <div class="col-xs-3 my-form-col">
+                        <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区" lay-ignore>
+                            <option value="">未选择</option>
+                            <%
+                            AreaByWhere dbconn, GetRightCondition("areaNo", "area", ""), "id", areaId
+                            %>
+                        </select>
+                    </div>
+                    <div class="col-xs-3 my-form-col">
+                        <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+                    </div>
+                    <div class="col-xs-1 my-form-col">
+                        <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+                    </div>
+                </div>
+                <div class="row my-form-no-edge">
+                    <div class="col-xs-12 my-form-no-edge">
+                        <form class="form-horizontal" id="jqgridForm" role="form" style="width:520px;">
+                            <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                            <div id="jqGridPager"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="form-inline" style="margin:0px 5px;text-align: right;padding-right:20px;padding-bottom:8px;">
+        <button lay-submit type="button" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        var _index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+        var load_option_url = "../devices/load_device_option.asp";
+        var op_url = "room_meter_update_do.asp";
+        var g_areaId = "<%=areaId%>";
+        var g_buildingId = "<%=buildingId%>";
+        var g_roomId = "<%=roomId%>";
+        var g_roomName = "<%=roomName%>";
+        var g_meterId = "<%=meterId%>";
+        var g_meterNumber = "<%=meterNumber%>";
+        var g_deviceType = "<%=deviceType%>";
+        var g_opType = "updateMeter";
+        $('#setupTime').datetimepicker({
+            language: 'zh-CN',//显示中文
+            format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+            //minView: "secound",//设置只显示到月份
+            initialDate: new Date(),//初始化当前日期
+            autoclose: true,//选中自动关闭
+            todayBtn: true//显示今日按钮
+        });
+        function pageInit(){
+            if(g_meterId == ""){
+                $(".meterUpdate").hide();
+            }
+            $(".meterSelect").hide();
+            if(g_deviceType == "ccentor"){
+                $("#centor_label").html("集&nbsp;&nbsp;采&nbsp;器");
+                $("#collector_label").html("端&nbsp;&nbsp;口&nbsp;号");
+                $("#centor_block").show();
+                $("#collector_block").show();
+            }else if(g_deviceType == "handDevice"){
+                $("#centor_label").html("抄收线路");
+                $("#centor_block").show();
+                $("#collector_block").hide();
+            }else{
+                $("#centor_label").html("集&nbsp;&nbsp;中&nbsp;器");
+                $("#collector_label").html("采&nbsp;&nbsp;集&nbsp;器");
+                $("#centor_block").show();
+                $("#collector_block").show();
+            }
+        }
+        pageInit();
+
+        var Post_Data = {ListNumber: 38, areaId: g_areaId};
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 230);
+        GridObj.jqdefaultGridConfig.caption = "";
+        GridObj.jqdefaultGridConfig.postData = Post_Data;
+        GridObj.jqdefaultGridConfig.colNames = ['meterid','用户编号','用户名称','用户地址','表号'];
+        GridObj.jqdefaultGridConfig.colModel = [
+            { name: 'meterid',  width: 75, key: true, hidden: true},
+            { name: '用户编号', width: 120 },
+            { name: '用户名称', width: 120 },
+            { name: '用户地址', width: 120 },
+            { name: '表号', width: 120 }
+        ];
+        GridObj.jqdefaultGridConfig.scroll = true;
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+
+        function appendDeviceOption(idname, str){
+            var option = "";
+            var arr = new Array();  //存储的是一整条数据       0   1      2    3   4
+            var atr = new Array();  //存储一条数据的每个项atr(id,name)
+            var attrObj = $("#"+idname);
+            if(str!=""){
+                var selectId = attrObj.val();
+
+                attrObj.empty();
+                option = $("<option>").val("").text("");
+                attrObj.append(option);
+                arr = str.split(";");
+                for(i=0;i<arr.length-1;i++){
+                    atr=arr[i].split(",");
+                    option = $("<option>").val(atr[0]).text(atr[1]);
+                    attrObj.append(option);
+                }
+
+                attrObj.val(selectId);
+            }
+            else{
+                attrObj.empty();
+            }
+        }
+        form.on('radio(updateMeter)', function(data){
+            var radioObj = $(data.elem);
+            g_opType = radioObj.val();
+            if(radioObj.val() == "selectMeter"){
+                GridObj.setGridSize();
+                $(".meterUpdate").hide();
+                $(".meterSelect").show();
+            }else{
+                $(".meterSelect").hide();
+                if(g_meterId != ""){
+                    $(".meterUpdate").show();
+                }
+            }
+        });
+        form.on('select(deviceType)', function(data){
+            var areaObj = $(data.elem);
+            g_deviceType = areaObj.val();
+
+            pageInit();
+            $.ajax({
+                url: load_option_url
+                ,data: {
+                    deviceType: g_deviceType
+                }
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:true //异步请求
+                ,success: function(data){
+                    appendDeviceOption("centor", data);
+                    $("#collector").empty();
+                    $("#collector").append($("<option>").val("").text(""));
+                    form.render('select');//刷新表单元素
+                }
+            });
+
+        });
+        form.on('select(centor)', function(data){
+            var areaObj = $(data.elem);
+            deviceId = areaObj.val();
+
+            $.ajax({
+                url: load_option_url
+                ,data: {
+                    deviceType: g_deviceType,
+                    deviceId: deviceId
+                }
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:true //异步请求
+                ,success: function(data){
+                    appendDeviceOption("collector", data);
+                    form.render('select');//刷新表单元素
+                }
+            });
+
+        });
+        form.verify({
+            roomName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var queryData = "";
+                queryData = {buildingId: g_buildingId, roomName: value};
+                console.log(g_roomName, value);
+                if(g_roomName != value && isDataRepeat(queryData) == true){
+                    return '房间名称重复';
+                }
+            },
+            meterNumber: function(value, item){
+                if(g_meterId != "" && !value){
+                    return "表号不能为空";
+                }
+                if(g_meterId != "" && Number(value) == 0){
+                    return '表号不能为0';
+                }
+                queryData = {meterNumber: value};
+                if(g_meterId != "" && Number(g_meterNumber)!=value && isDataRepeat(queryData) == true){
+                    return '表号重复';
+                }
+            },
+            priceStand: function(value, item){
+                if(g_meterId != "" && !value){
+                    return '请选择收费类型';
+                }
+            },
+            rate: function(value, item){
+                if(g_meterId != "" && !value){
+                    return '不能为空';
+                }
+                if(g_meterId != "" && !validateFloat(value)){
+                    return '只能为数字';
+                }
+                if(g_meterId != "" && Number(value) == 0){
+                    return '不能为0';
+                }
+            },
+            setupTime: function(value, item){
+                if(g_meterId != "" && !value){
+                    return '请选择安装时间';
+                }
+            },
+            isBranch: function(value, item){
+                if(g_meterId != "" && !value){
+                    return '请选择总分表';
+                }
+            },
+            primalNumber: function(value, item){
+                if(g_meterId != "" && !value){
+                    return '不能为空';
+                }
+                if(g_meterId != "" && !validateFloat(value)){
+                    return '只能为数字';
+                }
+            },
+            num: function(value, item){
+                if(value && isNaN(value)){
+                    return '只能为数字';
+                }
+            }
+        });
+        function checkForm()
+        {
+            var queryData = "";
+            if(g_opType == "selectMeter"){
+                if(getSelectedRows("jqGrid") == ""){
+                    layer.msg("请选择表号！", {icon: 5});
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $(".search").click();
+            }
+        });
+        $(".search").click(function(){
+            var  _pdArray = "", _areaid = "";
+            _areaid = $("#areas").val();
+            _pdArray = {
+                "keyWord": $("#keyWord").val()
+                ,"areaId": _areaid
+            };
+            fullTextSearch("jqGrid", _pdArray);
+        });
+        function submitInfo(sendData){
+            $.ajax({
+                url: op_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        parent.layer.msg("修改成功！", {icon: 1});
+                        parent.$("#jqGrid").trigger("reloadGrid");
+                        parent.layer.close(_index);
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+        $("#close").click(function(){
+            parent.layer.close(_index); //再执行关闭
+        });
+        form.on('submit(sure)', function (data) {
+            var tip = "";
+            if(checkForm() == false)
+                return false;
+
+            var data1 = {
+                opType: "updateMeter",
+                areaId: g_areaId,
+                buildingId: g_buildingId,
+                roomId: g_roomId,
+                roomName: $("#roomName").val(),
+                roomRemark: $("#roomRemark").val(),
+                meterId: g_meterId,
+                meterNumber: $("#meterNumber").val(),
+                deviceType: $("#deviceType").val(),
+                centorId: $("#centor").val(),
+                collectorId: $("#collector").val(),
+                priceStandId: $("#priceStand").val(),
+                rate: $("#rate").val(),
+                setupTime: $("#setupTime").val(),
+                isBranch: $("#isBranch").val(),
+                primalNumber: $("#primalNumber").val(),
+                offsetNumber: $("#offsetNumber").val()
+            };
+            var data2 = {
+                opType: "changeMeter",
+                areaId: g_areaId,
+                buildingId: g_buildingId,
+                roomId: g_roomId,
+                roomName: $("#roomName").val(),
+                roomRemark: $("#roomRemark").val(),
+                meterId: g_meterId,
+                selMeterId: getSelectedRows("jqGrid")
+            }
+            if(g_opType == "selectMeter")
+                submitInfo(data2);
+            else{
+                if(g_meterId !="" && g_deviceType == "centor" && $("#collector").val() == ""){
+                    tip = "还未选择集中器下的采集器，是否确定？";
+                }else if(g_meterId !="" && g_deviceType == "ccentor" && $("#centor").val() == ""){
+                    tip = "还未选择集采器，是否确定？";
+                }else if(g_meterId !="" && g_deviceType == "handDevice" && $("#centor").val() == ""){
+                    tip = "还未选择抄收线路，是否确定？";
+                }
+                _primalNumber="<%=primalNumber%>";
+                if($("#primalNumber").val() != _primalNumber){
+                    tip = "将修改表底数，是否确定？";
+                }
+                if(tip != ""){
+                    layer.confirm(tip, {icon:3, title:'提示'},
+                        function(index, layero){
+                            submitInfo(data1);
+                            layer.close(index);
+                        });
+                }else{
+                    submitInfo(data1);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

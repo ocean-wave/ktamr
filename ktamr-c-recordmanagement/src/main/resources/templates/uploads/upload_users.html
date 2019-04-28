@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+</head>
+<body class="myPage-body">
+<div class="container" style="width:100%;margin:20px 5px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                用户档案模板导出
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-inline">
+                <label>选择小区：</label>
+                <div class="form-group">
+                    <select id="areas" class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-style="btn-default btn-sm" data-size="5">
+                    </select>
+                </div>
+                <button type="button" id="templateExport" class="btn btn-default btn-sm btnMargin">导出</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                用户档案文档导入
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form id="form" name="form" class="fupload" method="post" action="upload_users_todo.asp">
+                <p><b>1、请选择要导入的文件：（文件格式：*.xls/*.xlsx）</b></p>
+                <label for="jobData" class="control-label hide" style="float:left;padding-left:15px;">任务数据</label>
+                <div class="row" style="padding:5px 15px;">
+                    <div class="col-xs-12 col-sm-4 col-md-4" style="padding:0px 5px;">
+                        <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle">
+                            <button class="btn btn-success btn-sm fileinput-button" type="button">浏览</button>
+                            <input type="file" id="userInfo" name="userInfo" onchange="loadFile(this.files[0])" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+                        </div>
+                        <span id="filename" style="vertical-align: middle">未选择文件</span>
+                    </div>
+                </div>
+                <br/>
+                <!--
+                <p><b>2、请输入自动用户编号前缀：（如果有用户编号则不填写）</b></p>
+                <div class="row" style="padding:5px 15px;">
+                    <div class="col-xs-2" style="padding:0px 5px;">
+                        <div class="form-group">
+                        <input class="input-sm form-control" type="text" id="userNoPre" name="userNoPre" size="10" maxlength="6" onkeyup="generalMask(this)" placeholder="用户编号前缀">
+                        </div>
+                    </div>
+                </div>
+                -->
+                <p><b>2、请输入表号前缀并选择表号长度：（没有则不填选）</b></p>
+                <div class="row" style="padding:5px 15px;">
+                    <div class="col-xs-2" style="padding:0px 5px;">
+                        <div class="form-group">
+                            <input class="input-sm form-control" type="text" id="meterNoPre" name="meterNoPre" size="10" maxlength="4" onkeyup="generalMask(this)" placeholder="表号前缀">
+                        </div>
+                    </div>
+                    <div class="col-xs-2" style="padding:0px 5px;">
+                        <div class="form-group">
+                            <select class="input-sm form-control" id="meterNoLen" name="meterNoLen">
+                                <option value="10">10位</option>
+                                <option value="12" selected="selected">12位</option>
+                                <option value="14">14位</option>
+                                <option value="16">16位</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding:5px 5px;">
+                    <div class="col-xs-2" style="padding:0px 5px;">
+                        <div class="form-group">
+                            <button type="submit" id="formSubmit" class="btn btn-default btn-sm btnMargin">上传</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    var get_excel_model_url = "../client_trans/jqGridJSON.asp";
+    var get_excel_model = "../common/ExcelTemplate/用户表档案导入模板.xls";
+
+    function loadFile(file){
+        $("#filename").html(file.name);
+    }
+
+
+    layui.use(['element','layer'], function(){
+        var element = layui.element,
+            layer = layui.layer; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        var msg = "<p><b>注意：</b><br/>导入档案前请先<font color='red'>新建小区档案、楼栋档案</font></p>";
+        msg +=  "<b>文件格式说明：</b><br/>";
+        msg +=  "<div>";
+        msg +=  "	<ul>";
+        msg +=  "		<li>文件必须是<b>xls/xlsx </b>文件，第一个分页必须命名为“<b>Sheet1</b>”</li>";
+        msg +=  "		<li>从第二行开始是数据，用作档案资料的【新增】与【修改】，必填内容：<font color='red'>小区名称、楼栋名称、房间名称</font>，修改时若无内容则不进行修改</li>";
+        msg +=  "		<li>用户编号：最长16个数字或字符<br>";
+        msg +=  "			表号：最长16个数字<br>";
+        msg +=  "			用户名：最长20个字符或10个汉字<br>";
+        msg +=  "		</li>";
+        msg +=  "	</ul>";
+        msg +=  "</div>";
+
+        function showLoadLayer(){
+            return layer.msg('努力中...', {icon: 16,shade: [0.5, '#f5f5f5'],scrollbar: false, time:180*1000}) ;
+        }
+        function clossLoadLayer(index){
+            layer.close(index);
+        }
+        function showImportList(url, queryString, layerSize){
+            var _url;
+            var _cmdName;
+            var _queryString = queryString.join("&");
+            _url = url+"?"+_queryString;
+            layer.open({
+                type: 2
+                ,title: "用户表资料导入结果"
+                ,content: [_url]
+                ,area: layerSize
+                ,cancel: function(){ //右上角关闭回调
+                    return true;
+                }
+                ,scrollbar: true
+            });
+        }
+
+        function checkSubmitForm(){
+            if($("#filename").text() == "未选择文件"){
+                layer.msg("请添加导入文件！", {icon: 5});
+                return false;
+            }
+        }
+        $('.selectpicker').selectpicker({
+            actionsBox: false //去除全选,全不选按键
+            ,noneSelectedText: '没有选择'
+            ,selectAllText: '选择所有'
+            ,deselectAllText: '取消全选'
+            ,liveSearchPlaceholder: '搜索'
+            ,maxOptions: 10 //最多可选数
+        });
+        layer.open({
+            type: 0,//信息层
+            title: ['说明', 'font-size:16px;'],
+            shade: 0,
+            time: 10*1000,
+            offset: 'r',
+            btn: ['知道啦'],
+            content: msg
+        });
+
+        $("#templateExport").click(function(){
+            var loadLayerIndex = "";
+            if($("#areas").val() == null){
+                window.open(get_excel_model);
+                return false;
+            }
+
+            $.ajax({
+                url: get_excel_model_url
+                ,type: "POST"
+                ,dataType:'text'
+                ,contentType: 'application/json; charset=utf-8'
+                ,async: false
+                ,data: {
+                    ListNumber: 40
+                    ,exportExcel: "true"
+                    ,exportType: "userInfo"
+                    ,areaIds: $("#areas").val().join(",")
+                }
+                ,async:false //同步请求
+                ,beforeSend: function(){
+                    loadLayerIndex = showLoadLayer()
+                }
+                ,success: function(data){
+                    var fileUrl = "/uploads/exportToExcel/"+data;
+                    //alert(fileUrl);
+                    clossLoadLayer(loadLayerIndex);
+                    window.open(fileUrl);
+                }
+            });
+        });
+        $("#form").submit(function(event){
+            event.preventDefault();
+            var loadLayerIndex = "";
+            var form = $(this);
+
+            if(checkSubmitForm()==false)
+                return false;
+
+            if (!form.hasClass('fupload')) {
+                //普通表单
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize()
+                    ,beforeSend: function(){
+                        loadLayerIndex = showLoadLayer()
+                    }
+                }).success(function () {
+                    //成功提交
+                    clossLoadLayer(loadLayerIndex);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //错误信息
+                });
+            }else {
+                // mulitipart form,如文件上传类
+                var formData = new FormData(this);
+                $.ajax({
+                    type: form.attr('method')
+                    ,url: form.attr('action')
+                    ,data: formData
+                    ,mimeType: "multipart/form-data"
+                    ,timeout : 600*1000
+                    ,contentType: false
+                    ,cache: false
+                    ,processData: false
+                    ,beforeSend: function(){
+                        loadLayerIndex = showLoadLayer()
+                    }
+                }).success(function (data) {
+                    //成功提交
+                    clossLoadLayer(loadLayerIndex);
+                    if(strDateTime2(data)){
+                        var layerSize = ['650px', '450px'];
+                        var queryStr = [
+                            "file_name="+$("#filename").text(),
+                            "import_time="+data
+                        ];
+                        showImportList("upload_users_list.asp", queryStr, layerSize);
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //错误信息
+                });
+            }
+            return false;
+        });
+    });
+
+    var areas = $("#areas");
+    $.ajax({
+        type: "GET",
+        url: "/area/QueryAllHaArea",
+        dataType: "json",
+        success: function (data) {
+            if (data != null) {
+                for (var i = 0; i < data.length; i++) {
+                    areas.append('<option value="' + data[i].areano + '">'+ data[i].areaNo+":"+ data[i].name + '</option>')
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

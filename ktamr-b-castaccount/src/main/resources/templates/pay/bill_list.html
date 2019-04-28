@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head title="缴费单查询" th:include="include :: header">
+<body class="myPage-body">
+<div class="container myContainer">
+    <div class="row" style="margin:0;padding:5px 0px 2px 0px;">
+        <div class="col-xs-2 my-form-col">
+            <select id='query_type' class="selectpicker form-control" data-style="btn-default btn-sm" data-size="5" title="请选择查询类型">
+                <option value='小区' selected>小区</option>
+                <option value='用户'>用户</option>
+            </select>
+        </div>
+        <div class="col-xs-2 my-form-col">
+            <select id='state_type' class="selectpicker form-control" data-style="btn-default btn-sm" data-size="5" title="请选择账单类型">
+                <option value='' selected>全部</option>
+                <option value='出单'>出单</option>
+                <option value='完成'>完成</option>
+                <option value='取消'>取消</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+        <div class="col-xs-2 my-form-col areas-col">
+            <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区">
+                <option th:each="HaArea : ${areaListName}"
+                        th:value="${HaArea.areaid}" th:text="${HaArea.areaid}+':'+${HaArea.name}">Credit card</option>
+
+
+            </select>
+        </div>
+        <div class="col-xs-2 my-form-col monthBTime-col">
+            <select id="monthBTime" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择结算周期">
+
+            </select>
+        </div>
+        <div class="col-xs-2 my-form-col date-range-col" style="display:none;">
+            <input  id="date_range" class="input-sm form-control" type="text" value='' readonly="readonly" placeholder="选择查询日期范围"/>
+        </div>
+        <div class="col-xs-2 my-form-col">
+            <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+        </div>
+        <div class="col-xs-2 my-form-col">
+            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </div>
+        <div class="pull-right" style="display:block;">
+            <button data-modal="" data-title="打印缴费单" class="layui-btn-primary layui-btn-sm">打印缴费单</button>
+        </div>
+    </div>
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <form class="form-horizontal" id="jqgridForm" role="form">
+                <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                <div id="jqGridPager"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    layui.config({
+        base : '/common/js/',
+        version: '2.8.2'
+    }).extend({
+        myLayui: 'myLayui'
+    });
+    layui.use(['layer', 'form', 'myLayui'], function(){
+        var layer = layui.layer,
+            myLayui = layui.myLayui,
+            form = layui.form;
+        var g_startTime = "", g_endTime = "";
+        $("#query_type").change(function(){
+            var type_name = $(this).val();
+            console.log(type_name);
+            if(type_name == "小区"){
+                $(".date-range-col").hide();
+                $(".areas-col").show();
+                $(".monthBTime-col").show();
+            }else if(type_name == "用户"){
+                $(".areas-col").hide();
+                $(".monthBTime-col").hide();
+                $(".date-range-col").show();
+            }
+        });
+        $('#date_range').click(function(){
+            var options = {};
+            options.startDate = '';
+            options.endDate = '';
+            options.format_start = "YYYY-MM-DD";
+            options.format_end = "YYYY-MM-DD";
+            options.align="right";
+            options.cb_add = function(p_value){};
+            myData.DataRangePicker(this, "DateRange", options);
+        });
+        function queryBillList(){//havMeterinfo
+            var dateArray = "",
+                _areaid = $("#areas").val(),
+                _state = $("#state_type").val(),
+                _daterange = $("#monthBTime").val(),
+                _startTime = "2019-03-29"+" 00:00:00",
+                _endTime = "2019-03-29"+" 23:59:59";
+            dateArray = _daterange.split("~");
+            if(_daterange!="" && dateArray[0] != ""){
+                _startTime = dateArray[0];
+                g_startTime = _startTime;
+            }
+            if(_daterange!="" && dateArray[1] != ""){
+                _endTime = dateArray[1];
+                g_endTime = _endTime;
+            }
+            $("#jqGrid").jqGrid('setGridParam',{
+                mtype: 'GET',
+                postData:{havMeterinfo:{areaid :_areaid}, state: _state, haPricestandard:{startTime:_startTime, endTime:_endTime}}
+            }).trigger("reloadGrid");
+        }
+
+        function loadMonthBTimeOption(_areaid , ID){
+            var _url = "load_monthBTime.asp";
+            $.ajax({
+                url: _url
+                ,data: {
+                    areaid: _areaid
+                }
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:true //异步请求
+                ,success: function(data){
+                    //appendSelectOption(ID, data, "");
+                    var str = "";
+                    var array = data.split(";");
+                    for(var i = 0;i<array.length-1;i++){
+                        str+="<option value='"+array[i]+"'>"+array[i]+"</option>";
+                    }
+                    $("#"+ID).html(str);
+                    $(".selectpicker" ).selectpicker('refresh');
+                }
+            });
+        }
+        $('#areas').change(function(){
+            var areaid = $("#areas").val();
+            loadMonthBTimeOption(areaid, "monthBTime");
+        });
+        $('#monthBTime').change(function(){
+            queryBillList();
+        });
+
+        var Post_Data = {ListNumber: 26, TotalLocation: "缴费单号", SumColName: "本期用量,本期费用,上期余额", areaid:"", billState:"", startTime:"", endTime:""};
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182,"/showHaPaylogList");
+        GridObj.jqdefaultGridConfig.caption = "";
+        GridObj.jqdefaultGridConfig.multiselect = true;
+        GridObj.jqdefaultGridConfig.postData = Post_Data;
+        GridObj.jqdefaultGridConfig.colNames = ['缴费单号','用户编号','用户名称','用户地址','状态','出单时间','收费价格','本期用量','本期费用','上期余额','月结时间'];
+        GridObj.jqdefaultGridConfig.colModel = [
+            { name: 'billid',  width: 180, key: true, hidden: false},
+            { name: 'havMeterinfo.用户号', width: 80 },
+            { name: 'havMeterinfo.用户名', width: 100 },
+            { name: 'havMeterinfo.用户地址', width: 180 },
+            { name: 'state', width: 60, cellattr: BillStateCellColor },
+            { name: 'plantime', width: 150 },
+            { name: 'haPricestandard.name', width: 120 },
+            { name: 'haFreeze.delta', width: 80, align: 'right'},
+            { name: 'sum', width: 80, align: 'right'},
+            { name: 'lastarrear', width: 80, align: 'right', cellattr: arrearageCellColor},
+            { name: 'mbtime', width: 150 }
+        ];
+        GridObj.jqdefaultGridConfig.footerrow = true;
+        GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+        GridObj = null;
+
+        var _myLayui = new myLayui;
+        $(".layui-btn-primary").click(function(){
+            var btnTitle = $(this).data("title");
+            var jqGridRowsID = getSelectedRows("jqGrid");
+            var b_isMultiIDs, billIds = jqGridRowsID;
+            b_isMultiIDs = isMultiIDs(billIds);
+            if (billIds == "" && btnTitle != "打印缴费单"){
+                layer.msg("请选择操作行！", {icon: 5});
+                return false;
+            }
+            switch(btnTitle){
+                case "打印缴费单":
+                    //window.open("bill_print.asp?billid=","","width=680,resizable=yes,menubar=yes,scrollbars=yes");
+                    url = "bill_print.asp?billIds="+billIds+"&areaId="+$("#areas").val()+"&startTime="+g_startTime+"&endTime="+g_endTime;
+                    layer.open({
+                        type: 2 //iframe
+                        ,title: '缴费单'
+                        ,area: ['1000px', '500px']
+                        ,shade: 0
+                        ,maxmin: true
+                        ,content: url
+                    });
+                    break ;
+                default:
+                    break;
+            }
+        });
+
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $(".search").click();
+            }
+        });
+//postData:{havMeterinfo:{areaid :_areaid},
+// state: _state, haPricestandard:{startTime:_startTime, endTime:_endTime}}
+
+        $(".search").click(function(){//havMeterinfo
+            var  _pdArray = "";
+            var date_range = ['', ''];
+            _pdArray = {
+                "state": $("#state_type").val(),
+                "keyWord": $("#keyWord").val()
+
+            };
+            if($("#query_type").val() == "用户" && $("#date_range").val() != ""){
+                date_range = $("#date_range").val().split("~");
+                _pdArray["startTime"] = date_range[0]+" 00:00:00";
+                _pdArray["endTime"] = date_range[1]+" 23:59:59";
+                console.log(_pdArray);
+            }
+
+            fullTextSearch("jqGrid", _pdArray);
+        });
+    });
+</script>
+</body>
+
+</html>

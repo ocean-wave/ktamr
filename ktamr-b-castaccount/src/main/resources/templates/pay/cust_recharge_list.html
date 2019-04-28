@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head title="收费记录查询" th:include="include :: header">
+<body class="myPage-body">
+<div class="container myContainer">
+    <div class="row my-form-no-edge" style="padding:5px 0px 5px 0px;">
+        <div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
+            <input id="nodeType" type="text" class="input-sm form-control hide" value="">
+            <input id="nodeIds" type="text" class="input-sm form-control hide" value="">
+            <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"  placeholder="---请选择区域---"/>
+            <div id="menuContent" class="menuContent">
+                <div class="ztreeInput">
+                    <div>
+                        <input type="text" class="input-key input-sm form-control" id="zTreeKey" placeholder="请输入节点关键字">
+                    </div>
+                    <div class="ztreeSkip">
+                        <label type="text" id="resultKey" class="form-control ztreeSkipLabel">
+                            <div class="ztreeSkipBtns">
+                                <a id="clickUp" class="glyphicon glyphicon-menu-up ztreeSkipUp"></a>
+                                <a id="clickDown" class="glyphicon glyphicon-menu-down ztreeSkipDown"></a>
+                            </div>
+                            <label id="number" class="ztreeSkipNum"></label>
+                        </label>
+                    </div>
+                </div>
+                <ul id="areaTree" class="ztree"></ul>
+                <div class="clearfloat"></div>
+            </div>
+        </div>
+        <div class="col-xs-2 my-form-col hide">
+            <select id='query_type' class="selectpicker form-control" multiple data-style="btn-default btn-sm" title="选择查询类型">
+                <option value=''>全部</option>
+                <option value='收费'>收费</option>
+                <option value='扣费'>扣费</option>
+                <option value='退费'>退费</option>
+                <option value='减免'>减免</option>
+                <option value='恢复收费'>恢复收费</option>
+            </select>
+        </div>
+        <div class="col-xs-2 my-form-col">
+            <input id="date_range" class="input-sm form-control"  type="text" value='' readonly="readonly" placeholder="选择查询日期范围"/>
+        </div>
+        <div class="col-xs-2 my-form-col">
+            <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+        </div>
+        <div class="col-xs-1 my-form-col">
+            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </div>
+    </div>
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <form class="form-horizontal" id="jqgridForm" role="form">
+                <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                <div id="jqGridPager"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer,
+            form = layui.form;
+        var today = new Date().Format("yyyy-MM-dd");
+
+        $('#date_range').click(function(){
+            var options = {};
+            options.startDate = today;
+            options.endDate = today;
+            options.format_start = "YYYY-MM-DD";
+            options.format_end = "YYYY-MM-DD";
+            options.align="right";
+            options.cb_add = function(p_value){
+            };
+            myData.DataRangePicker(this, "DateRange", options);
+        });
+        //console.log(today);
+        $("#date_range").val(today+' ~ '+today);
+
+        var Post_Data = {ListNumber: 53, TotalLocation: "用户编号", SumColName: "收费金额,当前余额", startDate: today, endDate: today};
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/showBillRecordsList");
+        GridObj.jqdefaultGridConfig.caption = "";
+        GridObj.jqdefaultGridConfig.multiselect = false;
+        GridObj.jqdefaultGridConfig.postData = Post_Data;
+        //GridObj.jqdefaultGridConfig.colNames = [];
+        GridObj.jqdefaultGridConfig.colModel = [
+            {label:'bId', name: 'bId',  width: 75, key: true, hidden: true,frozen : true},
+            {label:'用户编号', name: 'haCustom.custno', width: 120 },
+            {label:'用户名称', name: 'haCustom.name', width: 150 },
+            {label:'性别', name: 'haCustom.sex', width: 40 },
+            {label:'用户地址', name: 'OtherName', width: 150 },
+            {label:'收费金额', name: 'charge', align: 'right', width: 80 },
+            {label:'当前余额', name: 'currentbalance', align: 'right', width: 80 },
+            {label:'收费时间', name: 'opttime', width: 150 },
+            {label:'操作人', name: 'caoZuoRen', width: 80 },
+            {label:'手机号码', name: 'haCustom.mobil', width: 120 },
+            {label:'联系电话', name: 'haCustom.tel', width: 120 },
+            {label:'开户银行', name: 'haCustom.bank', width: 80 },
+            {label:'银行账户', name: 'haCustom.account', width: 150 }
+        ];
+        GridObj.jqdefaultGridConfig.footerrow = true;
+        GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+
+        var zOption = {
+            url: "/area/showBigName",
+            selectedMulti: true,
+            nodeTypeId: "nodeType",
+            nodeIdsId: "nodeIds",
+            nodeNamesId: "areaSel",
+            clickCallBack: ""
+        };
+        var tree = new myzTree("areaTree", zOption);
+        tree.dropDownTreeOpen();
+        tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
+        $("#areaSel").click(function(){
+            tree.showMenu();
+        });
+
+        //全文查找
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $(".search").click();
+            }
+        });
+        $(".search").click(function(){
+            var  _pdArray = "";
+            var date_range = ['', ''];
+            if($("#date_range").val()){
+                date_range = $("#date_range").val().split("~");
+            }
+            _pdArray = {
+                "keyWord": $("#keyWord").val(),
+                "nodeType": $("#nodeType").val(),
+                "nodeIds": $("#nodeIds").val(),
+                "startDate": date_range[0]+" 00:00:00",
+                "endDate": date_range[1]+" 23:59:59"
+            };
+            fullTextSearch("jqGrid", _pdArray);
+        });
+    });
+</script>
+</body>
+</html>

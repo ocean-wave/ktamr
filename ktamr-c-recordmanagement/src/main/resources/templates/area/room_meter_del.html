@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="myPage-body">
+<form action="room_meter_del_do.asp" method="post" onsubmit="">
+    <table class="table table-bordered">
+        <input type="hidden" name="meterid" value="<%=meterids%>">
+        <thead>
+        <tr>
+            <th>楼栋房间</th>
+            <th>表地址</th>
+            <th>收费类型</th>
+            <th>倍率</th>
+            <th>装表日期</th>
+            <th>总分表</th>
+            <th>执行结果</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td align="right">&nbsp;</td>
+            <td align="right">&nbsp;</td>
+            <td align="right">&nbsp;</td>
+            <td align="right">&nbsp;</td>
+            <td align="right">&nbsp;</td>
+            <td align="right">&nbsp;</td>
+            <td><button type="submit" class="btn btn-default btn-sm"><img src="../images/delete.png" />删除</button>
+            </td>
+        </tr>
+        <tbody>
+    </table>
+</form>
+<div th:include="include :: footer"></div>
+</body>
+</html>

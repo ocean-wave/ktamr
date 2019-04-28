@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaCentorMapper">
+
+
+    <resultMap id="centorMap" type="com.ktamr.domain.HaCentor">
+        <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <result column="centorNo" property="centorNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centorId" property="centorId" javaType="java.lang.Long"></result>
+        <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
+    </resultMap>
+
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+            <if test=" params.operatorRgnType == 'rgn' ">
+                and LEFT(ce.centorNo,1) in (#{params.rgnStr})
+            </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and left(ce.centorNo,5) in (#{params.areaNo})
+            </if>
+        </if>
+    </sql>
+    <!--集中器-->
+   <select id="selectAllCentorzAndCount" resultType="java.util.Map" parameterType="com.ktamr.domain.HaCentor">
+        SELECT  c.id AS centorid
+        , c.centorNo AS centorNo
+        ,substring(c.centorNo, 2, 4) AS centorAreaNo
+        , trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) AS centorDs
+        , trim(to_char(c.centorid, '99999999')) AS centoridNo
+        ,c.addr AS addr
+        ,c.description AS description
+        , c.state As state
+        ,(select  COUNT(*) from ha_meter m where m.centorid=c.id) AS zbs
+        ,c.meters AS meters
+        ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='建档') AS jdbs
+        ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='集中器无返回') AS wfhbs
+        ,to_char(c.last_state_change_time, 'yyyy-mm-dd hh24:mi:ss') AS lastStateChangeTime
+        ,c.telNumber AS telNumber
+        ,c.ver AS ver
+        ,c.remark AS remark
+        ,to_char(c.setuptime, 'YYYY-MM-DD') AS setuptime
+        ,to_char(c.endTime, 'YYYY-MM-DD') AS endTime
+        FROM ha_centor c,ha_area a
+        WHERE Left(c.description,3)='KT4'
+        AND Left(c.centorNO, 5)=a.areaNO
+       <include refid="getRightCondition"></include>
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+        </if>
+        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            AND Left(a.areaNo, 1) IN (#{nodeIds})
+        </if>
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (c.centorNo like '%${params.keyWord}%' or substring(c.centorNo, 2, 4) like '%${params.keyWord}%' or trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) like '%${params.keyWord}%'
+            or c.addr like '%${params.keyWord}%' or c.description like '%${params.keyWord}%' or c.state = #{params.keyWord} or c.ver = #{params.keyWord} or to_char(c.setuptime, 'YYYY-MM-DD') like '%${params.keyWord}%')
+        </if>
+        order by c.centorNo,c.addr
+    </select>
+
+    <select id="selectAllCentorzQueryIdAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+        SELECT m.meterid AS meterid
+        , m.centorid AS centorid
+        , ce.centorid AS centoraddr
+        , to_hex(co.nconf) AS collectorAddr
+        , mi.用户号 AS userNo
+        , mi.用户名 AS userName
+        , mi.用户地址 AS userDs
+        , m.meterNumber AS meterNumber
+        , m.lf_number as lfNumber
+        , m.th_number as thNumber
+        , m.s_number as sNumber
+        , m.state as state
+        , m.th_r_time as thTime
+         FROM  ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid
+         LEFT JOIN ha_centor ce ON ce.id=m.centorid
+         LEFT JOIN ha_collector co ON co.collectorid=m.collectorid
+         WHERE 1=1
+        <if test=" centorid != null and centorid != '' ">
+            and m.centorid IN  (#{centorid})
+        </if>
+         <if test=" collectorid != null and collectorid != '' ">
+             and m.collectorid IN  (#{collectorid})
+         </if>
+        <if test=" keyWord != null and keyWord != '' ">
+            and (mi.用户号 like '%${keyWord}%' or mi.用户名 like '%${keyWord}%' or mi.用户地址 like '%${keyWord}%' or m.state = #{keyWord})
+        </if>
+         ORDER BY mi.用户地址
+    </select>
+
+    <select id="selectAllCentorzByIdAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+        select
+        co.collectorid as collectorid
+        ,co.centorid as centorid
+        ,t.centorNo as centorNo
+        ,to_hex(co.nconf) as nconf
+        ,to_hex(co.oconf) as oconf
+        ,co.addr as addr
+        ,co.ver as ver
+        ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid) AS bzs
+        ,co.meters AS drbs
+        ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid and m.state='建档') AS jdzts
+        ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid and m.state='采集器无返回') AS wfhbs
+        ,CASE WHEN co.state='EE' THEN '未通讯(EE)' WHEN co.state='0' THEN '信号无(0)' WHEN co.state='2' THEN '信号弱(2)' WHEN co.state='4' THEN '信号良(4)' WHEN co.state='8' THEN '信号强(8)' WHEN  co.state=co.state THEN co.state END as state
+        ,co.routers AS routers
+        FROM ha_collector co, ha_centor t
+        WHERE co.centorid IN (#{centorid}) AND co.centorid=t.id
+        <if test=" keyWord != null and keyWord != '' ">
+            and (to_hex(co.nconf) like '%${keyWord}%' or to_hex(co.oconf) like '%${keyWord}%'
+            or c.addr like '%${keyWord}%' or c.state = #{keyWord} or c.ver = #{keyWord})
+        </if>
+        ORDER BY co.addr,to_hex(co.nconf)
+    </select>
+
+
+    <!--集采器-->
+    <select id="selectAllCentorcAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+        SELECT  c.id AS centorid
+        , c.centorNo AS centorNo
+        ,substring(c.centorNo, 2, 4) AS centorAreaNo
+        , trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) AS centorDs
+        , trim(to_char(c.centorid, '99999999')) AS centoridNo
+        ,c.addr AS addr
+        ,c.description AS description
+        , c.state As state
+        ,(select  COUNT(*) from ha_meter m where m.centorid=c.id) AS zbs
+        ,c.meters AS meters
+        ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='建档') AS jdbs
+        ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='集中器无返回') AS wfhbs
+        ,to_char(c.last_state_change_time, 'yyyy-mm-dd hh24:mi:ss') AS lastStateChangeTime
+        ,c.telNumber AS telNumber
+        ,c.ver AS ver
+        ,c.remark AS remark
+        ,to_char(c.setuptime, 'YYYY-MM-DD') AS setuptime
+        ,to_char(c.endTime, 'YYYY-MM-DD') AS endTime
+        FROM ha_centor c,ha_area a
+        WHERE (Left(c.description,4)='GPRS' OR Left(c.description,3)='COM' OR Left(c.description,3)='KT3') AND Left(c.centorNO, 5)=a.areaNO
+        <if test=" nodeType == 'area' and nodeIds != '' ">
+            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+        </if>
+        <if test=" nodeType == 'rgn' and nodeIds != '' ">
+            AND Left(a.areaNo, 1) IN (#{nodeIds})
+        </if>
+        <if test=" wheresql != null and wheresql != '' ">
+            ${wheresql}
+        </if>
+        <if test=" keyWord != null and keyWord != '' ">
+            and (c.centorNo like '%${keyWord}%' or substring(c.centorNo, 2, 4) like '%${keyWord}%' or trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) like '%${keyWord}%'
+            or c.addr like '%${keyWord}%' or c.description like '%${keyWord}%' or c.state = #{keyWord} or c.ver = #{keyWord} or to_char(c.setuptime, 'YYYY-MM-DD') like '%${keyWord}%')
+        </if>
+        ORDER BY c.centorNo
+    </select>
+
+    <!--手抄器-->
+    <select id="selectAllCentorHandAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+        SELECT c.id AS cid
+        , c.centorNo AS centorNo
+        ,c.addr AS addr
+        ,c.description AS description
+        , c.state As state
+        ,(select  COUNT(*) from ha_meter m where m.centorid=c.id) AS zbs
+        ,c.meters AS drbs
+        ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='建档') AS jdzts
+        ,c.rtime AS rtime
+        ,c.remark AS remark
+        ,to_char(c.setuptime, 'YYYY-MM-DD') AS setuptime
+        ,to_char(c.endTime, 'YYYY-MM-DD') AS endTime
+        FROM ha_centor c, ha_area a
+        WHERE Left(c.description,4)='HAND' AND Left(c.centorNO, 5)=a.areaNO
+        <if test=" nodeType == 'area' and nodeIds != '' ">
+            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+        </if>
+        <if test=" nodeType == 'rgn' and nodeIds != '' ">
+            AND Left(a.areaNo, 1) IN (#{nodeIds})
+        </if>
+        <if test=" keyWord != null and keyWord != '' ">
+            and (c.addr like '%${keyWord}%' or c.description like '%${keyWord}%' or c.state = #{state}
+            or c.remark  like '%${keyWord}%' or to_char(c.setuptime, 'YYYY-MM-DD') like '%${keyWord}%')
+        </if>
+        ORDER BY c.centorNo
+    </select>
+
+    <!--设备抄控管理-->
+    <select id="selectCentor" resultMap="centorMap" parameterType="com.ktamr.domain.HaCentor">
+        SELECT ce.id AS id
+        ,ce.centorNo AS centorNo
+        ,ce.state AS state
+        ,ce.centorid AS centorId
+        ,ce.addr AS addr
+        ,ce.description AS description
+        , a.name AS name
+        FROM ha_centor ce
+        LEFT JOIN ha_area a ON Left(ce.centorNo, 5)=a.areaNo
+        <if test=" params.deviceType == 'centor' ">
+            WHERE Left(ce.description, 3)='KT4'
+            <if test="params.operable == 'true'">
+            AND (ce.state='联机' OR position( 'COM' in ce.description)>0)
+            </if>
+        </if>
+        <if test=" params.deviceType == 'ccentor' ">
+            WHERE (Left(ce.description, 3)='COM' OR Left(ce.description, 4)='GPRS' OR Left(ce.description, 3)='KT3')
+        </if>
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            AND a.areaid IN (#{nodeIds})
+        </if>
+        <if test=" params.nodeIds == 'rgn' and params.nodeIds != '' ">
+            AND position( Left(a.areaNo, 1) in #{nodeIds}) > 0
+        </if>
+        <!--<include refid="getRightCondition"></include>-->
+        ORDER BY ce.centorNo,ce.addr
+    </select>
+
+</mapper>

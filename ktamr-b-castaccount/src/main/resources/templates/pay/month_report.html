@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head title="月报表查询" th:include="include :: header">
+<body class="myPage-body">
+<div class="container myContainer">
+    <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+        <div class="col-xs-2 my-form-col area-div">
+            <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区">
+                <option th:each="HaArea : ${areaListName}"
+                        th:value="${HaArea.areaid}" th:text="${HaArea.areaid}+':'+${HaArea.name}">Credit card</option>
+
+
+            </select>
+        </div>
+        <div class="col-xs-2 my-form-col date-range-div">
+            <select id="monthBTime" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="结算周期">
+
+            </select>
+        </div>
+        <div class="col-xs-2 my-form-col">
+            <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+        </div>
+        <div class="col-xs-1 my-form-col">
+
+            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </div>
+        <div class="my-btns pull-right">
+            <button data-modal="" data-title="导出TXT文件" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-download"></span>&nbsp;TXT文件</button>
+            <button data-modal="" data-title="打印月报表" class="layui-btn layui-btn-sm">打印月报表</button>
+        </div>
+    </div>
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <form class="form-horizontal" id="jqgridForm" role="form">
+                <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                <div id="jqGridPager"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript">
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer,
+            form = layui.form;
+        var g_startTime = "", g_endTime = "";
+        function queryMonthReportList(){
+            var dateArray = "",
+                _areaid = $("#areas").val(),
+                _daterange = $("#monthBTime").val(),
+                _startTime = "2019-03-29"+" 00:00:00",
+                _endTime = "2019-03-29"+" 23:59:59";
+            //console.log(_daterange);
+            dateArray = _daterange.split("~");
+            if(_daterange!="" && dateArray[0] != ""){
+                _startTime = dateArray[0];
+                g_startTime = _startTime;
+            }
+            if(_daterange!="" && dateArray[1] != ""){
+                _endTime = dateArray[1];
+                g_endTime = _endTime;
+            }else{
+                _endTime = "2019-03-29"+" 23:59:59";
+                g_endTime = _endTime;
+            }
+            $("#jqGrid").jqGrid('setGridParam',{
+                mtype: 'POST',
+                postData:{areaid:_areaid, startTime:_startTime, endTime:_endTime}
+            }).trigger("reloadGrid");
+        }
+        function loadMonthBTimeOption(_areaid , ID){
+            var _url = "load_monthBTime.asp";
+            $.ajax({
+                url: _url
+                ,data: {
+                    areaid: _areaid
+                }
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:true //异步请求
+                ,success: function(data){
+                    //appendSelectOption(ID, data, "");
+                    var str = "";
+                    var array = data.split(";");
+                    for(var i = 0;i<array.length-1;i++){
+                        str+="<option value='"+array[i]+"'>"+array[i]+"</option>";
+                    }
+                    $("#"+ID).html(str);
+                    $(".selectpicker" ).selectpicker('refresh');
+                }
+            });
+        }
+
+        function copyToTxt(){
+            var url, fileUrl;
+            var _areaid = $("#areas").val();
+            if(_areaid == ""){
+                layer.msg("请选择小区", { icon: 5 });
+                return false;
+            }
+            if(g_startTime == ""){
+                layer.msg("请选择结算时间区间", { icon: 5 });
+                return false;
+            }
+            url = "derived_readinfo_to_txt.asp";
+            $.ajax({
+                url: url
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,data: {
+                    areaid: _areaid
+                    ,startTime: g_startTime
+                    ,endTime: g_endTime
+                }
+                ,async: false
+                ,success: function(data){
+                    //文本文件下载
+                    var eleLink = document.createElement('a');
+                    eleLink.href=data;//文件链接
+                    eleLink.download = data.substr(data.lastIndexOf('/')+1);//下载文件名
+                    eleLink.style.display = 'none';
+                    document.body.appendChild(eleLink);
+                    eleLink.click();
+                    document.body.removeChild(eleLink);
+                }
+            });
+        }
+        function printMonthReport(){
+            var url ;
+            var _areaid = $("#areas").val();
+            if(_areaid == ""){
+                layer.msg("请选择小区", { icon: 5 });
+                return false;
+            }
+            url = "month_report_print.asp?areaid="+_areaid+"&startTime="+g_startTime+"&endTime="+g_endTime;
+            window.open(url, '', '');
+        }
+        $(".layui-btn").click(function(){
+            var title = $(this).data("title");
+            if(title == "导出TXT文件"){
+                copyToTxt();
+            }else if(title == "打印月报表"){
+                printMonthReport();
+            }
+        });
+
+        var Post_Data = {ListNumber: 28,TotalLocation: "用户编号", SumColName: "本期用量,本期费用,上期余额", areaid: "", startTime:g_startTime, endTime:g_endTime};
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/showMonthReportList");
+        GridObj.jqdefaultGridConfig.caption = "";
+        GridObj.jqdefaultGridConfig.multiselect = false;
+        GridObj.jqdefaultGridConfig.postData = Post_Data;
+        GridObj.jqdefaultGridConfig.colNames = ['用户ID','用户编号','用户名称','用户地址','表号','状态','上期结算','本期结算','本期用量','抄表时间','表类型','收费价格','倍率(%)','本期费用','上期余额','出单时间','结算时间'];
+        GridObj.jqdefaultGridConfig.colModel = [
+            { name: 'havMeterinfo.custid',  width: 180, key: false, hidden: true},
+            { name: 'havMeterinfo.用户号', width: 80 },
+            { name: 'havMeterinfo.用户号', width: 120 },
+            { name: 'havMeterinfo.用户地址', width: 140 },
+            { name: 'haMeter.meternumber', width: 100, align: 'right' },
+            { name: 'haMeter.state', width: 60, cellattr: MeterStateCellColor },
+            { name: 'haFreeze.lfNumber', width: 80, align: 'right' },
+            { name: 'haFreeze.tfNumber', width: 80, align: 'right' },
+            { name: 'haFreeze.delta', width: 80, align: 'right'},
+            { name: 'haFreeze.thTime', width: 150 },
+            { name: 'havMeterinfo.name', width: 80, align: 'right'},
+            { name: 'haPricestandard.name', width: 80, align: 'right'},
+            { name: 'haMeter.rate', width: 60, align: 'right'},
+            { name: 'sum', width: 80, align: 'right'},
+            { name: 'lastarrear', width: 80, align: 'right', cellattr: arrearageCellColor},
+            { name: 'plantime', width: 150 },
+            { name: 'mbtime', width: 150 }
+        ];
+        GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "表状态")};
+        GridObj.jqdefaultGridConfig.footerrow = true;
+        GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+        GridObj = null;
+
+        $('#areas').change(function(){
+            var _areaid = $("#areas").val();
+            loadMonthBTimeOption(_areaid, "monthBTime");
+            //queryMonthReportList();
+        });
+        $('#monthBTime').change(function(){
+            queryMonthReportList();
+        });
+
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $(".search").click();
+            }
+        });
+        //点击查询按钮的事件
+        $(".search").click(function(){
+            var keyWord = $("#keyWord").val();
+            var  _pdArray = "";
+            _pdArray = {
+                "keyWord": keyWord
+            };
+
+            fullTextSearch("jqGrid", _pdArray);
+        });
+
+    });
+</script>
+</body>
+</html>

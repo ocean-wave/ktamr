@@ -1,0 +1,232 @@
+{
+	"data": {
+		"list": [
+			{
+				"id": "0",
+				"url": "main.asp",
+				"name": "首页",
+				"iconfont": "fa fa-home fa-fw",
+				"sub": []
+			},
+			{
+				"id": "1-1",
+				"url": "",
+				"name": "区域抄控",
+				"iconfont": "fa fa-tasks fa-fw",
+				"sub": [
+					{
+						"id": "1-1-1",
+						"url": "/rgn",
+						"name": "区域表抄控",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "1-2",
+				"url": "",
+				"name": "设备抄控",
+				"iconfont": "fa fa-sitemap fa-fw",
+				"sub": [
+					{
+						"id": "1-2-1",
+						"url": "/equipment/centorz",
+						"name": "集中器抄控",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-2-2",
+						"url": "/equipment/centorc",
+						"name": "集采器抄控",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-2-3",
+						"url": "/equipment/readLine",
+						"name": "手抄器",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-2-4",
+						"url": "/equipment/gprsdtu",
+						"name": "DTU",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "1-3",
+				"url": "",
+				"name": "数据查询",
+				"iconfont": "fa fa-bar-chart fa-fw",
+				"sub": [
+					{
+						"id": "1-3-1",
+						"url": "/dataselect/dosage",
+						"name": "用量查询",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-3-2",
+						"url": "/dataselect/freeze",
+						"name": "冻结查询",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-3-3",
+						"url": "/dataselect/replace",
+						"name": "换表记录",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-3-4",
+						"url": "/dataselect/notok",
+						"name": "不良表查询",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-3-5",
+						"url": "/dataselect/audit",
+						"name": "稽核用量查询",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "1-4",
+				"url": "",
+				"name": "第三方接口",
+				"iconfont": "fa fa-exchange fa-fw",
+				"sub": [
+					{
+						"id": "1-4-1",
+						"url": "",
+						"name": "接口管理",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-4-2",
+						"url": "/thirdPartyInterface/cmd",
+						"name": "接口数据查询",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "1-5",
+				"url": "",
+				"name": "第三方数据",
+				"iconfont": "fa fa-cloud-download fa-fw",
+				"sub": [
+					{
+						"id": "1-5-1",
+						"url": "/thirdpartydata/party",
+						"name": "数据报表",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "1-6",
+				"url": "",
+				"name": "手工抄表",
+				"iconfont": "fa fa-hand-paper-o fa-fw",
+				"sub": [
+					{
+						"id": "1-6-1",
+						"url": "/handworkmeterreading/deviceTrans",
+						"name": "手抄器传输",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-6-2",
+						"url": "/handworkmeterreading/tableTrans",
+						"name": "抄表文件传输",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-6-3",
+						"url": "/handworkmeterreading/byHand",
+						"name": "手工录入",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
+				"id": "1-7",
+				"url": "",
+				"name": "系统维护",
+				"iconfont": "fa fa-calendar-check-o fa-fw",
+				"sub": [
+					{
+						"id": "1-7-1",
+						"url": "/systemmaintenance/cmdAdd",
+						"name": "设备抄控管理",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-7-2",
+						"url": "datamng/ha_cmd/cmd_list.asp",
+						"name": "历史操作记录",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			}
+		]
+	},
+	"status": 200
+}
