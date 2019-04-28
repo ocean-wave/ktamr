@@ -14,7 +14,7 @@ public class KtamrApplication {
 //    public interface testdll extends Library {
 //        // msvcrt为dll名称,msvcrt目录的位置为:C:\Windows\System32下面,
 //        testdll Instance = (testdll) Native.loadLibrary((Platform.isWindows() ? "Ha_com2.ha_agent.1" : "c"),
-//                testdll.class);
+//                testdll.class);xxxxx
 //        // printf为msvcrt.dll中的一个方法.
 //        void ht_cmd_request(String str,Object ... args);
 //    }
