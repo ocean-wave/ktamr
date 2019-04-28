@@ -16,7 +16,7 @@ public class LoginController {
 
     @Autowired
     private HaOperatorService haOperatorService;
-
+        ///sasdaas
     @RequestMapping("/")
     public String index(){
         return "/login";
