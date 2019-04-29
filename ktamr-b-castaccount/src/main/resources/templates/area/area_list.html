@@ -57,21 +57,12 @@
             g_appPage = 'calculate';
 
         var Post_Data = {ListNumber: 1, TotalLocation: "小区编号", SumColName: "总表数,总读数,本期总用量,不良表数"};
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/showList");
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/area/showList");
         //GridObj.unloadGrid();
         //GridObj.removeGridResize();
         //GridObj.jqdefaultGridConfig.caption = "小区列表：";
         GridObj.jqdefaultGridConfig.multiselect = true;
         GridObj.jqdefaultGridConfig.postData = Post_Data;
-
-        GridObj.jqdefaultGridConfig.jsonReader.root="rows";
-        GridObj.jqdefaultGridConfig.jsonReader.id="id";
-        GridObj.jqdefaultGridConfig.jsonReader.page="page";
-        GridObj.jqdefaultGridConfig.jsonReader.total="total";
-        GridObj.jqdefaultGridConfig.jsonReader.records="records";
-        GridObj.jqdefaultGridConfig.jsonReader.repeatitems=false;
-
-
         GridObj.jqdefaultGridConfig.colNames = [
             'areaid','小区编号','小区册号','小区名称','地址','抄收月份','总表数'
 
@@ -110,13 +101,6 @@
                 }
         , width: 150 }
             ,{name: 'lastsumday',
-                formatter: function (cellvalue, options, row) {
-                //alert(cellvalue);
-
-                    //2018/5/2 下午1:25:51
-                    // alert(new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " "))
-                    return new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " ")
-                },
                 width: 150 }
              ,{name: '操作结果', width: 120 }
 
@@ -286,7 +270,9 @@
         var billManageObj = new billManage("jqGrid");
         $(".my-btns .layui-btn,.layui-btn-primary").click(function(){
             var _this = this, _layerSize, _queryStr;
-            var btnName = $(_this).data("title"), areaids = GridObj.getSelRowIds();
+            var btnName = $(_this).data("title"),
+                areaids = GridObj.getSelRowIds();
+            console.log("areaids值为"+areaids);
             var b_isMultiIDs = isMultiIDs(areaids);
             if(areaids=="" && btnName != "新增" && btnName != "结算上传"){
                 layer.msg("请选择操作行", {icon: 5});

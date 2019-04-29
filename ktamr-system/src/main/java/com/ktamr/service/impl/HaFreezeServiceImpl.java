@@ -20,7 +20,7 @@ public class HaFreezeServiceImpl implements HaFreezeService {
      */
     @Override
     public Integer insertHaFreeze1(HaFreeze haFreeze) {
-        Integer insertHaFreeze1 = haFreezeMapper.insertHaFreeze1(haFreeze);
+        Integer insertHaFreeze1 = haFreezeMapper.BinsertHaFreeze1(haFreeze);
         if(insertHaFreeze1!=null){
             return insertHaFreeze1;
         }
@@ -34,7 +34,7 @@ public class HaFreezeServiceImpl implements HaFreezeService {
      */
     @Override
     public Integer insertHaFreeze2(HaFreeze haFreeze) {
-        Integer insertHaFreeze2 = haFreezeMapper.insertHaFreeze2(haFreeze);
+        Integer insertHaFreeze2 = haFreezeMapper.BinsertHaFreeze2(haFreeze);
         if(insertHaFreeze2!=null){
             return insertHaFreeze2;
         }

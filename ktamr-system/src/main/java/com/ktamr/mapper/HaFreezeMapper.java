@@ -8,13 +8,13 @@ public interface HaFreezeMapper {
      * @param haFreeze
      * @return
      */
-    public  Integer insertHaFreeze1(HaFreeze haFreeze);
+    public  Integer BinsertHaFreeze1(HaFreeze haFreeze);
 
     /**
      *点击费用结算所做的步骤2
      * @param haFreeze
      * @return
      */
-    public  Integer insertHaFreeze2(HaFreeze haFreeze);
+    public  Integer BinsertHaFreeze2(HaFreeze haFreeze);
 
 }

@@ -30,6 +30,11 @@ public class HaCmdController {
         return "失败:找不到命令(" +returnID.getId()+ ")";
     }
 
+    /**
+     * 点击小区结算上传的确定按钮
+     * @param haCmd
+     * @return
+     */
     @RequestMapping(value ="/datamng/ha_cmd/cmd_add_do")
     @ResponseBody
     public String amdadddo(HaCmd haCmd){
