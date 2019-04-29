@@ -21,6 +21,7 @@ public class HaCollector extends BaseEntity {
   private Integer meters;
 
   private HaCentor haCentor;
+  private Integer haCollectorCount;
 
 
   public Integer getCollectorId() {
@@ -130,4 +131,12 @@ public class HaCollector extends BaseEntity {
   public void setHaCentor(HaCentor haCentor) {
     this.haCentor = haCentor;
   }
+
+    public Integer getHaCollectorCount() {
+        return haCollectorCount;
+    }
+
+    public void setHaCollectorCount(Integer haCollectorCount) {
+        this.haCollectorCount = haCollectorCount;
+    }
 }

@@ -72,7 +72,7 @@
         GridObj.jqdefaultGridConfig.colModel = [
             {name: 'areaId',  width: 75, key: true,formatter:'interger', hidden: true,frozen : true},
             { name: 'areaNo', width: 70, formatter:'interger',frozen : true},
-            { name: 'registeredno', width: 70,frozen : true},
+            { name: 'registeredNo', width: 70,frozen : true},
             {name: 'name', width: 150,frozen : true },
             {name: 'addr', width: 150 },
             {name: 'ds', width: 80 },
@@ -100,7 +100,7 @@
                     return new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " ")
                 }
         , width: 150 }
-            ,{name: 'lastsumday',
+            ,{name: 'lastsumDay',
                 width: 150 }
              ,{name: '操作结果', width: 120 }
 
