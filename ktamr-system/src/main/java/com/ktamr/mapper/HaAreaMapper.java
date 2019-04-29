@@ -1,12 +1,13 @@
 package com.ktamr.mapper;
 
 import com.ktamr.domain.HaArea;
+import com.ktamr.domain.HaRgn;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- *  小区表Mapper
+ * 小区表Mapper
  */
 public interface HaAreaMapper {
 
@@ -18,17 +19,19 @@ public interface HaAreaMapper {
 
     /**
      * 查询小区表
+     *
      * @param haArea
      * @param page
      * @param rowNum
      * @return
      */
     public List<HaArea> BselectHaAreaList(@Param("HaArea") HaArea haArea, @Param("page") Integer page,
-                                         @Param("rowNum") Integer rowNum);
+                                          @Param("rowNum") Integer rowNum);
 
 
     /**
      * 查询小区表总记录数 先返回泛型集合 在获取里面的size
+     *
      * @param haArea
      * @return
      */
@@ -36,6 +39,7 @@ public interface HaAreaMapper {
 
     /**
      * 查询小区表名字 填充条件查询的下拉框
+     *
      * @param haArea
      * @return
      */
@@ -44,6 +48,7 @@ public interface HaAreaMapper {
 
     /**
      * 根据areano查询大区下的小区的名字
+     *
      * @param areano
      * @return
      */
@@ -52,6 +57,7 @@ public interface HaAreaMapper {
 
     /**
      * 根据areaid查询并返回相应的记录数
+     *
      * @param haArea
      * @return
      */
@@ -59,6 +65,7 @@ public interface HaAreaMapper {
 
     /**
      * 佛系更新小区表
+     *
      * @param haArea
      * @return
      */
@@ -66,6 +73,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字
+     *
      * @param haArea
      * @return
      */
@@ -73,6 +81,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击完成结算第一步
+     *
      * @param haArea
      * @return
      */
@@ -80,6 +89,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击完成结算第二步
+     *
      * @param haArea
      * @return
      */
@@ -87,6 +97,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击完成结算第三步
+     *
      * @param haArea
      * @return
      */
@@ -94,6 +105,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击完成结算第四步
+     *
      * @param haArea
      * @return
      */
@@ -101,6 +113,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击完成结算第五步
+     *
      * @param haArea
      * @return
      */
@@ -108,6 +121,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击完成结算第六步
+     *
      * @param haArea
      * @return
      */
@@ -115,6 +129,7 @@ public interface HaAreaMapper {
 
     /**
      * 点击完成结算第七步 即最后一步
+     *
      * @param haArea
      * @return
      */
@@ -122,19 +137,56 @@ public interface HaAreaMapper {
 
 
     /*
-       查询全部
-        */
+     *查询全部
+     */
     public List<HaArea> BfindAllHaArea();
 
-    Integer addHaArea(HaArea haArea);
 
-    Integer updateHaArea2(@Param("haArea") HaArea haArea);
+    /*
+     *新增小区
+     */
+    Integer addHaAreaC(HaArea haArea);
 
-    Integer deleteHaArea(@Param("haArea") HaArea haArea);
+    /*
+     *修改小区
+     */
+    Integer updateHaAreaC(@Param("haArea") HaArea haArea);
 
-    List<HaArea> queryAllHaArea();
+    /*
+     *删除小区
+     */
+    Integer deleteHaAreaC(@Param("haArea") HaArea haArea);
 
-    HaArea updateByIdHaArea(@Param("areaid") Integer areaid);
+    /*
+     *小区下拉框
+     */
+    List<HaArea> queryAllHaAreaC();
 
-    Integer queryHaAreaCount(HaArea haArea);
+    /*
+     *修改小区传值
+     */
+    HaArea updateByIdHaAreaC(@Param("areaid") Integer areaid);
+
+    /*
+     *小区记录数
+     */
+    Integer queryHaAreaCountC(HaArea haArea);
+
+    /*
+     *显示全部小区
+     */
+    List<HaArea> queryAllSmallArea(@Param("haArea") HaArea haArea, @Param("page") Integer page,
+                                   @Param("rowNum") Integer rowNum);
+
+    /*
+     *根据大区id显示小区
+     */
+    List<HaArea> queryAllSmallArea2(@Param("areaNo") String areaNo);
+
+    /*
+     *大区下所属小区记录数
+     */
+    Integer smallAreaCount(HaArea haArea);
+
+
 }
