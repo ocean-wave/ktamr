@@ -39,6 +39,8 @@ public class HaRgn extends BaseEntity {
      */
     private Integer haMeterCount;
 
+    private String keyWord;
+
 
     public String getId() {
         return id;
@@ -152,5 +154,13 @@ public class HaRgn extends BaseEntity {
 
     public void setHaMeter(HaMeter haMeter) {
         this.haMeter = haMeter;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
     }
 }

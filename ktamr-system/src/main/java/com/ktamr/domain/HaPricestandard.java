@@ -33,6 +33,7 @@ public class HaPricestandard extends BaseEntity {
     private HaMetertype haMetertype;
     private HaMeter haMeter;
     private HaArea haArea;
+    private String keyWord;
 
 
     public Integer getPricestandId() {
@@ -229,5 +230,13 @@ public class HaPricestandard extends BaseEntity {
 
     public void setHaArea(HaArea haArea) {
         this.haArea = haArea;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
     }
 }
