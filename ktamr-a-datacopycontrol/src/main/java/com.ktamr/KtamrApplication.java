@@ -36,6 +36,7 @@ public class KtamrApplication {
         //String c = ht_cmd_request("192.168.100.12:12508","ad:sdasdas");
 
         SpringApplication.run(KtamrApplication.class, args);
+
         System.out.println("(♥◠‿◠)ﾉﾞ  自动抄表管理系统启动成功   ლ(´ڡ`ლ)ﾞ  \n");
     }
 }
