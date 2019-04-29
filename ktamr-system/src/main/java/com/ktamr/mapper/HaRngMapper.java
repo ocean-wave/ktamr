@@ -29,29 +29,55 @@ public interface HaRngMapper {
      */
     public List<HaRgn> selectBigName();
 
+
+
     /**
      * 查询大区表全部信息与小区,集中器,采集器数,表数的数量
      * @return
      */
-    public List<HaRgn> selectAllRngAndCount(@Param("haRgn") HaRgn haRgn, @Param("page") Integer page,
+    public List<HaRgn> selectAllRngAndCountC(@Param("haRgn") HaRgn haRgn, @Param("page") Integer page,
                                             @Param("rowNum") Integer rowNum);
 
     /**
-     * 查询所有大区
+     * 大区下拉框
      * @return
      */
-    List<HaRgn> queryAllRng();
+    List<HaRgn> queryAllRngC();
 
-    HaRgn updateByIdRng(@Param("haRgn") HaRgn haRgn);
+    /**
+     * 修改大区传值
+     * @return
+     */
+    HaRgn updateByIdRngC(@Param("haRgn") HaRgn haRgn);
 
-    Integer HaRgnCount(HaRgn haRgn);
+    /**
+     * 记录数
+     * @return
+     */
+    Integer HaRgnCountC(HaRgn haRgn);
 
-    Integer addHaRgn(HaRgn haRgn);
+    /**
+     * 添加大区
+     * @return
+     */
+    Integer addHaRgnC(HaRgn haRgn);
 
-    Integer updateHaRgn(HaRgn haRgn);
+    /**
+     * 修改大区
+     * @return
+     */
+    Integer updateHaRgnC(HaRgn haRgn);
 
-    Integer deleteHaRgn(HaRgn haRgn);
+    /**
+     * 删除大区
+     * @return
+     */
+    Integer deleteHaRgnC(HaRgn haRgn);
 
+    /**
+     * 新增大区前判断id
+     * @return
+     */
     Integer count0();
 
     Integer countA();
@@ -63,5 +89,11 @@ public interface HaRngMapper {
     Integer countUpperCase();
 
     String elseId();
+
+    /**
+     * 节点-所有大区
+     * @return
+     */
+    List<HaRgn> queryAllBigAreaC();
 
 }

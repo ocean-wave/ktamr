@@ -64,7 +64,7 @@ public class PriceStandardController {
 
     @RequestMapping("/fee_update")
     public String fee_update(HaFeestandard haFeestandard, Model model, Integer feeId){
-        haFeestandard.setFeeid(feeId);
+        haFeestandard.setFeeId(feeId);
         HaFeestandard haFeestandards = haFeestandardService.UpdateByIdHaFeestandard(haFeestandard);
         model.addAttribute("haFeestandards",haFeestandards);
         model.addAttribute("feeId",feeId);
@@ -82,7 +82,7 @@ public class PriceStandardController {
 
     @RequestMapping("/fee_del")
     public String fee_del(HaFeestandard haFeestandard, Model model,Integer feeId){
-        haFeestandard.setFeeid(feeId);
+        haFeestandard.setFeeId(feeId);
         HaFeestandard haFeestandards = haFeestandardService.UpdateByIdHaFeestandard(haFeestandard);
         model.addAttribute("haFeestandards",haFeestandards);
         model.addAttribute("feeId",feeId);
