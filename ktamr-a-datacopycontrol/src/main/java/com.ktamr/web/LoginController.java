@@ -16,7 +16,7 @@ public class LoginController {
 
     @Autowired
     private HaOperatorService haOperatorService;
-        ///sasdaasppppp
+
     @RequestMapping("/")
     public String index(){
         return "/login";
@@ -53,6 +53,7 @@ public class LoginController {
                     break;
             }
             session.setAttribute("operatorLevelCode",operatorLevelCode);
+            session.setAttribute("operatorLevel",haOperator.getOperatorLevel());
             return "true";
         }
         return "false";

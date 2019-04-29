@@ -1,37 +1,54 @@
 package com.ktamr.domain;
 
 
-public class HaMeterAddr {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
-  private long cmdid;
+public class HaMeterAddr extends BaseEntity {
+
+  private Integer id;
+  private Integer cmdId;
   private long centorid;
   private long centoridD;
   private long ccrid;
   private long meterid;
   private long ccrnoD;
   private long ccrnoR;
-  private String meternumber;
+  private String meterNumber;
   private String state;
 
+  private HaCmd haCmd;
 
-  public long getId() {
+  public String getMeterNumber() {
+    return meterNumber;
+  }
+
+  public void setMeterNumber(String meterNumber) {
+    this.meterNumber = meterNumber;
+  }
+
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-
-  public long getCmdid() {
-    return cmdid;
+  public Integer getCmdId() {
+    return cmdId;
   }
 
-  public void setCmdid(long cmdid) {
-    this.cmdid = cmdid;
+  public void setCmdId(Integer cmdId) {
+    this.cmdId = cmdId;
   }
 
+  public HaCmd getHaCmd() {
+    return haCmd;
+  }
+
+  public void setHaCmd(HaCmd haCmd) {
+    this.haCmd = haCmd;
+  }
 
   public long getCentorid() {
     return centorid;
@@ -85,16 +102,6 @@ public class HaMeterAddr {
   public void setCcrnoR(long ccrnoR) {
     this.ccrnoR = ccrnoR;
   }
-
-
-  public String getMeternumber() {
-    return meternumber;
-  }
-
-  public void setMeternumber(String meternumber) {
-    this.meternumber = meternumber;
-  }
-
 
   public String getState() {
     return state;

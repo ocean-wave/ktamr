@@ -18,7 +18,7 @@ public class HaCmdServiceImpl implements HaCmdService {
     private HaCmdMapper haCmdMapper;
 
     @Override
-    public Integer selectCmdById(String cmd,String centorid) {
+    public Integer selectCmdId(String cmd,String centorid) {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("mcmd",cmd.split(":")[0]);
         map.put("parms",cmd.substring(cmd.indexOf(":")+1));
@@ -27,7 +27,7 @@ public class HaCmdServiceImpl implements HaCmdService {
         }else if (centorid != ""){
             map.put("centorid",Integer.parseInt(centorid));
         }
-        return haCmdMapper.selectCmdById(map);
+        return haCmdMapper.selectCmdId(map);
     }
 
     @Override
@@ -66,6 +66,16 @@ public class HaCmdServiceImpl implements HaCmdService {
     @Override
     public Integer insertCmdTwo(HaMeter haMeter) {
         return haCmdMapper.insertCmdTwo(haMeter);
+    }
+
+    @Override
+    public List<HaCmd> selectCmdLeftJoinTow(HaCmd haCmd) {
+        return haCmdMapper.selectCmdLeftJoinTow(haCmd);
+    }
+
+    @Override
+    public HaCmd selectCmdById(Integer id) {
+        return haCmdMapper.selectCmdById(id);
     }
 
     /**

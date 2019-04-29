@@ -217,7 +217,7 @@
 					},
 					{
 						"id": "1-7-2",
-						"url": "datamng/ha_cmd/cmd_list.asp",
+						"url": "/systemmaintenance/cmdList",
 						"name": "历史操作记录",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",

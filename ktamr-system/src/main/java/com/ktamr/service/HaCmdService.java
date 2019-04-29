@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface HaCmdService {
 
-    public Integer selectCmdById(String cmd,String centorid);
+    public Integer selectCmdId(String cmd,String centorid);
 
     public Integer insertCmd(String cmd,String centorid);
 
@@ -19,6 +19,10 @@ public interface HaCmdService {
     public List<HaCmd> selectAllCmd(HaCmd haCmd);
 
     public Integer insertCmdTwo(HaMeter haMeter);
+
+    public List<HaCmd> selectCmdLeftJoinTow(HaCmd haCmd);
+
+    public HaCmd selectCmdById(Integer id);
 
     /**
      * 查询是否已经存在未完成的相同命令!

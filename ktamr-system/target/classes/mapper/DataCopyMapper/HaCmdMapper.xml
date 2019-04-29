@@ -11,11 +11,28 @@
         <result column="createTime" property="createTime" javaType="java.util.Date"></result>
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="lastEndTime" property="lastEndTime" javaType="java.util.Date"></result>
+        <result column="lastBeginTime" property="lastBeginTime" javaType="java.util.Date"></result>
         <result column="processing" property="processing" javaType="java.lang.String"></result>
+        <result column="tryTimes" property="tryTimes" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="xgrws" property="resultParams.xgrws"></result>
+        <result column="executor" property="resultParams.executor"></result>
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
     </resultMap>
 
-    <select id="selectCmdById" resultType="java.lang.Integer" parameterType="java.util.Map">
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+            <if test=" params.operatorRgnType == 'rgn' ">
+                and LEFT(ce.centorNo,1) in (#{params.rgnStr})
+            </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and ce.centorNo in (#{params.areaNo})
+            </if>
+        </if>
+    </sql>
+
+    <select id="selectCmdId" resultType="java.lang.Integer" parameterType="java.util.Map">
         SELECT id
         FROM ha_cmd
         WHERE cmd= #{mcmd}
@@ -70,11 +87,9 @@
         ,COUNT(*) AS xgrws
         FROM ha_cmd c,hti_bd_job j
         WHERE c.id=j.cmdid
-
         <if test=" params.keyWord != null and params.keyWord != ''  ">
             and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' )
         </if>
-
         GROUP BY c.id,c.cmd,c.parms,c.createtime,c.state,c.lastEndTime,c.processing
         ORDER BY c.id DESC
     </select>
@@ -86,4 +101,67 @@
         from ha_meter
         WHERE meterid=#{meterId}
     </insert>
+
+    <select id="selectCmdLeftJoinTow" resultMap="cmdMap">
+        SELECT  c.id AS cmdid
+        ,c.cmd AS cmd
+        , c.parms AS parms
+        , ce.addr AS addr
+        , c.state AS state
+        , c.processing AS processing
+        , to_char(c.lastBeginTime, 'yyyy-mm-dd hh24:mi:ss') AS lastBeginTime
+        , to_char(c.lastEndTime,'hh24:mi:ss') AS lastEndTime
+        ,  c.tryTimes AS tryTimes
+        , CASE WHEN c.uid='sys' THEN '系统' WHEN  c.uid='sys_shzn' THEN '上海真诺(系统)' WHEN c.uid='sys_zkjd' THEN '中科君达(系统)' WHEN  c.uid='sys_bdss' THEN  '保定水司(系统)' WHEN  c.uid='sys_gzsk' THEN '贵州深科(系统)' WHEN length(o.operator_name)>0 THEN  o.operator_name ELSE c.uid END  AS executor
+        FROM ha_cmd c
+        LEFT OUTER JOIN ha_operator o ON c.uid=o.operator_code
+        LEFT JOIN ha_centor ce ON c.centorid=ce.id
+        WHERE c.id>0
+        <if test=" params.deviceType !=null and params.deviceType == 'centor' ">
+            AND position('KT4' in ce.description)>0
+        </if>
+        <if test=" params.deviceType !=null and params.deviceType == 'ccentor' ">
+            AND (position( 'KT3' in ce.description)>0 OR ce.description='COM' OR ce.description='GPRS')
+        </if>
+        <if test=" params.deviceType !=null and params.deviceType == 'others' ">
+            AND (c.centorid=0 OR c.centorid IS NULL)
+        </if>
+        <if test=" params.operatorLevel == 'admin' ">
+            AND (c.inter_cmdid is null OR c.inter_cmdid=0)
+        </if>
+        <if test=" params.operatorLevel == 'normal' ">
+            AND (o.operator_code IN (
+            SELECT operator_code FROM ha_operator
+            WHERE operator_upper=#{params.operatorCode} OR operator_code=#{params.operatorCode})
+            OR (c.uid='sys' <include refid="getRightCondition"></include>)
+            OR c.uid=#{params.operatorCompanyId})
+        </if>
+        <if test=" params.operatorLevel != 'normal' and params.operatorLevel !='admin' ">
+            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' <include refid="getRightCondition"></include>)
+            OR c.uid=#{params.operatorCompanyId})
+        </if>
+        <if test=" params.keyWord != null and params.keyWord != ''  ">
+            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' )
+        </if>
+        ORDER BY c.id DESC
+    </select>
+
+    <select id="selectCmdById" resultMap="cmdMap">
+        SELECT c.cmd
+        , c.parms
+        , c.centorid
+        , c.uid
+        , c.createtime
+        , c.state
+        , c.tryTimes
+        , c.lastEndTime
+        , c.lastBeginTime
+        , c.processing
+        , o.operator_name
+        , ce.addr
+        FROM ha_cmd c
+        LEFT JOIN ha_operator o ON c.uid=o.operator_code
+        LEFT JOIN ha_centor ce ON c.centorid=ce.id
+        WHERE c.id=#{id}
+    </select>
 </mapper>

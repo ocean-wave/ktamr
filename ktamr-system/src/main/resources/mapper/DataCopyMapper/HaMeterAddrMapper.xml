@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaMeterMapper">
+
+    <resultMap id="meterAddrMap" type="com.ktamr.domain.HaMeterAddr">
+        <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+
+        <result column="meterNumber" property="meterNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="yjzqh" property="resultParams" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="userDs" property="resultParams.userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
+        <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
+        <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
+        <result column="sNumber" property="sNumber" javaType="java.lang.Double"></result>
+        <result column="zjsl" property="resultParams.zjsl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+
+        <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
+            <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
+
+    </resultMap>
+
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+            <if test=" params.operatorRgnType == 'rgn' ">
+                and LEFT(a.areaNo,1) in (#{params.rgnStr})
+            </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and a.areano in (#{params.areaNo})
+            </if>
+        </if>
+    </sql>
+
+    <select id="selectMeterAddrLeftJoinTow" resultMap="meterAddrMap" >
+            SELECT ma.id AS id
+            , ma.meterNumber AS meterNumber
+            , CASE WHEN c1.centorNo IS NOT null And ASCII(Left(c1.centorNo, 1))>=65 THEN '0'||Right(c1.centorNo, 9) ELSE c1.centorNo END  AS yjzqh
+            , CASE WHEN c2.centorNo IS NOT null And ASCII(Left(c2.centorNo, 1))>=65 THEN '0'||Right(c2.centorNo, 9) ELSE c2.centorNo END AS ddjzqh
+            , to_hex(ma.ccrNo_d) AS ccrNoD
+            , to_hex(ma.ccrNo_r) AS ccrNoR
+            , ma.state AS state
+            FROM ha_meter_addr ma
+            LEFT JOIN ha_centor c1 ON ma.centorid_d=c1.id
+            LEFT JOIN ha_centor c2 ON ma.centorid=c2.id
+            WHERE ma.cmdid=#{cmdId}
+            ORDER BY ma.ccrNo_d,ma.meterNumber
+    </select>
+</mapper>

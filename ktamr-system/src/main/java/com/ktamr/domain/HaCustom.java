@@ -3,30 +3,108 @@ package com.ktamr.domain;
 
 import com.ktamr.common.core.domain.BaseEntity;
 
+import java.util.Date;
+
 public class HaCustom extends BaseEntity {
 
   private Integer custId;
   private String custNo;
   private String name;
   private String sex;
-  private String idnumber;
-  private String idname;
+  private String idNumber;
+  private String idName;
   private String tel;
   private String mobil;
   private String addr;
   private String zip;
   private String bank;
   private String account;
-  private String lastbillid;
-  private String billid;
-  private java.sql.Timestamp createtime;
-  private java.sql.Timestamp modifytime;
+  private String lastbillId;
+  private String billId;
+  private Date createTime;
+  private Date modifyTime;
   private Integer balance;
   private double expense;
-  private java.sql.Timestamp paidtime;
+  private Date paidTime;
   private double recharge;
-  private java.sql.Timestamp rechargetime;
-  private java.sql.Timestamp posttime;
+  private Date rechargeTime;
+  private Date postTime;
+
+  public String getIdNumber() {
+    return idNumber;
+  }
+
+  public void setIdNumber(String idNumber) {
+    this.idNumber = idNumber;
+  }
+
+  public String getIdName() {
+    return idName;
+  }
+
+  public void setIdName(String idName) {
+    this.idName = idName;
+  }
+
+  public String getLastbillId() {
+    return lastbillId;
+  }
+
+  public void setLastbillId(String lastbillId) {
+    this.lastbillId = lastbillId;
+  }
+
+  public String getBillId() {
+    return billId;
+  }
+
+  public void setBillId(String billId) {
+    this.billId = billId;
+  }
+
+  @Override
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  @Override
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+  @Override
+  public Date getModifyTime() {
+    return modifyTime;
+  }
+
+  @Override
+  public void setModifyTime(Date modifyTime) {
+    this.modifyTime = modifyTime;
+  }
+
+  public Date getPaidTime() {
+    return paidTime;
+  }
+
+  public void setPaidTime(Date paidTime) {
+    this.paidTime = paidTime;
+  }
+
+  public Date getRechargeTime() {
+    return rechargeTime;
+  }
+
+  public void setRechargeTime(Date rechargeTime) {
+    this.rechargeTime = rechargeTime;
+  }
+
+  public Date getPostTime() {
+    return postTime;
+  }
+
+  public void setPostTime(Date postTime) {
+    this.postTime = postTime;
+  }
 
   public Integer getBalance() {
     return balance;
@@ -68,25 +146,6 @@ public class HaCustom extends BaseEntity {
   public void setSex(String sex) {
     this.sex = sex;
   }
-
-
-  public String getIdnumber() {
-    return idnumber;
-  }
-
-  public void setIdnumber(String idnumber) {
-    this.idnumber = idnumber;
-  }
-
-
-  public String getIdname() {
-    return idname;
-  }
-
-  public void setIdname(String idname) {
-    this.idname = idname;
-  }
-
 
   public String getTel() {
     return tel;
@@ -132,49 +191,12 @@ public class HaCustom extends BaseEntity {
     this.bank = bank;
   }
 
-
   public String getAccount() {
     return account;
   }
 
   public void setAccount(String account) {
     this.account = account;
-  }
-
-
-  public String getLastbillid() {
-    return lastbillid;
-  }
-
-  public void setLastbillid(String lastbillid) {
-    this.lastbillid = lastbillid;
-  }
-
-
-  public String getBillid() {
-    return billid;
-  }
-
-  public void setBillid(String billid) {
-    this.billid = billid;
-  }
-
-
-  public java.sql.Timestamp getCreatetime() {
-    return createtime;
-  }
-
-  public void setCreatetime(java.sql.Timestamp createtime) {
-    this.createtime = createtime;
-  }
-
-
-  public java.sql.Timestamp getModifytime() {
-    return modifytime;
-  }
-
-  public void setModifytime(java.sql.Timestamp modifytime) {
-    this.modifytime = modifytime;
   }
 
   public double getExpense() {
@@ -185,16 +207,6 @@ public class HaCustom extends BaseEntity {
     this.expense = expense;
   }
 
-
-  public java.sql.Timestamp getPaidtime() {
-    return paidtime;
-  }
-
-  public void setPaidtime(java.sql.Timestamp paidtime) {
-    this.paidtime = paidtime;
-  }
-
-
   public double getRecharge() {
     return recharge;
   }
@@ -203,22 +215,5 @@ public class HaCustom extends BaseEntity {
     this.recharge = recharge;
   }
 
-
-  public java.sql.Timestamp getRechargetime() {
-    return rechargetime;
-  }
-
-  public void setRechargetime(java.sql.Timestamp rechargetime) {
-    this.rechargetime = rechargetime;
-  }
-
-
-  public java.sql.Timestamp getPosttime() {
-    return posttime;
-  }
-
-  public void setPosttime(java.sql.Timestamp posttime) {
-    this.posttime = posttime;
-  }
 
 }

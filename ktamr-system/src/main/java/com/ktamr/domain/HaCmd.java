@@ -14,11 +14,37 @@ public class HaCmd extends BaseEntity {
   private String uid;
   private Date createTime;
   private String state;
-  private Integer trytimes;
+  private Integer tryTimes;
   private Date lastEndTime;
-  private Date lastbeginTime;
+  private Date lastBeginTime;
   private String processing;
   private Integer interCmdid;
+
+  private HaCentor haCentor;
+
+  public Integer getTryTimes() {
+    return tryTimes;
+  }
+
+  public void setTryTimes(Integer tryTimes) {
+    this.tryTimes = tryTimes;
+  }
+
+  public Date getLastBeginTime() {
+    return lastBeginTime;
+  }
+
+  public void setLastBeginTime(Date lastBeginTime) {
+    this.lastBeginTime = lastBeginTime;
+  }
+
+  public HaCentor getHaCentor() {
+    return haCentor;
+  }
+
+  public void setHaCentor(HaCentor haCentor) {
+    this.haCentor = haCentor;
+  }
 
   public Date getLastEndTime() {
     return lastEndTime;
@@ -26,14 +52,6 @@ public class HaCmd extends BaseEntity {
 
   public void setLastEndTime(Date lastEndTime) {
     this.lastEndTime = lastEndTime;
-  }
-
-  public Date getLastbeginTime() {
-    return lastbeginTime;
-  }
-
-  public void setLastbeginTime(Date lastbeginTime) {
-    this.lastbeginTime = lastbeginTime;
   }
 
   @Override
@@ -92,14 +110,6 @@ public class HaCmd extends BaseEntity {
 
   public void setState(String state) {
     this.state = state;
-  }
-
-  public Integer getTrytimes() {
-    return trytimes;
-  }
-
-  public void setTrytimes(Integer trytimes) {
-    this.trytimes = trytimes;
   }
 
   public String getProcessing() {

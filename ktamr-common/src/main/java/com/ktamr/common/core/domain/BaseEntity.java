@@ -50,6 +50,7 @@ public class BaseEntity implements Serializable{
         params.put("areaNo",ServletUtils.getSession().getAttribute("areaNo"));
         params.put("operatorCompanyId",ServletUtils.getSession().getAttribute("operatorCompanyId"));
         params.put("operatorCode",ServletUtils.getSession().getAttribute("operatorCode"));
+        params.put("operatorLevel",ServletUtils.getSession().getAttribute("operatorLevel"));
     }
 
     public Map<String, Object> getResultParams() {

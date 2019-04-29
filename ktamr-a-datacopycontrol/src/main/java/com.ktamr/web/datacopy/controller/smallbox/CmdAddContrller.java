@@ -28,7 +28,7 @@ public class CmdAddContrller {
         if(cmds != null && cmds.length <= 1){
             return "<span class='fontRed'>参数格式不正确</span>";
         }
-        Integer id = haCmdService.selectCmdById(cmd,centorid);
+        Integer id = haCmdService.selectCmdId(cmd,centorid);
         if(id != null){
             return "<span class='fontRed'>已经存在未完成的相同命令!</span>";
         }else{

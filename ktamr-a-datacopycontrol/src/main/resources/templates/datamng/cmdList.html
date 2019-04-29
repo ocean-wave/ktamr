@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<body class="myPage-body">
+<div class="container myContainer">
+	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+		<div class="col-xs-2 my-form-col" style="width:162px;">
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-sm btn-default">
+					<input type="radio" name="options" data-title="centor" checked >集中器
+				</label>
+				<label class="btn btn-sm btn-default">
+					<input type="radio" name="options" data-title="ccentor">集采器
+				</label>
+				<label class="btn btn-sm btn-default">
+					<input type="radio" name="options" data-title="others">其他
+				</label>
+			</div>
+		</div>
+		<div class="col-xs-2 my-form-col">
+			<input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+		</div>
+		<div class="col-xs-1 my-form-col">
+			<button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+
+		</div>
+		<div class="my-btns pull-right" style="display:block;">
+			<button data-modal="" data-title="再次执行" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-repeat"></span> 再次执行</button>
+			<button th:if=" ${ operatorLevelCode <= 0 } " data-modal="" data-title="删除命令" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-trash"></span> 删除命令</button>
+			<button data-modal="" data-title="查看结果" class="layui-btn layui-btn-primary layui-btn-sm">查看结果</button>
+			<button data-modal="" data-title="系统日志" class="layui-btn layui-btn-primary layui-btn-sm">系统日志</button>
+
+		</div>
+	</div>
+	<div class="row my-form-no-edge">
+		<form class="form-horizontal" id="jqgridForm" role="form">
+			<table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+			<div id="jqGridPager"></div>
+		</form>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+	layui.config({
+		base : '/common/js/',
+		version: '2.8.2'
+	}).extend({
+		myLayui: 'myLayui'
+	});
+	layui.use(['layer', 'form', 'myLayui'], function(){
+		var layer = layui.layer,
+				myLayui = layui.myLayui,
+				form = layui.form;
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,'/systemmaintenance/cmdListJson');
+		//GridObj.jqdefaultGridConfig.caption = "命令执行情况列表：";
+		GridObj.jqdefaultGridConfig.multiselect = true;
+		GridObj.jqdefaultGridConfig.postData = {"params[deviceType]":"centor"};
+		GridObj.jqdefaultGridConfig.colNames = ['id','命令','参数','设备名称','状态','进度描述','最近开始操作时间','最近结束操作时间','重试次数','执行人'];
+		GridObj.jqdefaultGridConfig.colModel = [
+			{ name: 'id',  width: 75, key: true, hidden: true},
+			{ name: 'cmd', width: 140 },
+			{ name: 'parms', width: 180 },
+			{ name: 'haCentor.addr', width: 160 },
+			{ name: 'state', width: 60, cellattr: CmdStateCellColor },
+			{ name: 'processing', width: 180 },
+			{ name: 'lastBeginTime', align: 'right' ,width: 150 },
+			{ name: 'lastEndTime', align: 'right' ,width: 130 },
+			{ name: 'tryTimes', width: 70 },
+			{ name: 'resultParams.executor', width: 90 }
+		];
+		GridObj.drawGrid();
+		GridObj.drawGridPager();
+		GridObj.setGridSize();
+		GridObj.gridResize();
+		GridObj = null;
+
+		function switchGrid(listName){
+			$("#keyWord").val("");
+
+			$("#jqGrid").jqGrid('setGridParam',{
+				postData: {"params[deviceType]": listName, "keyWord": ""}
+			}).trigger("reloadGrid");
+		}
+
+		$('input:radio[name="options"]:checked').parent('label').addClass('active');
+		$('input:radio[name="options"]').change(function(){
+			var listName = $('input:radio[name="options"]:checked').data("title");
+			//element.tabChange('devices', listName);
+			switchGrid(listName);
+		});
+
+		var _myLayui = new myLayui;
+		var layerIndex = "";
+		var initWidth = 900;
+		var initHeight = 500;
+		var width = "";
+		var height = "";
+
+		$(".layui-btn-primary, .layui-btn").click(function(){
+			var btnTitle = $(this).data("title");
+			var jqGridRowsID = getSelectedRows("jqGrid");
+			var b_isMultiIDs, cmdIds = jqGridRowsID;
+			b_isMultiIDs = isMultiIDs(cmdIds);
+			if (cmdIds == "" && btnTitle != "系统日志" && btnTitle != "查询"){
+				layer.msg("请选择操作行！", {icon: 5});
+				return false;
+			}
+			switch(btnTitle){
+				case "查看结果":
+					if(b_isMultiIDs == true){
+						cmdIds=getLastMultiIDs("jqGrid");
+						//layer.msg("只能单选！", {icon: 5});
+						//break;
+					}
+					url = "/systemmaintenance/cmdResultListShow?cmdid=" + cmdIds ;
+					var size = _myLayui.initLayerSize(initWidth, initHeight);
+					width = size[0];
+					height = size[1];
+					layerIndex = top.layer.open({
+						type: 2 //iframe
+						,title: '抄收结果'
+						,area: [width, height]
+						,shade: 0
+						,maxmin: true
+						,content: url
+					});
+					break ;
+				case "系统日志":
+					if(b_isMultiIDs == true){
+						cmdIds=getLastMultiIDs("jqGrid");
+						//layer.msg("只能单选！", {icon: 5});
+						//break;
+					}
+					url = "/datamng/ha_cmd/ht_showlog.asp?showPercent=0.1&cmdid="+ cmdIds
+					window.open(url, "_blank");
+					/*layer.open({
+                        type: 2 //iframe
+                        ,title: '系统日志'
+                        ,area: ['1000px', '500px']
+                        ,shade: 0
+                        ,maxmin: true
+                        ,content: url
+                    });*/
+					break ;
+				case "再次执行":
+					_layerSize = ['550px', '380px'];
+					_queryStr = [
+						"cmdName=再次执行",
+						"cmdids="+cmdIds
+					];
+					_myLayui.showLayer("再次执行", "cmd_act.asp", _queryStr, _layerSize);
+					break ;
+				case "删除命令":
+					_layerSize = ['550px', '300px'];
+					_queryStr = [
+						"cmdName=删除命令",
+						"cmdids="+cmdIds
+					];
+					_myLayui.showLayer("删除命令", "cmd_delete.asp", _queryStr, _layerSize);
+					break ;
+				default:
+					break;
+			}
+		});
+
+		$(window).resize(function(){
+			_myLayui.resizeLayer(layerIndex, initWidth, initHeight);
+		});
+
+		$(document).keydown(function(event){
+			if(event.keyCode==13){
+				$(".search").click();
+			}
+		});
+		$(".search").click(function(){
+			var  _pdArray = "";
+			_pdArray = {
+				"params[keyWord]": $("#keyWord").val()
+			};
+			fullTextSearch("jqGrid", _pdArray);
+		});
+	});
+</script>
+</body>
+</html>
