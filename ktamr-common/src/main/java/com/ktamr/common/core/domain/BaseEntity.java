@@ -15,7 +15,7 @@ public class BaseEntity implements Serializable{
 
     private static final long serialVersionUID = 1757268941502216661L;
     /**
-     * 创建时间
+     * 创建时间bangbangbang
      */
     @JsonFormat(pattern = " yyyy-MM-dd HH:mm:ss ")
     private Date createTime;
