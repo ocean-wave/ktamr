@@ -66,8 +66,8 @@ public class HaPaylogController {
                 Date start    = sdf.parse( String.valueOf(startTime));
                 Date end = sdf.parse( String.valueOf(endTime));
                 HaPricestandard pricestandard=new HaPricestandard();
-                pricestandard.setEndtime(end);
-                pricestandard.setStarttime(start);
+                pricestandard.setEndTime(end);
+                pricestandard.setStartTime(start);
                 haPaylog.setHaPricestandard(pricestandard);
 
 
