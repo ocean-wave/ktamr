@@ -6,6 +6,7 @@ import com.ktamr.service.HaAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
 @Service
 public class HaAreaServiceImpl implements HaAreaService {
 
-    @Autowired
+    @Resource
     private HaAreaMapper haAreaMapper;
 
     @Override
@@ -41,7 +42,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public List<HaArea> selectHaAreaList(HaArea haArea, Integer page, Integer rowNum) {
-        List<HaArea> haAreaList = haAreaMapper.selectHaAreaList(haArea, page, rowNum);
+        List<HaArea> haAreaList = haAreaMapper.BselectHaAreaList(haArea, page, rowNum);
         if(haAreaList!=null){
             return haAreaList;
         }
@@ -56,7 +57,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer selectHaAreaCount(HaArea haArea) {
-        List<HaArea> Arealist = haAreaMapper.selectHaAreaCount(haArea);
+        List<HaArea> Arealist = haAreaMapper.BselectHaAreaCount(haArea);
         if(Arealist!=null){
             int size = Arealist.size();//这波转化一下把里面的size转化为将要返回的总记录数
             return size;
@@ -71,7 +72,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public List<HaArea> selectHareaNameList(HaArea haArea) {
-        List<HaArea> areaList = haAreaMapper.selectHareaNameList(haArea);
+        List<HaArea> areaList = haAreaMapper.BselectHareaNameList(haArea);
         if(areaList!=null){
             return areaList;
         }
@@ -85,7 +86,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public List<HaArea> selectSmallName(String areano) {
-        List<HaArea> haAreaList = haAreaMapper.selectSmallName(areano);
+        List<HaArea> haAreaList = haAreaMapper.BselectSmallName(areano);
         if(haAreaList!=null){
             return  haAreaList;
         }
@@ -99,7 +100,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer selectCountareaid(HaArea haArea) {
-        Integer selectCountareaid = haAreaMapper.selectCountareaid(haArea);
+        Integer selectCountareaid = haAreaMapper.BselectCountareaid(haArea);
         if(selectCountareaid!=null){
             return selectCountareaid;
         }
@@ -113,7 +114,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateHaArea(HaArea haArea) {
-        Integer updateHaArea = haAreaMapper.updateHaArea(haArea);
+        Integer updateHaArea = haAreaMapper.BupdateHaArea(haArea);
         if(updateHaArea!=null){
             return updateHaArea;
         }
@@ -127,7 +128,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public HaArea selectHaAreaName(HaArea haArea) {
-        HaArea selectHaAreaName = haAreaMapper.selectHaAreaName(haArea);
+        HaArea selectHaAreaName = haAreaMapper.BselectHaAreaName(haArea);
         if(selectHaAreaName!=null){
             return selectHaAreaName;
         }
@@ -141,7 +142,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateWanChengJieSuanOne(HaArea haArea) {
-        Integer updateWanChengJieSuanOne = haAreaMapper.updateWanChengJieSuanOne(haArea);
+        Integer updateWanChengJieSuanOne = haAreaMapper.BupdateWanChengJieSuanOne(haArea);
         if(updateWanChengJieSuanOne!=null){
             return updateWanChengJieSuanOne;
         }
@@ -155,7 +156,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateWanChenJieSuanTwo(HaArea haArea) {
-        Integer updateWanChenJieSuanTwo = haAreaMapper.updateWanChenJieSuanTwo(haArea);
+        Integer updateWanChenJieSuanTwo = haAreaMapper.BupdateWanChenJieSuanTwo(haArea);
         if(updateWanChenJieSuanTwo!=null){
             return updateWanChenJieSuanTwo;
         }
@@ -169,7 +170,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateWanChenJieSuanThree(HaArea haArea) {
-        Integer updateWanChenJieSuanThree = haAreaMapper.updateWanChenJieSuanThree(haArea);
+        Integer updateWanChenJieSuanThree = haAreaMapper.BupdateWanChenJieSuanThree(haArea);
         if(updateWanChenJieSuanThree!=null){
             return updateWanChenJieSuanThree;
         }
@@ -183,7 +184,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateWanChenJieSuanFour(HaArea haArea) {
-        Integer updateWanChenJieSuanFour = haAreaMapper.updateWanChenJieSuanFour(haArea);
+        Integer updateWanChenJieSuanFour = haAreaMapper.BupdateWanChenJieSuanFour(haArea);
         if(updateWanChenJieSuanFour!=null){
             return updateWanChenJieSuanFour;
         }
@@ -197,7 +198,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateWanChenJieSuanFive(HaArea haArea) {
-        Integer updateWanChenJieSuanFive = haAreaMapper.updateWanChenJieSuanFive(haArea);
+        Integer updateWanChenJieSuanFive = haAreaMapper.BupdateWanChenJieSuanFive(haArea);
         if(updateWanChenJieSuanFive!=null){
             return updateWanChenJieSuanFive;
         }
@@ -211,7 +212,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateWanChenJieSuanSix(HaArea haArea) {
-        Integer updateWanChenJieSuanSix = haAreaMapper.updateWanChenJieSuanSix(haArea);
+        Integer updateWanChenJieSuanSix = haAreaMapper.BupdateWanChenJieSuanSix(haArea);
         if(updateWanChenJieSuanSix!=null){
             return updateWanChenJieSuanSix;
         }
@@ -225,7 +226,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public Integer updateWanChenJieSuanSeven(HaArea haArea) {
-        Integer updateWanChenJieSuanSeven = haAreaMapper.updateWanChenJieSuanSeven(haArea);
+        Integer updateWanChenJieSuanSeven = haAreaMapper.BupdateWanChenJieSuanSeven(haArea);
         if (updateWanChenJieSuanSeven!=null){
             return updateWanChenJieSuanSeven;
         }
@@ -238,7 +239,7 @@ public class HaAreaServiceImpl implements HaAreaService {
      */
     @Override
     public List<HaArea> findAllHaArea() {
-        return haAreaMapper.findAllHaArea();
+        return haAreaMapper.BfindAllHaArea();
     }
 
     @Override
@@ -253,7 +254,7 @@ public class HaAreaServiceImpl implements HaAreaService {
 
     @Override
     public Integer updateHaArea2(HaArea haArea) {
-        return haAreaMapper.updateHaArea(haArea);
+        return haAreaMapper.updateHaArea2(haArea);
     }
 
     @Override

@@ -22,15 +22,15 @@ public class HaFreeze {
   private String billId;
 
   //开启存别名
-  private Integer areaid;//***重要
+  private Integer areaId;//***重要
   private String opType;//点击哪个功能的功能名称
 
-  public Integer getAreaid() {
-    return areaid;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(Integer areaid) {
-    this.areaid = areaid;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
 
   public String getOpType() {

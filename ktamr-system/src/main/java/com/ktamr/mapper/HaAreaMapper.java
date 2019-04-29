@@ -23,7 +23,7 @@ public interface HaAreaMapper {
      * @param rowNum
      * @return
      */
-    public List<HaArea> selectHaAreaList(@Param("HaArea") HaArea haArea, @Param("page") Integer page,
+    public List<HaArea> BselectHaAreaList(@Param("HaArea") HaArea haArea, @Param("page") Integer page,
                                          @Param("rowNum") Integer rowNum);
 
 
@@ -32,14 +32,14 @@ public interface HaAreaMapper {
      * @param haArea
      * @return
      */
-    public List<HaArea> selectHaAreaCount(@Param("HaArea") HaArea haArea);
+    public List<HaArea> BselectHaAreaCount(@Param("HaArea") HaArea haArea);
 
     /**
      * 查询小区表名字 填充条件查询的下拉框
      * @param haArea
      * @return
      */
-    public List<HaArea> selectHareaNameList(HaArea haArea);
+    public List<HaArea> BselectHareaNameList(HaArea haArea);
 
 
     /**
@@ -47,7 +47,7 @@ public interface HaAreaMapper {
      * @param areano
      * @return
      */
-    public List<HaArea> selectSmallName(@Param("areano") String areano);
+    public List<HaArea> BselectSmallName(@Param("areano") String areano);
 
 
     /**
@@ -55,76 +55,76 @@ public interface HaAreaMapper {
      * @param haArea
      * @return
      */
-    public Integer selectCountareaid(HaArea haArea);
+    public Integer BselectCountareaid(HaArea haArea);
 
     /**
      * 佛系更新小区表
      * @param haArea
      * @return
      */
-    public Integer updateHaArea(HaArea haArea);
+    public Integer BupdateHaArea(HaArea haArea);
 
     /**
      * 点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字
      * @param haArea
      * @return
      */
-    public HaArea selectHaAreaName(HaArea haArea);
+    public HaArea BselectHaAreaName(HaArea haArea);
 
     /**
      * 点击完成结算第一步
      * @param haArea
      * @return
      */
-    public Integer updateWanChengJieSuanOne(HaArea haArea);
+    public Integer BupdateWanChengJieSuanOne(HaArea haArea);
 
     /**
      * 点击完成结算第二步
      * @param haArea
      * @return
      */
-    public Integer updateWanChenJieSuanTwo(HaArea haArea);
+    public Integer BupdateWanChenJieSuanTwo(HaArea haArea);
 
     /**
      * 点击完成结算第三步
      * @param haArea
      * @return
      */
-    public Integer updateWanChenJieSuanThree(HaArea haArea);
+    public Integer BupdateWanChenJieSuanThree(HaArea haArea);
 
     /**
      * 点击完成结算第四步
      * @param haArea
      * @return
      */
-    public Integer updateWanChenJieSuanFour(HaArea haArea);
+    public Integer BupdateWanChenJieSuanFour(HaArea haArea);
 
     /**
      * 点击完成结算第五步
      * @param haArea
      * @return
      */
-    public Integer updateWanChenJieSuanFive(HaArea haArea);
+    public Integer BupdateWanChenJieSuanFive(HaArea haArea);
 
     /**
      * 点击完成结算第六步
      * @param haArea
      * @return
      */
-    public Integer updateWanChenJieSuanSix(HaArea haArea);
+    public Integer BupdateWanChenJieSuanSix(HaArea haArea);
 
     /**
      * 点击完成结算第七步 即最后一步
      * @param haArea
      * @return
      */
-    public Integer updateWanChenJieSuanSeven(HaArea haArea);
+    public Integer BupdateWanChenJieSuanSeven(HaArea haArea);
 
 
     /*
        查询全部
         */
-    public List<HaArea> findAllHaArea();
+    public List<HaArea> BfindAllHaArea();
 
     Integer addHaArea(HaArea haArea);
 

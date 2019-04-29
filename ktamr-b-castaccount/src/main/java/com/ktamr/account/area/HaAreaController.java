@@ -27,7 +27,7 @@ public class HaAreaController {
      */
     @RequestMapping("/area/area_list.html")
     public String showArea_list(HaArea haArea, Model model){
-        System.out.println("你好蔡徐坤");
+
         List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         if(haAreaList!=null){
             model.addAttribute("areaListName",haAreaList);
@@ -42,9 +42,9 @@ public class HaAreaController {
      * @param request
      * @return
      */
-    @RequestMapping(value ="/showList")
+    @RequestMapping("/area/showList")
     @ResponseBody
-    public String showList(HaArea haArea,HttpServletRequest request,@RequestParam("page") int pageSize
+    public Map<String ,Object> showList(HaArea haArea,HttpServletRequest request,@RequestParam("page") int pageSize
     ,String aareaid
     ){
         String s1 = aareaid;//获取areaid  小区名字
@@ -79,12 +79,13 @@ public class HaAreaController {
         map.put("total",(selectHaAreaCount-1)/pageRows+1);//总页数的计算
         map.put("rows",haAreaList);//存放集合
 
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
+      //  String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
+        if(map!=null){
+            return map;
+        }else {
+            return null;
+        }
 
-       if(s!=null){
-           return s;
-       }
-        return null;
     }
 
 

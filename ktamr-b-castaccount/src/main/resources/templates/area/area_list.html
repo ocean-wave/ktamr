@@ -57,7 +57,7 @@
             g_appPage = 'calculate';
 
         var Post_Data = {ListNumber: 1, TotalLocation: "小区编号", SumColName: "总表数,总读数,本期总用量,不良表数"};
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/showList");
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/area/showList");
         //GridObj.unloadGrid();
         //GridObj.removeGridResize();
         //GridObj.jqdefaultGridConfig.caption = "小区列表：";
@@ -68,14 +68,15 @@
 
             ,'冻结抄收'
             ,'最近抄收时间','结算日期','操作结果'];
+
         GridObj.jqdefaultGridConfig.colModel = [
-            {name: 'areaid',  width: 75, key: true,formatter:'interger', hidden: true,frozen : true},
-            { name: 'areano', width: 70, formatter:'interger',frozen : true},
+            {name: 'areaId',  width: 75, key: true,formatter:'interger', hidden: true,frozen : true},
+            { name: 'areaNo', width: 70, formatter:'interger',frozen : true},
             { name: 'registeredno', width: 70,frozen : true},
             {name: 'name', width: 150,frozen : true },
             {name: 'addr', width: 150 },
             {name: 'ds', width: 80 },
-            {name: 'haMeter.meterid', align: 'right' ,width: 70 }
+            {name: 'meter.meterId', align: 'right' ,width: 70 }
 
             ,{name: 'reserved', width: 100, align: 'center'
                 ,formatter: function (cellvalue, options, rowObject) {
@@ -88,25 +89,18 @@
                     }else{
                         isChecked = "";
                     }
-                    switch1 = '<div class="layui-form"><input type="checkbox" data-id="'+rowObject["areaid"]+'" name="switch" class="freezeRead" lay-filter="freezeRead" lay-skin="switch" lay-text="开启|关闭" '+isChecked+'></div>';
+                    switch1 = '<div class="layui-form"><input type="checkbox" data-id="'+rowObject["areaId"]+'" name="switch" class="freezeRead" lay-filter="freezeRead" lay-skin="switch" lay-text="开启|关闭" '+isChecked+'></div>';
                     return switch1;
                 }
             }
             //这是日期
-            ,{name: 'haMeter.thRTime', formatter: function (cellvalue, options, row) {
+            ,{name: 'meter.thRTime', formatter: function (cellvalue, options, row) {
                     //2018/5/2 下午1:25:51
                     // alert(new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " "))
                     return new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " ")
                 }
         , width: 150 }
             ,{name: 'lastsumday',
-                formatter: function (cellvalue, options, row) {
-                //alert(cellvalue);
-
-                    //2018/5/2 下午1:25:51
-                    // alert(new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " "))
-                    return new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " ")
-                },
                 width: 150 }
              ,{name: '操作结果', width: 120 }
 
@@ -155,6 +149,7 @@
 
         //$("#jqGrid").jqGrid('setFrozenColumns');//设置冻结列
         function switchDo(switchObj, data){
+            console.log(data);
             var confirmText = "";
             if(data["isON"] == "true"){
                 confirmText = "确定开启小区冻结抄收吗？";
@@ -173,7 +168,7 @@
                         ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                         ,data: {
                             OpNumber: "3",
-                            areaid: data["areaid"],
+                            areaId: data["areaId"],
                             reserved: data["isON"]
                         }
                         ,success: function(data){
@@ -208,7 +203,7 @@
             isON = switchObj.hasClass("layui-form-onswitch");
            // console.log("switch sel:"+selRowId+", isON:"+isON);
             var data = new Array();
-            data["areaid"]=selRowId;
+            data["areaId"]=selRowId;
             data["isON"]=isON;
             //先把g_appPage更改一波
             if(g_appPage == "calculate"){
@@ -262,7 +257,7 @@
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,data: {
                     opType: _this.opType,
-                    areaid: selRowId
+                    areaId: selRowId
                 }
                 ,async:false //同步请求
                 ,success: function(data){
@@ -275,7 +270,9 @@
         var billManageObj = new billManage("jqGrid");
         $(".my-btns .layui-btn,.layui-btn-primary").click(function(){
             var _this = this, _layerSize, _queryStr;
-            var btnName = $(_this).data("title"), areaids = GridObj.getSelRowIds();
+            var btnName = $(_this).data("title"),
+                areaids = GridObj.getSelRowIds();
+            console.log("areaids值为"+areaids);
             var b_isMultiIDs = isMultiIDs(areaids);
             if(areaids=="" && btnName != "新增" && btnName != "结算上传"){
                 layer.msg("请选择操作行", {icon: 5});

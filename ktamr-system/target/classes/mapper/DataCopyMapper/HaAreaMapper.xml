@@ -115,8 +115,8 @@
 
     <!--映射查询小区表查询语句-->
     <resultMap  id="HaAreaMap"  type="HaArea">
-        <id column="areaid" property="areaid" />
-        <result column="aareaNo" property="areano"/>
+        <id column="areaid" property="areaId" />
+        <result column="aareaNo" property="areaNo"/>
         <result column="aregisteredNo" property="registeredno"/>
         <result column="aname" property="name"/>
         <result column="aaddr" property="addr"/>
@@ -127,24 +127,24 @@
         <result column="atnNumber" property="atnNumber"/>
         <result column="keyWord" property="keyWord"/>
 
-        <association property="haMeter" javaType="HaMeter">
-            <result column="mmeterid" property="meterid"/>
+        <association property="meter" javaType="HaMeter">
+            <result column="mmeterid" property="meterId"/>
             <result column="mTH_NUMBER" property="thNumber"/>
             <result column="mS_NUMBER" property="sNumber"/>
             <result column="mTH_R_TIME" property="thRTime"/>
-            <result column="mstarttime" property="starttime"/>
-            <result column="areaid" property="areaid"/>
+            <result column="mstarttime" property="startTime"/>
+            <result column="areaid" property="areaId"/>
         </association>
 
     </resultMap>
 
     <!--查询小区表的名字 填充条件查询的下拉框的值-->
-    <select id="selectHareaNameList" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
+    <select id="BselectHareaNameList" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
         select areaid, name from ha_area
     </select>
 
     <!--查询小区表+分页+动态查询 -->
-    <select id="selectHaAreaList"  resultMap="HaAreaMap">
+    <select id="BselectHaAreaList"  resultMap="HaAreaMap">
         SELECT
         a.areaid AS areaid, Right(a.areaNo, 4) AS aareaNo, a.registeredNo AS aregisteredNo,
         a.name AS aname,concat_ws('_',n.name,a.addr) AS aaddr,
@@ -183,7 +183,7 @@
             </if>
 
             <if test="HaArea.keyWord!=null and HaArea.keyWord!=null">
-                and (a.areaNo like '%${HaArea.keyWord}%' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
+                and (a.areaNo like '%{HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
 
             </if>
         </trim>
@@ -192,18 +192,18 @@
     </select>
 
     <!--点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字-->
-    <select id="selectHaAreaName" resultType="HaArea">
+    <select id="BselectHaAreaName" resultType="HaArea">
         SELECT name FROM ha_area
         <trim prefix="where" prefixOverrides="and | or">
 
-            <if test="areaid != null and areaid != ''">
-                and  areaid=#{areaid}
+            <if test="areaId != null and areaId != ''">
+                and  areaid=#{areaId}
             </if>
         </trim>
     </select>
 
     <!--查询小区表,主要想查里面的数据记录数-->
-    <select id="selectHaAreaCount"  resultMap="HaAreaMap">
+    <select id="BselectHaAreaCount"  resultMap="HaAreaMap">
         SELECT
         a.areaid AS areaid, Right(a.areaNo, 4) AS aareaNo, a.registeredNo AS aregisteredNo,
         a.name AS aname,concat_ws('_',n.name,a.addr) AS aaddr,
@@ -243,17 +243,13 @@
         </trim>
     </select>
 
-    <!--删除HaArea-->
-    <delete id="deleteHaArea">
 
-        DELETE FROM public.ha_area
-          WHERE areaid = #{areaid}
-    </delete>
 
     <!--佛系更新HaArea-->
-    <update id="updateHaArea">
+    <update id="BupdateHaArea">
+
         UPDATE public.ha_area
-        <trim prefix="set" suffixOverrides="," suffix=" WHERE areaid = #{areaid}">
+        <trim prefix="set" suffixOverrides="," suffix=" WHERE areaid = #{areaId}">
 
             <if test="name != null">
                 name = #{name},
@@ -267,8 +263,8 @@
             <if test="reserved != null">
                 reserved = #{reserved},
             </if>
-            <if test="areano != null">
-                areano = #{areano},
+            <if test="areaNo != null">
+                areano = #{areaNo},
             </if>
             <if test="shortname != null">
                 shortname = #{shortname},
@@ -276,8 +272,8 @@
             <if test="addr != null">
                 addr = #{addr},
             </if>
-            <if test="suday != null">
-                sumday = #{suday},
+            <if test="sumday != null">
+                sumday = #{sumday},
             </if>
             <if test="lastsumday != null">
                 lastsumday = #{lastsumday},
@@ -307,7 +303,7 @@
 
     <!--映射大区下面的小区名字-->
     <resultMap id="SmallMap" type="HaArea">
-        <id column="areaid" property="areaid" />
+        <id column="areaid" property="areaId" />
         <result column="registeredNo" property="registeredno"/>
         <result column="DS" property="ds"/>
         <result column="aname" property="name"/>
@@ -318,8 +314,8 @@
     </resultMap>
 
     <!--查询大区下的小区名字-->
-    <select id="selectSmallName" resultMap="SmallMap">
-     SELECT a.areaid, case  when a.registeredNo!=null
+    <select id="BselectSmallName" resultMap="SmallMap">
+    SELECT a.areaid, case  when a.registeredNo!=null
 then a.registeredNo  else Right(a.areaNo, 4)  end as registeredNo, case a.DS when 'S' then '单月' else '双月' end  as DS, a.name as aname, COUNT(b.name) as bname FROM ha_area a
 LEFT JOIN ha_building b ON b.areaid=a.areaid WHERE Left(a.areaNo, 1) =#{areano}
 GROUP BY a.areaNo,a.registeredNo,a.areaid, case  when a.registeredNo!=null Or octet_length(a.registeredNo)=0
@@ -330,72 +326,72 @@ then  Right(a.areaNo, 4) else a.registeredNo end
     </select>
 
     <!--根据areaid查询并返回相应的记录数-->
-    <select id="selectCountareaid" resultType="Integer">
-        SELECT Count(1) FROM ha_area
-        WHERE areaid=#{areaid}
+    <select id="BselectCountareaid" resultType="Integer">
+      SELECT Count(1) FROM ha_area
+        WHERE areaid=#{areaId}
     </select>
 
     <!--点击完成结算第一步 -->
-    <update id="updateWanChengJieSuanOne">
+    <update id="BupdateWanChengJieSuanOne">
        UPDATE ha_custom cu
 SET  paidTime=to_date(now()::text, 'yyyy-mm-dd'),
 expense=pl.sum,
 balance=case when balance is null then 0 else  balance end  -pl.sum
 from ha_room r,ha_meter m,ha_paylog pl
 WHERE cu.billid=pl.billid AND r.custid=cu.custid
-AND m.roomid=r.roomid AND m.areaid IN (#{areaid})
+AND m.roomid=r.roomid AND m.areaid IN (#{areaId})
     </update>
 
     <!--点击完成结算第二步-->
-    <insert id="updateWanChenJieSuanTwo">
-        INSERT INTO ha_billRecords (custId,operation,charge,CurrentBalance,optTime,optMan)
+    <insert id="BupdateWanChenJieSuanTwo">
+      INSERT INTO ha_billRecords (custId,operation,charge,CurrentBalance,optTime,optMan)
 SELECT cu.custid,'扣费',0-cu.expense,cu.balance,cu.paidTime,'ha'
  FROM ha_custom cu,ha_room r,ha_meter m
- WHERE  r.custid=cu.custid AND m.roomid=r.roomid AND m.areaid = #{areaid}
+ WHERE  r.custid=cu.custid AND m.roomid=r.roomid AND m.areaid = #{areaId}
     </insert>
 
     <!--点击完成结算第三步-->
-    <update id="updateWanChenJieSuanThree">
-        UPDATE ha_paylog pl
+    <update id="BupdateWanChenJieSuanThree">
+       UPDATE ha_paylog pl
 SET state='完成',mbtime=to_date(now()::text, 'yyyy-mm-dd')
 from ha_custom cu,ha_room r,ha_meter m
- WHERE cu.billid=pl.billid AND cu.custid=r.custid AND m.roomid=r.roomid AND m.areaid IN ('${areaid}')
+ WHERE cu.billid=pl.billid AND cu.custid=r.custid AND m.roomid=r.roomid AND m.areaid IN ('${areaId}')
     </update>
 
     <!--点击完成结算第四步-->
-    <update id="updateWanChenJieSuanFour">
+    <update id="BupdateWanChenJieSuanFour">
         UPDATE ha_custom cu
 SET lastBillid=null
 from ha_room r,ha_meter m
 WHERE cu.custid=r.custid AND r.roomid=m.roomid
-AND m.areaid IN ('${areaid}')
+AND m.areaid IN ('${areaId}')
     </update>
 
     <!--点击完成结算第五步-->
-    <update id="updateWanChenJieSuanFive">
-        UPDATE ha_meter m
+    <update id="BupdateWanChenJieSuanFive">
+         UPDATE ha_meter m
 SET lf_number=th_number,lf_time=to_date(now()::text, 'yyyy-mm-dd'),s_number=0
-WHERE m.areaid IN ('${areaid}')
+WHERE m.areaid IN ('${areaId}')
     </update>
 
     <!--点击完成结算第六步-->
-    <update id="updateWanChenJieSuanSix">
+    <update id="BupdateWanChenJieSuanSix">
 
         UPDATE ha_area
 SET lastSumDay=to_date(now()::text, 'yyyy-mm-dd')
-WHERE areaid IN ('${areaid}')
+WHERE areaid IN ('${areaId}')
     </update>
 
     <!--点击完成结算第七步-->
-    <update id="updateWanChenJieSuanSeven">
+    <update id="BupdateWanChenJieSuanSeven">
         UPDATE ha_monthbtime mb SET
         end_time=now()
         WHERE mb.start_time =
         (SELECT case when max(mb1.start_time)&gt;
         (case when max(mb2.end_time) is  null then now() else max(mb2.end_time) end ) AND max(mb1.start_time) &lt; Now()
         then max(mb1.start_time) else  now() end
-        FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid='${areaid}')
-        AND mb.areaid='${areaid}'
+        FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid='${areaId}')
+        AND mb.areaid='${areaId}'
     </update>
 
 </mapper>
