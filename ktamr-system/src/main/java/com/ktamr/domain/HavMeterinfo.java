@@ -17,19 +17,114 @@ public class HavMeterinfo extends BaseEntity {
   private String addr;
   private Integer custid;
   private Integer pricestandId;
-  private String 用户号;
-  private Integer 表号;
-  private String 表地址;
-  private String 用户名;
-  private String 小区名;
-  private String 用户地址;
-  private double 最近度数;
-  private double 上期度数;
-  private double 本期用量;
-  private String 抄表时间;
-  private String 上期抄收时间;
-  private String 状态;
+  private String userNo;
+  private Integer meterNumber;
+  private String maddr;
+  private String userName;
+  private String areaName;
+  private String userDs;
+  private double thNumber;
+  private double lfNumber;
+  private double sNumber;
+  private String thRTime;
+  private String lfTime;
+  private String state;
 
+    public String getMaddr() {
+        return maddr;
+    }
+
+    public void setMaddr(String maddr) {
+        this.maddr = maddr;
+    }
+
+    public String getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(String userNo) {
+        this.userNo = userNo;
+    }
+
+    public Integer getMeterNumber() {
+        return meterNumber;
+    }
+
+    public void setMeterNumber(Integer meterNumber) {
+        this.meterNumber = meterNumber;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getUserDs() {
+        return userDs;
+    }
+
+    public void setUserDs(String userDs) {
+        this.userDs = userDs;
+    }
+
+    public double getThNumber() {
+        return thNumber;
+    }
+
+    public void setThNumber(double thNumber) {
+        this.thNumber = thNumber;
+    }
+
+    public double getLfNumber() {
+        return lfNumber;
+    }
+
+    public void setLfNumber(double lfNumber) {
+        this.lfNumber = lfNumber;
+    }
+
+    public double getsNumber() {
+        return sNumber;
+    }
+
+    public void setsNumber(double sNumber) {
+        this.sNumber = sNumber;
+    }
+
+    public String getThRTime() {
+        return thRTime;
+    }
+
+    public void setThRTime(String thRTime) {
+        this.thRTime = thRTime;
+    }
+
+    public String getLfTime() {
+        return lfTime;
+    }
+
+    public void setLfTime(String lfTime) {
+        this.lfTime = lfTime;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public Integer getMeterid() {
         return meterid;
@@ -125,101 +220,5 @@ public class HavMeterinfo extends BaseEntity {
 
     public void setPricestandId(Integer pricestandId) {
         this.pricestandId = pricestandId;
-    }
-
-    public String get用户号() {
-        return 用户号;
-    }
-
-    public void set用户号(String 用户号) {
-        this.用户号 = 用户号;
-    }
-
-    public Integer get表号() {
-        return 表号;
-    }
-
-    public void set表号(Integer 表号) {
-        this.表号 = 表号;
-    }
-
-    public String get表地址() {
-        return 表地址;
-    }
-
-    public void set表地址(String 表地址) {
-        this.表地址 = 表地址;
-    }
-
-    public String get用户名() {
-        return 用户名;
-    }
-
-    public void set用户名(String 用户名) {
-        this.用户名 = 用户名;
-    }
-
-    public String get小区名() {
-        return 小区名;
-    }
-
-    public void set小区名(String 小区名) {
-        this.小区名 = 小区名;
-    }
-
-    public String get用户地址() {
-        return 用户地址;
-    }
-
-    public void set用户地址(String 用户地址) {
-        this.用户地址 = 用户地址;
-    }
-
-    public double get最近度数() {
-        return 最近度数;
-    }
-
-    public void set最近度数(double 最近度数) {
-        this.最近度数 = 最近度数;
-    }
-
-    public double get上期度数() {
-        return 上期度数;
-    }
-
-    public void set上期度数(double 上期度数) {
-        this.上期度数 = 上期度数;
-    }
-
-    public double get本期用量() {
-        return 本期用量;
-    }
-
-    public void set本期用量(double 本期用量) {
-        this.本期用量 = 本期用量;
-    }
-
-    public String get抄表时间() {
-        return 抄表时间;
-    }
-
-    public void set抄表时间(String 抄表时间) {
-        this.抄表时间 = 抄表时间;
-    }
-
-    public String get上期抄收时间() {
-        return 上期抄收时间;
-    }
-
-    public void set上期抄收时间(String 上期抄收时间) {
-        this.上期抄收时间 = 上期抄收时间;
-    }
-
-    public String get状态() {
-        return 状态;
-    }
-
-    public void set状态(String 状态) {
-        this.状态 = 状态;
     }
 }
