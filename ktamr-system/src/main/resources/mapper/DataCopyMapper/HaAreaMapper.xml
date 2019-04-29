@@ -117,17 +117,17 @@
     <resultMap  id="HaAreaMap"  type="HaArea">
         <id column="areaid" property="areaId" />
         <result column="aareaNo" property="areaNo"/>
-        <result column="aregisteredNo" property="registeredno"/>
+        <result column="aregisteredNo" property="registeredNo"/>
         <result column="aname" property="name"/>
         <result column="aaddr" property="addr"/>
         <result column="ads" property="ds"/>
         <result column="areserved" property="reserved"/>
-        <result column="alastsumday" property="lastsumday"/>
-        <result column="adescription" property="description"/>
+        <result column="alastsumday" property="lastsumDay"/>
+        <result column="adescription" property="descripTion"/>
         <result column="atnNumber" property="atnNumber"/>
         <result column="keyWord" property="keyWord"/>
 
-        <association property="meter" javaType="HaMeter">
+        <association property="haMeter" javaType="HaMeter">
             <result column="mmeterid" property="meterId"/>
             <result column="mTH_NUMBER" property="thNumber"/>
             <result column="mS_NUMBER" property="sNumber"/>
@@ -254,11 +254,11 @@
             <if test="name != null">
                 name = #{name},
             </if>
-            <if test="description != null">
-                description = #{description},
+            <if test="descripTion != null">
+                description = #{descripTion},
             </if>
-            <if test="lastchecktime != null">
-                lastchecktime = #{lastchecktime},
+            <if test="lastcheckTime != null">
+                lastchecktime = #{lastcheckTime},
             </if>
             <if test="reserved != null">
                 reserved = #{reserved},
@@ -266,23 +266,23 @@
             <if test="areaNo != null">
                 areano = #{areaNo},
             </if>
-            <if test="shortname != null">
-                shortname = #{shortname},
+            <if test="shortName != null">
+                shortname = #{shortName},
             </if>
             <if test="addr != null">
                 addr = #{addr},
             </if>
-            <if test="sumday != null">
-                sumday = #{sumday},
+            <if test="sumDay != null">
+                sumday = #{sumDay},
             </if>
-            <if test="lastsumday != null">
-                lastsumday = #{lastsumday},
+            <if test="lastsumDay != null">
+                lastsumday = #{lastsumDay},
             </if>
-            <if test="createtime != null">
-                createtime = #{createtime},
+            <if test="createTime != null">
+                createtime = #{createTime},
             </if>
-            <if test="modifytime != null">
-                modifytime = #{modifytime},
+            <if test="modifyTime != null">
+                modifytime = #{modifyTime},
             </if>
             <if test="auditDay != null">
                 audit_day = #{auditDay},
@@ -290,8 +290,8 @@
             <if test="auditResult != null">
                 audit_result = #{auditResult},
             </if>
-            <if test="registeredno != null">
-                registeredno = #{registeredno},
+            <if test="registeredNo != null">
+                registeredno = #{registeredNo},
             </if>
             <if test="ds != null">
                 ds = #{ds},
