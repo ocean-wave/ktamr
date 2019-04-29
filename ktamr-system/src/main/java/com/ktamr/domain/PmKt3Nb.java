@@ -1,39 +1,41 @@
 package com.ktamr.domain;
 
 
-public class PmKt3Nb {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
-  private long batchId;
+import java.util.Date;
+
+public class PmKt3Nb extends BaseEntity {
+
+  private Integer id;
+  private Integer batchId;
   private String deviceCode;
-  private java.sql.Timestamp createTime;
+  private Date createTime;
   private String setState;
   private String getState;
   private String state;
-  private String description;
-  private long rssi;
-  private long vol;
+  private String descripTion;
+  private Integer rssi;
+  private Integer vol;
   private String imsi;
   private String imei;
 
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-
-  public long getBatchId() {
+  public Integer getBatchId() {
     return batchId;
   }
 
-  public void setBatchId(long batchId) {
+  public void setBatchId(Integer batchId) {
     this.batchId = batchId;
   }
-
 
   public String getDeviceCode() {
     return deviceCode;
@@ -43,15 +45,13 @@ public class PmKt3Nb {
     this.deviceCode = deviceCode;
   }
 
-
-  public java.sql.Timestamp getCreateTime() {
+  public Date getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(java.sql.Timestamp createTime) {
+  public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
-
 
   public String getSetState() {
     return setState;
@@ -61,7 +61,6 @@ public class PmKt3Nb {
     this.setState = setState;
   }
 
-
   public String getGetState() {
     return getState;
   }
@@ -69,7 +68,6 @@ public class PmKt3Nb {
   public void setGetState(String getState) {
     this.getState = getState;
   }
-
 
   public String getState() {
     return state;
@@ -79,33 +77,29 @@ public class PmKt3Nb {
     this.state = state;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
 
-
-  public long getRssi() {
+  public Integer getRssi() {
     return rssi;
   }
 
-  public void setRssi(long rssi) {
+  public void setRssi(Integer rssi) {
     this.rssi = rssi;
   }
 
-
-  public long getVol() {
+  public Integer getVol() {
     return vol;
   }
 
-  public void setVol(long vol) {
+  public void setVol(Integer vol) {
     this.vol = vol;
   }
-
 
   public String getImsi() {
     return imsi;
@@ -115,7 +109,6 @@ public class PmKt3Nb {
     this.imsi = imsi;
   }
 
-
   public String getImei() {
     return imei;
   }
@@ -123,5 +116,4 @@ public class PmKt3Nb {
   public void setImei(String imei) {
     this.imei = imei;
   }
-
 }

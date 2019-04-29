@@ -1,62 +1,61 @@
 package com.ktamr.domain;
 
 
-public class HtiJrJob {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
-  private String userid;
-  private String username;
-  private String address;
+import java.util.Date;
+
+public class HtiJrJob extends BaseEntity {
+
+  private Integer id;
+  private String userId;
+  private String userName;
+  private String addRess;
   private String tel;
-  private String watertagid;
-  private String lineno;
-  private String areaid;
-  private String intabmanid;
-  private double amtabnum;
-  private double nmtabnum;
-  private double watermete;
-  private double waterprice;
-  private java.sql.Timestamp cbtdate;
-  private String meterstate;
-  private long custid;
-  private java.sql.Timestamp importtime;
+  private String waterTagid;
+  private String lineNo;
+  private String areaId;
+  private String intabManid;
+  private double amtabNum;
+  private double nmtabNum;
+  private double waterMete;
+  private double waterPrice;
+  private Date cbtDate;
+  private String meterState;
+  private Integer custId;
+  private Date importTime;
 
-
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-
-  public String getUserid() {
-    return userid;
+  public String getUserId() {
+    return userId;
   }
 
-  public void setUserid(String userid) {
-    this.userid = userid;
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
-
-  public String getUsername() {
-    return username;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
-
-  public String getAddress() {
-    return address;
+  public String getAddRess() {
+    return addRess;
   }
 
-  public void setAddress(String address) {
-    this.address = address;
+  public void setAddRess(String addRess) {
+    this.addRess = addRess;
   }
-
 
   public String getTel() {
     return tel;
@@ -66,112 +65,99 @@ public class HtiJrJob {
     this.tel = tel;
   }
 
-
-  public String getWatertagid() {
-    return watertagid;
+  public String getWaterTagid() {
+    return waterTagid;
   }
 
-  public void setWatertagid(String watertagid) {
-    this.watertagid = watertagid;
+  public void setWaterTagid(String waterTagid) {
+    this.waterTagid = waterTagid;
   }
 
-
-  public String getLineno() {
-    return lineno;
+  public String getLineNo() {
+    return lineNo;
   }
 
-  public void setLineno(String lineno) {
-    this.lineno = lineno;
+  public void setLineNo(String lineNo) {
+    this.lineNo = lineNo;
   }
 
-
-  public String getAreaid() {
-    return areaid;
+  public String getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(String areaid) {
-    this.areaid = areaid;
+  public void setAreaId(String areaId) {
+    this.areaId = areaId;
   }
 
-
-  public String getIntabmanid() {
-    return intabmanid;
+  public String getIntabManid() {
+    return intabManid;
   }
 
-  public void setIntabmanid(String intabmanid) {
-    this.intabmanid = intabmanid;
+  public void setIntabManid(String intabManid) {
+    this.intabManid = intabManid;
   }
 
-
-  public double getAmtabnum() {
-    return amtabnum;
+  public double getAmtabNum() {
+    return amtabNum;
   }
 
-  public void setAmtabnum(double amtabnum) {
-    this.amtabnum = amtabnum;
+  public void setAmtabNum(double amtabNum) {
+    this.amtabNum = amtabNum;
   }
 
-
-  public double getNmtabnum() {
-    return nmtabnum;
+  public double getNmtabNum() {
+    return nmtabNum;
   }
 
-  public void setNmtabnum(double nmtabnum) {
-    this.nmtabnum = nmtabnum;
+  public void setNmtabNum(double nmtabNum) {
+    this.nmtabNum = nmtabNum;
   }
 
-
-  public double getWatermete() {
-    return watermete;
+  public double getWaterMete() {
+    return waterMete;
   }
 
-  public void setWatermete(double watermete) {
-    this.watermete = watermete;
+  public void setWaterMete(double waterMete) {
+    this.waterMete = waterMete;
   }
 
-
-  public double getWaterprice() {
-    return waterprice;
+  public double getWaterPrice() {
+    return waterPrice;
   }
 
-  public void setWaterprice(double waterprice) {
-    this.waterprice = waterprice;
+  public void setWaterPrice(double waterPrice) {
+    this.waterPrice = waterPrice;
   }
 
-
-  public java.sql.Timestamp getCbtdate() {
-    return cbtdate;
+  public Date getCbtDate() {
+    return cbtDate;
   }
 
-  public void setCbtdate(java.sql.Timestamp cbtdate) {
-    this.cbtdate = cbtdate;
+  public void setCbtDate(Date cbtDate) {
+    this.cbtDate = cbtDate;
   }
 
-
-  public String getMeterstate() {
-    return meterstate;
+  public String getMeterState() {
+    return meterState;
   }
 
-  public void setMeterstate(String meterstate) {
-    this.meterstate = meterstate;
+  public void setMeterState(String meterState) {
+    this.meterState = meterState;
   }
 
-
-  public long getCustid() {
-    return custid;
+  public Integer getCustId() {
+    return custId;
   }
 
-  public void setCustid(long custid) {
-    this.custid = custid;
+  public void setCustId(Integer custId) {
+    this.custId = custId;
   }
 
-
-  public java.sql.Timestamp getImporttime() {
-    return importtime;
+  public Date getImportTime() {
+    return importTime;
   }
 
-  public void setImporttime(java.sql.Timestamp importtime) {
-    this.importtime = importtime;
+  public void setImportTime(Date importTime) {
+    this.importTime = importTime;
   }
-
 }

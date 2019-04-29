@@ -1,18 +1,21 @@
 package com.ktamr.domain;
 
 
-public class HaAudit {
+import com.ktamr.common.core.domain.BaseEntity;
+
+import java.util.Date;
+
+public class HaAudit extends BaseEntity {
 
   private long auditId;
-  private long areaid;
-  private java.sql.Timestamp auditDay;
+  private long areaId;
+  private Date auditDay;
   private long sumN;
   private long audN;
   private long audCount;
   private String result;
-  private String description;
-  private java.sql.Timestamp doDate;
-
+  private String descripTion;
+  private Date doDate;
 
   public long getAuditId() {
     return auditId;
@@ -22,24 +25,21 @@ public class HaAudit {
     this.auditId = auditId;
   }
 
-
-  public long getAreaid() {
-    return areaid;
+  public long getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(long areaid) {
-    this.areaid = areaid;
+  public void setAreaId(long areaId) {
+    this.areaId = areaId;
   }
 
-
-  public java.sql.Timestamp getAuditDay() {
+  public Date getAuditDay() {
     return auditDay;
   }
 
-  public void setAuditDay(java.sql.Timestamp auditDay) {
+  public void setAuditDay(Date auditDay) {
     this.auditDay = auditDay;
   }
-
 
   public long getSumN() {
     return sumN;
@@ -49,7 +49,6 @@ public class HaAudit {
     this.sumN = sumN;
   }
 
-
   public long getAudN() {
     return audN;
   }
@@ -57,7 +56,6 @@ public class HaAudit {
   public void setAudN(long audN) {
     this.audN = audN;
   }
-
 
   public long getAudCount() {
     return audCount;
@@ -67,7 +65,6 @@ public class HaAudit {
     this.audCount = audCount;
   }
 
-
   public String getResult() {
     return result;
   }
@@ -76,22 +73,19 @@ public class HaAudit {
     this.result = result;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
 
-
-  public java.sql.Timestamp getDoDate() {
+  public Date getDoDate() {
     return doDate;
   }
 
-  public void setDoDate(java.sql.Timestamp doDate) {
+  public void setDoDate(Date doDate) {
     this.doDate = doDate;
   }
-
 }

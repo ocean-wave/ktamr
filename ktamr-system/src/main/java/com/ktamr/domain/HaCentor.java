@@ -3,59 +3,40 @@ package com.ktamr.domain;
 
 import com.ktamr.common.core.domain.BaseEntity;
 
+import java.util.Date;
+
 public class HaCentor extends BaseEntity {
 
   private Integer id;
-  private Long centorId;
+  private Integer centorId;
   private String ver;
-  private String rtime;
-  private java.sql.Timestamp setuptime;
+  private String rTime;
+  private Date setupTime;
   private String addr;
-  private String description;
-  private String telnumber;
-  private java.sql.Timestamp endtime;
-  private String usetypecode;
+  private String descripTion;
+  private String telNumber;
+  private Date endTime;
+  private String useTypeCode;
   private String state;
   private String centorNo;
-  private java.sql.Timestamp lastfreezetime;
-  private java.sql.Timestamp lastfreezeday;
-  private java.sql.Timestamp lastfreezemon;
-  private java.sql.Timestamp createtime;
-  private java.sql.Timestamp modifytime;
-  private long meters;
-  private long areaid;
-  private java.sql.Timestamp lastStateChangeTime;
+  private Date lastfreezeTime;
+  private Date lastfreezeDay;
+  private Date lastfreezeMon;
+  private Date createTime;
+  private Date modifyTime;
+  private Integer meters;
+  private Integer areaId;
+  private Date lastStateChangeTime;
   private String remark;
-  private long rssi;
-  private long vol;
+  private Integer rssi;
+  private Integer vol;
   private String imsi;
   private String imei;
 
   private HaArea haArea;
 
-  public Long getCentorId() {
-    return centorId;
-  }
 
-  public void setCentorId(Long centorId) {
-    this.centorId = centorId;
-  }
 
-  public HaArea getHaArea() {
-    return haArea;
-  }
-
-  public void setHaArea(HaArea haArea) {
-    this.haArea = haArea;
-  }
-
-  public String getCentorNo() {
-    return centorNo;
-  }
-
-  public void setCentorNo(String centorNo) {
-    this.centorNo = centorNo;
-  }
 
   public Integer getId() {
     return id;
@@ -63,6 +44,14 @@ public class HaCentor extends BaseEntity {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public Integer getCentorId() {
+    return centorId;
+  }
+
+  public void setCentorId(Integer centorId) {
+    this.centorId = centorId;
   }
 
   public String getVer() {
@@ -73,24 +62,21 @@ public class HaCentor extends BaseEntity {
     this.ver = ver;
   }
 
-
-  public String getRtime() {
-    return rtime;
+  public String getrTime() {
+    return rTime;
   }
 
-  public void setRtime(String rtime) {
-    this.rtime = rtime;
+  public void setrTime(String rTime) {
+    this.rTime = rTime;
   }
 
-
-  public java.sql.Timestamp getSetuptime() {
-    return setuptime;
+  public Date getSetupTime() {
+    return setupTime;
   }
 
-  public void setSetuptime(java.sql.Timestamp setuptime) {
-    this.setuptime = setuptime;
+  public void setSetupTime(Date setupTime) {
+    this.setupTime = setupTime;
   }
-
 
   public String getAddr() {
     return addr;
@@ -100,42 +86,37 @@ public class HaCentor extends BaseEntity {
     this.addr = addr;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
 
-
-  public String getTelnumber() {
-    return telnumber;
+  public String getTelNumber() {
+    return telNumber;
   }
 
-  public void setTelnumber(String telnumber) {
-    this.telnumber = telnumber;
+  public void setTelNumber(String telNumber) {
+    this.telNumber = telNumber;
   }
 
-
-  public java.sql.Timestamp getEndtime() {
-    return endtime;
+  public Date getEndTime() {
+    return endTime;
   }
 
-  public void setEndtime(java.sql.Timestamp endtime) {
-    this.endtime = endtime;
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
   }
 
-
-  public String getUsetypecode() {
-    return usetypecode;
+  public String getUseTypeCode() {
+    return useTypeCode;
   }
 
-  public void setUsetypecode(String usetypecode) {
-    this.usetypecode = usetypecode;
+  public void setUseTypeCode(String useTypeCode) {
+    this.useTypeCode = useTypeCode;
   }
-
 
   public String getState() {
     return state;
@@ -145,77 +126,81 @@ public class HaCentor extends BaseEntity {
     this.state = state;
   }
 
-  public java.sql.Timestamp getLastfreezetime() {
-    return lastfreezetime;
+  public String getCentorNo() {
+    return centorNo;
   }
 
-  public void setLastfreezetime(java.sql.Timestamp lastfreezetime) {
-    this.lastfreezetime = lastfreezetime;
+  public void setCentorNo(String centorNo) {
+    this.centorNo = centorNo;
   }
 
-
-  public java.sql.Timestamp getLastfreezeday() {
-    return lastfreezeday;
+  public Date getLastfreezeTime() {
+    return lastfreezeTime;
   }
 
-  public void setLastfreezeday(java.sql.Timestamp lastfreezeday) {
-    this.lastfreezeday = lastfreezeday;
+  public void setLastfreezeTime(Date lastfreezeTime) {
+    this.lastfreezeTime = lastfreezeTime;
   }
 
-
-  public java.sql.Timestamp getLastfreezemon() {
-    return lastfreezemon;
+  public Date getLastfreezeDay() {
+    return lastfreezeDay;
   }
 
-  public void setLastfreezemon(java.sql.Timestamp lastfreezemon) {
-    this.lastfreezemon = lastfreezemon;
+  public void setLastfreezeDay(Date lastfreezeDay) {
+    this.lastfreezeDay = lastfreezeDay;
   }
 
-
-  public java.sql.Timestamp getCreatetime() {
-    return createtime;
+  public Date getLastfreezeMon() {
+    return lastfreezeMon;
   }
 
-  public void setCreatetime(java.sql.Timestamp createtime) {
-    this.createtime = createtime;
+  public void setLastfreezeMon(Date lastfreezeMon) {
+    this.lastfreezeMon = lastfreezeMon;
   }
 
-
-  public java.sql.Timestamp getModifytime() {
-    return modifytime;
+  @Override
+  public Date getCreateTime() {
+    return createTime;
   }
 
-  public void setModifytime(java.sql.Timestamp modifytime) {
-    this.modifytime = modifytime;
+  @Override
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
   }
 
+  @Override
+  public Date getModifyTime() {
+    return modifyTime;
+  }
 
-  public long getMeters() {
+  @Override
+  public void setModifyTime(Date modifyTime) {
+    this.modifyTime = modifyTime;
+  }
+
+  public Integer getMeters() {
     return meters;
   }
 
-  public void setMeters(long meters) {
+  public void setMeters(Integer meters) {
     this.meters = meters;
   }
 
-
-  public long getAreaid() {
-    return areaid;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(long areaid) {
-    this.areaid = areaid;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
 
-
-  public java.sql.Timestamp getLastStateChangeTime() {
+  public Date getLastStateChangeTime() {
     return lastStateChangeTime;
   }
 
-  public void setLastStateChangeTime(java.sql.Timestamp lastStateChangeTime) {
+  public void setLastStateChangeTime(Date lastStateChangeTime) {
     this.lastStateChangeTime = lastStateChangeTime;
   }
-
 
   public String getRemark() {
     return remark;
@@ -225,24 +210,21 @@ public class HaCentor extends BaseEntity {
     this.remark = remark;
   }
 
-
-  public long getRssi() {
+  public Integer getRssi() {
     return rssi;
   }
 
-  public void setRssi(long rssi) {
+  public void setRssi(Integer rssi) {
     this.rssi = rssi;
   }
 
-
-  public long getVol() {
+  public Integer getVol() {
     return vol;
   }
 
-  public void setVol(long vol) {
+  public void setVol(Integer vol) {
     this.vol = vol;
   }
-
 
   public String getImsi() {
     return imsi;
@@ -252,7 +234,6 @@ public class HaCentor extends BaseEntity {
     this.imsi = imsi;
   }
 
-
   public String getImei() {
     return imei;
   }
@@ -261,4 +242,11 @@ public class HaCentor extends BaseEntity {
     this.imei = imei;
   }
 
+  public HaArea getHaArea() {
+    return haArea;
+  }
+
+  public void setHaArea(HaArea haArea) {
+    this.haArea = haArea;
+  }
 }

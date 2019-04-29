@@ -1,93 +1,89 @@
 package com.ktamr.domain;
 
 
-public class HatDevicesimport {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
-  private String deviceid;
-  private String devicename;
-  private String description;
-  private String areaname;
-  private String areano;
-  private long areaid;
-  private java.sql.Timestamp setuptime;
+import java.util.Date;
+
+public class HatDevicesimport extends BaseEntity {
+
+  private Integer id;
+  private String deviceId;
+  private String deviceName;
+  private String descripTion;
+  private String areaName;
+  private String areaNo;
+  private Integer areaId;
+  private Date setupTime;
   private String tel;
-  private String remark;
+  private String reMark;
   private String check;
-  private java.sql.Timestamp importtime;
+  private Date importTime;
 
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-
-  public String getDeviceid() {
-    return deviceid;
+  public String getDeviceId() {
+    return deviceId;
   }
 
-  public void setDeviceid(String deviceid) {
-    this.deviceid = deviceid;
+  public void setDeviceId(String deviceId) {
+    this.deviceId = deviceId;
   }
 
-
-  public String getDevicename() {
-    return devicename;
+  public String getDeviceName() {
+    return deviceName;
   }
 
-  public void setDevicename(String devicename) {
-    this.devicename = devicename;
+  public void setDeviceName(String deviceName) {
+    this.deviceName = deviceName;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
 
-
-  public String getAreaname() {
-    return areaname;
+  public String getAreaName() {
+    return areaName;
   }
 
-  public void setAreaname(String areaname) {
-    this.areaname = areaname;
+  public void setAreaName(String areaName) {
+    this.areaName = areaName;
   }
 
-
-  public String getAreano() {
-    return areano;
+  public String getAreaNo() {
+    return areaNo;
   }
 
-  public void setAreano(String areano) {
-    this.areano = areano;
+  public void setAreaNo(String areaNo) {
+    this.areaNo = areaNo;
   }
 
-
-  public long getAreaid() {
-    return areaid;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(long areaid) {
-    this.areaid = areaid;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
 
-
-  public java.sql.Timestamp getSetuptime() {
-    return setuptime;
+  public Date getSetupTime() {
+    return setupTime;
   }
 
-  public void setSetuptime(java.sql.Timestamp setuptime) {
-    this.setuptime = setuptime;
+  public void setSetupTime(Date setupTime) {
+    this.setupTime = setupTime;
   }
-
 
   public String getTel() {
     return tel;
@@ -97,15 +93,13 @@ public class HatDevicesimport {
     this.tel = tel;
   }
 
-
-  public String getRemark() {
-    return remark;
+  public String getReMark() {
+    return reMark;
   }
 
-  public void setRemark(String remark) {
-    this.remark = remark;
+  public void setReMark(String reMark) {
+    this.reMark = reMark;
   }
-
 
   public String getCheck() {
     return check;
@@ -115,13 +109,11 @@ public class HatDevicesimport {
     this.check = check;
   }
 
-
-  public java.sql.Timestamp getImporttime() {
-    return importtime;
+  public Date getImportTime() {
+    return importTime;
   }
 
-  public void setImporttime(java.sql.Timestamp importtime) {
-    this.importtime = importtime;
+  public void setImportTime(Date importTime) {
+    this.importTime = importTime;
   }
-
 }

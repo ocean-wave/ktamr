@@ -10,7 +10,7 @@ public class HaCmd extends BaseEntity {
   private Integer id;
   private String cmd;
   private String parms;
-  private Integer centorid;
+  private Integer centorId;
   private String uid;
   private Date createTime;
   private String state;
@@ -18,51 +18,9 @@ public class HaCmd extends BaseEntity {
   private Date lastEndTime;
   private Date lastBeginTime;
   private String processing;
-  private Integer interCmdid;
+  private Integer interCmdId;
 
   private HaCentor haCentor;
-
-  public Integer getTryTimes() {
-    return tryTimes;
-  }
-
-  public void setTryTimes(Integer tryTimes) {
-    this.tryTimes = tryTimes;
-  }
-
-  public Date getLastBeginTime() {
-    return lastBeginTime;
-  }
-
-  public void setLastBeginTime(Date lastBeginTime) {
-    this.lastBeginTime = lastBeginTime;
-  }
-
-  public HaCentor getHaCentor() {
-    return haCentor;
-  }
-
-  public void setHaCentor(HaCentor haCentor) {
-    this.haCentor = haCentor;
-  }
-
-  public Date getLastEndTime() {
-    return lastEndTime;
-  }
-
-  public void setLastEndTime(Date lastEndTime) {
-    this.lastEndTime = lastEndTime;
-  }
-
-  @Override
-  public Date getCreateTime() {
-    return createTime;
-  }
-
-  @Override
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
 
   public Integer getId() {
     return id;
@@ -88,12 +46,12 @@ public class HaCmd extends BaseEntity {
     this.parms = parms;
   }
 
-  public Integer getCentorid() {
-    return centorid;
+  public Integer getCentorId() {
+    return centorId;
   }
 
-  public void setCentorid(Integer centorid) {
-    this.centorid = centorid;
+  public void setCentorId(Integer centorId) {
+    this.centorId = centorId;
   }
 
   public String getUid() {
@@ -104,12 +62,46 @@ public class HaCmd extends BaseEntity {
     this.uid = uid;
   }
 
+  @Override
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  @Override
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
   public String getState() {
     return state;
   }
 
   public void setState(String state) {
     this.state = state;
+  }
+
+  public Integer getTryTimes() {
+    return tryTimes;
+  }
+
+  public void setTryTimes(Integer tryTimes) {
+    this.tryTimes = tryTimes;
+  }
+
+  public Date getLastEndTime() {
+    return lastEndTime;
+  }
+
+  public void setLastEndTime(Date lastEndTime) {
+    this.lastEndTime = lastEndTime;
+  }
+
+  public Date getLastBeginTime() {
+    return lastBeginTime;
+  }
+
+  public void setLastBeginTime(Date lastBeginTime) {
+    this.lastBeginTime = lastBeginTime;
   }
 
   public String getProcessing() {
@@ -120,11 +112,19 @@ public class HaCmd extends BaseEntity {
     this.processing = processing;
   }
 
-  public Integer getInterCmdid() {
-    return interCmdid;
+  public Integer getInterCmdId() {
+    return interCmdId;
   }
 
-  public void setInterCmdid(Integer interCmdid) {
-    this.interCmdid = interCmdid;
+  public void setInterCmdId(Integer interCmdId) {
+    this.interCmdId = interCmdId;
+  }
+
+  public HaCentor getHaCentor() {
+    return haCentor;
+  }
+
+  public void setHaCentor(HaCentor haCentor) {
+    this.haCentor = haCentor;
   }
 }

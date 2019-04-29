@@ -1,30 +1,33 @@
 package com.ktamr.domain;
 
 
-public class HatMetersrecordimport {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
+import java.util.Date;
+
+public class HatMetersrecordimport extends BaseEntity {
+
+  private Integer id;
   private String usercode;
-  private String username;
-  private double meternumber;
+  private String userName;
+  private double meterNumber;
   private String state;
-  private double readnumber;
-  private java.sql.Timestamp readtime;
-  private long meterid;
-  private long hasdayfreeze;
-  private long hasmonfreeze;
+  private double readNumber;
+  private Date readTime;
+  private Integer meterId;
+  private Integer hasdayFreeze;
+  private Integer hasmonFreeze;
   private String check;
-  private java.sql.Timestamp importtime;
+  private Date importTime;
 
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
-
 
   public String getUsercode() {
     return usercode;
@@ -34,24 +37,21 @@ public class HatMetersrecordimport {
     this.usercode = usercode;
   }
 
-
-  public String getUsername() {
-    return username;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
-
-  public double getMeternumber() {
-    return meternumber;
+  public double getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(double meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(double meterNumber) {
+    this.meterNumber = meterNumber;
   }
-
 
   public String getState() {
     return state;
@@ -61,51 +61,45 @@ public class HatMetersrecordimport {
     this.state = state;
   }
 
-
-  public double getReadnumber() {
-    return readnumber;
+  public double getReadNumber() {
+    return readNumber;
   }
 
-  public void setReadnumber(double readnumber) {
-    this.readnumber = readnumber;
+  public void setReadNumber(double readNumber) {
+    this.readNumber = readNumber;
   }
 
-
-  public java.sql.Timestamp getReadtime() {
-    return readtime;
+  public Date getReadTime() {
+    return readTime;
   }
 
-  public void setReadtime(java.sql.Timestamp readtime) {
-    this.readtime = readtime;
+  public void setReadTime(Date readTime) {
+    this.readTime = readTime;
   }
 
-
-  public long getMeterid() {
-    return meterid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public long getHasdayfreeze() {
-    return hasdayfreeze;
+  public Integer getHasdayFreeze() {
+    return hasdayFreeze;
   }
 
-  public void setHasdayfreeze(long hasdayfreeze) {
-    this.hasdayfreeze = hasdayfreeze;
+  public void setHasdayFreeze(Integer hasdayFreeze) {
+    this.hasdayFreeze = hasdayFreeze;
   }
 
-
-  public long getHasmonfreeze() {
-    return hasmonfreeze;
+  public Integer getHasmonFreeze() {
+    return hasmonFreeze;
   }
 
-  public void setHasmonfreeze(long hasmonfreeze) {
-    this.hasmonfreeze = hasmonfreeze;
+  public void setHasmonFreeze(Integer hasmonFreeze) {
+    this.hasmonFreeze = hasmonFreeze;
   }
-
 
   public String getCheck() {
     return check;
@@ -115,13 +109,11 @@ public class HatMetersrecordimport {
     this.check = check;
   }
 
-
-  public java.sql.Timestamp getImporttime() {
-    return importtime;
+  public Date getImportTime() {
+    return importTime;
   }
 
-  public void setImporttime(java.sql.Timestamp importtime) {
-    this.importtime = importtime;
+  public void setImportTime(Date importTime) {
+    this.importTime = importTime;
   }
-
 }

@@ -1,104 +1,98 @@
 package com.ktamr.domain;
 
 
-public class HatMetersreplace {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
-  private double orimeternumber;
-  private long orimeterid;
-  private long orimeterread;
-  private double newmeternumber;
-  private long newmeterread;
-  private java.sql.Timestamp replacetime;
-  private String replaceman;
-  private String remark;
+import java.util.Date;
+
+public class HatMetersreplace extends BaseEntity {
+
+  private Integer id;
+  private double orimeterNumber;
+  private Integer orimeterId;
+  private Integer orimeterRead;
+  private double newmeterNumber;
+  private Integer newmeterRead;
+  private Date replaceTime;
+  private String replaceMan;
+  private String reMark;
   private String check;
-  private long hasdayfreeze;
-  private long hasmonfreeze;
-  private java.sql.Timestamp importtime;
-  private String usercode;
+  private Integer hasDayFreeze;
+  private Integer hasMonFreeze;
+  private Date importTime;
+  private String userCode;
 
-
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-
-  public double getOrimeternumber() {
-    return orimeternumber;
+  public double getOrimeterNumber() {
+    return orimeterNumber;
   }
 
-  public void setOrimeternumber(double orimeternumber) {
-    this.orimeternumber = orimeternumber;
+  public void setOrimeterNumber(double orimeterNumber) {
+    this.orimeterNumber = orimeterNumber;
   }
 
-
-  public long getOrimeterid() {
-    return orimeterid;
+  public Integer getOrimeterId() {
+    return orimeterId;
   }
 
-  public void setOrimeterid(long orimeterid) {
-    this.orimeterid = orimeterid;
+  public void setOrimeterId(Integer orimeterId) {
+    this.orimeterId = orimeterId;
   }
 
-
-  public long getOrimeterread() {
-    return orimeterread;
+  public Integer getOrimeterRead() {
+    return orimeterRead;
   }
 
-  public void setOrimeterread(long orimeterread) {
-    this.orimeterread = orimeterread;
+  public void setOrimeterRead(Integer orimeterRead) {
+    this.orimeterRead = orimeterRead;
   }
 
-
-  public double getNewmeternumber() {
-    return newmeternumber;
+  public double getNewmeterNumber() {
+    return newmeterNumber;
   }
 
-  public void setNewmeternumber(double newmeternumber) {
-    this.newmeternumber = newmeternumber;
+  public void setNewmeterNumber(double newmeterNumber) {
+    this.newmeterNumber = newmeterNumber;
   }
 
-
-  public long getNewmeterread() {
-    return newmeterread;
+  public Integer getNewmeterRead() {
+    return newmeterRead;
   }
 
-  public void setNewmeterread(long newmeterread) {
-    this.newmeterread = newmeterread;
+  public void setNewmeterRead(Integer newmeterRead) {
+    this.newmeterRead = newmeterRead;
   }
 
-
-  public java.sql.Timestamp getReplacetime() {
-    return replacetime;
+  public Date getReplaceTime() {
+    return replaceTime;
   }
 
-  public void setReplacetime(java.sql.Timestamp replacetime) {
-    this.replacetime = replacetime;
+  public void setReplaceTime(Date replaceTime) {
+    this.replaceTime = replaceTime;
   }
 
-
-  public String getReplaceman() {
-    return replaceman;
+  public String getReplaceMan() {
+    return replaceMan;
   }
 
-  public void setReplaceman(String replaceman) {
-    this.replaceman = replaceman;
+  public void setReplaceMan(String replaceMan) {
+    this.replaceMan = replaceMan;
   }
 
-
-  public String getRemark() {
-    return remark;
+  public String getReMark() {
+    return reMark;
   }
 
-  public void setRemark(String remark) {
-    this.remark = remark;
+  public void setReMark(String reMark) {
+    this.reMark = reMark;
   }
-
 
   public String getCheck() {
     return check;
@@ -108,40 +102,35 @@ public class HatMetersreplace {
     this.check = check;
   }
 
-
-  public long getHasdayfreeze() {
-    return hasdayfreeze;
+  public Integer getHasDayFreeze() {
+    return hasDayFreeze;
   }
 
-  public void setHasdayfreeze(long hasdayfreeze) {
-    this.hasdayfreeze = hasdayfreeze;
+  public void setHasDayFreeze(Integer hasDayFreeze) {
+    this.hasDayFreeze = hasDayFreeze;
   }
 
-
-  public long getHasmonfreeze() {
-    return hasmonfreeze;
+  public Integer getHasMonFreeze() {
+    return hasMonFreeze;
   }
 
-  public void setHasmonfreeze(long hasmonfreeze) {
-    this.hasmonfreeze = hasmonfreeze;
+  public void setHasMonFreeze(Integer hasMonFreeze) {
+    this.hasMonFreeze = hasMonFreeze;
   }
 
-
-  public java.sql.Timestamp getImporttime() {
-    return importtime;
+  public Date getImportTime() {
+    return importTime;
   }
 
-  public void setImporttime(java.sql.Timestamp importtime) {
-    this.importtime = importtime;
+  public void setImportTime(Date importTime) {
+    this.importTime = importTime;
   }
 
-
-  public String getUsercode() {
-    return usercode;
+  public String getUserCode() {
+    return userCode;
   }
 
-  public void setUsercode(String usercode) {
-    this.usercode = usercode;
+  public void setUserCode(String userCode) {
+    this.userCode = userCode;
   }
-
 }

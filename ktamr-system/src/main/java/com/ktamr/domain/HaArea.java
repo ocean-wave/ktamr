@@ -12,25 +12,24 @@ public class HaArea extends BaseEntity {
 
   private Integer areaId;
   private String name;
-  private String description;
-  private Date lastchecktime;
+  private String descripTion;
+  private Date lastcheckTime;
   private String state;
   private String reserved;
   private String areaNo;
-  private String shortname;
+  private String shortName;
   private String addr;
-  private String sumday;
+  private String sumDay;
   @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
   @DateTimeFormat( pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date lastsumday;
+  private Date lastsumDay;
   private String ds;
-  private Date createtime;
-  private Date modifytime;
+  private Date createTime;
+  private Date modifyTime;
   private Date auditDay;
   private String auditResult;
-  private String registeredno;
+  private String registeredNo;
 
-  private HaMeter meter;
 
   //开始存
   private HaMeter haMeter;
@@ -46,20 +45,144 @@ public class HaArea extends BaseEntity {
   //方便用areaid中in的范围查询
   List<Integer> idsList;
 
-  public String getKeyWord() {
-    return keyWord;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setKeyWord(String keyWord) {
-    this.keyWord = keyWord;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
 
-  public List<Integer> getIdsList() {
-    return idsList;
+  public String getName() {
+    return name;
   }
 
-  public void setIdsList(List<Integer> idsList) {
-    this.idsList = idsList;
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescripTion() {
+    return descripTion;
+  }
+
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
+  }
+
+  public Date getLastcheckTime() {
+    return lastcheckTime;
+  }
+
+  public void setLastcheckTime(Date lastcheckTime) {
+    this.lastcheckTime = lastcheckTime;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public String getReserved() {
+    return reserved;
+  }
+
+  public void setReserved(String reserved) {
+    this.reserved = reserved;
+  }
+
+  public String getAreaNo() {
+    return areaNo;
+  }
+
+  public void setAreaNo(String areaNo) {
+    this.areaNo = areaNo;
+  }
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
+  }
+
+  public String getAddr() {
+    return addr;
+  }
+
+  public void setAddr(String addr) {
+    this.addr = addr;
+  }
+
+  public String getSumDay() {
+    return sumDay;
+  }
+
+  public void setSumDay(String sumDay) {
+    this.sumDay = sumDay;
+  }
+
+  public Date getLastsumDay() {
+    return lastsumDay;
+  }
+
+  public void setLastsumDay(Date lastsumDay) {
+    this.lastsumDay = lastsumDay;
+  }
+
+  public String getDs() {
+    return ds;
+  }
+
+  public void setDs(String ds) {
+    this.ds = ds;
+  }
+
+  @Override
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  @Override
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+  @Override
+  public Date getModifyTime() {
+    return modifyTime;
+  }
+
+  @Override
+  public void setModifyTime(Date modifyTime) {
+    this.modifyTime = modifyTime;
+  }
+
+  public Date getAuditDay() {
+    return auditDay;
+  }
+
+  public void setAuditDay(Date auditDay) {
+    this.auditDay = auditDay;
+  }
+
+  public String getAuditResult() {
+    return auditResult;
+  }
+
+  public void setAuditResult(String auditResult) {
+    this.auditResult = auditResult;
+  }
+
+  public String getRegisteredNo() {
+    return registeredNo;
+  }
+
+  public void setRegisteredNo(String registeredNo) {
+    this.registeredNo = registeredNo;
   }
 
   public HaMeter getHaMeter() {
@@ -118,148 +241,19 @@ public class HaArea extends BaseEntity {
     this.cmdName = cmdName;
   }
 
-  public String getAreaNo() {
-    return areaNo;
+  public String getKeyWord() {
+    return keyWord;
   }
 
-  public void setAreaNo(String areaNo) {
-    this.areaNo = areaNo;
+  public void setKeyWord(String keyWord) {
+    this.keyWord = keyWord;
   }
 
-  public Integer getAreaId() {
-    return areaId;
+  public List<Integer> getIdsList() {
+    return idsList;
   }
 
-  public void setAreaId(Integer areaId) {
-    this.areaId = areaId;
+  public void setIdsList(List<Integer> idsList) {
+    this.idsList = idsList;
   }
-
-  public HaMeter getMeter() {
-    return meter;
-  }
-
-  public void setMeter(HaMeter meter) {
-    this.meter = meter;
-  }
-
-  public Date getLastchecktime() {
-    return lastchecktime;
-  }
-
-  public void setLastchecktime(Date lastchecktime) {
-    this.lastchecktime = lastchecktime;
-  }
-
-  public Date getLastsumday() {
-    return lastsumday;
-  }
-
-  public void setLastsumday(Date lastsumday) {
-    this.lastsumday = lastsumday;
-  }
-
-  public Date getCreatetime() {
-    return createtime;
-  }
-
-  public void setCreatetime(Date createtime) {
-    this.createtime = createtime;
-  }
-
-  public Date getModifytime() {
-    return modifytime;
-  }
-
-  public void setModifytime(Date modifytime) {
-    this.modifytime = modifytime;
-  }
-
-  public Date getAuditDay() {
-    return auditDay;
-  }
-
-  public void setAuditDay(Date auditDay) {
-    this.auditDay = auditDay;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-  public String getReserved() {
-    return reserved;
-  }
-
-  public void setReserved(String reserved) {
-    this.reserved = reserved;
-  }
-
-  public String getShortname() {
-    return shortname;
-  }
-
-  public void setShortname(String shortname) {
-    this.shortname = shortname;
-  }
-
-  public String getAddr() {
-    return addr;
-  }
-
-  public void setAddr(String addr) {
-    this.addr = addr;
-  }
-
-  public String getSumday() {
-    return sumday;
-  }
-
-  public void setSumday(String sumday) {
-    this.sumday = sumday;
-  }
-
-  public String getDs() {
-    return ds;
-  }
-
-  public void setDs(String ds) {
-    this.ds = ds;
-  }
-
-  public String getAuditResult() {
-    return auditResult;
-  }
-
-  public void setAuditResult(String auditResult) {
-    this.auditResult = auditResult;
-  }
-
-  public String getRegisteredno() {
-    return registeredno;
-  }
-
-  public void setRegisteredno(String registeredno) {
-    this.registeredno = registeredno;
-  }
-
 }

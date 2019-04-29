@@ -1,7 +1,11 @@
 package com.ktamr.domain;
 
 
-public class HaOperator {
+import com.ktamr.common.core.domain.BaseEntity;
+
+import java.util.Date;
+
+public class HaOperator extends BaseEntity {
 
   private String operatorCode;
   private String operatorName;
@@ -13,7 +17,7 @@ public class HaOperator {
   private String operatorLevel;
   private String operatorRgnType;
   private String operatorState;
-  private java.sql.Timestamp operatorCreattime;
+  private Date operatorCreatTime;
   private String operatorCompany;
 
 
@@ -25,7 +29,6 @@ public class HaOperator {
     this.operatorCode = operatorCode;
   }
 
-
   public String getOperatorName() {
     return operatorName;
   }
@@ -33,7 +36,6 @@ public class HaOperator {
   public void setOperatorName(String operatorName) {
     this.operatorName = operatorName;
   }
-
 
   public String getOperatorPwd() {
     return operatorPwd;
@@ -43,7 +45,6 @@ public class HaOperator {
     this.operatorPwd = operatorPwd;
   }
 
-
   public String getOperatorSex() {
     return operatorSex;
   }
@@ -51,7 +52,6 @@ public class HaOperator {
   public void setOperatorSex(String operatorSex) {
     this.operatorSex = operatorSex;
   }
-
 
   public String getOperatorMobile() {
     return operatorMobile;
@@ -61,7 +61,6 @@ public class HaOperator {
     this.operatorMobile = operatorMobile;
   }
 
-
   public String getOperatorRemark() {
     return operatorRemark;
   }
@@ -69,7 +68,6 @@ public class HaOperator {
   public void setOperatorRemark(String operatorRemark) {
     this.operatorRemark = operatorRemark;
   }
-
 
   public String getOperatorUpper() {
     return operatorUpper;
@@ -79,7 +77,6 @@ public class HaOperator {
     this.operatorUpper = operatorUpper;
   }
 
-
   public String getOperatorLevel() {
     return operatorLevel;
   }
@@ -87,7 +84,6 @@ public class HaOperator {
   public void setOperatorLevel(String operatorLevel) {
     this.operatorLevel = operatorLevel;
   }
-
 
   public String getOperatorRgnType() {
     return operatorRgnType;
@@ -97,7 +93,6 @@ public class HaOperator {
     this.operatorRgnType = operatorRgnType;
   }
 
-
   public String getOperatorState() {
     return operatorState;
   }
@@ -106,15 +101,13 @@ public class HaOperator {
     this.operatorState = operatorState;
   }
 
-
-  public java.sql.Timestamp getOperatorCreattime() {
-    return operatorCreattime;
+  public Date getOperatorCreatTime() {
+    return operatorCreatTime;
   }
 
-  public void setOperatorCreattime(java.sql.Timestamp operatorCreattime) {
-    this.operatorCreattime = operatorCreattime;
+  public void setOperatorCreatTime(Date operatorCreatTime) {
+    this.operatorCreatTime = operatorCreatTime;
   }
-
 
   public String getOperatorCompany() {
     return operatorCompany;
@@ -123,5 +116,4 @@ public class HaOperator {
   public void setOperatorCompany(String operatorCompany) {
     this.operatorCompany = operatorCompany;
   }
-
 }

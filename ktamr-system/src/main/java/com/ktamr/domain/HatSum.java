@@ -1,71 +1,69 @@
 package com.ktamr.domain;
 
 
-public class HatSum {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long meterid;
-  private long meternumber;
-  private java.sql.Timestamp dt;
-  private java.sql.Timestamp dl;
-  private long N;
+import java.util.Date;
+
+public class HatSum extends BaseEntity {
+
+  private Integer meterId;
+  private Integer meterNumber;
+  private Date dt;
+  private Date dl;
+  private Integer N;
   private double S;
   private double s1;
   private double s2;
 
 
-  public long getMeterid() {
-    return meterid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public long getMeternumber() {
-    return meternumber;
+  public Integer getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(long meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(Integer meterNumber) {
+    this.meterNumber = meterNumber;
   }
 
-
-  public java.sql.Timestamp getDt() {
+  public Date getDt() {
     return dt;
   }
 
-  public void setDt(java.sql.Timestamp dt) {
+  public void setDt(Date dt) {
     this.dt = dt;
   }
 
-
-  public java.sql.Timestamp getDl() {
+  public Date getDl() {
     return dl;
   }
 
-  public void setDl(java.sql.Timestamp dl) {
+  public void setDl(Date dl) {
     this.dl = dl;
   }
 
-
-  public long getN() {
+  public Integer getN() {
     return N;
   }
 
-  public void setN(long N) {
-    this.N = N;
+  public void setN(Integer n) {
+    N = n;
   }
-
 
   public double getS() {
     return S;
   }
 
-  public void setS(double S) {
-    this.S = S;
+  public void setS(double s) {
+    S = s;
   }
-
 
   public double getS1() {
     return s1;
@@ -75,7 +73,6 @@ public class HatSum {
     this.s1 = s1;
   }
 
-
   public double getS2() {
     return s2;
   }
@@ -83,5 +80,4 @@ public class HatSum {
   public void setS2(double s2) {
     this.s2 = s2;
   }
-
 }

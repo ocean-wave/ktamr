@@ -1,18 +1,23 @@
 package com.ktamr.domain;
 
 
-public class HaRecords {
+import com.ktamr.common.core.domain.BaseEntity;
+
+import java.util.Date;
+
+public class HaRecords extends BaseEntity {
 
   private Integer itemId;
-  private long meterid;
+  private Integer meterid;
   private double rate;
   private String lfNumber;
-  private java.sql.Timestamp lfTime;
+  private Date lfTime;
   private String thNumber;
-  private java.sql.Timestamp thTime;
+  private Date thTime;
   private String delta;
   private String state;
-  private long cmdid;
+  private Integer cmdid;
+
 
   public Integer getItemId() {
     return itemId;
@@ -22,14 +27,13 @@ public class HaRecords {
     this.itemId = itemId;
   }
 
-  public long getMeterid() {
+  public Integer getMeterid() {
     return meterid;
   }
 
-  public void setMeterid(long meterid) {
+  public void setMeterid(Integer meterid) {
     this.meterid = meterid;
   }
-
 
   public double getRate() {
     return rate;
@@ -39,7 +43,6 @@ public class HaRecords {
     this.rate = rate;
   }
 
-
   public String getLfNumber() {
     return lfNumber;
   }
@@ -48,15 +51,13 @@ public class HaRecords {
     this.lfNumber = lfNumber;
   }
 
-
-  public java.sql.Timestamp getLfTime() {
+  public Date getLfTime() {
     return lfTime;
   }
 
-  public void setLfTime(java.sql.Timestamp lfTime) {
+  public void setLfTime(Date lfTime) {
     this.lfTime = lfTime;
   }
-
 
   public String getThNumber() {
     return thNumber;
@@ -66,15 +67,13 @@ public class HaRecords {
     this.thNumber = thNumber;
   }
 
-
-  public java.sql.Timestamp getThTime() {
+  public Date getThTime() {
     return thTime;
   }
 
-  public void setThTime(java.sql.Timestamp thTime) {
+  public void setThTime(Date thTime) {
     this.thTime = thTime;
   }
-
 
   public String getDelta() {
     return delta;
@@ -84,7 +83,6 @@ public class HaRecords {
     this.delta = delta;
   }
 
-
   public String getState() {
     return state;
   }
@@ -93,13 +91,11 @@ public class HaRecords {
     this.state = state;
   }
 
-
-  public long getCmdid() {
+  public Integer getCmdid() {
     return cmdid;
   }
 
-  public void setCmdid(long cmdid) {
+  public void setCmdid(Integer cmdid) {
     this.cmdid = cmdid;
   }
-
 }

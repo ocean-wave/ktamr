@@ -1,33 +1,20 @@
 package com.ktamr.domain;
 
 
+import com.ktamr.common.core.domain.BaseEntity;
+
 import java.util.List;
 
-public class HaRoom {
+public class HaRoom extends BaseEntity {
 
   private Integer roomId;
   private Integer buildingId;
   private String name;
-  private String description;
+  private String descripTion;
 
-  private HaMeter meter;
-  private HaCustom custom;
+  private HaMeter haMeter;
+  private HaCustom haCustom;
 
-  public HaMeter getMeter() {
-    return meter;
-  }
-
-  public void setMeter(HaMeter meter) {
-    this.meter = meter;
-  }
-
-  public HaCustom getCustom() {
-    return custom;
-  }
-
-  public void setCustom(HaCustom custom) {
-    this.custom = custom;
-  }
 
   public Integer getRoomId() {
     return roomId;
@@ -53,13 +40,27 @@ public class HaRoom {
     this.name = name;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
 
+  public HaMeter getHaMeter() {
+    return haMeter;
+  }
+
+  public void setHaMeter(HaMeter haMeter) {
+    this.haMeter = haMeter;
+  }
+
+  public HaCustom getHaCustom() {
+    return haCustom;
+  }
+
+  public void setHaCustom(HaCustom haCustom) {
+    this.haCustom = haCustom;
+  }
 }

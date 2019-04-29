@@ -11,11 +11,11 @@ public class HaMeter extends BaseEntity {
 
   private Integer meterId;
   private String addr;
-  private long rate;
-  private long isbranch;
+  private Integer rate;
+  private Integer isBranch;
   @JsonFormat( pattern = "yyyy-MM-dd HH:MM:SS")
   private Date startTime;
-  private Date lasttime;
+  private Date lastTime;
   private double sNumber;
   private double jNumber;
   private double fNumber;
@@ -30,13 +30,13 @@ public class HaMeter extends BaseEntity {
   @DateTimeFormat( pattern = "yyyy-MM-dd HH:mm:ss")
   private Date thRTime;
   private Integer areaId;
-  private Long meterNumber;
-  private Date fday;
-  private Date fmon;
-  private double fdayN;
-  private double fmonN;
+  private Integer meterNumber;
+  private Date fDay;
+  private Date fMon;
+  private double fDayN;
+  private double fMonN;
   private String isUsed;
-  private double vendorMeterid;
+  private double vendorMeterId;
   private Integer meterChannel;
   private Integer meterSequence;
   private long rssi;
@@ -54,61 +54,6 @@ public class HaMeter extends BaseEntity {
   private HaFreeze haFreeze;
   private Integer haMeterCount;
 
-  public Integer getHaMeterCount() {
-    return haMeterCount;
-  }
-
-  public void setHaMeterCount(Integer haMeterCount) {
-    this.haMeterCount = haMeterCount;
-  }
-
-  public double getsNumber() {
-    return sNumber;
-  }
-
-  public void setsNumber(double sNumber) {
-    this.sNumber = sNumber;
-  }
-
-  public double getLfNumber() {
-    return lfNumber;
-  }
-
-  public void setLfNumber(double lfNumber) {
-    this.lfNumber = lfNumber;
-  }
-
-  public double getThNumber() {
-    return thNumber;
-  }
-
-  public void setThNumber(double thNumber) {
-    this.thNumber = thNumber;
-  }
-
-  public Long getMeterNumber() {
-    return meterNumber;
-  }
-
-  public void setMeterNumber(Long meterNumber) {
-    this.meterNumber = meterNumber;
-  }
-
-  public HaFreeze getHaFreeze() {
-    return haFreeze;
-  }
-
-  public void setHaFreeze(HaFreeze haFreeze) {
-    this.haFreeze = haFreeze;
-  }
-
-  public HaRoom getHaRoom() {
-    return haRoom;
-  }
-
-  public void setHaRoom(HaRoom haRoom) {
-    this.haRoom = haRoom;
-  }
 
   public Integer getMeterId() {
     return meterId;
@@ -118,28 +63,28 @@ public class HaMeter extends BaseEntity {
     this.meterId = meterId;
   }
 
-  public HaPricestandard getHaPricestandard() {
-    return haPricestandard;
+  public String getAddr() {
+    return addr;
   }
 
-  public void setHaPricestandard(HaPricestandard haPricestandard) {
-    this.haPricestandard = haPricestandard;
+  public void setAddr(String addr) {
+    this.addr = addr;
   }
 
-  public HaCollector getHaCollector() {
-    return haCollector;
+  public Integer getRate() {
+    return rate;
   }
 
-  public void setHaCollector(HaCollector haCollector) {
-    this.haCollector = haCollector;
+  public void setRate(Integer rate) {
+    this.rate = rate;
   }
 
-  public HaCentor getHaCentor() {
-    return haCentor;
+  public Integer getIsBranch() {
+    return isBranch;
   }
 
-  public void setHaCentor(HaCentor haCentor) {
-    this.haCentor = haCentor;
+  public void setIsBranch(Integer isBranch) {
+    this.isBranch = isBranch;
   }
 
   public Date getStartTime() {
@@ -150,28 +95,20 @@ public class HaMeter extends BaseEntity {
     this.startTime = startTime;
   }
 
-  public Integer getMeterChannel() {
-    return meterChannel;
+  public Date getLastTime() {
+    return lastTime;
   }
 
-  public void setMeterChannel(Integer meterChannel) {
-    this.meterChannel = meterChannel;
+  public void setLastTime(Date lastTime) {
+    this.lastTime = lastTime;
   }
 
-  public Integer getMeterSequence() {
-    return meterSequence;
+  public double getsNumber() {
+    return sNumber;
   }
 
-  public void setMeterSequence(Integer meterSequence) {
-    this.meterSequence = meterSequence;
-  }
-
-  public HaVendor getHaVendor() {
-    return haVendor;
-  }
-
-  public void setHaVendor(HaVendor haVendor) {
-    this.haVendor = haVendor;
+  public void setsNumber(double sNumber) {
+    this.sNumber = sNumber;
   }
 
   public double getjNumber() {
@@ -206,20 +143,12 @@ public class HaMeter extends BaseEntity {
     this.gNumber = gNumber;
   }
 
-  public Integer getAreaId() {
-    return areaId;
+  public String getState() {
+    return state;
   }
 
-  public void setAreaId(Integer areaId) {
-    this.areaId = areaId;
-  }
-
-  public Date getLasttime() {
-    return lasttime;
-  }
-
-  public void setLasttime(Date lasttime) {
-    this.lasttime = lasttime;
+  public void setState(String state) {
+    this.state = state;
   }
 
   public Date getLfTime() {
@@ -230,12 +159,28 @@ public class HaMeter extends BaseEntity {
     this.lfTime = lfTime;
   }
 
+  public double getLfNumber() {
+    return lfNumber;
+  }
+
+  public void setLfNumber(double lfNumber) {
+    this.lfNumber = lfNumber;
+  }
+
   public Date getThTime() {
     return thTime;
   }
 
   public void setThTime(Date thTime) {
     this.thTime = thTime;
+  }
+
+  public double getThNumber() {
+    return thNumber;
+  }
+
+  public void setThNumber(double thNumber) {
+    this.thNumber = thNumber;
   }
 
   public Date getThRTime() {
@@ -246,107 +191,52 @@ public class HaMeter extends BaseEntity {
     this.thRTime = thRTime;
   }
 
-  public Date getFday() {
-    return fday;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setFday(Date fday) {
-    this.fday = fday;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
 
-  public Date getFmon() {
-    return fmon;
+  public Integer getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setFmon(Date fmon) {
-    this.fmon = fmon;
+  public void setMeterNumber(Integer meterNumber) {
+    this.meterNumber = meterNumber;
   }
 
-  public String getAddr() {
-    return addr;
+  public Date getfDay() {
+    return fDay;
   }
 
-  public void setAddr(String addr) {
-    this.addr = addr;
+  public void setfDay(Date fDay) {
+    this.fDay = fDay;
   }
 
-
-  public long getRate() {
-    return rate;
+  public Date getfMon() {
+    return fMon;
   }
 
-  public void setRate(long rate) {
-    this.rate = rate;
+  public void setfMon(Date fMon) {
+    this.fMon = fMon;
   }
 
-
-  public long getIsbranch() {
-    return isbranch;
+  public double getfDayN() {
+    return fDayN;
   }
 
-  public void setIsbranch(long isbranch) {
-    this.isbranch = isbranch;
+  public void setfDayN(double fDayN) {
+    this.fDayN = fDayN;
   }
 
-  public double getJNumber() {
-    return jNumber;
+  public double getfMonN() {
+    return fMonN;
   }
 
-  public void setJNumber(double jNumber) {
-    this.jNumber = jNumber;
-  }
-
-
-  public double getFNumber() {
-    return fNumber;
-  }
-
-  public void setFNumber(double fNumber) {
-    this.fNumber = fNumber;
-  }
-
-
-  public double getPNumber() {
-    return pNumber;
-  }
-
-  public void setPNumber(double pNumber) {
-    this.pNumber = pNumber;
-  }
-
-
-  public double getGNumber() {
-    return gNumber;
-  }
-
-  public void setGNumber(double gNumber) {
-    this.gNumber = gNumber;
-  }
-
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-  public double getFdayN() {
-    return fdayN;
-  }
-
-  public void setFdayN(double fdayN) {
-    this.fdayN = fdayN;
-  }
-
-
-  public double getFmonN() {
-    return fmonN;
-  }
-
-  public void setFmonN(double fmonN) {
-    this.fmonN = fmonN;
+  public void setfMonN(double fMonN) {
+    this.fMonN = fMonN;
   }
 
   public String getIsUsed() {
@@ -357,13 +247,28 @@ public class HaMeter extends BaseEntity {
     this.isUsed = isUsed;
   }
 
-
-  public double getVendorMeterid() {
-    return vendorMeterid;
+  public double getVendorMeterId() {
+    return vendorMeterId;
   }
 
-  public void setVendorMeterid(double vendorMeterid) {
-    this.vendorMeterid = vendorMeterid;
+  public void setVendorMeterId(double vendorMeterId) {
+    this.vendorMeterId = vendorMeterId;
+  }
+
+  public Integer getMeterChannel() {
+    return meterChannel;
+  }
+
+  public void setMeterChannel(Integer meterChannel) {
+    this.meterChannel = meterChannel;
+  }
+
+  public Integer getMeterSequence() {
+    return meterSequence;
+  }
+
+  public void setMeterSequence(Integer meterSequence) {
+    this.meterSequence = meterSequence;
   }
 
   public long getRssi() {
@@ -374,7 +279,6 @@ public class HaMeter extends BaseEntity {
     this.rssi = rssi;
   }
 
-
   public long getVol() {
     return vol;
   }
@@ -382,7 +286,6 @@ public class HaMeter extends BaseEntity {
   public void setVol(long vol) {
     this.vol = vol;
   }
-
 
   public String getVer() {
     return ver;
@@ -392,7 +295,6 @@ public class HaMeter extends BaseEntity {
     this.ver = ver;
   }
 
-
   public String getImsi() {
     return imsi;
   }
@@ -400,7 +302,6 @@ public class HaMeter extends BaseEntity {
   public void setImsi(String imsi) {
     this.imsi = imsi;
   }
-
 
   public String getImei() {
     return imei;
@@ -410,7 +311,6 @@ public class HaMeter extends BaseEntity {
     this.imei = imei;
   }
 
-
   public long getOffsetN() {
     return offsetN;
   }
@@ -419,4 +319,59 @@ public class HaMeter extends BaseEntity {
     this.offsetN = offsetN;
   }
 
+  public HaVendor getHaVendor() {
+    return haVendor;
+  }
+
+  public void setHaVendor(HaVendor haVendor) {
+    this.haVendor = haVendor;
+  }
+
+  public HaCentor getHaCentor() {
+    return haCentor;
+  }
+
+  public void setHaCentor(HaCentor haCentor) {
+    this.haCentor = haCentor;
+  }
+
+  public HaCollector getHaCollector() {
+    return haCollector;
+  }
+
+  public void setHaCollector(HaCollector haCollector) {
+    this.haCollector = haCollector;
+  }
+
+  public HaPricestandard getHaPricestandard() {
+    return haPricestandard;
+  }
+
+  public void setHaPricestandard(HaPricestandard haPricestandard) {
+    this.haPricestandard = haPricestandard;
+  }
+
+  public HaRoom getHaRoom() {
+    return haRoom;
+  }
+
+  public void setHaRoom(HaRoom haRoom) {
+    this.haRoom = haRoom;
+  }
+
+  public HaFreeze getHaFreeze() {
+    return haFreeze;
+  }
+
+  public void setHaFreeze(HaFreeze haFreeze) {
+    this.haFreeze = haFreeze;
+  }
+
+  public Integer getHaMeterCount() {
+    return haMeterCount;
+  }
+
+  public void setHaMeterCount(Integer haMeterCount) {
+    this.haMeterCount = haMeterCount;
+  }
 }

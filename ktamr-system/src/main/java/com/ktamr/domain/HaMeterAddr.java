@@ -7,24 +7,17 @@ public class HaMeterAddr extends BaseEntity {
 
   private Integer id;
   private Integer cmdId;
-  private long centorid;
-  private long centoridD;
-  private long ccrid;
-  private long meterid;
-  private long ccrnoD;
-  private long ccrnoR;
+  private Integer centorId;
+  private Integer centorIdD;
+  private Integer ccrId;
+  private Integer meterId;
+  private Integer ccrnoD;
+  private Integer ccrnoR;
   private String meterNumber;
   private String state;
 
   private HaCmd haCmd;
 
-  public String getMeterNumber() {
-    return meterNumber;
-  }
-
-  public void setMeterNumber(String meterNumber) {
-    this.meterNumber = meterNumber;
-  }
 
   public Integer getId() {
     return id;
@@ -42,65 +35,60 @@ public class HaMeterAddr extends BaseEntity {
     this.cmdId = cmdId;
   }
 
-  public HaCmd getHaCmd() {
-    return haCmd;
+  public Integer getCentorId() {
+    return centorId;
   }
 
-  public void setHaCmd(HaCmd haCmd) {
-    this.haCmd = haCmd;
+  public void setCentorId(Integer centorId) {
+    this.centorId = centorId;
   }
 
-  public long getCentorid() {
-    return centorid;
+  public Integer getCentorIdD() {
+    return centorIdD;
   }
 
-  public void setCentorid(long centorid) {
-    this.centorid = centorid;
+  public void setCentorIdD(Integer centorIdD) {
+    this.centorIdD = centorIdD;
   }
 
-
-  public long getCentoridD() {
-    return centoridD;
+  public Integer getCcrId() {
+    return ccrId;
   }
 
-  public void setCentoridD(long centoridD) {
-    this.centoridD = centoridD;
+  public void setCcrId(Integer ccrId) {
+    this.ccrId = ccrId;
   }
 
-
-  public long getCcrid() {
-    return ccrid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setCcrid(long ccrid) {
-    this.ccrid = ccrid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public long getMeterid() {
-    return meterid;
-  }
-
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
-  }
-
-
-  public long getCcrnoD() {
+  public Integer getCcrnoD() {
     return ccrnoD;
   }
 
-  public void setCcrnoD(long ccrnoD) {
+  public void setCcrnoD(Integer ccrnoD) {
     this.ccrnoD = ccrnoD;
   }
 
-
-  public long getCcrnoR() {
+  public Integer getCcrnoR() {
     return ccrnoR;
   }
 
-  public void setCcrnoR(long ccrnoR) {
+  public void setCcrnoR(Integer ccrnoR) {
     this.ccrnoR = ccrnoR;
+  }
+
+  public String getMeterNumber() {
+    return meterNumber;
+  }
+
+  public void setMeterNumber(String meterNumber) {
+    this.meterNumber = meterNumber;
   }
 
   public String getState() {
@@ -111,4 +99,11 @@ public class HaMeterAddr extends BaseEntity {
     this.state = state;
   }
 
+  public HaCmd getHaCmd() {
+    return haCmd;
+  }
+
+  public void setHaCmd(HaCmd haCmd) {
+    this.haCmd = haCmd;
+  }
 }

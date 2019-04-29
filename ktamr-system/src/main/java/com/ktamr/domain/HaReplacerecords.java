@@ -1,117 +1,110 @@
 package com.ktamr.domain;
 
 
-public class HaReplacerecords {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long recordid;
-  private long meterid;
-  private double oldmeternumber;
-  private double newmeternumber;
-  private double finalread;
-  private double finaluse;
-  private String finalstate;
-  private double oriread;
-  private String replaceman;
-  private java.sql.Timestamp replacedate;
-  private String explain;
+import java.util.Date;
+
+public class HaReplacerecords extends BaseEntity {
+
+  private Integer recordId;
+  private Integer meterId;
+  private double oldmeterNumber;
+  private double newmeterNumber;
+  private double finalRead;
+  private double finalUse;
+  private String finalState;
+  private double oriRead;
+  private String replaceMan;
+  private Date replaceDate;
+  private String exPlain;
 
 
-  public long getRecordid() {
-    return recordid;
+  public Integer getRecordId() {
+    return recordId;
   }
 
-  public void setRecordid(long recordid) {
-    this.recordid = recordid;
+  public void setRecordId(Integer recordId) {
+    this.recordId = recordId;
   }
 
-
-  public long getMeterid() {
-    return meterid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public double getOldmeternumber() {
-    return oldmeternumber;
+  public double getOldmeterNumber() {
+    return oldmeterNumber;
   }
 
-  public void setOldmeternumber(double oldmeternumber) {
-    this.oldmeternumber = oldmeternumber;
+  public void setOldmeterNumber(double oldmeterNumber) {
+    this.oldmeterNumber = oldmeterNumber;
   }
 
-
-  public double getNewmeternumber() {
-    return newmeternumber;
+  public double getNewmeterNumber() {
+    return newmeterNumber;
   }
 
-  public void setNewmeternumber(double newmeternumber) {
-    this.newmeternumber = newmeternumber;
+  public void setNewmeterNumber(double newmeterNumber) {
+    this.newmeterNumber = newmeterNumber;
   }
 
-
-  public double getFinalread() {
-    return finalread;
+  public double getFinalRead() {
+    return finalRead;
   }
 
-  public void setFinalread(double finalread) {
-    this.finalread = finalread;
+  public void setFinalRead(double finalRead) {
+    this.finalRead = finalRead;
   }
 
-
-  public double getFinaluse() {
-    return finaluse;
+  public double getFinalUse() {
+    return finalUse;
   }
 
-  public void setFinaluse(double finaluse) {
-    this.finaluse = finaluse;
+  public void setFinalUse(double finalUse) {
+    this.finalUse = finalUse;
   }
 
-
-  public String getFinalstate() {
-    return finalstate;
+  public String getFinalState() {
+    return finalState;
   }
 
-  public void setFinalstate(String finalstate) {
-    this.finalstate = finalstate;
+  public void setFinalState(String finalState) {
+    this.finalState = finalState;
   }
 
-
-  public double getOriread() {
-    return oriread;
+  public double getOriRead() {
+    return oriRead;
   }
 
-  public void setOriread(double oriread) {
-    this.oriread = oriread;
+  public void setOriRead(double oriRead) {
+    this.oriRead = oriRead;
   }
 
-
-  public String getReplaceman() {
-    return replaceman;
+  public String getReplaceMan() {
+    return replaceMan;
   }
 
-  public void setReplaceman(String replaceman) {
-    this.replaceman = replaceman;
+  public void setReplaceMan(String replaceMan) {
+    this.replaceMan = replaceMan;
   }
 
-
-  public java.sql.Timestamp getReplacedate() {
-    return replacedate;
+  public Date getReplaceDate() {
+    return replaceDate;
   }
 
-  public void setReplacedate(java.sql.Timestamp replacedate) {
-    this.replacedate = replacedate;
+  public void setReplaceDate(Date replaceDate) {
+    this.replaceDate = replaceDate;
   }
 
-
-  public String getExplain() {
-    return explain;
+  public String getExPlain() {
+    return exPlain;
   }
 
-  public void setExplain(String explain) {
-    this.explain = explain;
+  public void setExPlain(String exPlain) {
+    this.exPlain = exPlain;
   }
-
 }

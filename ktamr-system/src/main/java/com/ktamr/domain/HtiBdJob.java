@@ -1,187 +1,175 @@
 package com.ktamr.domain;
 
 
-public class HtiBdJob {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long todojobid;
-  private long jobdoneid;
-  private String sourceid;
-  private String parameter;
-  private long meternumber;
-  private long handletype;
-  private java.sql.Timestamp createtime;
-  private long val;
-  private long valvesstate;
-  private String meterstate;
-  private long executedresult;
-  private java.sql.Timestamp executedtime;
-  private long areaid;
-  private long centorid;
-  private long collectorid;
-  private long meterid;
-  private java.sql.Timestamp lasttime;
-  private long cmdid;
+import java.util.Date;
+
+public class HtiBdJob extends BaseEntity {
+
+  private Integer todojobId;
+  private Integer jobdoneId;
+  private String sourceId;
+  private String paraMeter;
+  private Integer meterNumber;
+  private Integer handleType;
+  private Date createTime;
+  private Integer val;
+  private Integer valvesState;
+  private String meterState;
+  private Integer executedResult;
+  private Date executedTime;
+  private Integer areaId;
+  private Integer centorId;
+  private Integer collectorId;
+  private Integer meterId;
+  private Date lastTime;
+  private Integer cmdId;
 
 
-  public long getTodojobid() {
-    return todojobid;
+  public Integer getTodojobId() {
+    return todojobId;
   }
 
-  public void setTodojobid(long todojobid) {
-    this.todojobid = todojobid;
+  public void setTodojobId(Integer todojobId) {
+    this.todojobId = todojobId;
   }
 
-
-  public long getJobdoneid() {
-    return jobdoneid;
+  public Integer getJobdoneId() {
+    return jobdoneId;
   }
 
-  public void setJobdoneid(long jobdoneid) {
-    this.jobdoneid = jobdoneid;
+  public void setJobdoneId(Integer jobdoneId) {
+    this.jobdoneId = jobdoneId;
   }
 
-
-  public String getSourceid() {
-    return sourceid;
+  public String getSourceId() {
+    return sourceId;
   }
 
-  public void setSourceid(String sourceid) {
-    this.sourceid = sourceid;
+  public void setSourceId(String sourceId) {
+    this.sourceId = sourceId;
   }
 
-
-  public String getParameter() {
-    return parameter;
+  public String getParaMeter() {
+    return paraMeter;
   }
 
-  public void setParameter(String parameter) {
-    this.parameter = parameter;
+  public void setParaMeter(String paraMeter) {
+    this.paraMeter = paraMeter;
   }
 
-
-  public long getMeternumber() {
-    return meternumber;
+  public Integer getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(long meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(Integer meterNumber) {
+    this.meterNumber = meterNumber;
   }
 
-
-  public long getHandletype() {
-    return handletype;
+  public Integer getHandleType() {
+    return handleType;
   }
 
-  public void setHandletype(long handletype) {
-    this.handletype = handletype;
+  public void setHandleType(Integer handleType) {
+    this.handleType = handleType;
   }
 
-
-  public java.sql.Timestamp getCreatetime() {
-    return createtime;
+  @Override
+  public Date getCreateTime() {
+    return createTime;
   }
 
-  public void setCreatetime(java.sql.Timestamp createtime) {
-    this.createtime = createtime;
+  @Override
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
   }
 
-
-  public long getVal() {
+  public Integer getVal() {
     return val;
   }
 
-  public void setVal(long val) {
+  public void setVal(Integer val) {
     this.val = val;
   }
 
-
-  public long getValvesstate() {
-    return valvesstate;
+  public Integer getValvesState() {
+    return valvesState;
   }
 
-  public void setValvesstate(long valvesstate) {
-    this.valvesstate = valvesstate;
+  public void setValvesState(Integer valvesState) {
+    this.valvesState = valvesState;
   }
 
-
-  public String getMeterstate() {
-    return meterstate;
+  public String getMeterState() {
+    return meterState;
   }
 
-  public void setMeterstate(String meterstate) {
-    this.meterstate = meterstate;
+  public void setMeterState(String meterState) {
+    this.meterState = meterState;
   }
 
-
-  public long getExecutedresult() {
-    return executedresult;
+  public Integer getExecutedResult() {
+    return executedResult;
   }
 
-  public void setExecutedresult(long executedresult) {
-    this.executedresult = executedresult;
+  public void setExecutedResult(Integer executedResult) {
+    this.executedResult = executedResult;
   }
 
-
-  public java.sql.Timestamp getExecutedtime() {
-    return executedtime;
+  public Date getExecutedTime() {
+    return executedTime;
   }
 
-  public void setExecutedtime(java.sql.Timestamp executedtime) {
-    this.executedtime = executedtime;
+  public void setExecutedTime(Date executedTime) {
+    this.executedTime = executedTime;
   }
 
-
-  public long getAreaid() {
-    return areaid;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(long areaid) {
-    this.areaid = areaid;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
 
-
-  public long getCentorid() {
-    return centorid;
+  public Integer getCentorId() {
+    return centorId;
   }
 
-  public void setCentorid(long centorid) {
-    this.centorid = centorid;
+  public void setCentorId(Integer centorId) {
+    this.centorId = centorId;
   }
 
-
-  public long getCollectorid() {
-    return collectorid;
+  public Integer getCollectorId() {
+    return collectorId;
   }
 
-  public void setCollectorid(long collectorid) {
-    this.collectorid = collectorid;
+  public void setCollectorId(Integer collectorId) {
+    this.collectorId = collectorId;
   }
 
-
-  public long getMeterid() {
-    return meterid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public java.sql.Timestamp getLasttime() {
-    return lasttime;
+  public Date getLastTime() {
+    return lastTime;
   }
 
-  public void setLasttime(java.sql.Timestamp lasttime) {
-    this.lasttime = lasttime;
+  public void setLastTime(Date lastTime) {
+    this.lastTime = lastTime;
   }
 
-
-  public long getCmdid() {
-    return cmdid;
+  public Integer getCmdId() {
+    return cmdId;
   }
 
-  public void setCmdid(long cmdid) {
-    this.cmdid = cmdid;
+  public void setCmdId(Integer cmdId) {
+    this.cmdId = cmdId;
   }
-
 }

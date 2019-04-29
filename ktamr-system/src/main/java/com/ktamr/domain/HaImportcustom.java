@@ -1,48 +1,51 @@
 package com.ktamr.domain;
 
 
-public class HaImportcustom {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
+import java.util.Date;
+
+public class HaImportcustom extends BaseEntity {
+
+  private Integer id;
   private String custNo;
   private String custName;
   private String areaName;
   private String buildingName;
   private String roomName;
   private double meterNo;
-  private long meterChannel;
-  private long meterSequence;
-  private long vendorId;
-  private long areaid;
-  private long buildingid;
-  private long roomid;
+  private Integer meterChannel;
+  private Integer meterSequence;
+  private Integer vendorId;
+  private Integer areaId;
+  private Integer buildingId;
+  private Integer roomId;
   private String centorNo;
   private String collectorNo;
-  private long centorId;
-  private long collectorId;
+  private Integer centorId;
+  private Integer collectorId;
   private String state;
   private double meterNoD;
   private String meterType;
   private String meterIsbranch;
-  private long meterOriNum;
-  private java.sql.Timestamp setupTime;
+  private Integer meterOriNum;
+  private Date setupTime;
   private String priceStandard;
   private double meterRate;
   private String custSex;
   private String custMobile;
-  private java.sql.Timestamp importTime;
-  private long useMeterSequence;
-  private long custBalance;
+  private Date importTime;
+  private Integer useMeterSequence;
+  private Integer custBalance;
 
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
-
 
   public String getCustNo() {
     return custNo;
@@ -52,7 +55,6 @@ public class HaImportcustom {
     this.custNo = custNo;
   }
 
-
   public String getCustName() {
     return custName;
   }
@@ -60,7 +62,6 @@ public class HaImportcustom {
   public void setCustName(String custName) {
     this.custName = custName;
   }
-
 
   public String getAreaName() {
     return areaName;
@@ -70,7 +71,6 @@ public class HaImportcustom {
     this.areaName = areaName;
   }
 
-
   public String getBuildingName() {
     return buildingName;
   }
@@ -78,7 +78,6 @@ public class HaImportcustom {
   public void setBuildingName(String buildingName) {
     this.buildingName = buildingName;
   }
-
 
   public String getRoomName() {
     return roomName;
@@ -88,7 +87,6 @@ public class HaImportcustom {
     this.roomName = roomName;
   }
 
-
   public double getMeterNo() {
     return meterNo;
   }
@@ -97,60 +95,53 @@ public class HaImportcustom {
     this.meterNo = meterNo;
   }
 
-
-  public long getMeterChannel() {
+  public Integer getMeterChannel() {
     return meterChannel;
   }
 
-  public void setMeterChannel(long meterChannel) {
+  public void setMeterChannel(Integer meterChannel) {
     this.meterChannel = meterChannel;
   }
 
-
-  public long getMeterSequence() {
+  public Integer getMeterSequence() {
     return meterSequence;
   }
 
-  public void setMeterSequence(long meterSequence) {
+  public void setMeterSequence(Integer meterSequence) {
     this.meterSequence = meterSequence;
   }
 
-
-  public long getVendorId() {
+  public Integer getVendorId() {
     return vendorId;
   }
 
-  public void setVendorId(long vendorId) {
+  public void setVendorId(Integer vendorId) {
     this.vendorId = vendorId;
   }
 
-
-  public long getAreaid() {
-    return areaid;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(long areaid) {
-    this.areaid = areaid;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
 
-
-  public long getBuildingid() {
-    return buildingid;
+  public Integer getBuildingId() {
+    return buildingId;
   }
 
-  public void setBuildingid(long buildingid) {
-    this.buildingid = buildingid;
+  public void setBuildingId(Integer buildingId) {
+    this.buildingId = buildingId;
   }
 
-
-  public long getRoomid() {
-    return roomid;
+  public Integer getRoomId() {
+    return roomId;
   }
 
-  public void setRoomid(long roomid) {
-    this.roomid = roomid;
+  public void setRoomId(Integer roomId) {
+    this.roomId = roomId;
   }
-
 
   public String getCentorNo() {
     return centorNo;
@@ -160,7 +151,6 @@ public class HaImportcustom {
     this.centorNo = centorNo;
   }
 
-
   public String getCollectorNo() {
     return collectorNo;
   }
@@ -169,24 +159,21 @@ public class HaImportcustom {
     this.collectorNo = collectorNo;
   }
 
-
-  public long getCentorId() {
+  public Integer getCentorId() {
     return centorId;
   }
 
-  public void setCentorId(long centorId) {
+  public void setCentorId(Integer centorId) {
     this.centorId = centorId;
   }
 
-
-  public long getCollectorId() {
+  public Integer getCollectorId() {
     return collectorId;
   }
 
-  public void setCollectorId(long collectorId) {
+  public void setCollectorId(Integer collectorId) {
     this.collectorId = collectorId;
   }
-
 
   public String getState() {
     return state;
@@ -196,7 +183,6 @@ public class HaImportcustom {
     this.state = state;
   }
 
-
   public double getMeterNoD() {
     return meterNoD;
   }
@@ -204,7 +190,6 @@ public class HaImportcustom {
   public void setMeterNoD(double meterNoD) {
     this.meterNoD = meterNoD;
   }
-
 
   public String getMeterType() {
     return meterType;
@@ -214,7 +199,6 @@ public class HaImportcustom {
     this.meterType = meterType;
   }
 
-
   public String getMeterIsbranch() {
     return meterIsbranch;
   }
@@ -223,24 +207,21 @@ public class HaImportcustom {
     this.meterIsbranch = meterIsbranch;
   }
 
-
-  public long getMeterOriNum() {
+  public Integer getMeterOriNum() {
     return meterOriNum;
   }
 
-  public void setMeterOriNum(long meterOriNum) {
+  public void setMeterOriNum(Integer meterOriNum) {
     this.meterOriNum = meterOriNum;
   }
 
-
-  public java.sql.Timestamp getSetupTime() {
+  public Date getSetupTime() {
     return setupTime;
   }
 
-  public void setSetupTime(java.sql.Timestamp setupTime) {
+  public void setSetupTime(Date setupTime) {
     this.setupTime = setupTime;
   }
-
 
   public String getPriceStandard() {
     return priceStandard;
@@ -250,7 +231,6 @@ public class HaImportcustom {
     this.priceStandard = priceStandard;
   }
 
-
   public double getMeterRate() {
     return meterRate;
   }
@@ -258,7 +238,6 @@ public class HaImportcustom {
   public void setMeterRate(double meterRate) {
     this.meterRate = meterRate;
   }
-
 
   public String getCustSex() {
     return custSex;
@@ -268,7 +247,6 @@ public class HaImportcustom {
     this.custSex = custSex;
   }
 
-
   public String getCustMobile() {
     return custMobile;
   }
@@ -277,31 +255,27 @@ public class HaImportcustom {
     this.custMobile = custMobile;
   }
 
-
-  public java.sql.Timestamp getImportTime() {
+  public Date getImportTime() {
     return importTime;
   }
 
-  public void setImportTime(java.sql.Timestamp importTime) {
+  public void setImportTime(Date importTime) {
     this.importTime = importTime;
   }
 
-
-  public long getUseMeterSequence() {
+  public Integer getUseMeterSequence() {
     return useMeterSequence;
   }
 
-  public void setUseMeterSequence(long useMeterSequence) {
+  public void setUseMeterSequence(Integer useMeterSequence) {
     this.useMeterSequence = useMeterSequence;
   }
 
-
-  public long getCustBalance() {
+  public Integer getCustBalance() {
     return custBalance;
   }
 
-  public void setCustBalance(long custBalance) {
+  public void setCustBalance(Integer custBalance) {
     this.custBalance = custBalance;
   }
-
 }

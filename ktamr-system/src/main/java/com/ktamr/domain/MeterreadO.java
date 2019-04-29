@@ -1,117 +1,110 @@
 package com.ktamr.domain;
 
 
-public class MeterreadO {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private String mrcode;
-  private String mrycode;
-  private String mrboxno;
-  private java.sql.Timestamp mrrdate;
-  private double mrscode;
-  private double mrecode;
-  private String mrface;
-  private java.sql.Timestamp mrdate;
-  private String mrsflag;
-  private java.sql.Timestamp mrsdate;
-  private String mrmonth;
+import java.util.Date;
+
+public class MeterreadO extends BaseEntity {
+
+  private String mrCode;
+  private String mryCode;
+  private String mrboxNo;
+  private Date mrrDate;
+  private double mrsCode;
+  private double mreCode;
+  private String mrFace;
+  private Date mrDate;
+  private String mrsFlag;
+  private Date mrsDate;
+  private String mrMonth;
 
 
-  public String getMrcode() {
-    return mrcode;
+  public String getMrCode() {
+    return mrCode;
   }
 
-  public void setMrcode(String mrcode) {
-    this.mrcode = mrcode;
+  public void setMrCode(String mrCode) {
+    this.mrCode = mrCode;
   }
 
-
-  public String getMrycode() {
-    return mrycode;
+  public String getMryCode() {
+    return mryCode;
   }
 
-  public void setMrycode(String mrycode) {
-    this.mrycode = mrycode;
+  public void setMryCode(String mryCode) {
+    this.mryCode = mryCode;
   }
 
-
-  public String getMrboxno() {
-    return mrboxno;
+  public String getMrboxNo() {
+    return mrboxNo;
   }
 
-  public void setMrboxno(String mrboxno) {
-    this.mrboxno = mrboxno;
+  public void setMrboxNo(String mrboxNo) {
+    this.mrboxNo = mrboxNo;
   }
 
-
-  public java.sql.Timestamp getMrrdate() {
-    return mrrdate;
+  public Date getMrrDate() {
+    return mrrDate;
   }
 
-  public void setMrrdate(java.sql.Timestamp mrrdate) {
-    this.mrrdate = mrrdate;
+  public void setMrrDate(Date mrrDate) {
+    this.mrrDate = mrrDate;
   }
 
-
-  public double getMrscode() {
-    return mrscode;
+  public double getMrsCode() {
+    return mrsCode;
   }
 
-  public void setMrscode(double mrscode) {
-    this.mrscode = mrscode;
+  public void setMrsCode(double mrsCode) {
+    this.mrsCode = mrsCode;
   }
 
-
-  public double getMrecode() {
-    return mrecode;
+  public double getMreCode() {
+    return mreCode;
   }
 
-  public void setMrecode(double mrecode) {
-    this.mrecode = mrecode;
+  public void setMreCode(double mreCode) {
+    this.mreCode = mreCode;
   }
 
-
-  public String getMrface() {
-    return mrface;
+  public String getMrFace() {
+    return mrFace;
   }
 
-  public void setMrface(String mrface) {
-    this.mrface = mrface;
+  public void setMrFace(String mrFace) {
+    this.mrFace = mrFace;
   }
 
-
-  public java.sql.Timestamp getMrdate() {
-    return mrdate;
+  public Date getMrDate() {
+    return mrDate;
   }
 
-  public void setMrdate(java.sql.Timestamp mrdate) {
-    this.mrdate = mrdate;
+  public void setMrDate(Date mrDate) {
+    this.mrDate = mrDate;
   }
 
-
-  public String getMrsflag() {
-    return mrsflag;
+  public String getMrsFlag() {
+    return mrsFlag;
   }
 
-  public void setMrsflag(String mrsflag) {
-    this.mrsflag = mrsflag;
+  public void setMrsFlag(String mrsFlag) {
+    this.mrsFlag = mrsFlag;
   }
 
-
-  public java.sql.Timestamp getMrsdate() {
-    return mrsdate;
+  public Date getMrsDate() {
+    return mrsDate;
   }
 
-  public void setMrsdate(java.sql.Timestamp mrsdate) {
-    this.mrsdate = mrsdate;
+  public void setMrsDate(Date mrsDate) {
+    this.mrsDate = mrsDate;
   }
 
-
-  public String getMrmonth() {
-    return mrmonth;
+  public String getMrMonth() {
+    return mrMonth;
   }
 
-  public void setMrmonth(String mrmonth) {
-    this.mrmonth = mrmonth;
+  public void setMrMonth(String mrMonth) {
+    this.mrMonth = mrMonth;
   }
-
 }

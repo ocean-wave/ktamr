@@ -1,25 +1,28 @@
 package com.ktamr.domain;
 
 
-public class HaMetertype {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long metertypeid;
+import java.util.Date;
+
+public class HaMetertype extends BaseEntity {
+
+  private Integer metertypeid;
   private String name;
   private String icon;
   private String description;
-  private long pricestandId;
-  private java.sql.Timestamp createtime;
-  private java.sql.Timestamp modifytime;
+  private Integer pricestandId;
+  private Date createtime;
+  private Date modifytime;
 
 
-  public long getMetertypeid() {
+  public Integer getMetertypeid() {
     return metertypeid;
   }
 
-  public void setMetertypeid(long metertypeid) {
+  public void setMetertypeid(Integer metertypeid) {
     this.metertypeid = metertypeid;
   }
-
 
   public String getName() {
     return name;
@@ -29,7 +32,6 @@ public class HaMetertype {
     this.name = name;
   }
 
-
   public String getIcon() {
     return icon;
   }
@@ -37,7 +39,6 @@ public class HaMetertype {
   public void setIcon(String icon) {
     this.icon = icon;
   }
-
 
   public String getDescription() {
     return description;
@@ -47,31 +48,27 @@ public class HaMetertype {
     this.description = description;
   }
 
-
-  public long getPricestandId() {
+  public Integer getPricestandId() {
     return pricestandId;
   }
 
-  public void setPricestandId(long pricestandId) {
+  public void setPricestandId(Integer pricestandId) {
     this.pricestandId = pricestandId;
   }
 
-
-  public java.sql.Timestamp getCreatetime() {
+  public Date getCreatetime() {
     return createtime;
   }
 
-  public void setCreatetime(java.sql.Timestamp createtime) {
+  public void setCreatetime(Date createtime) {
     this.createtime = createtime;
   }
 
-
-  public java.sql.Timestamp getModifytime() {
+  public Date getModifytime() {
     return modifytime;
   }
 
-  public void setModifytime(java.sql.Timestamp modifytime) {
+  public void setModifytime(Date modifytime) {
     this.modifytime = modifytime;
   }
-
 }

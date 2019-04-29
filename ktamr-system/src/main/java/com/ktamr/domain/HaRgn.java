@@ -36,45 +36,6 @@ public class HaRgn extends BaseEntity {
    */
   private Integer haMeterCount;
 
-  public Integer getHaAreaCount() {
-    return haAreaCount;
-  }
-
-  public void setHaAreaCount(Integer haAreaCount) {
-    this.haAreaCount = haAreaCount;
-  }
-
-  public Integer getHaCentorCount() {
-    return haCentorCount;
-  }
-
-  public void setHaCentorCount(Integer haCentorCount) {
-    this.haCentorCount = haCentorCount;
-  }
-
-  public Integer getHaCollectorCount() {
-    return haCollectorCount;
-  }
-
-  public void setHaCollectorCount(Integer haCollectorCount) {
-    this.haCollectorCount = haCollectorCount;
-  }
-
-  public Integer getHaMeterCount() {
-    return haMeterCount;
-  }
-
-  public void setHaMeterCount(Integer haMeterCount) {
-    this.haMeterCount = haMeterCount;
-  }
-
-  public HaArea getHaArea() {
-    return haArea;
-  }
-
-  public void setHaArea(HaArea haArea) {
-    this.haArea = haArea;
-  }
 
   public String getId() {
     return id;
@@ -83,7 +44,6 @@ public class HaRgn extends BaseEntity {
   public void setId(String id) {
     this.id = id;
   }
-
 
   public String getName() {
     return name;
@@ -125,5 +85,45 @@ public class HaRgn extends BaseEntity {
 
   public void setModifyTime(Date modifyTime) {
     this.modifyTime = modifyTime;
+  }
+
+  public HaArea getHaArea() {
+    return haArea;
+  }
+
+  public void setHaArea(HaArea haArea) {
+    this.haArea = haArea;
+  }
+
+  public Integer getHaAreaCount() {
+    return haAreaCount;
+  }
+
+  public void setHaAreaCount(Integer haAreaCount) {
+    this.haAreaCount = haAreaCount;
+  }
+
+  public Integer getHaCentorCount() {
+    return haCentorCount;
+  }
+
+  public void setHaCentorCount(Integer haCentorCount) {
+    this.haCentorCount = haCentorCount;
+  }
+
+  public Integer getHaCollectorCount() {
+    return haCollectorCount;
+  }
+
+  public void setHaCollectorCount(Integer haCollectorCount) {
+    this.haCollectorCount = haCollectorCount;
+  }
+
+  public Integer getHaMeterCount() {
+    return haMeterCount;
+  }
+
+  public void setHaMeterCount(Integer haMeterCount) {
+    this.haMeterCount = haMeterCount;
   }
 }

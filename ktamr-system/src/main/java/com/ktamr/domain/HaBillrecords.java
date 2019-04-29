@@ -2,18 +2,19 @@ package com.ktamr.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
 
-public class HaBillrecords {
+public class HaBillrecords extends BaseEntity {
 
-  private long bid;
-  private long custid;
-  private String operation;
+  private Integer bid;
+  private Integer custId;
+  private String operaTion;
   private double charge;
-  private double currentbalance;
-  private Date opttime;
-  private String optman;
+  private double currentBalance;
+  private Date optTime;
+  private String optMan;
 
   private String optType;
 
@@ -29,6 +30,62 @@ public class HaBillrecords {
   private Date kaiShi;
   @JsonFormat(pattern = " yyyy-MM-dd HH:mm:ss ")
   private Date JieShu;
+
+  public Integer getBid() {
+    return bid;
+  }
+
+  public void setBid(Integer bid) {
+    this.bid = bid;
+  }
+
+  public Integer getCustId() {
+    return custId;
+  }
+
+  public void setCustId(Integer custId) {
+    this.custId = custId;
+  }
+
+  public String getOperaTion() {
+    return operaTion;
+  }
+
+  public void setOperaTion(String operaTion) {
+    this.operaTion = operaTion;
+  }
+
+  public double getCharge() {
+    return charge;
+  }
+
+  public void setCharge(double charge) {
+    this.charge = charge;
+  }
+
+  public double getCurrentBalance() {
+    return currentBalance;
+  }
+
+  public void setCurrentBalance(double currentBalance) {
+    this.currentBalance = currentBalance;
+  }
+
+  public Date getOptTime() {
+    return optTime;
+  }
+
+  public void setOptTime(Date optTime) {
+    this.optTime = optTime;
+  }
+
+  public String getOptMan() {
+    return optMan;
+  }
+
+  public void setOptMan(String optMan) {
+    this.optMan = optMan;
+  }
 
   public String getOptType() {
     return optType;
@@ -93,65 +150,4 @@ public class HaBillrecords {
   public void setJieShu(Date jieShu) {
     JieShu = jieShu;
   }
-
-  public Date getOpttime() {
-    return opttime;
-  }
-
-  public void setOpttime(Date opttime) {
-    this.opttime = opttime;
-  }
-
-  public long getBid() {
-    return bid;
-  }
-
-  public void setBid(long bid) {
-    this.bid = bid;
-  }
-
-
-  public long getCustid() {
-    return custid;
-  }
-
-  public void setCustid(long custid) {
-    this.custid = custid;
-  }
-
-
-  public String getOperation() {
-    return operation;
-  }
-
-  public void setOperation(String operation) {
-    this.operation = operation;
-  }
-
-
-  public double getCharge() {
-    return charge;
-  }
-
-  public void setCharge(double charge) {
-    this.charge = charge;
-  }
-
-
-  public double getCurrentbalance() {
-    return currentbalance;
-  }
-
-  public void setCurrentbalance(double currentbalance) {
-    this.currentbalance = currentbalance;
-  }
-
-  public String getOptman() {
-    return optman;
-  }
-
-  public void setOptman(String optman) {
-    this.optman = optman;
-  }
-
 }

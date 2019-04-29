@@ -2,10 +2,11 @@ package com.ktamr.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
 
-public class HaFreeze {
+public class HaFreeze extends BaseEntity {
 
   private Integer itemId;
   private Integer meterId;
@@ -14,9 +15,9 @@ public class HaFreeze {
   @JsonFormat( pattern = "yyyy-MM-dd")
   private Date thTime;
   private String tfNumber;
-  private Date rtime;
+  private Date rTime;
   private String delta;
-  private Integer pricestandId;
+  private Integer priceStandId;
   private double price;
   private double pay;
   private String billId;
@@ -24,22 +25,6 @@ public class HaFreeze {
   //开启存别名
   private Integer areaId;//***重要
   private String opType;//点击哪个功能的功能名称
-
-  public Integer getAreaId() {
-    return areaId;
-  }
-
-  public void setAreaId(Integer areaId) {
-    this.areaId = areaId;
-  }
-
-  public String getOpType() {
-    return opType;
-  }
-
-  public void setOpType(String opType) {
-    this.opType = opType;
-  }
 
   public Integer getItemId() {
     return itemId;
@@ -89,12 +74,12 @@ public class HaFreeze {
     this.tfNumber = tfNumber;
   }
 
-  public Date getRtime() {
-    return rtime;
+  public Date getrTime() {
+    return rTime;
   }
 
-  public void setRtime(Date rtime) {
-    this.rtime = rtime;
+  public void setrTime(Date rTime) {
+    this.rTime = rTime;
   }
 
   public String getDelta() {
@@ -105,12 +90,12 @@ public class HaFreeze {
     this.delta = delta;
   }
 
-  public Integer getPricestandId() {
-    return pricestandId;
+  public Integer getPriceStandId() {
+    return priceStandId;
   }
 
-  public void setPricestandId(Integer pricestandId) {
-    this.pricestandId = pricestandId;
+  public void setPriceStandId(Integer priceStandId) {
+    this.priceStandId = priceStandId;
   }
 
   public double getPrice() {
@@ -135,5 +120,21 @@ public class HaFreeze {
 
   public void setBillId(String billId) {
     this.billId = billId;
+  }
+
+  public Integer getAreaId() {
+    return areaId;
+  }
+
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
+  }
+
+  public String getOpType() {
+    return opType;
+  }
+
+  public void setOpType(String opType) {
+    this.opType = opType;
   }
 }

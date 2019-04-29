@@ -1,37 +1,38 @@
 package com.ktamr.domain;
 
 
-public class HaMonthbtime {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private java.sql.Timestamp startTime;
-  private java.sql.Timestamp endTime;
-  private long areaid;
+import java.util.Date;
 
 
-  public java.sql.Timestamp getStartTime() {
+public class HaMonthbtime extends BaseEntity {
+
+  private Date startTime;
+  private Date endTime;
+  private Integer areaId;
+
+  public Date getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(java.sql.Timestamp startTime) {
+  public void setStartTime(Date startTime) {
     this.startTime = startTime;
   }
 
-
-  public java.sql.Timestamp getEndTime() {
+  public Date getEndTime() {
     return endTime;
   }
 
-  public void setEndTime(java.sql.Timestamp endTime) {
+  public void setEndTime(Date endTime) {
     this.endTime = endTime;
   }
 
-
-  public long getAreaid() {
-    return areaid;
+  public Integer getAreaId() {
+    return areaId;
   }
 
-  public void setAreaid(long areaid) {
-    this.areaid = areaid;
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
   }
-
 }

@@ -11,21 +11,14 @@ public class HaBuilding extends BaseEntity {
   private Integer buildingId;
   private Integer areaId;
   private String name;
-  private String description;
+  private String descripTion;
   private String areaNo;
   private String buildingNo;
   private Date createTime;
   private Date modifyTime;
 
-  private HaRoom room;
+  private HaRoom haRoom;
 
-  public HaRoom getRoom() {
-    return room;
-  }
-
-  public void setRoom(HaRoom room) {
-    this.room = room;
-  }
 
   public Integer getBuildingId() {
     return buildingId;
@@ -51,12 +44,12 @@ public class HaBuilding extends BaseEntity {
     this.name = name;
   }
 
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
 
   public String getAreaNo() {
@@ -95,4 +88,11 @@ public class HaBuilding extends BaseEntity {
     this.modifyTime = modifyTime;
   }
 
+  public HaRoom getHaRoom() {
+    return haRoom;
+  }
+
+  public void setHaRoom(HaRoom haRoom) {
+    this.haRoom = haRoom;
+  }
 }

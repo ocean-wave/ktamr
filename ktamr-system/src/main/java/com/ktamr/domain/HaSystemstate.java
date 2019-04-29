@@ -1,17 +1,20 @@
 package com.ktamr.domain;
 
 
-public class HaSystemstate {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private java.sql.Timestamp thisTime;
+import java.util.Date;
+
+public class HaSystemstate extends BaseEntity {
+
+  private Date thisTime;
 
 
-  public java.sql.Timestamp getThisTime() {
+  public Date getThisTime() {
     return thisTime;
   }
 
-  public void setThisTime(java.sql.Timestamp thisTime) {
+  public void setThisTime(Date thisTime) {
     this.thisTime = thisTime;
   }
-
 }

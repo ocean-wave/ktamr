@@ -1,34 +1,37 @@
 package com.ktamr.domain;
 
 
-public class HaConfig {
+import com.ktamr.common.core.domain.BaseEntity;
+
+import java.util.Date;
+
+public class HaConfig   extends BaseEntity {
 
   private String S;
   private String K;
   private String kname;
   private String V;
-  private java.sql.Timestamp lasttime;
+  private Date lastTime;
   private String uid;
   private double pos;
+
 
 
   public String getS() {
     return S;
   }
 
-  public void setS(String S) {
-    this.S = S;
+  public void setS(String s) {
+    S = s;
   }
-
 
   public String getK() {
     return K;
   }
 
-  public void setK(String K) {
-    this.K = K;
+  public void setK(String k) {
+    K = k;
   }
-
 
   public String getKname() {
     return kname;
@@ -38,24 +41,21 @@ public class HaConfig {
     this.kname = kname;
   }
 
-
   public String getV() {
     return V;
   }
 
-  public void setV(String V) {
-    this.V = V;
+  public void setV(String v) {
+    V = v;
   }
 
-
-  public java.sql.Timestamp getLasttime() {
-    return lasttime;
+  public Date getLastTime() {
+    return lastTime;
   }
 
-  public void setLasttime(java.sql.Timestamp lasttime) {
-    this.lasttime = lasttime;
+  public void setLastTime(Date lastTime) {
+    this.lastTime = lastTime;
   }
-
 
   public String getUid() {
     return uid;
@@ -65,7 +65,6 @@ public class HaConfig {
     this.uid = uid;
   }
 
-
   public double getPos() {
     return pos;
   }
@@ -73,5 +72,4 @@ public class HaConfig {
   public void setPos(double pos) {
     this.pos = pos;
   }
-
 }

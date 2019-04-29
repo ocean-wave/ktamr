@@ -1,32 +1,31 @@
 package com.ktamr.domain;
 
 
-public class HatMeterinfo {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long meterid;
-  private long meternumber;
+public class HatMeterinfo extends BaseEntity {
+
+  private Integer meterId;
+  private Integer meterNumber;
   private String addr;
-  private String username;
-  private String useraddr;
+  private String userName;
+  private String userAddr;
 
-
-  public long getMeterid() {
-    return meterid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public long getMeternumber() {
-    return meternumber;
+  public Integer getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(long meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(Integer meterNumber) {
+    this.meterNumber = meterNumber;
   }
-
 
   public String getAddr() {
     return addr;
@@ -36,22 +35,19 @@ public class HatMeterinfo {
     this.addr = addr;
   }
 
-
-  public String getUsername() {
-    return username;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
-
-  public String getUseraddr() {
-    return useraddr;
+  public String getUserAddr() {
+    return userAddr;
   }
 
-  public void setUseraddr(String useraddr) {
-    this.useraddr = useraddr;
+  public void setUserAddr(String userAddr) {
+    this.userAddr = userAddr;
   }
-
 }

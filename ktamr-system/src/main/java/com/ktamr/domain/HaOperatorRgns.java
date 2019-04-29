@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
-public class HaOperatorRgns {
+import com.ktamr.common.core.domain.BaseEntity;
+
+public class HaOperatorRgns extends BaseEntity {
 
   private String operatorCode;
   private String rgnCode;
@@ -15,7 +17,6 @@ public class HaOperatorRgns {
     this.operatorCode = operatorCode;
   }
 
-
   public String getRgnCode() {
     return rgnCode;
   }
@@ -23,5 +24,4 @@ public class HaOperatorRgns {
   public void setRgnCode(String rgnCode) {
     this.rgnCode = rgnCode;
   }
-
 }

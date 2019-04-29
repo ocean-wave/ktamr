@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
-public class HaManager {
+import com.ktamr.common.core.domain.BaseEntity;
+
+public class HaManager extends BaseEntity {
 
   private String managerid;
   private String name;

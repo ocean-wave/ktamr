@@ -1,13 +1,16 @@
 package com.ktamr.domain;
 
 
-public class HaVendor {
+import com.ktamr.common.core.domain.BaseEntity;
+
+public class HaVendor extends BaseEntity {
 
   private Integer vendorId;
   private String name;
   private String code;
   private String url;
-  private String description;
+  private String descripTion;
+
 
   public Integer getVendorId() {
     return vendorId;
@@ -25,7 +28,6 @@ public class HaVendor {
     this.name = name;
   }
 
-
   public String getCode() {
     return code;
   }
@@ -33,7 +35,6 @@ public class HaVendor {
   public void setCode(String code) {
     this.code = code;
   }
-
 
   public String getUrl() {
     return url;
@@ -43,13 +44,11 @@ public class HaVendor {
     this.url = url;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
-
 }

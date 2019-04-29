@@ -3,65 +3,49 @@ package com.ktamr.domain;
 
 import com.ktamr.common.core.domain.BaseEntity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class HaPricestandard extends BaseEntity {
 
-  private long pricestandId;
-  private long metertypeid;
+  private Integer pricestandId;
+  private Integer metertypeId;
   private String name;
-  private Date starttime;
-  private Date endtime;
+  private Date startTime;
+  private Date endTime;
   private double jPrice;
   private double fPrice;
   private double pPrice;
   private double gPrice;
   private double sMin;
   private double sMax;
-  private long sDays;
-  private java.sql.Timestamp createtime;
-  private java.sql.Timestamp modifytime;
-  private long usagepoint1;
-  private long usagepoint2;
-  private String chargingmethods;
+  private Integer sDays;
+  private Date createTime;
+  private Date modifyTime;
+  private long usagePoint1;
+  private long usagePoint2;
+  private String chargingMethods;
   private double price1;
   private double price2;
   private double price3;
   private double a1;
 
-  public Date getStarttime() {
-    return starttime;
-  }
 
-  public void setStarttime(Date starttime) {
-    this.starttime = starttime;
-  }
-
-  public Date getEndtime() {
-    return endtime;
-  }
-
-  public void setEndtime(Date endtime) {
-    this.endtime = endtime;
-  }
-
-  public long getPricestandId() {
+  public Integer getPricestandId() {
     return pricestandId;
   }
 
-  public void setPricestandId(long pricestandId) {
+  public void setPricestandId(Integer pricestandId) {
     this.pricestandId = pricestandId;
   }
 
-
-  public long getMetertypeid() {
-    return metertypeid;
+  public Integer getMetertypeId() {
+    return metertypeId;
   }
 
-  public void setMetertypeid(long metertypeid) {
-    this.metertypeid = metertypeid;
+  public void setMetertypeId(Integer metertypeId) {
+    this.metertypeId = metertypeId;
   }
-
 
   public String getName() {
     return name;
@@ -71,113 +55,121 @@ public class HaPricestandard extends BaseEntity {
     this.name = name;
   }
 
-  public double getJPrice() {
+  public Date getStartTime() {
+    return startTime;
+  }
+
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
+  }
+
+  public Date getEndTime() {
+    return endTime;
+  }
+
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
+  }
+
+  public double getjPrice() {
     return jPrice;
   }
 
-  public void setJPrice(double jPrice) {
+  public void setjPrice(double jPrice) {
     this.jPrice = jPrice;
   }
 
-
-  public double getFPrice() {
+  public double getfPrice() {
     return fPrice;
   }
 
-  public void setFPrice(double fPrice) {
+  public void setfPrice(double fPrice) {
     this.fPrice = fPrice;
   }
 
-
-  public double getPPrice() {
+  public double getpPrice() {
     return pPrice;
   }
 
-  public void setPPrice(double pPrice) {
+  public void setpPrice(double pPrice) {
     this.pPrice = pPrice;
   }
 
-
-  public double getGPrice() {
+  public double getgPrice() {
     return gPrice;
   }
 
-  public void setGPrice(double gPrice) {
+  public void setgPrice(double gPrice) {
     this.gPrice = gPrice;
   }
 
-
-  public double getSMin() {
+  public double getsMin() {
     return sMin;
   }
 
-  public void setSMin(double sMin) {
+  public void setsMin(double sMin) {
     this.sMin = sMin;
   }
 
-
-  public double getSMax() {
+  public double getsMax() {
     return sMax;
   }
 
-  public void setSMax(double sMax) {
+  public void setsMax(double sMax) {
     this.sMax = sMax;
   }
 
-
-  public long getSDays() {
+  public Integer getsDays() {
     return sDays;
   }
 
-  public void setSDays(long sDays) {
+  public void setsDays(Integer sDays) {
     this.sDays = sDays;
   }
 
-
-  public java.sql.Timestamp getCreatetime() {
-    return createtime;
+  @Override
+  public Date getCreateTime() {
+    return createTime;
   }
 
-  public void setCreatetime(java.sql.Timestamp createtime) {
-    this.createtime = createtime;
+  @Override
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
   }
 
-
-  public java.sql.Timestamp getModifytime() {
-    return modifytime;
+  @Override
+  public Date getModifyTime() {
+    return modifyTime;
   }
 
-  public void setModifytime(java.sql.Timestamp modifytime) {
-    this.modifytime = modifytime;
+  @Override
+  public void setModifyTime(Date modifyTime) {
+    this.modifyTime = modifyTime;
   }
 
-
-  public long getUsagepoint1() {
-    return usagepoint1;
+  public long getUsagePoint1() {
+    return usagePoint1;
   }
 
-  public void setUsagepoint1(long usagepoint1) {
-    this.usagepoint1 = usagepoint1;
+  public void setUsagePoint1(long usagePoint1) {
+    this.usagePoint1 = usagePoint1;
   }
 
-
-  public long getUsagepoint2() {
-    return usagepoint2;
+  public long getUsagePoint2() {
+    return usagePoint2;
   }
 
-  public void setUsagepoint2(long usagepoint2) {
-    this.usagepoint2 = usagepoint2;
+  public void setUsagePoint2(long usagePoint2) {
+    this.usagePoint2 = usagePoint2;
   }
 
-
-  public String getChargingmethods() {
-    return chargingmethods;
+  public String getChargingMethods() {
+    return chargingMethods;
   }
 
-  public void setChargingmethods(String chargingmethods) {
-    this.chargingmethods = chargingmethods;
+  public void setChargingMethods(String chargingMethods) {
+    this.chargingMethods = chargingMethods;
   }
-
 
   public double getPrice1() {
     return price1;
@@ -187,7 +179,6 @@ public class HaPricestandard extends BaseEntity {
     this.price1 = price1;
   }
 
-
   public double getPrice2() {
     return price2;
   }
@@ -195,7 +186,6 @@ public class HaPricestandard extends BaseEntity {
   public void setPrice2(double price2) {
     this.price2 = price2;
   }
-
 
   public double getPrice3() {
     return price3;
@@ -205,7 +195,6 @@ public class HaPricestandard extends BaseEntity {
     this.price3 = price3;
   }
 
-
   public double getA1() {
     return a1;
   }
@@ -213,5 +202,4 @@ public class HaPricestandard extends BaseEntity {
   public void setA1(double a1) {
     this.a1 = a1;
   }
-
 }

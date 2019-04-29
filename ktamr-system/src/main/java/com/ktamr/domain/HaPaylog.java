@@ -1,18 +1,22 @@
 package com.ktamr.domain;
 
 
-public class HaPaylog {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private String billid;
-  private long custId;
+import java.util.Date;
+
+public class HaPaylog extends BaseEntity {
+
+  private String billId;
+  private Integer custId;
   private String custName;
-  private java.sql.Timestamp plantime;
-  private java.sql.Timestamp paytime;
+  private Date planTime;
+  private Date payTime;
   private double sum;
   private String bank;
   private String account;
   private String state;
-  private java.sql.Timestamp mbtime;
+  private Date mbtime;
   private double lastarrear;
   private double receipt;
 
@@ -24,6 +28,103 @@ public class HaPaylog {
   //第二波
   private  HaMeter haMeter;
   private  HaMetertype haMetertype;
+
+
+  public String getBillId() {
+    return billId;
+  }
+
+  public void setBillId(String billId) {
+    this.billId = billId;
+  }
+
+  public Integer getCustId() {
+    return custId;
+  }
+
+  public void setCustId(Integer custId) {
+    this.custId = custId;
+  }
+
+  public String getCustName() {
+    return custName;
+  }
+
+  public void setCustName(String custName) {
+    this.custName = custName;
+  }
+
+  public Date getPlanTime() {
+    return planTime;
+  }
+
+  public void setPlanTime(Date planTime) {
+    this.planTime = planTime;
+  }
+
+  public Date getPayTime() {
+    return payTime;
+  }
+
+  public void setPayTime(Date payTime) {
+    this.payTime = payTime;
+  }
+
+  public double getSum() {
+    return sum;
+  }
+
+  public void setSum(double sum) {
+    this.sum = sum;
+  }
+
+  public String getBank() {
+    return bank;
+  }
+
+  public void setBank(String bank) {
+    this.bank = bank;
+  }
+
+  public String getAccount() {
+    return account;
+  }
+
+  public void setAccount(String account) {
+    this.account = account;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public Date getMbtime() {
+    return mbtime;
+  }
+
+  public void setMbtime(Date mbtime) {
+    this.mbtime = mbtime;
+  }
+
+  public double getLastarrear() {
+    return lastarrear;
+  }
+
+  public void setLastarrear(double lastarrear) {
+    this.lastarrear = lastarrear;
+  }
+
+  public double getReceipt() {
+    return receipt;
+  }
+
+  public void setReceipt(double receipt) {
+    this.receipt = receipt;
+  }
 
   public HaFreeze getHaFreeze() {
     return haFreeze;
@@ -64,112 +165,4 @@ public class HaPaylog {
   public void setHaMetertype(HaMetertype haMetertype) {
     this.haMetertype = haMetertype;
   }
-
-  public String getBillid() {
-    return billid;
-  }
-
-  public void setBillid(String billid) {
-    this.billid = billid;
-  }
-
-
-  public long getCustId() {
-    return custId;
-  }
-
-  public void setCustId(long custId) {
-    this.custId = custId;
-  }
-
-
-  public String getCustName() {
-    return custName;
-  }
-
-  public void setCustName(String custName) {
-    this.custName = custName;
-  }
-
-
-  public java.sql.Timestamp getPlantime() {
-    return plantime;
-  }
-
-  public void setPlantime(java.sql.Timestamp plantime) {
-    this.plantime = plantime;
-  }
-
-
-  public java.sql.Timestamp getPaytime() {
-    return paytime;
-  }
-
-  public void setPaytime(java.sql.Timestamp paytime) {
-    this.paytime = paytime;
-  }
-
-
-  public double getSum() {
-    return sum;
-  }
-
-  public void setSum(double sum) {
-    this.sum = sum;
-  }
-
-
-  public String getBank() {
-    return bank;
-  }
-
-  public void setBank(String bank) {
-    this.bank = bank;
-  }
-
-
-  public String getAccount() {
-    return account;
-  }
-
-  public void setAccount(String account) {
-    this.account = account;
-  }
-
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-
-  public java.sql.Timestamp getMbtime() {
-    return mbtime;
-  }
-
-  public void setMbtime(java.sql.Timestamp mbtime) {
-    this.mbtime = mbtime;
-  }
-
-
-  public double getLastarrear() {
-    return lastarrear;
-  }
-
-  public void setLastarrear(double lastarrear) {
-    this.lastarrear = lastarrear;
-  }
-
-
-  public double getReceipt() {
-    return receipt;
-  }
-
-  public void setReceipt(double receipt) {
-    this.receipt = receipt;
-  }
-
 }

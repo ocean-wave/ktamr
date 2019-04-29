@@ -1,17 +1,18 @@
 package com.ktamr.domain;
 
 
-public class HatMeternumber {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long meternumber;
+public class HatMeternumber extends BaseEntity {
+
+  private Integer meterNumber;
 
 
-  public long getMeternumber() {
-    return meternumber;
+  public Integer getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(long meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(Integer meterNumber) {
+    this.meterNumber = meterNumber;
   }
-
 }

@@ -1,27 +1,30 @@
 package com.ktamr.domain;
 
 
-public class PmKt3NbBatch {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
+import java.util.Date;
+
+public class PmKt3NbBatch extends BaseEntity {
+
+  private Integer id;
   private String deviceType;
   private String company;
-  private java.sql.Timestamp workDay;
-  private String precode;
-  private long planAmount;
-  private long realAmount;
-  private long okAmount;
-  private long dupAmount;
+  private Date workDay;
+  private String preCode;
+  private Integer planAmount;
+  private Integer realAmount;
+  private Integer okAmount;
+  private Integer dupAmount;
 
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
-
 
   public String getDeviceType() {
     return deviceType;
@@ -31,7 +34,6 @@ public class PmKt3NbBatch {
     this.deviceType = deviceType;
   }
 
-
   public String getCompany() {
     return company;
   }
@@ -40,58 +42,51 @@ public class PmKt3NbBatch {
     this.company = company;
   }
 
-
-  public java.sql.Timestamp getWorkDay() {
+  public Date getWorkDay() {
     return workDay;
   }
 
-  public void setWorkDay(java.sql.Timestamp workDay) {
+  public void setWorkDay(Date workDay) {
     this.workDay = workDay;
   }
 
-
-  public String getPrecode() {
-    return precode;
+  public String getPreCode() {
+    return preCode;
   }
 
-  public void setPrecode(String precode) {
-    this.precode = precode;
+  public void setPreCode(String preCode) {
+    this.preCode = preCode;
   }
 
-
-  public long getPlanAmount() {
+  public Integer getPlanAmount() {
     return planAmount;
   }
 
-  public void setPlanAmount(long planAmount) {
+  public void setPlanAmount(Integer planAmount) {
     this.planAmount = planAmount;
   }
 
-
-  public long getRealAmount() {
+  public Integer getRealAmount() {
     return realAmount;
   }
 
-  public void setRealAmount(long realAmount) {
+  public void setRealAmount(Integer realAmount) {
     this.realAmount = realAmount;
   }
 
-
-  public long getOkAmount() {
+  public Integer getOkAmount() {
     return okAmount;
   }
 
-  public void setOkAmount(long okAmount) {
+  public void setOkAmount(Integer okAmount) {
     this.okAmount = okAmount;
   }
 
-
-  public long getDupAmount() {
+  public Integer getDupAmount() {
     return dupAmount;
   }
 
-  public void setDupAmount(long dupAmount) {
+  public void setDupAmount(Integer dupAmount) {
     this.dupAmount = dupAmount;
   }
-
 }

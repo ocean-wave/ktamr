@@ -1,33 +1,33 @@
 package com.ktamr.domain;
 
 
-public class HaFeestandard {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long feeid;
-  private long pricestandid;
+public class HaFeestandard extends BaseEntity {
+
+  private Integer feeId;
+  private Integer pricestandId;
   private String name;
   private double price1;
   private double price2;
   private double price3;
 
 
-  public long getFeeid() {
-    return feeid;
+  public Integer getFeeId() {
+    return feeId;
   }
 
-  public void setFeeid(long feeid) {
-    this.feeid = feeid;
+  public void setFeeId(Integer feeId) {
+    this.feeId = feeId;
   }
 
-
-  public long getPricestandid() {
-    return pricestandid;
+  public Integer getPricestandId() {
+    return pricestandId;
   }
 
-  public void setPricestandid(long pricestandid) {
-    this.pricestandid = pricestandid;
+  public void setPricestandId(Integer pricestandId) {
+    this.pricestandId = pricestandId;
   }
-
 
   public String getName() {
     return name;
@@ -37,7 +37,6 @@ public class HaFeestandard {
     this.name = name;
   }
 
-
   public double getPrice1() {
     return price1;
   }
@@ -45,7 +44,6 @@ public class HaFeestandard {
   public void setPrice1(double price1) {
     this.price1 = price1;
   }
-
 
   public double getPrice2() {
     return price2;
@@ -55,7 +53,6 @@ public class HaFeestandard {
     this.price2 = price2;
   }
 
-
   public double getPrice3() {
     return price3;
   }
@@ -63,5 +60,4 @@ public class HaFeestandard {
   public void setPrice3(double price3) {
     this.price3 = price3;
   }
-
 }

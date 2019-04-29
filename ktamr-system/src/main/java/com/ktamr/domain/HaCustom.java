@@ -30,6 +30,39 @@ public class HaCustom extends BaseEntity {
   private Date rechargeTime;
   private Date postTime;
 
+
+  public Integer getCustId() {
+    return custId;
+  }
+
+  public void setCustId(Integer custId) {
+    this.custId = custId;
+  }
+
+  public String getCustNo() {
+    return custNo;
+  }
+
+  public void setCustNo(String custNo) {
+    this.custNo = custNo;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getSex() {
+    return sex;
+  }
+
+  public void setSex(String sex) {
+    this.sex = sex;
+  }
+
   public String getIdNumber() {
     return idNumber;
   }
@@ -44,6 +77,54 @@ public class HaCustom extends BaseEntity {
 
   public void setIdName(String idName) {
     this.idName = idName;
+  }
+
+  public String getTel() {
+    return tel;
+  }
+
+  public void setTel(String tel) {
+    this.tel = tel;
+  }
+
+  public String getMobil() {
+    return mobil;
+  }
+
+  public void setMobil(String mobil) {
+    this.mobil = mobil;
+  }
+
+  public String getAddr() {
+    return addr;
+  }
+
+  public void setAddr(String addr) {
+    this.addr = addr;
+  }
+
+  public String getZip() {
+    return zip;
+  }
+
+  public void setZip(String zip) {
+    this.zip = zip;
+  }
+
+  public String getBank() {
+    return bank;
+  }
+
+  public void setBank(String bank) {
+    this.bank = bank;
+  }
+
+  public String getAccount() {
+    return account;
+  }
+
+  public void setAccount(String account) {
+    this.account = account;
   }
 
   public String getLastbillId() {
@@ -82,12 +163,36 @@ public class HaCustom extends BaseEntity {
     this.modifyTime = modifyTime;
   }
 
+  public Integer getBalance() {
+    return balance;
+  }
+
+  public void setBalance(Integer balance) {
+    this.balance = balance;
+  }
+
+  public double getExpense() {
+    return expense;
+  }
+
+  public void setExpense(double expense) {
+    this.expense = expense;
+  }
+
   public Date getPaidTime() {
     return paidTime;
   }
 
   public void setPaidTime(Date paidTime) {
     this.paidTime = paidTime;
+  }
+
+  public double getRecharge() {
+    return recharge;
+  }
+
+  public void setRecharge(double recharge) {
+    this.recharge = recharge;
   }
 
   public Date getRechargeTime() {
@@ -105,115 +210,4 @@ public class HaCustom extends BaseEntity {
   public void setPostTime(Date postTime) {
     this.postTime = postTime;
   }
-
-  public Integer getBalance() {
-    return balance;
-  }
-
-  public void setBalance(Integer balance) {
-    this.balance = balance;
-  }
-
-  public Integer getCustId() {
-    return custId;
-  }
-
-  public void setCustId(Integer custId) {
-    this.custId = custId;
-  }
-
-  public String getCustNo() {
-    return custNo;
-  }
-
-  public void setCustNo(String custNo) {
-    this.custNo = custNo;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-  public String getSex() {
-    return sex;
-  }
-
-  public void setSex(String sex) {
-    this.sex = sex;
-  }
-
-  public String getTel() {
-    return tel;
-  }
-
-  public void setTel(String tel) {
-    this.tel = tel;
-  }
-
-
-  public String getMobil() {
-    return mobil;
-  }
-
-  public void setMobil(String mobil) {
-    this.mobil = mobil;
-  }
-
-
-  public String getAddr() {
-    return addr;
-  }
-
-  public void setAddr(String addr) {
-    this.addr = addr;
-  }
-
-
-  public String getZip() {
-    return zip;
-  }
-
-  public void setZip(String zip) {
-    this.zip = zip;
-  }
-
-
-  public String getBank() {
-    return bank;
-  }
-
-  public void setBank(String bank) {
-    this.bank = bank;
-  }
-
-  public String getAccount() {
-    return account;
-  }
-
-  public void setAccount(String account) {
-    this.account = account;
-  }
-
-  public double getExpense() {
-    return expense;
-  }
-
-  public void setExpense(double expense) {
-    this.expense = expense;
-  }
-
-  public double getRecharge() {
-    return recharge;
-  }
-
-  public void setRecharge(double recharge) {
-    this.recharge = recharge;
-  }
-
-
 }

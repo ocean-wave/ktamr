@@ -1,35 +1,37 @@
 package com.ktamr.domain;
 
 
-public class HaGprsdtu {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private String uid;
-  private String telnubmer;
+import java.util.Date;
+
+public class HaGprsdtu extends BaseEntity {
+
+  private String uId;
+  private String telNubmer;
   private String addr;
-  private long centors;
+  private Integer centors;
   private String state;
   private String dscrp;
-  private java.sql.Timestamp oplasttime;
-  private long idle;
+  private Date oplastTime;
+  private Integer idle;
 
 
-  public String getUid() {
-    return uid;
+  public String getuId() {
+    return uId;
   }
 
-  public void setUid(String uid) {
-    this.uid = uid;
+  public void setuId(String uId) {
+    this.uId = uId;
   }
 
-
-  public String getTelnubmer() {
-    return telnubmer;
+  public String getTelNubmer() {
+    return telNubmer;
   }
 
-  public void setTelnubmer(String telnubmer) {
-    this.telnubmer = telnubmer;
+  public void setTelNubmer(String telNubmer) {
+    this.telNubmer = telNubmer;
   }
-
 
   public String getAddr() {
     return addr;
@@ -39,15 +41,13 @@ public class HaGprsdtu {
     this.addr = addr;
   }
 
-
-  public long getCentors() {
+  public Integer getCentors() {
     return centors;
   }
 
-  public void setCentors(long centors) {
+  public void setCentors(Integer centors) {
     this.centors = centors;
   }
-
 
   public String getState() {
     return state;
@@ -57,7 +57,6 @@ public class HaGprsdtu {
     this.state = state;
   }
 
-
   public String getDscrp() {
     return dscrp;
   }
@@ -66,22 +65,19 @@ public class HaGprsdtu {
     this.dscrp = dscrp;
   }
 
-
-  public java.sql.Timestamp getOplasttime() {
-    return oplasttime;
+  public Date getOplastTime() {
+    return oplastTime;
   }
 
-  public void setOplasttime(java.sql.Timestamp oplasttime) {
-    this.oplasttime = oplasttime;
+  public void setOplastTime(Date oplastTime) {
+    this.oplastTime = oplastTime;
   }
 
-
-  public long getIdle() {
+  public Integer getIdle() {
     return idle;
   }
 
-  public void setIdle(long idle) {
+  public void setIdle(Integer idle) {
     this.idle = idle;
   }
-
 }

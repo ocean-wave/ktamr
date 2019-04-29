@@ -3,6 +3,8 @@ package com.ktamr.domain;
 
 import com.ktamr.common.core.domain.BaseEntity;
 
+import java.util.Date;
+
 public class HaCollector extends BaseEntity {
 
   private Integer collectorId;
@@ -11,21 +13,38 @@ public class HaCollector extends BaseEntity {
   private Integer oconf;
   private Integer nconf;
   private String state;
-  private java.sql.Timestamp lastdoTime;
+  private Date lastdoTime;
   private long lastState;
-  private java.sql.Timestamp createtime;
-  private java.sql.Timestamp modifytime;
+  private Date createTime;
+  private Date modifyTime;
   private String routers;
-  private long meters;
+  private Integer meters;
 
   private HaCentor haCentor;
 
-  public HaCentor getHaCentor() {
-    return haCentor;
+
+  public Integer getCollectorId() {
+    return collectorId;
   }
 
-  public void setHaCentor(HaCentor haCentor) {
-    this.haCentor = haCentor;
+  public void setCollectorId(Integer collectorId) {
+    this.collectorId = collectorId;
+  }
+
+  public String getAddr() {
+    return addr;
+  }
+
+  public void setAddr(String addr) {
+    this.addr = addr;
+  }
+
+  public String getVer() {
+    return ver;
+  }
+
+  public void setVer(String ver) {
+    this.ver = ver;
   }
 
   public Integer getOconf() {
@@ -44,31 +63,6 @@ public class HaCollector extends BaseEntity {
     this.nconf = nconf;
   }
 
-  public Integer getCollectorId() {
-    return collectorId;
-  }
-
-  public void setCollectorId(Integer collectorId) {
-    this.collectorId = collectorId;
-  }
-
-  public String getAddr() {
-    return addr;
-  }
-
-  public void setAddr(String addr) {
-    this.addr = addr;
-  }
-
-
-  public String getVer() {
-    return ver;
-  }
-
-  public void setVer(String ver) {
-    this.ver = ver;
-  }
-
   public String getState() {
     return state;
   }
@@ -77,14 +71,13 @@ public class HaCollector extends BaseEntity {
     this.state = state;
   }
 
-  public java.sql.Timestamp getLastdoTime() {
+  public Date getLastdoTime() {
     return lastdoTime;
   }
 
-  public void setLastdoTime(java.sql.Timestamp lastdoTime) {
+  public void setLastdoTime(Date lastdoTime) {
     this.lastdoTime = lastdoTime;
   }
-
 
   public long getLastState() {
     return lastState;
@@ -94,23 +87,25 @@ public class HaCollector extends BaseEntity {
     this.lastState = lastState;
   }
 
-  public java.sql.Timestamp getCreatetime() {
-    return createtime;
+  @Override
+  public Date getCreateTime() {
+    return createTime;
   }
 
-  public void setCreatetime(java.sql.Timestamp createtime) {
-    this.createtime = createtime;
+  @Override
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
   }
 
-
-  public java.sql.Timestamp getModifytime() {
-    return modifytime;
+  @Override
+  public Date getModifyTime() {
+    return modifyTime;
   }
 
-  public void setModifytime(java.sql.Timestamp modifytime) {
-    this.modifytime = modifytime;
+  @Override
+  public void setModifyTime(Date modifyTime) {
+    this.modifyTime = modifyTime;
   }
-
 
   public String getRouters() {
     return routers;
@@ -120,12 +115,19 @@ public class HaCollector extends BaseEntity {
     this.routers = routers;
   }
 
-  public long getMeters() {
+  public Integer getMeters() {
     return meters;
   }
 
-  public void setMeters(long meters) {
+  public void setMeters(Integer meters) {
     this.meters = meters;
   }
 
+  public HaCentor getHaCentor() {
+    return haCentor;
+  }
+
+  public void setHaCentor(HaCentor haCentor) {
+    this.haCentor = haCentor;
+  }
 }

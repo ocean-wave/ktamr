@@ -1,83 +1,80 @@
 package com.ktamr.domain;
 
 
-public class HaTmpfreeze {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long meterid;
-  private long meternumber;
-  private long centorid;
-  private long collectorid;
-  private java.sql.Timestamp fday;
-  private java.sql.Timestamp lday;
-  private java.sql.Timestamp readtime;
+import java.util.Date;
+
+public class HaTmpfreeze extends BaseEntity {
+
+  private Integer meterId;
+  private Integer meterNumber;
+  private Integer centorId;
+  private Integer collectOrid;
+  private Date fDay;
+  private Date lDay;
+  private Date readTime;
   private String state;
-  private long tRead;
-  private long lRead;
-  private long amount;
+  private Integer tRead;
+  private Integer lRead;
+  private Integer aMount;
 
 
-  public long getMeterid() {
-    return meterid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public long getMeternumber() {
-    return meternumber;
+  public Integer getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(long meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(Integer meterNumber) {
+    this.meterNumber = meterNumber;
   }
 
-
-  public long getCentorid() {
-    return centorid;
+  public Integer getCentorId() {
+    return centorId;
   }
 
-  public void setCentorid(long centorid) {
-    this.centorid = centorid;
+  public void setCentorId(Integer centorId) {
+    this.centorId = centorId;
   }
 
-
-  public long getCollectorid() {
-    return collectorid;
+  public Integer getCollectOrid() {
+    return collectOrid;
   }
 
-  public void setCollectorid(long collectorid) {
-    this.collectorid = collectorid;
+  public void setCollectOrid(Integer collectOrid) {
+    this.collectOrid = collectOrid;
   }
 
-
-  public java.sql.Timestamp getFday() {
-    return fday;
+  public Date getfDay() {
+    return fDay;
   }
 
-  public void setFday(java.sql.Timestamp fday) {
-    this.fday = fday;
+  public void setfDay(Date fDay) {
+    this.fDay = fDay;
   }
 
-
-  public java.sql.Timestamp getLday() {
-    return lday;
+  public Date getlDay() {
+    return lDay;
   }
 
-  public void setLday(java.sql.Timestamp lday) {
-    this.lday = lday;
+  public void setlDay(Date lDay) {
+    this.lDay = lDay;
   }
 
-
-  public java.sql.Timestamp getReadtime() {
-    return readtime;
+  public Date getReadTime() {
+    return readTime;
   }
 
-  public void setReadtime(java.sql.Timestamp readtime) {
-    this.readtime = readtime;
+  public void setReadTime(Date readTime) {
+    this.readTime = readTime;
   }
-
 
   public String getState() {
     return state;
@@ -87,31 +84,27 @@ public class HaTmpfreeze {
     this.state = state;
   }
 
-
-  public long getTRead() {
+  public Integer gettRead() {
     return tRead;
   }
 
-  public void setTRead(long tRead) {
+  public void settRead(Integer tRead) {
     this.tRead = tRead;
   }
 
-
-  public long getLRead() {
+  public Integer getlRead() {
     return lRead;
   }
 
-  public void setLRead(long lRead) {
+  public void setlRead(Integer lRead) {
     this.lRead = lRead;
   }
 
-
-  public long getAmount() {
-    return amount;
+  public Integer getaMount() {
+    return aMount;
   }
 
-  public void setAmount(long amount) {
-    this.amount = amount;
+  public void setaMount(Integer aMount) {
+    this.aMount = aMount;
   }
-
 }

@@ -1,65 +1,65 @@
 package com.ktamr.domain;
 
 
-public class HaTmprecord {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long itemid;
-  private long meternumber;
-  private long cmdid;
-  private long N;
+import java.util.Date;
+
+public class HaTmprecord extends BaseEntity {
+
+  private Integer itemId;
+  private Integer meterNumber;
+  private Integer cmdId;
+  private Integer N;
   private String state;
-  private java.sql.Timestamp readtime;
-  private long rawCentorid;
-  private long rawCollectorid;
-  private long meterid;
-  private long recCentorid;
-  private long recCollectorid;
-  private long rate;
-  private long lfN;
-  private java.sql.Timestamp lfTime;
-  private String errtype;
-  private String description;
-  private long vendorId;
-  private long meterSequence;
-  private long meterChannel;
-  private long offsetN;
+  private Date readTime;
+  private Integer rawCentorId;
+  private Integer rawCollectorId;
+  private Integer meterId;
+  private Integer recCentorId;
+  private Integer recCollectorId;
+  private Integer rate;
+  private Integer lfN;
+  private Date lfTime;
+  private String errType;
+  private String descripTion;
+  private Integer vendorId;
+  private Integer meterSequence;
+  private Integer meterChannel;
+  private Integer offsetN;
 
 
-  public long getItemid() {
-    return itemid;
+  public Integer getItemId() {
+    return itemId;
   }
 
-  public void setItemid(long itemid) {
-    this.itemid = itemid;
+  public void setItemId(Integer itemId) {
+    this.itemId = itemId;
   }
 
-
-  public long getMeternumber() {
-    return meternumber;
+  public Integer getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(long meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(Integer meterNumber) {
+    this.meterNumber = meterNumber;
   }
 
-
-  public long getCmdid() {
-    return cmdid;
+  public Integer getCmdId() {
+    return cmdId;
   }
 
-  public void setCmdid(long cmdid) {
-    this.cmdid = cmdid;
+  public void setCmdId(Integer cmdId) {
+    this.cmdId = cmdId;
   }
 
-
-  public long getN() {
+  public Integer getN() {
     return N;
   }
 
-  public void setN(long N) {
-    this.N = N;
+  public void setN(Integer n) {
+    N = n;
   }
-
 
   public String getState() {
     return state;
@@ -69,139 +69,123 @@ public class HaTmprecord {
     this.state = state;
   }
 
-
-  public java.sql.Timestamp getReadtime() {
-    return readtime;
+  public Date getReadTime() {
+    return readTime;
   }
 
-  public void setReadtime(java.sql.Timestamp readtime) {
-    this.readtime = readtime;
+  public void setReadTime(Date readTime) {
+    this.readTime = readTime;
   }
 
-
-  public long getRawCentorid() {
-    return rawCentorid;
+  public Integer getRawCentorId() {
+    return rawCentorId;
   }
 
-  public void setRawCentorid(long rawCentorid) {
-    this.rawCentorid = rawCentorid;
+  public void setRawCentorId(Integer rawCentorId) {
+    this.rawCentorId = rawCentorId;
   }
 
-
-  public long getRawCollectorid() {
-    return rawCollectorid;
+  public Integer getRawCollectorId() {
+    return rawCollectorId;
   }
 
-  public void setRawCollectorid(long rawCollectorid) {
-    this.rawCollectorid = rawCollectorid;
+  public void setRawCollectorId(Integer rawCollectorId) {
+    this.rawCollectorId = rawCollectorId;
   }
 
-
-  public long getMeterid() {
-    return meterid;
+  public Integer getMeterId() {
+    return meterId;
   }
 
-  public void setMeterid(long meterid) {
-    this.meterid = meterid;
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
   }
 
-
-  public long getRecCentorid() {
-    return recCentorid;
+  public Integer getRecCentorId() {
+    return recCentorId;
   }
 
-  public void setRecCentorid(long recCentorid) {
-    this.recCentorid = recCentorid;
+  public void setRecCentorId(Integer recCentorId) {
+    this.recCentorId = recCentorId;
   }
 
-
-  public long getRecCollectorid() {
-    return recCollectorid;
+  public Integer getRecCollectorId() {
+    return recCollectorId;
   }
 
-  public void setRecCollectorid(long recCollectorid) {
-    this.recCollectorid = recCollectorid;
+  public void setRecCollectorId(Integer recCollectorId) {
+    this.recCollectorId = recCollectorId;
   }
 
-
-  public long getRate() {
+  public Integer getRate() {
     return rate;
   }
 
-  public void setRate(long rate) {
+  public void setRate(Integer rate) {
     this.rate = rate;
   }
 
-
-  public long getLfN() {
+  public Integer getLfN() {
     return lfN;
   }
 
-  public void setLfN(long lfN) {
+  public void setLfN(Integer lfN) {
     this.lfN = lfN;
   }
 
-
-  public java.sql.Timestamp getLfTime() {
+  public Date getLfTime() {
     return lfTime;
   }
 
-  public void setLfTime(java.sql.Timestamp lfTime) {
+  public void setLfTime(Date lfTime) {
     this.lfTime = lfTime;
   }
 
-
-  public String getErrtype() {
-    return errtype;
+  public String getErrType() {
+    return errType;
   }
 
-  public void setErrtype(String errtype) {
-    this.errtype = errtype;
+  public void setErrType(String errType) {
+    this.errType = errType;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
 
-
-  public long getVendorId() {
+  public Integer getVendorId() {
     return vendorId;
   }
 
-  public void setVendorId(long vendorId) {
+  public void setVendorId(Integer vendorId) {
     this.vendorId = vendorId;
   }
 
-
-  public long getMeterSequence() {
+  public Integer getMeterSequence() {
     return meterSequence;
   }
 
-  public void setMeterSequence(long meterSequence) {
+  public void setMeterSequence(Integer meterSequence) {
     this.meterSequence = meterSequence;
   }
 
-
-  public long getMeterChannel() {
+  public Integer getMeterChannel() {
     return meterChannel;
   }
 
-  public void setMeterChannel(long meterChannel) {
+  public void setMeterChannel(Integer meterChannel) {
     this.meterChannel = meterChannel;
   }
 
-
-  public long getOffsetN() {
+  public Integer getOffsetN() {
     return offsetN;
   }
 
-  public void setOffsetN(long offsetN) {
+  public void setOffsetN(Integer offsetN) {
     this.offsetN = offsetN;
   }
-
 }

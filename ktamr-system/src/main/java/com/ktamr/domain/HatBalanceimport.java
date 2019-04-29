@@ -1,53 +1,53 @@
 package com.ktamr.domain;
 
 
-public class HatBalanceimport {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
-  private String usercode;
-  private String username;
-  private double meternumber;
+import java.util.Date;
+
+public class HatBalanceimport extends BaseEntity {
+
+  private Integer id;
+  private String userCode;
+  private String userName;
+  private double meterNumber;
   private double balance;
-  private long userid;
+  private long userId;
   private String check;
-  private java.sql.Timestamp importtime;
+  private Date importTime;
 
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-
-  public String getUsercode() {
-    return usercode;
+  public String getUserCode() {
+    return userCode;
   }
 
-  public void setUsercode(String usercode) {
-    this.usercode = usercode;
+  public void setUserCode(String userCode) {
+    this.userCode = userCode;
   }
 
-
-  public String getUsername() {
-    return username;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
-
-  public double getMeternumber() {
-    return meternumber;
+  public double getMeterNumber() {
+    return meterNumber;
   }
 
-  public void setMeternumber(double meternumber) {
-    this.meternumber = meternumber;
+  public void setMeterNumber(double meterNumber) {
+    this.meterNumber = meterNumber;
   }
-
 
   public double getBalance() {
     return balance;
@@ -57,15 +57,13 @@ public class HatBalanceimport {
     this.balance = balance;
   }
 
-
-  public long getUserid() {
-    return userid;
+  public long getUserId() {
+    return userId;
   }
 
-  public void setUserid(long userid) {
-    this.userid = userid;
+  public void setUserId(long userId) {
+    this.userId = userId;
   }
-
 
   public String getCheck() {
     return check;
@@ -75,13 +73,11 @@ public class HatBalanceimport {
     this.check = check;
   }
 
-
-  public java.sql.Timestamp getImporttime() {
-    return importtime;
+  public Date getImportTime() {
+    return importTime;
   }
 
-  public void setImporttime(java.sql.Timestamp importtime) {
-    this.importtime = importtime;
+  public void setImportTime(Date importTime) {
+    this.importTime = importTime;
   }
-
 }

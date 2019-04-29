@@ -1,24 +1,25 @@
 package com.ktamr.domain;
 
 
-public class HaCmdtype {
+import com.ktamr.common.core.domain.BaseEntity;
 
-  private long id;
+public class HaCmdtype extends BaseEntity {
+
+  private Integer id;
   private String name;
   private String cmdFormat;
   private String rcvType;
-  private long rcvRecordLength;
-  private String description;
+  private Integer rcvRecordLength;
+  private String descripTion;
 
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
-
 
   public String getName() {
     return name;
@@ -28,7 +29,6 @@ public class HaCmdtype {
     this.name = name;
   }
 
-
   public String getCmdFormat() {
     return cmdFormat;
   }
@@ -36,7 +36,6 @@ public class HaCmdtype {
   public void setCmdFormat(String cmdFormat) {
     this.cmdFormat = cmdFormat;
   }
-
 
   public String getRcvType() {
     return rcvType;
@@ -46,22 +45,19 @@ public class HaCmdtype {
     this.rcvType = rcvType;
   }
 
-
-  public long getRcvRecordLength() {
+  public Integer getRcvRecordLength() {
     return rcvRecordLength;
   }
 
-  public void setRcvRecordLength(long rcvRecordLength) {
+  public void setRcvRecordLength(Integer rcvRecordLength) {
     this.rcvRecordLength = rcvRecordLength;
   }
 
-
-  public String getDescription() {
-    return description;
+  public String getDescripTion() {
+    return descripTion;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDescripTion(String descripTion) {
+    this.descripTion = descripTion;
   }
-
 }
