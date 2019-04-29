@@ -42,7 +42,7 @@ public class HaArea extends BaseEntity {
   private  Integer atnNumber;//不良表数
   private Integer countAreaNo;//2级菜单多少子的小区名称记录数
   private String cmdName;//定义别名类型接收
-  private String keyWord;
+  private String keyWord; //ssss
   //方便用areaid中in的范围查询
   List<Integer> idsList;
 
