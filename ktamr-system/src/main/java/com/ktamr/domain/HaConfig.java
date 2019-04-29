@@ -14,7 +14,7 @@ public class HaConfig   extends BaseEntity {
   private Date lastTime;
   private String uid;
   private double pos;
-
+  private String keyWord;
 
 
   public String getS() {
@@ -72,4 +72,12 @@ public class HaConfig   extends BaseEntity {
   public void setPos(double pos) {
     this.pos = pos;
   }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
 }

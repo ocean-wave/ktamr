@@ -17,6 +17,7 @@ public class HaBuilding extends BaseEntity {
   private Date createTime;
   private Date modifyTime;
 
+  private Integer buildingCount;
   private HaRoom haRoom;
 
 
@@ -88,7 +89,15 @@ public class HaBuilding extends BaseEntity {
     this.modifyTime = modifyTime;
   }
 
-  public HaRoom getHaRoom() {
+    public Integer getBuildingCount() {
+        return buildingCount;
+    }
+
+    public void setBuildingCount(Integer buildingCount) {
+        this.buildingCount = buildingCount;
+    }
+
+    public HaRoom getHaRoom() {
     return haRoom;
   }
 
