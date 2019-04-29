@@ -7,29 +7,29 @@ import java.util.Date;
 
 public class HaAudit extends BaseEntity {
 
-  private long auditId;
-  private long areaId;
+  private Integer auditId;
+  private Integer areaId;
   private Date auditDay;
-  private long sumN;
-  private long audN;
-  private long audCount;
+  private Integer sumN;
+  private Integer audN;
+  private Integer audCount;
   private String result;
   private String descripTion;
   private Date doDate;
 
-  public long getAuditId() {
+  public Integer getAuditId() {
     return auditId;
   }
 
-  public void setAuditId(long auditId) {
+  public void setAuditId(Integer auditId) {
     this.auditId = auditId;
   }
 
-  public long getAreaId() {
+  public Integer getAreaId() {
     return areaId;
   }
 
-  public void setAreaId(long areaId) {
+  public void setAreaId(Integer areaId) {
     this.areaId = areaId;
   }
 
@@ -41,27 +41,27 @@ public class HaAudit extends BaseEntity {
     this.auditDay = auditDay;
   }
 
-  public long getSumN() {
+  public Integer getSumN() {
     return sumN;
   }
 
-  public void setSumN(long sumN) {
+  public void setSumN(Integer sumN) {
     this.sumN = sumN;
   }
 
-  public long getAudN() {
+  public Integer getAudN() {
     return audN;
   }
 
-  public void setAudN(long audN) {
+  public void setAudN(Integer audN) {
     this.audN = audN;
   }
 
-  public long getAudCount() {
+  public Integer getAudCount() {
     return audCount;
   }
 
-  public void setAudCount(long audCount) {
+  public void setAudCount(Integer audCount) {
     this.audCount = audCount;
   }
 
