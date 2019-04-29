@@ -8,198 +8,226 @@ import java.util.Date;
 
 public class HaPricestandard extends BaseEntity {
 
-  private Integer pricestandId;
-  private Integer metertypeId;
-  private String name;
-  private Date startTime;
-  private Date endTime;
-  private double jPrice;
-  private double fPrice;
-  private double pPrice;
-  private double gPrice;
-  private double sMin;
-  private double sMax;
-  private Integer sDays;
-  private Date createTime;
-  private Date modifyTime;
-  private long usagePoint1;
-  private long usagePoint2;
-  private String chargingMethods;
-  private double price1;
-  private double price2;
-  private double price3;
-  private double a1;
+    private Integer pricestandId;
+    private Integer metertypeId;
+    private String name;
+    private Date startTime;
+    private Date endTime;
+    private double jPrice;
+    private double fPrice;
+    private double pPrice;
+    private double gPrice;
+    private double sMin;
+    private double sMax;
+    private Integer sDays;
+    private Date createTime;
+    private Date modifyTime;
+    private long usagePoint1;
+    private long usagePoint2;
+    private String chargingMethods;
+    private double price1;
+    private double price2;
+    private double price3;
+    private double a1;
+
+    private HaMetertype haMetertype;
+    private HaMeter haMeter;
+    private HaArea haArea;
 
 
-  public Integer getPricestandId() {
-    return pricestandId;
-  }
+    public Integer getPricestandId() {
+        return pricestandId;
+    }
 
-  public void setPricestandId(Integer pricestandId) {
-    this.pricestandId = pricestandId;
-  }
+    public void setPricestandId(Integer pricestandId) {
+        this.pricestandId = pricestandId;
+    }
 
-  public Integer getMetertypeId() {
-    return metertypeId;
-  }
+    public Integer getMetertypeId() {
+        return metertypeId;
+    }
 
-  public void setMetertypeId(Integer metertypeId) {
-    this.metertypeId = metertypeId;
-  }
+    public void setMetertypeId(Integer metertypeId) {
+        this.metertypeId = metertypeId;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public Date getStartTime() {
-    return startTime;
-  }
+    public Date getStartTime() {
+        return startTime;
+    }
 
-  public void setStartTime(Date startTime) {
-    this.startTime = startTime;
-  }
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 
-  public Date getEndTime() {
-    return endTime;
-  }
+    public Date getEndTime() {
+        return endTime;
+    }
 
-  public void setEndTime(Date endTime) {
-    this.endTime = endTime;
-  }
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 
-  public double getjPrice() {
-    return jPrice;
-  }
+    public double getjPrice() {
+        return jPrice;
+    }
 
-  public void setjPrice(double jPrice) {
-    this.jPrice = jPrice;
-  }
+    public void setjPrice(double jPrice) {
+        this.jPrice = jPrice;
+    }
 
-  public double getfPrice() {
-    return fPrice;
-  }
+    public double getfPrice() {
+        return fPrice;
+    }
 
-  public void setfPrice(double fPrice) {
-    this.fPrice = fPrice;
-  }
+    public void setfPrice(double fPrice) {
+        this.fPrice = fPrice;
+    }
 
-  public double getpPrice() {
-    return pPrice;
-  }
+    public double getpPrice() {
+        return pPrice;
+    }
 
-  public void setpPrice(double pPrice) {
-    this.pPrice = pPrice;
-  }
+    public void setpPrice(double pPrice) {
+        this.pPrice = pPrice;
+    }
 
-  public double getgPrice() {
-    return gPrice;
-  }
+    public double getgPrice() {
+        return gPrice;
+    }
 
-  public void setgPrice(double gPrice) {
-    this.gPrice = gPrice;
-  }
+    public void setgPrice(double gPrice) {
+        this.gPrice = gPrice;
+    }
 
-  public double getsMin() {
-    return sMin;
-  }
+    public double getsMin() {
+        return sMin;
+    }
 
-  public void setsMin(double sMin) {
-    this.sMin = sMin;
-  }
+    public void setsMin(double sMin) {
+        this.sMin = sMin;
+    }
 
-  public double getsMax() {
-    return sMax;
-  }
+    public double getsMax() {
+        return sMax;
+    }
 
-  public void setsMax(double sMax) {
-    this.sMax = sMax;
-  }
+    public void setsMax(double sMax) {
+        this.sMax = sMax;
+    }
 
-  public Integer getsDays() {
-    return sDays;
-  }
+    public Integer getsDays() {
+        return sDays;
+    }
 
-  public void setsDays(Integer sDays) {
-    this.sDays = sDays;
-  }
+    public void setsDays(Integer sDays) {
+        this.sDays = sDays;
+    }
 
-  @Override
-  public Date getCreateTime() {
-    return createTime;
-  }
+    @Override
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  @Override
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-  @Override
-  public Date getModifyTime() {
-    return modifyTime;
-  }
+    @Override
+    public Date getModifyTime() {
+        return modifyTime;
+    }
 
-  @Override
-  public void setModifyTime(Date modifyTime) {
-    this.modifyTime = modifyTime;
-  }
+    @Override
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
 
-  public long getUsagePoint1() {
-    return usagePoint1;
-  }
+    public long getUsagePoint1() {
+        return usagePoint1;
+    }
 
-  public void setUsagePoint1(long usagePoint1) {
-    this.usagePoint1 = usagePoint1;
-  }
+    public void setUsagePoint1(long usagePoint1) {
+        this.usagePoint1 = usagePoint1;
+    }
 
-  public long getUsagePoint2() {
-    return usagePoint2;
-  }
+    public long getUsagePoint2() {
+        return usagePoint2;
+    }
 
-  public void setUsagePoint2(long usagePoint2) {
-    this.usagePoint2 = usagePoint2;
-  }
+    public void setUsagePoint2(long usagePoint2) {
+        this.usagePoint2 = usagePoint2;
+    }
 
-  public String getChargingMethods() {
-    return chargingMethods;
-  }
+    public String getChargingMethods() {
+        return chargingMethods;
+    }
 
-  public void setChargingMethods(String chargingMethods) {
-    this.chargingMethods = chargingMethods;
-  }
+    public void setChargingMethods(String chargingMethods) {
+        this.chargingMethods = chargingMethods;
+    }
 
-  public double getPrice1() {
-    return price1;
-  }
+    public double getPrice1() {
+        return price1;
+    }
 
-  public void setPrice1(double price1) {
-    this.price1 = price1;
-  }
+    public void setPrice1(double price1) {
+        this.price1 = price1;
+    }
 
-  public double getPrice2() {
-    return price2;
-  }
+    public double getPrice2() {
+        return price2;
+    }
 
-  public void setPrice2(double price2) {
-    this.price2 = price2;
-  }
+    public void setPrice2(double price2) {
+        this.price2 = price2;
+    }
 
-  public double getPrice3() {
-    return price3;
-  }
+    public double getPrice3() {
+        return price3;
+    }
 
-  public void setPrice3(double price3) {
-    this.price3 = price3;
-  }
+    public void setPrice3(double price3) {
+        this.price3 = price3;
+    }
 
-  public double getA1() {
-    return a1;
-  }
+    public double getA1() {
+        return a1;
+    }
 
-  public void setA1(double a1) {
-    this.a1 = a1;
-  }
+    public void setA1(double a1) {
+        this.a1 = a1;
+    }
+
+    public HaMetertype getHaMetertype() {
+        return haMetertype;
+    }
+
+    public void setHaMetertype(HaMetertype haMetertype) {
+        this.haMetertype = haMetertype;
+    }
+
+    public HaMeter getHaMeter() {
+        return haMeter;
+    }
+
+    public void setHaMeter(HaMeter haMeter) {
+        this.haMeter = haMeter;
+    }
+
+    public HaArea getHaArea() {
+        return haArea;
+    }
+
+    public void setHaArea(HaArea haArea) {
+        this.haArea = haArea;
+    }
 }

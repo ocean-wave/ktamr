@@ -375,4 +375,12 @@ public class HaMeter extends BaseEntity {
     public void setHaMeterCount(Integer haMeterCount) {
         this.haMeterCount = haMeterCount;
     }
+
+    public HavMeterinfo getHavMeterinfo() {
+        return havMeterinfo;
+    }
+
+    public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
+        this.havMeterinfo = havMeterinfo;
+    }
 }
