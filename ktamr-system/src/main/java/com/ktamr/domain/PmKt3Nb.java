@@ -14,7 +14,7 @@ public class PmKt3Nb extends BaseEntity {
   private String setState;
   private String getState;
   private String state;
-  private String descripTion;
+  private String description;
   private Integer rssi;
   private Integer vol;
   private String imsi;
@@ -77,12 +77,12 @@ public class PmKt3Nb extends BaseEntity {
     this.state = state;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Integer getRssi() {

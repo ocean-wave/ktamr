@@ -9,7 +9,7 @@ public class HaVendor extends BaseEntity {
   private String name;
   private String code;
   private String url;
-  private String descripTion;
+  private String description;
 
 
   public Integer getVendorId() {
@@ -44,11 +44,11 @@ public class HaVendor extends BaseEntity {
     this.url = url;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

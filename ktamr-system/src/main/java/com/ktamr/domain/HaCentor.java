@@ -13,7 +13,7 @@ public class HaCentor extends BaseEntity {
   private String rTime;
   private Date setupTime;
   private String addr;
-  private String descripTion;
+  private String description;
   private String telNumber;
   private Date endTime;
   private String useTypeCode;
@@ -86,12 +86,12 @@ public class HaCentor extends BaseEntity {
     this.addr = addr;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getTelNumber() {

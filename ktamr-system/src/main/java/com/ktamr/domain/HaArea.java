@@ -12,7 +12,7 @@ public class HaArea extends BaseEntity {
 
     private Integer areaId;
     private String name;
-    private String descripTion;
+    private String description;
     private Date lastcheckTime;
     private String state;
     private String reserved;
@@ -66,12 +66,12 @@ public class HaArea extends BaseEntity {
         this.name = name;
     }
 
-    public String getDescripTion() {
-        return descripTion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripTion(String descripTion) {
-        this.descripTion = descripTion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getLastcheckTime() {

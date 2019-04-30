@@ -11,7 +11,7 @@ public class HaBuilding extends BaseEntity {
   private Integer buildingId;
   private Integer areaId;
   private String name;
-  private String descripTion;
+  private String description;
   private String areaNo;
   private String buildingNo;
   private Date createTime;
@@ -45,12 +45,12 @@ public class HaBuilding extends BaseEntity {
     this.name = name;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getAreaNo() {
