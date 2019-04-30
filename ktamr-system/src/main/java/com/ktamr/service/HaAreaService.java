@@ -123,15 +123,50 @@ public interface HaAreaService {
    */
     public List<HaArea> findAllHaArea();
 
-    List<HaArea> queryAllHaArea();
 
-    Integer addHaArea(HaArea haArea);
 
-    Integer updateHaArea2(HaArea haArea);
+    /*
+     *新增小区
+     */
+    Integer addHaAreaC(HaArea haArea);
 
-    Integer deleteHaArea(HaArea haArea);
+    /*
+     *修改小区
+     */
+    Integer updateHaAreaC(HaArea haArea);
 
-    HaArea updateByIdHaArea(Integer areaid);
+    /*
+     *删除小区
+     */
+    Integer deleteHaAreaC(HaArea haArea);
 
-    Integer queryHaAreaCount(HaArea haArea);
+    /*
+     *小区下拉框
+     */
+    List<HaArea> queryAllHaAreaC();
+
+    /*
+     *修改小区传值
+     */
+    HaArea updateByIdHaAreaC(Integer areaid);
+
+    /*
+     *小区记录数
+     */
+    Integer queryHaAreaCountC(HaArea haArea);
+
+    /*
+     *显示全部小区
+     */
+    List<HaArea> queryAllSmallArea(HaArea haArea,Integer page, Integer rowNum);
+
+    /*
+     *根据大区id显示小区
+     */
+    List<HaArea> queryAllSmallArea2(String areaNo);
+
+    /*
+     *大区下所属小区记录数
+     */
+    Integer smallAreaCount(HaArea haArea);
 }

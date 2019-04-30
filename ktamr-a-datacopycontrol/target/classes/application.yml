@@ -14,7 +14,7 @@ ktamr:
 #服务配置
 server:
   #访问端口号80
-  port: 8888
+  port: 80
   servlet:
     #配置项目的访问路径(默认是:/)
     context-path: /
@@ -60,6 +60,7 @@ mybatis:
 
 # 日志配置
 logging:
+  file: ht_runtime.log
   level:
     com.ktamr: debug
     org.springframework: WARN

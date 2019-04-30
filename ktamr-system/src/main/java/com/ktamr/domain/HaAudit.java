@@ -14,7 +14,7 @@ public class HaAudit extends BaseEntity {
   private Integer audN;
   private Integer audCount;
   private String result;
-  private String descripTion;
+  private String description;
   private Date doDate;
 
   public Integer getAuditId() {
@@ -73,12 +73,12 @@ public class HaAudit extends BaseEntity {
     this.result = result;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Date getDoDate() {

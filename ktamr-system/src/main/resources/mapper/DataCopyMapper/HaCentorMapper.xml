@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaCentorMapper">
 
-
     <resultMap id="centorMap" type="com.ktamr.domain.HaCentor">
         <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="centorNo" property="centorNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>

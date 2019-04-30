@@ -40,7 +40,7 @@ public class HaCmdController {
     public String amdadddo(HaCmd haCmd){
         //利用三元表达式判断是否有值并赋值进去
         haCmd.setCmd(haCmd.getCmd().length() == 0 ? "<span class='fontRed'>无命令请求</span>" : haCmd.getCmd());
-        haCmd.setCentorId(1);
+        haCmd.setCentorId(haCmd.getCentorId()!=null?haCmd.getCentorId():0);
         String s = haCmd.getCmd();
         String[] split = haCmd.getCmd().split(":");
         haCmd.setCmd(split[0]);

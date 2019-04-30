@@ -10,7 +10,7 @@ public class HatDevicesimport extends BaseEntity {
   private Integer id;
   private String deviceId;
   private String deviceName;
-  private String descripTion;
+  private String description;
   private String areaName;
   private String areaNo;
   private Integer areaId;
@@ -45,12 +45,12 @@ public class HatDevicesimport extends BaseEntity {
     this.deviceName = deviceName;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getAreaName() {

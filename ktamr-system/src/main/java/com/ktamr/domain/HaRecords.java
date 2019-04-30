@@ -1,6 +1,7 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -11,13 +12,23 @@ public class HaRecords extends BaseEntity {
   private Integer meterid;
   private double rate;
   private String lfNumber;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date lfTime;
   private String thNumber;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date thTime;
   private String delta;
   private String state;
   private Integer cmdid;
+  private HavMeterinfo havMeterinfo;
 
+  public HavMeterinfo getHavMeterinfo() {
+    return havMeterinfo;
+  }
+
+  public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
+    this.havMeterinfo = havMeterinfo;
+  }
 
   public Integer getItemId() {
     return itemId;

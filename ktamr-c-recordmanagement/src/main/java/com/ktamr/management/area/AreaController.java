@@ -6,7 +6,6 @@ package com.ktamr.management.area;
 
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaRgn;
-import com.ktamr.service.AllSmallAreaService;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaRngService;
 import org.springframework.stereotype.Controller;
@@ -29,9 +28,6 @@ public class AreaController {
     private HaAreaService haAreaService;
 
     @Resource
-    private AllSmallAreaService allSmallAreaService;
-
-    @Resource
     private HaRngService haRngService;
 
     @RequestMapping("/area_op_manage")
@@ -42,20 +38,20 @@ public class AreaController {
     @RequestMapping("/QueryAllHaArea")
     @ResponseBody
     public Object queryAllHaArea() {
-        List<HaArea> haAreasList = haAreaService.queryAllHaArea();
+        List<HaArea> haAreasList = haAreaService.queryAllHaAreaC();
         return haAreasList;
     }
 
     @RequestMapping("/JumpAreaAdd")
     public String JumpAreaAdd(Model model) {
-        List<HaRgn> haRgn = haRngService.queryAllRng();
+        List<HaRgn> haRgn = haRngService.queryAllRngC();
         model.addAttribute("haRgn", haRgn);
         return "/area/area_add";
     }
 
     @RequestMapping("/JumpAreaDelete")
     public String JumpAreaDelete(Integer areaid, Model model) {
-        HaArea area = haAreaService.updateByIdHaArea(areaid);
+        HaArea area = haAreaService.updateByIdHaAreaC(areaid);
         model.addAttribute("area", area);
         model.addAttribute("areaid", areaid);
         return "/area/area_del";
@@ -63,8 +59,8 @@ public class AreaController {
 
     @RequestMapping("/JumpAreaUpdate")
     public String JumpAreaUpdate(Integer areaid, Model model) {
-        HaArea area = haAreaService.updateByIdHaArea(areaid);
-        List<HaRgn> haRgn = haRngService.queryAllRng();
+        HaArea area = haAreaService.updateByIdHaAreaC(areaid);
+        List<HaRgn> haRgn = haRngService.queryAllRngC();
         model.addAttribute("haRgn", haRgn);
         model.addAttribute("area", area);
         model.addAttribute("areaid", areaid);
@@ -86,8 +82,8 @@ public class AreaController {
         }
         int page2 = page;//重新定义变量接收
         --page2;
-        List<HaArea> allSmallArea = allSmallAreaService.queryAllSmallArea(haArea, pageRows, page2);
-        Integer smallAreaCount = allSmallAreaService.smallAreaCount(haArea);
+        List<HaArea> allSmallArea = haAreaService.queryAllSmallArea(haArea, pageRows, page2);
+        Integer smallAreaCount = haAreaService.smallAreaCount(haArea);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);//设置初始的页码 就是第几页
         map.put("rowNum", pageRows);//一页显示几条数据
@@ -113,7 +109,7 @@ public class AreaController {
         haArea.setAuditResult("无稽核");
         haArea.setCreateTime(new Date());
         haArea.setModifyTime(new Date());
-        Integer area = haAreaService.addHaArea(haArea);
+        Integer area = haAreaService.addHaAreaC(haArea);
         if (area == 1) {
             return "true";
         }
@@ -124,7 +120,7 @@ public class AreaController {
     @ResponseBody
     public Object deleteArea(Integer areaid, HaArea haArea) {
         haArea.setAreaId(areaid);
-        Integer area = haAreaService.deleteHaArea(haArea);
+        Integer area = haAreaService.deleteHaAreaC(haArea);
         if (area == 1) {
             return "删除成功";
         }
@@ -157,7 +153,7 @@ public class AreaController {
                 } else {
                     haArea.setReserved("N");
                 }
-                Integer queryHaAreaCount = haAreaService.queryHaAreaCount(haArea);
+                Integer queryHaAreaCount = haAreaService.queryHaAreaCountC(haArea);
                 if (queryHaAreaCount > 0) {
                     Integer updateHaArea = haAreaService.updateHaArea(haArea);
                     if (updateHaArea > 0) {

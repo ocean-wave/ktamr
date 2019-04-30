@@ -10,7 +10,7 @@ public class HaRoom extends BaseEntity {
     private Integer roomId;
     private Integer buildingId;
     private String name;
-    private String descripTion;
+    private String description;
 
     private HaMeter haMeter;
     private HaCustom haCustom;
@@ -47,12 +47,12 @@ public class HaRoom extends BaseEntity {
         this.name = name;
     }
 
-    public String getDescripTion() {
-        return descripTion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripTion(String descripTion) {
-        this.descripTion = descripTion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public HaMeter getHaMeter() {

@@ -10,7 +10,7 @@ public class HaCmdtype extends BaseEntity {
   private String cmdFormat;
   private String rcvType;
   private Integer rcvRecordLength;
-  private String descripTion;
+  private String description;
 
 
   public Integer getId() {
@@ -53,11 +53,11 @@ public class HaCmdtype extends BaseEntity {
     this.rcvRecordLength = rcvRecordLength;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

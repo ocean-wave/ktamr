@@ -22,7 +22,7 @@ public class HaTmprecord extends BaseEntity {
   private Integer lfN;
   private Date lfTime;
   private String errType;
-  private String descripTion;
+  private String description;
   private Integer vendorId;
   private Integer meterSequence;
   private Integer meterChannel;
@@ -149,12 +149,12 @@ public class HaTmprecord extends BaseEntity {
     this.errType = errType;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Integer getVendorId() {

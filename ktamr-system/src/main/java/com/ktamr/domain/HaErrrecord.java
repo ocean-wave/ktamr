@@ -19,7 +19,7 @@ public class HaErrrecord extends BaseEntity {
   private Integer recCentorId;
   private Integer recCollectorId;
   private String errType;
-  private String descripTion;
+  private String description;
   private String procStatus;
   private String procRem;
   private Date procTm;
@@ -120,12 +120,12 @@ public class HaErrrecord extends BaseEntity {
     this.errType = errType;
   }
 
-  public String getDescripTion() {
-    return descripTion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripTion(String descripTion) {
-    this.descripTion = descripTion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getProcStatus() {

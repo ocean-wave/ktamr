@@ -242,33 +242,77 @@ public class HaAreaServiceImpl implements HaAreaService {
         return haAreaMapper.BfindAllHaArea();
     }
 
+    /*
+     *新增小区
+     */
     @Override
-    public List<HaArea> queryAllHaArea() {
-        return haAreaMapper.queryAllHaArea();
+    public Integer addHaAreaC(HaArea haArea) {
+        return haAreaMapper.addHaAreaC(haArea);
     }
 
+    /*
+     *修改小区
+     */
     @Override
-    public Integer addHaArea(HaArea haArea) {
-        return haAreaMapper.addHaArea(haArea);
+    public Integer updateHaAreaC(HaArea haArea) {
+        return haAreaMapper.updateHaAreaC(haArea);
     }
 
+    /*
+     *删除小区
+     */
     @Override
-    public Integer updateHaArea2(HaArea haArea) {
-        return haAreaMapper.updateHaArea2(haArea);
+    public Integer deleteHaAreaC(HaArea haArea) {
+        return haAreaMapper.deleteHaAreaC(haArea);
     }
 
+    /*
+     *小区下拉框
+     */
     @Override
-    public Integer deleteHaArea(HaArea haArea) {
-        return haAreaMapper.deleteHaArea(haArea);
+    public List<HaArea> queryAllHaAreaC() {
+        return haAreaMapper.queryAllHaAreaC();
     }
 
+    /*
+     *修改小区传值
+     */
     @Override
-    public HaArea updateByIdHaArea(Integer areaid) {
-        return haAreaMapper.updateByIdHaArea(areaid);
+    public HaArea updateByIdHaAreaC(Integer areaid) {
+        return haAreaMapper.updateByIdHaAreaC(areaid);
     }
 
+    /*
+     *小区记录数
+     */
     @Override
-    public Integer queryHaAreaCount(HaArea haArea) {
-        return haAreaMapper.queryHaAreaCount(haArea);
+    public Integer queryHaAreaCountC(HaArea haArea) {
+        return haAreaMapper.queryHaAreaCountC(haArea);
     }
+
+    /*
+     *显示全部小区
+     */
+    @Override
+    public List<HaArea> queryAllSmallArea(HaArea haArea, Integer page, Integer rowNum) {
+        return haAreaMapper.queryAllSmallArea(haArea,page,rowNum);
+    }
+
+    /*
+     *根据大区id显示小区
+     */
+    @Override
+    public List<HaArea> queryAllSmallArea2(String areaNo) {
+        return haAreaMapper.queryAllSmallArea2(areaNo);
+    }
+
+    /*
+     *大区下所属小区记录数
+     */
+    @Override
+    public Integer smallAreaCount(HaArea haArea) {
+        return haAreaMapper.smallAreaCount(haArea);
+    }
+
+
 }

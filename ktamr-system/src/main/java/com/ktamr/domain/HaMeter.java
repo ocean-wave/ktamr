@@ -13,7 +13,7 @@ public class HaMeter extends BaseEntity {
     private String addr;
     private Integer rate;
     private Integer isBranch;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:MM:SS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
     private Date lastTime;
     private double sNumber;
