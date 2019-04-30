@@ -171,14 +171,14 @@
         </association>
     </resultMap>
 
-    <select id="queryHaBuildingConditionC" resultMap="queryAllBuildingMap">
+    <select id="queryHaBuildingConditionC" resultMap="queryAllBuildingMapC">
         SELECT b.buildingid as buildingId,b.name as name, COUNT(r.roomid) as buildingCount
         FROM ha_building b LEFT JOIN ha_room r ON b.buildingid=r.buildingid
         WHERE b.areaid=#{areaId}
         GROUP BY b.buildingid, b.name ORDER BY b.name
     </select>
 
-    <select id="queryAllBuildingC" resultMap="queryAllBuildingMap">
+    <select id="queryAllBuildingC" resultMap="queryAllBuildingMapC">
         SELECT trim(to_char(r.roomid, '99999999'))||'_'||
         trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterid,
         cu.custno AS 用户编号, cu.name as 用户名称,  a.name||'-'||b.name||'-'||r.name  AS 用户地址, r.description AS 房间备注

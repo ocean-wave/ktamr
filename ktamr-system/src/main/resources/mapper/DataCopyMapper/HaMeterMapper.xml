@@ -481,4 +481,42 @@
         WHERE m.centorid=#{haCentor.centorId}
          ORDER BY cu.custno,b.name||'-'||r.name,to_hex(co.nconf)
     </select>
+
+
+
+
+    <resultMap id="queryHaMeterMap" type="com.ktamr.domain.HaMeter">
+        <id property="meterId" column="meterId"/>
+        <result  property="meternumber" column="meternumber"/>
+        <result property="areaId" column="areaId"/>
+        <result property="collectorId" column="collectorId"/>
+
+        <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
+            <id property="meterid" column="meterid"/>
+            <result property="用户号" column="用户编号"/>
+            <result property="用户名" column="用户名称"/>
+            <result property="用户地址" column="用户地址"/>
+        </association>
+
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaid" column="areaid"/>
+        </association>
+    </resultMap>
+
+    <select id="queryHaMeter" resultMap="queryHaMeterMap">
+        SELECT m.meterid as meterId,
+        mi.用户号 AS 用户编号,
+        mi.用户名 AS 用户名称,
+        mi.用户地址 AS 用户地址,
+        m.meterNumber AS meternumber
+        from (ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid)
+        LEFT JOIN ha_area a ON m.areaid=a.areaid WHERE m.meterid>0
+        <if test="collectorid!=null">
+            and m.collectorid=#{collectorid}
+        </if>
+        <if test="areaId!=null">
+            AND a.areaid=#{areaId}
+        </if>
+        order by mi.用户地址
+    </select>
 </mapper>
