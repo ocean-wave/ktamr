@@ -32,12 +32,12 @@ public interface HaCmdMapper {
      * @param haCmd
      * @return
      */
-    public HaCmd returnID(HaCmd haCmd);
+    public HaCmd BreturnID(HaCmd haCmd);
 
     /**
      * 添加命令执行表
      * @param haCmd
      * @return
      */
-    public Integer insertHaCmd(HaCmd haCmd);
+    public Integer BinsertHaCmd(HaCmd haCmd);
 }

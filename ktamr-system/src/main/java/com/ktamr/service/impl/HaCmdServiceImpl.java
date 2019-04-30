@@ -14,6 +14,7 @@ import java.util.Map;
 
 @Service
 public class HaCmdServiceImpl implements HaCmdService {
+
     @Autowired
     private HaCmdMapper haCmdMapper;
 
@@ -85,7 +86,7 @@ public class HaCmdServiceImpl implements HaCmdService {
      */
     @Override
     public HaCmd returnID(HaCmd haCmd) {
-        HaCmd returnID = haCmdMapper.returnID(haCmd);
+        HaCmd returnID = haCmdMapper.BreturnID(haCmd);
         if(returnID!=null){
             return returnID;
         }
@@ -99,7 +100,7 @@ public class HaCmdServiceImpl implements HaCmdService {
      */
     @Override
     public Integer insertHaCmd(HaCmd haCmd) {
-        Integer insertHaCmd = haCmdMapper.insertHaCmd(haCmd);
+        Integer insertHaCmd = haCmdMapper.BinsertHaCmd(haCmd);
         if(insertHaCmd!=null){
             return haCmd.getId();
         }
