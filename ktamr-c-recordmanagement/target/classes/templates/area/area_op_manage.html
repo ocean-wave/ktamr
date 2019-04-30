@@ -185,7 +185,7 @@
                     'areaid','小区编号','小区册号','小区名称','地址','抄收月份','总表数','冻结抄收','最早装表时间','说明'
                 ];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    {name: 'areaid',  width: 75, key: true, hidden: true,frozen : true},
+                    {name: 'areaId',  width: 75, key: true, hidden: true,frozen : true},
                     { name: 'areaNo', width: 70, formatter:'interger',frozen : true},
                     { name: 'registeredNo', width: 70, frozen : true},
                     {name: 'name', width: 150,frozen : true },
@@ -239,7 +239,7 @@
                 GridObj.jqdefaultGridConfig.postData = {ListNumber: 3, areaid: nodeId};
                 GridObj.jqdefaultGridConfig.colNames = ['buildingid','楼栋名称','说明'];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    {name: 'buildingid',  width: 75, key: true, hidden: true,frozen : true},
+                    {name: 'buildingId',  width: 75, key: true, hidden: true,frozen : true},
                     {name: '楼栋名称', width: 120,frozen : true },
                     {name: '说明', width: 150 }
                 ];
@@ -387,7 +387,7 @@
         $(".search").click(function(){
             var  _pdArray = "", nodeIds = "";
             _pdArray = {
-                "name": $("#keyWord").val()
+                "KeyWord": $("#keyWord").val()
             };
             if($("#nodeType").val() == "rgn" || $("#nodeType").val() == "allArea"){
                 if($("#nodeType").val() == "rgn"){

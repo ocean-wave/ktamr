@@ -6,8 +6,8 @@
 
     <resultMap id="areaMap" type="com.ktamr.domain.HaArea">
         <id column="areaid" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
-        <result column="areaNo" property="areano" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="registeredNo" property="registeredno" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="areaNo" property="areaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="registeredNo" property="registeredNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="ds" property="resultParams.ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -16,9 +16,9 @@
         <result column="bqyl" property="resultParams.bqyl" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="blbs" property="resultParams.blbs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="reserved" property="reserved" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="lastsumdayt" property="lastsumday" javaType="java.util.Date"></result>
+        <result column="lastsumdayt" property="lastsumDay" javaType="java.util.Date"></result>
         <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <association property="meter" resultMap="meterMap">
+        <association property="haMeter" resultMap="meterMap">
 
         </association>
     </resultMap>

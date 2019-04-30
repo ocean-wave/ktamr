@@ -5,8 +5,8 @@
 
     <select id="watchTypeList" resultType="com.ktamr.domain.HaMetertype">
         select metertypeid,name from ha_meterType
-        <if test="haMetertype.metertypeid!=null">
-            metertypeid = #{haMetertype.metertypeid}
+        <if test="haMetertype.metertypeId!=null">
+            metertypeid = #{haMetertype.metertypeId}
         </if>
     </select>
 

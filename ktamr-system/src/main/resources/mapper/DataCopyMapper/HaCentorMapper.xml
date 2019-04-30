@@ -227,12 +227,12 @@
         <result column="rTime" property="rTime"/>
         <result column="setupTime" property="setupTime"/>
         <result column="addr" property="addr"/>
-        <result column="centorno" property="centorno"/>
+        <result column="centorno" property="centorNo"/>
         <result column="description" property="description"/>
         <result column="state" property="state" />
 
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
-            <id property="areaid" column="areaid"/>
+            <id property="areaId" column="areaid"/>
             <result property="name" column="name"/>
         </association>
     </resultMap>

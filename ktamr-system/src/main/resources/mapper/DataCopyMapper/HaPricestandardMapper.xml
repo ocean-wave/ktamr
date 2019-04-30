@@ -5,7 +5,7 @@
 
     <resultMap id="HaPricestandardMap" type="com.ktamr.domain.HaPricestandard">
         <id property="pricestandId" column="pricestandId"/>
-        <result column="meterTypeId" property="meterTypeId"/>
+        <result column="metertypeId" property="metertypeId"/>
         <result column="name" property="name"/>
         <result column="startTime" property="startTime"/>
         <result column="endTime" property="endTime"/>
@@ -16,16 +16,16 @@
         <result column="sMin" property="sMin"/>
         <result column="sMax" property="sMax"/>
         <result column="sDays" property="sDays"/>
-        <result column="usagepoint1" property="usagepoint1"/>
-        <result column="usagepoint2" property="usagepoint2"/>
-        <result column="chargingmethods" property="chargingmethods"/>
+        <result column="usagepoint1" property="usagePoint1"/>
+        <result column="usagepoint2" property="usagePoint2"/>
+        <result column="chargingmethods" property="chargingMethods"/>
         <result column="price1" property="price1"/>
         <result column="price2" property="price2"/>
         <result column="price3" property="price3"/>
         <result column="a1" property="a1"/>
 
         <association property="haMetertype" javaType="com.ktamr.domain.HaMetertype">
-            <id property="metertypeid" column="metertypeid"/>
+            <id property="metertypeId" column="metertypeid"/>
             <result property="name" column="mname"/>
         </association>
 
@@ -34,14 +34,14 @@
         </association>
 
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
-            <id property="areaid" column="areaid"/>
+            <id property="areaId" column="areaid"/>
         </association>
     </resultMap>
 
     <select id="HaPricestandardList" resultMap="HaPricestandardMap">
         SELECT ps.pricestand_id as pricestandId,
         ps.name as name,
-        ps.metertypeid as meterTypeId,
+        ps.metertypeid as metertypeId,
         mt.name AS mname,
         ps.chargingMethods AS chargingmethods,
         ps.usagePoint1 AS usagepoint1,
@@ -63,8 +63,8 @@
         LEFT JOIN ha_meter m ON ps.pricestand_id=m.pricestand_id)
         LEFT JOIN ha_area a  ON m.areaid=a.areaid
         WHERE ps.pricestand_id>0
-        <if test="haPricestandard.meterTypeId != null">
-            and ps.metertypeid = ${haPricestandard.meterTypeId}
+        <if test="haPricestandard.metertypeId != null">
+            and ps.metertypeid = ${haPricestandard.metertypeId}
         </if>
         <if test="haPricestandard.name != null and haPricestandard.name != ''">
             and ps.name like '%${haPricestandard.name}%' or ps.chargingMethods like '%${haPricestandard.name}%'
@@ -82,7 +82,7 @@
     <select id="updateByIdHaPricestandard" resultMap="HaPricestandardMap">
         SELECT ps.pricestand_id as pricestandId,
         ps.name as name,
-        ps.metertypeid as meterTypeId,
+        ps.metertypeid as metertypeId,
         mt.name AS mname,
         ps.chargingMethods AS chargingmethods,
         ps.usagePoint1 AS usagepoint1,

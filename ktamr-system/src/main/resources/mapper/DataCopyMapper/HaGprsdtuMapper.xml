@@ -28,7 +28,7 @@
 
     <resultMap id="HaGprsdtuMap" type="com.ktamr.domain.HaGprsdtu">
         <result property="uid" column="uid"/>
-        <result property="telnubmer" column="telnubmer"/>
+        <result property="telNubmer" column="telnubmer"/>
         <result property="addr" column="addr"/>
         <result property="centors" column="centors"/>
         <result property="state" column="state"/>
