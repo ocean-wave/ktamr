@@ -15,24 +15,52 @@ public class HaRoomServiceImpl implements HaRoomService {
     @Resource
     private HaRoomMapper haRoomMapper;
 
-    public List<HaRoom> HaRoomList(HaRoom haRoom) {
-        return haRoomMapper.HaRoomList(haRoom);
+    public List<HaRoom> HaRoomListC(HaRoom haRoom) {
+        return haRoomMapper.HaRoomListC(haRoom);
     }
 
+    /*
+     *查询房间如果id不为空
+     */
     @Override
-    public List<HaRoom> queryRoom(Integer buildingId) {
-        return haRoomMapper.queryRoom(buildingId);
+    public List<HaRoom> queryRoomC(Integer buildingId) {
+        return haRoomMapper.queryRoomC(buildingId);
     }
 
-    public Integer addHaRoom(HaRoom haRoom) {
-        return haRoomMapper.addHaRoom(haRoom);
+    /*
+     *新增房间
+     */
+    public Integer addHaRoomC(HaRoom haRoom) {
+        return haRoomMapper.addHaRoomC(haRoom);
     }
 
-    public Integer updateHaRoom(HaRoom haRoom) {
-        return haRoomMapper.updateHaRoom(haRoom);
+    /*
+     *修改房间
+     */
+    public Integer updateHaRoomC(HaRoom haRoom) {
+        return haRoomMapper.updateHaRoomC(haRoom);
     }
 
-    public Integer deleteHaRoom(HaRoom haRoom) {
-        return haRoomMapper.deleteHaRoom(haRoom);
+    /*
+     *删除房间
+     */
+    public Integer deleteHaRoomC(HaRoom haRoom) {
+        return haRoomMapper.deleteHaRoomC(haRoom);
+    }
+
+    /*
+     *查询房间
+     */
+    @Override
+    public List<HaRoom> queryAllRoomC(HaRoom haRoom, Integer page, Integer rowNum) {
+        return haRoomMapper.queryAllRoomC(haRoom, page, rowNum);
+    }
+
+    /*
+     *所属楼栋下的房间记录数
+     */
+    @Override
+    public Integer allRoomCountC(HaRoom haRoom) {
+        return haRoomMapper.allRoomCountC(haRoom);
     }
 }

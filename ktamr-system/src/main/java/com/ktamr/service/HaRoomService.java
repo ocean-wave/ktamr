@@ -7,13 +7,35 @@ import java.util.List;
 
 public interface HaRoomService {
 
-    List<HaRoom> HaRoomList(HaRoom haRoom);
+    List<HaRoom> HaRoomListC(HaRoom haRoom);
 
-    List<HaRoom> queryRoom(Integer buildingId);
+    /*
+     *查询房间如果id不为空
+     */
+    List<HaRoom> queryRoomC(Integer buildingId);
 
-    Integer addHaRoom(HaRoom haRoom);
+    /*
+     *新增房间
+     */
+    Integer addHaRoomC(HaRoom haRoom);
 
-    Integer updateHaRoom(HaRoom haRoom);
+    /*
+     *修改房间
+     */
+    Integer updateHaRoomC(HaRoom haRoom);
 
-    Integer deleteHaRoom(HaRoom haRoom);
+    /*
+     *删除房间
+     */
+    Integer deleteHaRoomC(HaRoom haRoom);
+
+    /*
+     *查询房间
+     */
+    List<HaRoom> queryAllRoomC(HaRoom haRoom,Integer page,Integer rowNum);
+
+    /*
+     *所属楼栋下的房间记录数
+     */
+    Integer allRoomCountC(HaRoom haRoom);
 }

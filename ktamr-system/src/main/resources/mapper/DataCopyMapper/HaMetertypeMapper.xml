@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaMetertypeMapper">
+
+    <select id="watchTypeList" resultType="com.ktamr.domain.HaMetertype">
+        select metertypeid,name from ha_meterType
+        <if test="haMetertype.metertypeid!=null">
+            metertypeid = #{haMetertype.metertypeid}
+        </if>
+    </select>
+
+</mapper>

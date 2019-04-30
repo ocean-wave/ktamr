@@ -124,4 +124,83 @@
         ORDER BY a.name||'-'||b.name||'-'||r.name
     </select>
 
+
+
+    <select id="HaBuildingListC" resultType="HaBuilding">
+
+    </select>
+
+    <select id="queryHaBuildingC" resultType="com.ktamr.domain.HaBuilding">
+        select buildingid,areaid,buildingNo,name from ha_building where 1=1
+        <if test="areaId!=null">
+            and areaid=#{areaId}
+        </if>
+    </select>
+
+    <insert id="addHaBuilding">
+        insert into ha_building values (default ,#{areaid},#{name},#{description},#{areano},#{buildingno},#{createtime},#{modifytime})
+    </insert>
+
+    <delete id="deleteHaBuildingC">
+        delete from ha_building where buildingid = #{buildingid}
+    </delete>
+
+    <update id="updateHaBuildingC">
+        update ha_building
+        <trim prefix="set" suffixOverrides="," suffix="where buildingid = #{buildingid}">
+            <if test="areaid != null">areaid = #{areaid},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="areano != null">areano = #{areano},</if>
+            <if test="buildingno != null">buildingno = #{buildingno},</if>
+            <if test="createtime != null">createtime = #{createtime},</if>
+            <if test="modifytime != null">modifytime = #{modifytime},</if>
+        </trim>
+    </update>
+
+    <resultMap id="queryAllBuildingMapC" type="com.ktamr.domain.HaBuilding">
+        <id property="buildingId" column="buildingId"/>
+        <result property="areaId" column="areaId"/>
+        <result property="name" column="name"/>
+        <result property="descriptno" column="descriptno"/>
+        <result property="areano" column="areano"/>
+        <result property="buildingNo" column="buildingNo"/>
+        <result property="buildingCount" column="buildingCount"/>
+        <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
+            <id property="roomId" column="roomId"/>
+        </association>
+    </resultMap>
+
+    <select id="queryHaBuildingConditionC" resultMap="queryAllBuildingMap">
+        SELECT b.buildingid as buildingId,b.name as name, COUNT(r.roomid) as buildingCount
+        FROM ha_building b LEFT JOIN ha_room r ON b.buildingid=r.buildingid
+        WHERE b.areaid=#{areaId}
+        GROUP BY b.buildingid, b.name ORDER BY b.name
+    </select>
+
+    <select id="queryAllBuildingC" resultMap="queryAllBuildingMap">
+        SELECT trim(to_char(r.roomid, '99999999'))||'_'||
+        trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterid,
+        cu.custno AS 用户编号, cu.name as 用户名称,  a.name||'-'||b.name||'-'||r.name  AS 用户地址, r.description AS 房间备注
+        , m.meterNumber AS 表号, m.th_number as 最近读数, m.lf_number as 上期结算,
+        m.s_number as 本期用量, m.state as 表状态, to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') as 最近抄表时间,
+        p.name as 收费类型, CASE WHEN c.addr != '' then c.addr  ELSE '[无对象]' END  AS 所属集中器,
+        c.id AS centorid, CASE WHEN co.addr != '' THEN co.addr||'('||to_hex(co.nconf)||')'ELSE  '[无对象]' END  AS 所属采集器,
+        c.id AS centorid, CASE WHEN co.addr != '' THEN co.addr||'('||to_hex(co.nconf)||')'ELSE  '[无对象]' END  AS 所属采集器,
+        m.g_number AS 表底数, m.offset_n AS 调节数, m.vendor_id AS 厂商ID,
+        m.meter_channel AS 通道号, m.meter_sequence AS 表序号,to_char(m.starttime, 'yyyy-mm-dd') as 装表时间
+        FROM ((((((ha_room r LEFT JOIN ha_custom cu ON r.custid=cu.custid)
+        LEFT JOIN ha_meter m ON m.roomid=r.roomid)
+        LEFT JOIN ha_centor c ON c.id=m.centorid)
+        LEFT JOIN ha_collector co ON co.collectorid=m.collectorid)
+        LEFT JOIN ha_pricestandard p ON m.pricestand_id=p.pricestand_id)
+        LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+        LEFT JOIN ha_area a ON a.areaid=b.areaid WHERE r.roomid>0
+        ORDER BY a.name||'-'||b.name||'-'||r.name
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="allBuildingCountC" resultType="_int">
+        select count(1) from ha_room
+    </select>
 </mapper>
