@@ -5,7 +5,7 @@
 <mapper namespace="com.ktamr.mapper.HaCmdMapper">
 
     <resultMap id="cmdMap" type="com.ktamr.domain.HaCmd">
-        <id column="cmdid" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <id column="cmdId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="cmd" property="cmd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="parms" property="parms" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="createTime" property="createTime" javaType="java.util.Date"></result>

@@ -25,7 +25,7 @@
         <result column="a1" property="a1"/>
 
         <association property="haMetertype" javaType="com.ktamr.domain.HaMetertype">
-            <id property="metertypeId" column="metertypeid"/>
+            <id property="metertypeId" column="metertypeId"/>
             <result property="name" column="mname"/>
         </association>
 
@@ -59,7 +59,7 @@
         Count(m.pricestand_id)>0 THEN '是'
         ELSE '否'
         END AS mpricestand
-        FROM ((ha_pricestandard ps LEFT JOIN ha_meterType mt ON ps.meterTypeId=mt.meterTypeId)
+        FROM ((ha_pricestandard ps LEFT JOIN ha_meterType mt ON ps.metertypeId=mt.metertypeId)
         LEFT JOIN ha_meter m ON ps.pricestand_id=m.pricestand_id)
         LEFT JOIN ha_area a  ON m.areaid=a.areaid
         WHERE ps.pricestand_id>0
@@ -100,7 +100,7 @@
         Count(m.pricestand_id)>0 THEN '是'
         ELSE '否'
         END AS mpricestand
-        FROM ((ha_pricestandard ps LEFT JOIN ha_meterType mt ON ps.meterTypeId=mt.meterTypeId)
+        FROM ((ha_pricestandard ps LEFT JOIN ha_meterType mt ON ps.metertypeId=mt.metertypeId)
         LEFT JOIN ha_meter m ON ps.pricestand_id=m.pricestand_id)
         LEFT JOIN ha_area a  ON m.areaid=a.areaid
         WHERE ps.pricestand_id = #{haPricestandard.pricestandId}
@@ -117,7 +117,7 @@
         update ha_pricestandard
         <trim prefix="set" suffixOverrides="," suffix="where pricestand_id = #{pricestandId}">
             <if test="name != null">name = #{name},</if>
-            <if test="meterTypeId != null">metertypeid = #{meterTypeId},</if>
+            <if test="metertypeId != null">metertypeid = #{metertypeId},</if>
             <if test="startTime != null">startTime = #{startTime},</if>
             <if test="endTime != null">endTime = #{endTime},</if>
             <if test="jPrice != null">j_price = #{jPrice},</if>
