@@ -20,7 +20,7 @@
             <select id="meterType" class="selectpicker form-control" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择表类型">
                 <option value="">未选择</option>
                 <option th:each="haMetertype : ${haMetertypes}"
-                        th:value="${haMetertype.metertypeid}" th:text="${haMetertype.name}">Credit card</option>
+                        th:value="${haMetertype.metertypeId}" th:text="${haMetertype.name}">Credit card</option>
             </select>
         </div>
         <div class="col-xs-2 my-form-col">
@@ -87,20 +87,15 @@
         GridObj.jqdefaultGridConfig.caption = "价格列表：";
         GridObj.jqdefaultGridConfig.scroll = true;
         GridObj.jqdefaultGridConfig.postData = Post_Data;
-        GridObj.jqdefaultGridConfig.jsonReader.rows="rows";
-        GridObj.jqdefaultGridConfig.jsonReader.id="id";
-        GridObj.jqdefaultGridConfig.jsonReader.page="page";
-        GridObj.jqdefaultGridConfig.jsonReader.total="total";
-        GridObj.jqdefaultGridConfig.jsonReader.records="records";
-        GridObj.jqdefaultGridConfig.jsonReader.repeatitems=false;
+        
         GridObj.jqdefaultGridConfig.colNames = ['priceid','价格名称','表类型','收费方式','分界点1','分界点2','单价1','单价2','单价3','关阀余额','阀值天数','最低限值','最高限值','开始适用日期','截止适用日期','是否使用'];
         GridObj.jqdefaultGridConfig.colModel = [
             { name: 'pricestandId',  width: 75, key: true, hidden: true},
             { name: 'name', width: 120 },
             { name: 'haMetertype.name', width: 100 },
-            { name: 'chargingmethods', width: 100 },
-            { name: 'usagepoint1', width: 70 },
-            { name: 'usagepoint2', width: 70 },
+            { name: 'chargingMethods', width: 100 },
+            { name: 'usagePoint1', width: 70 },
+            { name: 'usagePoint2', width: 70 },
             { name: 'price1', width: 60 },
             { name: 'price2', width: 60 },
             { name: 'price3', width: 60 },
@@ -110,7 +105,7 @@
             { name: 'sMax', width: 70 },
             { name: 'startTime', width: 100 },
             { name: 'endTime', width: 100 },
-            { name: 'mpricestand', width: 80 }
+            { name: 'mpriceStand', width: 80 }
         ];
         GridObj.jqdefaultGridConfig.onSelectRow = function(id){
             if(id && id!==lastSel){
@@ -162,7 +157,7 @@
             var  _pdArray = "";
             _pdArray = {
                 "name": $("#keyWord").val(),
-                "meterTypeId": $("#meterType").val()
+                "metertypeId": $("#meterType").val()
             };
             fullTextSearch("jqGrid1", _pdArray);
         });

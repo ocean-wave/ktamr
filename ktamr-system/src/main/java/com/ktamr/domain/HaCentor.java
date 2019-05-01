@@ -33,6 +33,7 @@ public class HaCentor extends BaseEntity {
   private String imsi;
   private String imei;
 
+  private Integer haCentorCount;
   private HaArea haArea;
 
   public String getDescription() {
@@ -246,4 +247,12 @@ public class HaCentor extends BaseEntity {
   public void setHaArea(HaArea haArea) {
     this.haArea = haArea;
   }
+
+    public Integer getHaCentorCount() {
+        return haCentorCount;
+    }
+
+    public void setHaCentorCount(Integer haCentorCount) {
+        this.haCentorCount = haCentorCount;
+    }
 }

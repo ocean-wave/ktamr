@@ -10,6 +10,14 @@ import java.util.Date;
 public class HaMeter extends BaseEntity {
 
     private Integer meterId;
+    /**
+     * 房间ID
+     */
+    private Integer roomId;
+    /**
+     * 计费标准ID
+     */
+    private Integer pricestandId;
     private String addr;
     private Integer rate;
     private Integer isBranch;
@@ -62,6 +70,22 @@ public class HaMeter extends BaseEntity {
 
     public void setMeterId(Integer meterId) {
         this.meterId = meterId;
+    }
+
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
+    }
+
+    public Integer getPricestandId() {
+        return pricestandId;
+    }
+
+    public void setPricestandId(Integer pricestandId) {
+        this.pricestandId = pricestandId;
     }
 
     public String getAddr() {

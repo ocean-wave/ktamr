@@ -6,8 +6,8 @@
 
     <resultMap id="areaMap" type="com.ktamr.domain.HaArea">
         <id column="areaid" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
-        <result column="areaNo" property="areano" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="registeredNo" property="registeredno" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="areaNo" property="areaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="registeredNo" property="registeredNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="ds" property="resultParams.ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -16,9 +16,9 @@
         <result column="bqyl" property="resultParams.bqyl" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="blbs" property="resultParams.blbs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="reserved" property="reserved" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="lastsumdayt" property="lastsumday" javaType="java.util.Date"></result>
+        <result column="lastsumdayt" property="lastsumDay" javaType="java.util.Date"></result>
         <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <association property="meter" resultMap="meterMap">
+        <association property="haMeter" resultMap="meterMap">
 
         </association>
     </resultMap>
@@ -393,5 +393,136 @@ WHERE areaid IN ('${areaId}')
         FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid='${areaId}')
         AND mb.areaid='${areaId}'
     </update>
+
+
+
+
+
+    <select id="queryAllHaAreaC" resultType="com.ktamr.domain.HaArea">
+        select areaid,areano,name from ha_area
+    </select>
+
+    <insert id="addHaAreaC">
+       INSERT INTO ha_area(areaNo,name,description,addr,shortName,DS,registeredNo) VALUES(#{rgn}||#{areaNo},#{name},#{description},#{addr},#{shortName},#{ds},#{registeredNo})
+    </insert>
+
+    <select id="updateByIdHaAreaC" resultType="com.ktamr.domain.HaArea">
+        select areaid,areano,name,shortname,addr,trim(ds),description,registeredno from ha_area where areaid = #{areaid}
+    </select>
+
+    <delete id="deleteHaAreaC">
+        delete from ha_area where areaid = #{haArea.areaid}
+    </delete>
+
+    <update id="updateHaAreaC">
+        update ha_area
+        <trim prefix="set" suffixOverrides="," suffix="where areaid = #{haArea.areaid}">
+            <if test="haArea.areaNo != null">areano = #{haArea.rgn}||#{haArea.areaNo},</if>
+            <if test="haArea.name != null">name = #{haArea.name},</if>
+            <if test="haArea.description != null">description = #{haArea.description},</if>
+            <if test="haArea.addr != null">addr = #{haArea.addr},</if>
+            <if test="haArea.shortName != null">shortname = #{haArea.shortName},</if>
+            <if test="haArea.registeredNo != null">registeredno = #{haArea.registeredNo},</if>
+            <if test="haArea.reserved != null">reserved = #{haArea.reserved},</if>
+            <if test="haArea.ds != null and haArea.ds !=''">ds = #{haArea.ds},</if>
+        </trim>
+    </update>
+
+    <select id="queryHaAreaCountC" resultType="Integer">
+        select Count(1) from ha_area where areaid=#{areaid}
+    </select>
+
+    <resultMap id="queryAllSmallAreaMap" type="com.ktamr.domain.HaArea">
+        <id property="areaId" column="areaId"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="lastCheckTime" column="lastCheckTime"/>
+        <result property="state" column="state"/>
+        <result property="areaNo" column="areaNo"/>
+        <result property="shortName" column="shortName"/>
+        <result property="addr" column="addr"/>
+        <result property="ds" column="ds"/>
+        <result property="auditDay" column="auditDay"/>
+        <result property="auditResult" column="auditResult"/>
+        <result property="registeredNo" column="registeredNo"/>
+        <result property="lastsumDay" column="lastsumDay"/>
+        <result property="reserved" column="reserved"/>
+        <result property="monthType" column="monthType"/>
+        <result property="rgnIds" column="rgnIds"/>
+
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <id property="meterId" column="meterId"/>
+            <result property="haMeterCount" column="haMeterCount"/>
+            <result property="thNumber" column="thNumber"/>
+            <result property="sNumber" column="sNumber"/>
+            <result property="startTime" column="startTime"/>
+            <result property="thRTime" column="thrTime"/>
+        </association>
+
+        <association property="haRgn" javaType="com.ktamr.domain.HaRgn">
+            <id property="id" column="id"/>
+        </association>
+    </resultMap>
+
+    <select id="queryAllSmallArea" resultMap="queryAllSmallAreaMap">
+        SELECT
+        a.areaid AS areaid, Right(a.areaNo, 4) AS areaNo, trim(a.registeredNo) AS registeredNo, a.name AS name,
+        trim(n.name||'-'||a.addr) AS addr,
+        case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds,
+        COUNT(m.meterid) AS haMeterCount,
+        SUM(m.TH_NUMBER) AS thNumber,
+        SUM(m.S_NUMBER) AS sNumber,
+        t.n AS 不良表数,
+        trim(a.reserved) AS reserved,
+        to_char(MAX(m.TH_R_TIME),'yyyy-mm-dd hh24:mi:ss') AS thrTime,
+        trim(to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss')) AS lastsumDay,
+        to_char(MIN(m.starttime),'YYYY-MM-DD') AS startTime,a.description AS description
+        FROM ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1)
+        LEFT JOIN
+
+        (SELECT Count(i.meterid) AS n,i.areaid AS areaid FROM hav_meterinfo i
+        WHERE i.状态!='正常' AND i.状态!='正确'
+        AND i.状态!='建档' AND i.状态!='集中器无返回'
+        AND i.状态!='关阀' AND i.状态!='修改'
+        AND i.状态!='已更正' AND i.状态!='已更换'
+        AND i.状态!='采集器无返回' AND i.状态
+        NOT LIKE '%用量异常%'
+        AND i.表号 >0 GROUP BY i.areaid) as t
+
+        ON t.areaid=a.areaid
+        WHERE length(trim(to_char(a.areaid,'9999999')))>0
+        <if test="haArea.rgnIds!=null and haArea.rgnIds != '' and haArea.rgnIds != '-2'">
+            and left(a.areaNo,1) = #{haArea.rgnIds}
+        </if>
+        <if test="haArea.name !=null and haArea.name !=''">
+            and (a.registeredNo like '%${haArea.name}%' or a.name like '%${haArea.name}%' or a.areaNo like '%${haArea.name}%')
+        </if>
+        <if test="haArea.monthType != null and haArea.monthType != '' ">
+            and a.DS = #{haArea.monthType}
+        </if>
+        GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,
+        a.DS,a.description,a.reserved,to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n ORDER BY a.areaNo
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="smallAreaCount" resultType="_int">
+        select count(1) from ha_area
+    </select>
+
+    <select id="queryAllSmallArea2" resultType="com.ktamr.domain.HaArea">
+        SELECT a.areaid,
+        CASE WHEN  length(a.registeredNo)=0  OR registeredNo IS NULL
+        THEN Right(a.areaNo, 4) ELSE a.registeredNo END,
+        CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S'
+        THEN '[单月]' ELSE '' END, a.name, COUNT(b.name)
+        FROM ha_area a LEFT JOIN ha_building b ON b.areaid=a.areaid
+        WHERE Left(a.areaNo, 1)=#{areaNo} --根据大区id显示小区 不写显示全部
+        GROUP BY a.areaid,
+		CASE WHEN  length(a.registeredNo)=0
+		OR registeredNo IS NULL  THEN Right(a.areaNo, 4) ELSE a.registeredNo END,
+		CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE '' END, a.name ORDER BY
+		CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE '' END,CASE WHEN length(a.registeredNo)=0
+		OR registeredNo IS NULL THEN Right(a.areaNo, 4) ELSE a.registeredNo END
+    </select>
 
 </mapper>

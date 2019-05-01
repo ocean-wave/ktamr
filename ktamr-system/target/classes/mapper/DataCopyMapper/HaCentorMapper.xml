@@ -216,4 +216,75 @@
         ORDER BY ce.centorNo,ce.addr
     </select>
 
+
+
+
+    <resultMap id="HaCentorMap" type="com.ktamr.domain.HaCentor">
+        <id column="deviceId" property="id"/>
+        <result column="centorId" property="centorId"/>
+        <result column="ver" property="ver"/>
+        <result column="rTime" property="rTime"/>
+        <result column="setupTime" property="setupTime"/>
+        <result column="addr" property="addr"/>
+        <result column="centorno" property="centorNo"/>
+        <result column="description" property="description"/>
+        <result column="state" property="state" />
+
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaId" column="areaid"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+    <select id="HaCentorList" resultMap="HaCentorMap">
+        SELECT ce.id as deviceId,ce.centorNo AS centorno,ce.addr AS addr,
+        ce.state AS state,
+        trim(to_char(ce.centorid, '9999999999999999')) AS centorId,
+        ce.description AS description,
+        a.name AS name
+        FROM ha_centor ce LEFT JOIN ha_area a ON Left(ce.centorNo, 5)= a.areaNo
+        where 1=1
+        <if test="haCentor.areaid!=null">
+            and a.areaid = #{haCentor.areaid}
+        </if>
+        ORDER BY ce.centorNo,ce.addr
+    </select>
+
+    <insert id="addHaCentor">
+        insert into ha_centor values (default ,#{centorid},#{ver},#{rtime},#{setuptime},#{addr},#{description},#{telnumber},#{endtime},#{usetypecode},#{state},#{centorno},#{lastfreezetime},#{lastfreezeday},#{lastfreezemon},#{createtime},#{modifytime},#{meters},#{areaid},#{last_state_change_time},#{remark},#{rssi},#{vol},#{imsi},#{imei},);
+    </insert>
+
+    <delete id="deleteHaCentor">
+        delete from ha_centor where id = #{id}
+    </delete>
+
+    <update id="updateHaCentor">
+        update ha_centor
+        <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+            <if test="centorid != null">centorid = #{centorid},</if>
+            <if test="ver != null">ver = #{ver},</if>
+            <if test="rtime != null">rtime = #{rtime},</if>
+            <if test="setuptime != null">setuptime = #{setuptime},</if>
+            <if test="addr != null">addr = #{addr},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="telnumber != null">telnumber = #{telnumber},</if>
+            <if test="endtime != null">endtime = #{endtime},</if>
+            <if test="usetypecode != null">usetypecode = #{usetypecode},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="centorno != null">centorno = #{centorno},</if>
+            <if test="lastfreezetime != null">lastfreezetime = #{lastfreezetime},</if>
+            <if test="lastfreezeday != null">lastfreezeday = #{lastfreezeday},</if>
+            <if test="lastfreezemon != null">lastfreezemon = #{lastfreezemon},</if>
+            <if test="createtime != null">createtime = #{createtime},</if>
+            <if test="modifytime != null">modifytime = #{modifytime},</if>
+            <if test="meters != null">meters = #{meters},</if>
+            <if test="areaid != null">areaid = #{areaid},</if>
+            <if test="last_state_change_time != null">last_state_change_time = #{last_state_change_time},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="rssi != null">rssi = #{rssi},</if>
+            <if test="vol != null">vol = #{vol},</if>
+            <if test="imsi != null">imsi = #{imsi},</if>
+            <if test="imei != null">imei = #{imei},</if>
+        </trim>
+    </update>
 </mapper>

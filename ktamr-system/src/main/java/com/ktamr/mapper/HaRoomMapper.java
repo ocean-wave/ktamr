@@ -7,13 +7,36 @@ import java.util.List;
 
 public interface HaRoomMapper {
 
-    List<HaRoom> HaRoomList(HaRoom haRoom);
+    List<HaRoom> HaRoomListC(HaRoom haRoom);
 
-    List<HaRoom> queryRoom(@Param("buildingId") Integer buildingId);
+    /*
+     *查询房间如果id不为空
+     */
+    List<HaRoom> queryRoomC(@Param("buildingId") Integer buildingId);
 
-    Integer addHaRoom(HaRoom haRoom);
+    /*
+     *新增房间
+     */
+    Integer addHaRoomC(HaRoom haRoom);
 
-    Integer updateHaRoom(HaRoom haRoom);
+    /*
+     *修改房间
+     */
+    Integer updateHaRoomC(HaRoom haRoom);
 
-    Integer deleteHaRoom(HaRoom haRoom);
+    /*
+     *删除房间
+     */
+    Integer deleteHaRoomC(HaRoom haRoom);
+
+    /*
+     *查询房间
+     */
+    List<HaRoom> queryAllRoomC(@Param("haRoom") HaRoom haRoom, @Param("page") Integer page,
+                              @Param("rowNum") Integer rowNum);
+
+    /*
+     *所属楼栋下的房间记录数
+     */
+    Integer allRoomCountC(HaRoom haRoom);
 }
