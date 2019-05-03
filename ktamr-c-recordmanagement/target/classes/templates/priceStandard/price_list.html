@@ -87,7 +87,7 @@
         GridObj.jqdefaultGridConfig.caption = "价格列表：";
         GridObj.jqdefaultGridConfig.scroll = true;
         GridObj.jqdefaultGridConfig.postData = Post_Data;
-        
+
         GridObj.jqdefaultGridConfig.colNames = ['priceid','价格名称','表类型','收费方式','分界点1','分界点2','单价1','单价2','单价3','关阀余额','阀值天数','最低限值','最高限值','开始适用日期','截止适用日期','是否使用'];
         GridObj.jqdefaultGridConfig.colModel = [
             { name: 'pricestandId',  width: 75, key: true, hidden: true},
@@ -111,7 +111,7 @@
             if(id && id!==lastSel){
                 lastSel=id;
                 $("#jqGrid2").jqGrid('setGridParam',{
-                    postData: {"priceStandId": id}
+                    postData: {"pricestandId": id}
                 }).trigger("reloadGrid");
             }
         }
@@ -127,7 +127,7 @@
         GridObj2.jqdefaultGridConfig.postData = Post_Data2;
         GridObj2.jqdefaultGridConfig.colNames = ['feeid','费用名称','单价1','单价2','单价3'];
         GridObj2.jqdefaultGridConfig.colModel = [
-            { name: 'feeid',  width: 75, key: true, hidden: true},
+            { name: 'feeId',  width: 75, key: true, hidden: true},
             { name: 'name', width: 120 },
             { name: 'price1', width: 80 },
             { name: 'price2', width: 80 },
@@ -156,7 +156,7 @@
         $(".search").click(function(){
             var  _pdArray = "";
             _pdArray = {
-                "name": $("#keyWord").val(),
+                "keyWord": $("#keyWord").val(),
                 "metertypeId": $("#meterType").val()
             };
             fullTextSearch("jqGrid1", _pdArray);
