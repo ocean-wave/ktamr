@@ -1,6 +1,7 @@
 package com.ktamr.service.impl;
 
 import com.ktamr.common.utils.DateUtils;
+import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.domain.HaCmd;
 import com.ktamr.domain.HaMeter;
 import com.ktamr.mapper.HaCmdMapper;
@@ -44,6 +45,20 @@ public class HaCmdServiceImpl implements HaCmdService {
         map.put("operatorCode","zk");
         map.put("state","待执行");
         map.put("id",0);
+        map.put("deviceType","1");
+        haCmdMapper.insertCmd(map);
+        return Integer.parseInt(map.get("id").toString());
+    }
+
+    @Override
+    public Integer insertCmd(Integer id) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("id",id);
+        map.put("uid", ServletUtils.getSession().getAttribute("operatorCode"));
+        map.put("createTime", DateUtils.getNowDate());
+        map.put("state","待执行");
+        map.put("deviceType","2");
+        map.put("id",0);
         haCmdMapper.insertCmd(map);
         return Integer.parseInt(map.get("id").toString());
     }
@@ -76,6 +91,16 @@ public class HaCmdServiceImpl implements HaCmdService {
     @Override
     public HaCmd selectCmdById(Integer id) {
         return haCmdMapper.selectCmdById(id);
+    }
+
+    /**
+     * 根据id批量删除Ha_cmd表
+     * @param cmdids id数组
+     * @return 返回int
+     */
+    @Override
+    public Integer deleteCmdByid(Integer[] cmdids) {
+        return haCmdMapper.deleteCmdByid(cmdids);
     }
 
     /**

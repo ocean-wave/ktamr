@@ -5,9 +5,10 @@
 <mapper namespace="com.ktamr.mapper.HaCmdMapper">
 
     <resultMap id="cmdMap" type="com.ktamr.domain.HaCmd">
-        <id column="cmdId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="cmd" property="cmd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="parms" property="parms" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="uid" property="uid" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="createTime" property="createTime" javaType="java.util.Date"></result>
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="lastEndTime" property="lastEndTime" javaType="java.util.Date"></result>
@@ -16,6 +17,10 @@
         <result column="tryTimes" property="tryTimes" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="xgrws" property="resultParams.xgrws"></result>
         <result column="executor" property="resultParams.executor"></result>
+
+        <association property="haOperator" javaType="com.ktamr.domain.HaOperator">
+            <result column="operator_name" property="operatorName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
         <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
             <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
@@ -42,27 +47,19 @@
     </select>
 
     <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
+        <if test=" deviceType == '1' ">
         insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
-        values (
-          <if test=" mcmd != null and mcmd != '' ">
-              #{mcmd},
-          </if>
-          <if test=" parms != null and parms != '' ">
-              #{parms},
-          </if>
-          <if test=" centorid >= 0  ">
-              #{centorid},
-          </if>
-          <if test=" operatorCode != null and operatorCode != '' ">
-              #{operatorCode},
-          </if>
-          <if test=" createTime != null  ">
-              #{createTime},
-          </if>
-          <if test=" state != null and state != '' ">
-              #{state}
-          </if>
-        )
+        values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
+          <if test=" centorid >= 0  ">#{centorid},</if><if test=" operatorCode != null and operatorCode != '' ">#{operatorCode},</if>
+          <if test=" createTime != null  ">#{createTime},</if>
+          <if test=" state != null and state != '' ">#{state}</if>)
+        </if>
+        <if test=" deviceType == '2' ">
+            insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
+            SELECT cmd,parms,centorid,#{uid},#{createTime},#{state}
+            from ha_cmd
+            WHERE id=#{id}
+        </if>
     </insert>
 
     <select id="selectCmdParmsById" parameterType="java.lang.Integer" resultType="java.util.Map">
@@ -77,7 +74,7 @@
 
     <select id="selectAllCmd" resultMap="cmdMap">
         SELECT
-        c.id AS cmdid
+        c.id AS id
         ,c.cmd AS cmd
         , c.parms AS parms
         ,to_char(c.createtime, 'yyyy-mm-dd hh24:mi:ss') AS  createTime
@@ -103,7 +100,7 @@
     </insert>
 
     <select id="selectCmdLeftJoinTow" resultMap="cmdMap">
-        SELECT  c.id AS cmdid
+        SELECT  c.id AS id
         ,c.cmd AS cmd
         , c.parms AS parms
         , ce.addr AS addr
@@ -147,7 +144,9 @@
     </select>
 
     <select id="selectCmdById" resultMap="cmdMap">
-        SELECT c.cmd
+        SELECT
+        c.id
+        ,c.cmd
         , c.parms
         , c.centorid
         , c.uid
@@ -164,4 +163,11 @@
         LEFT JOIN ha_centor ce ON c.centorid=ce.id
         WHERE c.id=#{id}
     </select>
+
+    <delete id="deleteCmdByid" >
+        delete from ha_cmd where id in <foreach item="id" index="index" collection="cmdids"
+                                                open="(" separator="," close=")">
+                                    #{id}
+                                </foreach>
+    </delete>
 </mapper>

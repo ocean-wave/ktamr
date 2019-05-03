@@ -2,6 +2,7 @@ package com.ktamr.service.impl;
 
 import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaRecords;
 import com.ktamr.mapper.HaRecordsMapper;
 import com.ktamr.service.HaRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class HaRecordsServiceImpl implements HaRecordsService {
     @Override
     public Integer insertRecords(HaMeter haMeter) {
         return haRecordsMapper.insertRecords(haMeter);
+    }
+
+    /**
+     * 查询两表
+     * @param cmdId cmdId
+     * @return 返回泛型对象集合
+     */
+    @Override
+    public List<HaRecords> selectRecordsAndErrrecordTow(Integer cmdId) {
+        return haRecordsMapper.selectRecordsAndErrrecordTow(cmdId);
     }
 
 }

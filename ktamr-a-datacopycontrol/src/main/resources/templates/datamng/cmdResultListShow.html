@@ -127,32 +127,32 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = listName+g_title;
 				if(cmdName == "读表地址") {
-					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName,"params[groupColName]": '资料状态'};
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
 					GridObj.jqdefaultGridConfig.colNames = ['id', '读到表号', '原集中器号', '读到集中器号', '原采集器号', '读到采集器号', '资料状态'];
 					GridObj.jqdefaultGridConfig.colModel = [
 						{name: 'id', width: 75, key: true, hidden: true},
-						{name: '读到表号', width: 120},
-						{name: '原集中器号', width: 100},
-						{name: '读到集中器号', width: 100},
-						{name: '原采集器号', width: 100},
-						{name: '读到采集器号', width: 100},
-						{name: '资料状态', width: 180, cellattr: ArchiveStateCellColor}
+						{name: 'meterNumber', width: 120},
+						{name: 'resultParams.yjzqh', width: 100},
+						{name: 'resultParams.ddjzqh', width: 100},
+						{name: 'resultParams.ccrNoD', width: 100},
+						{name: 'resultParams.ccrNoR', width: 100},
+						{name: 'state', width: 180, cellattr: ArchiveStateCellColor}
 					];
 				}else {
-					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName,groupColName: '表状态'};
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
 					GridObj.jqdefaultGridConfig.colNames = ['itemid', '用户编号', '用户名称', '用户地址', '表号', '本次读数', '上次读数', '抄收用量', '表状态', '本次抄表时间', '上次抄表时间'];
 					GridObj.jqdefaultGridConfig.colModel = [
 						{name: 'itemid', width: 75, key: true, hidden: true},
-						{name: '用户编号', width: 90, formatter: 'interger'},
-						{name: '用户名称', width: 100},
-						{name: '用户地址', width: 140},
-						{name: '表号', width: 110, align: 'right'},
-						{name: '本次读数', width: 70, align: 'right'},
-						{name: '上次读数', width: 70, align: 'right'},
-						{name: '抄收用量', width: 70, align: 'right'},
-						{name: '表状态', width: 90, cellattr: MeterStateCellColor},
-						{name: '本次抄表时间', align: 'right', width: 150},
-						{name: '上次抄表时间', align: 'right', width: 150}
+						{name: 'havMeterinfo.userNo', width: 90, formatter: 'interger'},
+						{name: 'havMeterinfo.userName', width: 100},
+						{name: 'havMeterinfo.userDs', width: 140},
+						{name: 'havMeterinfo.meterNumber', width: 110, align: 'right'},
+						{name: 'thNumber', width: 70, align: 'right'},
+						{name: 'lfNumber', width: 70, align: 'right'},
+						{name: 'delta', width: 70, align: 'right'},
+						{name: 'state', width: 90, cellattr: MeterStateCellColor},
+						{name: 'thTime', align: 'right', width: 150},
+						{name: 'lfTime', align: 'right', width: 150}
 					];
 					GridObj.jqdefaultGridConfig.gridComplete = function () {
 						MeterStateRowColor("jqGrid", "表状态")
