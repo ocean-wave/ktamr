@@ -1,6 +1,7 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -15,7 +16,9 @@ public class HaCmd extends BaseEntity {
   private Date createTime;
   private String state;
   private Integer tryTimes;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date lastEndTime;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date lastBeginTime;
   private String processing;
   private Integer interCmdId;

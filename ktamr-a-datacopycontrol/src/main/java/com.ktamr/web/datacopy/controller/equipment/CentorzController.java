@@ -31,7 +31,7 @@ public class CentorzController extends BaseController {
     @ResponseBody
     public Map<String,Object> centorzListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorzAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"zbs");

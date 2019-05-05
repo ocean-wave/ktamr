@@ -79,37 +79,37 @@
 				GridObj.jqdefaultGridConfig.caption = listName+g_title;
 				GridObj.jqdefaultGridConfig.multiselect = true;
 				if(cmdName == "读表地址"){
-					GridObj.jqdefaultGridConfig.postData = {ListNumber: ListNumber2, cmdid: g_cmdid, groupColName: '状态说明'};
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
 					GridObj.jqdefaultGridConfig.colNames = ['id','表号','原集中器号','读到集中器号','读到集中器ID','原采集器号','读到采集器号','状态说明','执行结果'];
 					GridObj.jqdefaultGridConfig.colModel = [
 						{ name: 'id',  width: 75, key: true, hidden: true},
-						{ name: '表号', width: 120 },
-						{ name: '原集中器号', width: 100 },
-						{ name: '读到集中器号', width: 100 },
-						{ name: '读到集中器ID', width: 50, hidden: true},
-						{ name: '原采集器号', width: 80 },
-						{ name: '读到采集器号', width: 80 },
-						{ name: '状态说明', width: 200 },
+						{ name: 'meterNumber', width: 120 },
+						{ name: 'resultParams.yjzqh', width: 100 },
+						{ name: 'resultParams.ddjzqh', width: 100 },
+						{ name: 'resultParams.ddjzqId', width: 50, hidden: true},
+						{ name: 'resultParams.ccrNoD', width: 80 },
+						{ name: 'resultParams.ccrNoR', width: 80 },
+						{ name: 'resultParams.stateExplain', width: 200 },
 						{ name: '执行结果', width: 100 }
 					];
 				}else{
-					GridObj.jqdefaultGridConfig.postData = {ListNumber: ListNumber2, cmdid: g_cmdid, groupColName: '表状态'};
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
 					GridObj.jqdefaultGridConfig.colNames = ['itemid','出错类型','用户编号','用户名称','用户地址','表号','本次读数','表状态','本次抄表时间','原集中器编号','原采集器地址','读到集中器编号','读到集中器ID','读到采集器地址','执行结果'];
 					GridObj.jqdefaultGridConfig.colModel = [
 						{ name: 'itemid',  width: 75, key: true, hidden: true},
-						{ name: '出错类型', width: 100, cellattr: MeterDataStateCellColor},
-						{ name: '用户编号', width: 90 },
-						{ name: '用户名称', width: 100 },
-						{ name: '用户地址', width: 140 },
-						{ name: '表号', width: 110, align: 'right' },
-						{ name: '本次读数', width: 70, align: 'right' },
-						{ name: '表状态', width: 90, cellattr: MeterStateCellColor },
-						{ name: '本次抄表时间', align: 'right', width: 150},
-						{ name: '原集中器编号', width: 100 },
-						{ name: '原采集器地址', width: 60 },
-						{ name: '读到集中器编号', width: 100 },
-						{ name: '读到集中器ID', width: 100, hidden: true },
-						{ name: '读到采集器地址', width: 60 },
+						{ name: 'errType', width: 100, cellattr: MeterDataStateCellColor},
+						{ name: 'havMeterinfo.userNo', width: 90 },
+						{ name: 'havMeterinfo.userName', width: 100 },
+						{ name: 'havMeterinfo.userDs', width: 140 },
+						{ name: 'havMeterinfo.meterNumber', width: 110, align: 'right' },
+						{ name: 'n', width: 70, align: 'right' },
+						{ name: 'state', width: 90, cellattr: MeterStateCellColor },
+						{ name: 'readTime', align: 'right', width: 150},
+						{ name: 'resultParams.yjzqbh', width: 100 },
+						{ name: 'resultParams.nconf', width: 60 },
+						{ name: 'resultParams.ddjzqbh', width: 100 },
+						{ name: 'resultParams.ddjzqId', width: 100, hidden: true },
+						{ name: 'resultParams.rawCollectorId', width: 60 },
 						{ name: '执行结果', width: 100 }
 					];
 				}
@@ -181,7 +181,116 @@
 		});
 
 		showjqGridList("结果列表");
+		var get_cmdid_url="/smallbox/haCmd/cmdAdd";
+		var get_result_url = "/smallbox/haCmd/getCmdAjax";
+		var get_result_timer = $.timer(function(){
+			loadCmdResult(this);
+		});
 
+
+		function loadCmdResult(timerObj){
+			$.get(get_result_url,
+					{cmdid: timerObj.cmdid},
+					function(data,status){
+						//console.log("cmdid:"+cmdid);
+						//console.log("data:"+unescape(data));
+						//console.log("rowid:"+rowid);
+						if (status == "success"){
+							var n, state, processing, s;
+							s = unescape(data);
+							n = s.indexOf(":");
+							if (n > 1){
+								state = s.substr(0,n);
+								processing = s.substr(n+1);
+							}else{
+								processing = s;
+							}
+							if ((state == "完成") || (state == "失败")){
+								if(state == "完成"){
+									processing = "<font color='green'>"+processing+"</font>";
+								}else{
+									processing = "<font color='red'>"+processing+"</font>";
+								}
+								$("#jqGrid").setRowData(timerObj.rowIds[timerObj.index],{"执行结果": processing});
+								get_result_timer.stop();
+								var _parms = {
+									"rowIds": timerObj.rowIds
+									,"index": timerObj.index+1
+									,"cmdName": timerObj.cmdName
+								};
+								loadCmd("jqGrid", _parms);
+							}
+						}
+					}
+			);
+		}
+		function loadCmd(GridId, parms){
+			var rowId = parms.rowIds[parms.index];
+			var cmd = "", centorId = "0", collectorId = "0";
+			//console.log(rowId);
+			if(rowId == "" || rowId == undefined){
+				$(":button").removeAttr("disabled");
+				return false;
+			}
+			var rowData = $("#"+GridId).jqGrid('getRowData', rowId);
+			if(rowData["resultParams.ddjzqId"] != "")
+				centorId = rowData["resultParams.ddjzqId"];
+			if(rowData["resultParams.rawCollectorId"] != "")
+				collectorId = rowData["resultParams.rawCollectorId"];
+			switch(parms.cmdName){
+					//case "删除设备内表地址":
+				case "采集器删表"://采集器删表:采集器设备地址,表号
+					cmd = "采集器删表" +":"+collectorId+","+rowData["havMeterinfo.meterNumber"];
+					break;
+				case "集中器删表"://删除表:表类型,表号,采集器设备地址
+					cmd = "删除表" +":"+"10,"+rowData["havMeterinfo.meterNumber"]+","+collectorId;
+					break;
+				case "删表"://删表:设备号,表号
+					cmd = "删表"+":"+rowData["havMeterinfo.meterNumber"];
+				default:
+					break;
+			}
+
+			$.ajax({
+				url: get_cmdid_url
+				,data: {
+					centorid: centorId
+					,cmd: cmd
+				}
+				,type: "POST"
+				,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+				,async:true //异步请求
+				,success: function(data){
+					if(!isNaN(data)){
+						$("#"+GridId).setRowData(rowId,{"执行结果":"<img src="+"/images/loading-0.gif"+" />"});
+						get_result_timer.cmdid = data;
+						get_result_timer.rowIds = parms.rowIds;
+						get_result_timer.index = parms.index;
+						get_result_timer.centorid = centorId;
+						get_result_timer.cmdName = parms.cmdName;
+						get_result_timer.set({time: 3*1000, autostart: true});
+					}else{
+						$("#"+GridId).setRowData(rowId,{"执行结果": data});
+						$(":button").removeAttr("disabled");
+					}
+				}
+			});
+		}
+		$("#errOp :button").click(function(){
+			var ids = getSelectedRows("jqGrid").split(",");
+			if(ids == ""){
+				layer.msg("请选择需要操作的行", {icon: 5});
+				return false;
+			}
+			$(":button").attr({"disabled":"disabled"});
+			var cmdName = $(this).data("title");
+			var parms = {
+				"rowIds": ids
+				,"index": 0
+				,"cmdName": cmdName
+			};
+			loadCmd("jqGrid", parms);
+		});
 	});
 </script>
 </body>

@@ -20,4 +20,14 @@ public class HaMeterAddrServiceImpl implements HaMeterAddrService {
     public List<HaMeterAddr> selectMeterAddrLeftJoinTow(Integer cmdId) {
         return haMeterAddrMapper.selectMeterAddrLeftJoinTow(cmdId);
     }
+
+    /**
+     * 查询ha_meter_addr表并且向左连接两表
+     * @param cmdId 条件id
+     * @return返回泛型集合HaMeterAddr类
+     */
+    @Override
+    public List<HaMeterAddr> selectMeterAddrLeftJoinTow2(Integer cmdId) {
+        return haMeterAddrMapper.selectMeterAddrLeftJoinTow2(cmdId);
+    }
 }

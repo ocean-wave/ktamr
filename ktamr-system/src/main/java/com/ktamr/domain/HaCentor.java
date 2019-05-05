@@ -1,6 +1,7 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -11,10 +12,12 @@ public class HaCentor extends BaseEntity {
   private long centorId;
   private String ver;
   private String rTime;
+  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
   private Date setupTime;
   private String addr;
   private String description;
   private String telNumber;
+  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
   private Date endTime;
   private String useTypeCode;
   private String state;
@@ -26,6 +29,7 @@ public class HaCentor extends BaseEntity {
   private Date modifyTime;
   private Integer meters;
   private Integer areaId;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date lastStateChangeTime;
   private String remark;
   private Integer rssi;

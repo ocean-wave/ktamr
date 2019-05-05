@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface HaCentorMapper {
 
-    public List<Map<String,Object>> selectAllCentorzAndCount(HaCentor parms);
+    public List<HaCentor> selectAllCentorzAndCount(HaCentor parms);
 
     public List<Map<String,Object>> selectAllCentorzQueryIdAndCount(ParameterInfo parms);
 
