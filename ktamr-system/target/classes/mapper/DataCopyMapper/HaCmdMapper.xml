@@ -37,7 +37,7 @@
         FROM ha_cmd
         WHERE cmd= #{mcmd}
         AND parms= #{parms}
-        AND centorid=#{centorid}
+        AND centorid=#{centorId}
         AND state != '完成' AND state != '失败'
     </select>
 
@@ -50,8 +50,8 @@
           <if test=" parms != null and parms != '' ">
               #{parms},
           </if>
-          <if test=" centorid >= 0  ">
-              #{centorid},
+          <if test=" centorId >= 0  ">
+              #{centorId},
           </if>
           <if test=" operatorCode != null and operatorCode != '' ">
               #{operatorCode},
@@ -72,7 +72,7 @@
     </select>
 
     <select id="selectCentorById" parameterType="java.lang.Integer" resultType="java.lang.String">
-        SELECT description FROM ha_centor WHERE id=#{centorid}
+        SELECT description FROM ha_centor WHERE id=#{centorId}
     </select>
 
     <select id="selectAllCmd" resultMap="cmdMap">
@@ -178,8 +178,8 @@
             <if test="parms != null and parms != ''">
                 AND parms=#{parms}
             </if>
-            <if test="centorid != null and centorid != ''">
-                AND centorid=#{centorid} AND state!='完成' AND state!='失败'
+            <if test="centorId != null and centorId != ''">
+                AND centorid=#{centorId} AND state!='完成' AND state!='失败'
             </if>
         </trim>
     </select>
@@ -187,9 +187,9 @@
     <!--添加命令执行表 并返回序列主键id-->
     <insert id="BinsertHaCmd">
         INSERT INTO ha_cmd(cmd,parms,centorid,uid,createtime,state)
-        values(#{cmd},#{parms},#{centorid},#{uid},to_date(now()::text, 'yyyy-mm-dd'),'完成')
+        values(#{cmd},#{parms},#{centorId},#{uid},to_date(now()::text, 'yyyy-mm-dd'),'完成')
         <selectKey resultType="Integer" keyProperty="id">
-            SELECT nextval('ha_cmd_id_seq'::regclass) as id
+            SELECT nextval('ha_cd_seq'::regclass) as id
         </selectKey>
     </insert>
 
