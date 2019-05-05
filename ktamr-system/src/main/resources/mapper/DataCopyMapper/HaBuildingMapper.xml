@@ -12,7 +12,7 @@
         <result column="mstate" property="resultParams.state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="maddr" property="resultParams.maddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
 
-        <association property="room" resultMap="roomMap">
+        <association property="haRoom" resultMap="roomMap">
 
         </association>
 
@@ -21,12 +21,12 @@
     <resultMap id="roomMap" type="com.ktamr.domain.HaRoom">
         <result column="rdescription" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
 
-        <association property="custom" javaType="com.ktamr.domain.HaCustom">
+        <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
             <result column="custNo" property="custNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="cuName" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
 
-        <association property="meter" resultMap="meterMap">
+        <association property="haMeter" resultMap="meterMap">
 
         </association>
     </resultMap>
@@ -35,12 +35,12 @@
         <result column="maddr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="mmeterNumber" property="meterNumber" javaType="java.lang.Long"></result>
         <result column="mthNumber" property="thNumber" javaType="java.lang.Double"></result>
-        <result column="mlfNumber" property="lfNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="msNumber" property="sNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="mlfNumber" property="lfNumber"></result>
+        <result column="msNumber" property="sNumber"></result>
         <result column="mstate" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="mthRTime" property="thRTime" javaType="java.util.Date"></result>
         <result column="mgNumber" property="gNumber" javaType="java.lang.Double"></result>
-        <result column="moffsetn" property="offsetN" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="moffsetn" property="offsetN" javaType="java.lang.Long" ></result>
         <result column="mstartTime" property="startTime" javaType="java.util.Date"></result>
         <result column="mmeterChannel" property="meterChannel" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="mmeterSequence" property="meterSequence" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
@@ -89,7 +89,7 @@
             ,c.id AS centorId
             , case when co.addr != '' then co.addr||'['||to_hex(co.nconf)||']' else '[无对象]' end AS collector
             , m.g_number AS mgNumber
-            , to_char(m.offset_n, '9') AS moffsetn
+            , m.offset_n AS moffsetn
             , m.vendor_id AS mvendorId
             , m.meter_channel AS mmeterChannel
             , m.meter_sequence AS mmeterSequence

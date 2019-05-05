@@ -17,7 +17,7 @@ public class HaCentorServiceImpl implements HaCentorService {
     private HaCentorMapper haCentorMapper;
 
     @Override
-    public List<Map<String,Object>> selectAllCentorzAndCount(HaCentor parms) {
+    public List<HaCentor> selectAllCentorzAndCount(HaCentor parms) {
         return haCentorMapper.selectAllCentorzAndCount(parms);
     }
 

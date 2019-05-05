@@ -50,7 +50,7 @@
         <if test=" deviceType == '1'.toString() ">
         insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
         values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
-          <if test=" centorid >= 0  ">#{centorid},</if><if test=" operatorCode != null and operatorCode != '' ">#{operatorCode},</if>
+          <if test=" centorid >= 0  ">#{centorid},</if><if test=" uid != null and uid != '' ">#{uid},</if>
           <if test=" createTime != null  ">#{createTime},</if>
           <if test=" state != null and state != '' ">#{state}</if>)
         </if>
