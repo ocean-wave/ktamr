@@ -22,9 +22,9 @@
         <div class="layui-block">
             <label class="layui-form-label">表&nbsp;&nbsp;类&nbsp;型</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="meterTypeId" name="meterTypeId" lay-verify="required" th:value="haPricestandards.meterTypeId">
-                    <option th:selected="${haPricestandards.meterTypeId eq haMetertype.metertypeid}" th:each="haMetertype : ${haMetertypes}"
-                            th:value="${haMetertype.metertypeid}" th:text="${haMetertype.name}">Credit card</option>
+                <select id="meterTypeId" name="metertypeId" lay-verify="required" th:value="haPricestandards.metertypeId">
+                    <option th:selected="${haPricestandards.metertypeId eq haMetertype.metertypeId}" th:each="haMetertype : ${haMetertypes}"
+                            th:value="${haMetertype.metertypeId}" th:text="${haMetertype.name}">Credit card</option>
                 </select>
             </div>
         </div>
@@ -39,10 +39,10 @@
         <div class="layui-block">
             <label class="layui-form-label">收费方式</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="chargingmethods" lay-verify="required" th:value="${haPricestandards.chargingmethods}">
-                    <option th:selected="${haPricestandards.chargingmethods=='后付费'}" value="后付费">后付费</option>
-                    <option th:selected="${haPricestandards.chargingmethods=='预付费'}" value="预付费">预付费</option>
-                    <option th:selected="${haPricestandards.chargingmethods=='第三方收费'}" value="第三方收费">第三方收费</option>
+                <select id="chargingmethods" lay-verify="required" th:value="${haPricestandards.chargingMethods}">
+                    <option th:selected="${haPricestandards.chargingMethods=='后付费'}" value="后付费">后付费</option>
+                    <option th:selected="${haPricestandards.chargingMethods=='预付费'}" value="预付费">预付费</option>
+                    <option th:selected="${haPricestandards.chargingMethods=='第三方收费'}" value="第三方收费">第三方收费</option>
                 </select>
             </div>
         </div>
@@ -51,13 +51,13 @@
         <div class="layui-block">
             <label class="layui-form-label">分界点1</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="usagepoint1" lay-verify="required|isInterger|num_nl_0" autocomplete="off" maxlength="8" placeholder="必填，整数" class="layui-input" th:value="${haPricestandards.usagepoint1}">
+                <input id="usagepoint1" lay-verify="required|isInterger|num_nl_0" autocomplete="off" maxlength="8" placeholder="必填，整数" class="layui-input" th:value="${haPricestandards.usagePoint1}">
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">分界点2</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="usagepoint2" lay-verify="required|isInterger|num_nl_0|gt_point1" autocomplete="off" maxlength="8" placeholder="必填，整数" class="layui-input" th:value="${haPricestandards.usagepoint2}">
+                <input id="usagepoint2" lay-verify="required|isInterger|num_nl_0|gt_point1" autocomplete="off" maxlength="8" placeholder="必填，整数" class="layui-input" th:value="${haPricestandards.usagePoint2}">
             </div>
         </div>
     </div>
@@ -200,7 +200,7 @@
         form.on('submit(sure)', function (data) {
             var data = {
                 pricestandId: $("#pricestandId").val(),
-                meterTypeId: $("#meterTypeId").val(),
+                metertypeId: $("#meterTypeId").val(),
                 name: $("#name").val(),
                 chargingMethods: $("#chargingmethods").val(),
                 usagePoint1: $("#usagepoint1").val(),

@@ -16,9 +16,9 @@
         <result column="sMin" property="sMin"/>
         <result column="sMax" property="sMax"/>
         <result column="sDays" property="sDays"/>
-        <result column="usagepoint1" property="usagePoint1"/>
-        <result column="usagepoint2" property="usagePoint2"/>
-        <result column="chargingmethods" property="chargingMethods"/>
+        <result column="usagePoint1" property="usagePoint1"/>
+        <result column="usagePoint2" property="usagePoint2"/>
+        <result column="chargingMethods" property="chargingMethods"/>
         <result column="price1" property="price1"/>
         <result column="price2" property="price2"/>
         <result column="price3" property="price3"/>
@@ -43,7 +43,7 @@
         ps.name as name,
         ps.metertypeid as metertypeId,
         mt.name AS mname,
-        ps.chargingMethods AS chargingmethods,
+        ps.chargingMethods AS chargingMethods,
         ps.usagePoint1 AS usagepoint1,
         ps.usagePoint2 AS usagepoint2,
         trim(to_char(ps.price1*1::real, 'FM999999999.00')) AS price1,
@@ -66,8 +66,8 @@
         <if test="haPricestandard.metertypeId != null">
             and ps.metertypeid = ${haPricestandard.metertypeId}
         </if>
-        <if test="haPricestandard.name != null and haPricestandard.name != ''">
-            and ps.name like '%${haPricestandard.name}%' or ps.chargingMethods like '%${haPricestandard.name}%'
+        <if test="haPricestandard.keyWord != null and haPricestandard.keyWord != ''">
+            and ps.name like '%${haPricestandard.keyWord}%' or ps.chargingMethods like '%${haPricestandard.keyWord}%'
         </if>
         GROUP BY ps.pricestand_id,ps.name,ps.metertypeid,mt.name,ps.chargingMethods,ps.usagePoint1,
         ps.usagePoint2,ps.price1,ps.price2,ps.price3,ps.A1,ps.s_days,ps.s_min,
@@ -84,7 +84,7 @@
         ps.name as name,
         ps.metertypeid as metertypeId,
         mt.name AS mname,
-        ps.chargingMethods AS chargingmethods,
+        ps.chargingMethods AS chargingMethods,
         ps.usagePoint1 AS usagepoint1,
         ps.usagePoint2 AS usagepoint2,
         trim(to_char(ps.price1*1::real, 'FM999999999.00')) AS price1,
@@ -129,9 +129,9 @@
             <if test="sDays != null">s_days = #{sDays},</if>
             <if test="createTime != null">createtime = #{createTime},</if>
             <if test="modifyTime != null">modifytime = #{modifyTime},</if>
-            <if test="usagepoint1 != null">usagepoint1 = #{usagepoint1},</if>
-            <if test="usagepoint2 != null">usagepoint2 = #{usagepoint2},</if>
-            <if test="chargingmethods != null">chargingmethods = #{chargingmethods},</if>
+            <if test="usagePoint1 != null">usagepoint1 = #{usagePoint1},</if>
+            <if test="usagePoint2 != null">usagepoint2 = #{usagePoint2},</if>
+            <if test="chargingMethods != null">chargingmethods = #{chargingMethods},</if>
             <if test="price1 != null">price1 = #{price1},</if>
             <if test="price2 != null">price2 = #{price2},</if>
             <if test="price3 != null">price3 = #{price3},</if>

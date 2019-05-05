@@ -14,7 +14,7 @@
         <result property="operatorLevel" column="operatorLevel"/>
         <result property="operatorRgnType" column="operatorRgnType"/>
         <result property="operatorState" column="operatorState"/>
-        <result property="operatorCreattime" column="operatorCreattime"/>
+        <result property="operatorCreatTime" column="operatorCreatTime"/>
         <result property="operatorCompany" column="operatorCompany"/>
     </resultMap>
 
@@ -34,7 +34,7 @@
         WHEN operator_rgn_type='rgn' THEN '大区'
         WHEN operator_rgn_type='area' THEN '小区' end as operatorRgnType,operator_upper as operatorUpper,
         operator_company as operatorCompany, operator_mobile as operatorMobile, operator_remark as operatorRemark,
-        to_char(operator_creattime, 'yyyy-mm-dd hh24:mi:ss') as operatorCreattime from ha_operator
+        to_char(operator_creattime, 'yyyy-mm-dd hh24:mi:ss') as operatorCreatTime from ha_operator
         where 1=1
         <if test="haOperator.keyWord != null and haOperator.keyWord != ''">
             and operator_company like '%${haOperator.operatorCompany}%'
@@ -48,7 +48,7 @@
     </select>
 
     <insert id="addHaOperator">
-        insert into ha_operator values (#{operatorCode},#{operatorName},#{operatorPwd},#{operatorSex},#{operatorMobile},#{operatorRemark},#{operatorUpper},#{operatorLevel},#{operatorRgnType},#{operatorState},#{operatorCreattime},#{operatorCompany})
+        insert into ha_operator values (#{operatorCode},#{operatorName},#{operatorPwd},#{operatorSex},#{operatorMobile},#{operatorRemark},#{operatorUpper},#{operatorLevel},#{operatorRgnType},#{operatorState},#{operatorCreatTime},#{operatorCompany})
     </insert>
 
     <delete id="deleteHaOperator">

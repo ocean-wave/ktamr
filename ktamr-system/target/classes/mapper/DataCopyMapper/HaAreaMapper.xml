@@ -123,7 +123,7 @@
         <result column="ads" property="ds"/>
         <result column="areserved" property="reserved"/>
         <result column="alastsumday" property="lastsumDay"/>
-        <result column="adescription" property="descripTion"/>
+        <result column="adescription" property="description"/>
         <result column="atnNumber" property="atnNumber"/>
         <result column="keyWord" property="keyWord"/>
 
@@ -254,8 +254,8 @@
             <if test="name != null">
                 name = #{name},
             </if>
-            <if test="descripTion != null">
-                description = #{descripTion},
+            <if test="description != null">
+                description = #{description},
             </if>
             <if test="lastcheckTime != null">
                 lastchecktime = #{lastcheckTime},

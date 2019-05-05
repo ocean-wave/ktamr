@@ -47,18 +47,18 @@
     </select>
 
     <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
-        <if test=" deviceType == '1'.toString() ">
+        <if test=" deviceType == '1' ">
         insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
         values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
           <if test=" centorid >= 0  ">#{centorid},</if><if test=" operatorCode != null and operatorCode != '' ">#{operatorCode},</if>
           <if test=" createTime != null  ">#{createTime},</if>
           <if test=" state != null and state != '' ">#{state}</if>)
         </if>
-        <if test=" deviceType == '2'.toString() ">
+        <if test=" deviceType == '2' ">
             insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
             SELECT cmd,parms,centorid,#{uid},#{createTime},#{state}
             from ha_cmd
-            WHERE id=#{cmdId}
+            WHERE id=#{id}
         </if>
     </insert>
 
