@@ -47,14 +47,14 @@
     </select>
 
     <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
-        <if test=" deviceType == '1' ">
+        <if test=" deviceType == '1'.toString() ">
         insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
         values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
           <if test=" centorid >= 0  ">#{centorid},</if><if test=" operatorCode != null and operatorCode != '' ">#{operatorCode},</if>
           <if test=" createTime != null  ">#{createTime},</if>
           <if test=" state != null and state != '' ">#{state}</if>)
         </if>
-        <if test=" deviceType == '2' ">
+        <if test=" deviceType == '2'.toString() ">
             insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
             SELECT cmd,parms,centorid,#{uid},#{createTime},#{state}
             from ha_cmd
@@ -106,8 +106,8 @@
         , ce.addr AS addr
         , c.state AS state
         , c.processing AS processing
-        , to_char(c.lastBeginTime, 'yyyy-mm-dd hh24:mi:ss') AS lastBeginTime
-        , to_char(c.lastEndTime,'hh24:mi:ss') AS lastEndTime
+        , c.lastBeginTime AS lastBeginTime
+        , c.lastEndTime AS lastEndTime
         ,  c.tryTimes AS tryTimes
         , CASE WHEN c.uid='sys' THEN '系统' WHEN  c.uid='sys_shzn' THEN '上海真诺(系统)' WHEN c.uid='sys_zkjd' THEN '中科君达(系统)' WHEN  c.uid='sys_bdss' THEN  '保定水司(系统)' WHEN  c.uid='sys_gzsk' THEN '贵州深科(系统)' WHEN length(o.operator_name)>0 THEN  o.operator_name ELSE c.uid END  AS executor
         FROM ha_cmd c
@@ -138,7 +138,7 @@
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=" params.keyWord != null and params.keyWord != ''  ">
-            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' )
+            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' or c.processing like '%${params.keyWord}%' )
         </if>
         ORDER BY c.id DESC
     </select>
