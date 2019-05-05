@@ -31,9 +31,15 @@ public class HaFreezeController {
 
         //判断是否点击费用结算按钮的事件
         if(haFreeze.getOpType().equals("费用结算")){
-            Integer insertHaFreeze1 = haFreezeService.insertHaFreeze1(haFreeze);
-            Integer insertHaFreeze2 = haFreezeService.insertHaFreeze2(haFreeze);
-
+            Integer insertHaFreeze1 = haFreezeService.insertHaFreeze11(haFreeze);
+            Integer insertHaFreeze2 = haFreezeService.insertHaFreeze12(haFreeze);
+            Integer binsertHaFreeze2 = haFreezeService.BinsertHaFreeze2(haFreeze);
+            Integer binsertHaFreeze3 = haFreezeService.BinsertHaFreeze3(haFreeze);
+            Integer binsertHaFreeze41 = haFreezeService.BinsertHaFreeze41(haFreeze);
+            Integer binsertHaFreeze42 = haFreezeService.BinsertHaFreeze42(haFreeze);
+            Integer binsertHaFreeze43 = haFreezeService.BinsertHaFreeze43(haFreeze);
+            Integer binsertHaFreeze51 = haFreezeService.BinsertHaFreeze51(haFreeze);
+            Integer binsertHaFreeze52 = haFreezeService.BinsertHaFreeze52(haFreeze);
             if((insertHaFreeze1+insertHaFreeze2)>0){
                 return "<font color='green'>费用结算成功</font>";
             }

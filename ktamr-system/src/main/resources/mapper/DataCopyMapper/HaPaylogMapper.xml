@@ -21,7 +21,7 @@
     <association property="havMeterinfo" javaType="HavMeterinfo">
         <result column="用户编号" property="userNo"/>
         <result column="用户名称" property="userName"/>
-        <result column="用户地址" property="addr"/>
+        <result column="用户地址" property="userDs"/>
     </association>
     <!--ps-->
     <association property="haPricestandard" javaType="HaPricestandard">
@@ -52,6 +52,13 @@
     <if test="HaPaylog.state != null and HaPaylog.state != ''">
         and state = #{HaPaylog.state}
     </if>
+         <if test="HaPaylog.idsList  != null and HaPaylog.idsList.size()>0">
+             and mi.areaid in
+             <foreach collection="HaPaylog.idsList" item="item" index="index"
+                      open="(" separator="," close=")">
+                 #{item}
+             </foreach>
+         </if>
     <if test="HaPaylog.haPricestandard!=null">
 
 
@@ -77,6 +84,13 @@
         <if test="HaPaylog.state != null and HaPaylog.state != ''">
             and state = #{HaPaylog.state}
         </if>
+         <if test="HaPaylog.idsList  != null and HaPaylog.idsList.size()>0">
+             and mi.areaid in
+             <foreach collection="HaPaylog.idsList" item="item" index="index"
+                      open="(" separator="," close=")">
+                 #{item}
+             </foreach>
+         </if>
         <if test="HaPaylog.haPricestandard!=null">
             <if test="HaPaylog.haPricestandard.starttime != null  and HaPaylog.haPricestandard.endtime != null ">
                 and mbtime between
@@ -93,11 +107,11 @@
         <!--ha_paylog(pl)-->
         <result column="plsum" property="sum" />
         <result column="pllastarrear" property="lastarrear"/>
-        <result column="plplanTime" property="plantime"/>
+        <result column="plplanTime" property="planTime"/>
         <result column="plmbTime" property="mbtime"/>
         <!-- ha_freeze(f)-->
         <association property="haFreeze" javaType="HaFreeze">
-            <result column="itemid" property="itemid"/>
+            <result column="itemid" property="itemId"/>
             <result column="flf_number" property="lfNumber"/>
             <result column="ftf_number" property="tfNumber"/>
             <result column="fth_time" property="thTime"/>
@@ -106,7 +120,7 @@
         </association>
         <!--ha_meter(m)-->
         <association property="haMeter" javaType="HaMeter">
-            <result column="mmeterNumber" property="meternumber"/>
+            <result column="mmeterNumber" property="meterNumber"/>
             <result column="mstate" property="state"/>
             <result column="mrate" property="rate"/>
 
@@ -114,9 +128,9 @@
         </association>
         <!--hav_meterinfo(mi)-->
         <association property="havMeterinfo" javaType="HavMeterinfo">
-            <result column="用户名称" property="用户名"/>
-            <result column="用户地址" property="用户地址"/>
-            <result column="用户编号" property="用户号"/>
+            <result column="用户名称" property="userName"/>
+            <result column="用户地址" property="userDs"/>
+            <result column="用户编号" property="userNo"/>
             <result column="micustid" property="custid"/>
 
         </association>

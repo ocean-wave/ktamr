@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaFreezeMapper">
 
-    <!--点击费用结算所做的步骤1-->
-    <insert id="BinsertHaFreeze1">
+    <!--点击费用结算所做的步骤1.1 -->
+    <insert id="BinsertHaFreeze11">
         INSERT INTO ha_freeze(billid,meterid,lf_time,lf_number,tf_number,th_time,rtime,delta,pricestand_id)
-			SELECT to_char(now(), 'yyyy-mm-dd hh24:mi:ss')||m.meterid :: VARCHAR,
+			SELECT to_char(now(), 'YYYYMMDDHHMMSS')||m.meterid :: VARCHAR,
 			m.meterid,m.lf_time,m.lf_number,m.th_number,m.th_r_time,
 			to_date(to_char(now(), 'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'),m.s_number,m.pricestand_id
 			FROM ((ha_meter m LEFT JOIN ha_room r ON r.roomid=m.roomid) LEFT JOIN ha_custom cu ON cu.custid=r.custid)
@@ -16,10 +16,10 @@
 			 m.meterNumber>0 AND m.areaid =#{areaId}  end
     </insert>
 
-    <!--点击费用结算所做的步骤2-->
-    <insert id="BinsertHaFreeze2">
+    <!--点击费用结算所做的步骤1.2-->
+    <insert id="BinsertHaFreeze12">
         INSERT INTO ha_freeze(billid,meterid,lf_time,lf_number,tf_number,th_time,rtime,delta,pricestand_id)
-			SELECT to_char(now(), 'yyyy-mm-dd hh24:mi:ss')||m.meterid :: VARCHAR,
+			SELECT to_char(now(), 'YYYYMMDDHHMMSS')||m.meterid :: VARCHAR,
 			m.meterid,m.lf_time,m.lf_number,m.th_number,m.th_r_time,
 			to_date(to_char(now(), 'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'),m.s_number,m.pricestand_id
 			FROM (((ha_meter m LEFT JOIN ha_room r ON r.roomid = m.roomid) LEFT JOIN ha_custom cu
@@ -28,5 +28,79 @@
 				 case when  cu.lastBillid is  null then f.billid=cu.lastBillid
 			 AND (m.th_r_time>f.th_time OR f.th_time is null) AND m.areaid =#{areaId} end
     </insert>
+	<!--2、阶梯费用计算 点击费用结算所做的步骤2	-->
+	<update id="BinsertHaFreeze2">
+		UPDATE ha_freeze f
+		SET pay=  CASE WHEN delta &lt;= 0 THEN 0
+		WHEN ps.usagePoint1=0 AND ps.usagePoint2=0 THEN delta*ps.price1
+		WHEN delta &lt;=ps.usagePoint1 THEN delta*ps.usagePoint1
+		WHEN delta>ps.usagePoint1 AND delta &lt;=ps.usagePoint2 THEN ps.usagePoint1*ps.price1+(delta-ps.usagePoint1)*ps.price2
+		WHEN delta>ps.usagePoint2 THEN ps.usagePoint1*ps.price1+(ps.usagePoint2-ps.usagePoint1)*ps.price2+(delta-ps.usagePoint2)*ps.price3
+		END
+		from ha_pricestandard ps
+		WHERE   ps.priceStand_id=f.priceStand_id
+		AND   Left(f.billId, 15)=to_char(now(), 'YYYYMMDDHHMMSS')||'-'
+	</update>
 
+	<!--3、生成新缴费单（对相应的用户）点击费用结算所做的步骤3-->
+	<insert id="BinsertHaFreeze3">
+		INSERT INTO ha_paylog (billid,plantime,state,cust_id,cust_name,sum,lastArrear)
+	 SELECT f.billid, to_char(now(), 'yyyy-mm-dd hh24:mi:ss'),'出单',cu.custid,cu.name,f.pay,
+	 case when cu.balance!=null  then cu.balance  else  0 end
+
+	FROM ha_freeze f,ha_custom cu,ha_room r,ha_meter m
+	WHERE f.billid=to_char(now(), 'YYYYMMDDHHMMSS')||'-'||m.meterid :: VARCHAR
+	AND m.roomid=r.roomid AND r.custid=cu.custid AND m.areaid = #{areaId}
+	</insert>
+
+	<!--4、取消未完成结算的缴费单 点击费用结算所做的步骤4.1	-->
+	<update id="BinsertHaFreeze41">
+		UPDATE ha_custom cu SET billid=f.billid
+from ha_room r,ha_meter m,ha_freeze f
+WHERE f.billid = to_char(now(), 'YYYYMMDDHHMMSS')||'-'||m.meterid :: VARCHAR
+AND m.roomid=r.roomid AND r.custid=cu.custid
+AND m.areaid =#{areaId}
+	</update>
+
+	<!--修改之前未完成结算缴费单状态 点击费用结算所做的步骤4.2	-->
+	<update id="BinsertHaFreeze42">
+		UPDATE ha_paylog pl SET state='取消'
+		from ha_custom cu,ha_room r,ha_meter m
+		WHERE cu.lastBillid!=null AND cu.billid <![CDATA[ <> ]]> cu.lastBillid
+		AND pl.billid=cu.lastBillid AND m.roomid=r.roomid
+		AND r.custid=cu.custid AND m.areaid =#{areaId}
+	</update>
+
+	<!--修改ha_custom 上次的 billid 点击费用结算所做的步骤4.3	-->
+	<update id="BinsertHaFreeze43">
+		UPDATE ha_custom cu SET lastBillid=billid
+from ha_room r,ha_meter  m
+WHERE m.roomid=r.roomid AND r.custid=cu.custid AND m.areaid = #{areaId}
+	</update>
+
+	<!--在ha_monthBTime表中加入结算查询时间区间的起始时间 点击费用结算所做的步骤5.1	-->
+	<insert id="BinsertHaFreeze51">
+			INSERT INTO ha_monthBTime(start_time, areaid)
+SELECT  to_char(now(), 'yyyy-mm-dd hh24:mi:ss'), #{areaId}
+FROM ha_monthBTime
+WHERE (SELECT Count(*) FROM ha_monthBTime WHERE areaid=#{areaId})=0 limit 1
+	</insert>
+	<!--点击费用结算所做的步骤5.2 即最后步骤	-->
+	<insert id="BinsertHaFreeze52">
+		INSERT INTO ha_monthBTime(start_time, areaid)
+		SELECT now(),  #{areaId}
+		FROM ha_monthBTime bt
+		WHERE (
+		SELECT case when
+		case when MAX(mb1.start_time)<![CDATA[ <> ]]>NULL then MAX(mb1.start_time)
+		else now() end
+		&lt;
+				case when MAX(mb2.end_time)<![CDATA[ <> ]]>NULL then  MAX(mb2.end_time)
+		else now() end
+		and
+		case  when MAX(mb2.end_time)<![CDATA[ <> ]]>NULL then MAX(mb2.end_time)
+		else now() end &lt; now()
+		then	  #{areaId} else -1 end
+		FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid=#{areaId})=bt.areaid ORDER BY bt.end_time DESC limit 1
+	</insert>
 </mapper>

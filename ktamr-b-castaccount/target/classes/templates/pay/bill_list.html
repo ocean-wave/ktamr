@@ -150,12 +150,12 @@
         GridObj.jqdefaultGridConfig.postData = Post_Data;
         GridObj.jqdefaultGridConfig.colNames = ['缴费单号','用户编号','用户名称','用户地址','状态','出单时间','收费价格','本期用量','本期费用','上期余额','月结时间'];
         GridObj.jqdefaultGridConfig.colModel = [
-            { name: 'billid',  width: 180, key: true, hidden: false},
-            { name: 'havMeterinfo.用户号', width: 80 },
-            { name: 'havMeterinfo.用户名', width: 100 },
-            { name: 'havMeterinfo.用户地址', width: 180 },
+            { name: 'billId',  width: 180, key: true, hidden: false},
+            { name: 'havMeterinfo.userNo', width: 80 },
+            { name: 'havMeterinfo.userName', width: 100 },
+            { name: 'havMeterinfo.userDs', width: 180 },
             { name: 'state', width: 60, cellattr: BillStateCellColor },
-            { name: 'plantime', width: 150 },
+            { name: 'planTime', width: 150 },
             { name: 'haPricestandard.name', width: 120 },
             { name: 'haFreeze.delta', width: 80, align: 'right'},
             { name: 'sum', width: 80, align: 'right'},
@@ -209,18 +209,23 @@
         $(".search").click(function(){//havMeterinfo
             var  _pdArray = "";
             var date_range = ['', ''];
+            var _hhh="";
+            if($("#areas").val()!=null && $("#areas").val() != ""){
+                _hhh = $('#areas option:selected') .text();
+            }
             _pdArray = {
                 "state": $("#state_type").val(),
-                "keyWord": $("#keyWord").val()
-
+                "keyWord": $("#keyWord").val(),
+                "hhh": _hhh, //传id
             };
-            if($("#query_type").val() == "用户" && $("#date_range").val() != ""){
+
+            if($("#query_type").val() == "用户" ){
                 date_range = $("#date_range").val().split("~");
                 _pdArray["startTime"] = date_range[0]+" 00:00:00";
                 _pdArray["endTime"] = date_range[1]+" 23:59:59";
-                console.log(_pdArray);
+               // console.log(_pdArray);
             }
-
+            console.log(_pdArray);
             fullTextSearch("jqGrid", _pdArray);
         });
     });

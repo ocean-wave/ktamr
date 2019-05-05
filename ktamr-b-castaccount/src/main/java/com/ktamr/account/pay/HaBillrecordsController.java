@@ -38,7 +38,7 @@ public class HaBillrecordsController {
      * @param haBillrecords
      * @return
      */
-    @RequestMapping("/showBillRecordsList")
+    @RequestMapping("/showBillRecordsList/showBillRecordsList")
     @ResponseBody
     public  String  showBillRecordsList(HaBillrecords haBillrecords, HttpServletRequest request,  @RequestParam("startDate") Object startDate, @RequestParam("endDate")Object endDate
 
