@@ -2,6 +2,7 @@ package com.ktamr.mapper;
 
 import com.ktamr.domain.HaCmd;
 import com.ktamr.domain.HaMeter;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,13 @@ public interface HaCmdMapper {
     public List<HaCmd> selectCmdLeftJoinTow(HaCmd haCmd);
 
     public HaCmd selectCmdById(Integer id);
+
+    /**
+     * 根据id批量删除Ha_cmd表
+     * @param cmdids id数组
+     * @return 返回int
+     */
+    public Integer deleteCmdByid(@Param("cmdids") Integer[] cmdids);
 
 
 

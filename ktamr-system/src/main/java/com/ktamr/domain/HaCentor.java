@@ -8,7 +8,7 @@ import java.util.Date;
 public class HaCentor extends BaseEntity {
 
   private Integer id;
-  private Integer centorId;
+  private long centorId;
   private String ver;
   private String rTime;
   private Date setupTime;
@@ -36,8 +36,21 @@ public class HaCentor extends BaseEntity {
   private Integer haCentorCount;
   private HaArea haArea;
 
+  public String getDescription() {
+    return description;
+  }
 
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
+  public long getCentorId() {
+    return centorId;
+  }
+
+  public void setCentorId(long centorId) {
+    this.centorId = centorId;
+  }
 
   public Integer getId() {
     return id;
@@ -45,14 +58,6 @@ public class HaCentor extends BaseEntity {
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Integer getCentorId() {
-    return centorId;
-  }
-
-  public void setCentorId(Integer centorId) {
-    this.centorId = centorId;
   }
 
   public String getVer() {
@@ -85,14 +90,6 @@ public class HaCentor extends BaseEntity {
 
   public void setAddr(String addr) {
     this.addr = addr;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
   }
 
   public String getTelNumber() {

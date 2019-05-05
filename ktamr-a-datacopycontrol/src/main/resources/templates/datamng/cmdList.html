@@ -150,7 +150,7 @@
 						"cmdName=再次执行",
 						"cmdids="+cmdIds
 					];
-					_myLayui.showLayer("再次执行", "cmd_act.asp", _queryStr, _layerSize);
+					_myLayui.showLayer("再次执行", "/systemmaintenance/cmdAct", _queryStr, _layerSize);
 					break ;
 				case "删除命令":
 					_layerSize = ['550px', '300px'];
@@ -158,7 +158,7 @@
 						"cmdName=删除命令",
 						"cmdids="+cmdIds
 					];
-					_myLayui.showLayer("删除命令", "cmd_delete.asp", _queryStr, _layerSize);
+					_myLayui.showLayer("删除命令", "/systemmaintenance/cmdDelete", _queryStr, _layerSize);
 					break ;
 				default:
 					break;

@@ -4,6 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaRecordsMapper">
 
+    <resultMap id="haRecords" type="com.ktamr.domain.HaRecords">
+        <id column="itemid" property="itemId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+
+        <result column="thNumber" property="thNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="lfNumber" property="lfNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="delta" property="delta" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="thTime" property="thTime" javaType="java.util.Date" ></result>
+        <result column="lfTime" property="lfTime" javaType="java.util.Date" ></result>
+        <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
+            <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="meterNumber" property="meterNumber" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        </association>
+    </resultMap>
+
     <select id="selectRecordsAndErrrecord" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
         SELECT * FROM
         (SELECT rc1.itemid
@@ -178,5 +195,40 @@
         from ha_meter
         WHERE meterid=#{meterId}
     </insert>
+
+    <select id="selectRecordsAndErrrecordTow" resultMap="haRecords" parameterType="com.ktamr.domain.HaRecords">
+        SELECT t1.itemid
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            , mi.表号 AS meterNumber
+            , t1.本次读数 AS thNumber
+            , t1.上次读数 AS lfNumber
+            , t1.抄收用量 AS delta
+            , t1.表状态 AS state
+            , t1.本次抄表时间 AS thTime
+            , t1.上次抄表时间 AS lfTime
+         FROM (SELECT rc1.itemid AS itemid
+           , rc1.meterid AS meterid
+           , rc1.th_number AS 本次读数
+           , rc1.lf_number AS 上次读数
+           , rc1.delta AS 抄收用量
+           , rc1.state AS 表状态
+           , to_char(rc1.th_time, 'yyyy-mm-dd hh24:mi:ss') AS 本次抄表时间
+           ,to_char(rc1.lf_time, 'yyyy-mm-dd hh24:mi:ss') AS 上次抄表时间
+	   FROM ha_records rc1 WHERE rc1.cmdid=#{id}
+	   UNION
+	   SELECT er1.itemid AS itemid
+           , er1.meterid AS meterid
+           , er1.n AS 本次读数
+           , NULL AS 上次读数
+           , NULL AS 抄收用量
+           , er1.state AS 表状态
+           , to_char(er1.readtime, 'yyyy-mm-dd hh24:mi:ss') AS 本次抄表时间
+           , NULL AS 上次抄表时间
+	   FROM ha_errRecord er1
+	   WHERE er1.cmdid=#{id}) t1
+       LEFT OUTER JOIN hav_meterinfo mi ON t1.meterid=mi.meterid
+    </select>
 
 </mapper>

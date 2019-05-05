@@ -60,6 +60,7 @@ mybatis:
 
 # 日志配置
 logging:
+  file: ht_runtime.log
   level:
     com.ktamr: debug
     org.springframework: WARN

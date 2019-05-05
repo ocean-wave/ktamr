@@ -8,13 +8,11 @@
         <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
 
         <result column="meterNumber" property="meterNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="yjzqh" property="resultParams" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="userDs" property="resultParams.userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
-        <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
-        <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
-        <result column="sNumber" property="sNumber" javaType="java.lang.Double"></result>
-        <result column="zjsl" property="resultParams.zjsl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="yjzqh" property="resultParams.yjzqh" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="ddjzqh" property="resultParams.ddjzqh" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="ccrNoD" property="resultParams.ccrNoD" javaType="java.lang.String"></result>
+        <result column="ccrNoR" property="resultParams.ccrNoR" javaType="java.lang.String"></result>
+        <result column="state" property="state" javaType="java.lang.String"></result>
 
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>

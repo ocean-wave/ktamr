@@ -8,6 +8,7 @@ import java.util.List;
 public class HaRoom extends BaseEntity {
 
     private Integer roomId;
+    private Integer custId;
     private Integer buildingId;
     private String name;
     private String description;
@@ -133,5 +134,13 @@ public class HaRoom extends BaseEntity {
 
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
+    }
+
+    public Integer getCustId() {
+        return custId;
+    }
+
+    public void setCustId(Integer custId) {
+        this.custId = custId;
     }
 }
