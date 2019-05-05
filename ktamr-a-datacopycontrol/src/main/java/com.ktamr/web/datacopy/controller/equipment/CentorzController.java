@@ -51,9 +51,9 @@ public class CentorzController extends BaseController {
 
     @PostMapping("/centorzByQueryIdListJson")
     @ResponseBody
-    public Map<String,Object> centorzByCollectoridListJson(ParameterInfo parms){
+    public Map<String,Object> centorzByCollectoridListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"lfnumber");
@@ -71,9 +71,9 @@ public class CentorzController extends BaseController {
 
     @PostMapping("/centorzByIdListJson")
     @ResponseBody
-    public Map<String,Object> centorzByIdListJson(ParameterInfo parms){
+    public Map<String,Object> centorzByIdListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorzByIdAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzByIdAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"zbs");

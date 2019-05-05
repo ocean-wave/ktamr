@@ -2,6 +2,7 @@ package com.ktamr.web.datacopy.controller.equipment;
 
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaCentor;
 import com.ktamr.service.HaCentorService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,9 @@ public class CentorcController extends BaseController {
 
     @PostMapping("/centorcByQueryIdListJson")
     @ResponseBody
-    public Map<String,Object> centorzByCollectoridListJson(ParameterInfo parms){
+    public Map<String,Object> centorzByCollectoridListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"lfnumber");
