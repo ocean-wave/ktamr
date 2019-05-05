@@ -505,9 +505,9 @@
 
     <select id="queryHaMeter" resultMap="queryHaMeterMap">
         SELECT m.meterid as meterId,
-        mi.userNo AS userNo,
-        mi.userName AS userName,
-        mi.userDs AS userDs,
+        mi.用户号 AS userNo,
+        mi.用户名 AS userName,
+        mi.用户地址 AS userDs,
         m.meterNumber AS meterNumber
         from (ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid)
         LEFT JOIN ha_area a ON m.areaid=a.areaid WHERE m.meterid>0
