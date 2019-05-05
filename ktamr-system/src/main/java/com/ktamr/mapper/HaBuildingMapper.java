@@ -12,20 +12,49 @@ public interface HaBuildingMapper {
 
     /**
      * 查询楼栋信息并且实现分页
+     *
      * @param parms
      * @return
      */
     public List<HaBuilding> selectAllBuildingAndCount(HaBuilding parms);
 
 
-    List<HaBuilding> HaBuildingList(HaBuilding haBuilding);
+    List<HaBuilding> HaBuildingListC(HaBuilding haBuilding);
 
-    List<HaBuilding> queryHaBuilding(@Param("areaId") Integer areaId);
+    /*
+     *如果Id不为空查询楼栋
+     */
+    List<HaBuilding> queryHaBuildingC(@Param("areaId") Integer areaId);
 
-    Integer addHaBuilding(HaBuilding haBuilding);
+    /*
+     *新增楼栋
+     */
+    Integer addHaBuildingC(HaBuilding haBuilding);
 
-    Integer updateHaBuilding(HaBuilding haBuilding);
+    /*
+     *修改楼栋
+     */
+    Integer updateHaBuildingC(HaBuilding haBuilding);
 
-    Integer deleteHaBuilding(HaBuilding haBuilding);
+    /*
+     *删除楼栋
+     */
+    Integer deleteHaBuildingC(HaBuilding haBuilding);
+
+    /*
+     *查询楼栋
+     */
+    List<HaBuilding> queryAllBuildingC(@Param("page") Integer page,
+                                      @Param("rowNum") Integer rowNum);
+
+    /*
+     *小区下所属楼栋记录数
+     */
+    Integer allBuildingCountC(HaBuilding haBuilding);
+
+    /*
+     *条件查询楼栋
+     */
+    List<HaBuilding> queryHaBuildingConditionC(@Param("areaId") Integer areaId);
 
 }

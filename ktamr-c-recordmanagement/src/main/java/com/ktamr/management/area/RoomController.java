@@ -1,7 +1,7 @@
 package com.ktamr.management.area;
 
 import com.ktamr.domain.HaRoom;
-import com.ktamr.service.AllRoomService;
+import com.ktamr.service.HaRoomService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class RoomController {
 
     @Resource
-    private AllRoomService allRoomService;
+    private HaRoomService haRoomService;
 
     @RequestMapping("/QueryAllRoomJson")
     @ResponseBody
@@ -35,8 +35,8 @@ public class RoomController {
         int page2 = page;//重新定义变量接收
         --page2;
 
-        List<HaRoom> allRoom = allRoomService.queryAllRoom(haRoom,pageRows,page2);
-        Integer roomCount = allRoomService.allRoomCount(haRoom);
+        List<HaRoom> allRoom = haRoomService.queryAllRoomC(haRoom,pageRows,page2);
+        Integer roomCount = haRoomService.allRoomCountC(haRoom);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);//设置初始的页码 就是第几页
         map.put("rowNum", pageRows);//一页显示几条数据

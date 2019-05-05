@@ -42,8 +42,8 @@ public class CustomController {
     @RequestMapping("/JumpCustAdd")
     public String jumpcustadd(Integer areaId,Integer buildingId,Model model) {
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
-        List<HaBuilding> haBuilding = haBuildingService.queryHaBuilding(areaId);
-        List<HaRoom> haRoom = haRoomService.queryRoom(buildingId);
+        List<HaBuilding> haBuilding = haBuildingService.queryHaBuildingC(areaId);
+        List<HaRoom> haRoom = haRoomService.queryRoomC(buildingId);
         model.addAttribute("haArea",haArea);
         model.addAttribute("haBuilding",haBuilding);
         model.addAttribute("haRoom",haRoom);
@@ -98,13 +98,13 @@ public class CustomController {
     @RequestMapping(value = "/QueryHaBuildingJson",produces = "text/plain;charset=utf-8")
     @ResponseBody
     public Object queryHaBuildingJson(Integer areaId){
-        return JSON.toJSONString(haBuildingService.queryHaBuilding(areaId));
+        return JSON.toJSONString(haBuildingService.queryHaBuildingC(areaId));
     }
 
     @RequestMapping(value = "/QueryRoomJson",produces = "text/plain;charset=utf-8")
     @ResponseBody
     public Object queryRoomJson(Integer buildingId){
-        return JSON.toJSONString(haRoomService.queryRoom(buildingId));
+        return JSON.toJSONString(haRoomService.queryRoomC(buildingId));
     }
 
     @RequestMapping("/cust_del")

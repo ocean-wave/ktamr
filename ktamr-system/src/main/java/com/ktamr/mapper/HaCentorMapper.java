@@ -21,6 +21,8 @@ public interface HaCentorMapper {
 
     public List<HaCentor> selectCentor(HaCentor haCentor);
 
+
+
     List<HaCentor> HaCentorList(@Param("haCentor") HaCentor haCentor);
 
     Integer addHaCentor(HaCentor haCentor);

@@ -126,7 +126,7 @@
         SELECT CASE WHEN cu.custno is null THEN  '*' ELSE cu.custno End AS custno
         , CASE WHEN cu.name is null THEN '*' ELSE cu.name END AS name
         , a.name||'-'||b.name||'-'||r.name AS ds
-        ,m.meterNumber AS meternumber
+        ,m.meterNumber AS meterNumber
         FROM (((ha_meter m LEFT JOIN ha_room r ON m.roomid=r.roomid)
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON m.areaid=a.areaid)
@@ -480,5 +480,43 @@
         LEFT JOIN ha_collector co ON m.collectorid=co.collectorid
         WHERE m.centorid=#{haCentor.centorId}
          ORDER BY cu.custno,b.name||'-'||r.name,to_hex(co.nconf)
+    </select>
+
+
+
+
+    <resultMap id="queryHaMeterMap" type="com.ktamr.domain.HaMeter">
+        <id property="meterId" column="meterId"/>
+        <result  property="meterNumber" column="meterNumber"/>
+        <result property="areaId" column="areaId"/>
+        <result property="collectorId" column="collectorId"/>
+
+        <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
+            <id property="meterid" column="meterid"/>
+            <result property="userNo" column="userNo"/>
+            <result property="userName" column="userName"/>
+            <result property="userDs" column="userDs"/>
+        </association>
+
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaId" column="areaid"/>
+        </association>
+    </resultMap>
+
+    <select id="queryHaMeter" resultMap="queryHaMeterMap">
+        SELECT m.meterid as meterId,
+        mi.userNo AS userNo,
+        mi.userName AS userName,
+        mi.userDs AS userDs,
+        m.meterNumber AS meterNumber
+        from (ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid)
+        LEFT JOIN ha_area a ON m.areaid=a.areaid WHERE m.meterid>0
+        <if test="collectorid!=null">
+            and m.collectorid=#{collectorid}
+        </if>
+        <if test="areaId!=null">
+            AND a.areaid=#{areaId}
+        </if>
+        order by mi.userDs
     </select>
 </mapper>

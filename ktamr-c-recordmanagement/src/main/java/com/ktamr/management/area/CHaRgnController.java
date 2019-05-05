@@ -26,10 +26,7 @@ public class CHaRgnController {
     private HaAreaService haAreaService;
 
     @Autowired
-    private AllRoomService allRoomService;
-
-    @Autowired
-    private AllBuildingService allBuildingService;
+    private HaBuildingService haBuildingService;
 
     @RequestMapping("/JumpRgnAdd")
     public String jumprgnadd(){
@@ -162,7 +159,7 @@ public class CHaRgnController {
                     rgn.setChildren(area);
 
                     //所有房间
-                    List<HaBuilding> haBuildingList = allBuildingService.queryHaBuildingCondition(haAreaList.get(a).getAreaId());
+                    List<HaBuilding> haBuildingList = haBuildingService.queryHaBuildingConditionC(haAreaList.get(a).getAreaId());
                     //循环遍历将指定房间放在小区下
                     if (haBuildingList.size() != 0) {
                         List<Menus> room = new ArrayList<Menus>();
