@@ -49,33 +49,33 @@
 
 
     <resultMap id="HaRgnMapC" type="com.ktamr.domain.HaRgn">
-        <result property="id" column="id" />
+        <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="name" column="name" />
         <result property="shortName" column="shortName" />
         <result property="zCode" column="zCode" />
-        <result property="createtime" column="createTime" />
-        <result property="modifytime" column="modifyTime" />
+        <result property="createTime" column="createTime" />
+        <result property="createTime" column="modifyTime" />
 
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
-            <id property="areaid" column="areaid"/>
-            <result property="areano" column="areano"/>
+            <id property="areaId" column="areaId"/>
+            <result property="areaNo" column="areaNo"/>
             <result property="haAreaCount" column="HaAreaCount"/>
         </association>
 
         <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
-            <id property="id" column="id"/>
-            <result property="centorno" column="centorno"/>
-            <result property="haCentorCount" column="HaCentorCount"/>
+            <id property="id" column="cid"/>
+            <result property="centorNo" column="centorNo"/>
+            <result property="haCentorCount" column="haCentorCount"/>
         </association>
 
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
-            <id property="collectorid" column="collectorid"/>
-            <result property="centorid" column="centorid"/>
+            <id property="collectorId" column="collectorid"/>
+            <result property="centorId" column="centorid"/>
             <result property="haCollectorCount" column="HaCollectorCount"/>
         </association>
 
         <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
-            <id property="meterid" column="meterid"/>
+            <id property="meterId" column="meterid"/>
             <result property="haMeterCount" column="HaMeterCount"/>
         </association>
     </resultMap>

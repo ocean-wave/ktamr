@@ -53,7 +53,7 @@ public class HaCmdServiceImpl implements HaCmdService {
     @Override
     public Integer insertCmd(Integer id) {
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("id",id);
+        map.put("cmdId",id);
         map.put("uid", ServletUtils.getSession().getAttribute("operatorCode"));
         map.put("createTime", DateUtils.getNowDate());
         map.put("state","待执行");
