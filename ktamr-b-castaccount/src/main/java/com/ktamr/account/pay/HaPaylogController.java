@@ -35,12 +35,12 @@ public class HaPaylogController {
      * 打开缴费单页面 +查询小区表
      * @return
      */
-    @RequestMapping("/com/ktamr/account/pay/bill_list.html")
+    @RequestMapping("/pay/bill_list.html")
     public String showBill_list(HaArea haArea, Model model){
         List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         if(haAreaList!=null){//判断是否有值
             model.addAttribute("areaListName",haAreaList);
-            return "com/ktamr/account/pay/bill_list.html";
+            return "/pay/bill_list.html";
         }
         return null;
     }
