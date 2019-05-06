@@ -23,18 +23,18 @@
 
         <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
             <id property="custId" column="custId"/>
-            <result property="custno" column="custno"/>
+            <result property="custNo" column="custNo"/>
             <result property="name" column="cname"/>
         </association>
 
         <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
             <id property="meterId" column="meterId"/>
-            <result property="meternumber" column="meternumber"/>
+            <result property="meterNumber" column="meterNumber"/>
             <result property="thNumber" column="thNumber"/>
-            <result property="ifNumber" column="ifNumber"/>
+            <result property="lfNumber" column="lfNumber"/>
             <result property="sNumber" column="sNumber"/>
             <result property="state" column="state"/>
-            <result property="thrTime" column="thrTime"/>
+            <result property="thRTime" column="thRTime"/>
             <result property="gNumber" column="gNumber"/>
             <result property="offsetN" column="offsetN"/>
             <result property="vendorId" column="vendorId"/>
@@ -67,9 +67,9 @@
     <select id="queryAllRoomC" resultMap="queryAllRoomMap">
         SELECT trim(to_char(r.roomid, '99999999'))||'_'||
         trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterid,
-        cu.custno AS custno, cu.name as cname,  a.name||'-'||b.name||'-'||r.name  AS uname, r.description AS description
-        , m.meterNumber AS meternumber, m.th_number as thNumber, m.lf_number as ifNumber,
-        m.s_number as sNumber, m.state as state, to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') as thrTime,
+        cu.custno AS custNo, cu.name as cname,  a.name||'-'||b.name||'-'||r.name  AS uname, r.description AS description
+        , m.meterNumber AS meterNumber, m.th_number as thNumber, m.lf_number as lfNumber,
+        m.s_number as sNumber, m.state as state, to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') as thRTime,
         p.name as pname, CASE WHEN c.addr != '' then c.addr  ELSE '[无对象]' END  AS addr,
         c.id AS id, CASE WHEN co.addr != '' THEN co.addr||'('||to_hex(co.nconf)||')'ELSE  '[无对象]' END  AS caddr,
         m.g_number AS gNumber, m.offset_n AS offsetN, m.vendor_id AS vendorId,

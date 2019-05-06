@@ -293,24 +293,24 @@ myzTree.prototype.getMultiSelectedNodes = function(){
 	ids = "", names = "", levelType = "", _nodes= Array();
 
 	if(nodes.length <= 1){
-		$("#"+this.nodeTypeId).val(nodes[0].LevelType);
+		$("#"+this.nodeTypeId).val(nodes[0].levelType);
 		$("#"+this.nodeIdsId).val(nodes[0].id);
 		$("#"+this.nodeNamesId).val(nodes[0].name.replace(/<[^>]*>|/g,""));
-		if(nodes[0].LevelType == "centor" || nodes[0].LevelType == "ccentor" || nodes[0].LevelType == "readLine"){
+		if(nodes[0].levelType == "centor" || nodes[0].levelType == "ccentor" || nodes[0].levelType == "readLine"){
 			$("#"+this.deviceDescriptionId).val(nodes[0].description);
 		}
 		return null;
 	}
 	for(var i=0;i<nodes.length;i++){
-		if(nodes[i].LevelType == "allRgn"){
+		if(nodes[i].levelType == "allRgn"){
 			levelType = "allRgn";
 			_nodes.push(nodes[i]);
 			break;
-		}else if(nodes[i].LevelType == "allArea"){
+		}else if(nodes[i].levelType == "allArea"){
 			levelType = "allArea";
 			_nodes.push(nodes[i]);
 			break;
-		}else if(nodes[i].LevelType == "allMeter"){
+		}else if(nodes[i].levelType == "allMeter"){
 			levelType = "allMeter";
 			_nodes.push(nodes[i]);
 			break;
@@ -320,7 +320,7 @@ myzTree.prototype.getMultiSelectedNodes = function(){
 		nodes = _nodes;
 	}else{
 		for(var i=0;i<nodes.length;i++){
-			if(nodes[i].LevelType == "rgn"){
+			if(nodes[i].levelType == "rgn"){
 				levelType = "rgn";
 				_nodes.push(nodes[i]);
 			}
@@ -329,7 +329,7 @@ myzTree.prototype.getMultiSelectedNodes = function(){
 			nodes = _nodes;
 		}else{
 			for(var i=0;i<nodes.length;i++){
-				if(nodes[i].LevelType == "area"){
+				if(nodes[i].levelType == "area"){
 					levelType = "area";
 					_nodes.push(nodes[i]);
 				}
