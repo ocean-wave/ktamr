@@ -62,7 +62,7 @@
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and LEFT(a.areaNo,1) in (#{params.rgnStr})
+                and position( LEFT(a.areaNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
                 and a.areaNo in (#{params.areaNo})

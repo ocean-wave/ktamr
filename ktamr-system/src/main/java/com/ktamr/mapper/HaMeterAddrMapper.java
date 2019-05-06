@@ -20,7 +20,7 @@ public interface HaMeterAddrMapper {
     /**
      * 查询ha_meter_addr表并且向左连接两表
      * @param cmdId 条件id
-     * @return返回泛型集合HaMeterAddr类
+     * @return 返回泛型集合HaMeterAddr类
      */
     public List<HaMeterAddr> selectMeterAddrLeftJoinTow2(@Param("cmdId") Integer cmdId);
 }

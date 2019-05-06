@@ -185,10 +185,10 @@
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
                 GridObj.jqdefaultGridConfig.postData = {"centorId": deviceId};
-                GridObj.jqdefaultGridConfig.colNames = ['collectorId','centorid','现设备地址','原设备地址','安装地点','版本','表总数','读入表数','建档状态数','无返回表数','状态','中继路由','操作结果'];
+                GridObj.jqdefaultGridConfig.colNames = ['collectorId','centorId','现设备地址','原设备地址','安装地点','版本','表总数','读入表数','建档状态数','无返回表数','状态','中继路由','操作结果'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'haCollector.collectorId',  width: 75, key: true, hidden: true},
-                    { name: 'haCollector.haCentor.id',  width: 75, hidden: true},
+                    { name: 'centorId',  width: 75, hidden: true},
                     { name: 'resultParams.nconf', align: 'right' ,width: 85 },
                     { name: 'resultParams.oconf', align: 'right' ,width: 85 },
                     { name: 'addr', width: 200 },
@@ -219,7 +219,7 @@
                 GridObj.jqdefaultGridConfig.colNames = ['meterId','centorId','collectorAddr','用户编号','用户名称','用户地址','表号','上期结算','最近读数','本期用量','表状态','最近抄表时间','操作结果'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'haMeter.meterId',  width: 75, key: true, hidden: true},
-                    { name: 'haMeter.haCentor.id',  width: 75, hidden: true},
+                    { name: 'centorId',  width: 75, hidden: true},
                     { name: 'resultParams.collectorAddr',  width: 75, hidden: true},
                     { name: 'haMeter.havMeterinfo.userNo', width: 120 },
                     { name: 'haMeter.havMeterinfo.userName', width: 120 },
@@ -252,8 +252,8 @@
 
         function reloadDeviceNodes(){
             var treePostData = {
-                "params[areaType]": $("#nodeType1").val(),
-                "params[id]": $("#nodeIds1").val()
+                "areaType": $("#nodeType1").val(),
+                "id": $("#nodeIds1").val()
             };
             tree2.postData = treePostData;
             tree2.reloadZtreeNodes();
@@ -328,8 +328,8 @@
         });
 
         _myLayui = new myLayui;
-        var get_cmdid_url="../datamng/ha_cmd/cmd_add_do.asp";
-        var get_result_url = "../datamng/ha_cmd/cmd_ajax_get.asp";
+        var get_cmdid_url="/smallbox/haCmd/cmdAdd";
+        var get_result_url = "/smallbox/haCmd/getCmdAjax";
         var g_cmd = "";
         var cmdsManage = function(cmdName, gridId, rowIds, index){
             this.cmdName = cmdName;
@@ -390,20 +390,20 @@
                 case "采集器寻表":
                 case "加采集器":
                 case "删采集器":
-                    cmd = cmdName +":"+ rowData["现设备地址"];
+                    cmd = cmdName +":"+ rowData["resultParams.nconf"];
                     break;
                 case "单表抄表":
                 case "关阀":
                 case "开阀":
-                    cmd = cmdName +":"+ rowData["表号"];
+                    cmd = cmdName +":"+ rowData["haMeter.havMeterinfo.meterNumber"];
                     break;
                 case "集中器加表":
                 case "删除表":
-                    cmd = cmdName +":"+ "10"+","+rowData["表号"]+","+rowData["collectorAddr"];
+                    cmd = cmdName +":"+ "10"+","+rowData["haMeter.havMeterinfo.meterNumber"]+","+rowData["resultParams.collectorAddr"];
                     break;
                 case "采集器加表":
                 case "采集器删表":
-                    cmd = cmdName +":"+ rowData["collectorAddr"] +","+ rowData["表号"];
+                    cmd = cmdName +":"+ rowData["resultParams.collectorAddr"] +","+ rowData["haMeter.havMeterinfo.meterNumber"];
                     break;
                 default:
                     cmd = cmdName +":"+ "0";
@@ -414,13 +414,13 @@
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,data: {
-                    centorid: rowData["centorid"]
+                    centorid: rowData["centorId"]
                     ,cmd: cmd
                 }
                 ,async:false //同步请求
                 ,success: function(data){
                     if(!isNaN(data)){
-                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src='http://localhost:8877/images/loading-0.gif'/>"});
+                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src="+"/images/loading-0.gif"+" />"});
                         _this.cmdid = data;
                         _this.get_result_timer.set({time: 3*1000, autostart: true});
                     }else{
@@ -459,7 +459,7 @@
             }
             if(cmdName.indexOf("读取参数")>=0 || cmdName.indexOf("设置参数")>=0){
                 rowData = $("#jqGrid").jqGrid('getRowData', rowIds);
-                if(rowData["连接说明"].substr(0, 5) == "KT4EW"){
+                if(rowData["description"].substr(0, 5) == "KT4EW"){
                     layer.msg("不支持的命令！", {icon: 5});
                     return false;
                 }
@@ -471,7 +471,7 @@
                     rowData = $("#jqGrid").jqGrid('getRowData', rowIds);
                     _queryStr = [
                         "deviceType=centor",
-                        "devDescription="+rowData["连接说明"],
+                        "devDescription="+rowData["description"],
                         "cmdName="+cmdName,
                         "ids="+rowIds
                     ]
