@@ -58,7 +58,7 @@
             insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
             SELECT cmd,parms,centorid,#{uid},#{createTime},#{state}
             from ha_cmd
-            WHERE id=#{id}
+            WHERE id=#{cmdId}
         </if>
     </insert>
 

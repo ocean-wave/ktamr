@@ -517,6 +517,6 @@
         <if test="areaId!=null">
             AND a.areaid=#{areaId}
         </if>
-        order by mi.userDs
+        order by mi.用户地址
     </select>
 </mapper>

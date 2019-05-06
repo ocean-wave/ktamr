@@ -26,12 +26,17 @@ public interface HaCentorService {
 
     /**
      * 根据centorId进行查询集中器信息并且统计表总数、读入表数、建档状态数、无返回表数
-     * @param parms
-     * @return
+     * @param parms 对象参数
+     * @return 返回对象泛型集合
      */
     public List<HaCentor> selectAllCentorzByIdAndCount(HaCentor parms);
 
-    public List<Map<String,Object>> selectAllCentorcAndCount(ParameterInfo parms);
+    /**
+     * 查询集采器信息并且统计总表数、读入表数、建档表数、无返回表数
+     * @param parms 对象参数
+     * @return 返回对象泛型集合
+     */
+    public List<HaCentor> selectAllCentorcAndCount(HaCentor parms);
 
     public List<Map<String,Object>> selectAllCentorHandAndCount(ParameterInfo parms);
 

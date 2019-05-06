@@ -1,20 +1,23 @@
-﻿var myJqGrid = function (GridId, GridPagerId, GridFormId, heightDelta,url){//x-www-form-urlencoded
+﻿var myJqGrid = function (GridId, GridPagerId, GridFormId, heightDelta,url){
 	this.GridId = GridId;
 	this.GridPagerId = GridPagerId;
 	this.GridFormId = GridFormId;
 	this.heightDelta = heightDelta;
 	this.ExcelFileName = "";
+
 	this.jqdefaultGridConfig = {
 		url: url,
 		styleUI: 'Bootstrap',
-		mtype: "post",
+		mtype: "POST",
 		datatype: "json",
 		ajaxGridOptions: {contentType: 'application/x-www-form-urlencoded; charset=utf-8'},
 		autowidth: true,
+
+
 		height: 100,//默认高度
 		shrinkToFit: false,
-		rowNum: 100,
-		rowList: [50, 100, 200],
+		rowNum: 200,
+		rowList: [100, 200, 500],
 		viewrecords: true,
 		rownumbers: true,
 		sortName: "id",
@@ -28,7 +31,15 @@
 		pager: "#"+GridPagerId,
 		toolbar: [ false, "top" ],
 		footerrow: false,
-		userDataOnFooter: false
+		userDataOnFooter: false,
+        jsonReader:{
+                     total:'total',
+                     page:'page',
+                     records:'records',
+			         root:'rows',
+			         repeatitems:false,
+                     id : "id"
+             }
 	};
 	this.excelButtonConfig = {
 		caption: "Excel",
@@ -44,6 +55,7 @@
 		,edit:false
 	};	
 };
+
 myJqGrid.prototype.unloadGrid = function(){
 	$.jgrid.gridUnload(this.GridId);
 }
@@ -84,6 +96,7 @@ myJqGrid.prototype.getSelRowIds = function(){
 	var _this = this;
 	return getSelectedRows(_this.GridId);
 }
+
 myJqGrid.prototype.hideCols = function(colNameArray){
 	var _this = this;
 	$("#"+_this.GridId).setGridParam().hideCol(colNameArray);
@@ -155,16 +168,16 @@ function exportToExcel(jqGridID, tableName)
 		postData: pdArray
 	})	
 }
-
+//分页的数据，Page 当前位置是什么
 function fullTextSearch(jqGridID, postDataArray){
 	var grid = $("#"+jqGridID);
 	var _postData=grid.getGridParam("postData");
-	$.each(postDataArray, function (k, v) {
+	$.each(postDataArray, function (k, v) { 
 		_postData[k] = v;
 	});
 	//console.log(_postData);
 	grid.jqGrid('setGridParam',{
-		page:$("#input_jqGridPager").find("input").val(),
+        page:$("#input_jqGridPager").find("input").val(),
 		postData: _postData
 	}).trigger("reloadGrid");
 }

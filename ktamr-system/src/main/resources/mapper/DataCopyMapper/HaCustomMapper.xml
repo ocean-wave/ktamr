@@ -5,7 +5,7 @@
 
     <resultMap id="HaCustomMap" type="com.ktamr.domain.HaCustom">
         <id property="custId" column="custId"/>
-        <result property="custNo" column="custno"/>
+        <result property="custNo" column="custNo"/>
         <result property="name" column="name"/>
         <result property="sex" column="sex"/>
         <result property="idNumber" column="idNumber"/>
@@ -37,14 +37,14 @@
         </association>
 
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
-            <id property="areaid" column="areaid"/>
+            <id property="areaId" column="areaId"/>
             <result property="name" column="aname"/>
         </association>
     </resultMap>
 
     <select id="HaCustomList" resultMap="HaCustomMap">
         SELECT u.custid as custId,
-        u.custno as custno,
+        u.custno as custNo,
         u.name as name,
         u.sex as sex,
         CASE WHEN a.name != ''
@@ -57,8 +57,8 @@
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON b.areaid=a.areaid
         where u.custid is not null
-        <if test="haCustom.name!=null and haCustom.name !=''">
-            and u.name like '%${haCustom.name}%'
+        <if test="haCustom.keyWord!=null and haCustom.keyWord !=''">
+            and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
         </if>
         ORDER BY u.custno,a.name,b.name,r.name
         limit #{page} OFFSET #{rowNum}
@@ -73,7 +73,7 @@
 
     <select id="updateByIdHaCustom" resultMap="HaCustomMap">
         SELECT u.custid as custId,
-        u.custno as custno,
+        u.custno as custNo,
         u.name as name,
         u.sex as sex,
         CASE WHEN a.name != ''

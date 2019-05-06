@@ -79,7 +79,4 @@ public class Menus {
     public void setChildren(List<Menus> children) {
         this.children = children;
     }
-
-    //    http://121.201.38.19:8885/client_trans/getNodes.asp?_=1554888100021
-
 }

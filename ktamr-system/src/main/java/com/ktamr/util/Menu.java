@@ -14,8 +14,17 @@ public class Menu {
     private String LevelType;
     private String name;
     private String iconSkin;
+    private Boolean open;
     private boolean isParent;
     private List<Menu> children;
+
+    public String getLevelType() {
+        return LevelType;
+    }
+
+    public void setLevelType(String levelType) {
+        this.LevelType = levelType;
+    }
 
     public String getId() {
         return id;
@@ -31,14 +40,6 @@ public class Menu {
 
     public void setpId(String pId) {
         this.pId = pId;
-    }
-
-    public String getLevelType() {
-        return LevelType;
-    }
-
-    public void setLevelType(String levelType) {
-        LevelType = levelType;
     }
 
     public String getName() {
@@ -60,11 +61,19 @@ public class Menu {
         this.iconSkin = iconSkin;
     }
 
-    public boolean getIsParent() {
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
+    }
+
+    public boolean isParent() {
         return isParent;
     }
 
-    public void setIsParent(boolean parent) {
+    public void setParent(boolean parent) {
         isParent = parent;
     }
 

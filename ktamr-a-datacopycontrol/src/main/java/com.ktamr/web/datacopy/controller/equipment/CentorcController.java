@@ -7,10 +7,8 @@ import com.ktamr.service.HaCentorService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +30,9 @@ public class CentorcController extends BaseController {
 
     @PostMapping("/centorcListJson")
     @ResponseBody
-    public Map<String,Object> centorcListJson(ParameterInfo parms){
+    public Map<String,Object> centorcListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorcAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorcAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"zbs");
@@ -70,6 +68,20 @@ public class CentorcController extends BaseController {
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
+    }
+
+    @GetMapping("/deviceMngc")
+    public String deviceMngc(@RequestParam( value = "deviceType",required = false) String deviceType
+            , @RequestParam( value = "deviceName",required = false) String deviceName
+            , @RequestParam( value = "cmdName",required = false) String cmdName
+            , @RequestParam( value = "ids",required = false) String ids
+            , ModelMap mmap){
+        mmap.put("deviceType",deviceType);
+        mmap.put("deviceName",deviceName!=null?deviceName:"");
+        mmap.put("devDescription","asdsadasdas");
+        mmap.put("cmdName",cmdName);
+        mmap.put("ids",ids);
+        return pxePath+"/deviceMng";
     }
 }
 
