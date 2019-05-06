@@ -24,7 +24,7 @@
                 <select id="meterType" lay-verify="required">
                     <option value="">未选择</option>
                     <option th:each="haMetertype : ${haMetertypes}"
-                            th:value="${haMetertype.metertypeid}" th:text="${haMetertype.name}">Credit card</option>
+                            th:value="${haMetertype.metertypeId}" th:text="${haMetertype.name}">Credit card</option>
                 </select>
             </div>
         </div>
@@ -197,7 +197,7 @@
 
         form.on('submit(sure)', function (data) {
             var data = {
-                meterTypeId: $("#meterType").val(),
+                metertypeId: $("#meterType").val(),
                 name: $("#name").val(),
                 chargingMethods: $("#chargingmethods").val(),
                 usagePoint1: $("#usagepoint1").val(),
