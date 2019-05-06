@@ -150,25 +150,25 @@
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
                 GridObj.jqdefaultGridConfig.postData = {"params[nodeType]": nodeType, "params[nodeIds]": nodeIds};
-                GridObj.jqdefaultGridConfig.colNames = ['centorid','编号','设备区域号','设备地址','安装地点','连接说明','状态','总表数','读入表数','建档表数','无返回表数','最近联断时间','版本','备注','拨号号码','安装时间'];
+                GridObj.jqdefaultGridConfig.colNames = ['id','编号','设备区域号','设备地址','安装地点','连接说明','状态','总表数','读入表数','建档表数','无返回表数','最近联断时间','版本','备注','拨号号码','安装时间'];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    { name: 'centorid',  width: 75, key: true, hidden: true},
-                    { name: 'centorno', width: 100 },
-                    { name: 'centorsreano', width: 90 },
-                    { name: 'centords', width: 80 },
+                    { name: 'id',  width: 75, key: true, hidden: true},
+                    { name: 'centorNo', width: 100 },
+                    { name: 'resultParams.centorAreaNo', width: 90 },
+                    { name: 'resultParams.centorDs', width: 80 },
                     { name: 'addr', width: 200 },
                     { name: 'description', width: 110 },
                     { name: 'state', width: 50, cellattr: deviceStateCellColor },
-                    { name: 'zbs', width: 75, align: 'right' },
-                    { name: 'meters', width: 75, align: 'right', cellattr: compareMetersCellColor},
-                    { name: 'jdbs', width: 75, align: 'right' },
-                    { name: 'wfhbs', width: 80, align: 'right' },
-                    { name: 'laststatechangetime', width: 150 },
+                    { name: 'resultParams.zbs', width: 75, align: 'right' },
+                    { name: 'resultParams.meters', width: 75, align: 'right', cellattr: compareMetersCellColor},
+                    { name: 'resultParams.jdbs', width: 75, align: 'right' },
+                    { name: 'resultParams.wfhbs', width: 80, align: 'right' },
+                    { name: 'lastStateChangeTime', width: 150 },
                     //{ name: '固定抄表时间', width: 100 },
                     { name: 'ver', width: 70 },
                     { name: 'remark', width: 100 },
-                    { name: 'telnumber', width: 100 },
-                    { name: 'setuptime', width: 100 }
+                    { name: 'telNumber', width: 100 },
+                    { name: 'setupTime', width: 100 }
                 ];
                 GridObj.jqdefaultGridConfig.footerrow = true;
                 GridObj.jqdefaultGridConfig.userDataOnFooter = true;
@@ -184,19 +184,19 @@
                 GridObj.removeGridResize();
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {"params[centorid]": deviceId};
-                GridObj.jqdefaultGridConfig.colNames = ['collectorid','centorid','现设备地址','原设备地址','安装地点','版本','表总数','读入表数','建档状态数','无返回表数','状态','中继路由','操作结果'];
+                GridObj.jqdefaultGridConfig.postData = {"centorId": deviceId};
+                GridObj.jqdefaultGridConfig.colNames = ['collectorId','centorId','现设备地址','原设备地址','安装地点','版本','表总数','读入表数','建档状态数','无返回表数','状态','中继路由','操作结果'];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    { name: 'collectorid',  width: 75, key: true, hidden: true},
-                    { name: 'centorid',  width: 75, hidden: true},
-                    { name: 'nconf', align: 'right' ,width: 85 },
-                    { name: 'oconf', align: 'right' ,width: 85 },
+                    { name: 'haCollector.collectorId',  width: 75, key: true, hidden: true},
+                    { name: 'centorId',  width: 75, hidden: true},
+                    { name: 'resultParams.nconf', align: 'right' ,width: 85 },
+                    { name: 'resultParams.oconf', align: 'right' ,width: 85 },
                     { name: 'addr', width: 200 },
                     { name: 'ver' ,width: 80 },
-                    { name: 'bzs', width: 60, align: 'right' },
-                    { name: 'drbs', width: 80, align: 'right', cellattr: compareMetersCellColor },
-                    { name: 'jdzts', width: 90, align: 'right', cellattr: greatThen0CellColor },
-                    { name: 'wfhbs', width: 90, align: 'right', cellattr: greatThen0CellColor},
+                    { name: 'resultParams.zbs', width: 60, align: 'right' },
+                    { name: 'resultParams.meters', width: 80, align: 'right', cellattr: compareMetersCellColor },
+                    { name: 'resultParams.jdbs', width: 90, align: 'right', cellattr: greatThen0CellColor },
+                    { name: 'resultParams.wfhbs', width: 90, align: 'right', cellattr: greatThen0CellColor},
                     { name: 'state', width: 80, cellattr: collectorStateCellColor },
                     { name: 'routers', width: 140 },
                     { name: '操作结果', width: 100 }
@@ -215,21 +215,21 @@
                 GridObj.removeGridResize();
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {"params[collectorid]": deviceId};
-                GridObj.jqdefaultGridConfig.colNames = ['meterid','centorid','collectorAddr','用户编号','用户名称','用户地址','表号','上期结算','最近读数','本期用量','表状态','最近抄表时间','操作结果'];
+                GridObj.jqdefaultGridConfig.postData = {"haCollector.collectorId": deviceId};
+                GridObj.jqdefaultGridConfig.colNames = ['meterId','centorId','collectorAddr','用户编号','用户名称','用户地址','表号','上期结算','最近读数','本期用量','表状态','最近抄表时间','操作结果'];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    { name: 'meterid',  width: 75, key: true, hidden: true},
-                    { name: 'centorid',  width: 75, hidden: true},
-                    { name: 'collectoraddr',  width: 75, hidden: true},
-                    { name: 'userno', width: 120 },
-                    { name: 'username', width: 120 },
-                    { name: 'userds', width: 200 },
-                    { name: 'meternumber', align: 'right', width: 120 },
-                    { name: 'lfnumber', align: 'right' ,width: 80 },
-                    { name: 'thnumber', align: 'right' ,width: 80 },
-                    { name: 'snumber', width: 80, align: 'right' },
-                    { name: 'state', width: 80, cellattr: MeterStateCellColor },
-                    { name: 'thtime', width: 150 },
+                    { name: 'haMeter.meterId',  width: 75, key: true, hidden: true},
+                    { name: 'centorId',  width: 75, hidden: true},
+                    { name: 'resultParams.collectorAddr',  width: 75, hidden: true},
+                    { name: 'haMeter.havMeterinfo.userNo', width: 120 },
+                    { name: 'haMeter.havMeterinfo.userName', width: 120 },
+                    { name: 'haMeter.havMeterinfo.userDs', width: 200 },
+                    { name: 'haMeter.havMeterinfo.meterNumber', align: 'right', width: 120 },
+                    { name: 'haMeter.lfNumber', align: 'right' ,width: 80 },
+                    { name: 'haMeter.thNumber', align: 'right' ,width: 80 },
+                    { name: 'haMeter.sNumber', width: 80, align: 'right' },
+                    { name: 'haMeter.state', width: 80, cellattr: MeterStateCellColor },
+                    { name: 'haMeter.thRTime', width: 150 },
                     { name: '操作结果', width: 100 }
                 ];
                 GridObj.jqdefaultGridConfig.footerrow = true;
@@ -252,8 +252,8 @@
 
         function reloadDeviceNodes(){
             var treePostData = {
-                "params[areaType]": $("#nodeType1").val(),
-                "params[id]": $("#nodeIds1").val()
+                "areaType": $("#nodeType1").val(),
+                "id": $("#nodeIds1").val()
             };
             tree2.postData = treePostData;
             tree2.reloadZtreeNodes();
@@ -320,16 +320,16 @@
                 _pdArray["params[nodeType]"] = $("#nodeType1").val();
                 _pdArray["params[nodeIds]"] = $("#nodeIds1").val();
             }else if(deviceType == "collector"){
-                _pdArray["params[centorid]"] = deviceId;
+                _pdArray["centorId"] = deviceId;
             }else if(deviceType == "meter"){
-                _pdArray["params[collectorid]"] = deviceId;
+                _pdArray["haCollector.collectorId"] = deviceId;
             }
             fullTextSearch("jqGrid", _pdArray);
         });
 
         _myLayui = new myLayui;
-        var get_cmdid_url="../datamng/ha_cmd/cmd_add_do.asp";
-        var get_result_url = "../datamng/ha_cmd/cmd_ajax_get.asp";
+        var get_cmdid_url="/smallbox/haCmd/cmdAdd";
+        var get_result_url = "/smallbox/haCmd/getCmdAjax";
         var g_cmd = "";
         var cmdsManage = function(cmdName, gridId, rowIds, index){
             this.cmdName = cmdName;
@@ -390,20 +390,20 @@
                 case "采集器寻表":
                 case "加采集器":
                 case "删采集器":
-                    cmd = cmdName +":"+ rowData["现设备地址"];
+                    cmd = cmdName +":"+ rowData["resultParams.nconf"];
                     break;
                 case "单表抄表":
                 case "关阀":
                 case "开阀":
-                    cmd = cmdName +":"+ rowData["表号"];
+                    cmd = cmdName +":"+ rowData["haMeter.havMeterinfo.meterNumber"];
                     break;
                 case "集中器加表":
                 case "删除表":
-                    cmd = cmdName +":"+ "10"+","+rowData["表号"]+","+rowData["collectorAddr"];
+                    cmd = cmdName +":"+ "10"+","+rowData["haMeter.havMeterinfo.meterNumber"]+","+rowData["resultParams.collectorAddr"];
                     break;
                 case "采集器加表":
                 case "采集器删表":
-                    cmd = cmdName +":"+ rowData["collectorAddr"] +","+ rowData["表号"];
+                    cmd = cmdName +":"+ rowData["resultParams.collectorAddr"] +","+ rowData["haMeter.havMeterinfo.meterNumber"];
                     break;
                 default:
                     cmd = cmdName +":"+ "0";
@@ -414,13 +414,13 @@
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,data: {
-                    centorid: rowData["centorid"]
+                    centorid: rowData["centorId"]
                     ,cmd: cmd
                 }
                 ,async:false //同步请求
                 ,success: function(data){
                     if(!isNaN(data)){
-                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src='http://localhost:8877/images/loading-0.gif'/>"});
+                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src="+"/images/loading-0.gif"+" />"});
                         _this.cmdid = data;
                         _this.get_result_timer.set({time: 3*1000, autostart: true});
                     }else{
@@ -459,7 +459,7 @@
             }
             if(cmdName.indexOf("读取参数")>=0 || cmdName.indexOf("设置参数")>=0){
                 rowData = $("#jqGrid").jqGrid('getRowData', rowIds);
-                if(rowData["连接说明"].substr(0, 5) == "KT4EW"){
+                if(rowData["description"].substr(0, 5) == "KT4EW"){
                     layer.msg("不支持的命令！", {icon: 5});
                     return false;
                 }
@@ -470,19 +470,19 @@
                 if(cmdName.indexOf("集中器校时")>=0){
                     rowData = $("#jqGrid").jqGrid('getRowData', rowIds);
                     _queryStr = [
-                        "deviceType=centor",
-                        "devDescription="+rowData["连接说明"],
+                        "deviceType=centorz",
+                        "devDescription="+rowData["description"],
                         "cmdName="+cmdName,
                         "ids="+rowIds
                     ]
                 }else{
                     _queryStr = [
-                        "deviceType=centor",
+                        "deviceType=centorz",
                         "cmdName="+cmdName,
                         "ids="+rowIds
                     ];
                 }
-                _myLayui.showLayer(cmdName,"./device_mng.asp", _queryStr, _layerSize);
+                _myLayui.showLayer(cmdName,"/equipment/deviceMng", _queryStr, _layerSize);
             }else{
                 //console.log(deviceType);
                 //console.log(rowIds);

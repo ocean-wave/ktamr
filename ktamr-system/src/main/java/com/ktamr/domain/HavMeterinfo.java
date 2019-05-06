@@ -17,18 +17,18 @@ public class HavMeterinfo extends BaseEntity {
   private String addr;
   private Integer custid;
   private Integer pricestandId;
-  private String userNo;
-  private Integer meterNumber;
-  private String maddr;
-  private String userName;
-  private String areaName;
-  private String userDs;
-  private double thNumber;
-  private double lfNumber;
-  private double sNumber;
-  private String thRTime;
-  private String lfTime;
-  private String state;
+  private String userNo;//用户号
+  private Integer meterNumber;//表号
+  private String maddr;//表地址
+  private String userName;//用户名
+  private String areaName;//小区名
+  private String userDs;//用户地址
+  private double thNumber;//最近度数
+  private double lfNumber;//上期度数
+  private double sNumber;//本期用量
+  private String thRTime;//抄表时间
+  private String lfTime;//上期抄收时间
+  private String state;//状态
 
     public String getMaddr() {
         return maddr;

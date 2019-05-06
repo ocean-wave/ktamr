@@ -4,36 +4,77 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaCentorMapper">
 
-    <resultMap id="centorMap" type="com.ktamr.domain.HaCentor">
+    <resultMap id="haCentorMap" type="com.ktamr.domain.HaCentor">
         <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="centorNo" property="centorNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centorAreaNo" property="resultParams.centorAreaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centorDs" property="resultParams.centorDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="centorId" property="centorId" javaType="java.lang.Long"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-
+        <result column="description" property="description" javaType="java.lang.String"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="zbs" property="resultParams.zbs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="meters" property="resultParams.meters" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="jdbs" property="resultParams.jdbs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="wfhbs" property="resultParams.wfhbs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="lastStateChangeTime" property="lastStateChangeTime" javaType="java.util.Date"></result>
+        <result column="telNumber" property="telNumber" javaType="java.lang.String"></result>
+        <result column="ver" property="ver" javaType="java.lang.String"></result>
+        <result column="remark" property="remark" javaType="java.lang.String"></result>
+        <result column="setupTime" property="setupTime" javaType="java.util.Date"></result>
+        <result column="endTime" property="endTime" javaType="java.util.Date"></result>
+        <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="oconf" property="resultParams.oconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centoraddr" property="resultParams.centoraddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="collectorAddr" property="resultParams.collectorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
+        <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
+            <id column="collectorId" property="collectorId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+            <result column="routers" property="routers" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+
+            <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+                <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+            </association>
+        </association>
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <id column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+            <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
+            <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
+            <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
+            <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
+            <result column="sNumber" property="sNumber" javaType="java.lang.Double"></result>
+            <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+                <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+            </association>
+            <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
+                <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+                <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+                <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+                <result column="meterNumber" property="meterNumber" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+            </association>
         </association>
     </resultMap>
 
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and LEFT(ce.centorNo,1) in (#{params.rgnStr})
+                and position( LEFT(ce.centorNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
                 and left(ce.centorNo,5) in (#{params.areaNo})
             </if>
         </if>
     </sql>
-    <!--集中器-->
-   <select id="selectAllCentorzAndCount" resultType="java.util.Map" parameterType="com.ktamr.domain.HaCentor">
-        SELECT  c.id AS centorid
+    <!--A区集中器-->
+   <select id="selectAllCentorzAndCount" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
+        SELECT  c.id AS id
         , c.centorNo AS centorNo
         ,substring(c.centorNo, 2, 4) AS centorAreaNo
-        , trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) AS centorDs
-        , trim(to_char(c.centorid, '99999999')) AS centoridNo
+        , to_char(to_number(Right(c.centorNo, 5),'9999999999'),'fm9999999999') AS centorDs
+        , c.centorid AS centorId
         ,c.addr AS addr
         ,c.description AS description
         , c.state As state
@@ -41,21 +82,21 @@
         ,c.meters AS meters
         ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='建档') AS jdbs
         ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='集中器无返回') AS wfhbs
-        ,to_char(c.last_state_change_time, 'yyyy-mm-dd hh24:mi:ss') AS lastStateChangeTime
+        ,c.last_state_change_time AS lastStateChangeTime
         ,c.telNumber AS telNumber
         ,c.ver AS ver
         ,c.remark AS remark
-        ,to_char(c.setuptime, 'YYYY-MM-DD') AS setuptime
-        ,to_char(c.endTime, 'YYYY-MM-DD') AS endTime
+        ,c.setuptime AS setupTime
+        ,c.endTime AS endTime
         FROM ha_centor c,ha_area a
         WHERE Left(c.description,3)='KT4'
         AND Left(c.centorNO, 5)=a.areaNO
        <include refid="getRightCondition"></include>
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
         <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
+            AND position( Left(a.areaNo, 1) in #{params.nodeIds})>0
         </if>
         <if test=" params.keyWord != null and params.keyWord != '' ">
             and (c.centorNo like '%${params.keyWord}%' or substring(c.centorNo, 2, 4) like '%${params.keyWord}%' or trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) like '%${params.keyWord}%'
@@ -64,9 +105,9 @@
         order by c.centorNo,c.addr
     </select>
 
-    <select id="selectAllCentorzQueryIdAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
-        SELECT m.meterid AS meterid
-        , m.centorid AS centorid
+    <select id="selectAllCentorzQueryIdAndCount" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
+        SELECT m.meterid AS meterId
+        , m.centorid AS centorId
         , ce.centorid AS centoraddr
         , to_hex(co.nconf) AS collectorAddr
         , mi.用户号 AS userNo
@@ -77,49 +118,49 @@
         , m.th_number as thNumber
         , m.s_number as sNumber
         , m.state as state
-        , m.th_r_time as thTime
+        , m.th_r_time as thRTime
          FROM  ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid
          LEFT JOIN ha_centor ce ON ce.id=m.centorid
          LEFT JOIN ha_collector co ON co.collectorid=m.collectorid
          WHERE 1=1
-        <if test=" centorid != null and centorid != '' ">
-            and m.centorid IN  (#{centorid})
+        <if test=" centorId != null and centorId != '' ">
+            and m.centorid IN  (#{centorId})
         </if>
-         <if test=" collectorid != null and collectorid != '' ">
-             and m.collectorid IN  (#{collectorid})
+         <if test=" haCollector.collectorId != null and haCollector.collectorId != '' ">
+             and m.collectorid IN  (#{haCollector.collectorId})
          </if>
-        <if test=" keyWord != null and keyWord != '' ">
-            and (mi.用户号 like '%${keyWord}%' or mi.用户名 like '%${keyWord}%' or mi.用户地址 like '%${keyWord}%' or m.state = #{keyWord})
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%' or mi.用户地址 like '%${params.keyWord}%' or m.state = #{params.keyWord})
         </if>
          ORDER BY mi.用户地址
     </select>
 
-    <select id="selectAllCentorzByIdAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+    <select id="selectAllCentorzByIdAndCount" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
         select
-        co.collectorid as collectorid
-        ,co.centorid as centorid
+        co.collectorid as collectorId
+        ,co.centorid as centorId
         ,t.centorNo as centorNo
         ,to_hex(co.nconf) as nconf
         ,to_hex(co.oconf) as oconf
         ,co.addr as addr
         ,co.ver as ver
-        ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid) AS bzs
-        ,co.meters AS drbs
-        ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid and m.state='建档') AS jdzts
+        ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid) AS zbs
+        ,co.meters AS meters
+        ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid and m.state='建档') AS jdbs
         ,(select COUNT(*) from ha_meter m where m.collectorid=co.collectorid and m.state='采集器无返回') AS wfhbs
         ,CASE WHEN co.state='EE' THEN '未通讯(EE)' WHEN co.state='0' THEN '信号无(0)' WHEN co.state='2' THEN '信号弱(2)' WHEN co.state='4' THEN '信号良(4)' WHEN co.state='8' THEN '信号强(8)' WHEN  co.state=co.state THEN co.state END as state
         ,co.routers AS routers
         FROM ha_collector co, ha_centor t
-        WHERE co.centorid IN (#{centorid}) AND co.centorid=t.id
-        <if test=" keyWord != null and keyWord != '' ">
-            and (to_hex(co.nconf) like '%${keyWord}%' or to_hex(co.oconf) like '%${keyWord}%'
-            or c.addr like '%${keyWord}%' or c.state = #{keyWord} or c.ver = #{keyWord})
+        WHERE co.centorid IN (#{centorId}) AND co.centorid=t.id
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (to_hex(co.nconf) like '%${params.keyWord}%' or to_hex(co.oconf) like '%${params.keyWord}%'
+            or c.addr like '%${params.keyWord}%' or c.state = #{params.keyWord} or c.ver = #{params.keyWord})
         </if>
         ORDER BY co.addr,to_hex(co.nconf)
     </select>
 
 
-    <!--集采器-->
+    <!--A区集采器-->
     <select id="selectAllCentorcAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
         SELECT  c.id AS centorid
         , c.centorNo AS centorNo
@@ -157,7 +198,7 @@
         ORDER BY c.centorNo
     </select>
 
-    <!--手抄器-->
+    <!--A区手抄器-->
     <select id="selectAllCentorHandAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
         SELECT c.id AS cid
         , c.centorNo AS centorNo
@@ -186,8 +227,8 @@
         ORDER BY c.centorNo
     </select>
 
-    <!--设备抄控管理-->
-    <select id="selectCentor" resultMap="centorMap" parameterType="com.ktamr.domain.HaCentor">
+    <!--A区设备抄控管理-->
+    <select id="selectCentor" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
         SELECT ce.id AS id
         ,ce.centorNo AS centorNo
         ,ce.state AS state
@@ -218,28 +259,11 @@
 
 
 
-
-    <resultMap id="HaCentorMap" type="com.ktamr.domain.HaCentor">
-        <id column="deviceId" property="id"/>
-        <result column="centorId" property="centorId"/>
-        <result column="ver" property="ver"/>
-        <result column="rTime" property="rTime"/>
-        <result column="setupTime" property="setupTime"/>
-        <result column="addr" property="addr"/>
-        <result column="centorno" property="centorNo"/>
-        <result column="description" property="description"/>
-        <result column="state" property="state" />
-
-        <association property="haArea" javaType="com.ktamr.domain.HaArea">
-            <id property="areaId" column="areaid"/>
-            <result property="name" column="name"/>
-        </association>
-    </resultMap>
-
-    <select id="HaCentorList" resultMap="HaCentorMap">
-        SELECT ce.id as deviceId,ce.centorNo AS centorno,ce.addr AS addr,
+    <!--C区-->
+    <select id="HaCentorList" resultMap="haCentorMap">
+        SELECT ce.id as id,ce.centorNo AS centorNo,ce.addr AS addr,
         ce.state AS state,
-        trim(to_char(ce.centorid, '9999999999999999')) AS centorId,
+        ce.centorid AS centorId,
         ce.description AS description,
         a.name AS name
         FROM ha_centor ce LEFT JOIN ha_area a ON Left(ce.centorNo, 5)= a.areaNo

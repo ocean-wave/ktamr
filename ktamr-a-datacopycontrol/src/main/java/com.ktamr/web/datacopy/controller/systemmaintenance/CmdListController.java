@@ -26,6 +26,9 @@ public class CmdListController extends BaseController {
     @Autowired
     private HaRecordsService haRecordsService;
 
+    @Autowired
+    private HaErrrecordService haErrrecordService;
+
     @GetMapping("/cmdList")
     public String cmdList(ModelMap mmap){
         return pxePath+"/cmdList";
@@ -51,10 +54,16 @@ public class CmdListController extends BaseController {
 
     @PostMapping("/cmdResultListShow1Json")
     @ResponseBody
-    public Map<String, Object> cmdResultListShow1Json(HaCmd haCmd){
+    public Map<String, Object> cmdResultListShow1Json(@RequestParam(value = "cmd",required = false) String cmd
+                                                    ,@RequestParam(value = "id",required = false) Integer id){
         startPage();
-        List<HaCmd> listCmd = haCmdService.selectCmdLeftJoinTow(haCmd);
-        return getDataTable(listCmd);
+        if(cmd.equals("读表地址")){
+            List<HaMeterAddr> listMeterAddr = haMeterAddrService.selectMeterAddrLeftJoinTow2(id);
+            return getDataTable(listMeterAddr);
+        }else {
+            List<HaErrrecord> listErrrecord = haErrrecordService.selecErrrecordLeftJoinFour(id);
+            return getDataTable(listErrrecord);
+        }
     }
 
     @PostMapping("/cmdResultListShow2Json")
@@ -129,6 +138,8 @@ public class CmdListController extends BaseController {
                 return "系统命令无法手动执行";
             }
             Integer id = haCmdService.insertCmd(Integer.parseInt(str[0]));
+
+            //调用soket
             return "true";
         }
         for (int i =0;i<str.length;i++){

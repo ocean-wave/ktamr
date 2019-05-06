@@ -43,7 +43,7 @@ public class HaCmdServiceImpl implements HaCmdService {
             map.put("centorid",Integer.parseInt(centorid));
         }
         map.put("createTime", DateUtils.getNowDate());
-        map.put("operatorCode","zk");
+        map.put("uid", ServletUtils.getSession().getAttribute("operatorCode"));
         map.put("state","待执行");
         map.put("id",0);
         map.put("deviceType","1");
@@ -54,7 +54,7 @@ public class HaCmdServiceImpl implements HaCmdService {
     @Override
     public Integer insertCmd(Integer id) {
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("id",id);
+        map.put("cmdId",id);
         map.put("uid", ServletUtils.getSession().getAttribute("operatorCode"));
         map.put("createTime", DateUtils.getNowDate());
         map.put("state","待执行");

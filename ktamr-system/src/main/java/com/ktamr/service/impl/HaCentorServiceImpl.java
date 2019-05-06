@@ -10,30 +10,51 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现层(HaCentorServiceImpl)
+ */
 @Service
 public class HaCentorServiceImpl implements HaCentorService {
 
+    /**
+     * 注入haCentorMapper
+     */
     @Autowired
     private HaCentorMapper haCentorMapper;
 
+    /**
+     * 查询集中器信息并且统计总表数、读入表数、建档表数、无返回表数
+     * @param parms 对象参数
+     * @return 返回对象泛型集合
+     */
     @Override
-    public List<Map<String,Object>> selectAllCentorzAndCount(HaCentor parms) {
+    public List<HaCentor> selectAllCentorzAndCount(HaCentor parms) {
         return haCentorMapper.selectAllCentorzAndCount(parms);
     }
 
+    /**
+     * 查询集中器信息并且统计上期结算、最近读数、本期用量
+     * @param parms 对象参数
+     * @return 返回对象泛型集合
+     */
     @Override
-    public List<Map<String, Object>> selectAllCentorzQueryIdAndCount(ParameterInfo parms) {
+    public List<HaCentor> selectAllCentorzQueryIdAndCount(HaCentor parms) {
         return haCentorMapper.selectAllCentorzQueryIdAndCount(parms);
+    }
+
+    /**
+     * 根据centorId进行查询集中器信息并且统计表总数、读入表数、建档状态数、无返回表数
+     * @param parms
+     * @return
+     */
+    @Override
+    public List<HaCentor> selectAllCentorzByIdAndCount(HaCentor parms) {
+        return haCentorMapper.selectAllCentorzByIdAndCount(parms);
     }
 
     @Override
     public List<Map<String, Object>> selectAllCentorcAndCount(ParameterInfo parms) {
         return haCentorMapper.selectAllCentorcAndCount(parms);
-    }
-
-    @Override
-    public List<Map<String, Object>> selectAllCentorzByIdAndCount(ParameterInfo parms) {
-        return haCentorMapper.selectAllCentorzByIdAndCount(parms);
     }
 
     @Override

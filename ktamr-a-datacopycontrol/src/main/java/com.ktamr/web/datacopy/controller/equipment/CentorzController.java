@@ -7,6 +7,7 @@ import com.ktamr.service.HaCentorService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class CentorzController extends BaseController {
     @ResponseBody
     public Map<String,Object> centorzListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorzAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"zbs");
@@ -51,9 +52,9 @@ public class CentorzController extends BaseController {
 
     @PostMapping("/centorzByQueryIdListJson")
     @ResponseBody
-    public Map<String,Object> centorzByCollectoridListJson(ParameterInfo parms){
+    public Map<String,Object> centorzByCollectoridListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"lfnumber");
@@ -71,9 +72,9 @@ public class CentorzController extends BaseController {
 
     @PostMapping("/centorzByIdListJson")
     @ResponseBody
-    public Map<String,Object> centorzByIdListJson(ParameterInfo parms){
+    public Map<String,Object> centorzByIdListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorzByIdAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzByIdAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"zbs");
@@ -89,6 +90,19 @@ public class CentorzController extends BaseController {
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
+    }
+
+    @GetMapping("/deviceMng")
+    public String deviceMng(@RequestParam( value = "deviceType",required = false) String deviceType
+                            , @RequestParam( value = "devDescription",required = false) String devDescription
+                            , @RequestParam( value = "cmdName",required = false) String cmdName
+                            , @RequestParam( value = "ids",required = false) String ids
+                            , ModelMap mmap){
+        mmap.put("deviceType",deviceType);
+        mmap.put("devDescription",devDescription);
+        mmap.put("cmdName",cmdName);
+        mmap.put("ids",ids);
+        return pxePath+"/deviceMng";
     }
 }
 

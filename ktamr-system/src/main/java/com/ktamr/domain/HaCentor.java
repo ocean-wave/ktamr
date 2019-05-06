@@ -1,6 +1,7 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -11,10 +12,12 @@ public class HaCentor extends BaseEntity {
   private long centorId;
   private String ver;
   private String rTime;
+  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
   private Date setupTime;
   private String addr;
   private String description;
   private String telNumber;
+  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
   private Date endTime;
   private String useTypeCode;
   private String state;
@@ -26,6 +29,7 @@ public class HaCentor extends BaseEntity {
   private Date modifyTime;
   private Integer meters;
   private Integer areaId;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date lastStateChangeTime;
   private String remark;
   private Integer rssi;
@@ -34,14 +38,17 @@ public class HaCentor extends BaseEntity {
   private String imei;
 
   private Integer haCentorCount;
-  private HaArea haArea;
 
-  public String getDescription() {
-    return description;
+  private HaArea haArea;
+  private HaCollector haCollector;
+  private HaMeter haMeter;
+
+  public HaMeter getHaMeter() {
+    return haMeter;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setHaMeter(HaMeter haMeter) {
+    this.haMeter = haMeter;
   }
 
   public long getCentorId() {
@@ -50,6 +57,22 @@ public class HaCentor extends BaseEntity {
 
   public void setCentorId(long centorId) {
     this.centorId = centorId;
+  }
+
+  public HaCollector getHaCollector() {
+    return haCollector;
+  }
+
+  public void setHaCollector(HaCollector haCollector) {
+    this.haCollector = haCollector;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Integer getId() {

@@ -5,9 +5,10 @@
 <mapper namespace="com.ktamr.mapper.HaCmdMapper">
 
     <resultMap id="cmdMap" type="com.ktamr.domain.HaCmd">
-        <id column="cmdId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="cmd" property="cmd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="parms" property="parms" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="uid" property="uid" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="createTime" property="createTime" javaType="java.util.Date"></result>
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="lastEndTime" property="lastEndTime" javaType="java.util.Date"></result>
@@ -16,6 +17,10 @@
         <result column="tryTimes" property="tryTimes" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="xgrws" property="resultParams.xgrws"></result>
         <result column="executor" property="resultParams.executor"></result>
+
+        <association property="haOperator" javaType="com.ktamr.domain.HaOperator">
+            <result column="operator_name" property="operatorName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
         <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
             <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
@@ -24,7 +29,7 @@
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and LEFT(ce.centorNo,1) in (#{params.rgnStr})
+                and position( LEFT(ce.centorNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
                 and ce.centorNo in (#{params.areaNo})
@@ -37,32 +42,24 @@
         FROM ha_cmd
         WHERE cmd= #{mcmd}
         AND parms= #{parms}
-        AND centorid=#{centorId}
+        AND centorid=#{centorid}
         AND state != '完成' AND state != '失败'
     </select>
 
     <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
+        <if test=" deviceType == '1'.toString() ">
         insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
-        values (
-          <if test=" mcmd != null and mcmd != '' ">
-              #{mcmd},
-          </if>
-          <if test=" parms != null and parms != '' ">
-              #{parms},
-          </if>
-          <if test=" centorId >= 0  ">
-              #{centorId},
-          </if>
-          <if test=" operatorCode != null and operatorCode != '' ">
-              #{operatorCode},
-          </if>
-          <if test=" createTime != null  ">
-              #{createTime},
-          </if>
-          <if test=" state != null and state != '' ">
-              #{state}
-          </if>
-        )
+        values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
+          <if test=" centorid >= 0  ">#{centorid},</if><if test=" uid != null and uid != '' ">#{uid},</if>
+          <if test=" createTime != null  ">#{createTime},</if>
+          <if test=" state != null and state != '' ">#{state}</if>)
+        </if>
+        <if test=" deviceType == '2'.toString() ">
+            insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
+            SELECT cmd,parms,centorid,#{uid},#{createTime},#{state}
+            from ha_cmd
+            WHERE id=#{id}
+        </if>
     </insert>
 
     <select id="selectCmdParmsById" parameterType="java.lang.Integer" resultType="java.util.Map">
@@ -72,12 +69,12 @@
     </select>
 
     <select id="selectCentorById" parameterType="java.lang.Integer" resultType="java.lang.String">
-        SELECT description FROM ha_centor WHERE id=#{centorId}
+        SELECT description FROM ha_centor WHERE id=#{centorid}
     </select>
 
     <select id="selectAllCmd" resultMap="cmdMap">
         SELECT
-        c.id AS cmdid
+        c.id AS id
         ,c.cmd AS cmd
         , c.parms AS parms
         ,to_char(c.createtime, 'yyyy-mm-dd hh24:mi:ss') AS  createTime
@@ -103,14 +100,14 @@
     </insert>
 
     <select id="selectCmdLeftJoinTow" resultMap="cmdMap">
-        SELECT  c.id AS cmdid
+        SELECT  c.id AS id
         ,c.cmd AS cmd
         , c.parms AS parms
         , ce.addr AS addr
         , c.state AS state
         , c.processing AS processing
-        , to_char(c.lastBeginTime, 'yyyy-mm-dd hh24:mi:ss') AS lastBeginTime
-        , to_char(c.lastEndTime,'hh24:mi:ss') AS lastEndTime
+        , c.lastBeginTime AS lastBeginTime
+        , c.lastEndTime AS lastEndTime
         ,  c.tryTimes AS tryTimes
         , CASE WHEN c.uid='sys' THEN '系统' WHEN  c.uid='sys_shzn' THEN '上海真诺(系统)' WHEN c.uid='sys_zkjd' THEN '中科君达(系统)' WHEN  c.uid='sys_bdss' THEN  '保定水司(系统)' WHEN  c.uid='sys_gzsk' THEN '贵州深科(系统)' WHEN length(o.operator_name)>0 THEN  o.operator_name ELSE c.uid END  AS executor
         FROM ha_cmd c
@@ -141,13 +138,15 @@
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=" params.keyWord != null and params.keyWord != ''  ">
-            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' )
+            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' or c.processing like '%${params.keyWord}%' )
         </if>
         ORDER BY c.id DESC
     </select>
 
     <select id="selectCmdById" resultMap="cmdMap">
-        SELECT c.cmd
+        SELECT
+        c.id
+        ,c.cmd
         , c.parms
         , c.centorid
         , c.uid
@@ -165,33 +164,10 @@
         WHERE c.id=#{id}
     </select>
 
-    <!--查询是否已经存在未完成的相同命令-->
-    <select id="BreturnID" resultType="HaCmd">
-        SELECT * FROM ha_cmd
-        <trim prefix="where" prefixOverrides="and | or">
-            <if test="id != null and id != ''">
-                and id=#{id}
-            </if>
-            <if test="cmd != null and cmd != ''">
-                and cmd=#{cmd}
-            </if>
-            <if test="parms != null and parms != ''">
-                AND parms=#{parms}
-            </if>
-            <if test="centorId != null and centorId != ''">
-                AND centorid=#{centorId} AND state!='完成' AND state!='失败'
-            </if>
-        </trim>
-    </select>
-
-    <!--添加命令执行表 并返回序列主键id-->
-    <insert id="BinsertHaCmd">
-        INSERT INTO ha_cmd(cmd,parms,centorid,uid,createtime,state)
-        values(#{cmd},#{parms},#{centorId},#{uid},to_date(now()::text, 'yyyy-mm-dd'),'完成')
-        <selectKey resultType="Integer" keyProperty="id">
-            SELECT nextval('ha_cd_seq'::regclass) as id
-        </selectKey>
-    </insert>
-
-
+    <delete id="deleteCmdByid" >
+        delete from ha_cmd where id in <foreach item="id" index="index" collection="cmdids"
+                                                open="(" separator="," close=")">
+                                    #{id}
+                                </foreach>
+    </delete>
 </mapper>

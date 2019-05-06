@@ -18,7 +18,7 @@ public interface NodesService {
 
     public List<Map<String,Object>> selectAllBuildingNodes(Integer id);
 
-    public List<Map<String,Object>> selectAllCentorzNodes(String wheresql);
+    public List<Map<String,Object>> selectAllCentorzNodes(String areaType,String id);
 
     public List<Map<String,Object>> selectAllCentorcNodes(String wheresql);
 

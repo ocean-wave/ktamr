@@ -36,7 +36,7 @@
         GROUP BY b.buildingid, b.name ORDER BY b.name
     </select>
 
-    <select id="selectAllCentorzNodes" resultType="java.util.Map" parameterType="java.lang.String">
+    <select id="selectAllCentorzNodes" resultType="java.util.Map">
         SELECT ce.id,
          '' as columns
          , ce.addr, COUNT(co.collectorid) as collectorcount
@@ -45,8 +45,11 @@
         FROM (ha_centor ce LEFT JOIN ha_collector co ON ce.id=co.centorid)
         LEFT JOIN ha_area a ON Left(ce.centorNo, 5)=a.areaNo
         WHERE Left(ce.description, 3)='KT4'
-        <if test=" wheresql != null and wheresql != ''">
-            ${wheresql}
+        <if test=" areaType == 'area' and id != '' ">
+            AND a.areaid IN (cast(#{id} as INTEGER))
+        </if>
+        <if test=" areaType == 'rgn' and id != '' ">
+            AND position( Left(a.areaNo, 1) in #{id})>0
         </if>
         GROUP BY ce.id, substring(ce.centorNo, 2, 4)||'-'||substring(ce.centorNo, 6, 5), ce.addr, ce.centorNo, ce.description
         ORDER BY ce.centorNo,ce.addr

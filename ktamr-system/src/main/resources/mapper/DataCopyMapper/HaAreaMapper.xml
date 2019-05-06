@@ -16,7 +16,7 @@
         <result column="bqyl" property="resultParams.bqyl" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="blbs" property="resultParams.blbs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="reserved" property="reserved" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="lastsumdayt" property="lastsumDay" javaType="java.util.Date"></result>
+        <result column="lastsumDay" property="lastsumDay" javaType="java.util.Date"></result>
         <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haMeter" resultMap="meterMap">
 
@@ -31,7 +31,7 @@
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and LEFT(a.areaNo,1) in (#{params.rgnStr})
+                and position( LEFT(a.areaNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
                 and a.areano in (#{params.areaNo})
@@ -53,7 +53,7 @@
          ,t.n AS blbs
          ,a.reserved AS reserved
          ,MAX(m.TH_R_TIME) AS zjcssj
-         ,a.lastsumday AS lastsumdayt
+         ,a.lastsumday AS lastsumDay
          ,MIN(m.starttime) AS zzzbsj
          , a.description AS description
          FROM

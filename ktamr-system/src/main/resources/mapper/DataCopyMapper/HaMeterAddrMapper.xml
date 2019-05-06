@@ -12,8 +12,9 @@
         <result column="ddjzqh" property="resultParams.ddjzqh" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="ccrNoD" property="resultParams.ccrNoD" javaType="java.lang.String"></result>
         <result column="ccrNoR" property="resultParams.ccrNoR" javaType="java.lang.String"></result>
+        <result column="ddjzqId" property="resultParams.ddjzqId" javaType="java.lang.String"></result>
+        <result column="stateExplain" property="resultParams.stateExplain" javaType="java.lang.String"></result>
         <result column="state" property="state" javaType="java.lang.String"></result>
-
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
@@ -23,7 +24,7 @@
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and LEFT(a.areaNo,1) in (#{params.rgnStr})
+                and position( LEFT(a.areaNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
                 and a.areano in (#{params.areaNo})
@@ -44,5 +45,29 @@
             LEFT JOIN ha_centor c2 ON ma.centorid=c2.id
             WHERE ma.cmdid=#{cmdId}
             ORDER BY ma.ccrNo_d,ma.meterNumber
+    </select>
+
+    <select id="selectMeterAddrLeftJoinTow2" resultMap="meterAddrMap" >
+            SELECT ma.id AS id
+            ,Format(ma.meterNumber, '#') AS meterNumber
+            , case when  c1.centorNo IS NOT null And ASCII(Left(c1.centorNo, 1))>=65 then '0'||Right(c1.centorNo, 9) else c1.centorNo end AS yjzqh
+            , case when  c2.centorNo IS NOT null And ASCII(Left(c2.centorNo, 1))>=65 then '0'||Right(c2.centorNo, 9) else c2.centorNo end AS ddjzqh
+            ,c2.id AS ddjzqId
+            , to_hex(ma.ccrNo_d) AS ccrNoD
+            , to_hex(ma.ccrNo_r) AS ccrNoR
+            ,case when ma.state='一致' then ma.state else &lt;||'font color="red">'||ma.state||&lt;||'/font>' end AS state
+            ,case when ma.state='新增' then '表号资料未关联采集器'
+            when ma.state='一致' then '与资料中设备地址一致'
+            when ma.state='不一致' then '与资料中表与采集器关联不一致'
+            when ma.state='集中器不一致' then '与资料中集中器设备地址不一致'
+            when ma.state='无表资料' then '表号在集中器资料下找不到'
+            when ma.state='无采集器资料' then '表号的采集器资料找不到'
+            when ma.state='表号错' then '非数字类型表号'
+            when ma.state='未知' then '不符合以上条件的情况' end AS stateExplain
+            FROM ha_meter_addr ma
+            LEFT JOIN ha_centor c1 ON ma.centorid_d=c1.id
+            LEFT JOIN ha_centor c2 ON ma.centorid=c2.id
+            WHERE ma.state!='一致' AND ma.cmdid=#{cmdId}
+            ORDER BY ma.state,ma.ccrNo_d,ma.meterNumber
     </select>
 </mapper>

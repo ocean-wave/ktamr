@@ -18,10 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class HaPaylogController {
@@ -55,8 +52,13 @@ public class HaPaylogController {
     @RequestMapping(value ="/showHaPaylogList")
     @ResponseBody
     public String showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
-    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime
+    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime,String hhh
     ){
+
+
+
+
+
 
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss" );
         if(startTime!=null&&startTime!="" &&endTime!=null&&endTime!=""){

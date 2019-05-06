@@ -1,6 +1,7 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -10,8 +11,9 @@ public class HaErrrecord extends BaseEntity {
   private Integer itemId;
   private Integer meterNumber;
   private Integer cmdId;
-  private Integer N;
+  private Integer n;
   private String state;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date readTime;
   private Integer rawCentorId;
   private Integer rawCollectorId;
@@ -23,6 +25,24 @@ public class HaErrrecord extends BaseEntity {
   private String procStatus;
   private String procRem;
   private Date procTm;
+
+  private HavMeterinfo havMeterinfo;
+
+  public Integer getN() {
+    return n;
+  }
+
+  public void setN(Integer n) {
+    this.n = n;
+  }
+
+  public HavMeterinfo getHavMeterinfo() {
+    return havMeterinfo;
+  }
+
+  public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
+    this.havMeterinfo = havMeterinfo;
+  }
 
   public Integer getItemId() {
     return itemId;
@@ -46,14 +66,6 @@ public class HaErrrecord extends BaseEntity {
 
   public void setCmdId(Integer cmdId) {
     this.cmdId = cmdId;
-  }
-
-  public Integer getN() {
-    return N;
-  }
-
-  public void setN(Integer n) {
-    N = n;
   }
 
   public String getState() {
