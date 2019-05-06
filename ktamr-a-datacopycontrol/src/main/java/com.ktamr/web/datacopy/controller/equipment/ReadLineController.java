@@ -2,6 +2,7 @@ package com.ktamr.web.datacopy.controller.equipment;
 
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaCentor;
 import com.ktamr.service.HaCentorService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +51,10 @@ public class ReadLineController extends BaseController {
 
     @PostMapping("/centorHandByQueryIdListJson")
     @ResponseBody
-    public Map<String,Object> centorHandByQueryIdListJson(ParameterInfo parms){
+    public Map<String,Object> centorHandByQueryIdListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = new ArrayList<>();
-        if(parms.getCentorid() != null){
+        List<HaCentor> listHaCentor = new ArrayList<>();
+        if(parms.getCentorId() != 0){
             listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
         }
         Map<String,String> map2 = new HashMap<String,String>();

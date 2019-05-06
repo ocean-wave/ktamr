@@ -1,7 +1,6 @@
-package com.ktamr.web.datacopy.controller;
+package com.ktamr.web.datacopy;
 
 import com.ktamr.service.NodesService;
-import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/nodes")
-public class GetNodesContrller extends BaseController {
+public class GetNodesContrller {
 
     @Autowired
     private NodesService nodesService;
@@ -72,15 +71,9 @@ public class GetNodesContrller extends BaseController {
     @RequestMapping("/getEquipmentCentorzNodes")
     @ResponseBody
     public String getEquipmentCentorzNodes(@RequestParam( value = "areaType" ,required = false) String areaType,
-                                           @RequestParam( value = "id",required = false) Integer id){
-        String jsonStr = "[{ id:'-1', pId:0, LevelType:'allRgn', name:'全部集中器', iconSkin:'icon00', open:true}";
-        String wheresql = "";
-        if(areaType != null && areaType.equals("rgn")){
-            wheresql = " and Left(a.areaNo, 1) in ('"+id+"')";
-        }else if(areaType != null && areaType.equals("rgn")){
-            wheresql = " and a.areaid IN ("+id+")";
-        }
-        List<Map<String,Object>> listCentor = nodesService.selectAllCentorzNodes(wheresql);
+                                           @RequestParam( value = "id",required = false) String id){
+        String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部集中器', iconSkin:'icon00'}";
+        List<Map<String,Object>> listCentor = nodesService.selectAllCentorzNodes(areaType,id);
         for  (Map<String,Object> haCentor : listCentor){
             jsonStr = jsonStr + ",{ id:'"+haCentor.get("id")+"', pId:'0', LevelType:'centorz', name:'"+haCentor.get("columns")+""+haCentor.get("addr")+"("+haCentor.get("collectorcount")+")', description:'"+haCentor.get("description")+"', iconSkin:'pIcon04', isParent:true, children:[";
             List<Map<String,Object>> listCollector = nodesService.selectAllCollectorNodes(Integer.parseInt(haCentor.get("id").toString()));

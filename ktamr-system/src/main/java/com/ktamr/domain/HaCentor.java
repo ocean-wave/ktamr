@@ -38,14 +38,17 @@ public class HaCentor extends BaseEntity {
   private String imei;
 
   private Integer haCentorCount;
-  private HaArea haArea;
 
-  public String getDescription() {
-    return description;
+  private HaArea haArea;
+  private HaCollector haCollector;
+  private HaMeter haMeter;
+
+  public HaMeter getHaMeter() {
+    return haMeter;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setHaMeter(HaMeter haMeter) {
+    this.haMeter = haMeter;
   }
 
   public long getCentorId() {
@@ -54,6 +57,22 @@ public class HaCentor extends BaseEntity {
 
   public void setCentorId(long centorId) {
     this.centorId = centorId;
+  }
+
+  public HaCollector getHaCollector() {
+    return haCollector;
+  }
+
+  public void setHaCollector(HaCollector haCollector) {
+    this.haCollector = haCollector;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Integer getId() {
