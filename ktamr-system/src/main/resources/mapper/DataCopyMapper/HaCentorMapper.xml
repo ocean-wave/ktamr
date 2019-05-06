@@ -25,8 +25,10 @@
         <result column="endTime" property="endTime" javaType="java.util.Date"></result>
         <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="oconf" property="resultParams.oconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="centoraddr" property="resultParams.centoraddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centorAddr" property="resultParams.centorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="collectorAddr" property="resultParams.collectorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="xhqd" property="resultParams.xhqd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="dcdy" property="resultParams.dcdy" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
@@ -108,7 +110,7 @@
     <select id="selectAllCentorzQueryIdAndCount" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
         SELECT m.meterid AS meterId
         , m.centorid AS centorId
-        , ce.centorid AS centoraddr
+        , ce.centorid AS centorAddr
         , to_hex(co.nconf) AS collectorAddr
         , mi.用户号 AS userNo
         , mi.用户名 AS userName
@@ -126,7 +128,7 @@
         <if test=" centorId != null and centorId != '' ">
             and m.centorid IN  (#{centorId})
         </if>
-         <if test=" haCollector.collectorId != null and haCollector.collectorId != '' ">
+         <if test=" haCollector != null and haCollector.collectorId != '' ">
              and m.collectorid IN  (#{haCollector.collectorId})
          </if>
         <if test=" params.keyWord != null and params.keyWord != '' ">
@@ -161,12 +163,10 @@
 
 
     <!--A区集采器-->
-    <select id="selectAllCentorcAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
-        SELECT  c.id AS centorid
+    <select id="selectAllCentorcAndCount" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
+        SELECT  c.id AS id
         , c.centorNo AS centorNo
-        ,substring(c.centorNo, 2, 4) AS centorAreaNo
-        , trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) AS centorDs
-        , trim(to_char(c.centorid, '99999999')) AS centoridNo
+        , c.centorid AS centorId
         ,c.addr AS addr
         ,c.description AS description
         , c.state As state
@@ -174,26 +174,26 @@
         ,c.meters AS meters
         ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='建档') AS jdbs
         ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='集中器无返回') AS wfhbs
-        ,to_char(c.last_state_change_time, 'yyyy-mm-dd hh24:mi:ss') AS lastStateChangeTime
+        ,c.last_state_change_time AS lastStateChangeTime
+        ,c.RSSI AS xhqd
+        ,c.Vol/1000 AS dcdy
         ,c.telNumber AS telNumber
         ,c.ver AS ver
         ,c.remark AS remark
-        ,to_char(c.setuptime, 'YYYY-MM-DD') AS setuptime
-        ,to_char(c.endTime, 'YYYY-MM-DD') AS endTime
+        ,c.setuptime AS setupTime
+        ,c.endTime AS endTime
         FROM ha_centor c,ha_area a
         WHERE (Left(c.description,4)='GPRS' OR Left(c.description,3)='COM' OR Left(c.description,3)='KT3') AND Left(c.centorNO, 5)=a.areaNO
-        <if test=" nodeType == 'area' and nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+        <include refid="getRightCondition"></include>
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
-        <if test=" nodeType == 'rgn' and nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
+        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            AND position( Left(a.areaNo, 1) in #{params.nodeIds})>0
         </if>
-        <if test=" wheresql != null and wheresql != '' ">
-            ${wheresql}
-        </if>
-        <if test=" keyWord != null and keyWord != '' ">
-            and (c.centorNo like '%${keyWord}%' or substring(c.centorNo, 2, 4) like '%${keyWord}%' or trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) like '%${keyWord}%'
-            or c.addr like '%${keyWord}%' or c.description like '%${keyWord}%' or c.state = #{keyWord} or c.ver = #{keyWord} or to_char(c.setuptime, 'YYYY-MM-DD') like '%${keyWord}%')
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (c.centorNo like '%${params.keyWord}%' or substring(c.centorNo, 2, 4) like '%${params.keyWord}%' or to_char(to_number(Right(c.centorNo, 5),'9999999999'),'fm9999999999') like '%${params.keyWord}%'
+            or c.addr like '%${params.keyWord}%' or c.description like '%${params.keyWord}%' or c.state = #{params.keyWord} or c.ver = #{params.keyWord} or to_char(c.setuptime, 'YYYY-MM-DD') like '%${params.keyWord}%')
         </if>
         ORDER BY c.centorNo
     </select>
