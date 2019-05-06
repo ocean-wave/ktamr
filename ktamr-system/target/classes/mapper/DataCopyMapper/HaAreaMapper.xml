@@ -407,16 +407,16 @@ WHERE areaid IN ('${areaId}')
     </insert>
 
     <select id="updateByIdHaAreaC" resultType="com.ktamr.domain.HaArea">
-        select areaid,areano,name,shortname,addr,trim(ds),description,registeredno from ha_area where areaid = #{areaid}
+        select areaid,areano,name,shortname,addr,trim(ds),description,registeredno from ha_area where areaid = #{areaId}
     </select>
 
     <delete id="deleteHaAreaC">
-        delete from ha_area where areaid = #{haArea.areaid}
+        delete from ha_area where areaid = #{haArea.areaId}
     </delete>
 
     <update id="updateHaAreaC">
         update ha_area
-        <trim prefix="set" suffixOverrides="," suffix="where areaid = #{haArea.areaid}">
+        <trim prefix="set" suffixOverrides="," suffix="where areaid = #{haArea.areaId}">
             <if test="haArea.areaNo != null">areano = #{haArea.rgn}||#{haArea.areaNo},</if>
             <if test="haArea.name != null">name = #{haArea.name},</if>
             <if test="haArea.description != null">description = #{haArea.description},</if>
@@ -429,7 +429,7 @@ WHERE areaid IN ('${areaId}')
     </update>
 
     <select id="queryHaAreaCountC" resultType="Integer">
-        select Count(1) from ha_area where areaid=#{areaid}
+        select Count(1) from ha_area where areaid=#{areaId}
     </select>
 
     <resultMap id="queryAllSmallAreaMap" type="com.ktamr.domain.HaArea">
@@ -466,7 +466,7 @@ WHERE areaid IN ('${areaId}')
 
     <select id="queryAllSmallArea" resultMap="queryAllSmallAreaMap">
         SELECT
-        a.areaid AS areaid, Right(a.areaNo, 4) AS areaNo, trim(a.registeredNo) AS registeredNo, a.name AS name,
+        a.areaid AS areaId, Right(a.areaNo, 4) AS areaNo, trim(a.registeredNo) AS registeredNo, a.name AS name,
         trim(n.name||'-'||a.addr) AS addr,
         case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds,
         COUNT(m.meterid) AS haMeterCount,

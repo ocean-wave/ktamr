@@ -25,10 +25,12 @@
     <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
         <div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
             <input id="appPage" type="text" class="input-sm form-control hide" value="<%=appPage%>">
-            <input id="operatorCompany" type="text" class="input-sm form-control hide" value='<%=Session("operator_company_id")%>'>
+            <input id="operatorCompany" type="text" class="input-sm form-control hide"
+                   value='<%=Session("operator_company_id")%>'>
             <input id="nodeType" type="text" class="input-sm form-control hide" value="">
             <input id="nodeId" type="text" class="input-sm form-control hide" value="">
-            <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"  placeholder="---请选择区域(点我)---"/>
+            <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"
+                   placeholder="---请选择区域(点我)---"/>
             <div id="menuContent" class="menuContent">
                 <div class="ztreeInput">
                     <div>
@@ -49,32 +51,47 @@
             </div>
         </div>
         <div class="col-xs-2 my-form-col month-type-div">
-            <select id='month_type' class="selectpicker input-sm form-control" data-style="btn-default btn-sm" title="选择月份类型">
-                <option value='' >未选择</option>
-                <option value='S' >单月</option>
-                <option value='D' >双月</option>
+            <select id='month_type' class="selectpicker input-sm form-control" data-style="btn-default btn-sm"
+                    title="选择月份类型">
+                <option value=''>未选择</option>
+                <option value='S'>单月</option>
+                <option value='D'>双月</option>
             </select>
         </div>
         <div class="col-xs-2 my-form-col">
             <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
         </div>
         <div class="col-xs-1 my-form-col">
-            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span
+                    class="glyphicon glyphicon-search"></span> 查询
+            </button>
         </div>
         <div id="nav1" class="my-btns pull-right" name="ControlButtons" style="display:none;">
-            <button data-modal="" data-title="抄收" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-stats"></span> 抄收</button>
-            <button data-modal="" data-title="刷新" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-refresh"></span> 刷新数据</button>
+            <button data-modal="" data-title="抄收" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-stats"></span> 抄收
+            </button>
+            <button data-modal="" data-title="刷新" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-refresh"></span> 刷新数据
+            </button>
         </div>
         <div id="nav5" class="my-btns pull-right" name="MngButtons" style="display:none;">
-            <button data-modal="" id="btn4" data-title="初始化" class="layui-btn layui-btn-danger layui-btn-sm"><span class="glyphicon glyphicon-remove-circle"></span> 初始化</button>
+            <button data-modal="" id="btn4" data-title="初始化" class="layui-btn layui-btn-danger layui-btn-sm"><span
+                    class="glyphicon glyphicon-remove-circle"></span> 初始化
+            </button>
         </div>
         <div id="nav6" class="my-btns pull-right" style="display:none;">
             <button data-modal="" data-title="换表业务" class="layui-btn layui-btn-primary layui-btn-sm">换表业务</button>
         </div>
         <div id="nav2" class="pull-right" name="MngButtons" style="display:block;">
-            <button data-modal="" data-title="新增" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-plus"></span> 新增</button>
-            <button data-modal="" data-title="修改" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
-            <button data-modal="" data-title="删除" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+            <button data-modal="" data-title="新增" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-plus"></span> 新增
+            </button>
+            <button data-modal="" data-title="修改" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-pencil"></span> 修改
+            </button>
+            <button data-modal="" data-title="删除" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-trash"></span> 删除
+            </button>
         </div>
         <div id="nav3" class="my-btns pull-right" name="ControlButtons" style="display:none;">
             <button data-modal="" id="btn2" data-title="费用结算" class="layui-btn layui-btn-sm">费用结算</button>
@@ -85,7 +102,8 @@
             <button data-modal="" data-title="批量单抄" class="layui-btn layui-btn-sm multiOperation">批量单抄</button>
             <button data-modal="" data-title="批量开阀" class="layui-btn layui-btn-sm multiOperation">批量开阀</button>
             <button data-modal="" data-title="批量关阀" class="layui-btn layui-btn-sm multiOperation">批量关阀</button>
-            <button data-modal="" data-title="单表记录" class="layui-btn layui-btn-primary layui-btn-sm meterQuery">单表记录</button>
+            <button data-modal="" data-title="单表记录" class="layui-btn layui-btn-primary layui-btn-sm meterQuery">单表记录
+            </button>
         </div>
     </div>
     <div class="row my-form-no-edge">
@@ -100,48 +118,58 @@
 <div th:include="include :: footer"></div>
 <script language="JavaScript">
     layui.config({
-        base : '/common/js/',
+        base: '/common/js/',
         version: '2.8.2'
     }).extend({
         myLayui: 'myLayui'
     });
 
     var tree = null, _myLayui = null;
-    layui.use(['layer', 'form', 'myLayui'], function(){
+    layui.use(['layer', 'form', 'myLayui'], function () {
         var layer = layui.layer,
             form = layui.form,
             myLayui = layui.myLayui;
-            gappPage = 'calculate';
+        gappPage = 'calculate';
 
         $('.selectpicker').selectpicker({
             actionsBox: true //保留全选,全不选按键
-            ,noneSelectedText: '请选择小区'
-            ,selectAllText: '选择所有'
-            ,deselectAllText: '取消全选'
-            ,liveSearchPlaceholder: '搜索'
+            , noneSelectedText: '请选择小区'
+            , selectAllText: '选择所有'
+            , deselectAllText: '取消全选'
+            , liveSearchPlaceholder: '搜索'
         });
 
-        function gridChange(){
+        function gridChange() {
             var appPage = $("#appPage").val();
             var operatorCompany = $("#operatorCompany").val();
             var listType = $('#nodeType').val() ? $('#nodeType').val() : "allRgn";
             var nodeId = $('#nodeId').val();
-            if(listType == "allRgn"){
+            if (listType == "allRgn") {
                 $(".month-type-div").hide();
                 $(".my-btns").hide();
-                if(appPage == "readMeter"){
+                if (appPage == "readMeter") {
                     $("#nav1").show();
-                }else if(appPage == "management"){
+                } else if (appPage == "management") {
                     $("#nav2").show();
                 }
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/area/areasOpManageJson");
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145, "/area/areasOpManageJsonC");
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 //GridObj.jqdefaultGridConfig.caption = "大区列表：";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {ListNumber: 4, TotalLocation: "编号", SumColName: "小区数,集中器数,采集器数,表数"};
-                GridObj.jqdefaultGridConfig.colNames = ['大区编号','大区名称','简称','行政区号','小区数','集中器数','采集器数','表数'];
+                GridObj.jqdefaultGridConfig.postData = {
+                    ListNumber: 4,
+                    TotalLocation: "编号",
+                    SumColName: "小区数,集中器数,采集器数,表数"
+                };
+                // GridObj.jqdefaultGridConfig.jsonReader.rows="rows";
+                // GridObj.jqdefaultGridConfig.jsonReader.id="id";
+                // GridObj.jqdefaultGridConfig.jsonReader.page="page";
+                // GridObj.jqdefaultGridConfig.jsonReader.total="total";
+                // GridObj.jqdefaultGridConfig.jsonReader.records="records";
+                // GridObj.jqdefaultGridConfig.jsonReader.repeatitems=false;
+                GridObj.jqdefaultGridConfig.colNames = ['大区编号', '大区名称', '简称', '行政区号', '小区数', '集中器数', '采集器数', '表数'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     {name: 'id', width: 75, key: true, hidden: true},
                     {name: 'name', width: 120},
@@ -158,54 +186,60 @@
                 GridObj.drawGridPager();
                 GridObj.setGridSize();
                 GridObj.gridResize();
-            }else if(listType == "allArea" || listType == "rgn"){
+            } else if (listType == "allArea" || listType == "rgn") {
                 var rgnIds = "";
                 $(".month-type-div").show();
                 $(".my-btns").hide();
-                if(appPage == "readMeter"){
+                if (appPage == "readMeter") {
                     $("#nav1").show();
-                }else if(appPage == "calculate"){
+                } else if (appPage == "calculate") {
                     $("#nav4").show();
-                }else if(appPage == "management"){
+                } else if (appPage == "management") {
                     $("#nav5").show();
                     $("#nav2").show();
                 }
 
-                if(listType == "rgn"){
+                if (listType == "rgn") {
                     rgnIds = nodeId;
                 }
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/area/QueryAllSmallAreaJson");
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145, "/area/QueryAllSmallAreaJson");
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 //GridObj.jqdefaultGridConfig.caption = "小区列表：";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {ListNumber: 1, rgnIds: rgnIds, TotalLocation: "小区编号", SumColName: "总表数,总读数,本期总用量,不良表数"};
+                GridObj.jqdefaultGridConfig.postData = {
+                    ListNumber: 1,
+                    rgnIds: rgnIds,
+                    TotalLocation: "小区编号",
+                    SumColName: "总表数,总读数,本期总用量,不良表数"
+                };
                 GridObj.jqdefaultGridConfig.colNames = [
-                    'areaid','小区编号','小区册号','小区名称','地址','抄收月份','总表数','冻结抄收','最早装表时间','说明'
+                    'areaId', '小区编号', '小区册号', '小区名称', '地址', '抄收月份', '总表数', '冻结抄收', '最早装表时间', '说明'
                 ];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    {name: 'areaId',  width: 75, key: true, hidden: true,frozen : true},
-                    { name: 'areaNo', width: 70, formatter:'interger',frozen : true},
-                    { name: 'registeredNo', width: 70, frozen : true},
-                    {name: 'name', width: 150,frozen : true },
-                    {name: 'addr', width: 150 },
-                    {name: 'ds', width: 80 },
-                    {name: 'haMeter.haMeterCount', align: 'right' ,width: 70 },
-                    {name: 'reserved', width: 75, align: 'center'
-                        ,formatter: function (cellvalue, options, rowObject) {
+                    {name: 'areaId', width: 75, key: true, hidden: true, frozen: true},
+                    {name: 'areaNo', width: 70, formatter: 'interger', frozen: true},
+                    {name: 'registeredNo', width: 70, frozen: true},
+                    {name: 'name', width: 150, frozen: true},
+                    {name: 'addr', width: 150},
+                    {name: 'ds', width: 80},
+                    {name: 'haMeter.haMeterCount', align: 'right', width: 70},
+                    {
+                        name: 'reserved', width: 75, align: 'center'
+                        , formatter: function (cellvalue, options, rowObject) {
                             var isChecked = "", switch1;
-                            if(cellvalue == "Y"){
+                            if (cellvalue == "Y") {
                                 isChecked = "checked";
-                            }else{
+                            } else {
                                 isChecked = "";
                             }
-                            switch1 = '<div class="layui-form"><input type="checkbox" data-id="'+rowObject["areaid"]+'" name="switch" class="freezeRead" lay-filter="freezeRead" lay-skin="switch" lay-text="开启|关闭" '+isChecked+'></div>';
+                            switch1 = '<div class="layui-form"><input type="checkbox" data-id="' + rowObject["areaId"] + '" name="switch" class="freezeRead" lay-filter="freezeRead" lay-skin="switch" lay-text="开启|关闭" ' + isChecked + '></div>';
                             return switch1;
                         }
                     },
-                    {name: 'haMeter.startTime', width: 100 },
-                    {name: 'description', width: 200 }
+                    {name: 'haMeter.startTime', width: 100},
+                    {name: 'description', width: 200}
                 ];
                 GridObj.jqdefaultGridConfig.footerrow = true;
                 GridObj.jqdefaultGridConfig.userDataOnFooter = true;
@@ -216,17 +250,17 @@
                 GridObj.drawGridPager();
                 GridObj.setGridSize();
                 GridObj.gridResize();
-                if(appPage == "readMeter"){
-                    var cols = new Array('最早装表时间','说明')
+                if (appPage == "readMeter") {
+                    var cols = new Array('最早装表时间', '说明')
                     GridObj.hideCols(cols);
-                }else if(appPage == "calculate"){
-                    var cols = new Array('总读数','本期总用量','不良表数','最早装表时间','说明')
+                } else if (appPage == "calculate") {
+                    var cols = new Array('总读数', '本期总用量', '不良表数', '最早装表时间', '说明')
                     GridObj.hideCols(cols);
-                }else if(appPage == "management"){
-                    var cols = new Array('总读数','本期总用量','不良表数','最近抄收时间','结算日期')
+                } else if (appPage == "management") {
+                    var cols = new Array('总读数', '本期总用量', '不良表数', '最近抄收时间', '结算日期')
                     GridObj.hideCols(cols);
                 }
-            }else if(listType == "area" && appPage == "management"){
+            } else if (listType == "area" && appPage == "management") {
                 $(".month-type-div").hide();
                 $(".my-btns").hide();
                 $("#nav2").show();
@@ -237,62 +271,62 @@
                 //GridObj.jqdefaultGridConfig.caption = "楼栋列表：";
                 GridObj.jqdefaultGridConfig.multiselect = false;
                 GridObj.jqdefaultGridConfig.postData = {ListNumber: 3, areaid: nodeId};
-                GridObj.jqdefaultGridConfig.colNames = ['buildingid','楼栋名称','说明'];
+                GridObj.jqdefaultGridConfig.colNames = ['buildingid', '楼栋名称', '说明'];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    {name: 'buildingId',  width: 75, key: true, hidden: true,frozen : true},
-                    {name: '楼栋名称', width: 120,frozen : true },
-                    {name: '说明', width: 150 }
+                    {name: 'buildingid', width: 75, key: true, hidden: true, frozen: true},
+                    {name: '楼栋名称', width: 120, frozen: true},
+                    {name: '说明', width: 150}
                 ];
                 GridObj.drawGrid();
                 GridObj.drawGridPager();
                 GridObj.setGridSize();
                 GridObj.gridResize();
-            }else if(listType == "allMeter" || listType == "area" || listType == "building"){
+            } else if (listType == "allMeter" || listType == "area" || listType == "building") {
                 var _areaid = "", _buildingid = "";
                 $(".month-type-div").hide();
                 $(".my-btns").hide();
-                if(appPage == "readMeter"){
+                if (appPage == "readMeter") {
                     $("#nav4").show();
-                }else if(appPage == "management"){
+                } else if (appPage == "management") {
                     $("#nav6").show();
                     $("#nav2").show();
                 }
 
-                if(listType == "area"){
+                if (listType == "area") {
                     _areaid = nodeId;
-                }else if(listType == "building"){
+                } else if (listType == "building") {
                     _buildingid = nodeId;
                 }
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,"/room/QueryAllRoomJson");
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114, "/room/QueryAllRoomJson");
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 //GridObj.jqdefaultGridConfig.caption = "房间表列表：";
                 GridObj.jqdefaultGridConfig.multiselect = true;
                 GridObj.jqdefaultGridConfig.postData = {ListNumber: 5, areaid: _areaid, buildingId: _buildingid};
                 GridObj.jqdefaultGridConfig.colModel = [
-                    {label:'roommeterid', name: 'roommeterid',  width: 75, key: true, hidden: true, frozen: false},
+                    {label: 'roommeterid', name: 'roommeterid', width: 75, key: true, hidden: true, frozen: false},
 
-                    {label:'centorid', name: 'centorid', width: 50, hidden: true },//作为单表抄收、开阀、关阀命令的参数用
-                    {label:'用户编号', name: 'haCustom.custno', width: 90 },
-                    {label:'用户名称', name: 'haCustom.name', width: 80 },
-                    {label:'用户地址', name: 'uname', width: 150 },
-                    {label:'房间备注', name: 'description', width: 80 },
-                    {label:'表号', name: 'haMeter.meternumber', align: 'right', width: 120 },
-                    {label:'最近读数', name: 'haMeter.thNumber', align: 'right', width: 75 },
-                    {label:'上期结算', name: 'haMeter.ifNumber', align: 'right', width: 75 },
-                    {label:'本期用量', name: 'haMeter.sNumber',align: 'right', width: 75 },
-                    {label:'表状态', name: 'haMeter.state', width: 100, cellattr: MeterStateCellColor },
-                    {label:'最近抄表时间', name: 'haMeter.thrTime', width: 150 }
-                    ,{label:'收费类型', name: 'haPricestandard.pname', width: 80 }
-                    ,{label:'所属集中器', name: 'haCentor.addr', width: 120 }
-                    ,{label:'所属采集器', name: 'haCollector.addr', width: 120 }
-                    ,{label:'表底数', name: 'haMeter.gNumber', width: 80 ,sortable:false }
-                    ,{label:'调节数', name: 'offsetN', width: 80 ,sortable:false }
-                    ,{label:'厂商ID', name: 'haMeter.vendorId', width: 80 ,sortable:false }
-                    ,{label:'通道号', name: 'meterChannel', width: 80 ,sortable:false }
-                    ,{label:'表序号', name: 'meterSequence', width: 80 ,sortable:false }
-                    ,{label:'装表时间', name: 'haMeter.startTime', width: 150 ,sortable:false}
+                    {label: 'centorid', name: 'centorid', width: 50, hidden: true},//作为单表抄收、开阀、关阀命令的参数用
+                    {label: '用户编号', name: 'haCustom.custNo', width: 90},
+                    {label: '用户名称', name: 'haCustom.name', width: 80},
+                    {label: '用户地址', name: 'uname', width: 150},
+                    {label: '房间备注', name: 'description', width: 80},
+                    {label: '表号', name: 'haMeter.meternumber', align: 'right', width: 120},
+                    {label: '最近读数', name: 'haMeter.thNumber', align: 'right', width: 75},
+                    {label: '上期结算', name: 'haMeter.IfNumber', align: 'right', width: 75},
+                    {label: '本期用量', name: 'haMeter.sNumber', align: 'right', width: 75},
+                    {label: '表状态', name: 'haMeter.state', width: 100, cellattr: MeterStateCellColor},
+                    {label: '最近抄表时间', name: 'haMeter.thRTime', width: 150}
+                    , {label: '收费类型', name: 'haPricestandard.pname', width: 80}
+                    , {label: '所属集中器', name: 'haCentor.addr', width: 120}
+                    , {label: '所属采集器', name: 'haCollector.addr', width: 120}
+                    , {label: '表底数', name: 'haMeter.gNumber', width: 80, sortable: false}
+                    , {label: '调节数', name: 'offsetN', width: 80, sortable: false}
+                    , {label: '厂商ID', name: 'haMeter.vendorId', width: 80, sortable: false}
+                    , {label: '通道号', name: 'meterChannel', width: 80, sortable: false}
+                    , {label: '表序号', name: 'meterSequence', width: 80, sortable: false}
+                    , {label: '装表时间', name: 'haMeter.startTime', width: 150, sortable: false}
                 ];
                 GridObj.jqdefaultGridConfig.beforeSelectRow = function (rowid, e) {  //jqgrid 设置点击当前行，不默认勾选checkbox
                     var $myGrid = $(this),
@@ -302,37 +336,37 @@
                 };
                 GridObj.jqdefaultGridConfig.subGrid = false;
                 GridObj.jqdefaultGridConfig.subGridOptions = {
-                    "plusicon" : "glyphicon glyphicon-resize-full",
-                    "minusicon" : "glyphicon glyphicon-resize-small",
-                    "openicon" : "glyphicon glyphicon-share-alt",
-                    "reloadOnExpand" : false,
-                    "selectOnExpand" : true
+                    "plusicon": "glyphicon glyphicon-resize-full",
+                    "minusicon": "glyphicon glyphicon-resize-small",
+                    "openicon": "glyphicon glyphicon-share-alt",
+                    "reloadOnExpand": false,
+                    "selectOnExpand": true
                 };
-                GridObj.jqdefaultGridConfig.subGridRowExpanded = function(subgrid_id, row_id) {
+                GridObj.jqdefaultGridConfig.subGridRowExpanded = function (subgrid_id, row_id) {
                     var subgrid_table_id, pager_id;
-                    subgrid_table_id = subgrid_id+"_t";
-                    pager_id = "p_"+subgrid_table_id;
-                    $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
-                    jQuery("#"+subgrid_table_id).jqGrid({
-                        url:"/client_trans/jqGridJSON.asp?ListNumber=5&rowId="+row_id,
+                    subgrid_table_id = subgrid_id + "_t";
+                    pager_id = "p_" + subgrid_table_id;
+                    $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+                    jQuery("#" + subgrid_table_id).jqGrid({
+                        url: "/client_trans/jqGridJSON.asp?ListNumber=5&rowId=" + row_id,
                         styleUI: 'Bootstrap',
                         datatype: "json",
                         ajaxGridOptions: {contentType: 'application/json; charset=utf-8'},
-                        colNames: ['表底数','厂商ID','通道号','表序号','房间备注','装表时间'],
+                        colNames: ['表底数', '厂商ID', '通道号', '表序号', '房间备注', '装表时间'],
                         colModel: [
-                            { name: '表底数', width: 80 ,sortable:false }
-                            ,{ name: '厂商ID', width: 80 ,sortable:false }
-                            ,{ name: '通道号', width: 80 ,sortable:false }
-                            ,{ name: '表序号', width: 80 ,sortable:false }
-                            ,{ name: '房间备注', width: 80 ,sortable:false }
-                            ,{ name: '装表时间', width: 150 ,sortable:false}
+                            {name: '表底数', width: 80, sortable: false}
+                            , {name: '厂商ID', width: 80, sortable: false}
+                            , {name: '通道号', width: 80, sortable: false}
+                            , {name: '表序号', width: 80, sortable: false}
+                            , {name: '房间备注', width: 80, sortable: false}
+                            , {name: '装表时间', width: 150, sortable: false}
                         ],
-                        rowNum:1,
+                        rowNum: 1,
                         //pager: pager_id,
                         sortorder: "asc",
                         height: '100%'
                     });
-                    $("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{edit:false,add:false,del:false});
+                    $("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false});
                 };
                 GridObj.jqdefaultGridConfig.loadComplete = function () {
                     MeterStateRowColor("jqGrid2", "表状态");
@@ -342,18 +376,18 @@
                 //GridObj.freezeGridCol();
                 GridObj.setGridSize();
                 GridObj.gridResize();
-                if(operatorCompany == "ntrq"){
+                if (operatorCompany == "ntrq") {
                     var cols = new Array("表号")
                     GridObj.hideCols(cols);
-                }else{
+                } else {
                     var cols = new Array("表地址")
                     GridObj.hideCols(cols);
                 }
-                if(appPage == "readMeter" || appPage == "calculate"){
-                    var cols = new Array("收费类型","所属集中器","所属采集器","表底数","调节数","厂商ID","通道号","表序号","装表时间")
+                if (appPage == "readMeter" || appPage == "calculate") {
+                    var cols = new Array("收费类型", "所属集中器", "所属采集器", "表底数", "调节数", "厂商ID", "通道号", "表序号", "装表时间")
                     GridObj.hideCols(cols);
-                }else if(appPage == "management"){
-                    var cols = new Array("操作","操作结果")
+                } else if (appPage == "management") {
+                    var cols = new Array("操作", "操作结果")
                     GridObj.hideCols(cols);
                 }
             }
@@ -362,7 +396,7 @@
 
         var zOption = {
             // url: "../client_trans/getNodes.asp",
-            url: "/area/ShowBigName",
+            url: "/area/ShowBigNameC",
             selectedMulti: false,
             nodeTypeId: "nodeType",
             nodeIdsId: "nodeId",
@@ -373,24 +407,24 @@
         tree.dropDownTreeOpen();
         tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
         gridChange();
-        $("#areaSel").click(function(){
+        $("#areaSel").click(function () {
             tree.showMenu();
         });
 
 
-        $(document).keydown(function(event){
-            if(event.keyCode==13){
+        $(document).keydown(function (event) {
+            if (event.keyCode == 13) {
                 $(".search").click();
             }
         });
         //全文查找
-        $(".search").click(function(){
-            var  _pdArray = "", nodeIds = "";
+        $(".search").click(function () {
+            var _pdArray = "", nodeIds = "";
             _pdArray = {
-                "KeyWord": $("#keyWord").val()
+                "keyWord": $("#keyWord").val()
             };
-            if($("#nodeType").val() == "rgn" || $("#nodeType").val() == "allArea"){
-                if($("#nodeType").val() == "rgn"){
+            if ($("#nodeType").val() == "rgn" || $("#nodeType").val() == "allArea") {
+                if ($("#nodeType").val() == "rgn") {
                     nodeIds = $("#nodeId").val();
                 }
                 _pdArray["rgnIds"] = nodeIds;
@@ -399,75 +433,76 @@
             fullTextSearch("jqGrid", _pdArray);
         });
 
-        function switchDo(switchObj, data){
+        function switchDo(switchObj, data) {
             var confirmText = "";
-            if(data["isON"] == true){
+            if (data["isON"] == true) {
                 confirmText = "确定开启小区冻结抄收吗？";
-            }else{
+            } else {
                 confirmText = "确定关闭小区冻结抄收吗？";
             }
 
             layer.open({
                 content: confirmText
-                ,btn: ['确定', '取消']
-                ,icon: 0
-                ,yes: function(index, layero){
+                , btn: ['确定', '取消']
+                , icon: 0
+                , yes: function (index, layero) {
                     $.ajax({
                         url: "/area/RowEditing"
-                        ,type: "POST"
-                        ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
-                        ,data: {
+                        , type: "POST"
+                        , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                        , data: {
                             OpNumber: "3",
-                            areaid: data["areaid"],
+                            areaId: data["areaId"],
                             reserved: data["isON"]
                         }
-                        ,success: function(data){
-                            if(data == "true"){
+                        , success: function (data) {
+                            if (data == "true") {
                                 layer.msg("操作成功！", {icon: 1});
-                            }else{
-                                var flag=switchObj.prev().prop("checked");
-                                switchObj.prev().prop("checked",!flag);
+                            } else {
+                                var flag = switchObj.prev().prop("checked");
+                                switchObj.prev().prop("checked", !flag);
                                 form.render("checkbox");
                             }
                         }
                     });
                     layer.close(index);
                 }
-                ,btn2: function(index, layero){
-                    var flag=switchObj.prev().prop("checked");
-                    switchObj.prev().prop("checked",!flag);
+                , btn2: function (index, layero) {
+                    var flag = switchObj.prev().prop("checked");
+                    switchObj.prev().prop("checked", !flag);
                     form.render("checkbox");
                 }
-                ,cancel: function(){
-                    var flag=switchObj.prev().prop("checked");
-                    switchObj.prev().prop("checked",!flag);
+                , cancel: function () {
+                    var flag = switchObj.prev().prop("checked");
+                    switchObj.prev().prop("checked", !flag);
                     form.render("checkbox");
                 }
             });
 
             return false;
         }
-        $(document).on('click','.layui-form-switch',function(){
+
+        $(document).on('click', '.layui-form-switch', function () {
             var switchObj = $(this), selRowId = "", isON = "";
             selRowId = switchObj.prev().data("id");
             isON = switchObj.hasClass("layui-form-onswitch");
 
             //console.log("switch sel:"+selRowId+", isON:"+isON);
             var data = new Array();
-            data["areaid"]=selRowId;
-            data["isON"]=isON;
-            if(gappPage == "calculate"){
+            data["areaId"] = selRowId;
+            data["isON"] = isON;
+            if (gappPage == "calculate") {
                 switchDo(switchObj, data);
-            }else{
+            } else {
                 layer.msg("操作失败,请在管理页面进行操作！", {icon: 5});
-                var flag=switchObj.prev().prop("checked");
-                switchObj.prev().prop("checked",!flag);
+                var flag = switchObj.prev().prop("checked");
+                switchObj.prev().prop("checked", !flag);
                 form.render("checkbox");
             }
         });
-        $(".layui-btn").mouseenter(function(){
+        $(".layui-btn").mouseenter(function () {
             var btnName = $(this).data("title");
-            switch(btnName){
+            switch (btnName) {
                 case "初始化":
                     layer.tips('删除小区所有下属的用户、表、房间、楼栋、设备档案', '#btn4', {tips: [4, '#222222']});
                     break;
@@ -476,7 +511,7 @@
             }
         });
         _myLayui = new myLayui;
-        $(".layui-btn").click(function(){
+        $(".layui-btn").click(function () {
             var btnName = $(this).data("title") || $(this).data("title");
             var nodeType = $("#nodeType").val();
             var nodeId = $("#nodeId").val();
@@ -485,67 +520,67 @@
 
             var roomid_meterid_arry = new Array();
             var roomid_meterid = new Array();
-            var gridIdsary=new Array();
-            var roomids="", meterids="";
-            if (btnName.indexOf("查询")>=0 || btnName.indexOf("批量")>=0)
+            var gridIdsary = new Array();
+            var roomids = "", meterids = "";
+            if (btnName.indexOf("查询") >= 0 || btnName.indexOf("批量") >= 0)
                 return false;
 
-            if(gridIds == "" && btnName.indexOf("新增")<0 && btnName.indexOf("换表业务")<0){
+            if (gridIds == "" && btnName.indexOf("新增") < 0 && btnName.indexOf("换表业务") < 0) {
                 layer.msg("请选择操作行！", {icon: 5});
                 return false;
             }
-            if(b_isMultiIDs == true && (btnName.indexOf("修改")>=0 || btnName.indexOf("单表记录")>=0)){
+            if (b_isMultiIDs == true && (btnName.indexOf("修改") >= 0 || btnName.indexOf("单表记录") >= 0)) {
 
-                gridIds=getLastMultiIDs("jqGrid");
+                gridIds = getLastMultiIDs("jqGrid");
                 //layer.msg("只能单选！", {icon: 5});
                 //return false;
 
             }
-            if(nodeType == "building" || nodeType == "allMeter" || ($("#appPage").val()=="readMeter" && nodeType == "area")){
-                if(gridIds != ""){
+            if (nodeType == "building" || nodeType == "allMeter" || ($("#appPage").val() == "readMeter" && nodeType == "area")) {
+                if (gridIds != "") {
                     roomid_meterid_arry = gridIds.split(",");
-                    for(var i=0; i<roomid_meterid_arry.length ;i++){
+                    for (var i = 0; i < roomid_meterid_arry.length; i++) {
                         roomid_meterid = roomid_meterid_arry[i].split("_");
-                        if(i == 0){
+                        if (i == 0) {
                             roomids = roomids + roomid_meterid[0];
                             meterids = meterids + roomid_meterid[1];
-                        }else{
-                            roomids = roomids +","+ roomid_meterid[0];
-                            meterids = meterids +","+ roomid_meterid[1];
+                        } else {
+                            roomids = roomids + "," + roomid_meterid[0];
+                            meterids = meterids + "," + roomid_meterid[1];
                         }
                     }
                 }
             }
 
-            switch(btnName){
+            switch (btnName) {
                 case "新增":
-                    if(nodeType == "" || nodeType == "allRgn"){
+                    if (nodeType == "" || nodeType == "allRgn") {
                         _layerSize = ['455px', '360px'];
                         _queryStr = [
                             "cmdName=新增大区资料"
                         ];
-                        _myLayui.showLayer("新增大区资料","/area/JumpRgnAdd", _queryStr, _layerSize);
-                    }else if(nodeType == "rgn" || nodeType == "allArea"){
+                        _myLayui.showLayer("新增大区资料", "/area/JumpRgnAdd", _queryStr, _layerSize);
+                    } else if (nodeType == "rgn" || nodeType == "allArea") {
                         _layerSize = ['545px', '330px'];
                         _queryStr = [
                             "cmdName=新增小区资料",
-                            "rgnid="+nodeId
+                            "rgnid=" + nodeId
                         ];
-                        _myLayui.showLayer("新增小区资料","/area/JumpAreaAdd", _queryStr, _layerSize);
-                    }else if(nodeType == "area"){
+                        _myLayui.showLayer("新增小区资料", "/area/JumpAreaAdd", _queryStr, _layerSize);
+                    } else if (nodeType == "area") {
                         _layerSize = ['455px', '260px'];
                         _queryStr = [
                             "cmdName=新增楼栋资料",
-                            "areaid="+nodeId
+                            "areaid=" + nodeId
                         ];
-                        _myLayui.showLayer("新增楼栋资料","../building/building_add.asp", _queryStr, _layerSize);
-                    }else if(nodeType == "building" || nodeType == "allMeter"){
-                        if(roomids != "" && isMultiIDs(roomids) == true){
-                            roomids=getLastMultiIDs("jqGrid");
+                        _myLayui.showLayer("新增楼栋资料", "../building/building_add.asp", _queryStr, _layerSize);
+                    } else if (nodeType == "building" || nodeType == "allMeter") {
+                        if (roomids != "" && isMultiIDs(roomids) == true) {
+                            roomids = getLastMultiIDs("jqGrid");
                             //layer.msg("只能选一个房间！", {icon: 5});
                             //return false;
                         }
-                        if(meterids){
+                        if (meterids) {
 
                             layer.msg("只能新增一块表！", {icon: 5});
                             return false;
@@ -553,169 +588,169 @@
                         _layerSize = ['550px', '450px'];
                         _queryStr = [
                             "cmdName=新增房间表资料",
-                            "buildingId="+nodeId,
-                            "roomId="+roomids,
-                            "meterId="+meterids
+                            "buildingId=" + nodeId,
+                            "roomId=" + roomids,
+                            "meterId=" + meterids
                         ];
-                        _myLayui.showLayer("新增房间表资料","../meter/room_meter_add.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("新增房间表资料", "../meter/room_meter_add.asp", _queryStr, _layerSize);
                     }
-                    break ;
+                    break;
                 case "修改":
-                    if(nodeType == "" || nodeType == "allRgn"){
-                        if(gridIds != "" && isMultiIDs(gridIds) == true){
-                            gridIds=getLastMultiIDs("jqGrid");
+                    if (nodeType == "" || nodeType == "allRgn") {
+                        if (gridIds != "" && isMultiIDs(gridIds) == true) {
+                            gridIds = getLastMultiIDs("jqGrid");
                         }
                         _layerSize = ['455px', '360px'];
                         _queryStr = [
                             "cmdName=修改大区资料",
-                            "rgnId="+gridIds
+                            "rgnId=" + gridIds
                         ];
-                        _myLayui.showLayer("修改大区资料","/area/JumpRgnUpdate", _queryStr, _layerSize);
-                    }else if(nodeType == "rgn" || nodeType == "allArea"){
-                        if(gridIds != "" && isMultiIDs(gridIds) == true){
-                            gridIds=getLastMultiIDs("jqGrid");
+                        _myLayui.showLayer("修改大区资料", "/area/JumpRgnUpdate", _queryStr, _layerSize);
+                    } else if (nodeType == "rgn" || nodeType == "allArea") {
+                        if (gridIds != "" && isMultiIDs(gridIds) == true) {
+                            gridIds = getLastMultiIDs("jqGrid");
                         }
                         _layerSize = ['545px', '330px'];
                         _queryStr = [
                             "cmdName=修改小区资料",
-                            "areaid="+gridIds
+                            "areaid=" + gridIds
                         ];
-                        _myLayui.showLayer("修改小区资料","/area/JumpAreaUpdate", _queryStr, _layerSize);
-                    }else if(nodeType == "area"){
-                        if(gridIds != "" && isMultiIDs(gridIds) == true){
-                            gridIds=getLastMultiIDs("jqGrid");
+                        _myLayui.showLayer("修改小区资料", "/area/JumpAreaUpdate", _queryStr, _layerSize);
+                    } else if (nodeType == "area") {
+                        if (gridIds != "" && isMultiIDs(gridIds) == true) {
+                            gridIds = getLastMultiIDs("jqGrid");
                         }
                         _layerSize = ['455px', '260px'];
                         _queryStr = [
                             "cmdName=修改楼栋资料",
-                            "buildingid="+gridIds
+                            "buildingid=" + gridIds
                         ];
-                        _myLayui.showLayer("修改楼栋资料","../building/building_update.asp", _queryStr, _layerSize);
-                    }else if(nodeType == "building" || nodeType == "allMeter"){
+                        _myLayui.showLayer("修改楼栋资料", "../building/building_update.asp", _queryStr, _layerSize);
+                    } else if (nodeType == "building" || nodeType == "allMeter") {
                         _layerSize = ['550px', '450px'];
                         _queryStr = [
                             "cmdName=修改房间表资料",
-                            "roomId="+roomids,
-                            "meterId="+meterids
+                            "roomId=" + roomids,
+                            "meterId=" + meterids
                         ];
-                        _myLayui.showLayer("修改房间表资料","../meter/room_meter_update.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("修改房间表资料", "../meter/room_meter_update.asp", _queryStr, _layerSize);
                     }
-                    break ;
+                    break;
                 case "删除":
-                    if(nodeType == "" || nodeType == "allRgn"){
+                    if (nodeType == "" || nodeType == "allRgn") {
                         _layerSize = ['650px', '300px'];
                         _queryStr = [
                             "cmdName=删除大区资料",
-                            "rgnId="+gridIds
+                            "rgnId=" + gridIds
                         ];
-                        _myLayui.showLayer("删除大区资料","/area/JumpRgnDelete", _queryStr, _layerSize);
-                    }else if(nodeType == "rgn" || nodeType == "allArea"){
+                        _myLayui.showLayer("删除大区资料", "/area/JumpRgnDelete", _queryStr, _layerSize);
+                    } else if (nodeType == "rgn" || nodeType == "allArea") {
                         _layerSize = ['650px', '400px'];
                         _queryStr = [
                             "cmdName=删除小区资料",
-                            "areaid="+gridIds
+                            "areaid=" + gridIds
                         ];
-                        _myLayui.showLayer("删除小区资料","/area/JumpAreaDelete", _queryStr, _layerSize);
-                    }else if(nodeType == "area"){
+                        _myLayui.showLayer("删除小区资料", "/area/JumpAreaDelete", _queryStr, _layerSize);
+                    } else if (nodeType == "area") {
                         _layerSize = ['450px', '260px'];
                         _queryStr = [
                             "cmdName=删除楼栋资料",
-                            "buildingid="+gridIds
+                            "buildingid=" + gridIds
                         ];
-                        _myLayui.showLayer("删除楼栋资料","../building/building_del.asp", _queryStr, _layerSize);
-                    }else if(nodeType == "building" || nodeType == "allMeter"){
+                        _myLayui.showLayer("删除楼栋资料", "../building/building_del.asp", _queryStr, _layerSize);
+                    } else if (nodeType == "building" || nodeType == "allMeter") {
                         _layerSize = ['650px', '350px'];
-                        if(isIDsHaveID(meterids) == true){
+                        if (isIDsHaveID(meterids) == true) {
                             _queryStr = [
                                 "cmdName=删除房间表资料",
-                                "meterid="+meterids,
-                                "roomid="+roomids
+                                "meterid=" + meterids,
+                                "roomid=" + roomids
                             ];
-                            _myLayui.showLayer("删除房间表资料","../meter/room_meter_del.asp", _queryStr, _layerSize);
-                        }else{
+                            _myLayui.showLayer("删除房间表资料", "../meter/room_meter_del.asp", _queryStr, _layerSize);
+                        } else {
                             _queryStr = [
                                 "cmdName=删除房间资料",
-                                "meterid="+meterids,
-                                "roomid="+roomids
+                                "meterid=" + meterids,
+                                "roomid=" + roomids
                             ];
-                            _myLayui.showLayer("删除房间资料","../building/room_del.asp", _queryStr, _layerSize);
+                            _myLayui.showLayer("删除房间资料", "../building/room_del.asp", _queryStr, _layerSize);
                         }
                     }
-                    break ;
+                    break;
                 case "初始化":
-                    if(nodeType == "rgn" || nodeType == "allArea"){
+                    if (nodeType == "rgn" || nodeType == "allArea") {
                         _layerSize = ['650px', '400px'];
                         _queryStr = [
                             "cmdName=初始化小区资料",
-                            "areaid="+gridIds
+                            "areaid=" + gridIds
                         ];
-                        layer.confirm('初始化小区档案非常危险！确实要执行吗？', {icon:3, title:'提示'},
-                            function(index, layero){
-                                _myLayui.showLayer("初始化小区资料","./area_init.asp", _queryStr, _layerSize);
+                        layer.confirm('初始化小区档案非常危险！确实要执行吗？', {icon: 3, title: '提示'},
+                            function (index, layero) {
+                                _myLayui.showLayer("初始化小区资料", "./area_init.asp", _queryStr, _layerSize);
                                 layer.close(index);
                             });
                     }
                     break;
                 case "抄收":
-                    if(nodeType == "" || nodeType == "allRgn"){
+                    if (nodeType == "" || nodeType == "allRgn") {
                         _layerSize = ['550px', '350px'];
                         _queryStr = [
                             "cmdName=抄收区域",
-                            "ids="+gridIds
+                            "ids=" + gridIds
                         ];
-                        _myLayui.showLayer("大区抄收","../meter/meters_mng.asp", _queryStr, _layerSize);
-                    }else if(nodeType == "rgn" || nodeType == "allArea"){
+                        _myLayui.showLayer("大区抄收", "../meter/meters_mng.asp", _queryStr, _layerSize);
+                    } else if (nodeType == "rgn" || nodeType == "allArea") {
                         _layerSize = ['550px', '350px'];
                         _queryStr = [
                             "cmdName=抄收小区",
-                            "ids="+gridIds
+                            "ids=" + gridIds
                         ];
-                        _myLayui.showLayer("小区抄收","../meter/meters_mng.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("小区抄收", "../meter/meters_mng.asp", _queryStr, _layerSize);
                     }
                     break;
                 case "刷新":
-                    if(nodeType == "" || nodeType == "allRgn"){
+                    if (nodeType == "" || nodeType == "allRgn") {
                         _layerSize = ['550px', '350px'];
                         _queryStr = [
                             "cmdName=刷新区域数据",
-                            "ids="+gridIds
+                            "ids=" + gridIds
                         ];
-                        _myLayui.showLayer("大区数据刷新","../meter/meters_mng.asp", _queryStr, _layerSize);
-                    }else if(nodeType == "rgn" || nodeType == "allArea"){
+                        _myLayui.showLayer("大区数据刷新", "../meter/meters_mng.asp", _queryStr, _layerSize);
+                    } else if (nodeType == "rgn" || nodeType == "allArea") {
                         _layerSize = ['550px', '350px'];
                         _queryStr = [
                             "cmdName=刷新小区数据",
-                            "ids="+gridIds
+                            "ids=" + gridIds
                         ];
-                        _myLayui.showLayer("小区数据刷新","../meter/meters_mng.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("小区数据刷新", "../meter/meters_mng.asp", _queryStr, _layerSize);
                     }
                     break;
                 case "单表记录":
-                    if(meterids == ""){
+                    if (meterids == "") {
                         layer.msg("没有表资料！", {icon: 5});
-                    }else{
+                    } else {
                         _layerSize = ['550px', '400px'];
                         _queryStr = [
                             "cmdName=单表数据查询",
                             "meterid=" + meterids
                         ];
-                        _myLayui.showLayer("单表数据查询","../meter/meter_usage.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("单表数据查询", "../meter/meter_usage.asp", _queryStr, _layerSize);
                     }
                     break;
                 case "换表业务":
-                    if(gridIds == ""){
+                    if (gridIds == "") {
                         _layerSize = ['500px', '380px'];
-                        _myLayui.showLayer("批量换表","../meter/meters_replace.asp", "", _layerSize);
-                    }else{
+                        _myLayui.showLayer("批量换表", "../meter/meters_replace.asp", "", _layerSize);
+                    } else {
                         _layerSize = ['560px', '450px'];
                         _queryStr = [
                             "cmdName=换表业务",
-                            "meterid="+meterids
+                            "meterid=" + meterids
                         ];
-                        if(meterids == ""){
+                        if (meterids == "") {
                             layer.msg("没有表资料！", {icon: 5});
-                        }else{
-                            _myLayui.showLayer("换表业务","../meter/meter_replace.asp", _queryStr, _layerSize);
+                        } else {
+                            _myLayui.showLayer("换表业务", "../meter/meter_replace.asp", _queryStr, _layerSize);
                         }
                     }
                     break;
@@ -724,12 +759,12 @@
             }
         });
 
-        var get_cmdid_url="../datamng/ha_cmd/cmd_add_do.asp";
+        var get_cmdid_url = "../datamng/ha_cmd/cmd_add_do.asp";
         var get_result_url = "../datamng/ha_cmd/cmd_ajax_get.asp";
         var get_row_data_url = "../client_trans/RowDataGet.asp";
         var g_wait_time = 40;//阀门动作时间：水表18秒，燃气表15秒;
         var gb_is_readMeter = false;//开关阀成功够是否单抄表
-        var meterManage = function(cmdName, gridId, rowIds, index){
+        var meterManage = function (cmdName, gridId, rowIds, index) {
             this.cmdName = cmdName;
             this.gridId = gridId;
             this.rowIds = rowIds;
@@ -737,52 +772,52 @@
             this.get_result_timer = this.generate_timer();
             this.get_row_data = this.read_meter_do();
         };
-        meterManage.prototype.generate_timer = function(){
+        meterManage.prototype.generate_timer = function () {
             var _this = this;
-            return $.timer(function(){
+            return $.timer(function () {
                 var selRowId = _this.rowIds[_this.index];
                 $.get(get_result_url,
                     {cmdid: _this.cmdid},
-                    function(data,status){
-                        if (status == "success"){
+                    function (data, status) {
+                        if (status == "success") {
                             var n, state, processing, s;
                             s = unescape(data);
                             n = s.indexOf(":");
-                            if (n > 1){
-                                state = s.substr(0,n);
-                                processing = s.substr(n+1);
-                            }else{
+                            if (n > 1) {
+                                state = s.substr(0, n);
+                                processing = s.substr(n + 1);
+                            } else {
                                 processing = s;
                             }
-                            if ((state == "完成") || (state == "失败")){
-                                if(state == "完成"){
-                                    processing = "<font color='green'>"+_this.cmdName+"成功</font>";
-                                }else{
-                                    processing = "<font color='red'>"+_this.cmdName+"失败</font>";
+                            if ((state == "完成") || (state == "失败")) {
+                                if (state == "完成") {
+                                    processing = "<font color='green'>" + _this.cmdName + "成功</font>";
+                                } else {
+                                    processing = "<font color='red'>" + _this.cmdName + "失败</font>";
                                 }
                                 _this.get_result_timer.stop();
-                                $("#"+_this.gridId).setRowData(selRowId,{"操作结果": processing});
-                                $("button[data-id='"+selRowId+"']").removeClass("layui-btn-disabled");
-                                if(_this.cmdName == "单抄"){
+                                $("#" + _this.gridId).setRowData(selRowId, {"操作结果": processing});
+                                $("button[data-id='" + selRowId + "']").removeClass("layui-btn-disabled");
+                                if (_this.cmdName == "单抄") {
                                     _this.refreshRowData();
-                                    _this.index ++;
+                                    _this.index++;
                                     _this.loadCmd();
-                                }else if(_this.cmdName == "开阀补抄" || _this.cmdName == "关阀补抄"){
+                                } else if (_this.cmdName == "开阀补抄" || _this.cmdName == "关阀补抄") {
                                     _this.refreshRowData();
-                                    _this.cmdName = _this.cmdName.substring(0,2)
-                                    _this.index ++;
+                                    _this.cmdName = _this.cmdName.substring(0, 2)
+                                    _this.index++;
                                     _this.loadCmd();
-                                }else if((state == "完成") && (_this.cmdName == "开阀" || _this.cmdName == "关阀")){
-                                    if(gb_is_readMeter){
-                                        $("button[data-id='"+selRowId+"']").addClass("layui-btn-disabled");
+                                } else if ((state == "完成") && (_this.cmdName == "开阀" || _this.cmdName == "关阀")) {
+                                    if (gb_is_readMeter) {
+                                        $("button[data-id='" + selRowId + "']").addClass("layui-btn-disabled");
                                         _this.waitTime = g_wait_time;
-                                        _this.get_row_data.set({ time: 1000, autostart: true});
-                                    }else{
-                                        _this.index ++;
+                                        _this.get_row_data.set({time: 1000, autostart: true});
+                                    } else {
+                                        _this.index++;
                                         _this.loadCmd();
                                     }
-                                }else if((state == "失败") && (_this.cmdName == "开阀" || _this.cmdName == "关阀")){
-                                    _this.index ++;
+                                } else if ((state == "失败") && (_this.cmdName == "开阀" || _this.cmdName == "关阀")) {
+                                    _this.index++;
                                     _this.loadCmd();
                                 }
                             }
@@ -791,163 +826,168 @@
                 );
             });
         }
-        meterManage.prototype.read_meter_do = function(){
+        meterManage.prototype.read_meter_do = function () {
             var _this = this;
-            return $.timer(function(){
+            return $.timer(function () {
                 var selRowId = _this.rowIds[_this.index];
                 _this.waitTime--;
-                $("#"+_this.gridId).setRowData(selRowId,{"操作结果": "等待<font color='red'>"+_this.waitTime+"</font>秒"});
-                if(_this.waitTime == 0){
+                $("#" + _this.gridId).setRowData(selRowId, {"操作结果": "等待<font color='red'>" + _this.waitTime + "</font>秒"});
+                if (_this.waitTime == 0) {
                     _this.get_row_data.stop();
                     _this.cmdName += "补抄";
                     _this.loadCmd();
                 }
             });
         }
-        meterManage.prototype.loadCmd = function(){
+        meterManage.prototype.loadCmd = function () {
             var selRowId = this.rowIds[this.index];
             var cmd = "", _this = this;
-            if(selRowId != "" && selRowId != undefined){
-                $("button[data-id='"+selRowId+"']").addClass("layui-btn-disabled");
-            }else{
+            if (selRowId != "" && selRowId != undefined) {
+                $("button[data-id='" + selRowId + "']").addClass("layui-btn-disabled");
+            } else {
                 $(".multiOperation").removeClass("layui-btn-disabled");
                 return false;
             }
-            var rowData = $("#"+this.gridId).jqGrid('getRowData', selRowId);
-            if(!rowData["表号"]){
-                $("#"+_this.gridId).setRowData(selRowId,{"操作结果": "<font color='red'>无需要操作的表</font>"});
-                $("button[data-id='"+selRowId+"']").removeClass("layui-btn-disabled");
-                _this.index ++;
+            var rowData = $("#" + this.gridId).jqGrid('getRowData', selRowId);
+            if (!rowData["表号"]) {
+                $("#" + _this.gridId).setRowData(selRowId, {"操作结果": "<font color='red'>无需要操作的表</font>"});
+                $("button[data-id='" + selRowId + "']").removeClass("layui-btn-disabled");
+                _this.index++;
                 _this.loadCmd();
                 return false;
             }
-            switch(this.cmdName){
+            switch (this.cmdName) {
                 case "单抄"://单表抄表:表号
-                    cmd = "单表抄表" +":"+rowData["表号"];
+                    cmd = "单表抄表" + ":" + rowData["表号"];
                     break;
                 case "开阀补抄"://单表抄表:表号
                 case "关阀补抄"://单表抄表:表号
-                    cmd = "单表抄表" +":"+rowData["表号"];
+                    cmd = "单表抄表" + ":" + rowData["表号"];
                     break;
                 case "开阀"://开阀:表号
-                    cmd = "开阀" +":"+rowData["表号"];
+                    cmd = "开阀" + ":" + rowData["表号"];
                     break;
                 case "关阀"://关阀:表号
-                    cmd = "关阀" +":"+rowData["表号"];
+                    cmd = "关阀" + ":" + rowData["表号"];
                     break;
                 default:
-                    cmd = this.cmdName +":0";
+                    cmd = this.cmdName + ":0";
                     break;
             }
 
             $.ajax({
                 url: get_cmdid_url
-                ,type: "POST"
-                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
-                ,data: {
+                , type: "POST"
+                , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                , data: {
                     centorid: rowData["centorid"]
-                    ,cmd: cmd
+                    , cmd: cmd
                 }
-                ,async:false //同步请求
-                ,success: function(data){
-                    if(!isNaN(data)){
-                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src=''/>"});
+                , async: false //同步请求
+                , success: function (data) {
+                    if (!isNaN(data)) {
+                        $("#" + _this.gridId).setRowData(selRowId, {"操作结果": "<img src=''/>"});
                         // $("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src='<%=Application("loadingImg")%>'/>"});
                         _this.cmdid = data;
                         _this.centorid = rowData["centorid"];
-                        _this.get_result_timer.set({time: 3*1000, autostart: true});
-                    }else{
-                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果": data});
-                        $("button[data-id='"+selRowId+"']").removeClass("layui-btn-disabled");
-                        _this.index ++;
+                        _this.get_result_timer.set({time: 3 * 1000, autostart: true});
+                    } else {
+                        $("#" + _this.gridId).setRowData(selRowId, {"操作结果": data});
+                        $("button[data-id='" + selRowId + "']").removeClass("layui-btn-disabled");
+                        _this.index++;
                         _this.loadCmd();
                     }
                 }
             });
         }
-        meterManage.prototype.refreshRowData = function(){
+        meterManage.prototype.refreshRowData = function () {
             var idArray = new Array(), _this = this;
             var selRowId = _this.rowIds[_this.index];
             idArray = selRowId.split("_");
             $.ajax({
                 url: get_row_data_url
-                ,data: {
+                , data: {
                     dataList: "readSingleMeter"
-                    ,meterId: idArray[1]
+                    , meterId: idArray[1]
                 }
-                ,async:false //同步请求
-                ,success: function(data){
-                    if(data){
-                        var jsonobj=eval('('+data+')');
-                        $("#"+_this.gridId).setRowData(selRowId,{"最近抄表时间": jsonobj["最近抄表时间"],"最近读数":jsonobj["最近读数"], "表状态":jsonobj["表状态"], "本期用量":jsonobj["本期用量"]});
+                , async: false //同步请求
+                , success: function (data) {
+                    if (data) {
+                        var jsonobj = eval('(' + data + ')');
+                        $("#" + _this.gridId).setRowData(selRowId, {
+                            "最近抄表时间": jsonobj["最近抄表时间"],
+                            "最近读数": jsonobj["最近读数"],
+                            "表状态": jsonobj["表状态"],
+                            "本期用量": jsonobj["本期用量"]
+                        });
                     }
                 }
             });
         }
 
         //单表抄收
-        $(document).on('click','.readMeter',function(){
+        $(document).on('click', '.readMeter', function () {
             var btnObj = $(this), selRowId = "";
-            if(btnObj.hasClass("layui-btn-disabled"))
+            if (btnObj.hasClass("layui-btn-disabled"))
                 return false;
             selRowId = btnObj.data("id");
             var meterObj = new meterManage("单抄", "jqGrid", selRowId.split(","), 0);
             meterObj.loadCmd();
         });
         //单表开阀
-        $(document).on('click','.openMeter',function(){
+        $(document).on('click', '.openMeter', function () {
             var btnObj = $(this), selRowId = "";
-            if(btnObj.hasClass("layui-btn-disabled"))
+            if (btnObj.hasClass("layui-btn-disabled"))
                 return false;
             selRowId = btnObj.data("id");
-            layer.confirm('确实要执行【开阀】吗？', {icon:3, title:'提示'},
-                function(index, layero){
+            layer.confirm('确实要执行【开阀】吗？', {icon: 3, title: '提示'},
+                function (index, layero) {
                     layer.close(index);
                     var meterObj = new meterManage("开阀", "jqGrid", selRowId.split(","), 0);
                     meterObj.loadCmd();
                 });
         });
         //单表关阀
-        $(document).on('click','.closeMeter',function(){
+        $(document).on('click', '.closeMeter', function () {
             var btnObj = $(this), selRowId = "";
-            if(btnObj.hasClass("layui-btn-disabled"))
+            if (btnObj.hasClass("layui-btn-disabled"))
                 return false;
             selRowId = btnObj.data("id");
-            layer.confirm('确实要执行【关阀】吗？', {icon:3, title:'提示'},
-                function(index, layero){
+            layer.confirm('确实要执行【关阀】吗？', {icon: 3, title: '提示'},
+                function (index, layero) {
                     layer.close(index);
                     var meterObj = new meterManage("关阀", "jqGrid", selRowId.split(","), 0);
                     meterObj.loadCmd();
                 });
         });
         //批量操作
-        $(".multiOperation").click(function(){
+        $(".multiOperation").click(function () {
             var btnTitle = $(this).data("title");
             var selRowIds = getSelectedRows("jqGrid");
 
-            if($(this).hasClass("layui-btn-disabled") || btnTitle == "查询")
+            if ($(this).hasClass("layui-btn-disabled") || btnTitle == "查询")
                 return false;
-            if((selRowIds == "" || selRowIds == undefined) && btnTitle != "查询"){
+            if ((selRowIds == "" || selRowIds == undefined) && btnTitle != "查询") {
                 layer.msg("请选择表！", {icon: 5});
                 return;
             }
             $(".multiOperation").addClass("layui-btn-disabled");
-            switch(btnTitle){
+            switch (btnTitle) {
                 case "批量单抄":
                     var meterObj = new meterManage("单抄", "jqGrid", selRowIds.split(","), 0);
                     meterObj.loadCmd();
                     break;
                 case "批量开阀":
-                    layer.confirm('确实要执行【批量开阀】吗？', {icon:3, title:'提示'},
-                        function(index, layero){
+                    layer.confirm('确实要执行【批量开阀】吗？', {icon: 3, title: '提示'},
+                        function (index, layero) {
                             layer.close(index);
                             var meterObj = new meterManage("开阀", "jqGrid", selRowIds.split(","), 0);
                             meterObj.loadCmd();
                         });
                     break;
                 case "批量关阀":
-                    layer.confirm('确实要执行【批量关阀】吗？', {icon:3, title:'提示'},
-                        function(index, layero){
+                    layer.confirm('确实要执行【批量关阀】吗？', {icon: 3, title: '提示'},
+                        function (index, layero) {
                             layer.close(index);
                             var meterObj = new meterManage("关阀", "jqGrid", selRowIds.split(","), 0);
                             meterObj.loadCmd();
@@ -959,16 +999,16 @@
 
         });
         var msg = "<p><b>友情提示：</b><br/>该页面是以<font color='green'>大区、小区、楼栋</font>节点树作为操做主体，鼠标放入<font color='red'>---请选择区域---</font>自动显示下拉节点树。</p>";
-        msg +=  "<p><b>功能说明：</b><br/>可进行<font color='green'>区域抄收、区域刷新数据、表具批量控阀、表数据查询</font>等功能。</p>(本窗口10秒后自动关闭)<br/>";
-        if($("#appPage").val()=="management"){
+        msg += "<p><b>功能说明：</b><br/>可进行<font color='green'>区域抄收、区域刷新数据、表具批量控阀、表数据查询</font>等功能。</p>(本窗口10秒后自动关闭)<br/>";
+        if ($("#appPage").val() == "management") {
             msg = "<p><b>友情提示：</b><br/>该页面是以<font color='green'>大区、小区、楼栋</font>节点树作为操做主体，鼠标放入<font color='red'>---请选择区域---</font>自动显示下拉节点树。</p>";
-            msg +=  "<p><b>功能说明：</b><br/>可进行<font color='green'>区域档案的增删改、房间表档案增删改、换表</font>等功能。</p>(本窗口10秒后自动关闭)<br/>";
+            msg += "<p><b>功能说明：</b><br/>可进行<font color='green'>区域档案的增删改、房间表档案增删改、换表</font>等功能。</p>(本窗口10秒后自动关闭)<br/>";
         }
         layer.open({
             type: 0,//信息层
             title: ['说明', 'font-size:14px;'],
             shade: 0,
-            time: 10*1000,
+            time: 10 * 1000,
             offset: 'rb',
             btn: ['知道啦'],
             content: msg

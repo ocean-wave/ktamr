@@ -43,6 +43,7 @@ public class HaMeter extends BaseEntity {
     private Date fMon;
     private double fDayN;
     private double fMonN;
+    private Integer vendorId;
     private String isUsed;
     private double vendorMeterId;
     private Integer meterChannel;
@@ -406,5 +407,13 @@ public class HaMeter extends BaseEntity {
 
     public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
         this.havMeterinfo = havMeterinfo;
+    }
+
+    public Integer getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(Integer vendorId) {
+        this.vendorId = vendorId;
     }
 }

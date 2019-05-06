@@ -1,5 +1,7 @@
 package com.ktamr.management.area;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.domain.HaRgn;
@@ -51,7 +53,7 @@ public class CHaRgnController {
         return "/area/rgn_del";
     }
 
-    @RequestMapping("/areasOpManageJson")
+    @RequestMapping("/areasOpManageJsonC")
     @ResponseBody
     public Object areasOpManageJson(HaRgn haRgn, HttpServletRequest request){
         Integer page,pageRows;
@@ -95,7 +97,7 @@ public class CHaRgnController {
         return map;
     }
 
-    @RequestMapping("/ShowBigName")
+    @RequestMapping("/ShowBigNameC")
     @ResponseBody
     public Object showBigName() {
         List<Menus> menus = new ArrayList<Menus>();
@@ -114,7 +116,7 @@ public class CHaRgnController {
         allArea.setLevelType("allArea");
         allArea.setName("全部小区");
         allArea.setIconSkin("icon00");
-        allArea.setOpen(true);
+        allRgn.setOpen(true);
 
         Menus allRoom = new Menus();
         allRoom.setId("-3");
@@ -122,7 +124,7 @@ public class CHaRgnController {
         allRoom.setLevelType("allMeter");
         allRoom.setName("全部房间表");
         allRoom.setIconSkin("icon00");
-        allRoom.setOpen(true);
+        allRgn.setOpen(true);
 
         //添加所有大区菜单
         menus.add(allRgn);
@@ -182,6 +184,8 @@ public class CHaRgnController {
                 menus.add(rgn);//添加菜单
             }
         }
+//        String s = JSON.toJSONString(menus);
+//        System.out.println(s);
         return menus;
     }
 

@@ -87,8 +87,8 @@
         (SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount,
         (SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount
         FROM ha_rgn n where 1=1
-        <if test="haRgn.KeyWord != null and haRgn.KeyWord != ''">
-            and (n.shortName like '%${haRgn.KeyWord}%' or n.name like '%${haRgn.KeyWord}%' or n.zCode like '%${haRgn.KeyWord}%')
+        <if test="haRgn.keyWord != null and haRgn.keyWord != ''">
+            and (n.shortName like '%${haRgn.keyWord}%' or n.name like '%${haRgn.keyWord}%' or n.zCode like '%${haRgn.keyWord}%')
         </if>
         limit #{page} OFFSET #{rowNum}
     </select>
