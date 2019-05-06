@@ -58,7 +58,7 @@
         LEFT JOIN ha_area a ON b.areaid=a.areaid
         where u.custid is not null
         <if test="haCustom.keyWord!=null and haCustom.keyWord !=''">
-            and u.name like '%${haCustom.keyWord}%'
+            and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
         </if>
         ORDER BY u.custno,a.name,b.name,r.name
         limit #{page} OFFSET #{rowNum}
