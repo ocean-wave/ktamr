@@ -110,8 +110,8 @@ public class HaCmdServiceImpl implements HaCmdService {
      * @return
      */
     @Override
-    public HaCmd returnID(HaCmd haCmd) {
-        HaCmd returnID = haCmdMapper.BreturnID(haCmd);
+    public List<HaCmd> BreturnID(HaCmd haCmd) {
+        List<HaCmd> returnID = haCmdMapper.BreturnID(haCmd);
         if(returnID!=null){
             return returnID;
         }
@@ -124,7 +124,7 @@ public class HaCmdServiceImpl implements HaCmdService {
      * @return
      */
     @Override
-    public Integer insertHaCmd(HaCmd haCmd) {
+    public Integer BinsertHaCmd(HaCmd haCmd) {
         Integer insertHaCmd = haCmdMapper.BinsertHaCmd(haCmd);
         if(insertHaCmd!=null){
             return haCmd.getId();

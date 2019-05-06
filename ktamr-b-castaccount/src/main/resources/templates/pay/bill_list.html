@@ -108,27 +108,32 @@
                 g_endTime = _endTime;
             }
             $("#jqGrid").jqGrid('setGridParam',{
-                mtype: 'GET',
-                postData:{havMeterinfo:{areaid :_areaid}, state: _state, haPricestandard:{startTime:_startTime, endTime:_endTime}}
+                mtype: 'POST',
+                postData:{
+                    startTime:_startTime,endTime:_endTime
+                    }
             }).trigger("reloadGrid");
         }
 
         function loadMonthBTimeOption(_areaid , ID){
-            var _url = "load_monthBTime.asp";
+            var _url = "/load_monthBTime";
             $.ajax({
                 url: _url
                 ,data: {
-                    areaid: _areaid
+                    areaId: _areaid
                 }
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
                     //appendSelectOption(ID, data, "");
+
                     var str = "";
-                    var array = data.split(";");
-                    for(var i = 0;i<array.length-1;i++){
-                        str+="<option value='"+array[i]+"'>"+array[i]+"</option>";
+                    //var array = data.split(';');
+
+                    for(var i = 0;i<data.length;i++){
+
+                        str+="<option value='"+data[i].replace(/[;]/g,"")+"'>"+data[i].replace(/[;]/g,"")+"</option>";
                     }
                     $("#"+ID).html(str);
                     $(".selectpicker" ).selectpicker('refresh');
@@ -223,7 +228,7 @@
                 date_range = $("#date_range").val().split("~");
                 _pdArray["startTime"] = date_range[0]+" 00:00:00";
                 _pdArray["endTime"] = date_range[1]+" 23:59:59";
-               // console.log(_pdArray);
+                console.log(_pdArray);
             }
             console.log(_pdArray);
             fullTextSearch("jqGrid", _pdArray);

@@ -153,7 +153,7 @@
                 url: get_cmdid_url
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
-                ,data: {cmd: cmd, centorid:""}
+                ,data: {cmd: cmd, centorId:""}
                 ,success: function(data){
                     if (!isNaN(data)){
                         $("#cmd_state").html("待执行");

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 public class HaCmdController {
@@ -19,15 +20,15 @@ public class HaCmdController {
     @RequestMapping(value ="/datamng/ha_cmd/cmd_ajax_get")
     @ResponseBody
     public String cmdajaxget(HaCmd haCmd){
-        HaCmd returnID = haCmdService.returnID(haCmd);
-        if(returnID!=null){
-           if(returnID.getProcessing()==null){
-            return returnID.getState()+": ...";
+        List<HaCmd> returnID = haCmdService.BreturnID(haCmd);
+        if(returnID.size()>0){
+           if(returnID.get(0).getProcessing()==null){
+            return returnID.get(0).getState()+": ...";
             }else {
-            return returnID.getState()+returnID.getProcessing();
+            return returnID.get(0).getState()+returnID.get(0).getProcessing();
             }
         }
-        return "失败:找不到命令(" +returnID.getId()+ ")";
+        return "失败:找不到命令(" +returnID.get(0).getId()+ ")";
     }
 
     /**
@@ -47,11 +48,11 @@ public class HaCmdController {
         int i = s.indexOf(':')+1;
         String s1 = s.substring(i);
         haCmd.setParms(s1);
-        HaCmd returnID = haCmdService.returnID(haCmd);
-        if(returnID!=null){
+        List<HaCmd> returnID = haCmdService.BreturnID(haCmd);
+        if(returnID.size()>0){
             return  "已经存在未完成的相同命令!";
         }else{
-            Integer integer = haCmdService.insertHaCmd(haCmd);
+            Integer integer = haCmdService.BinsertHaCmd(haCmd);
             if(integer!=null){
                 String s2 = JSON.toJSONString(integer-1);
                 return s2;
@@ -70,11 +71,11 @@ public class HaCmdController {
     @ResponseBody
     public String uploaddo(HaCmd haCmd){
         haCmd.setCentorId(0);
-        HaCmd returnID = haCmdService.returnID(haCmd);
-        if(returnID!=null){
+        List<HaCmd> returnID = haCmdService.BreturnID(haCmd);
+        if(returnID.size()>0){
             return  "已经存在未完成的相同命令!";
         }else{
-            Integer integer = haCmdService.insertHaCmd(haCmd);
+            Integer integer = haCmdService.BinsertHaCmd(haCmd);
             if(integer!=null){
             return "true";
             }
