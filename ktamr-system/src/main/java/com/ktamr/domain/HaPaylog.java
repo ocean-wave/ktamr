@@ -4,6 +4,7 @@ package com.ktamr.domain;
 import com.ktamr.common.core.domain.BaseEntity;
 
 import java.util.Date;
+import java.util.List;
 
 public class HaPaylog extends BaseEntity {
 
@@ -28,7 +29,16 @@ public class HaPaylog extends BaseEntity {
   //第二波
   private  HaMeter haMeter;
   private  HaMetertype haMetertype;
+  //方便用areaid中in的范围查询
+  private  List<Integer> idsList;
 
+  public List<Integer> getIdsList() {
+    return idsList;
+  }
+
+  public void setIdsList(List<Integer> idsList) {
+    this.idsList = idsList;
+  }
 
   public String getBillId() {
     return billId;
