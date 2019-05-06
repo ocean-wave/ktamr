@@ -61,7 +61,7 @@
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and LEFT(ce.centorNo,1) in (#{params.rgnStr})
+                and position( LEFT(ce.centorNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
                 and left(ce.centorNo,5) in (#{params.areaNo})
@@ -93,10 +93,10 @@
         AND Left(c.centorNO, 5)=a.areaNO
        <include refid="getRightCondition"></include>
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
         <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
+            AND position( Left(a.areaNo, 1) in #{params.nodeIds})>0
         </if>
         <if test=" params.keyWord != null and params.keyWord != '' ">
             and (c.centorNo like '%${params.keyWord}%' or substring(c.centorNo, 2, 4) like '%${params.keyWord}%' or trim(to_char(to_number(Right(c.centorNo, 5),'9999999999'),'9999999999')) like '%${params.keyWord}%'

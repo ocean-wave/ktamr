@@ -30,8 +30,8 @@ public class NodesServiceImpl implements NodesService {
     }
 
     @Override
-    public List<Map<String, Object>> selectAllCentorzNodes(String wheresql) {
-        return nodesMapper.selectAllCentorzNodes(wheresql);
+    public List<Map<String, Object>> selectAllCentorzNodes(String areaType,String id) {
+        return nodesMapper.selectAllCentorzNodes(areaType,id);
     }
 
     @Override

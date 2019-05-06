@@ -29,7 +29,7 @@
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and LEFT(ce.centorNo,1) in (#{params.rgnStr})
+                and position( LEFT(ce.centorNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
                 and ce.centorNo in (#{params.areaNo})

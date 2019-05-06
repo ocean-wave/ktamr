@@ -20,7 +20,7 @@ public interface NodesMapper {
 
     public List<Map<String,Object>> selectAllBuildingNodes(Integer id);
 
-    public List<Map<String,Object>> selectAllCentorzNodes(@Param(value = "wheresql") String wheresql);
+    public List<Map<String,Object>> selectAllCentorzNodes(@Param( value = "areaType") String areaType,@Param( value = "id") String id);
 
     public List<Map<String,Object>> selectAllCentorcNodes(@Param(value = "wheresql") String wheresql);
 

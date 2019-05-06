@@ -252,8 +252,8 @@
 
         function reloadDeviceNodes(){
             var treePostData = {
-                "params[areaType]": $("#nodeType1").val(),
-                "params[id]": $("#nodeIds1").val()
+                "areaType": $("#nodeType1").val(),
+                "id": $("#nodeIds1").val()
             };
             tree2.postData = treePostData;
             tree2.reloadZtreeNodes();
