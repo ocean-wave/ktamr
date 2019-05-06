@@ -45,7 +45,7 @@
 	<!--3、生成新缴费单（对相应的用户）点击费用结算所做的步骤3-->
 	<insert id="BinsertHaFreeze3">
 		INSERT INTO ha_paylog (billid,plantime,state,cust_id,cust_name,sum,lastArrear)
-	 SELECT f.billid, to_char(now(), 'yyyy-mm-dd hh24:mi:ss'),'出单',cu.custid,cu.name,f.pay,
+	 SELECT f.billid, now(),'出单',cu.custid,cu.name,f.pay,
 	 case when cu.balance!=null  then cu.balance  else  0 end
 
 	FROM ha_freeze f,ha_custom cu,ha_room r,ha_meter m
@@ -81,7 +81,7 @@ WHERE m.roomid=r.roomid AND r.custid=cu.custid AND m.areaid = #{areaId}
 	<!--在ha_monthBTime表中加入结算查询时间区间的起始时间 点击费用结算所做的步骤5.1	-->
 	<insert id="BinsertHaFreeze51">
 			INSERT INTO ha_monthBTime(start_time, areaid)
-SELECT  to_char(now(), 'yyyy-mm-dd hh24:mi:ss'), #{areaId}
+SELECT  now(), #{areaId}
 FROM ha_monthBTime
 WHERE (SELECT Count(*) FROM ha_monthBTime WHERE areaid=#{areaId})=0 limit 1
 	</insert>

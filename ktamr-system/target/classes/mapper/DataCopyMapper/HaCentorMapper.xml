@@ -38,7 +38,7 @@
             </if>
         </if>
     </sql>
-    <!--集中器-->
+    <!--A区集中器-->
    <select id="selectAllCentorzAndCount" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
         SELECT  c.id AS id
         , c.centorNo AS centorNo
@@ -130,7 +130,7 @@
     </select>
 
 
-    <!--集采器-->
+    <!--A区集采器-->
     <select id="selectAllCentorcAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
         SELECT  c.id AS centorid
         , c.centorNo AS centorNo
@@ -168,7 +168,7 @@
         ORDER BY c.centorNo
     </select>
 
-    <!--手抄器-->
+    <!--A区手抄器-->
     <select id="selectAllCentorHandAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
         SELECT c.id AS cid
         , c.centorNo AS centorNo
@@ -197,7 +197,7 @@
         ORDER BY c.centorNo
     </select>
 
-    <!--设备抄控管理-->
+    <!--A区设备抄控管理-->
     <select id="selectCentor" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
         SELECT ce.id AS id
         ,ce.centorNo AS centorNo
@@ -228,6 +228,8 @@
     </select>
 
 
+
+    <!--C区-->
     <select id="HaCentorList" resultMap="haCentorMap">
         SELECT ce.id as id,ce.centorNo AS centorNo,ce.addr AS addr,
         ce.state AS state,
