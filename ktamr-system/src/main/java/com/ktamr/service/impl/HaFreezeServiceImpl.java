@@ -6,6 +6,7 @@ import com.ktamr.service.HaFreezeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class HaFreezeServiceImpl implements HaFreezeService {
@@ -135,6 +136,20 @@ public class HaFreezeServiceImpl implements HaFreezeService {
         Integer binsertHaFreeze52 = haFreezeMapper.BinsertHaFreeze52(haFreeze);
         if(binsertHaFreeze52!=null){
             return binsertHaFreeze52;
+        }
+        return null;
+    }
+
+    /**
+     * 点击打印缴费单时进行查询2
+     * @param haFreeze
+     * @return
+     */
+    @Override
+    public List<HaFreeze> BselectPritJiaoFeiDan2(HaFreeze haFreeze) {
+        List<HaFreeze> bselectPritJiaoFeiDan2 = haFreezeMapper.BselectPritJiaoFeiDan2(haFreeze);
+        if(bselectPritJiaoFeiDan2!=null){
+            return  bselectPritJiaoFeiDan2;
         }
         return null;
     }

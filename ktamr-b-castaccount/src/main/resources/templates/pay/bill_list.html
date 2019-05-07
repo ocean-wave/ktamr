@@ -188,7 +188,7 @@
             switch(btnTitle){
                 case "打印缴费单":
                     //window.open("bill_print.asp?billid=","","width=680,resizable=yes,menubar=yes,scrollbars=yes");
-                    url = "bill_print.asp?billIds="+billIds+"&areaId="+$("#areas").val()+"&startTime="+g_startTime+"&endTime="+g_endTime;
+                    url = "/bill_print?billId="+billIds+"&areaId="+$("#areas").val()+"&startTime="+g_startTime+"&endTime="+g_endTime;
                     layer.open({
                         type: 2 //iframe
                         ,title: '缴费单'

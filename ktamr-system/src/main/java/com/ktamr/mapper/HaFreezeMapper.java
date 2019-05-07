@@ -2,6 +2,8 @@ package com.ktamr.mapper;
 
 import com.ktamr.domain.HaFreeze;
 
+import java.util.List;
+
 public interface HaFreezeMapper {
     /**
      *点击费用结算所做的步骤1
@@ -66,4 +68,11 @@ public interface HaFreezeMapper {
      * @return
      */
     public Integer BinsertHaFreeze52(HaFreeze haFreeze);
+
+    /**
+     * 点击打印缴费单时进行查询2
+     * @param haFreeze
+     * @return
+     */
+    public List<HaFreeze> BselectPritJiaoFeiDan2(HaFreeze haFreeze);
 }

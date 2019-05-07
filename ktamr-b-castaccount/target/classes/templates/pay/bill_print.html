@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head title="打印缴费单" th:include="include :: header">
+</head>
+<body>
+<body style="text-align:center;margin-top:20px;">
+
+
+<table th:each="HaPaylog  : ${haPaylogList}" border="0" width="640" align="center">
+    <tr>
+        <td colspan=2 height=24><b th:text="'缴费单[' + ${HaPaylog.billId} + ']' "></b></td>
+    </tr>
+    <tr>
+        <td style="width:60%;height:16px;text-align:left;padding-left:10px;" th:text="'用户名称：' + ${HaPaylog.custName}"></td>
+        <td style="width:40%;height:16px;text-align:left;padding-left:10px;" th:text="'用户地址：' + ${HaPaylog.havMeterinfo.userDs}"></td>
+    </tr>
+</table>
+<table th:each="HaFreezeHHH  : ${bselectPritJiaoFeiDan2}" width="640" align="center" border="1" cellpadding="2" cellspacing="0" style="border-collapse:collapse;" borderColor="black">
+    <tr>
+        <td colspan="8">
+            <table width="100%" border="0">
+                <tr>
+                    <td style="width:380px;text-align:left;padding-left:10px;">银行帐号：无</td>
+<!--                    <td th:text="'本次抄表时间：' + ${HaPaylog.haFreeze.thTime}"  ></td>-->
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td nowrap align=center>表类型</td>
+        <td nowrap align=center>倍率（%）</td>
+        <td nowrap align=center>上次抄读</td>
+        <td nowrap align=center>本次抄读</td>
+        <td nowrap align=center>用量</td>
+        <td nowrap align=center>收费标准</td>
+        <td nowrap align=center>费用(元)</td>
+    </tr>
+
+    <tr>
+        <td nowrap align=center th:text="${HaFreezeHHH.haMetertype.name}"></td>
+        <td nowrap align=center th:text="${HaFreezeHHH.haMeter.rate}"></td>
+        <td nowrap align=center th:text="${HaFreezeHHH.lfNumber}"></td>
+        <td nowrap align=center th:text="${HaFreezeHHH.tfNumber}"></td>
+        <td nowrap align=center th:text="${HaFreezeHHH.delta}"></td>
+        <td nowrap align=center th:text="${HaFreezeHHH.haPricestandard.name}"></td>
+        <td nowrap align=center th:text="${HaFreezeHHH.pay}"></td>
+    </tr>
+
+    <tr style="display:none;">
+        <td colspan="2">金额小计</td>
+        <td colspan="6" th:text="${HaPaylog.sum}"></td>
+    </tr>
+    <tr>
+        <td colspan="2">上期余额</td>
+        <td colspan="6" style="text-align:left;padding-left:10px;" th:text="'人民币：' + ${HaPaylog.lastarrear}+'元'"></td>
+    </tr>
+    <tr>
+        <td colspan="2">合计金额</td>
+        <td colspan="6" style="text-align:left;padding-left:10px;" th:text="'人民币：' + ${HaPaylog.sum}+'元'">人民币：-58元</td>
+    </tr>
+</table><p><p>
+
+<table style="border:0px; width:640px;" align="center">
+    <tr>
+        <td style="height: 24px;text-align:left;">打印日期：2019年5月7日</td>
+    </tr>
+    <tr>
+        <td style="height: 24px;text-align:left;"><button onClick="print()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-print"></span> 打印</button></td>
+    </tr>
+</table>
+
+<div th:include="include :: footer"></div>
+</body>
+</html>

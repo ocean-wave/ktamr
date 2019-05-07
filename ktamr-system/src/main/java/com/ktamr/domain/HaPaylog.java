@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -11,12 +13,18 @@ public class HaPaylog extends BaseEntity {
   private String billId;
   private Integer custId;
   private String custName;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date planTime;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date payTime;
   private double sum;
   private String bank;
   private String account;
   private String state;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date mbtime;
   private double lastarrear;
   private double receipt;
@@ -29,8 +37,46 @@ public class HaPaylog extends BaseEntity {
   //第二波
   private  HaMeter haMeter;
   private  HaMetertype haMetertype;
+  private  HaCustom haCustom;
   //方便用areaid中in的范围查询
   private  List<Integer> idsList;
+  //方便查询根据日期查询
+  private Date KaiShiTime;//别名开始时间
+  private Date JieShuTime;//别名结束时间0
+  private Integer areaId;//别名小区id
+
+
+  public Integer getAreaId() {
+    return areaId;
+  }
+
+  public void setAreaId(Integer areaId) {
+    this.areaId = areaId;
+  }
+
+  public Date getKaiShiTime() {
+    return KaiShiTime;
+  }
+
+  public void setKaiShiTime(Date kaiShiTime) {
+    KaiShiTime = kaiShiTime;
+  }
+
+  public Date getJieShuTime() {
+    return JieShuTime;
+  }
+
+  public void setJieShuTime(Date jieShuTime) {
+    JieShuTime = jieShuTime;
+  }
+
+  public HaCustom getHaCustom() {
+    return haCustom;
+  }
+
+  public void setHaCustom(HaCustom haCustom) {
+    this.haCustom = haCustom;
+  }
 
   public List<Integer> getIdsList() {
     return idsList;
