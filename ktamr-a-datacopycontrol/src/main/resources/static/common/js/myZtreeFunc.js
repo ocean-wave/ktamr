@@ -293,30 +293,30 @@ myzTree.prototype.getMultiSelectedNodes = function(){
 	ids = "", names = "", levelType = "", _nodes= Array();
 
 	if(nodes.length <= 1){
-		$("#"+this.nodeTypeId).val(nodes[0].levelType);
+		$("#"+this.nodeTypeId).val(nodes[0].LevelType);
 		$("#"+this.nodeIdsId).val(nodes[0].id);
 		$("#"+this.nodeNamesId).val(nodes[0].name.replace(/<[^>]*>|/g,""));
-		if(nodes[0].levelType == "centor" || nodes[0].levelType == "ccentor" || nodes[0].levelType == "readLine"){
+		if(nodes[0].LevelType == "centor" || nodes[0].LevelType == "ccentor" || nodes[0].LevelType == "readLine"){
 			$("#"+this.deviceDescriptionId).val(nodes[0].description);
 		}
 		return null;
 	}
 	for(var i=0;i<nodes.length;i++){
-		if(nodes[i].levelType == "allRgn"){
+		if(nodes[i].LevelType == "allRgn"){
 			levelType = "allRgn";
 			_nodes.push(nodes[i]);
 			break;
-		}else if(nodes[i].levelType == "allArea"){
+		}else if(nodes[i].LevelType == "allArea"){
 			levelType = "allArea";
 			_nodes.push(nodes[i]);
 			break;
-		}else if(nodes[i].levelType == "allMeter"){
+		}else if(nodes[i].LevelType == "allMeter"){
 			levelType = "allMeter";
 			_nodes.push(nodes[i]);
 			break;
 		}
 	}
-	if(levelType == "allRgn" || levelType == "allArea" || levelType == "allMeter"){
+	if(LevelType == "allRgn" || LevelType == "allArea" || LevelType == "allMeter"){
 		nodes = _nodes;
 	}else{
 		for(var i=0;i<nodes.length;i++){

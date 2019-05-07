@@ -1,11 +1,14 @@
 package com.ktamr.util;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.List;
 
 public class Menus {
 
     private String id;
     private String pId;
+    @JSONField(name="levelType")
     private String LevelType;
     private String name;
     private String iconSkin;
