@@ -55,7 +55,7 @@
             <label class="layui-form-label">所属小区</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="area" lay-filter="area" lay-verify="required" lay-search>
-                    <option value="">请选择</option>
+                    <option value="-1">请选择</option>
                     <option th:each="haAreas : ${haArea}"
                             th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
                 </select>
@@ -67,7 +67,7 @@
             <label class="layui-form-label">所属楼栋</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="building" lay-filter="building" lay-verify="required" lay-search>
-                    <option value=""></option>
+                    <option value="">请选择</option>
                     <!--<option th:each="haBuildings : ${haBuilding}"-->
                     <!--th:value="${haBuildings.buildingId}" th:text="${haBuildings.buildingNo}+':'+${haBuildings.name}"></option>-->
                 </select>
@@ -77,7 +77,7 @@
             <label class="layui-form-label">所属房间</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="room" lay-filter="room" lay-verify="required" lay-search>
-                    <option value=""></option>
+                    <option value="">请选择</option>
                     <!--<option th:each="haRooms : ${haRoom}"-->
                     <!--th:value="${haRooms.roomId}" th:text="${haRooms.name}"></option>-->
                 </select>
@@ -274,7 +274,7 @@
             $.ajax({
                 url: "/custom/QueryHaBuildingJson"
                 , data: {
-                    selectType: "building",
+                    // selectType: "building",
                     areaId: _areaId
                 }
                 , async: true //异步请求
@@ -297,14 +297,18 @@
         //         _buildingId = buildingObj.val();
         //
         //     $.ajax({
-        //         url: "../common/load_select_option.asp"
+        //         url: "/custom/QueryRoomJson"
         //         ,data: {
         //             selectType: "room",
-        //             selId: _buildingId
+        //             buildingId: _buildingId
         //         }
         //         ,async:true //异步请求
         //         ,success: function(data){
-        //             appendSelectOption("room", data, "");
+        //             $("#room").append(option);
+        //             for (var i = 0; i < data.length; i++) {
+        //                 $("#room").append("<option value='" + data[i].roomId + ':' + data[i].name + "</option>");//新增
+        //             }
+        //             // appendSelectOption("room", data, "");
         //             form.render('select');//刷新表单元素
         //         }
         //     });

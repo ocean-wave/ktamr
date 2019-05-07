@@ -67,6 +67,21 @@ public class AreaController {
         return "/area/area_update";
     }
 
+    @RequestMapping("/JumpRoomMeterAdd")
+    public String JumpRoomMeterAdd(){
+        return "/area/room_meter_add";
+    }
+
+    @RequestMapping("/JumpRoomMeterDel")
+    public String JumpRoomMeterDel(){
+        return "/area/room_meter_del";
+    }
+
+    @RequestMapping("/JumpRoomMeterUpdate")
+    public String JumpRoomMeterUpdate(){
+        return "/area/room_meter_update";
+    }
+
     @RequestMapping("/QueryAllSmallAreaJson")
     @ResponseBody
     public Object queryAllSmallAreaJson(HaArea haArea, HttpServletRequest request) {
