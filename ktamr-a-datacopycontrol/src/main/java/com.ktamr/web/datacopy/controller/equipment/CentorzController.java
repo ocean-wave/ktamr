@@ -92,14 +92,16 @@ public class CentorzController extends BaseController {
         return m;
     }
 
-    @GetMapping("/deviceMngz")
-    public String deviceMngz(@RequestParam( value = "deviceType",required = false) String deviceType
+    @GetMapping("/deviceMng")
+    public String deviceMng(@RequestParam( value = "deviceType",required = false) String deviceType
                             , @RequestParam( value = "devDescription",required = false) String devDescription
                             , @RequestParam( value = "cmdName",required = false) String cmdName
+                            , @RequestParam( value = "deviceName",required = false) String deviceName
                             , @RequestParam( value = "ids",required = false) String ids
                             , ModelMap mmap){
         mmap.put("deviceType",deviceType);
         mmap.put("devDescription",devDescription!=null?devDescription:"asdasdsadsad");
+        mmap.put("deviceName",deviceName!=null?deviceName:"");
         mmap.put("cmdName",cmdName);
         mmap.put("ids",ids);
         return pxePath+"/deviceMng";

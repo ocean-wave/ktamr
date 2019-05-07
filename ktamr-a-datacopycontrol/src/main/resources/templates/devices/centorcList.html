@@ -424,7 +424,7 @@
                     "cmdName="+cmdName,
                     "ids="+rowIds
                 ];
-                _myLayui.showLayer(cmdName,"/equipment/deviceMngc", _queryStr, _layerSize);
+                _myLayui.showLayer(cmdName,"/equipment/deviceMng", _queryStr, _layerSize);
             }else if(cmdName == "加全部表" || cmdName == "删全部表"){
                 var deviceId = $("#nodeIds2").val();
                 var deviceName = $("#deviceSel").val().split(":");
@@ -435,7 +435,7 @@
                     "ids="+deviceId,
                     "deviceName="+escape(deviceName[1])
                 ];
-                _myLayui.showLayer(cmdName,"/equipment/deviceMngc", _queryStr, _layerSize);
+                _myLayui.showLayer(cmdName,"/equipment/deviceMng", _queryStr, _layerSize);
             }else{
                 //console.log(deviceType);
                 //console.log(rowIds);
