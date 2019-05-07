@@ -26,46 +26,6 @@ public class HaCmd extends BaseEntity {
   private HaCentor haCentor;
   private HaOperator haOperator;
 
-  public Integer getTryTimes() {
-    return tryTimes;
-  }
-
-  public void setTryTimes(Integer tryTimes) {
-    this.tryTimes = tryTimes;
-  }
-
-  public Date getLastEndTime() {
-    return lastEndTime;
-  }
-
-  public void setLastEndTime(Date lastEndTime) {
-    this.lastEndTime = lastEndTime;
-  }
-
-  public Date getLastBeginTime() {
-    return lastBeginTime;
-  }
-
-  public void setLastBeginTime(Date lastBeginTime) {
-    this.lastBeginTime = lastBeginTime;
-  }
-
-  public Integer getInterCmdId() {
-    return interCmdId;
-  }
-
-  public void setInterCmdId(Integer interCmdId) {
-    this.interCmdId = interCmdId;
-  }
-
-  public HaOperator getHaOperator() {
-    return haOperator;
-  }
-
-  public void setHaOperator(HaOperator haOperator) {
-    this.haOperator = haOperator;
-  }
-
   public Integer getId() {
     return id;
   }
@@ -124,6 +84,30 @@ public class HaCmd extends BaseEntity {
     this.state = state;
   }
 
+  public Integer getTryTimes() {
+    return tryTimes;
+  }
+
+  public void setTryTimes(Integer tryTimes) {
+    this.tryTimes = tryTimes;
+  }
+
+  public Date getLastEndTime() {
+    return lastEndTime;
+  }
+
+  public void setLastEndTime(Date lastEndTime) {
+    this.lastEndTime = lastEndTime;
+  }
+
+  public Date getLastBeginTime() {
+    return lastBeginTime;
+  }
+
+  public void setLastBeginTime(Date lastBeginTime) {
+    this.lastBeginTime = lastBeginTime;
+  }
+
   public String getProcessing() {
     return processing;
   }
@@ -132,11 +116,27 @@ public class HaCmd extends BaseEntity {
     this.processing = processing;
   }
 
+  public Integer getInterCmdId() {
+    return interCmdId;
+  }
+
+  public void setInterCmdId(Integer interCmdId) {
+    this.interCmdId = interCmdId;
+  }
+
   public HaCentor getHaCentor() {
     return haCentor;
   }
 
   public void setHaCentor(HaCentor haCentor) {
     this.haCentor = haCentor;
+  }
+
+  public HaOperator getHaOperator() {
+    return haOperator;
+  }
+
+  public void setHaOperator(HaOperator haOperator) {
+    this.haOperator = haOperator;
   }
 }

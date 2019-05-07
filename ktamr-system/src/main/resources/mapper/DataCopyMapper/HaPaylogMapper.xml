@@ -64,10 +64,10 @@
 
         <if test="HaPaylog.haPricestandard.starttime != null  and HaPaylog.haPricestandard.endtime != null ">
             and mbtime between
-            date(#{HaPaylog.haPricestandard.startTime,jdbcType=TIMESTAMP})
+            #{HaPaylog.haPricestandard.startTime,jdbcType=TIMESTAMP}
             and
 
-            date(#{HaPaylog.haPricestandard.endTime,jdbcType=TIMESTAMP})
+            #{HaPaylog.haPricestandard.endTime,jdbcType=TIMESTAMP}
         </if>
     </if>
         limit #{page} OFFSET #{rowNum}

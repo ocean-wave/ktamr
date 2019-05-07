@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="集中器抄控" th:include="include :: header"></head>
+<style type="text/css">
+    .my-row {
+        margin-top:10px;
+        margin-bottom:10px;
+        display:none;
+    }
+    .my-form-class {
+        margin-left: 60px;
+        margin-top: 25px;
+        padding: 0px;
+    }
+    .my-page-btn {
+        margin: 20px 15px;
+        text-align: left;
+        padding-left: 195px;
+    }
+</style>
+<body class="myPage-body" style="padding:0px 10px;">
+<div class="container" style="width:100%;margin:0;">
+    <div class="row my-row parms parms-div1">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">日期</label>
+                    <div class="layui-input-inline">
+                        <input id="day" lay-verify="required|day" placeholder="请选择日期" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row parms parms-div2">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">月份</label>
+                    <div class="layui-input-inline">
+                        <input id="mon" lay-verify="required|mon" placeholder="请选择月份" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:if=" ${devDescription.substring(0,5) eq 'KT4EW' } " class="row my-row parms parms-div3">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">当前时间</label>
+                    <div class="layui-input-inline">
+                        <input id="nowTime" lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmmss)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="12" value="<%=nowTimeStr2%>">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:if=" ${devDescription.substring(0,5) ne 'KT4EW' } " class="row my-row parms parms-div3">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">当前时间</label>
+                    <div class="layui-input-inline">
+                        <input id="nowTime" lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmm)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="10" th:value="${#dates.format(nowTimeStr1, 'yyMMddHHmm')}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row parms parms-div4">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item mySelect">
+                    <label class="layui-form-label">参数类型</label>
+                    <div class="layui-input-inline">
+                        <select id="centorReadParms" lay-verify="required" lay-search>
+                            <option value="">请选择</option>
+                            <optgroup label="[通道1]">
+                                <option value="UID1">[通道1] UID</option>
+                                <option value="IP1">[通道1] IP</option>
+                                <option value="port1">[通道1] 端口</option>
+                                <option value="通道1IP端口">[通道1] IP和端口</option>
+                                <option value="PINGIDLE1">[通道1] 心跳周期</option>
+                            </optgroup>
+                            <optgroup label="[通道2]">
+                                <option value="UID2">[通道2] UID</option>
+                                <option value="IP2">[通道2] IP</option>
+                                <option value="port2">[通道2] 端口</option>
+                                <option value="通道2IP端口">[通道2] IP和端口</option>
+                                <option value="PINGIDLE2">[通道2] 心跳周期</option>
+                            </optgroup>
+                            <optgroup label="[公共参数]">
+                                <option value="PageRows">每帧表数据个数</option>
+                                <option value="T_SoftVersion">集中器版本</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row parms parms-div5">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item mySelect">
+                    <label class="layui-form-label">参数类型</label>
+                    <div class="layui-input-inline">
+                        <select id="centorSetParms" lay-verify="required" lay-search lay-filter="centorSetParms">
+                            <option value="">请选择</option>
+                            <optgroup label="[通道1]">
+                                <option value="UID1" th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] UID</option>
+                                <option value="IP1" th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] IP</option>
+                                <option value="port1" th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] 端口</option>
+                                <option value="通道1IP端口" th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] IP和端口</option>
+                                <option value="PINGIDLE1" th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] 心跳周期</option>
+                            </optgroup>
+                            <optgroup label="[通道2]">
+                                <option value="UID2" th:disabled=" ${ session.operatorLevelCode >0 }  ">[通道2] UID</option>
+                                <option value="IP2" th:disabled=" ${ session.operatorLevelCode >0 }  ">[通道2] IP</option>
+                                <option value="port2" th:disabled=" ${ session.operatorLevelCode >0 }  ">[通道2] 端口</option>
+                                <option value="通道2IP端口" th:disabled=" ${ session.operatorLevelCode >0 }  ">[通道2] IP和端口</option>
+                                <option value="PINGIDLE2" th:disabled=" ${ session.operatorLevelCode >0 }  ">[通道2] 心跳周期</option>
+                            </optgroup>
+                            <optgroup label="[公共参数]">
+                                <option value="PageRows">每帧表数据个数</option>
+                                <option value="T_SoftVersion" disabled>集中器版本</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item parms5-val1-div" style="display:none;">
+                    <label class="layui-form-label parms5-name1">参数1</label>
+                    <div class="layui-input-inline">
+                        <input lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input parms5-val1">
+                    </div>
+                </div>
+                <div class="layui-form-item parms5-val2-div" style="display:none;">
+                    <label class="layui-form-label parms5-name2">参数2</label>
+                    <div class="layui-input-inline">
+                        <input lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input parms5-val2">
+                    </div>
+                </div>
+                <div class="alert alert-warning alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                    </button>
+                    提示：设置完参数重启集中器生效。
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row parms parms-div6">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备地址</label>
+                    <div class="layui-input-inline">
+                        <input id="deviceAddr" lay-verify="required" placeholder="数字" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="8" value="">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row parms parms-div7">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">服务器IP</label>
+                    <div class="layui-input-inline">
+                        <input id="IP" lay-verify="" placeholder="例如：121.201.38.19" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item parms5-val2-div">
+                    <label class="layui-form-label">服务器端口</label>
+                    <div class="layui-input-inline">
+                        <input id="PORT" lay-verify="" placeholder="建议值大于1024" autocomplete="off" class="layui-input" maxlength="6">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row parms parms-div8">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">心跳周期</label>
+                    <div class="layui-input-inline">
+                        <input id="heartBeat" lay-verify="required" placeholder="数字，单位小时" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="3" value="24">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row parms parms-div9">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">数据间隔</label>
+                    <div class="layui-input-inline">
+                        <input id="freshPeriod" lay-verify="required" placeholder="数字，单位小时" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="3" value="6">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row my-row title-div">
+        <div class="col-md-12">
+            <label><span id="title"></span><span id="countShow"></span></label>
+        </div>
+    </div>
+    <div class="row my-row progress-div">
+        <div class="col-md-12">
+            <div class="layui-progress layui-progress-big" lay-filter="meterOp" lay-showPercent="yes">
+                <div class="layui-progress-bar layui-bg-green" lay-percent="0%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-row result-div">
+        <div class="col-md-12">
+            <div class="well" style="padding:10px 19px;">
+                <div>
+                    <label>执行状态：</label><span id="cmd_state"><img src="../images/loading-0.gif"></img></span>，<label>执行情况：</label><span id="cmd_description"></span>
+                    <a data-toggle="collapse" data-target="#more">详细</a>
+                    <div class="pull-right cmd_list" style="display:none;">
+                        <a>查看抄收结果</a>
+                    </div>
+                </div>
+                <div id="more" class="collapse" style="margin-top:10px;">
+                    <p>
+                        <span id="cmd_description_more"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-inline my-page-btn" style="display:none;">
+        <button lay-submit type="button" data-title="确定" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" data-title="关闭" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    $('#day').datepicker({
+        weekStart: 1,
+        autoclose: true,
+        daysOfWeekHighlighted: "0,6",
+        format: "yyyy-mm-dd",
+        language: "zh-CN",
+        todayHighlight: true
+    });
+    $('#mon').datepicker({
+        weekStart: 1,
+        minViewMode: 1,
+        autoclose: true,
+        daysOfWeekHighlighted: "0,6",
+        format: "yyyy-mm",
+        language: "zh-CN"
+    });
+</script>
+<script th:inline="javascript">
+    layui.use(['form','layer','element'], function(){
+        var element = layui.element,
+            form = layui.form,
+            layer = layui.layer;
+        var g_deviceType = [[${deviceType}]];
+        var g_cmdName = [[${cmdName}]];
+        var g_cmdFormat = "", g_cmd = "";
+        var g_cmdids = Array();
+        var g_deviceName = [[${deviceName}]];
+        var g_ids = [[${ids}]];
+
+        var get_cmdid_url = "/smallbox/haCmd/cmdAdd";
+        var get_result_url = "/smallbox/haCmd/getCmdAjax";
+        var cmdsManage = function(gridId, rowIds, index){
+            this.gridId = gridId;
+            this.rowIds = rowIds;
+            this.index = index;
+            this.get_result_timer = this.generate_timer();
+        }
+        cmdsManage.prototype.generate_timer = function(){
+            var _this = this;
+            return $.timer(function() {
+                $.get(get_result_url,
+                    {cmdid: _this.cmdid},
+                    function(data,status){
+                        if (status == "success"){
+                            var i, state, processing, s, i1, i2, i3, temp_str;
+                            s = data;
+                            i = s.indexOf(":");
+
+                            if (i > 1){
+                                state = s.substr(0,i);
+                                processing = s.substr(i+1);
+                                $("#cmd_state").html(state);
+                                $("#cmd_description").html(processing);
+                            }else{
+                                $("#cmd_description").html(s);
+                            };
+
+                            // alert(data + "\r\nstate: " + state);
+                            i1 = s.indexOf("[");
+                            if(i1 >= 0){
+                                temp_str = s.substr(i1 + 1);
+                                i = temp_str.indexOf("/");
+                                i2 = i1 + i + 1;
+                                var amount = s.substring(i1 + 1, i2) - 0;
+
+                                temp_str = s.substr(i2 + 1);
+                                i = temp_str.indexOf("]");
+                                i3 = i2 + i + 1;
+                                var all  = s.substring(i2 + 1, i3) - 0;
+                                if((typeof amount === 'number') && (typeof all === 'number'))
+                                    _this.setProgressbar(amount, all);
+                            }
+
+                            if ((state == "完成") || (state == "失败")){
+                                _this.get_result_timer.stop();
+                                if (state == "完成"){
+                                    $("#cmd_state").html("<span class='fontGreen'>"+state+"</span>");
+                                    $("#cmd_description_more").append("<span class='fontGreen'>"+_this.title+":"+processing+"</span></br>");
+                                }else{
+                                    $("#cmd_state").html("<span class='fontRed'>"+state+"</span>");
+                                    $("#cmd_description_more").append("<span class='fontRed'>"+_this.title+":"+processing+"</span></br>");
+                                }
+                                _this.index ++;
+                                _this.loadCmd(_this.deviceName, _this.cmd);
+                            }
+                        }
+                    }
+                );
+            });
+        }
+
+        cmdsManage.prototype.setProgressbar = function(amount, all){
+            var _this = this, t_array = new Array();
+            if(amount == "")
+                return ;
+            var iPerc = (amount > 0) ? parseInt(amount/all * 100) : 0;
+            if(amount > 0 && amount >= all){
+                iPerc = 100;
+            }
+            t_array = _this.cmd.split(":");
+            if(t_array[0] == "多表抄收" || t_array[0] == "抄日冻结" || t_array[0] == "抄月冻结"){
+                $("#countShow").text('，进度[抄表数:'+ amount +'/ 总表数:'+ all+"]");
+            }else if(t_array[0].indexOf("刷新")>=0){
+                $("#countShow").text('，进度[刷新设备数:'+ amount +'/ 总设备数:'+ all+"]");
+            }
+            element.progress('meterOp', iPerc+'%');
+        }
+
+        cmdsManage.prototype.loadCmd = function(deviceName, cmd){
+            var _this = this, t_array = new Array(), title="", _deviceName = deviceName;
+            var selRowId = _this.rowIds[_this.index];
+            t_array = cmd.split(":");
+            if(selRowId == "" || selRowId == undefined){
+                if(t_array[0] == "多表抄收" || t_array[0] == "抄日冻结" || t_array[0] == "抄月冻结"){
+                    $(".cmd_list").show();
+                }
+                return false;
+            }
+            var rowData = parent.$("#"+_this.gridId).jqGrid('getRowData', selRowId);
+            if(_deviceName == ""){
+                _deviceName = rowData["addr"];
+            }
+            if(t_array[0] == "设IP端口" || t_array[0] == "设心跳周期"){
+                cmd = cmd.replace("x", rowData["centorId"]);
+            }
+            if(t_array[0] == "多表抄收" || t_array[0] == "抄日冻结" || t_array[0] == "抄月冻结"){
+                title = "设备("+_deviceName+")";
+            }else{
+                title = "设备("+_deviceName+")["+cmd+"]";
+            }
+            $("#title").text(title);
+            $.ajax({
+                url: get_cmdid_url
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,data: {cmd: cmd, centorid: selRowId}
+                ,success: function(data){
+                    if (!isNaN(data)){
+                        $("#cmd_state").html("待执行");
+                        $("#cmd_description").html("命令号："+data);
+                        g_cmdids.push(data);
+                        _this.cmdid = data;
+                        _this.title = title;
+                        _this.deviceName = _deviceName;
+                        _this.cmd = cmd;
+                        _this.get_result_timer.set({ time: 1000, autostart: true});
+                        return data;
+                    }else{
+                        if(data.indexOf("class='fontGrey'")>=0){
+                            $("#cmd_state").html("<span class='fontGrey'>成功</span>");
+                            $("#cmd_description_more").append(title+":"+data+"</br>");
+                        }else{
+                            $("#cmd_state").html("<span class='fontRed'>失败</span>");
+                            $("#cmd_description_more").append(title+":"+data+"</br>");
+                        }
+                        $("#cmd_description").html(data);
+                        _this.index ++;
+                        _this.loadCmd(_deviceName, cmd);
+                    }
+                }
+            });
+        }
+
+        $(".cmd_list").click(function(){
+            var url;
+            url = "/smallbox/meter/metersReadResultList?cmdids="+g_cmdids.join(",")+"&cmdName="+g_cmdName+"&ids="+g_ids;
+            top.layer.open({
+                type: 2 //iframe
+                ,title: '抄收结果'
+                ,area: ['1000px', '600px']
+                ,shade: 0
+                ,maxmin: true
+                ,content: url
+            });
+        });
+
+        form.on('select(centorSetParms)', function(data){
+            $('.parms5-val1-div').hide();
+            $('.parms5-val2-div').hide();
+            switch(data.value){
+                case "UID1":
+                case "UID2":
+                    $(".parms5-name1").text("UID:");
+                    $(".parms5-val1").attr("placeholder", "10位数字(字母用1代替)");
+                    $('.parms5-val1-div').show();
+                    break;
+                case "IP1":
+                case "IP2":
+                    $(".parms5-name1").text("IP:");
+                    $(".parms5-val1").attr("placeholder", "IP地址或者动态域名");
+                    $('.parms5-val1-div').show();
+                    break;
+                case "port1":
+                case "port2":
+                    $(".parms5-name1").text("端口:");
+                    $(".parms5-val1").attr("placeholder", "建议值大于1024");
+                    $('.parms5-val1-div').show();
+                    break;
+                case "通道1IP端口":
+                case "通道2IP端口":
+                    $(".parms5-name1").text("IP:");
+                    $(".parms5-val1").attr("placeholder", "IP地址或者动态域名");
+                    $(".parms5-name2").text("端口:");
+                    $(".parms5-val2").attr("placeholder", "建议值大于1024");
+                    $('.parms5-val1-div').show();
+                    $('.parms5-val2-div').show();
+                    break;
+                case "PINGIDLE1":
+                case "PINGIDLE2":
+                    $(".parms5-name1").text("秒数:");
+                    $(".parms5-val1").attr("placeholder", "建议值30-120之间");
+                    $('.parms5-val1-div').show();
+                    break;
+                case "PageRows":
+                    $(".parms5-name1").text("表数:");
+                    $(".parms5-val1").attr("placeholder", "建议值50/100");
+                    $('.parms5-val1-div').show();
+                    break;
+                default:
+                    $(".parms5-name1").text("未知:");
+                    $(".parms5-val1").attr("placeholder", "未知");
+                    break;
+            }
+        });
+
+        function getCmdParms(deviceType, cmdName){
+            var cmdFormat = "", cmd = "";
+            if(deviceType == "centorz"){
+                switch(cmdName){
+                    case "多表抄收":
+                        cmdFormat = "";
+                        cmd = "多表数据抄收" +":"+ "0";
+                        break;
+                    case "抄日冻结":
+                        cmdFormat = "读日冻结数据:日期";
+                        cmd = "读日冻结数据" +":"+ $("#day").val();
+                        break;
+                    case "抄月冻结":
+                        cmdFormat = "读月冻结数据:月份";
+                        cmd = "读月冻结数据" +":"+ $("#mon").val();
+                        break;
+                    case "读采集器列表":
+                        cmdFormat = "";
+                        cmd = "读采集器列表" +":"+ "0";
+                        break;
+                    case "读采集中继表":
+                        cmdFormat = "";
+                        cmd = "读采集中继表" +":"+ "0";
+                        break;
+                    case "读集中器时钟":
+                        cmdFormat = "";
+                        cmd = "读集中器时钟" +":"+ "0";
+                        break;
+                    case "集中器校时":
+                        cmdFormat = "集中器校时:集中器时间";
+                        cmd = "集中器校时" +":"+ $("#nowTime").val();
+                        break;
+                    case "读取参数":
+                        cmdFormat = "读取参数:配置项";
+                        cmd = "读取参数" +":"+ $("#centorReadParms").val();
+                        break;
+                    case "设置参数":
+                        var parmsItemName = $("#centorSetParms").val();
+                        switch(parmsItemName){
+                            case "IP1":
+                            case "IP2":
+                                cmdFormat = "设置参数:配置项:服务器IP";
+                                break;
+                            case "port1":
+                            case "port2":
+                                cmdFormat = "设置参数:配置项:服务器端口";
+                                break;
+                            case "UID1":
+                            case "UID2":
+                            case "PINGIDLE1":
+                            case "PINGIDLE2":
+                            case "PageRows":
+                                cmdFormat = "设置参数:配置项:"+parmsItemName;
+                                break;
+                            case "通道1IP端口":
+                            case "通道2IP端口":
+                                cmdFormat = "设置参数:配置项:服务器IP:服务器端口";
+                                break;
+                            default:
+                                cmdFormat = "设置参数:配置项:"+parmsItemName;
+                                break;
+                        }
+                        if(parmsItemName=="通道1IP端口" || parmsItemName=="通道2IP端口"){
+                            cmd = "设置参数" + ":"+ parmsItemName +":"+ $(".parms5-val1").val() +":"+ $(".parms5-val2").val();
+                        }else{
+                            cmd = "设置参数" + ":"+ parmsItemName +":"+ $(".parms5-val1").val();
+                        }
+                        break;
+                    case "重启集中器":
+                        cmdFormat = "";
+                        cmd = "重启集中器" +":"+ "0";
+                        break;
+                    default:
+                        cmdFormat = "";
+                        cmd = cmdName +":"+ "0";
+                        break;
+                }
+            }else if(deviceType == "centorc"){
+                switch(cmdName){
+                    case "多表抄收":
+                        cmdFormat = "";
+                        cmd = "多表数据抄收" +":"+ "0";
+                        break;
+                    case "设置设备地址":
+                        cmdFormat = "设置设备地址:设备号";
+                        cmd = "设置设备地址" +":"+ $("#deviceAddr").val();
+                        break;
+                    case "设IP端口":
+                        cmdFormat = "设IP端口:x,服务器端口,服务器IP";
+                        cmd = "设IP端口" +":"+ "x" +","+ $("#PORT").val() +","+ $("#IP").val();
+                        break;
+                    case "设心跳周期":
+                        cmdFormat = "设心跳周期:x,心跳周期";
+                        cmd = "设心跳周期" +":"+"x"+","+ $("#heartBeat").val();
+                        break;
+                    case "设刷新数据间隔":
+                        cmdFormat = "设刷新数据间隔:刷新间隔";
+                        cmd = "设刷新数据间隔" +":"+ $("#freshPeriod").val();
+                        break;
+                    case "加全部表":
+                        cmdFormat = "";
+                        cmd = "加表" +":"+ "全部";
+                        break;
+                    case "删全部表":
+                        cmdFormat = "";
+                        cmd = "删表" +":"+ "全部";
+                        break;
+                    default:
+                        cmdFormat = "";
+                        cmd = cmdName +":"+ "0";
+                        break;
+                }
+            }
+            return [cmdFormat, cmd];
+        }
+
+        function checkCmdParms(cmdFormat, cmd)
+        {
+            var i, k;
+            var parm="";
+            var parmsNameArr = new Array(), parmsArr =new Array();
+            if(cmdFormat == ""){
+                return true;
+            }
+            cmdFormatArr = cmdFormat.split(":");
+            cmdParmsArr = cmd.split(":");
+            cmdFormatName = cmdFormatArr[0];
+            cmdName = cmdParmsArr[0];
+            parmsFormatStr = cmdFormat.substr(cmdFormatName.length+1);
+            parmsStr = cmd.substr(cmdName.length+1);
+            switch(cmdFormatName){
+                case "设置参数":
+                    parmsNameArr = parmsFormatStr.split(":");
+                    //console.log(parmsNameArr);
+                    if(parmsNameArr.length>0){
+                        parmsArr = parmsStr.split(":");
+                        //console.log(parmsArr);
+                        for(k=0;k<parmsNameArr.length;k++)
+                        {
+                            switch(parmsNameArr[k]){
+                                case "服务器IP":
+                                case "配置项":
+                                    if(parmsArr[k] == ""){
+                                        layer.msg("["+parmsNameArr[k]+"]不能为空！", {icon: 5});
+                                        return false;
+                                    }
+                                    if(parmsNameArr[k] == "服务器IP" && !isValidIP(parmsArr[k])){
+                                        layer.msg("["+parmsNameArr[k]+"]不合法！", {icon: 5});
+                                        return false;
+                                    }
+                                    break;
+                                case "服务器端口":
+                                case "UID1":
+                                case "UID2":
+                                case "PINGIDLE1":
+                                case "PINGIDLE2":
+                                case "PageRows":
+                                    if(parmsArr[k] == ""){
+                                        layer.msg("["+parmsNameArr[k]+"]不能为空！", {icon: 5});
+                                        return false;
+                                    }else if(parseInt(parmsArr[k]) == 0){
+                                        layer.msg("["+parmsNameArr[k]+"]不能为0！", {icon: 5});
+                                        return false;
+                                    }else{
+                                        //reg=/^[-+]?\d*$/;//整数
+                                        reg=/^[+]?\d*$/;//非负整数
+                                        if(!reg.test(parmsArr[k])){
+                                            layer.msg("["+parmsNameArr[k]+"]必须为整数!", {icon: 5});
+                                            return false;
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    if(parmsArr[k] == ""){
+                                        layer.msg("不能为空！", {icon: 5});
+                                        return false;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    parmsNameArr = parmsFormatStr.split(",");
+                    //console.log(parmsNameArr);
+                    if(parmsNameArr.length>0){
+                        parmsArr = parmsStr.split(",");
+                        //console.log(parmsArr);
+                        for(i=0;i<parmsNameArr.length;i++)
+                        {
+                            parm = parmsArr[i];
+                            switch(parmsNameArr[i])
+                            {
+                                //case "区域号":
+                                //case "集中器设备地址":
+                                case "服务器端口":
+                                case "心跳周期":
+                                case "刷新间隔":
+                                //case "24小时时段":
+                                //case "表类型":
+                                case "设备号":
+                                    if(parm == ""){
+                                        layer.msg("["+parmsNameArr[i]+"]不能为空！", {icon: 5});
+                                        return false;
+                                    }
+                                    if(parseInt(parm) == 0){
+                                        layer.msg("["+parmsNameArr[i]+"]不能为0！", {icon: 5});
+                                        return false;
+                                    }
+                                    break;
+                                case "日期":
+                                case "月份":
+                                case "配置项":
+                                    if(parm == ""){
+                                        layer.msg("["+parmsNameArr[i]+"]不能为空！", {icon: 5});
+                                        return false;
+                                    }
+                                    break;
+                                case "服务器IP":
+                                    if(parm == ""){
+                                        layer.msg("["+parmsNameArr[i]+"]不能为空！", {icon: 5});
+                                        return false;
+                                    }
+                                    if(parmsNameArr[i] == "服务器IP" && !isValidIP(parm)){
+                                        layer.msg("["+parmsNameArr[i]+"]不合法！", {icon: 5});
+                                        return false;
+                                    }
+                                    break;
+                                case "集中器时间":
+                                    if(parm == ""){
+                                        layer.msg("["+parmsNameArr[i]+"]不能为空！", {icon: 5});
+                                        return false;
+                                    }else if(parm.length != 10){
+                                        layer.msg("["+parmsNameArr[i]+"]长度不正确！", {icon: 5});
+                                        return false;
+                                    }else if(isNaN(parm)){
+                                        layer.msg("["+parmsNameArr[i]+"]只能为数字！", {icon: 5});
+                                        return false;
+                                    }
+                                    break;
+                                //case "厂商码":
+                                //case "设备类型":
+                                /*case "表数据":
+                                    if(parm == ""){
+                                        layer.msg(parmsNameArr[i]+" 不能为空！", {icon: 5});
+                                        return false;
+                                    }
+                                    break;*/
+                                case "x":
+                                    break;
+                                default:
+                                    layer.msg("无此参数："+parmsNameArr[i], {icon: 5});
+                                    return false;
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            return true;
+        }
+
+        var devicesObj = new cmdsManage("jqGrid", g_ids.split(","), 0);
+        var g_hasParms = false;
+        function pageInit(deviceType, cmdName){
+            var hasParms = false;
+            $(".parms").hide();
+            $(".title-div").hide();
+            $(".progress-div").hide();
+            $(".result-div").hide();
+            $(".my-page-btn").hide();
+            if(deviceType == "centorz"){
+                switch(cmdName){
+                    case "多表抄收":
+                        $(".title-div").show();
+                        $(".progress-div").show();
+                        $(".result-div").show();
+                        break;
+                    case "抄日冻结":
+                        $(".parms-div1").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "抄月冻结":
+                        $(".parms-div2").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "集中器校时":
+                        $(".parms-div3").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "读取参数":
+                        $(".parms-div4").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "设置参数":
+                        $(".parms-div5").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    default:
+                        $(".title-div").show();
+                        $(".result-div").show();
+                        break;
+                }
+            }else if(deviceType == "centorc"){
+                switch(cmdName){
+                    case "多表抄收":
+                        $(".title-div").show();
+                        $(".progress-div").show();
+                        $(".result-div").show();
+                        break;
+                    case "设置设备地址":
+                        $(".parms-div6").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "设IP端口":
+                        $(".parms-div7").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "设心跳周期":
+                        $(".parms-div8").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "设刷新数据间隔":
+                        $(".parms-div9").show();
+                        $(".my-page-btn").show();
+                        hasParms = true;
+                        break;
+                    case "加全部表":
+                    case "删全部表":
+                        $(".title-div").show();
+                        $(".result-div").show();
+                        break;
+                    default:
+                        $(".title-div").show();
+                        $(".result-div").show();
+                        break;
+                }
+            }
+            if(!hasParms){
+                var re = new Array();
+                re = getCmdParms(deviceType, cmdName);
+                g_cmd = re[1];
+                devicesObj.loadCmd(g_deviceName, g_cmd);
+            }
+            return hasParms;
+        }
+
+        g_hasParms = pageInit(g_deviceType, g_cmdName);
+        $(".btn").click(function(){
+            var btnTitle = $(this).data("title");
+            var re = new Array();
+            if(btnTitle == "确定" && g_hasParms){
+                re = getCmdParms(g_deviceType, g_cmdName);
+                g_cmdFormat = re[0];
+                g_cmd = re[1];
+                //console.log("g_cmdFormat", g_cmdFormat);
+                //console.log("g_cmd", g_cmd);
+                if(!checkCmdParms(g_cmdFormat, g_cmd)){
+                    return false;
+                }
+
+                $(".parms").hide();
+                $(".my-page-btn").hide();
+                $(".title-div").show();
+                if(g_cmdName == "抄日冻结" || g_cmdName == "抄月冻结"){
+                    $(".progress-div").show();
+                }
+                $(".result-div").show();
+                devicesObj.loadCmd(g_deviceName, g_cmd);
+            }else{
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            }
+        });
+    });
+</script>
+</body></html>

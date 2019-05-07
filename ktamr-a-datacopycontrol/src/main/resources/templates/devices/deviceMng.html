@@ -62,7 +62,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">当前时间</label>
                     <div class="layui-input-inline">
-                        <input id="nowTime" lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmm)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="10" value="<%=nowTimeStr1%>">
+                        <input id="nowTime" lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmm)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="10" th:value="${#dates.format(nowTimeStr1, 'yyMMddHHmm')}">
                     </div>
                 </div>
             </form>
@@ -258,7 +258,7 @@
         language: "zh-CN"
     });
 </script>
-<script language="JavaScript">
+<script th:inline="javascript">
     layui.use(['form','layer','element'], function(){
         var element = layui.element,
             form = layui.form,
@@ -361,10 +361,10 @@
             }
             var rowData = parent.$("#"+_this.gridId).jqGrid('getRowData', selRowId);
             if(_deviceName == ""){
-                _deviceName = rowData["安装地点"];
+                _deviceName = rowData["addr"];
             }
             if(t_array[0] == "设IP端口" || t_array[0] == "设心跳周期"){
-                cmd = cmd.replace("x", rowData["设备号"]);
+                cmd = cmd.replace("x", rowData["centorId"]);
             }
             if(t_array[0] == "多表抄收" || t_array[0] == "抄日冻结" || t_array[0] == "抄月冻结"){
                 title = "设备("+_deviceName+")";
@@ -468,7 +468,7 @@
 
         function getCmdParms(deviceType, cmdName){
             var cmdFormat = "", cmd = "";
-            if(deviceType == "centor"){
+            if(deviceType == "centorz"){
                 switch(cmdName){
                     case "多表抄收":
                         cmdFormat = "";
@@ -543,7 +543,7 @@
                         cmd = cmdName +":"+ "0";
                         break;
                 }
-            }else if(deviceType == "ccentor"){
+            }else if(deviceType == "centorc"){
                 switch(cmdName){
                     case "多表抄收":
                         cmdFormat = "";

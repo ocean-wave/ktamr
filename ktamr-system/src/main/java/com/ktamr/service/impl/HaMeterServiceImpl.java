@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 表具资料表实现类
+ */
 @Service
 public class HaMeterServiceImpl implements HaMeterService {
     @Autowired
@@ -118,11 +121,25 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.updateMeter(haMeter);
     }
 
+    /**
+     * 根据centorId查询meter表信息
+     * @param centorId 参数centorId
+     * @return 返回泛型集合对象
+     */
     @Override
-    public List<HaMeter> selectMeterByCentorId(HaMeter haMeter) {
-        return haMeterMapper.selectMeterByCentorId(haMeter);
+    public List<HaMeter> selectMeterByCentorId(Integer centorId) {
+        return haMeterMapper.selectMeterByCentorId(centorId);
     }
 
+    /**
+     * 根据CollectorId查询meter表信息
+     * @param collectorId 参数CollectorId
+     * @return 返回泛型集合对象
+     */
+    @Override
+    public List<HaMeter> selectMeterByCollectorId(Integer collectorId) {
+        return haMeterMapper.selectMeterByCollectorId(collectorId);
+    }
 
     public List<HaMeter> HaMeterList(HaMeter haMeter) {
         return haMeterMapper.HaMeterList(haMeter);

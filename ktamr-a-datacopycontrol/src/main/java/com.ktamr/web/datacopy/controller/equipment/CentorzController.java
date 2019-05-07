@@ -1,7 +1,7 @@
 package com.ktamr.web.datacopy.controller.equipment;
 
 
-import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.service.HaCentorService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
@@ -41,10 +41,10 @@ public class CentorzController extends BaseController {
         mi.put(3,"wfhbs");
         Map<Integer,Integer> map = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("zbs",map.get(0).toString());
-        map2.put("meters",map.get(1).toString());
-        map2.put("jdbs",map.get(2).toString());
-        map2.put("wfhbs",map.get(3).toString());
+        map2.put("resultParams.zbs",map.get(0).toString());
+        map2.put("resultParams.meters",map.get(1).toString());
+        map2.put("resultParams.jdbs",map.get(2).toString());
+        map2.put("resultParams.wfhbs",map.get(3).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
@@ -62,9 +62,9 @@ public class CentorzController extends BaseController {
         mi.put(2,"snumber");
         Map<Integer,Integer> ms = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("lfnumber",ms.get(0).toString());
-        map2.put("thnumber",ms.get(1).toString());
-        map2.put("snumber",ms.get(2).toString());
+        map2.put("haMeter.lfNumber",ms.get(0).toString());
+        map2.put("haMeter.thNumber",ms.get(1).toString());
+        map2.put("haMeter.sNumber",ms.get(2).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
@@ -83,10 +83,10 @@ public class CentorzController extends BaseController {
         mi.put(3,"wfhbs");
         Map<Integer,Integer> map = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("zbs",map.get(0).toString());
-        map2.put("meters",map.get(1).toString());
-        map2.put("jdbs",map.get(2).toString());
-        map2.put("wfhbs",map.get(3).toString());
+        map2.put("resultParams.zbs",map.get(0).toString());
+        map2.put("resultParams.meters",map.get(1).toString());
+        map2.put("resultParams.jdbs",map.get(2).toString());
+        map2.put("resultParams.wfhbs",map.get(3).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
@@ -96,12 +96,15 @@ public class CentorzController extends BaseController {
     public String deviceMng(@RequestParam( value = "deviceType",required = false) String deviceType
                             , @RequestParam( value = "devDescription",required = false) String devDescription
                             , @RequestParam( value = "cmdName",required = false) String cmdName
+                            , @RequestParam( value = "deviceName",required = false) String deviceName
                             , @RequestParam( value = "ids",required = false) String ids
                             , ModelMap mmap){
         mmap.put("deviceType",deviceType);
-        mmap.put("devDescription",devDescription);
+        mmap.put("devDescription",devDescription!=null?devDescription:"asdasdsadsad");
+        mmap.put("deviceName",deviceName!=null?deviceName:"");
         mmap.put("cmdName",cmdName);
         mmap.put("ids",ids);
+        mmap.put("nowTimeStr1", DateUtils.getNowDate());
         return pxePath+"/deviceMng";
     }
 }

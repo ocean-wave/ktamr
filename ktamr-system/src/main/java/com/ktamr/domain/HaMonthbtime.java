@@ -1,17 +1,23 @@
 package com.ktamr.domain;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 
 public class HaMonthbtime extends BaseEntity {
 
+  @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddHHmmss")
   private Date startTime;
+  @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddHHmmss")
   private Date endTime;
   private Integer areaId;
 
+  @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddHHmmss")
   public Date getStartTime() {
     return startTime;
   }
@@ -20,6 +26,7 @@ public class HaMonthbtime extends BaseEntity {
     this.startTime = startTime;
   }
 
+  @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddHHmmss")
   public Date getEndTime() {
     return endTime;
   }

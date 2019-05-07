@@ -40,7 +40,7 @@ public interface HaCmdMapper {
      * @param haCmd
      * @return
      */
-    public HaCmd BreturnID(HaCmd haCmd);
+    public List<HaCmd> BreturnID(HaCmd haCmd);
 
     /**
      * 添加命令执行表

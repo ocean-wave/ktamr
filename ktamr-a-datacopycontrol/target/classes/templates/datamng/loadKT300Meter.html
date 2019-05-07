@@ -73,7 +73,7 @@
 		var g_devDescription = [[${devDescription}]];
 		var g_meterType = "10";
 
-		var Post_Data = {ListNumber: 32, centorId: g_centorId};
+		var Post_Data = {centorId: g_centorId};
 		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/loadKT300MeterJson');
 		GridObj.jqdefaultGridConfig.caption = "表列表：";
 		GridObj.jqdefaultGridConfig.multiselect = true;

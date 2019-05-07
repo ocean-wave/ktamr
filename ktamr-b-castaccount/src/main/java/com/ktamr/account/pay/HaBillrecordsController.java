@@ -3,8 +3,11 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.domain.HaBillrecords;
+import com.ktamr.domain.HaMonthbtime;
 import com.ktamr.service.HaBillrecordsService;
+import com.ktamr.service.HaMonthbtimeService;
 import com.ktamr.util.PageUtil;
 import com.ktamr.util.Tool;
 import org.springframework.stereotype.Controller;
@@ -16,16 +19,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class HaBillrecordsController {
 
     @Resource
     private HaBillrecordsService haBillrecordsService;
+
+    @Resource
+    private HaMonthbtimeService haMonthbtimeService;
 
 
     @RequestMapping("/com/ktamr/account/pay/cust_recharge_list.html")
@@ -135,4 +138,28 @@ public class HaBillrecordsController {
         return "com/ktamr/account/pay/cust_balance_import.html";
     }
 
+
+    /**
+     * 填充结算周期下拉框
+     * @param haMonthbtime
+     * @return
+     */
+    @RequestMapping("/load_monthBTime")
+    @ResponseBody
+    public List<String> load_monthBTime(HaMonthbtime haMonthbtime){
+        List<HaMonthbtime> haMonthbtimeList = haMonthbtimeService.BselectTime(haMonthbtime);//获取开始结束时间
+        if(haMonthbtimeList!=null){
+            List<String> list = new ArrayList<String>();//创建集合对象；
+
+            for (int i=0;i<haMonthbtimeList.size();i++){
+                //对其进行赋值
+
+                String std= DateUtils.parseDateToStr("yyyy-MM-dd HH24:mm:ss",haMonthbtimeList.get(i).getStartTime())+'~'+DateUtils.parseDateToStr("yyyy-MM-dd HH24:mm:ss",haMonthbtimeList.get(i).getEndTime())+';';
+                list.add(std);
+            }
+            return list;
+        }
+
+        return  null;
+    }
 }

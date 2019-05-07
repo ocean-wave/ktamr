@@ -321,8 +321,6 @@
                 _pdArray["params[nodeIds]"] = $("#nodeIds1").val();
             }else if(deviceType == "collector"){
                 _pdArray["centorId"] = deviceId;
-            }else if(deviceType == "meter"){
-                _pdArray["haCollector.collectorId"] = deviceId;
             }
             fullTextSearch("jqGrid", _pdArray);
         });

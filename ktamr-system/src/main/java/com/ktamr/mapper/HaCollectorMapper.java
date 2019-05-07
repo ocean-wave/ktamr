@@ -5,8 +5,17 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 采集器表Mapper
+ */
 public interface HaCollectorMapper {
-    public List<HaCollector> selectCollector(HaCollector haCollector);
+
+    /**
+     * 根据id查询采集器表信息
+     * @param centorId 对象参数
+     * @return 返回泛型集合对象
+     */
+    public List<HaCollector> selectCollectorBycentorId(Integer centorId);
 
     List<HaCollector> HaCollectorList(HaCollector haCollector);
 

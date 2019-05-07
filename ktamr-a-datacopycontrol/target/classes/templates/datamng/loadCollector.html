@@ -27,7 +27,7 @@
 		var g_centorId = [[${centorId}]];
 		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/loadCollectorJson');
 		GridObj.jqdefaultGridConfig.caption = "采集器列表：";
-		GridObj.jqdefaultGridConfig.postData = {"haCentor.centorId":g_centorId};
+		GridObj.jqdefaultGridConfig.postData = {"centorId":g_centorId};
 		GridObj.jqdefaultGridConfig.multiselect = true;
 		GridObj.jqdefaultGridConfig.scroll = true;
 		GridObj.jqdefaultGridConfig.colNames = ['collectorId','设备名称','设备类型','设备地址','状态','执行结果'];
