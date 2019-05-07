@@ -41,10 +41,10 @@ public class CentorcController extends BaseController {
         mi.put(3,"wfhbs");
         Map<Integer,Integer> map = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("zbs",map.get(0).toString());
-        map2.put("meters",map.get(1).toString());
-        map2.put("jdbs",map.get(2).toString());
-        map2.put("wfhbs",map.get(3).toString());
+        map2.put("resultParams.zbs",map.get(0).toString());
+        map2.put("resultParams.meters",map.get(1).toString());
+        map2.put("resultParams.jdbs",map.get(2).toString());
+        map2.put("resultParams.wfhbs",map.get(3).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
@@ -62,9 +62,9 @@ public class CentorcController extends BaseController {
         mi.put(2,"snumber");
         Map<Integer,Integer> ms = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("lfnumber",ms.get(0).toString());
-        map2.put("thnumber",ms.get(1).toString());
-        map2.put("snumber",ms.get(2).toString());
+        map2.put("haMeter.lfNumber",ms.get(0).toString());
+        map2.put("haMeter.thNumber",ms.get(1).toString());
+        map2.put("haMeter.sNumber",ms.get(2).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;

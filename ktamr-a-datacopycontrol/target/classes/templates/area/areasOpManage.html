@@ -499,7 +499,7 @@
 				,type: "POST"
 				,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
 				,data: {
-					centorid: rowData["centorid"]
+					centorid: rowData["haRoom.haMeter.haCentor.id"]
 					,cmd: cmd
 				}
 				,async:false //同步请求
@@ -508,7 +508,7 @@
 					if(!isNaN(data)){
 						$("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src="+"/images/loading-0.gif"+" />"});
 						_this.cmdid = data;
-						_this.centorid = rowData["centorid"];
+						_this.centorid = rowData["haRoom.haMeter.haCentor.id"];
 						_this.get_result_timer.set({time: 3*1000, autostart: true});
 					}else{
 						$("#"+_this.gridId).setRowData(selRowId,{"操作结果": data});

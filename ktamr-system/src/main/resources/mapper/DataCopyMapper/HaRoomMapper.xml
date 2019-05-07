@@ -5,7 +5,7 @@
 <mapper namespace="com.ktamr.mapper.HaRoomMapper">
 
     <select id="queryRoomC" resultType="com.ktamr.domain.HaRoom">
-        select buildingid,roomid, name from ha_room where 1=1
+        select roomid, name from ha_room where 1=1
         <if test="buildingId!=null">
             and buildingid=#{buildingId}
         </if>

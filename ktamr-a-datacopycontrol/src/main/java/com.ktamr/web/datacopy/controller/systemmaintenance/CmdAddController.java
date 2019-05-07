@@ -54,7 +54,7 @@ public class CmdAddController extends BaseController {
                                   @RequestParam( value = "devDescription") String devDescription,ModelMap mmap){
         mmap.put("cmdName",cmdName);
         mmap.put("centorId",centorId);
-        return pxePath+"/loadCollectorMeter";
+        return pxePath+"/loadCentorMeter";
     }
     @GetMapping("/loadCollector")
     public String loadCollector(@RequestParam( value = "cmdName") String cmdName,
@@ -98,19 +98,28 @@ public class CmdAddController extends BaseController {
         return pxePath+"/loadKT300Meter";
     }
 
-    @PostMapping("/loadCollectorMeterJson")
+    @GetMapping("/loadCollectorMeter")
+    public String loadCollectorMeter(@RequestParam( value = "cmdName") String cmdName,
+                                 @RequestParam( value = "centorId") Integer centorId,
+                                 @RequestParam( value = "devDescription") String devDescription,ModelMap mmap){
+        mmap.put("cmdName",cmdName);
+        mmap.put("centorId",centorId);
+        return pxePath+"/loadCollectorMeter";
+    }
+
+    @PostMapping("/loadCentorMeterJson")
     @ResponseBody
-    public Map<String, Object> loadCollectorMeterJson(HaMeter haMeter){
+    public Map<String, Object> loadCentorMeterJson(@RequestParam( value = "centorId") Integer centorId){
         startPage();
-        List<HaMeter> listMeter = haMeterService.selectMeterByCentorId(haMeter);
+        List<HaMeter> listMeter = haMeterService.selectMeterByCentorId(centorId);
         return getDataTable(listMeter);
     }
 
     @PostMapping("/loadCollectorJson")
     @ResponseBody
-    public Map<String, Object> loadCollectorJson(HaCollector haCollector){
+    public Map<String, Object> loadCollectorJson(@RequestParam( value = "centorId") Integer centorId){
         startPage();
-        List<HaCollector> listCollector = haCollectorService.selectCollector(haCollector);
+        List<HaCollector> listCollector = haCollectorService.selectCollectorBycentorId(centorId);
         return getDataTable(listCollector);
     }
 
@@ -124,10 +133,18 @@ public class CmdAddController extends BaseController {
 
     @PostMapping("/loadKT300MeterJson")
     @ResponseBody
-    public Map<String, Object> loadKT300MeterJson(HaMeter haMeter){
+    public Map<String, Object> loadKT300MeterJson(@RequestParam( value = "centorId") Integer centorId){
         startPage();
-        List<HaMeter> listArea = haMeterService.selectMeterByCentorId(haMeter);
+        List<HaMeter> listArea = haMeterService.selectMeterByCentorId(centorId);
         return getDataTable(listArea);
+    }
+
+    @PostMapping("/loadCollectorMeterJson")
+    @ResponseBody
+    public Map<String, Object> loadCollectorMeterJson(@RequestParam( value = "collectorId",required = false) Integer collectorId){
+        startPage();
+        List<HaMeter> listMeter = haMeterService.selectMeterByCollectorId(collectorId);
+        return getDataTable(listMeter);
     }
 
 }

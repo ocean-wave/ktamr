@@ -7,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 表具资料表Mapper
+ */
 public interface HaMeterMapper {
 
     public List<Map<String,Object>> selectAllMeter(Map<String, Object> parms);
@@ -27,7 +30,19 @@ public interface HaMeterMapper {
 
     public Integer updateMeter(HaMeter haMeter);
 
-    public List<HaMeter> selectMeterByCentorId(HaMeter haMeter);
+    /**
+     * 根据centorId查询meter表信息
+     * @param centorId 参数centorId
+     * @return 返回泛型集合对象
+     */
+    public List<HaMeter> selectMeterByCentorId(Integer centorId);
+
+    /**
+     * 根据CollectorId查询meter表信息
+     * @param collectorId 参数CollectorId
+     * @return 返回泛型集合对象
+     */
+    public List<HaMeter> selectMeterByCollectorId(Integer collectorId);
 
     List<HaMeter> HaMeterList(HaMeter haMeter);
 
