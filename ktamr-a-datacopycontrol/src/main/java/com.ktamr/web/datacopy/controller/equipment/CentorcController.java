@@ -70,18 +70,5 @@ public class CentorcController extends BaseController {
         return m;
     }
 
-    @GetMapping("/deviceMngc")
-    public String deviceMngc(@RequestParam( value = "deviceType",required = false) String deviceType
-            , @RequestParam( value = "deviceName",required = false) String deviceName
-            , @RequestParam( value = "cmdName",required = false) String cmdName
-            , @RequestParam( value = "ids",required = false) String ids
-            , ModelMap mmap){
-        mmap.put("deviceType",deviceType);
-        mmap.put("deviceName",deviceName!=null?deviceName:"");
-        mmap.put("devDescription","asdsadasdas");
-        mmap.put("cmdName",cmdName);
-        mmap.put("ids",ids);
-        return pxePath+"/deviceMng";
-    }
 }
 
