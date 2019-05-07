@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaRoomMapper">
+
+    <select id="queryRoomC" resultType="com.ktamr.domain.HaRoom">
+        select buildingid,roomid, name from ha_room where 1=1
+        <if test="buildingId!=null">
+            and buildingid=#{buildingId}
+        </if>
+    </select>
+
+    <resultMap id="queryAllRoomMap" type="com.ktamr.domain.HaRoom">
+        <id property="roomId" column="roomId"/>
+        <result property="custId" column="custId"/>
+        <result property="buildingId" column="buildingId"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="roomCount" column="roomCount"/>
+        <result property="uname" column="uname"/>
+        <result property="areaid" column="areaid"/>
+
+        <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
+            <id property="custId" column="custId"/>
+            <result property="custno" column="custno"/>
+            <result property="name" column="cname"/>
+        </association>
+
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <id property="meterId" column="meterId"/>
+            <result property="meternumber" column="meternumber"/>
+            <result property="thNumber" column="thNumber"/>
+            <result property="ifNumber" column="ifNumber"/>
+            <result property="sNumber" column="sNumber"/>
+            <result property="state" column="state"/>
+            <result property="thrTime" column="thrTime"/>
+            <result property="gNumber" column="gNumber"/>
+            <result property="offsetN" column="offsetN"/>
+            <result property="vendorId" column="vendorId"/>
+            <result property="meterChannel" column="meterChannel"/>
+            <result property="meterSequence" column="meterSequence"/>
+            <result property="startTime" column="startTime"/>
+        </association>
+
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <id property="id" column="id"/>
+            <result property="addr" column="addr"/>
+            <result property="centorId" column="centorId"/>
+        </association>
+
+        <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
+            <id property="collectorId" column="collectorId"/>
+            <result property="addr" column="caddr"/>
+        </association>
+
+        <association property="haPricestandard" javaType="com.ktamr.domain.HaPricestandard">
+            <id property="pricestandId" column="pricestandId"/>
+            <result property="name" column="pname"/>
+        </association>
+
+        <association property="haBuilding" javaType="com.ktamr.domain.HaBuilding">
+            <id property="buildingId" column="buildingId"/>
+        </association>
+    </resultMap>
+
+    <select id="queryAllRoomC" resultMap="queryAllRoomMap">
+        SELECT trim(to_char(r.roomid, '99999999'))||'_'||
+        trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterid,
+        cu.custno AS custno, cu.name as cname,  a.name||'-'||b.name||'-'||r.name  AS uname, r.description AS description
+        , m.meterNumber AS meternumber, m.th_number as thNumber, m.lf_number as ifNumber,
+        m.s_number as sNumber, m.state as state, to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') as thrTime,
+        p.name as pname, CASE WHEN c.addr != '' then c.addr  ELSE '[无对象]' END  AS addr,
+        c.id AS id, CASE WHEN co.addr != '' THEN co.addr||'('||to_hex(co.nconf)||')'ELSE  '[无对象]' END  AS caddr,
+        m.g_number AS gNumber, m.offset_n AS offsetN, m.vendor_id AS vendorId,
+        m.meter_channel AS meterChannel, m.meter_sequence AS meterSequence,to_char(m.starttime, 'yyyy-mm-dd') as startTime
+        FROM ((((((ha_room r LEFT JOIN ha_custom cu ON r.custid=cu.custid)
+        LEFT JOIN ha_meter m ON m.roomid=r.roomid)
+        LEFT JOIN ha_centor c ON c.id=m.centorid)
+        LEFT JOIN ha_collector co ON co.collectorid=m.collectorid)
+        LEFT JOIN ha_pricestandard p ON m.pricestand_id=p.pricestand_id)
+        LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+        LEFT JOIN ha_area a ON a.areaid=b.areaid
+        WHERE r.roomid>0
+        <if test="haRoom.areaid != null">
+            and a.areaid=#{haRoom.areaid}
+        </if>
+        <if test="haRoom.buildingId != null">
+            and r.buildingid=#{haRoom.buildingId}
+        </if>
+        <if test="haRoom.keyWord !=null and haRoom.keyWord !=''">
+            and (a.registeredNo like '%${haRoom.keyWord}%' or cu.name like '%${haRoom.keyWord}%' or a.areaNo like '%${haRoom.keyWord}%')
+        </if>
+        ORDER BY a.name||'-'||b.name||'-'||r.name
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="allRoomCountC" resultType="_int">
+        select count(1) from ha_room
+    </select>
+
+</mapper>

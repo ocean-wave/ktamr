@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<style type="text/css">
+	.layui-nav-tree {
+		width: auto;
+	}
+	.layui-nav-item > a,.layui-nav-itemed > a {
+		background-color: #e2e2e2 !important;
+		color: #2F4056 !important;
+		text-decoration:none;
+	}
+	.layui-nav-itemed .layui-nav-child {
+		background-color: #F2F2F2 !important;
+	}
+	.layui-nav-tree .layui-nav-child {
+		background:#f2f2f2;
+		color: #fff;
+	}
+	.layui-nav-tree .layui-nav-child a {
+		color: #2F4056;
+	}
+	.layui-nav-tree .layui-nav-child a:hover { color: #c2c2c2; text-decoration:none; }
+	.layui-nav-tree .layui-this > a, .layui-nav-tree .layui-this > a:hover {
+		text-decoration:none;
+	}
+</style>
+<body class="myPage-body">
+<div class="ibox-title">
+	<h5>结果列表</h5>
+	<div id="errOp" class="pull-right" style="margin-top:10px;display: none;">
+		<button type="button" class="btn btn-default btn-sm" data-title="采集器删表">采集器删表</button>
+		<button type="button" class="btn btn-default btn-sm" data-title="集中器删表">集中器删表</button>
+		<button type="button" class="btn btn-default btn-sm" data-title="删表">集采器删表</button>
+	</div>
+</div>
+<div class="container myContainer">
+	<div class="row" style="margin:0;padding:0;">
+		<div class="col-xs-2 col-md-2" style="margin:0;padding:0;">
+			<ul class="layui-nav layui-nav-tree" lay-filter="list">
+				<li class="layui-nav-item layui-nav-itemed">
+					<a href="javascript:;">结果类型</a>
+					<dl class="layui-nav-child">
+						<dd class="layui-this"><a href="javascript:;" rel="">结果列表</a></dd>
+						<dd><a href="javascript:;" rel="">出错列表</a></dd>
+					</dl>
+				</li>
+			</ul>
+			<div class="alert alert-info">
+				<label>统计：</label>
+				<span id="meterState"></span>
+			</div>
+		</div>
+		<div class="col-xs-10 col-md-10" style="margin:0;padding:0;">
+			<form class="form-horizontal" id="jqgridForm" role="form">
+				<table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+				<div id="jqGridPager"></div>
+			</form>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+	layui.use(['element','layer'], function(){
+		var element = layui.element,
+				layer = layui.layer; //导航的hover效果、二级菜单等功能，需要依赖element模块
+		var g_title = [[${sTitle}]];
+		var g_cmdid = [[${cmdid}]];
+		var cmdName = [[${cmdName}]];
+		var ListNumber1 = 24, ListNumber2 = 25;
+
+		function showjqGridList(listName){
+			if(listName == "出错列表"){
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 175,'/systemmaintenance/cmdResultListShow1Json');
+				GridObj.unloadGrid();
+				GridObj.removeGridResize();
+				GridObj.jqdefaultGridConfig.caption = listName+g_title;
+				GridObj.jqdefaultGridConfig.multiselect = true;
+				if(cmdName == "读表地址"){
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
+					GridObj.jqdefaultGridConfig.colNames = ['id','表号','原集中器号','读到集中器号','读到集中器ID','原采集器号','读到采集器号','状态说明','执行结果'];
+					GridObj.jqdefaultGridConfig.colModel = [
+						{ name: 'id',  width: 75, key: true, hidden: true},
+						{ name: 'meterNumber', width: 120 },
+						{ name: 'resultParams.yjzqh', width: 100 },
+						{ name: 'resultParams.ddjzqh', width: 100 },
+						{ name: 'resultParams.ddjzqId', width: 50, hidden: true},
+						{ name: 'resultParams.ccrNoD', width: 80 },
+						{ name: 'resultParams.ccrNoR', width: 80 },
+						{ name: 'resultParams.stateExplain', width: 200 },
+						{ name: '执行结果', width: 100 }
+					];
+				}else{
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
+					GridObj.jqdefaultGridConfig.colNames = ['itemid','出错类型','用户编号','用户名称','用户地址','表号','本次读数','表状态','本次抄表时间','原集中器编号','原采集器地址','读到集中器编号','读到集中器ID','读到采集器地址','执行结果'];
+					GridObj.jqdefaultGridConfig.colModel = [
+						{ name: 'itemid',  width: 75, key: true, hidden: true},
+						{ name: 'errType', width: 100, cellattr: MeterDataStateCellColor},
+						{ name: 'havMeterinfo.userNo', width: 90 },
+						{ name: 'havMeterinfo.userName', width: 100 },
+						{ name: 'havMeterinfo.userDs', width: 140 },
+						{ name: 'havMeterinfo.meterNumber', width: 110, align: 'right' },
+						{ name: 'n', width: 70, align: 'right' },
+						{ name: 'state', width: 90, cellattr: MeterStateCellColor },
+						{ name: 'readTime', align: 'right', width: 150},
+						{ name: 'resultParams.yjzqbh', width: 100 },
+						{ name: 'resultParams.nconf', width: 60 },
+						{ name: 'resultParams.ddjzqbh', width: 100 },
+						{ name: 'resultParams.ddjzqId', width: 100, hidden: true },
+						{ name: 'resultParams.rawCollectorId', width: 60 },
+						{ name: '执行结果', width: 100 }
+					];
+				}
+				GridObj.jqdefaultGridConfig.loadComplete = function () {
+					$("#meterState").text($('#jqGrid').jqGrid('getGridParam', 'userData')["统计"]);
+				};
+				GridObj.drawGrid();
+				GridObj.drawGridPager();
+				GridObj.setGridSize();
+				GridObj.gridResize();
+				GridObj = null;
+			}else{
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 175,'/systemmaintenance/cmdResultListShow2Json');
+				GridObj.unloadGrid();
+				GridObj.removeGridResize();
+				GridObj.jqdefaultGridConfig.caption = listName+g_title;
+				if(cmdName == "读表地址") {
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
+					GridObj.jqdefaultGridConfig.colNames = ['id', '读到表号', '原集中器号', '读到集中器号', '原采集器号', '读到采集器号', '资料状态'];
+					GridObj.jqdefaultGridConfig.colModel = [
+						{name: 'id', width: 75, key: true, hidden: true},
+						{name: 'meterNumber', width: 120},
+						{name: 'resultParams.yjzqh', width: 100},
+						{name: 'resultParams.ddjzqh', width: 100},
+						{name: 'resultParams.ccrNoD', width: 100},
+						{name: 'resultParams.ccrNoR', width: 100},
+						{name: 'state', width: 180, cellattr: ArchiveStateCellColor}
+					];
+				}else {
+					GridObj.jqdefaultGridConfig.postData = {id: g_cmdid,cmd:cmdName};
+					GridObj.jqdefaultGridConfig.colNames = ['itemid', '用户编号', '用户名称', '用户地址', '表号', '本次读数', '上次读数', '抄收用量', '表状态', '本次抄表时间', '上次抄表时间'];
+					GridObj.jqdefaultGridConfig.colModel = [
+						{name: 'itemid', width: 75, key: true, hidden: true},
+						{name: 'havMeterinfo.userNo', width: 90, formatter: 'interger'},
+						{name: 'havMeterinfo.userName', width: 100},
+						{name: 'havMeterinfo.userDs', width: 140},
+						{name: 'havMeterinfo.meterNumber', width: 110, align: 'right'},
+						{name: 'thNumber', width: 70, align: 'right'},
+						{name: 'lfNumber', width: 70, align: 'right'},
+						{name: 'delta', width: 70, align: 'right'},
+						{name: 'state', width: 90, cellattr: MeterStateCellColor},
+						{name: 'thTime', align: 'right', width: 150},
+						{name: 'lfTime', align: 'right', width: 150}
+					];
+					GridObj.jqdefaultGridConfig.gridComplete = function () {
+						MeterStateRowColor("jqGrid", "表状态")
+					};
+				}
+				GridObj.jqdefaultGridConfig.loadComplete = function () {
+					$("#meterState").text($('#jqGrid').jqGrid('getGridParam', 'userData')["统计"]);
+				};
+				GridObj.drawGrid();
+				GridObj.drawGridPager();
+				GridObj.setGridSize();
+				GridObj.gridResize();
+				GridObj = null;
+			}
+		}
+		//监听导航点击
+		element.on('nav(list)', function(elem){
+			if($(elem).text() == "出错列表"){
+				$("#errOp").show();
+			}else{
+				$("#errOp").hide();
+			}
+
+			//切换列表
+			showjqGridList($(elem).text());
+		});
+
+		showjqGridList("结果列表");
+		var get_cmdid_url="/smallbox/haCmd/cmdAdd";
+		var get_result_url = "/smallbox/haCmd/getCmdAjax";
+		var get_result_timer = $.timer(function(){
+			loadCmdResult(this);
+		});
+
+
+		function loadCmdResult(timerObj){
+			$.get(get_result_url,
+					{cmdid: timerObj.cmdid},
+					function(data,status){
+						//console.log("cmdid:"+cmdid);
+						//console.log("data:"+unescape(data));
+						//console.log("rowid:"+rowid);
+						if (status == "success"){
+							var n, state, processing, s;
+							s = unescape(data);
+							n = s.indexOf(":");
+							if (n > 1){
+								state = s.substr(0,n);
+								processing = s.substr(n+1);
+							}else{
+								processing = s;
+							}
+							if ((state == "完成") || (state == "失败")){
+								if(state == "完成"){
+									processing = "<font color='green'>"+processing+"</font>";
+								}else{
+									processing = "<font color='red'>"+processing+"</font>";
+								}
+								$("#jqGrid").setRowData(timerObj.rowIds[timerObj.index],{"执行结果": processing});
+								get_result_timer.stop();
+								var _parms = {
+									"rowIds": timerObj.rowIds
+									,"index": timerObj.index+1
+									,"cmdName": timerObj.cmdName
+								};
+								loadCmd("jqGrid", _parms);
+							}
+						}
+					}
+			);
+		}
+		function loadCmd(GridId, parms){
+			var rowId = parms.rowIds[parms.index];
+			var cmd = "", centorId = "0", collectorId = "0";
+			//console.log(rowId);
+			if(rowId == "" || rowId == undefined){
+				$(":button").removeAttr("disabled");
+				return false;
+			}
+			var rowData = $("#"+GridId).jqGrid('getRowData', rowId);
+			if(rowData["resultParams.ddjzqId"] != "")
+				centorId = rowData["resultParams.ddjzqId"];
+			if(rowData["resultParams.rawCollectorId"] != "")
+				collectorId = rowData["resultParams.rawCollectorId"];
+			switch(parms.cmdName){
+					//case "删除设备内表地址":
+				case "采集器删表"://采集器删表:采集器设备地址,表号
+					cmd = "采集器删表" +":"+collectorId+","+rowData["havMeterinfo.meterNumber"];
+					break;
+				case "集中器删表"://删除表:表类型,表号,采集器设备地址
+					cmd = "删除表" +":"+"10,"+rowData["havMeterinfo.meterNumber"]+","+collectorId;
+					break;
+				case "删表"://删表:设备号,表号
+					cmd = "删表"+":"+rowData["havMeterinfo.meterNumber"];
+				default:
+					break;
+			}
+
+			$.ajax({
+				url: get_cmdid_url
+				,data: {
+					centorid: centorId
+					,cmd: cmd
+				}
+				,type: "POST"
+				,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+				,async:true //异步请求
+				,success: function(data){
+					if(!isNaN(data)){
+						$("#"+GridId).setRowData(rowId,{"执行结果":"<img src="+"/images/loading-0.gif"+" />"});
+						get_result_timer.cmdid = data;
+						get_result_timer.rowIds = parms.rowIds;
+						get_result_timer.index = parms.index;
+						get_result_timer.centorid = centorId;
+						get_result_timer.cmdName = parms.cmdName;
+						get_result_timer.set({time: 3*1000, autostart: true});
+					}else{
+						$("#"+GridId).setRowData(rowId,{"执行结果": data});
+						$(":button").removeAttr("disabled");
+					}
+				}
+			});
+		}
+		$("#errOp :button").click(function(){
+			var ids = getSelectedRows("jqGrid").split(",");
+			if(ids == ""){
+				layer.msg("请选择需要操作的行", {icon: 5});
+				return false;
+			}
+			$(":button").attr({"disabled":"disabled"});
+			var cmdName = $(this).data("title");
+			var parms = {
+				"rowIds": ids
+				,"index": 0
+				,"cmdName": cmdName
+			};
+			loadCmd("jqGrid", parms);
+		});
+	});
+</script>
+</body>
+</html>

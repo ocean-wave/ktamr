@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaPricestandardMapper">
+
+    <resultMap id="HaPricestandardMap" type="com.ktamr.domain.HaPricestandard">
+        <id property="pricestandId" column="pricestandId"/>
+        <result column="metertypeId" property="metertypeId"/>
+        <result column="name" property="name"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="jPrice" property="jPrice"/>
+        <result column="fPrice" property="fPrice"/>
+        <result column="pPrice" property="pPrice"/>
+        <result column="gPrice" property="gPrice"/>
+        <result column="sMin" property="sMin"/>
+        <result column="sMax" property="sMax"/>
+        <result column="sDays" property="sDays"/>
+        <result column="usagePoint1" property="usagePoint1"/>
+        <result column="usagePoint2" property="usagePoint2"/>
+        <result column="chargingMethods" property="chargingMethods"/>
+        <result column="price1" property="price1"/>
+        <result column="price2" property="price2"/>
+        <result column="price3" property="price3"/>
+        <result column="a1" property="a1"/>
+
+        <association property="haMetertype" javaType="com.ktamr.domain.HaMetertype">
+            <id property="metertypeId" column="metertypeId"/>
+            <result property="name" column="mname"/>
+        </association>
+
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <id property="pricestandId" column="pricestandId"/>
+        </association>
+
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaId" column="areaid"/>
+        </association>
+    </resultMap>
+
+    <select id="HaPricestandardList" resultMap="HaPricestandardMap">
+        SELECT ps.pricestand_id as pricestandId,
+        ps.name as name,
+        ps.metertypeid as metertypeId,
+        mt.name AS mname,
+        ps.chargingMethods AS chargingMethods,
+        ps.usagePoint1 AS usagepoint1,
+        ps.usagePoint2 AS usagepoint2,
+        trim(to_char(ps.price1*1::real, 'FM999999999.00')) AS price1,
+        trim(to_char(ps.price2*1::real, 'FM999999999.00'))  AS price2,
+        trim(to_char(ps.price3*1::real, 'FM999999999.00')) AS price3,
+        round(CAST(ps.a1 AS NUMERIC),2) AS a1,
+        ps.s_days as sDays,
+        ps.s_min as sMin,
+        ps.s_max as sMax,
+        to_char(ps.starttime, 'yyyy-mm-dd') as startTime,
+        to_char(ps.endtime, 'yyyy-mm-dd') as endTime,
+        CASE WHEN
+        Count(m.pricestand_id)>0 THEN '是'
+        ELSE '否'
+        END AS mpricestand
+        FROM ((ha_pricestandard ps LEFT JOIN ha_meterType mt ON ps.metertypeId=mt.metertypeId)
+        LEFT JOIN ha_meter m ON ps.pricestand_id=m.pricestand_id)
+        LEFT JOIN ha_area a  ON m.areaid=a.areaid
+        WHERE ps.pricestand_id>0
+        <if test="haPricestandard.metertypeId != null">
+            and ps.metertypeid = ${haPricestandard.metertypeId}
+        </if>
+        <if test="haPricestandard.keyWord != null and haPricestandard.keyWord != ''">
+            and ps.name like '%${haPricestandard.keyWord}%' or ps.chargingMethods like '%${haPricestandard.keyWord}%'
+        </if>
+        GROUP BY ps.pricestand_id,ps.name,ps.metertypeid,mt.name,ps.chargingMethods,ps.usagePoint1,
+        ps.usagePoint2,ps.price1,ps.price2,ps.price3,ps.A1,ps.s_days,ps.s_min,
+        ps.s_max,to_char(ps.starttime, 'yyyy-mm-dd'),to_char(ps.endtime, 'yyyy-mm-dd'),round(CAST(ps.a1 AS NUMERIC),2)
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="selectHaPricestandardCount" resultType="Integer">
+        SELECT count(1) from ha_pricestandard
+    </select>
+
+    <select id="updateByIdHaPricestandard" resultMap="HaPricestandardMap">
+        SELECT ps.pricestand_id as pricestandId,
+        ps.name as name,
+        ps.metertypeid as metertypeId,
+        mt.name AS mname,
+        ps.chargingMethods AS chargingMethods,
+        ps.usagePoint1 AS usagepoint1,
+        ps.usagePoint2 AS usagepoint2,
+        trim(to_char(ps.price1*1::real, 'FM999999999.00')) AS price1,
+        trim(to_char(ps.price2*1::real, 'FM999999999.00'))  AS price2,
+        trim(to_char(ps.price3*1::real, 'FM999999999.00')) AS price3,
+        round(CAST(ps.a1 AS NUMERIC),2) AS a1,
+        ps.s_days as sDays,
+        ps.s_min as sMin,
+        ps.s_max as sMax,
+        to_char(ps.starttime, 'yyyy-mm-dd') as startTime,
+        to_char(ps.endtime, 'yyyy-mm-dd') as endTime,
+        CASE WHEN
+        Count(m.pricestand_id)>0 THEN '是'
+        ELSE '否'
+        END AS mpricestand
+        FROM ((ha_pricestandard ps LEFT JOIN ha_meterType mt ON ps.metertypeId=mt.metertypeId)
+        LEFT JOIN ha_meter m ON ps.pricestand_id=m.pricestand_id)
+        LEFT JOIN ha_area a  ON m.areaid=a.areaid
+        WHERE ps.pricestand_id = #{haPricestandard.pricestandId}
+        GROUP BY ps.pricestand_id,ps.name,ps.metertypeid,mt.name,ps.chargingMethods,ps.usagePoint1,
+        ps.usagePoint2,ps.price1,ps.price2,ps.price3,ps.A1,ps.s_days,ps.s_min,
+        ps.s_max,to_char(ps.starttime, 'yyyy-mm-dd'),to_char(ps.endtime, 'yyyy-mm-dd'),round(CAST(ps.a1 AS NUMERIC),2)
+    </select>
+
+    <insert id="addHaPricestandard">
+        insert into ha_pricestandard values (default,#{meterTypeId},#{name},#{startTime},#{endTime},#{jPrice},#{fPrice},#{pPrice},#{gPrice},#{sMin},#{sMax},#{sDays},#{createTime},#{modifyTime},#{usagepoint1},#{usagepoint2},#{chargingmethods},#{price1},#{price2},#{price3},#{a1})
+    </insert>
+
+    <update id="updateHaPricestandard">
+        update ha_pricestandard
+        <trim prefix="set" suffixOverrides="," suffix="where pricestand_id = #{pricestandId}">
+            <if test="name != null">name = #{name},</if>
+            <if test="metertypeId != null">metertypeid = #{metertypeId},</if>
+            <if test="startTime != null">startTime = #{startTime},</if>
+            <if test="endTime != null">endTime = #{endTime},</if>
+            <if test="jPrice != null">j_price = #{jPrice},</if>
+            <if test="fPrice != null">f_price = #{fPrice},</if>
+            <if test="pPrice != null">p_price = #{pPrice},</if>
+            <if test="gPrice != null">g_price = #{gPrice},</if>
+            <if test="sMin != null">s_min = #{sMin},</if>
+            <if test="sMax != null">s_max = #{sMax},</if>
+            <if test="sDays != null">s_days = #{sDays},</if>
+            <if test="createTime != null">createtime = #{createTime},</if>
+            <if test="modifyTime != null">modifytime = #{modifyTime},</if>
+            <if test="usagePoint1 != null">usagepoint1 = #{usagePoint1},</if>
+            <if test="usagePoint2 != null">usagepoint2 = #{usagePoint2},</if>
+            <if test="chargingMethods != null">chargingmethods = #{chargingMethods},</if>
+            <if test="price1 != null">price1 = #{price1},</if>
+            <if test="price2 != null">price2 = #{price2},</if>
+            <if test="price3 != null">price3 = #{price3},</if>
+            <if test="a1 != null">a1 = #{a1},</if>
+        </trim>
+    </update>
+
+    <delete id="deleteHaPricestandard">
+        delete from ha_pricestandard where pricestand_id = #{pricestandId}
+    </delete>
+</mapper>

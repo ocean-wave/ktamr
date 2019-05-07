@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaCmdMapper">
+
+    <resultMap id="cmdMap" type="com.ktamr.domain.HaCmd">
+        <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <result column="cmd" property="cmd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="parms" property="parms" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="uid" property="uid" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="createTime" property="createTime" javaType="java.util.Date"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="lastEndTime" property="lastEndTime" javaType="java.util.Date"></result>
+        <result column="lastBeginTime" property="lastBeginTime" javaType="java.util.Date"></result>
+        <result column="processing" property="processing" javaType="java.lang.String"></result>
+        <result column="tryTimes" property="tryTimes" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="xgrws" property="resultParams.xgrws"></result>
+        <result column="executor" property="resultParams.executor"></result>
+
+        <association property="haOperator" javaType="com.ktamr.domain.HaOperator">
+            <result column="operator_name" property="operatorName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
+    </resultMap>
+
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+            <if test=" params.operatorRgnType == 'rgn' ">
+                and position( LEFT(ce.centorNo,1) in #{params.rgnStr})>0
+            </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and ce.centorNo in (#{params.areaNo})
+            </if>
+        </if>
+    </sql>
+
+    <select id="selectCmdId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT id
+        FROM ha_cmd
+        WHERE cmd= #{mcmd}
+        AND parms= #{parms}
+        AND centorid=#{centorid}
+        AND state != '完成' AND state != '失败'
+    </select>
+
+    <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
+        <if test=" deviceType == '1'.toString() ">
+        insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
+        values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
+          <if test=" centorid >= 0  ">#{centorid},</if><if test=" uid != null and uid != '' ">#{uid},</if>
+          <if test=" createTime != null  ">#{createTime},</if>
+          <if test=" state != null and state != '' ">#{state}</if>)
+        </if>
+        <if test=" deviceType == '2'.toString() ">
+            insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
+            SELECT cmd,parms,centorid,#{uid},#{createTime},#{state}
+            from ha_cmd
+            WHERE id=#{id}
+        </if>
+    </insert>
+
+    <select id="selectCmdParmsById" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT state,processing
+        FROM ha_cmd
+        WHERE id=#{id}
+    </select>
+
+    <select id="selectCentorById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT description FROM ha_centor WHERE id=#{centorid}
+    </select>
+
+    <select id="selectAllCmd" resultMap="cmdMap">
+        SELECT
+        c.id AS id
+        ,c.cmd AS cmd
+        , c.parms AS parms
+        ,to_char(c.createtime, 'yyyy-mm-dd hh24:mi:ss') AS  createTime
+        , c.state AS state
+        , to_char(c.lastEndTime,'hh:mi:ss') AS lastEndTime
+        , c.processing AS processing
+        ,COUNT(*) AS xgrws
+        FROM ha_cmd c,hti_bd_job j
+        WHERE c.id=j.cmdid
+        <if test=" params.keyWord != null and params.keyWord != ''  ">
+            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' )
+        </if>
+        GROUP BY c.id,c.cmd,c.parms,c.createtime,c.state,c.lastEndTime,c.processing
+        ORDER BY c.id DESC
+    </select>
+
+    <insert id="insertCmdTwo" useGeneratedKeys="true"  keyProperty="resultParams.meterId" parameterType="com.ktamr.domain.HaMeter">
+        insert into ha_cmd(cmd,parms,centorid,uid,createTime,lastBeginTime,lastEndTime,processing,state)
+        select '手工录入单',meterNumber, NULL,#{params.operatorCode},#{params.nowStr},#{params.nowStr}
+        ,#{params.nowStr},'读数:'||#{thNumber}||',状态:'||#{state},'完成'
+        from ha_meter
+        WHERE meterid=#{meterId}
+    </insert>
+
+    <select id="selectCmdLeftJoinTow" resultMap="cmdMap">
+        SELECT  c.id AS id
+        ,c.cmd AS cmd
+        , c.parms AS parms
+        , ce.addr AS addr
+        , c.state AS state
+        , c.processing AS processing
+        , c.lastBeginTime AS lastBeginTime
+        , c.lastEndTime AS lastEndTime
+        ,  c.tryTimes AS tryTimes
+        , CASE WHEN c.uid='sys' THEN '系统' WHEN  c.uid='sys_shzn' THEN '上海真诺(系统)' WHEN c.uid='sys_zkjd' THEN '中科君达(系统)' WHEN  c.uid='sys_bdss' THEN  '保定水司(系统)' WHEN  c.uid='sys_gzsk' THEN '贵州深科(系统)' WHEN length(o.operator_name)>0 THEN  o.operator_name ELSE c.uid END  AS executor
+        FROM ha_cmd c
+        LEFT OUTER JOIN ha_operator o ON c.uid=o.operator_code
+        LEFT JOIN ha_centor ce ON c.centorid=ce.id
+        WHERE c.id>0
+        <if test=" params.deviceType !=null and params.deviceType == 'centor' ">
+            AND position('KT4' in ce.description)>0
+        </if>
+        <if test=" params.deviceType !=null and params.deviceType == 'ccentor' ">
+            AND (position( 'KT3' in ce.description)>0 OR ce.description='COM' OR ce.description='GPRS')
+        </if>
+        <if test=" params.deviceType !=null and params.deviceType == 'others' ">
+            AND (c.centorid=0 OR c.centorid IS NULL)
+        </if>
+        <if test=" params.operatorLevel == 'admin' ">
+            AND (c.inter_cmdid is null OR c.inter_cmdid=0)
+        </if>
+        <if test=" params.operatorLevel == 'normal' ">
+            AND (o.operator_code IN (
+            SELECT operator_code FROM ha_operator
+            WHERE operator_upper=#{params.operatorCode} OR operator_code=#{params.operatorCode})
+            OR (c.uid='sys' <include refid="getRightCondition"></include>)
+            OR c.uid=#{params.operatorCompanyId})
+        </if>
+        <if test=" params.operatorLevel != 'normal' and params.operatorLevel !='admin' ">
+            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' <include refid="getRightCondition"></include>)
+            OR c.uid=#{params.operatorCompanyId})
+        </if>
+        <if test=" params.keyWord != null and params.keyWord != ''  ">
+            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' or c.processing like '%${params.keyWord}%' )
+        </if>
+        ORDER BY c.id DESC
+    </select>
+
+    <select id="selectCmdById" resultMap="cmdMap">
+        SELECT
+        c.id
+        ,c.cmd
+        , c.parms
+        , c.centorid
+        , c.uid
+        , c.createtime
+        , c.state
+        , c.tryTimes
+        , c.lastEndTime
+        , c.lastBeginTime
+        , c.processing
+        , o.operator_name
+        , ce.addr
+        FROM ha_cmd c
+        LEFT JOIN ha_operator o ON c.uid=o.operator_code
+        LEFT JOIN ha_centor ce ON c.centorid=ce.id
+        WHERE c.id=#{id}
+    </select>
+
+    <delete id="deleteCmdByid" >
+        delete from ha_cmd where id in <foreach item="id" index="index" collection="cmdids"
+                                                open="(" separator="," close=")">
+                                    #{id}
+                                </foreach>
+    </delete>
+</mapper>
