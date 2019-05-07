@@ -90,6 +90,7 @@ public class CustomController {
     public String queryHaAreaJson(){
         List<HaArea> haAreas = haAreaService.queryAllHaAreaC();
         if(haAreas!=null){
+            //hhhh
             return JSON.toJSONString(haAreas);
         }
         return null;
