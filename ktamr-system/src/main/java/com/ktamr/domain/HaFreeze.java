@@ -3,6 +3,7 @@ package com.ktamr.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,9 +13,12 @@ public class HaFreeze extends BaseEntity {
   private Integer meterId;
   private Date lfTime;
   private String lfNumber;
-  @JsonFormat( pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date thTime;
   private String tfNumber;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date rTime;
   private String delta;
   private Integer priceStandId;

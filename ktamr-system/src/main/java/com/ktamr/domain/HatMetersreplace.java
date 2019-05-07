@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,12 +15,16 @@ public class HatMetersreplace extends BaseEntity {
   private Integer orimeterRead;
   private double newmeterNumber;
   private Integer newmeterRead;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date replaceTime;
   private String replaceMan;
   private String reMark;
   private String check;
   private Integer hasDayFreeze;
   private Integer hasMonFreeze;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date importTime;
   private String userCode;
 

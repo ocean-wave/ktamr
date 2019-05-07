@@ -98,6 +98,7 @@ public class CustomController {
     @RequestMapping(value = "/QueryHaBuildingJson",produces = "text/plain;charset=utf-8")
     @ResponseBody
     public Object queryHaBuildingJson(Integer areaId){
+
         return JSON.toJSONString(haBuildingService.queryHaBuildingC(areaId));
     }
 
