@@ -30,9 +30,19 @@ public interface HaMeterMapper {
 
     public Integer updateMeter(HaMeter haMeter);
 
+    /**
+     * 根据centorId查询meter表信息
+     * @param centorId 参数centorId
+     * @return 返回泛型集合对象
+     */
     public List<HaMeter> selectMeterByCentorId(Integer centorId);
 
-    public List<HaMeter> selectMeterByCollectorId(Integer centorId);
+    /**
+     * 根据CollectorId查询meter表信息
+     * @param collectorId 参数CollectorId
+     * @return 返回泛型集合对象
+     */
+    public List<HaMeter> selectMeterByCollectorId(Integer collectorId);
 
     List<HaMeter> HaMeterList(HaMeter haMeter);
 

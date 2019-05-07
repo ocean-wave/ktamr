@@ -186,9 +186,7 @@
 		$(".opMeter").click(function(){
 			$(":button").attr({"disabled":"disabled"});
 			var selCollectorId = getSelectedRows("jqGrid1");
-			alert(selCollectorId);
 			var	rowData = $("#jqGrid1").jqGrid('getRowData', selCollectorId)
-			alert(rowData["ver"]);
 			var ids = getSelectedRows("jqGrid2").split(",");
 			var cmdName = $(this).text();
 			var parms = {
