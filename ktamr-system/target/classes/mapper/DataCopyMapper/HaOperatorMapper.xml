@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaOperatorMapper">
+
+    <resultMap id="HaOperatorMap" type="com.ktamr.domain.HaOperator">
+        <result property="operatorCode" column="operatorCode"/>
+        <result property="operatorName" column="operatorName"/>
+        <result property="operatorPwd" column="operatorPwd"/>
+        <result property="operatorSex" column="operatorSex"/>
+        <result property="operatorMobile" column="operatorMobile"/>
+        <result property="operatorRemark" column="operatorRemark"/>
+        <result property="operatorUpper" column="operatorUpper"/>
+        <result property="operatorLevel" column="operatorLevel"/>
+        <result property="operatorRgnType" column="operatorRgnType"/>
+        <result property="operatorState" column="operatorState"/>
+        <result property="operatorCreatTime" column="operatorCreatTime"/>
+        <result property="operatorCompany" column="operatorCompany"/>
+    </resultMap>
+
+    <select id="HaOperatorList" resultMap="HaOperatorMap">
+        select operator_code AS operatorCode,
+        operator_name AS operatorName,
+        CASE WHEN operator_sex='M' THEN '男'
+        WHEN operator_sex='F' THEN '女'
+        WHEN operator_sex='N' THEN '未知' end as operatorSex,
+        CASE WHEN operator_state='Y' THEN '启用'
+        WHEN operator_state='N' THEN '禁用' end as operatorState,
+        CASE WHEN operator_level='admin' THEN '系统管理员'
+        WHEN operator_level='normal' THEN '普通管理员'
+        WHEN operator_level='readMan' THEN '抄收员'
+        WHEN operator_level='viewMan' THEN '查阅员' end as operatorLevel,
+        CASE WHEN operator_rgn_type='all' THEN '全部区域'
+        WHEN operator_rgn_type='rgn' THEN '大区'
+        WHEN operator_rgn_type='area' THEN '小区' end as operatorRgnType,operator_upper as operatorUpper,
+        operator_company as operatorCompany, operator_mobile as operatorMobile, operator_remark as operatorRemark,
+        to_char(operator_creattime, 'yyyy-mm-dd hh24:mi:ss') as operatorCreatTime from ha_operator
+        where 1=1
+        <if test="haOperator.keyWord != null and haOperator.keyWord != ''">
+            and operator_company like '%${haOperator.operatorCompany}%'
+            or operator_upper like '%${haOperator.operatorUpper}%'
+        </if>
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="selectHaOperatorCount" resultType="Integer">
+        select count(1) from ha_operator
+    </select>
+
+    <insert id="addHaOperator">
+        insert into ha_operator values (#{operatorCode},#{operatorName},#{operatorPwd},#{operatorSex},#{operatorMobile},#{operatorRemark},#{operatorUpper},#{operatorLevel},#{operatorRgnType},#{operatorState},#{operatorCreatTime},#{operatorCompany})
+    </insert>
+
+    <delete id="deleteHaOperator">
+        delete from ha_operator where operator_code = #{operatorCode}
+    </delete>
+
+</mapper>

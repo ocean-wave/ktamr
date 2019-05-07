@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaFeestandardMapper">
+
+    <select id="HaFeestandardList" resultType="com.ktamr.domain.HaFeestandard">
+        SELECT feeid,name,price1,price2,price3 FROM ha_feeStandard where pricestandId = #{haFeestandard.pricestandId}
+    </select>
+
+    <insert id="addHaFeestandard">
+        insert into ha_feestandard values (default ,#{pricestandId},#{name},#{price1},#{price2},#{price3})
+    </insert>
+
+    <update id="updateHaFeestandard">
+        update ha_feestandard
+        <trim prefix="set" suffixOverrides="," suffix="where feeid = #{feeId}">
+            <if test="price1 != null"> price1 = #{price1},</if>
+            <if test="name != null"> name = #{name},</if>
+            <if test="price2 != null">price2 = #{price2},</if>
+            <if test="price3 != null">price3 = #{price3},</if>
+        </trim>
+    </update>
+
+    <select id="UpdateByIdHaFeestandard" resultType="com.ktamr.domain.HaFeestandard">
+        SELECT feeid,name,price1,price2,price3 FROM ha_feeStandard where feeid = #{feeId}
+    </select>
+
+    <delete id="deleteHaFeestandard">
+        delete from ha_feestandard where feeid = #{feeId}
+    </delete>
+</mapper>
