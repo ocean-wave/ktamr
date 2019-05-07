@@ -299,8 +299,8 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 				_myLayui.showLayer(cmdName, "/systemmaintenance/loadCentorMeter", _queryStr, _layerSize);
 				break;
 			case "采集器下载表地址":
-				_layerSize = ['650px', '400px'];
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadCentorMeter", _queryStr, _layerSize);
+				_layerSize = ['1000px', '700px'];
+				_myLayui.showLayer(cmdName, "/systemmaintenance/loadCollectorMeter", _queryStr, _layerSize);
 				break;
 			case "读采集器状态":
 			case "下载采集器地址":

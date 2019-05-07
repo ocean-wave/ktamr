@@ -26,8 +26,9 @@ public interface HaMeterService {
 
     public Integer updateMeter(HaMeter haMeter);
 
-    public List<HaMeter> selectMeterByCentorId(HaMeter haMeter);
+    public List<HaMeter> selectMeterByCentorId(Integer centorId);
 
+    public List<HaMeter> selectMeterByCollectorId(Integer centorId);
 
     List<HaMeter> HaMeterList(HaMeter haMeter);
 

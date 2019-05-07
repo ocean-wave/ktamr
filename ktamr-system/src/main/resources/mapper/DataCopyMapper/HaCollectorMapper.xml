@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaCollectorMapper">
 
-    <resultMap id="collectorMap" type="com.ktamr.domain.HaCollector">
+    <resultMap id="haCollectorMap" type="com.ktamr.domain.HaCollector">
         <id column="collectorId" property="collectorId"></id>
         <result column="addr" property="addr"></result>
         <result column="nconf" property="resultParams.nconf"></result>
@@ -12,7 +12,7 @@
         <result column="state" property="state"></result>
     </resultMap>
 
-    <select id="selectCollector" resultMap="collectorMap" parameterType="com.ktamr.domain.HaCollector">
+    <select id="selectCollectorBycentorId" resultMap="haCollectorMap">
         SELECT
         collectorid as collectorId
         , addr AS addr
@@ -20,8 +20,10 @@
         ,ver AS ver
         , state AS state
         FROM ha_collector
-        WHERE centorid=#{haCentor.centorId}
+        WHERE centorid=#{centorId}
     </select>
+
+
 
 
 

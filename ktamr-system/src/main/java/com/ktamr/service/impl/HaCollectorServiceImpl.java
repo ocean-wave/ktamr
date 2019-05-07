@@ -8,15 +8,26 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 采集器表实现类
+ */
 @Service
 public class HaCollectorServiceImpl implements HaCollectorService {
 
+    /**
+     * 注入HaCollectorMapper
+     */
     @Autowired
     private HaCollectorMapper haCollectorMapper;
 
+    /**
+     * 根据id查询采集器表信息
+     * @param centorId 对象参数
+     * @return 返回泛型集合对象
+     */
     @Override
-    public List<HaCollector> selectCollector(HaCollector haCollector) {
-        return haCollectorMapper.selectCollector(haCollector);
+    public List<HaCollector> selectCollectorBycentorId(Integer centorId) {
+        return haCollectorMapper.selectCollectorBycentorId(centorId);
     }
 
     public List<HaCollector> HaCollectorList(HaCollector haCollector) {

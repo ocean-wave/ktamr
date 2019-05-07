@@ -34,7 +34,7 @@
 		<td th:text=" ${ entries['id'] } "></td>
 		<td th:text=" ${ entries['cmd'] } "></td>
 		<td th:text=" ${ entries['parms']} "></td>
-		<td th:text=" ${ entries['haCentor'].addr} "></td>
+		<td th:text=" ${ entries['haCentor']!=null? entries['haCentor'].addr : ''} "></td>
 		<td th:text=" ${ entries['state']} "></td>
 		<td th:text=" ${ entries['processing']} "></td>
 	</tr>

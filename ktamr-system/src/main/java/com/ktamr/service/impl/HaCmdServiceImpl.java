@@ -44,7 +44,6 @@ public class HaCmdServiceImpl implements HaCmdService {
         }
         map.put("createTime", DateUtils.getNowDate());
         map.put("uid", ServletUtils.getSession().getAttribute("operatorCode"));
-        map.put("state","待执行");
         map.put("id",0);
         map.put("deviceType","1");
         haCmdMapper.insertCmd(map);
@@ -57,7 +56,6 @@ public class HaCmdServiceImpl implements HaCmdService {
         map.put("cmdId",id);
         map.put("uid", ServletUtils.getSession().getAttribute("operatorCode"));
         map.put("createTime", DateUtils.getNowDate());
-        map.put("state","待执行");
         map.put("deviceType","2");
         map.put("id",0);
         haCmdMapper.insertCmd(map);

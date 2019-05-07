@@ -2,6 +2,7 @@ package com.ktamr.web.datacopy.controller.equipment;
 
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.service.HaCentorService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
@@ -104,6 +105,7 @@ public class CentorzController extends BaseController {
         mmap.put("deviceName",deviceName!=null?deviceName:"");
         mmap.put("cmdName",cmdName);
         mmap.put("ids",ids);
+        mmap.put("nowTimeStr1", DateUtils.getNowDate());
         return pxePath+"/deviceMng";
     }
 }

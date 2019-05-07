@@ -62,7 +62,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">当前时间</label>
                     <div class="layui-input-inline">
-                        <input id="nowTime" lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmm)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="10" value="<%=nowTimeStr1%>">
+                        <input id="nowTime" lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmm)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="10" th:value="${#dates.format(nowTimeStr1, 'yyMMddHHmm')}">
                     </div>
                 </div>
             </form>

@@ -3,6 +3,7 @@ package com.ktamr;
 //import com.sun.jna.Library;
 //import com.sun.jna.Native;
 //import com.sun.jna.Platform;
+import com.ktamr.common.utils.DateUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,7 +37,6 @@ public class KtamrApplication {
         //String c = ht_cmd_request("192.168.100.12:12508","ad:sdasdas");
 
         SpringApplication.run(KtamrApplication.class, args);
-
         System.out.println("(♥◠‿◠)ﾉﾞ  自动抄表管理系统启动成功   ლ(´ڡ`ლ)ﾞ  \n");
     }
 }

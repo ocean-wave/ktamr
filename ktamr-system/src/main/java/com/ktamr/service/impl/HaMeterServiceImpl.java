@@ -119,10 +119,14 @@ public class HaMeterServiceImpl implements HaMeterService {
     }
 
     @Override
-    public List<HaMeter> selectMeterByCentorId(HaMeter haMeter) {
-        return haMeterMapper.selectMeterByCentorId(haMeter);
+    public List<HaMeter> selectMeterByCentorId(Integer centorId) {
+        return haMeterMapper.selectMeterByCentorId(centorId);
     }
 
+    @Override
+    public List<HaMeter> selectMeterByCollectorId(Integer centorId) {
+        return haMeterMapper.selectMeterByCollectorId(centorId);
+    }
 
     public List<HaMeter> HaMeterList(HaMeter haMeter) {
         return haMeterMapper.HaMeterList(haMeter);
