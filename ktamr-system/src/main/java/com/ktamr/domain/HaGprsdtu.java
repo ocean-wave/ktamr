@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,6 +15,8 @@ public class HaGprsdtu extends BaseEntity {
     private Integer centors;
     private String state;
     private String dscrp;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date oplastTime;
     private Integer idle;
 

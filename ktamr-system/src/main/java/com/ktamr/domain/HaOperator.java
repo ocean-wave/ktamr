@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -17,6 +19,8 @@ public class HaOperator extends BaseEntity {
     private String operatorLevel;
     private String operatorRgnType;
     private String operatorState;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date operatorCreatTime;
     private String operatorCompany;
     private String keyWord;

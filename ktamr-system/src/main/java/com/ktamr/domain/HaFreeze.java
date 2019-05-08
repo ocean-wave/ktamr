@@ -3,6 +3,7 @@ package com.ktamr.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,9 +13,12 @@ public class HaFreeze extends BaseEntity {
   private Integer meterId;
   private Date lfTime;
   private String lfNumber;
-  @JsonFormat( pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date thTime;
   private String tfNumber;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date rTime;
   private String delta;
   private Integer priceStandId;
@@ -25,6 +29,36 @@ public class HaFreeze extends BaseEntity {
   //开启存别名
   private Integer areaId;//***重要
   private String opType;//点击哪个功能的功能名称
+
+  //开始存对象
+  private HaMeter haMeter;
+  private HaPricestandard haPricestandard;
+  private HaMetertype haMetertype;
+
+
+  public HaMeter getHaMeter() {
+    return haMeter;
+  }
+
+  public void setHaMeter(HaMeter haMeter) {
+    this.haMeter = haMeter;
+  }
+
+  public HaPricestandard getHaPricestandard() {
+    return haPricestandard;
+  }
+
+  public void setHaPricestandard(HaPricestandard haPricestandard) {
+    this.haPricestandard = haPricestandard;
+  }
+
+  public HaMetertype getHaMetertype() {
+    return haMetertype;
+  }
+
+  public void setHaMetertype(HaMetertype haMetertype) {
+    this.haMetertype = haMetertype;
+  }
 
   public Integer getItemId() {
     return itemId;

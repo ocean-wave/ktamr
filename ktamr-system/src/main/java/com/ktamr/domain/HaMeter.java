@@ -63,6 +63,7 @@ public class HaMeter extends BaseEntity {
     private HaFreeze haFreeze;
     private HavMeterinfo havMeterinfo;
     private Integer haMeterCount;
+    private HaArea haArea;
 
     public long getMeterNumber() {
         return meterNumber;
@@ -414,5 +415,13 @@ public class HaMeter extends BaseEntity {
 
     public void setVendorId(Integer vendorId) {
         this.vendorId = vendorId;
+    }
+
+    public HaArea getHaArea() {
+        return haArea;
+    }
+
+    public void setHaArea(HaArea haArea) {
+        this.haArea = haArea;
     }
 }

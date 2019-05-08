@@ -103,4 +103,35 @@ WHERE (SELECT Count(*) FROM ha_monthBTime WHERE areaid=#{areaId})=0 limit 1
 		then	  #{areaId} else -1 end
 		FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid=#{areaId})=bt.areaid ORDER BY bt.end_time DESC limit 1
 	</insert>
+
+	<resultMap id="BselectPritJiaoFeiDan2Map" type="HaFreeze">
+		<result column="上次抄读" property="lfNumber" />
+		<result column="本次抄读" property="tfNumber" />
+		<result column="用量" property="delta" />
+		<result column="费用" property="pay" />
+		<association property="haMeter" javaType="HaMeter">
+			<result column="倍率" property="rate"/>
+		</association>
+		<association property="haPricestandard" javaType="HaPricestandard">
+			<result column="收费标准" property="name"/>
+		</association>
+		<association property="haMetertype" javaType="HaMetertype">
+			<result column="表类型" property="name"/>
+		</association>
+	</resultMap>
+	<!--点击打印缴费单时进行查询2	-->
+	<select id="BselectPritJiaoFeiDan2" resultMap="BselectPritJiaoFeiDan2Map">
+ 		SELECT
+				mt.name AS 表类型
+				,m.rate AS 倍率
+				,f.lf_number AS 上次抄读
+				,f.tf_number AS 本次抄读
+				,f.delta AS 用量
+				,p.name AS 收费标准
+				,to_char(f.pay, '0.00') AS 费用
+				 FROM ((ha_freeze f LEFT JOIN ha_meter m ON m.meterid=f.meterid)
+					   LEFT JOIN ha_pricestandard p ON f.pricestand_id = p.pricestand_id)
+					   LEFT JOIN ha_metertype mt ON p.metertypeid = mt.metertypeid
+				 WHERE POSITION('${billId}' IN billid)>0 ORDER BY m.meterNumber
+	</select>
 </mapper>

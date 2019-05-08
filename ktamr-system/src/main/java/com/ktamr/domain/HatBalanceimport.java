@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -14,6 +16,8 @@ public class HatBalanceimport extends BaseEntity {
   private double balance;
   private long userId;
   private String check;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date importTime;
 
 

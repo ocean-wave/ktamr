@@ -1,7 +1,9 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -16,6 +18,8 @@ public class HaReplacerecords extends BaseEntity {
   private String finalState;
   private double oriRead;
   private String replaceMan;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date replaceDate;
   private String exPlain;
 

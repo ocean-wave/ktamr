@@ -1,5 +1,8 @@
 package com.ktamr.util;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Menus {
@@ -29,6 +32,7 @@ public class Menus {
         this.pId = pId;
     }
 
+    @JsonProperty("LevelType")
     public String getLevelType() {
         return LevelType;
     }

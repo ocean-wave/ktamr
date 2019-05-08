@@ -322,7 +322,7 @@ myzTree.prototype.getMultiSelectedNodes = function(){
 			break;
 		}
 	}
-	if(levelType == "allRgn" || levelType == "allArea" || levelType == "allMeter"){
+	if(LevelType == "allRgn" || LevelType == "allArea" || LevelType == "allMeter"){
 		nodes = _nodes;
 	}else{
 		for(var i=0;i<nodes.length;i++){
