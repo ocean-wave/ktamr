@@ -43,7 +43,7 @@ public class HaBillrecordsController {
      */
     @RequestMapping("/showBillRecordsList/showBillRecordsList")
     @ResponseBody
-    public  String  showBillRecordsList(HaBillrecords haBillrecords, HttpServletRequest request,  @RequestParam("startDate") Object startDate, @RequestParam("endDate")Object endDate
+    public  Object  showBillRecordsList(HaBillrecords haBillrecords, HttpServletRequest request,  @RequestParam("startDate") Object startDate, @RequestParam("endDate")Object endDate
 
     ){
 
@@ -81,13 +81,7 @@ public class HaBillrecordsController {
         map.put("records",selectHaAreaCount);//总记录数
         map.put("total",(selectHaAreaCount-1)/pageRows+1);//总页数的计算
         map.put("rows",haAreaList);//存放集合
-
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
-
-        if(s!=null){
-            return s;
-        }
-        return null;
+        return map;
     }
 
     /**
@@ -154,7 +148,7 @@ public class HaBillrecordsController {
             for (int i=0;i<haMonthbtimeList.size();i++){
                 //对其进行赋值
 
-                String std= DateUtils.parseDateToStr("yyyy-MM-dd HH24:mm:ss",haMonthbtimeList.get(i).getStartTime())+'~'+DateUtils.parseDateToStr("yyyy-MM-dd HH24:mm:ss",haMonthbtimeList.get(i).getEndTime())+';';
+                String std= DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss",haMonthbtimeList.get(i).getStartTime())+'~'+DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss",haMonthbtimeList.get(i).getEndTime())+';';
                 list.add(std);
             }
             return list;

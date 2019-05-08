@@ -37,13 +37,13 @@
 		, mi.用户名 as 用户名称
 		, mi.用户地址 as 用户地址
 		, p.state as pstate
-		, to_date(to_char(p.plantime, 'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') as pplantime
+		, to_char(p.plantime, 'YYYY-MM-DD hh24:mm:ss') as pplantime
 		, ps.name AS psname
 		, f.delta AS fdelta
 		, p.sum as psum
 
 		, COALESCE(p.lastarrear, 0) as plastarrear
-		, to_date(to_char(p.mbtime, 'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') as pmbtime
+		, to_char(p.mbtime, 'YYYY-MM-DD hh24:mm:ss') as pmbtime
 		 FROM ((ha_paylog p LEFT JOIN ha_freeze f ON p.billid=f.billid)
 		 LEFT JOIN hav_meterinfo mi ON f.meterid=mi.meterid)
 		 LEFT JOIN ha_priceStandard ps ON f.pricestand_id=ps.pricestand_id
@@ -63,11 +63,11 @@
 
 
         <if test="HaPaylog.haPricestandard.starttime != null  and HaPaylog.haPricestandard.endtime != null ">
-            and mbtime between
-            #{HaPaylog.haPricestandard.startTime,jdbcType=TIMESTAMP}
+            and to_char(mbtime,'YYYY-mm-dd hh24:mm:ss') between
+            #{HaPaylog.haPricestandard.startTime,jdbcType=CHAR}
             and
 
-            #{HaPaylog.haPricestandard.endTime,jdbcType=TIMESTAMP}
+            #{HaPaylog.haPricestandard.endTime,jdbcType=CHAR}
         </if>
     </if>
         limit #{page} OFFSET #{rowNum}
@@ -93,11 +93,11 @@
          </if>
         <if test="HaPaylog.haPricestandard!=null">
             <if test="HaPaylog.haPricestandard.starttime != null  and HaPaylog.haPricestandard.endtime != null ">
-                and mbtime between
-                date(#{HaPaylog.haPricestandard.startTime,jdbcType=TIMESTAMP})
+                and to_char(mbtime,'YYYY-mm-dd hh24:mm:ss') between
+                #{HaPaylog.haPricestandard.startTime,jdbcType=CHAR}
                 and
 
-                date(#{HaPaylog.haPricestandard.endTime,jdbcType=TIMESTAMP})
+               #{HaPaylog.haPricestandard.endTime,jdbcType=CHAR}
             </if>
         </if>
     </select>
@@ -187,6 +187,60 @@
 		) t
 		WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
 		AND ps.meterTypeId = mt.meterTypeId
+    </select>
+
+    <!-- 点击打印缴费单时进行查询的map映射   -->
+    <resultMap id="BselectPritJiaoFeiDanXka1" type="HaPaylog">
+        <result column="费用" property="sum" />
+        <result column="上期余额" property="lastarrear"/>
+        <result column="出单时间" property="planTime"/>
+        <result column="billid" property="billId"/>
+        <result column="状态" property="state"/>
+        <result column="custid" property="custId"/>
+        <result column="用户名称" property="custName"/>
+        <association property="haFreeze" javaType="HaFreeze">
+            <result column="最近抄表时间" property="thTime"/>
+        </association>
+        <association property="haCustom" javaType="HaCustom">
+            <result column="银行名称" property="bank"/>
+            <result column="银行账户" property="account"/>
+        </association>
+        <association property="havMeterinfo" javaType="HavMeterinfo">
+            <result column="用户地址" property="userDs"/>
+        </association>
+    </resultMap>
+    <!--点击打印缴费单时进行查询1-->
+    <select id="BselectPritJiaoFeiDan1" resultMap="BselectPritJiaoFeiDanXka1">
+        SELECT
+		 p.planTime AS 出单时间
+		,p.sum AS 费用
+		, cu.bank AS 银行名称
+		, cu.account AS 银行账户
+		, p.state AS 状态
+		, p.cust_id AS custid
+		, p.cust_name AS 用户名称
+		, p.billid AS billid
+		, mi.用户地址 AS 用户地址
+		, f.th_time AS 最近抄表时间
+		, p.lastArrear AS 上期余额
+		 FROM ((ha_paylog p LEFT JOIN ha_freeze f ON
+f.billid=p.billid)
+		LEFT JOIN ha_custom cu ON p.cust_id=cu.custid)
+		LEFT JOIN hav_meterinfo mi ON f.meterid=mi.meterid WHERE
+(p.state='出单' OR p.state='完成')
+        <if test="HaPaylog.billId != null and HaPaylog.billId != ''">
+            and POSITION('${HaPaylog.billId}' IN p.billid)>0
+        </if>
+
+            <if test="HaPaylog.areaId != null  and HaPaylog.areaId != null ">
+                and mi.areaid=#{HaPaylog.areaId}
+            </if>
+
+
+        <if test="HaPaylog.KaiShiTime != null and HaPaylog.KaiShiTime != '' and HaPaylog.JieShuTime != null and HaPaylog.JieShuTime != ''">
+            and to_char(p.planTime, 'YYYY-MM-DD hh:mm:ss') between '${HaPaylog.KaiShiTime}' and '${HaPaylog.JieShuTime}'
+        </if>
+		ORDER BY mi.用户地址,cu.custno
     </select>
 
 

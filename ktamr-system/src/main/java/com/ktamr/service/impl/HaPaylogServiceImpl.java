@@ -78,5 +78,19 @@ public class HaPaylogServiceImpl implements HaPaylogService {
         return null;
     }
 
+    /**
+     * 点击打印缴费单时进行查询1
+     * @param haPaylog
+     * @return
+     */
+    @Override
+    public List<HaPaylog> BselectPritJiaoFeiDan1(HaPaylog haPaylog) {
+        List<HaPaylog> haPaylogs = haPaylogMapper.BselectPritJiaoFeiDan1(haPaylog);
+        if(haPaylogs!=null){
+            return haPaylogs;
+        }
+        return null;
+    }
+
 
 }

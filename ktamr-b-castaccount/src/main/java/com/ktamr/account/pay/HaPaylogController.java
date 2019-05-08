@@ -4,9 +4,11 @@ package com.ktamr.account.pay;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.domain.HaArea;
+import com.ktamr.domain.HaFreeze;
 import com.ktamr.domain.HaPaylog;
 import com.ktamr.domain.HaPricestandard;
 import com.ktamr.service.HaAreaService;
+import com.ktamr.service.HaFreezeService;
 import com.ktamr.service.HaPaylogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,8 @@ public class HaPaylogController {
     @Resource
     private HaAreaService haAreaService;
 
+    @Resource
+    private HaFreezeService haFreezeService;
     /**
      * 打开缴费单页面 +查询小区表
      * @return
@@ -51,7 +55,7 @@ public class HaPaylogController {
      */
     @RequestMapping(value ="/showHaPaylogList")
     @ResponseBody
-    public String showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
+    public Object showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
     , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime,String hhh
     ){
 
@@ -100,10 +104,10 @@ public class HaPaylogController {
         map.put("total",(paylogListCount-1)/pageRows+1);//总页数的计算
         map.put("rows",haPaylogList);//存放集合
 
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
 
-        if(s!=null){
-            return s;
+
+        if(map!=null){
+            return map;
         }
         return null;
     }
@@ -168,5 +172,22 @@ public class HaPaylogController {
             return s;
         }
         return null;
+    }
+
+    //点击打印缴费单的事件
+    @RequestMapping("/bill_print")
+    public String billPrint(HaPaylog haPaylog, HaFreeze haFreeze,Model model){
+        List<HaPaylog> haPaylogList = haPaylogService.BselectPritJiaoFeiDan1(haPaylog);
+        List<HaFreeze> bselectPritJiaoFeiDan2 = haFreezeService.BselectPritJiaoFeiDan2(haFreeze);
+        if(haPaylogList!=null&&bselectPritJiaoFeiDan2!=null){
+            model.addAttribute("haPaylogList",haPaylogList);
+            model.addAttribute("bselectPritJiaoFeiDan2",bselectPritJiaoFeiDan2);
+            Map<String,Object> hh=new HashMap<String,Object>();
+            hh.put("haPaylogList",haPaylogList);
+            hh.put("bselectPritJiaoFeiDan2",bselectPritJiaoFeiDan2);
+            return "/pay/bill_print.html";
+        }
+
+        return  null;
     }
 }

@@ -39,4 +39,11 @@ public interface HaPaylogService {
      */
     public Integer selectMonthReportListCount(HaPaylog haPaylog);
 
+
+    /**
+     * 点击打印缴费单时进行查询1
+     * @param haPaylog
+     * @return
+     */
+    public List<HaPaylog> BselectPritJiaoFeiDan1(HaPaylog haPaylog);
 }

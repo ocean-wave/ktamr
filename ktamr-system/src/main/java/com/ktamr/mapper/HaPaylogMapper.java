@@ -42,4 +42,11 @@ public interface HaPaylogMapper {
     public Integer selectMonthReportListCount(@Param("HaPaylog") HaPaylog haPaylog);
 
 
+    /**
+     * 点击打印缴费单时进行查询1
+     * @param haPaylog
+     * @return
+     */
+    public List<HaPaylog> BselectPritJiaoFeiDan1(@Param("HaPaylog")HaPaylog haPaylog);
+
 }
