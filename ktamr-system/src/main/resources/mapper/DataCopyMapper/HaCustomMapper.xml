@@ -91,6 +91,10 @@
         where u.custid = #{haCustom.custId}
     </select>
 
+    <insert id="addHaCustom">
+        insert into ha_custom values (default ,#{custNo},#{name},#{sex},#{idNumber},#{idName},#{tel},#{mobil},#{addr},#{zip},#{bank},#{account},#{lastbillId},#{billId},#{createTime},#{modifyTime},#{balance},#{expense},#{paidTime},#{recharge},#{rechargeTime},#{postTime})
+    </insert>
+
     <delete id="deleteHaCustom">
         delete from ha_custom where custid = #{custId}
     </delete>

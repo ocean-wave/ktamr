@@ -121,6 +121,15 @@ public class CustomController {
         return "custom/cust_del";
     }
 
+    @RequestMapping("/AddHaCustom")
+    public Object addHaCustom(HaCustom haCustom){
+        Integer custom = haCustomService.addHaCustom(haCustom);
+        if(custom==1){
+            return "true";
+        }
+        return "false";
+    }
+
     @RequestMapping("/DeleteHaCustom")
     @ResponseBody
     public Object deleteHaCustom(HaCustom haCustom){
