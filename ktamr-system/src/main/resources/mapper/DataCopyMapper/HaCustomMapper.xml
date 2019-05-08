@@ -57,6 +57,9 @@
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON b.areaid=a.areaid
         where u.custid is not null
+        <!--<if test="haArea.name!=null and haArea.name!=''">-->
+            <!--and a.name = #{haArea.name}-->
+        <!--</if>-->
         <if test="haCustom.keyWord!=null and haCustom.keyWord !=''">
             and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
         </if>

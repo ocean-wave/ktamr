@@ -46,7 +46,7 @@ public class AreaController {
     public String JumpAreaAdd(Model model) {
         List<HaRgn> haRgn = haRngService.queryAllRngC();
         model.addAttribute("haRgn", haRgn);
-        return "/area/area_add";
+        return "area/area_add";
     }
 
     @RequestMapping("/JumpAreaDelete")
@@ -54,7 +54,7 @@ public class AreaController {
         HaArea area = haAreaService.updateByIdHaAreaC(areaid);
         model.addAttribute("area", area);
         model.addAttribute("areaid", areaid);
-        return "/area/area_del";
+        return "area/area_del";
     }
 
     @RequestMapping("/JumpAreaUpdate")
@@ -64,22 +64,22 @@ public class AreaController {
         model.addAttribute("haRgn", haRgn);
         model.addAttribute("area", area);
         model.addAttribute("areaid", areaid);
-        return "/area/area_update";
+        return "area/area_update";
     }
 
     @RequestMapping("/JumpRoomMeterAdd")
     public String JumpRoomMeterAdd(){
-        return "/area/room_meter_add";
+        return "area/room_meter_add";
     }
 
     @RequestMapping("/JumpRoomMeterDel")
     public String JumpRoomMeterDel(){
-        return "/area/room_meter_del";
+        return "area/room_meter_del";
     }
 
     @RequestMapping("/JumpRoomMeterUpdate")
     public String JumpRoomMeterUpdate(){
-        return "/area/room_meter_update";
+        return "area/room_meter_update";
     }
 
     @RequestMapping("/QueryAllSmallAreaJson")

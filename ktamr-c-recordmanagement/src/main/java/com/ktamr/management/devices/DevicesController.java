@@ -32,7 +32,7 @@ public class DevicesController {
     }
 
     @RequestMapping("/device_addr_set")
-    public String device_addr_set(){return "/devices/device_addr_set";}
+    public String device_addr_set(){return "devices/device_addr_set";}
 
 
     @RequestMapping("/deviceDataMngJson")

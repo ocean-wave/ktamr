@@ -25,10 +25,10 @@ public class OperatorController {
     }
 
     @RequestMapping("/JumpOperatorAdd")
-    public String jumpoperatoradd(){return "/operator/operator_add";}
+    public String jumpoperatoradd(){return "operator/operator_add";}
 
     @RequestMapping("/JumpOperatorUpdate")
-    public String jumpoperatorupdate(){return "/operator/operator_update";}
+    public String jumpoperatorupdate(){return "operator/operator_update";}
 
     @RequestMapping("/operatorListJson")
     @ResponseBody

@@ -4,13 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaRoomMapper">
 
-    <select id="queryRoomC" resultType="com.ktamr.domain.HaRoom">
-        select roomid, name from ha_room where 1=1
-        <if test="buildingId!=null">
-            and buildingid=#{buildingId}
-        </if>
-    </select>
-
     <resultMap id="queryAllRoomMap" type="com.ktamr.domain.HaRoom">
         <id property="roomId" column="roomId"/>
         <result property="custId" column="custId"/>
@@ -63,6 +56,13 @@
             <id property="buildingId" column="buildingId"/>
         </association>
     </resultMap>
+
+    <select id="queryRoomC" resultMap="queryAllRoomMap">
+        select roomid as roomId, name from ha_room where 1=1
+        <if test="buildingId!=null">
+            and buildingid=#{buildingId}
+        </if>
+    </select>
 
     <select id="queryAllRoomC" resultMap="queryAllRoomMap">
         SELECT trim(to_char(r.roomid, '99999999'))||'_'||

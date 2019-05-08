@@ -32,7 +32,7 @@ public class CHaRgnController {
 
     @RequestMapping("/JumpRgnAdd")
     public String jumprgnadd(){
-        return "/area/rgn_add";
+        return "area/rgn_add";
     }
 
     @RequestMapping("/JumpRgnUpdate")
@@ -41,7 +41,7 @@ public class CHaRgnController {
         HaRgn rgn = haRngService.updateByIdRngC(haRgn);
         model.addAttribute("rgn",rgn);
         model.addAttribute("rgnId",rgnId);
-        return "/area/rgn_update";
+        return "area/rgn_update";
     }
 
     @RequestMapping("/JumpRgnDelete")
@@ -50,7 +50,7 @@ public class CHaRgnController {
         HaRgn rgn = haRngService.updateByIdRngC(haRgn);
         model.addAttribute("rgn",rgn);
         model.addAttribute("rgnId",rgnId);
-        return "/area/rgn_del";
+        return "area/rgn_del";
     }
 
     @RequestMapping("/areasOpManageJsonC")

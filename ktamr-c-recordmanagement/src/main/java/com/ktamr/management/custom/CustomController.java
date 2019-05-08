@@ -90,7 +90,6 @@ public class CustomController {
     public String queryHaAreaJson(){
         List<HaArea> haAreas = haAreaService.queryAllHaAreaC();
         if(haAreas!=null){
-            //hhhh
             return JSON.toJSONString(haAreas);
         }
         return null;
@@ -105,8 +104,12 @@ public class CustomController {
 
     @RequestMapping(value = "/QueryRoomJson",produces = "text/plain;charset=utf-8")
     @ResponseBody
-    public Object queryRoomJson(Integer buildingId){
-        return JSON.toJSONString(haRoomService.queryRoomC(buildingId));
+    public String queryRoomJson(Integer buildingId){
+        List<HaRoom> haRoomList = haRoomService.queryRoomC(buildingId);
+        if(haRoomList!=null){
+            return JSON.toJSONString(haRoomList);
+        }
+        return null;
     }
 
     @RequestMapping("/cust_del")
