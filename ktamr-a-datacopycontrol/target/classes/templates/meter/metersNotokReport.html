@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<style type="text/css">
+	.ecdoc-api-hover-desc {
+		position: fixed;
+		left: 100px;
+		right: 100px;
+		height: 130px;
+		bottom: 25px;
+		padding-left: 15px;
+		padding-right: 15px;
+		background-color: white;
+		-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+	}
+	.ecdoc-api-doc-line-head {
+	//cursor: pointer;
+		background-color: rgba(0, 0, 0, 0.05);
+		margin-left: -15px;
+		margin-right: -15px;
+		padding: 8px 15px;
+	}
+	.ecdoc-api-doc-line-label {
+		color: #5FB878;
+		font-size: 14px;
+		padding-right: 20px;
+	}
+</style>
+<body class="myPage-body">
+<div class="container myContainer">
+	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+		<div class="col-xs-2 my-form-col">
+			<select id='query_type' class="selectpicker form-control" multiple data-live-search="true" data-live-search-placeholder="Search" data-style="btn-default btn-sm" data-size="5" title="请选择查询类型">
+				<option value='LightChannelInterference'>光通道干扰</option>
+				<option value='highlightInterference'>强光干扰</option>
+				<option value='bubbleInterference'>气泡干扰</option>
+				<option value='communicationBreadkdown'>通讯故障</option>
+				<option value='meterBreakdown'>表具故障</option>
+				<option value='valveBreakdown'>阀门故障</option>
+				<option value='abnormal'>异常</option>
+			</select>
+		</div>
+		<div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
+			<input id="nodeType" type="text" class="input-sm form-control hide" value="">
+			<input id="nodeIds" type="text" class="input-sm form-control hide" value="">
+			<input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"  placeholder="---请选择区域---"/>
+			<div id="menuContent" class="menuContent">
+				<div class="ztreeInput">
+					<div>
+						<input type="text" class="input-key input-sm form-control" id="zTreeKey" placeholder="请输入节点关键字">
+					</div>
+					<div class="ztreeSkip">
+						<label type="text" id="resultKey" class="form-control ztreeSkipLabel">
+							<div class="ztreeSkipBtns">
+								<a id="clickUp" class="glyphicon glyphicon-menu-up ztreeSkipUp"></a>
+								<a id="clickDown" class="glyphicon glyphicon-menu-down ztreeSkipDown"></a>
+							</div>
+							<label id="number" class="ztreeSkipNum"></label>
+						</label>
+					</div>
+				</div>
+				<ul id="areaTree" class="ztree"></ul>
+				<div class="clearfloat"></div>
+			</div>
+		</div>
+		<div class="col-xs-2 my-form-col">
+			<input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+		</div>
+		<div class="col-xs-1 my-form-col">
+			<button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+		</div>
+		<div class="my-btns pull-right">
+			<button data-modal="" data-title="" class="layui-btn layui-btn-primary layui-btn-sm meterUsage">单表记录</button>
+			<button data-modal="" data-title="" class="layui-btn layui-btn-primary layui-btn-sm stateStat">状态统计</button>
+		</div>
+	</div>
+	<div class="row my-form-no-edge">
+		<div class="col-md-12 my-form-no-edge">
+			<form class="form-horizontal" id="jqgridForm" role="form">
+				<table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+				<div id="jqGridPager"></div>
+			</form>
+		</div>
+	</div>
+	<div class="ecdoc-api-hover-desc" style="opacity:1;display:none;">
+		<div class="ecdoc-api-doc-line-head"><span class="ecdoc-api-doc-line-label"><strong>状态统计</strong></span></div>
+		<p><span class="stateStatShow"></span></p>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+	layui.config({
+		base : '/common/js/',
+		version: '2.8.2'
+	}).extend({
+		myLayui: 'myLayui'
+	});
+	layui.use(['layer', 'form', 'myLayui'], function(){
+		var layer = layui.layer,
+				form = layui.form,
+				myLayui = layui.myLayui;
+		var g_statTip = "无数据";
+		var zOption = {
+			url: "/nodes/getEquipmentNodes",
+			selectedMulti: true,
+			nodeTypeId: "nodeType",
+			nodeIdsId: "nodeIds",
+			nodeNamesId: "areaSel",
+			clickCallBack: ""
+		};
+
+		var tree = new myzTree("areaTree", zOption);
+		tree.dropDownTreeOpen();
+		tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
+		$("#areaSel").click(function(){
+			tree.showMenu();
+		});
+
+		$('.selectpicker').selectpicker({
+			actionsBox: true //保留全选,全不选按键
+			,selectAllText: '选择所有'
+			,deselectAllText: '取消全选'
+			,liveSearchPlaceholder: '搜索'
+		});
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,'/dataselect/notokListJson');
+		GridObj.jqdefaultGridConfig.caption = "";
+		GridObj.jqdefaultGridConfig.multiselect = false;
+		GridObj.jqdefaultGridConfig.postData = {};
+		GridObj.jqdefaultGridConfig.colNames = ['meterid','用户编号','用户名称','用户地址','表号','最近读数','上期结算','本期用量','表状态','最近抄表时间','所属集中器编号','所属采集器地址'];
+		GridObj.jqdefaultGridConfig.colModel = [
+			{name: 'meterid',  width: 75, key: true, hidden: true},
+			{name: 'userno', width: 100, formatter:'interger' },
+			{name: 'username', width: 100 },
+			{name: 'userds' ,width: 170 },
+			{name: 'meternumber', align: 'right', width: 130 },
+			{name: 'thnumber', align: 'right', width: 70 },
+			{name: 'lfnumber', align: 'right', width: 70 },
+			{name: 'snumber', align: 'right', width: 70 },
+			{name: 'state', width: 100, cellattr: MeterStateCellColor  },
+			{name: 'firsttime', width: 150 },
+			{name: 'centorno', width: 120 },
+			{name: 'nconf', width: 120 }
+		];
+		//GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "表状态")};
+		GridObj.jqdefaultGridConfig.loadComplete = function () {
+			var stateStat = $("#jqGrid").jqGrid('getGridParam', 'userData')["统计"];
+			if(stateStat == "undefined" || stateStat == null){
+				stateStat = "无数据";
+			}
+			$(".stateStatShow").html(stateStat+"。");
+		}
+		GridObj.drawGrid();
+		GridObj.drawGridPager();
+		GridObj.setGridSize();
+		GridObj.gridResize();
+
+		$(document).keydown(function(event){
+			if(event.keyCode==13){
+				$(".search").click();
+			}
+		});
+
+		$(".search").click(function(){
+			var dataType = $("#query_type").val();
+			var areaIds = $("#areas").val();
+			var  _pdArray = "", _dataType = "";
+			if(dataType != null){
+				_dataType = dataType.join(",");
+			}
+			_pdArray = {
+				"keyWord": $("#keyWord").val(),
+				"dataType": _dataType,
+				"nodeType": $("#nodeType").val(),
+				"nodeIds": $("#nodeIds").val()
+			};
+			fullTextSearch("jqGrid", _pdArray);
+		});
+		var _myLayui = new myLayui;
+		$(".meterUsage").click(function(){
+			var _layerSize = ['1000px', '700px'], meterid = getSelectedRows("jqGrid");
+			var _queryStr = [
+				"cmdName=单表数据查询",
+				"meterid=" + meterid
+			];
+			if(meterid == ""){
+				layer.msg('请选择要操作的表', { icon: 5 });
+				return false;
+			}
+			_myLayui.showLayer("单表数据查询","/smallbox/meterUsage/meterUsage", _queryStr, _layerSize);
+		});
+		/*$(".stateStat").mouseenter(function(){
+            $(".ecdoc-api-hover-desc").show();
+        });
+        $(".stateStat").mouseleave(function(){
+            $(".ecdoc-api-hover-desc").hide();
+        });*/
+		$(".stateStat").hover(function(){
+			$(".ecdoc-api-hover-desc").fadeIn(500);
+		},function(){
+			$(".ecdoc-api-hover-desc").fadeOut(0);
+		});
+	});
+</script>
+</body>
+</html>

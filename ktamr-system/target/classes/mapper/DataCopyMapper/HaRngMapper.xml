@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaRngMapper">
+
+    <resultMap id="HaRngMap" type="com.ktamr.domain.HaRgn">
+        <id column="rgnid" property="id" javaType="java.lang.String" jdbcType="VARCHAR"></id>
+        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="shortName" property="shortName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="zCode" property="zCode" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="createtime" property="createTime" javaType="java.util.Date" jdbcType="DATE"></result>
+        <result column="modifytime" property="modifyTime" javaType="java.util.Date" jdbcType="DATE"></result>
+        <result column="haAreaCount" property="resultParams.haAreaCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haCentorCount" property="resultParams.haCentorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haCollectorCount" property="resultParams.haCollectorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haMeterCount" property="resultParams.haMeterCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+
+    </resultMap>
+
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+          <if test=" params.operatorRgnType == 'rgn' ">
+              and position( LEFT(n.id,1) in #{params.rgnStr})>0
+          </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and n.id = left(#{params.areaNo},1)
+            </if>
+        </if>
+    </sql>
+
+    <select id="selectAllRngAndCount" resultMap="HaRngMap" parameterType="com.ktamr.domain.HaRgn">
+      SELECT n.id AS rgnid
+        , n.name AS name
+        , n.shortName AS shortName
+        , n.zcode AS zCode
+        ,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount
+        ,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount
+        ,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount
+        ,(SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount
+      FROM ha_rgn n
+      where 1=1
+      <include refid="getRightCondition"></include>
+      <if test=" params.keyWord != null and params.keyWord != ''">
+            and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like '%${params.keyWord}%')
+      </if>
+       ORDER BY n.name
+    </select>
+
+
+    <resultMap id="HaRgnMapC" type="com.ktamr.domain.HaRgn">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" />
+        <result property="shortName" column="shortName" />
+        <result property="zCode" column="zCode" />
+        <result property="createTime" column="createTime" />
+        <result property="createTime" column="modifyTime" />
+
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaId" column="areaId"/>
+            <result property="areaNo" column="areaNo"/>
+            <result property="haAreaCount" column="HaAreaCount"/>
+        </association>
+
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <id property="id" column="cid"/>
+            <result property="centorNo" column="centorNo"/>
+            <result property="haCentorCount" column="haCentorCount"/>
+        </association>
+
+        <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
+            <id property="collectorId" column="collectorid"/>
+            <result property="centorId" column="centorid"/>
+            <result property="haCollectorCount" column="HaCollectorCount"/>
+        </association>
+
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <id property="meterId" column="meterid"/>
+            <result property="haMeterCount" column="HaMeterCount"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAllRngAndCountC" resultType="com.ktamr.domain.HaRgn">
+        SELECT n.id AS id, n.name AS name, n.shortName AS shortName, n.zcode AS zCode,
+        (SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount,
+        (SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount,
+        (SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount,
+        (SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount
+        FROM ha_rgn n where 1=1
+        <if test="haRgn.keyWord != null and haRgn.keyWord != ''">
+            and (n.shortName like '%${haRgn.keyWord}%' or n.name like '%${haRgn.keyWord}%' or n.zCode like '%${haRgn.keyWord}%')
+        </if>
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="HaRgnCountC" resultType="Integer">
+        select count(1) from ha_rgn
+    </select>
+
+    <select id="updateByIdRngC" resultType="com.ktamr.domain.HaRgn">
+        SELECT id,name,shortName,zCode
+        FROM ha_rgn where id = #{haRgn.id}
+    </select>
+
+    <insert id="addHaRgnC">
+        insert into ha_rgn(id,name,shortname,zcode,createtime,modifytime) values (#{id},#{name},#{shortName},#{zCode},#{createTime},#{modifyTime})
+    </insert>
+
+    <delete id="deleteHaRgnC">
+        delete from ha_rgn where id = #{id}
+    </delete>
+
+    <update id="updateHaRgnC">
+        update ha_rgn
+        <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+            <if test="name != null">name = #{name},</if>
+            <if test="shortName != null">shortname = #{shortName},</if>
+            <if test="zCode != null">zcode = #{zCode},</if>
+            <if test="createTime != null">createtime = #{createTime},</if>
+            <if test="modifyTime != null">modifytime = #{modifyTime},</if>
+        </trim>
+    </update>
+
+    <select id="queryAllRngC" resultType="com.ktamr.domain.HaRgn">
+        SELECT id,name FROM ha_rgn
+    </select>
+
+    <!--新增前判断id-->
+    <select id="count0" resultType="_int">
+        SELECT Count(id) FROM ha_rgn WHERE id='0'
+    </select>
+
+    <select id="countA" resultType="_int">
+        SELECT Count(id) FROM ha_rgn WHERE id='A'
+    </select>
+
+    <select id="countla" resultType="_int">
+        SELECT Count(id) FROM ha_rgn WHERE lower(id)='a'
+    </select>
+
+    <select id="countNumber" resultType="_int">
+        SELECT Count(id) FROM ha_rgn WHERE ASCII(id)>=48 AND ASCII(id)<![CDATA[ <= ]]>57
+    </select>
+
+    <select id="countUpperCase" resultType="_int">
+        SELECT Count(id) FROM ha_rgn WHERE ASCII(id)>=65 AND ASCII(id)<![CDATA[ <= ]]>90
+    </select>
+
+    <select id="elseId" resultType="string">
+        SELECT Chr(MIN(t.Code)+1) FROM (SELECT ASCII(id) AS Code FROM ha_rgn WHERE ((ASCII(id)+1>=49 AND ASCII(id)+1<![CDATA[ <= ]]>57) OR (ASCII(id)+1>=65 AND ASCII(id)+1<![CDATA[ <= ]]>90) OR (ASCII(id)+1>=97 AND ASCII(id)+1<![CDATA[ <= ]]>122)) AND ASCII(id)+1 NOT IN (SELECT ASCII(id) FROM ha_rgn)) t
+    </select>
+
+    <select id="queryAllBigAreaC" resultMap="HaRgnMapC">
+        SELECT r.id as id,r.name as name,COUNT(areaNo) as haAreaCount FROM ha_rgn r
+        LEFT JOIN ha_area a ON r.id=LEFT(a.areaNo,1)
+        GROUP BY r.id,r.name ORDER BY r.name
+    </select>
+
+</mapper>

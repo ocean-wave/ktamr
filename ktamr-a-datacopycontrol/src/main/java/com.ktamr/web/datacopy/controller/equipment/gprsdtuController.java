@@ -2,6 +2,7 @@ package com.ktamr.web.datacopy.controller.equipment;
 
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaGprsdtu;
 import com.ktamr.service.HaCentorService;
 import com.ktamr.service.HaGprsdtuService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
@@ -32,15 +33,15 @@ public class gprsdtuController extends BaseController {
 
     @PostMapping("/gprsdtuListJson")
     @ResponseBody
-    public Map<String,Object> centorcListJson(ParameterInfo parms){
+    public Map<String,Object> centorcListJson(HaGprsdtu parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haGprsdtuService.selectAllGprsdtuAndCount(parms);
+        List<HaGprsdtu> listHaCentor = haGprsdtuService.selectAllGprsdtuAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"xsjcqsm");
         Map<Integer,Integer> map = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("xsjcqsm",map.get(0).toString());
+        map2.put("resultParams.xsjcqsm",map.get(0).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;

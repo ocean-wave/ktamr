@@ -41,8 +41,8 @@ public class CmdAddContrller {
         if(1==1){
             if(centorid!="") {
                 String centorStr = haCmdService.selectCentorById(Integer.parseInt(centorid));
-                if (centorStr.substring(0, 5) == "KT3NB") {
-                    return "<span class='fontRed'>预执行命令</span>";
+                if (centorStr.substring(0, 5).equals("KT3NB")) {
+                    return "<span class='fontGrey'>预执行命令</span>";
                 }
             }
             return str;

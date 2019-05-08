@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaOperatorMapper">
+
+    <resultMap id="OperatorMap" type="com.ktamr.domain.HaOperator">
+        <result column="operator_code" property="operatorCode" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_name" property="operatorName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_pwd" property="operatorPwd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_sex" property="operatorSex" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_mobile" property="operatorMobile" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_remark" property="operatorRemark" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_upper" property="operatorUpper" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_level" property="operatorLevel" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_rgn_type" property="operatorRgnType" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_state" property="operatorState" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_creattime" property="operatorCreattime" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operator_company" property="operatorCompany" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <select id="selectOperatorByUid" resultMap="OperatorMap">
+      Select  operator_code
+      ,operator_name
+      ,operator_sex
+      ,operator_pwd
+      ,operator_upper
+      ,operator_level
+      ,operator_state
+      ,operator_company
+      ,operator_rgn_type
+      From ha_operator
+      Where operator_code = #{uid}
+      limit 1
+    </select>
+    <select id="selectOperatorRgnByName" resultType="java.lang.String">
+        select id from ha_rgn where name = #{operatorName}
+    </select>
+
+    <select id="selectOperatorAreaByName" resultType="java.lang.String">
+        select areano from ha_area where name = #{operatorName}
+    </select>
+</mapper>

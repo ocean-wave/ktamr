@@ -10,14 +10,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 设备表实现类
+ */
 @Service
 public class HaGprsdtuServiceImpl implements HaGprsdtuService {
 
+    /**
+     * 注入HaGprsdtuMapper
+     */
     @Autowired
     private HaGprsdtuMapper haGprsdtuMapper;
 
+    /**
+     * 查询DTU信息并且统计下属集采器数目
+     * @param parms 对象参数
+     * @return 返回对象泛型集合
+     */
     @Override
-    public List<Map<String, Object>> selectAllGprsdtuAndCount(ParameterInfo parms) {
+    public List<HaGprsdtu> selectAllGprsdtuAndCount(HaGprsdtu parms) {
         return haGprsdtuMapper.selectAllGprsdtuAndCount(parms);
     }
 

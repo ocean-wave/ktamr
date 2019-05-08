@@ -38,7 +38,12 @@ public interface HaCentorService {
      */
     public List<HaCentor> selectAllCentorcAndCount(HaCentor parms);
 
-    public List<Map<String,Object>> selectAllCentorHandAndCount(ParameterInfo parms);
+    /**
+     * 查询手抄器信息并且统计总表数、读入表数、建档状态数
+     * @param parms 对象参数
+     * @return 返回对象泛型集合
+     */
+    public List<HaCentor> selectAllCentorHandAndCount(HaCentor parms);
 
     public List<HaCentor> selectCentor(HaCentor haCentor);
 

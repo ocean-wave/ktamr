@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<style type="text/css">
+	.mySelect dl{max-height: 170px;}
+	.mylayui-item{width: 380px;}
+	.layui-form-checkbox[lay-skin="primary"] span{
+		height: 18px;
+	}
+	.layui-form-pane .layui-form-label {
+		padding: 5px 15px;
+		height: 32px;
+	}
+	.layui-input{
+		height: 32px;
+		line-height: 32px;
+	}
+	.my-form-class {
+		margin-left: 60px;
+		margin-top: 25px;
+		padding: 0px;
+	}
+	.my-page-btn {
+		margin: 20px 15px;
+		text-align: left;
+		padding-left: 150px;
+	}
+</style>
+<body class="myPage-body">
+<div class="container">
+	<form class="layui-form layui-form-pane my-form-class">
+		<div th:if=" ${ cmdName == '设置参数' } ">
+			<div class="layui-form-item mySelect">
+				<label class="layui-form-label">参数类型</label>
+				<div class="layui-input-inline">
+					<select id="centorParms" name="centorParms" lay-verify="required" lay-search lay-filter="centorParms">
+						<option value="">请选择</option>
+						<optgroup label="[通道1]">
+							<option value="UID1" th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道1] UID</option>
+							<option value="IP1"  th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] IP</option>
+							<option value="port1" th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] 端口</option>
+							<option value="通道1IP端口" th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道1] IP和端口</option>
+							<option value="PINGIDLE1" th:disabled=" ${ session.operatorLevelCode >1 }  " >[通道1] 心跳周期</option>
+							<option value="CHType1" th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道1] 通讯协议</option>
+						</optgroup>
+						<optgroup label="[通道2]">
+							<option value="UID2" th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道2] UID</option>
+							<option value="IP2"  th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道2] IP</option>
+							<option value="port2" th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道2] 端口</option>
+							<option value="通道2IP端口" th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道2] IP和端口</option>
+							<option value="PINGIDLE2" th:disabled=" ${ session.operatorLevelCode >1 }  ">[通道2] 心跳周期</option>
+						</optgroup>
+						<optgroup label="[公共参数]">
+							<option value="PageRows">每帧表数据个数</option>
+							<option value="T_SoftVersion" disabled>集中器版本</option>
+						</optgroup>
+					</select>
+				</div>
+			</div>
+			<div id="parmsDiv" class="layui-form-item" style="display:none;">
+				<label id="parmsName" class="layui-form-label">参数1</label>
+				<div class="layui-input-inline">
+					<input id="parms" name="parms" required  lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div id="parmsDiv2" class="layui-form-item" style="display:none;">
+				<label id="parmsName2" class="layui-form-label">参数2</label>
+				<div class="layui-input-inline">
+					<input id="parms2" name="parms" required  lay-verify="" placeholder="请输入" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="alert alert-warning alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+				</button>
+				提示：设置完参数重启集中器生效。
+			</div>
+		</div>
+		<div th:if=" ${ cmdName == 'cmdName' &&  devDescription.substring(0,5) == 'KT410' } ">
+			<div class="layui-form-item">
+				<label class="layui-form-label">行政区号</label>
+				<div class="layui-input-inline">
+					<input id="parms3" name="parms" required  lay-verify="required" placeholder="四位数字" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="4">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">设备地址</label>
+				<div class="layui-input-inline">
+					<input id="parms4" name="parms" required  lay-verify="required" placeholder="值范围1-65535" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="5">
+				</div>
+			</div>
+			<div class="alert alert-warning alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+				</button>
+				提示：仅用于KT-410集中器的设置。
+			</div>
+		</div>
+		<div th:if=" ${ cmdName == '设集中器地址' && devDescription.substring(0,5) == 'KT4EW' } " class="layui-form-item">
+			<label class="layui-form-label">设备地址</label>
+			<div class="layui-input-inline">
+				<input id="parms3" name="parms" required  lay-verify="required" placeholder="10位数字" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="10">
+			</div>
+		</div>
+		<div th:if=" ${ cmdName == '设IP端口' } ">
+			<div class="layui-form-item">
+				<div style="float:left;padding:0;">
+					<label class="layui-form-label">IP地址</label>
+					<div style="float:left;margin-left: -1px;position: relative;width:200px;font-size:9pt">
+						<input type="text" name="ip1" id="ip1" maxlength="3" class="ipv4" onkeyup="mask(this, event)" onbeforepaste="mask_c()">.
+						<input type="text" name="ip2" id="ip2" maxlength="3" class="ipv4" onkeyup="mask(this, event)" onbeforepaste="mask_c()">.
+						<input type="text" name="ip3" id="ip3" maxlength="3" class="ipv4" onkeyup="mask(this, event)" onbeforepaste="mask_c()">.
+						<input type="text" name="ip4" id="ip4" maxlength="3" class="ipv4" onkeyup="mask(this, event)" onbeforepaste="mask_c()">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item mylayui-item">
+				<label class="layui-form-label">端口号</label>
+				<div class="layui-input-inline">
+					<input id="parms5" name="parms" required  lay-verify="required" placeholder="建议值大于1024" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="5">
+				</div>
+			</div>
+		</div>
+		<div th:if=" ${ cmdName == '设工作时段' || cmdName == '设网络时段'} " class="layui-form-item">
+			<input type="checkbox" name="period1All" value="" title="全选" lay-filter="period1All" /> 0~11时<br />
+			<input type="checkbox" name="period1" value="0" title="0时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="1时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="2时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="3时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="4时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="5时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="6时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="7时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="8时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="9时" lay-skin="primary"/>&nbsp;&nbsp;
+			<input type="checkbox" name="period1" value="0" title="10时" lay-skin="primary"/>
+			<input type="checkbox" name="period1" value="0" title="11时" lay-skin="primary"/>
+			<br /><br />
+			<input type="checkbox" name="period2All" value="" title="全选" lay-filter="period2All"/> 12~23时<br />
+			<input type="checkbox" name="period2" value="0" title="12时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="13时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="14时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="15时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="16时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="17时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="18时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="19时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="20时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="21时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="22时" lay-skin="primary"/>
+			<input type="checkbox" name="period2" value="0" title="23时" lay-skin="primary"/>
+		</div>
+		<div th:if=" ${ cmdName == '集中器校时'} " class="layui-form-item">
+			<label class="layui-form-label">当前时间</label>
+			<div class="layui-input-inline">
+				<input id="parms6" required  lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmm)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="10">
+			</div>
+		</div>
+		<div th:if=" ${ cmdName == '设心跳周期' && devDescription.substring(0,5) == 'KT4EW'} " class="layui-form-item">
+			<label class="layui-form-label">心跳周期</label>
+			<div class="layui-input-inline">
+				<input id="parms7" name="parms" required  lay-verify="required" placeholder="数字，单位秒" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="3">
+			</div>
+		</div>
+		<div th:if=" ${ cmdName == '设上报时间' && devDescription.substring(0,5) == 'KT4EW'} ">
+			<div class="layui-form-item mySelect">
+				<label class="layui-form-label">上报周期</label>
+				<div class="layui-input-inline">
+					<select id="reportedPeriod" name="period" lay-verify="required" lay-search lay-filter="reportedPeriod">
+						<option value="">请选择</option>
+						<option value="C1">每月上报</option>
+						<option value="81">每日上报</option>
+						<option value="41">每小时上报</option>
+						<option value="CF">每15分钟上报</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">基准时间</label>
+				<div class="layui-input-inline">
+					<input id="standardTime" required  lay-verify="required" placeholder="年月日时分秒" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="12">
+				</div>
+			</div>
+		</div>
+		<div class="form-inline my-page-btn">
+			<button lay-submit type="button" id="sure" class="btn btn-default btn-sm btnMargin" ><img src="../../images/tick.png" />确定</button>
+			<button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../../images/cancel.png" />关闭</button>
+		</div>
+	</form>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+	//设置集中器IP和端口
+	/*******键值对照********/
+	// 8	BackSpace
+	// 9	Tab
+	// 13	Enter
+	// 16	Shift
+	// 32	Spacebar
+	// 37	Left Arrow
+	// 39	Right Arrow
+	// 46	Delete
+	// 48	0
+	// 57	9
+	// 96	小键盘上的 0
+	// 99	小键盘上的 3
+	// 105	小键盘上的 9
+	// 110	小键盘上的 .
+	// 190	.>
+	//满3位数\ 按空格键\方向键\回车键 自动跳到下一个 '.' 后面。
+	//输入必须是数字限制、0~255 范围限制
+	function mask(obj, event){
+		obj.value=obj.value.replace(/[^\d]/g,'');//去除非数字
+		event = event || window.event;
+		//alert(obj.value);
+		key1=event.keyCode;
+		if (key1==37 || key1==39)
+		{
+			obj.blur();//失去焦点
+			nextip = parseInt(obj.name.substr(2,1));
+			nextip = key1==37?nextip-1:nextip+1;
+			nextip = nextip>=5?1:nextip;
+			nextip = nextip<=0?4:nextip;
+			eval("ip"+nextip+".focus()");
+		}
+		else if((key1!=9 && obj.value.length>=3) || key1==13 || key1==32){
+			if(parseInt(obj.value)>=256 || parseInt(obj.value)<=0)
+			{
+				//alert(parseInt(obj.value)+" IP地址错误！");
+				obj.value="";
+				obj.focus();
+				return false;
+			}
+			else
+			{
+				obj.blur();
+				nextip = parseInt(obj.name.substr(2,1))+1;
+				nextip = nextip>=5?1:nextip;
+				nextip = nextip<=0?4:nextip;
+				eval("ip"+nextip+".focus()");
+			}
+		}
+	};
+	function mask_c()//在用户执行粘贴动作之前，将数据中的非数字字符去掉
+	{
+		//var text;
+		clipboardData.setData("text",clipboardData.getData("text").replace(/[^\d]/g,''));
+		//text = clipboardData.getData("text");
+		//alert(text);
+	};
+	function getIPV4Value()
+	{
+		var i, IPV4value="";
+		for(i=1;i<5;i++)
+		{
+			IPV4value += $("#ip"+i).val();
+			if(i!=4)
+				IPV4value += ".";
+		}
+		return IPV4value;
+	}
+	//工作时段、网络时段
+	function checkAll(name){
+		var el = $('input');
+		var len = el.length;
+		for(var i=0; i<len; i++){
+			if((el[i].type=="checkbox") && (el[i].name.substr(0,7)==name)){
+				el[i].checked = true;
+			}
+		}
+	};
+	function clearAll(name){
+		var el = $('input');
+		var len = el.length;
+		for(var i=0; i<len; i++){
+			if((el[i].type=="checkbox") && (el[i].name.substr(0,7)==name)){
+				el[i].checked = false;
+			}
+		}
+	};
+	function getPeriod24Value(){
+		var checkPeriod = $(".layui-form-checkbox[lay-skin='primary']");
+		var period24 = "";
+		checkPeriod.each(function(index, item){
+			if($(item).hasClass('layui-form-checked')){
+				period24 += "F";
+			}else{
+				period24 += "0";
+			}
+		});
+		//console.log(period24);
+		return period24;
+	}
+	//同步集中器时间
+	function fixZero(num,length){
+		var str= num + "";
+		var strLen = str.length;
+		var s="";
+		for(i=length;i>strLen;i--){
+			s+="0";
+		}
+		return s+str;
+	}
+	function setCentorNowTime(devDescription)
+	{
+		var YY, MM, DD, hh, mm;
+		var myDate = new Date();
+
+		YY = myDate.getFullYear()+""; //获取完整的年份(4位,1970-????)
+		MM = fixZero(myDate.getMonth()+1, 2); //获取当前月份(0-11,0代表1月, 所以加1)
+		//MM = myDate.getMonth()+1;
+		DD = fixZero(myDate.getDate(), 2); //获取当前日(1-31)
+		//myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+		//myDate.getTime(); //获取当前时间(从1970.1.1开始的毫秒数)
+		hh = fixZero(myDate.getHours(), 2); //获取当前小时数(0-23)
+		mm = fixZero(myDate.getMinutes(), 2); //获取当前分钟数(0-59)
+		ss = fixZero(myDate.getSeconds(), 2); //获取当前秒数(0-59)
+		//myDate.getMilliseconds(); //获取当前毫秒数(0-999)
+		//myDate.toLocaleDateString(); //获取当前日期
+		//var mytime=myDate.toLocaleTimeString(); //获取当前时间
+		//myDate.toLocaleString( ); //获取日期与时间
+
+		//alert("YY:"+YY.substring(2)+",MM:"+MM+",DD:"+DD+",hh:"+hh+",mm:"+mm);
+		if(devDescription == "KT410 GPRS"){
+			$(".layui-input-inline #parms6").val(YY.substring(2)+MM+DD+hh+mm);
+		}else{
+			$(".layui-input-inline #parms6").val(YY.substring(2)+MM+DD+hh+mm+ss);
+		}
+	};
+	$('#standardTime').datetimepicker({
+		language: 'zh-CN',//显示中文
+		format: 'yymmddhhiiss',//显示格式
+		//minView: "secound",//设置只显示到月份
+		initialDate: new Date(),//初始化当前日期
+		autoclose: true,//选中自动关闭
+		todayBtn: true//显示今日按钮
+	});
+
+	layui.use(['layer','form','jquery'], function(){
+		var form = layui.form
+				,layer = layui.layer
+		$ = layui.jquery;
+		var g_devDescription = [[${devDescription}]];
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+		form.on('select(centorParms)', function(data){
+			//console.log(data);
+			$('#parmsDiv').hide();
+			$('#parmsDiv2').hide();
+			switch(data.value){
+				case "UID1":
+				case "UID2":
+					$("#parmsName").text("UID:");
+					$("#parms").attr("placeholder", "10位数字(字母用1代替)");
+					$('#parmsDiv').show();
+					break;
+				case "IP1":
+				case "IP2":
+					$("#parmsName").text("IP:");
+					$("#parms").attr("placeholder", "IP地址或者动态域名");
+					$('#parmsDiv').show();
+					break;
+				case "port1":
+				case "port2":
+					$("#parmsName").text("端口:");
+					$("#parms").attr("placeholder", "建议值大于1024");
+					$('#parmsDiv').show();
+					break;
+				case "通道1IP端口":
+				case "通道2IP端口":
+					$("#parmsName").text("IP:");
+					$("#parms").attr("placeholder", "IP地址或者动态域名");
+					$("#parmsName2").text("端口:");
+					$("#parms2").attr("placeholder", "建议值大于1024");
+					$('#parmsDiv').show();
+					$('#parmsDiv2').show();
+					break;
+				case "CHType1":
+					$("#parmsName").text("协议代码:");
+					$("#parms").attr("placeholder", "KT/BJ");
+					$('#parmsDiv').show();
+					break;
+				case "PINGIDLE1":
+				case "PINGIDLE2":
+					$("#parmsName").text("秒数:");
+					$("#parms").attr("placeholder", "建议值30-120之间");
+					$('#parmsDiv').show();
+					break;
+				case "PageRows":
+					$("#parmsName").text("表数:");
+					$("#parms").attr("placeholder", "建议值50/100");
+					$('#parmsDiv').show();
+					break;
+				default:
+					$("#parmsName").text("未知:");
+					$("#parms").attr("placeholder", "未知");
+					break;
+			}
+		});
+		form.on('checkbox(period1All)', function(data){
+			//console.log(data.elem); //得到checkbox原始DOM对象
+			//console.log(data.elem.checked); //是否被选中，true或者false
+			//console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+			//console.log(data.othis); //得到美化后的DOM对象
+			if(data.elem.checked == true){
+				checkAll('period1');
+			} else {
+				clearAll('period1');
+			}
+			form.render('checkbox');
+		});
+		form.on('checkbox(period2All)', function(data){
+			if(data.elem.checked == true){
+				checkAll('period2');
+			} else {
+				clearAll('period2');
+			}
+			form.render('checkbox');
+		});
+		setCentorNowTime(g_devDescription);
+		function checkParms(cmdParmsNameStr, cmdParmsStr)
+		{
+			var i, k;
+			var parm="";
+			var ipV4Arr = new Array(), parmsNameArr = new Array(), parmsArr =new Array();
+			//alert(getParmsNameStr+","+getParmsStr);
+			cmdParmsNameArr = cmdParmsNameStr.split(":");
+			cmdParmsArr = cmdParmsStr.split(":");
+			cmdName = cmdParmsNameArr[0];
+			cmd = cmdParmsArr[0];
+			parmsNameStr = cmdParmsNameStr.substr(cmdName.length+1, cmdParmsNameStr.length);
+			parmsStr = cmdParmsStr.substr(cmd.length+1, cmdParmsStr.length);
+			switch(cmdName){
+				case "设置参数":
+					parmsNameArr = parmsNameStr.split(":");
+					//console.log(parmsNameArr);
+					if(parmsNameArr.length>0){
+						parmsArr = parmsStr.split(":");
+						//console.log(parmsArr);
+						for(k=0;k<parmsNameArr.length;k++)
+						{
+							switch(parmsNameArr[k]){
+								case "KT420IP":
+									if(parmsArr[k] == ""){
+										layer.msg("请输入 "+parmsNameArr[k]+" !", {icon: 5});
+										return false;
+									}
+									break;
+								case "端口":
+								case "整数":
+									if(parmsArr[k] == ""){
+										layer.msg("请输入 "+parmsNameArr[k]+" !", {icon: 5});
+										return false;
+									}else{
+										//reg=/^[-+]?\d*$/;//整数
+										reg=/^[+]?\d*$/;//非负整数
+										if(!reg.test(parmsArr[k])){
+											layer.msg("必须为整数!", {icon: 5});
+											return false;
+										}
+									}
+									break;
+								default:
+									if(parmsArr[k] == ""){
+										layer.msg("请输入 "+parmsNameArr[k]+" !", {icon: 5});
+										return false;
+									}
+									break;
+							}
+						}
+					}
+					break;
+				default:
+					parmsNameArr = parmsNameStr.split(",");
+					//console.log(parmsNameArr);
+					if(parmsNameArr.length>0){
+						parmsArr = parmsStr.split(",");
+						//console.log(parmsArr);
+						for(i=0;i<parmsNameArr.length;i++)
+						{
+							parm = parmsArr[i];
+							switch(parmsNameArr[i])
+							{
+								case "区域号":
+								case "厂商码":
+								case "集中器设备地址":
+								case "端口号":
+								case "24小时时段":
+								case "表类型":
+								case "设备号":
+								case "日期":
+								case "月份":
+									if(parm == ""){
+										layer.msg("请输入 "+parmsNameArr[i]+" ！", {icon: 5});
+										return false;
+									}else if(!isNaN(parm) && parseInt(parm)<=0){
+										layer.msg(parmsNameArr[i]+" 不能为0！", {icon: 5});
+										return false;
+									}
+									break;
+								case "心跳间隔":
+									if(parm == ""){
+										layer.msg("请输入 "+parmsNameArr[i]+" ！", {icon: 5});
+										return false;
+									}else if(!isNaN(parm) && (parseInt(parm)<30 || parseInt(parm)>255)){
+										layer.msg(parmsNameArr[i]+" 范围为30-255秒！", {icon: 5});
+										return false;
+									}
+									break;
+									break;
+								case "IP地址":
+									ipV4Arr = parm.split(".");
+									for(j=0;j<ipV4Arr.length;j++)
+									{
+										if(ipV4Arr[j]=="")
+										{
+											layer.msg("IP地址不能为空！", {icon: 5});
+											return false;
+										}
+									}
+									break;
+								case "集中器设置时间":
+									if(parm == ""){
+										layer.msg("请输入 "+parmsNameArr[i]+" ！", {icon: 5});
+										return false;
+									}else if(parm.length < 10){
+										layer.msg(parmsNameArr[i]+" 长度不正确！", {icon: 5});
+										return false;
+									}
+									break;
+								case "厂商码":
+								case "设备类型":
+								case "表数据":
+								case "上报周期":
+								case "基准时间":
+									if(parm == ""){
+										layer.msg(parmsNameArr[i]+" 不能为空！", {icon: 5});
+										return false;
+									}
+									break;
+								default:
+									layer.msg("无此参数："+parmsNameArr[i], {icon: 5});
+									return false;
+									break;
+							}
+						}
+					}
+					break;
+			}
+
+			return true;
+		}
+
+		$("#close").click(function(){
+			parent.layer.close(index); //再执行关闭
+		});
+
+		$("#sure").click(function(){
+			var centorId = [[${centorId}]];
+			var cmdName = [[${cmdName}]];
+			var cmd = "", parmsNameStr = "";
+
+			if(cmdName == "设置参数"){
+				var parmsType = $("#centorParms").val();
+				cmd = [[${cmdName}]]+":"+parmsType;
+				switch(parmsType){
+					case "IP1":
+					case "IP2":
+						parmsNameStr = "设置参数:配置项:KT420IP";
+						break;
+					case "port1":
+					case "port2":
+						parmsNameStr = "设置参数:配置项:端口";
+						break;
+					case "UID1":
+					case "UID2":
+					case "PINGIDLE1":
+					case "PINGIDLE2":
+					case "PageRows":
+						parmsNameStr = "设置参数:配置项:整数";
+						break;
+					case "通道1IP端口":
+					case "通道2IP端口":
+						parmsNameStr = "设置参数:配置项:KT420IP:整数";
+						break;
+					default:
+						parmsNameStr = "设置参数:配置项:配置值";
+						break;
+				}
+				switch(parmsType){
+					case "通道1IP端口":
+					case "通道2IP端口":
+						cmd = cmd +":"+ $("#parms").val()+":"+$("#parms2").val();
+						break;
+					default:
+						cmd = cmd +":"+ $("#parms").val();
+						break;
+
+				}
+			}else if(cmdName == "设集中器地址"){
+				if(g_devDescription.substr(0, 5) == "KT4EW"){
+					parmsNameStr = "设集中器地址:集中器设备地址";
+					cmd = cmdName+":"+fixZero($("#parms3").val(), 10);
+				}else{
+					parmsNameStr = "设集中器地址:区域号,集中器设备地址";
+					cmd = cmdName+":"+fixZero($("#parms3").val(), 4)+","+fixZero($("#parms4").val(), 5);
+				}
+			}else if(cmdName == "设IP端口"){
+				parmsNameStr = "设IP端口:IP地址,端口号";
+				cmd = cmdName+":"+getIPV4Value()+","+$("#parms5").val();
+			}else if(cmdName == "设工作时段"){
+				parmsNameStr = "设工作时段:24小时时段";
+				cmd = cmdName+":"+getPeriod24Value();
+			}else if(cmdName == "设网络时段"){
+				parmsNameStr = "设网络时段:24小时时段";
+				cmd = cmdName+":"+getPeriod24Value();
+			}else if(cmdName == "集中器校时"){
+				parmsNameStr = "集中器校时:集中器设置时间";
+				cmd = cmdName+":"+$(".layui-input-inline #parms6").val();
+			}else if(cmdName == "设心跳周期"){
+				parmsNameStr = "设心跳周期:心跳间隔";
+				cmd = cmdName+":"+$(".layui-input-inline #parms7").val();
+			}else if(cmdName == "设上报时间"){
+				parmsNameStr = "设上报时间:上报周期,基准时间";
+				cmd = cmdName+":"+$("#reportedPeriod").val() +","+ $("#standardTime").val();
+			}
+			if(parmsType == "" || !checkParms(parmsNameStr, cmd))
+				return false;
+			//console.log("cmd:"+cmd);
+			parent.layui.parms.submitCmd(centorId, cmd);
+			parent.layer.msg("操作成功！", {icon: 1});
+			parent.layer.close(index); //再执行关闭
+		});
+	});
+</script>
+</body>
+</html>

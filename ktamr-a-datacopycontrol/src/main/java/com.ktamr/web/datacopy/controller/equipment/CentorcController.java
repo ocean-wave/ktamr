@@ -57,9 +57,9 @@ public class CentorcController extends BaseController {
         List<HaCentor> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
-        mi.put(0,"lfnumber");
-        mi.put(1,"thnumber");
-        mi.put(2,"snumber");
+        mi.put(0,"lfNumber");
+        mi.put(1,"thNumber");
+        mi.put(2,"sNumber");
         Map<Integer,Integer> ms = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
         map2.put("haMeter.lfNumber",ms.get(0).toString());

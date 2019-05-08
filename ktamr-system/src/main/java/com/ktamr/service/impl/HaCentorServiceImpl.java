@@ -62,8 +62,13 @@ public class HaCentorServiceImpl implements HaCentorService {
         return haCentorMapper.selectAllCentorcAndCount(parms);
     }
 
+    /**
+     * 查询手抄器信息并且统计总表数、读入表数、建档状态数
+     * @param parms 对象参数
+     * @return 返回对象泛型集合
+     */
     @Override
-    public List<Map<String, Object>> selectAllCentorHandAndCount(ParameterInfo parms) {
+    public List<HaCentor> selectAllCentorHandAndCount(HaCentor parms) {
         return haCentorMapper.selectAllCentorHandAndCount(parms);
     }
 

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<body class="myPage-body" style="padding:0px 10px;">
+<div class="container" style="width:100%;margin:0;">
+	<div class="row" style="margin-top:10px;margin-bottom:10px;">
+		<div class="col-md-12">
+		<label><span id="title"></span><span id="countShow" ></span></label>
+		<div class="layui-progress layui-progress-big" lay-filter="meterOp" lay-showPercent="yes">
+			<div class="layui-progress-bar layui-bg-green" lay-percent="0%"></div>
+		</div> 
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="well" style="padding:10px 19px;">
+				<div>
+					<label>执行状态：</label><span id="cmd_state"><img th:src="@{/images/loading-0.gif}"></img></span>，<label>执行情况：</label><span id="cmd_description"></span>
+					<a data-toggle="collapse" data-target="#more">详细</a>
+					<div class="pull-right cmd_list" style="display:none;">
+						<a>查看抄收结果</a>
+					</div>
+				</div>
+				<div id="more" class="collapse" style="margin-top:10px;">
+					<p>
+						<span id="cmd_description_more"></span>
+					</p>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+	layui.use(['form','layer','element'], function(){
+		var element = layui.element, layer = layui.layer;
+		var g_cmdName = [[${cmdName}]];
+		var g_cmdids = Array();
+		var g_ids = [[${ids}]];
+
+		var get_cmdid_url = "/smallbox/haCmd/cmdAdd";
+		var get_result_url = "/smallbox/haCmd/getCmdAjax";
+		var metersManage = function(cmdName, gridId, rowIds, index){
+			this.cmdName = cmdName;
+			this.gridId = gridId;
+			this.rowIds = rowIds;
+			this.index = index;
+			this.get_result_timer = this.generate_timer();
+		}
+		metersManage.prototype.generate_timer = function(){
+			var _this = this;
+			return $.timer(function() {
+				$.get(get_result_url,
+					{cmdid: _this.cmdid},
+					function(data,status){
+						if (status == "success"){
+							var i, state, processing, s, i1, i2, i3, temp_str;
+							s = data;
+							i = s.indexOf(":");
+				
+							if (i > 1){
+								state = s.substr(0,i);
+								processing = s.substr(i+1);
+								$("#cmd_state").html(state);
+								$("#cmd_description").html(processing);
+							}else{
+								$("#cmd_description").html(s);
+							};
+								
+							// alert(data + "\r\nstate: " + state);
+							i1 = s.indexOf("[");
+							if(i1 >= 0){
+								temp_str = s.substr(i1 + 1);
+								i = temp_str.indexOf("/");
+								i2 = i1 + i + 1;
+								var amount = s.substring(i1 + 1, i2) - 0;
+								
+								temp_str = s.substr(i2 + 1);
+								i = temp_str.indexOf("]");
+								i3 = i2 + i + 1;
+								var all  = s.substring(i2 + 1, i3) - 0;
+								if((typeof amount === 'number') && (typeof all === 'number'))
+									_this.setProgressbar(amount, all);
+							}
+
+							if ((state == "完成") || (state == "失败")){
+								_this.get_result_timer.stop();
+								if (state == "完成"){
+									$("#cmd_state").html("<font color='green'>"+state+"</font>");
+									$("#cmd_description_more").append("<font color='green'>"+_this.title+":"+processing+"</font></br>");
+								}else{
+									$("#cmd_state").html("<font color='red'>"+state+"</font>");
+									$("#cmd_description_more").append("<font color='red'>"+_this.title+":"+processing+"</font></br>");	
+								}
+								_this.index ++;
+								_this.loadCmd();
+							}
+						}
+					}
+				);
+			});
+		}
+
+		metersManage.prototype.setProgressbar = function(amount, all){
+			var _this = this;
+			if(amount == "")
+				return ; 
+			var iPerc = (amount > 0) ? parseInt(amount/all * 100) : 0;
+			if(amount > 0 && amount >= all)
+				iPerc = 100;
+			if(_this.cmdName.indexOf("抄收")>=0){
+				$("#countShow").text('，进度[抄表数:'+ amount +'/ 总表数:'+ all+"]");
+			}else if(_this.cmdName.indexOf("刷新")>=0){
+				$("#countShow").text('，进度[刷新设备数:'+ amount +'/ 总设备数:'+ all+"]");
+			}
+			element.progress('meterOp', iPerc+'%');
+		}
+		
+		metersManage.prototype.loadCmd = function(){
+			var _this = this, cmdName=_this.cmdName,title="", cmd="";
+			var selRowId = _this.rowIds[this.index];
+			if(selRowId == "" || selRowId == undefined){
+				if(cmdName.indexOf("抄收")>=0){
+					$(".cmd_list").show();
+				}
+				return false;
+			}
+			var rowData = parent.$("#"+this.gridId).jqGrid('getRowData', selRowId);
+			switch(cmdName){
+				case "抄收区域":
+				case "刷新区域数据":
+					cmd = cmdName + ":" + rowData["name"];
+					title = "区域("+rowData["name"]+")"
+					break;
+				case "抄收小区":
+				case "刷新小区数据":
+					cmd = cmdName + ":" + rowData["name"];
+					title = "小区("+rowData["name"]+")"
+					break;
+				default:
+					break;
+			}
+			$("#title").text(title);
+			$.ajax({
+				url: get_cmdid_url
+				,type: "POST"
+				,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+				,data: {cmd: cmd, centorid:""}
+				,success: function(data){
+					if (!isNaN(data)){
+						$("#cmd_state").html("待执行");
+						$("#cmd_description").html("命令号："+data);
+						g_cmdids.push(data);
+						_this.cmdid = data;
+						_this.title = title;
+						_this.get_result_timer.set({ time: 1000, autostart: true});
+						return data;
+					}else{
+						$("#cmd_state").html("<font color='red'>失败</font>");
+						$("#cmd_description").html(data);
+						$("#cmd_description_more").append("<font color='red'>"+title+":"+data+"</font></br>");
+						_this.index ++;
+						_this.loadCmd();
+					}
+				}
+			});
+		}
+
+		$(".cmd_list").click(function(){
+			var url;
+			url = "/smallbox/meter/metersReadResultList?cmdids="+g_cmdids.join(",")+"&cmdName="+g_cmdName+"&ids="+g_ids;
+			top.layer.open({
+				type: 2 //iframe
+				,title: '抄收结果'
+				,area: ['1000px', '600px']
+				,shade: 0
+				,maxmin: true
+				,content: url
+			});
+		});
+		var metersObj = new metersManage(g_cmdName, "jqGrid", g_ids.split(","), 0);
+		metersObj.loadCmd();
+	});
+</script>
+</body>
+</html>
