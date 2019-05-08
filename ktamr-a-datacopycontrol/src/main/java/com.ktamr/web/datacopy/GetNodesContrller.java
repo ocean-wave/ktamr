@@ -95,7 +95,7 @@ public class GetNodesContrller {
     @ResponseBody
     public String getEquipmentCentorcNodes(@RequestParam( value = "areaType",required = false) String areaType,
                                            @RequestParam( value = "id",required = false) Integer id){
-        String jsonStr = "[{ id:'-1', pId:0, LevelType:'allRgn', name:'全部集采器', iconSkin:'icon00', open:true}";
+        String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部集采器', iconSkin:'icon00', open:true}";
         String wheresql = "";
         if(areaType != null && areaType.equals("rgn")){
             wheresql = " and Left(a.areaNo, 1) in ('"+id+"')";

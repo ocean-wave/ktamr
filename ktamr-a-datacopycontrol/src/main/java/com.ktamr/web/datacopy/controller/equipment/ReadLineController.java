@@ -33,17 +33,19 @@ public class ReadLineController extends BaseController {
 
     @PostMapping("/readLineList1")
     @ResponseBody
-    public Map<String,Object> centorcListJson(ParameterInfo parms){
+    public Map<String,Object> centorcListJson(HaCentor parms){
         startPage();
-        List<Map<String,Object>> listHaCentor = haCentorService.selectAllCentorHandAndCount(parms);
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorHandAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"zbs");
-        mi.put(1,"jdzts");
+        mi.put(1,"meters");
+        mi.put(2,"jdbs");
         Map<Integer,Integer> map = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("zbs",map.get(0).toString());
-        map2.put("jdzts",map.get(1).toString());
+        map2.put("resultParams.zbs",map.get(0).toString());
+        map2.put("resultParams.meters",map.get(1).toString());
+        map2.put("resultParams.jdbs",map.get(2).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
@@ -59,14 +61,14 @@ public class ReadLineController extends BaseController {
         }
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
-        mi.put(0,"lfnumber");
-        mi.put(1,"thnumber");
-        mi.put(2,"snumber");
+        mi.put(0,"lfNumber");
+        mi.put(1,"thNumber");
+        mi.put(2,"sNumber");
         Map<Integer,Integer> ms = getValuesByKey(listHaCentor,mi);
         map2.put("cb","总计:");
-        map2.put("lfnumber",ms.get(0).toString());
-        map2.put("thnumber",ms.get(1).toString());
-        map2.put("snumber",ms.get(2).toString());
+        map2.put("haMeter.lfNumber",ms.get(0).toString());
+        map2.put("haMeter.thNumber",ms.get(1).toString());
+        map2.put("haMeter.sNumber",ms.get(2).toString());
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;

@@ -3,7 +3,6 @@ package com.ktamr.web.datacopy.controller.dataselect;
 
 import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.common.utils.DateUtils;
-import com.ktamr.service.HaGprsdtuService;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;

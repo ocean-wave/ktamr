@@ -82,18 +82,18 @@
         GridObj1.jqdefaultGridConfig.caption = "";
         GridObj1.jqdefaultGridConfig.multiselect = false;
         GridObj1.jqdefaultGridConfig.postData = {};
-        GridObj1.jqdefaultGridConfig.colNames = ['ccentorid','编号','安装地点','连接说明','状态','总表数','读入表数','建档状态数','备注','安装时间'];
+        GridObj1.jqdefaultGridConfig.colNames = ['id','编号','安装地点','连接说明','状态','总表数','读入表数','建档状态数','备注','安装时间'];
         GridObj1.jqdefaultGridConfig.colModel = [
-            { name: 'ccentorid',  width: 75, key: true, hidden: true},
+            { name: 'id',  width: 75, key: true, hidden: true},
             { name: 'centorNo', width: 120 },
             { name: 'addr', width: 200 },
             { name: 'description' ,width: 120 },
             { name: 'state', width: 100, cellattr: deviceStateCellColor },
-            { name: 'zbs', width: 100, align: 'right' },
-            { name: 'drbs', width: 100, align: 'right', cellattr: compareMetersCellColor },
-            { name: 'jdzts', width: 100, align: 'right' },
+            { name: 'resultParams.zbs', width: 100, align: 'right' },
+            { name: 'resultParams.meters', width: 100, align: 'right', cellattr: compareMetersCellColor },
+            { name: 'resultParams.jdbs', width: 100, align: 'right' },
             { name: 'remark', width: 100 },
-            { name: 'setuptime', width: 120 }
+            { name: 'setupTime', width: 120 }
         ];
         GridObj1.jqdefaultGridConfig.footerrow = true;
         GridObj1.jqdefaultGridConfig.userDataOnFooter = true;
@@ -112,7 +112,7 @@
             if(id && id!==lastSel1){
                 lastSel1=id;
                 $("#jqGrid3").jqGrid('setGridParam',{
-                    postData: {"centorid": id, "collectorid": ""}
+                    postData: {"id": id}
                 }).trigger("reloadGrid");
             }
         };
@@ -126,18 +126,18 @@
             GridObj3.jqdefaultGridConfig.caption = "";
             GridObj3.jqdefaultGridConfig.multiselect = false;
             GridObj3.jqdefaultGridConfig.postData = {centorid: centorid};
-            GridObj3.jqdefaultGridConfig.colNames = ['meterid','用户编号','用户名称','用户地址','表号','上期结算','最近读数','本期用量','表状态','最近抄表时间'];
+            GridObj3.jqdefaultGridConfig.colNames = ['meterId','用户编号','用户名称','用户地址','表号','上期结算','最近读数','本期用量','表状态','最近抄表时间'];
             GridObj3.jqdefaultGridConfig.colModel = [
-                { name: 'meterid',  width: 75, key: true, hidden: true},
-                { name: 'userno', width: 120 },
-                { name: 'username', width: 120 },
-                { name: 'userds', width: 200 },
-                { name: 'meternumber', align: 'right', width: 120 },
-                { name: 'lfnumber', align: 'right' ,width: 80 },
-                { name: 'thnumber', align: 'right' ,width: 80 },
-                { name: 'snumber', width: 80, align: 'right' },
-                { name: 'state', width: 80, cellattr: MeterStateCellColor },
-                { name: 'thtime', width: 150 }
+                { name: 'haMeter.meterId',  width: 75, key: true, hidden: true},
+                { name: 'haMeter.havMeterinfo.userNo', width: 120 },
+                { name: 'haMeter.havMeterinfo.userName', width: 120 },
+                { name: 'haMeter.havMeterinfo.userDs', width: 200 },
+                { name: 'haMeter.havMeterinfo.meterNumber', align: 'right', width: 120 },
+                { name: 'haMeter.lfNumber', align: 'right' ,width: 80 },
+                { name: 'haMeter.thNumber', align: 'right' ,width: 80 },
+                { name: 'haMeter.sNumber', width: 80, align: 'right' },
+                { name: 'haMeter.state', width: 80, cellattr: MeterStateCellColor },
+                { name: 'haMeter.thRTime', width: 150 }
             ];
             GridObj3.jqdefaultGridConfig.footerrow = true;
             GridObj3.jqdefaultGridConfig.userDataOnFooter = true;
@@ -160,8 +160,8 @@
             $("#keyWord").val("");
             var postData1=$("#jqGrid1").getGridParam("postData");
             var postData3=$("#jqGrid3").getGridParam("postData");
-            delete postData1["keyWord"];
-            delete postData3["keyWord"];
+            delete postData1["params[keyWord]"];
+            delete postData3["params[keyWord]"];
             $("#jqGrid1").jqGrid('setGridParam',{
                 postData: postData1
             });
@@ -201,14 +201,12 @@
             var listName = $('input:radio[name="options"]:checked').data("title");
             if(listName == "ccentor"){
                 _pdArray = {
-                    "keyWord": $("#keyWord").val(),
-                    "nodeType": $("#nodeType").val(),
-                    "nodeIds": $("#nodeIds").val()
+                    "params[keyWord]": $("#keyWord").val()
                 };
                 fullTextSearch("jqGrid1", _pdArray);
             }else if(listName == "meter"){
                 _pdArray = {
-                    "keyWord": $("#keyWord").val()
+                    "params[keyWord]": $("#keyWord").val()
                 };
                 fullTextSearch("jqGrid3", _pdArray);
             }
