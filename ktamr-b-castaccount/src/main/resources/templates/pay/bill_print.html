@@ -6,8 +6,8 @@
 <body>
 <body style="text-align:center;margin-top:20px;">
 
-
-<table th:each="HaPaylog  : ${haPaylogList}" border="0" width="640" align="center">
+<div th:each="HaPaylog  : ${haPaylogList}" >
+<table  border="0" width="640" align="center">
     <tr>
         <td colspan=2 height=24><b th:text="'缴费单[' + ${HaPaylog.billId} + ']' "></b></td>
     </tr>
@@ -59,7 +59,9 @@
         <td colspan="2">合计金额</td>
         <td colspan="6" style="text-align:left;padding-left:10px;" th:text="'人民币：' + ${HaPaylog.sum}+'元'">人民币：-58元</td>
     </tr>
-</table><p><p>
+</table>
+</div>
+    <p><p>
 
 <table style="border:0px; width:640px;" align="center">
     <tr>

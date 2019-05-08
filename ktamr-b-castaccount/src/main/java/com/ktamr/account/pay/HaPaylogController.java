@@ -177,6 +177,21 @@ public class HaPaylogController {
     //点击打印缴费单的事件
     @RequestMapping("/bill_print")
     public String billPrint(HaPaylog haPaylog, HaFreeze haFreeze,Model model){
+        //检测字符串是否包含逗号
+        boolean b = haPaylog.getBillId().contains(",");
+        //包含返回true
+        if(b==true){
+            //拆分字符根绝逗号
+            String[] split = haPaylog.getBillId().split(",");
+
+            List<String> xhlist=new ArrayList<>();
+            //进行循环添加
+            for (int i =0;i<split.length;i++){
+                xhlist.add(split[i]);
+            }
+            haPaylog.setBillIdsList(xhlist);
+            haPaylog.setBillId(null);
+        }
         List<HaPaylog> haPaylogList = haPaylogService.BselectPritJiaoFeiDan1(haPaylog);
         List<HaFreeze> bselectPritJiaoFeiDan2 = haFreezeService.BselectPritJiaoFeiDan2(haFreeze);
         if(haPaylogList!=null&&bselectPritJiaoFeiDan2!=null){

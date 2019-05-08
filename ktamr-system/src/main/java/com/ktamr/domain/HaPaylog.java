@@ -44,7 +44,16 @@ public class HaPaylog extends BaseEntity {
   private Date KaiShiTime;//别名开始时间
   private Date JieShuTime;//别名结束时间0
   private Integer areaId;//别名小区id
+  private List<String> billIdsList;//定义缴费单号的id List集合方便查询多个id时
 
+
+  public List<String> getBillIdsList() {
+    return billIdsList;
+  }
+
+  public void setBillIdsList(List<String> billIdsList) {
+    this.billIdsList = billIdsList;
+  }
 
   public Integer getAreaId() {
     return areaId;
