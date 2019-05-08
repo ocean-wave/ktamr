@@ -41,7 +41,7 @@ public class HaPaylogController {
         List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         if(haAreaList!=null){//判断是否有值
             model.addAttribute("areaListName",haAreaList);
-            return "/pay/bill_list.html";
+            return "pay/bill_list.html";
         }
         return null;
     }
@@ -185,7 +185,7 @@ public class HaPaylogController {
             Map<String,Object> hh=new HashMap<String,Object>();
             hh.put("haPaylogList",haPaylogList);
             hh.put("bselectPritJiaoFeiDan2",bselectPritJiaoFeiDan2);
-            return "/pay/bill_print.html";
+            return "pay/bill_print.html";
         }
 
         return  null;

@@ -20,6 +20,6 @@ public class indexContrller {
     public String index(ModelMap mmap, HttpSession session){
         mmap.put("webVersion", Global.getVersion());
         mmap.put("operatorName", ServletUtils.getSession().getAttribute("operatorName"));
-        return "/index";
+        return "index";
     }
 }
