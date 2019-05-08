@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaGprsdtuMapper">
+
+    <select id="selectAllGprsdtuAndCount" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+        SELECT d.uid As uid
+        ,d.telnubmer As telnubmer
+        , d.addr As addr
+        , Count(c.id) As xsjcqsm
+        , d.state As state
+        , d.dscrp As dscrp
+        , to_char(d.oplasttime, 'yyyy-mm-dd hh24:mi:ss') As oplasttime
+        , d.idle As idle
+        FROM (ha_gprsDTU d LEFT JOIN ha_centor c ON d.uid=c.telnumber)
+        LEFT JOIN ha_area a ON Left(c.centorNo, 5)=a.areaNo
+        WHERE length(d.uid)>0
+        <if test=" keyWord != null and keyWord != ''  ">
+            and (a.uid = #{keyWord} or d.telnubmer like '%${keyWord}%' or d.addr like '%${keyWord}%' or d.state = #{state}
+            or d.dscrp like '%${keyWord}%' to_char(d.oplasttime, 'yyyy-mm-dd') like '%${keyWord}%')
+        </if>
+        GROUP BY d.uid,d.telnubmer,d.addr,d.state,d.dscrp,d.oplasttime,d.idle
+        ORDER BY d.uid,d.addr
+    </select>
+
+
+
+    <resultMap id="HaGprsdtuMap" type="com.ktamr.domain.HaGprsdtu">
+        <result property="uid" column="uid"/>
+        <result property="telNubmer" column="telnubmer"/>
+        <result property="addr" column="addr"/>
+        <result property="centors" column="centors"/>
+        <result property="state" column="state"/>
+        <result property="dscrp" column="dscrp"/>
+        <result property="oplastTime" column="oplastTime"/>
+        <result property="idle" column="idle"/>
+
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <id property="id" column="id"/>
+            <result property="telnumber" column="telnumber"/>
+        </association>
+
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaid" column="areaid"/>
+            <result property="areaNo" column="areaNo"/>
+        </association>
+    </resultMap>
+
+    <select id="HaGprsdtuList" resultMap="HaGprsdtuMap">
+        SELECT d.uid As uid,
+        d.telnubmer As telnubmer,
+        d.addr As addr,
+        Count(c.id) As centors,
+        d.state As state,
+        d.dscrp As dscrp,
+        to_char(d.oplasttime, 'yyyy-mm-dd hh24:mi:ss') As oplastTime,
+        d.idle As idle FROM (ha_gprsDTU d LEFT JOIN ha_centor c ON d.uid=c.telnumber)
+        LEFT JOIN ha_area a ON Left(c.centorNo, 5)=a.areaNo
+        WHERE length(d.uid)>0
+        GROUP BY d.uid,d.telnubmer,d.addr,d.state,d.dscrp,d.oplasttime,d.idle
+        ORDER BY d.uid,d.addr
+    </select>
+</mapper>

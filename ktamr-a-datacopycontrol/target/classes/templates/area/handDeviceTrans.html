@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<body class="myPage-body">
+<div class="alert alert-warning alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+	</button>
+	提示：用于“兰德M73E”型号手持机的表册导入导出。表册文件类型为<b>二进制文件</b>。其中：
+	“远程传输”方式表册以压缩包形式传输，由用户将下载的压缩包自行解压出表册下装至手抄器或者将表册由手持机上装本地电脑并压缩成压缩包上传至抄表服务器。“本地传输”方式表册仅限于在抄表服务器本机的本地接口下进行，直接由抄表服务器本机下装到手抄器或者由手抄器上传至抄表服务器。
+</div>
+<div class="container" style="padding:20px 5px;">
+	<div class="row">
+		<div class="col-xs-2 col-md-2">
+		</div>
+		<div class="col-xs-10 col-md-10">
+			<select class="ui-choose" id="uc_01">
+				<option value="remote">远程传输</option>
+				<option value="local">本地传输</option>
+			</select>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="row">
+		<div class="col-xs-2 col-md-2" style="text-align:right;padding-top:7px;">
+			<div class="form-group">
+				<label>抄收小区：</label>
+			</div>
+		</div>
+		<div class="col-xs-10 col-md-10">
+			<form class="form-inline">
+				<div class="form-group">
+					<select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-size="5">
+						<%
+						AreaByWhere dbconn, GetRightCondition("areaNo", "area", ""), "name", ""
+						%>
+					</select>
+				</div>
+				<div class="form-group layui-form" style="padding-left:5px;padding-bottom:3px;">
+					<input type="radio" name="areaSel" value="all" title="全部">
+					<input type="radio" name="areaSel" value="singleMonth" title="单月">
+					<input type="radio" name="areaSel" value="doubleMonth" title="双月">
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="row">
+		<div class="col-xs-2 col-md-2">
+		</div>
+		<div id="btns" class="col-xs-10 col-md-10">
+			<div id="remote-div" class="form-group layui-form" style="display:block;">
+				<input type="button" value="生成表册" name="remoteCreateMeterTables" class="layui-btn layui-btn-sm layui-btn-primary btns">
+				<input type="button" id="uploadfile" value="上传表册" class="layui-btn layui-btn-sm layui-btn-primary">
+				<span>
+					*表册以压缩包的形式传输
+				</span>
+			</div>
+
+			<div id="local-div" class="form-group layui-form" style="display:none;">
+				<input type="button" value="生成并传表册" name="localCreateMeterTables" class="layui-btn layui-btn-sm layui-btn-primary btns">
+				<input type="button" value="读手抄器数据" name="localReadData" class="layui-btn layui-btn-sm layui-btn-primary btns">
+				<span>
+					*表册由本地接口（串口或者USB接口）进行传输
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-10">
+			<div id="di1" style="border: 1px solid; border-color:#6AC9FF; width:405; padding=2px; display:none;">
+				<img id="img1" src="../images/going0.gif"><br>
+				<p>
+					<span id="cmd_state"></span><br><br>
+					<span id="cmd_description"></span>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript" >
+	$('.ui-choose').ui_choose();
+	var uc_01 = $('#uc_01').data('ui-choose');
+	uc_01.change = function(value, item){
+		if(value == "local"){
+			$("#remote-div").hide();
+			$("#local-div").show();
+		}else{
+			$("#local-div").hide();
+			$("#remote-div").show();
+		}
+	}
+
+	layui.use(['layer','form','upload'], function(){
+		var layer = layui.layer,
+				upload = layui.upload;
+		$('.selectpicker').selectpicker({
+			actionsBox: false //去除全选,全不选按键
+			,noneSelectedText: '没有选择'
+			,selectAllText: '选择所有'
+			,deselectAllText: '取消全选'
+			,liveSearchPlaceholder: '搜索'
+			,maxOptions: 10 //最多可选数
+		});
+		var g_cmdName = "";
+		var g_cmdid = "";
+		var g_get_url = "../datamng/ha_cmd/cmd_ajax_get.asp";
+		function downloadPackage(){
+			var meterTablePackageOp_url = "./hand_device_package.asp";
+			$.ajax({
+				url: meterTablePackageOp_url,
+				type: "POST",
+				contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+				data: {op: "pack"},
+				success: function(data){
+					re = data.split(";");
+					if(re[0] == "true"){
+						location.href = re[1];
+					}else{
+						pageObj.layer.msg(data, {icon: 5});
+					}
+
+				}
+			});
+		}
+		var timer_get = $.timer(function(){
+			$.get(g_get_url,
+					{cmdid: g_cmdid},
+					function(data,status){
+						if (status == "success"){
+							var i, state, processing, s;
+							s = unescape(data);
+							i = s.indexOf(":");
+
+							if (i > 1){
+								state = s.substr(0,i);
+								processing = s.substr(i+1);
+								$("#cmd_state").html(state);
+							}else{
+								processing = s;
+							}
+							//alert(data + "\r\nstate: " + state);
+							$("#cmd_description").html(processing);
+							if ((state == "完成") || (state == "失败")){
+								$("#img1")[0].src = (state == "完成")? "../../images/ok.gif" : "../../images/wrong.gif";
+								$("#cmd_description").html(processing);
+								timer_get.stop();
+								if(g_cmdName == "生成表册" && state == "完成"){
+									downloadPackage();
+								}
+							}
+						}
+					}
+			);
+		});
+		function start_do(cmdName, parms){
+			var g_add_url = "../datamng/ha_cmd/cmd_add_do.asp";
+			// alert(g_add_url);
+			$.ajax({
+				url: g_add_url,
+				type: "POST",
+				data: {cmd: cmdName+":"+parms, centorid: 0},
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				success: function(data){
+					g_cmdid = data;
+					$("#di1").show();
+					if (!isNaN(g_cmdid)){
+						$("#img1")[0].src = "../images/going0.gif";
+						$("#cmd_state").html("待执行，命令号: " + g_cmdid);
+						$("#cmd_description").html("......");
+						timer_get.set({ time: 1000, autostart: true});
+					}else{
+						$("#cmd_state").html("失败");
+						$("#img1")[0].src = "../images/wrong.gif";
+						$("#cmd_description").html(data);
+					}
+				}
+			});
+		};
+
+		$(".btns").click(function(){
+			var params = "";
+			var button_name = $(this).attr('name');
+			var radioSel = $("input[name='areaSel']:checked").val();
+
+			if(radioSel == "all"){
+				params = 0;
+			}else if(radioSel == "singleMonth"){
+				params = "单月";
+			}else if(radioSel == "doubleMonth"){
+				params = "双月";
+			}else{
+				params = $(".selectpicker").val();
+			}
+			if(params == null && button_name!="localReadData"){
+				layer.msg("请选择小区！", {icon: 5});
+				return false;
+			}
+
+			if(button_name == "localCreateMeterTables"){
+				g_cmdName = "生成并传表册";
+			}else if(button_name == "localReadData"){
+				params = "";
+				g_cmdName = "读手抄器数据";
+			}else if(button_name == "remoteCreateMeterTables"){
+				g_cmdName = "生成表册";
+			}
+
+			start_do(g_cmdName, params);
+		});
+
+		upload.render({
+			elem: '#uploadfile' //指定原始元素
+			,url: './hand_device_package.asp?op=unpack' //上传接口
+			,method: 'post' //上传接口的http类型
+			,accept: 'file'
+			,exts: 'zip|rar'
+			,auto: true//选择文件后自动上传
+			,done: function(res, index, upload){ //上传成功后的回调
+				if(res.state == "ok"){
+					g_cmdName = "上传表册";
+					start_do(g_cmdName, "");
+				}
+			}
+		});
+	});
+</script>
+</body></html>

@@ -37,8 +37,11 @@
         to_char(operator_creattime, 'yyyy-mm-dd hh24:mi:ss') as operatorCreatTime from ha_operator
         where 1=1
         <if test="haOperator.keyWord != null and haOperator.keyWord != ''">
-            and operator_company like '%${haOperator.operatorCompany}%'
-            or operator_upper like '%${haOperator.operatorUpper}%'
+            and operator_name like '%${haOperator.keyWord}%'
+            or operator_company like '%${haOperator.keyWord}%'
+            or operator_upper like '%${haOperator.keyWord}%'
+            or operator_mobile like '%${haOperator.keyWord}%'
+            or operator_remark like '%${haOperator.keyWord}%'
         </if>
         limit #{page} OFFSET #{rowNum}
     </select>

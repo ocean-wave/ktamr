@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaAreaMapper">
+
+    <resultMap id="areaMap" type="com.ktamr.domain.HaArea">
+        <id column="areaid" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <result column="areaNo" property="areaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="registeredNo" property="registeredNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="ds" property="resultParams.ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="zBs" property="resultParams.zBs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="zDs" property="resultParams.zDs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="bqyl" property="resultParams.bqyl" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="blbs" property="resultParams.blbs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="reserved" property="reserved" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="lastsumDay" property="lastsumDay" javaType="java.util.Date"></result>
+        <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <association property="haMeter" resultMap="meterMap">
+
+        </association>
+    </resultMap>
+
+    <resultMap id="meterMap" type="com.ktamr.domain.HaMeter">
+        <result column="zjcssj" property="thRTime" javaType="java.util.Date" ></result>
+        <result column="zzzbsj" property="startTime" javaType="java.util.Date" ></result>
+    </resultMap>
+
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+            <if test=" params.operatorRgnType == 'rgn' ">
+                and position( LEFT(a.areaNo,1) in #{params.rgnStr})>0
+            </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and a.areano in (#{params.areaNo})
+            </if>
+        </if>
+    </sql>
+
+    <select id="selectAllAreaAndCount" resultMap="areaMap" parameterType="com.ktamr.domain.HaArea">
+        SELECT
+         a.areaid AS areaid
+         , Right(a.areaNo, 4) AS areaNo
+         , a.registeredNo AS registeredNo
+         , a.name AS name
+         ,n.name||'-'||a.addr AS addr
+         ,case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds
+         ,COUNT(m.meterid) AS zBs
+         ,SUM(m.TH_NUMBER) AS zDs
+         ,SUM(m.S_NUMBER) AS bqyl
+         ,t.n AS blbs
+         ,a.reserved AS reserved
+         ,MAX(m.TH_R_TIME) AS zjcssj
+         ,a.lastsumday AS lastsumDay
+         ,MIN(m.starttime) AS zzzbsj
+         , a.description AS description
+         FROM
+         ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid
+         LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1)
+         LEFT JOIN (
+             SELECT Count(i.meterid) AS n,i.areaid AS areaid
+             FROM hav_meterinfo i
+             WHERE i.状态!='正常'
+             AND i.状态!='正确'
+             AND i.状态!='建档'
+             AND i.状态!='集中器无返回'
+             AND i.状态!='关阀'
+             AND i.状态!='修改'
+             AND i.状态!='已更正'
+             AND i.状态!='已更换'
+             AND i.状态!='采集器无返回'
+             AND i.状态
+             NOT LIKE '%用量异常%'
+             AND i.表号 >0
+             GROUP BY i.areaid) t ON t.areaid=a.areaid
+         WHERE length(to_char(a.areaid,'9999'))>0
+         <include refid="getRightCondition"></include>
+         <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">
+             and left(a.areaNo,1) = #{params.rgnid}
+         </if>
+         <if test=" params.keyWord != null and params.keyWord != ''  ">
+             and (a.areaNo like '%${params.keyWord}%' or a.registeredNo like '%${params.keyWord}%' or a.name like '%${params.keyWord}%'
+                  or n.name||'-'||a.addr like '%${params.keyWord}%'
+                  or to_char(m.TH_R_TIME,'yyyy-MM-dd') like '%${params.keyWord}%'
+                  or to_char(a.lastsumday,'yyyy-MM-dd') like '%${params.keyWord}%'
+                  or case when a.DS='S' then '单月' when a.DS='D' then '双月' end = #{params.keyWord}
+                )
+         </if>
+         <if test=" params.monthType != null and params.monthType != '' ">
+             and a.DS = #{params.monthType}
+         </if>
+         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,a.lastsumday,t.n
+         ORDER BY a.areaNo
+    </select>
+
+    <select id="selectHaAreaIdAndName" resultType="com.ktamr.domain.HaArea">
+          select areaid, Right(areaNo, 4)||':'||name as name
+          from ha_area a
+          where 1=1
+        <include refid="getRightCondition"></include>
+    </select>
+
+    <select id="selectAreaIdAreaNoName" resultType="com.ktamr.domain.HaArea">
+        SELECT areaId
+        ,Right(areaNo, 4) AS areaNo
+        , name AS name
+        FROM ha_area
+        where 1=1
+        <include refid="getRightCondition"></include>
+        ORDER BY areaNo
+    </select>
+
+
+    <!--映射查询小区表查询语句-->
+    <resultMap  id="HaAreaMap"  type="HaArea">
+        <id column="areaid" property="areaId" />
+        <result column="aareaNo" property="areaNo"/>
+        <result column="aregisteredNo" property="registeredNo"/>
+        <result column="aname" property="name"/>
+        <result column="aaddr" property="addr"/>
+        <result column="ads" property="ds"/>
+        <result column="areserved" property="reserved"/>
+        <result column="alastsumday" property="lastsumDay"/>
+        <result column="adescription" property="description"/>
+        <result column="atnNumber" property="atnNumber"/>
+        <result column="keyWord" property="keyWord"/>
+
+        <association property="haMeter" javaType="HaMeter">
+            <result column="mmeterid" property="meterId"/>
+            <result column="mTH_NUMBER" property="thNumber"/>
+            <result column="mS_NUMBER" property="sNumber"/>
+            <result column="mTH_R_TIME" property="thRTime"/>
+            <result column="mstarttime" property="startTime"/>
+            <result column="areaid" property="areaId"/>
+        </association>
+
+    </resultMap>
+
+    <!--查询小区表的名字 填充条件查询的下拉框的值-->
+    <select id="BselectHareaNameList" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
+        select areaid, name from ha_area
+    </select>
+
+    <!--查询小区表+分页+动态查询 -->
+    <select id="BselectHaAreaList"  resultMap="HaAreaMap">
+        SELECT
+        a.areaid AS areaid, Right(a.areaNo, 4) AS aareaNo, a.registeredNo AS aregisteredNo,
+        a.name AS aname,concat_ws('_',n.name,a.addr) AS aaddr,
+        case a.DS when 'S' then '单月' else '双月' end AS ads,
+        COUNT(m.meterid) AS mmeterid,
+        SUM(m.TH_NUMBER) AS mTH_NUMBER,
+        SUM(m.S_NUMBER) AS mS_NUMBER,
+        t.n AS atnNumber,
+        a.reserved AS areserved,
+        to_date(to_char(GREATEST(m.TH_R_TIME),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mTH_R_TIME,
+        to_date(to_char(a.lastsumday,'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS alastsumday,
+        to_date(to_char(LEAST(m.starttime),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mstarttime, a.description AS adescription
+        FROM ((ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid)
+        LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
+        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid
+        FROM hav_meterinfo i WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档'
+        AND i.状态!='集中器无返回' AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正'
+        AND i.状态!='已更换' AND i.状态!='采集器无返回' AND i.状态 NOT LIKE '%用量异常%'
+        AND i.表号 >0
+        GROUP BY i.areaid) t ON t.areaid=a.areaid
+        group by a.areaid,a.areaNo,a.registeredNo,a.name,n.name,a.addr,a.DS,t.n,
+        a.reserved,m.TH_R_TIME,
+        a.lastsumday,m.starttime,a.description
+        <trim prefix="having" prefixOverrides="and | or">
+
+            <if test="HaArea.ds != null and HaArea.ds != ''">
+                and ds = #{HaArea.ds}
+            </if>
+
+            <if test="HaArea.idsList  != null and HaArea.idsList.size()>0">
+                and a.areaid in
+                <foreach collection="HaArea.idsList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+
+            </if>
+
+            <if test="HaArea.keyWord!=null and HaArea.keyWord!=null">
+                and (a.areaNo like '%{HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
+
+            </if>
+        </trim>
+        ORDER BY a.areaNo
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <!--点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字-->
+    <select id="BselectHaAreaName" resultType="HaArea">
+        SELECT name FROM ha_area
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="areaId != null and areaId != ''">
+                and  areaid=#{areaId}
+            </if>
+        </trim>
+    </select>
+
+    <!--查询小区表,主要想查里面的数据记录数-->
+    <select id="BselectHaAreaCount"  resultMap="HaAreaMap">
+        SELECT
+        a.areaid AS areaid, Right(a.areaNo, 4) AS aareaNo, a.registeredNo AS aregisteredNo,
+        a.name AS aname,concat_ws('_',n.name,a.addr) AS aaddr,
+        case a.DS when 'S' then '单月' else '双月' end AS ads,
+        COUNT(m.meterid) AS mmeterid,
+        SUM(m.TH_NUMBER) AS mTH_NUMBER,
+        SUM(m.S_NUMBER) AS mS_NUMBER,
+        t.n AS atnNumber,
+        a.reserved AS areserved,
+        to_date(to_char(GREATEST(m.TH_R_TIME),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mTH_R_TIME,
+        to_date(to_char(a.lastsumday,'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS alastsumday,
+        to_date(to_char(LEAST(m.starttime),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mstarttime, a.description AS adescription
+        FROM ((ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid)
+        LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
+        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid
+        FROM hav_meterinfo i WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档'
+        AND i.状态!='集中器无返回' AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正'
+        AND i.状态!='已更换' AND i.状态!='采集器无返回' AND i.状态 NOT LIKE '%用量异常%'
+        AND i.表号 >0
+        GROUP BY i.areaid) t ON t.areaid=a.areaid
+        group by a.areaid,a.areaNo,a.registeredNo,a.name,n.name,a.addr,a.DS,t.n,
+        a.reserved,m.TH_R_TIME,
+        a.lastsumday,m.starttime,a.description
+        <trim prefix="having" prefixOverrides="and | or">
+
+            <if test="HaArea.ds != null and HaArea.ds != ''">
+                and ds = #{HaArea.ds}
+            </if>
+
+            <if test="HaArea.idsList  != null and HaArea.idsList.size()>0">
+                and a.areaid in
+                <foreach collection="HaArea.idsList" item="item" index="index"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+
+    <!--佛系更新HaArea-->
+    <update id="BupdateHaArea">
+
+        UPDATE public.ha_area
+        <trim prefix="set" suffixOverrides="," suffix=" WHERE areaid = #{areaId}">
+
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="lastcheckTime != null">
+                lastchecktime = #{lastcheckTime},
+            </if>
+            <if test="reserved != null">
+                reserved = #{reserved},
+            </if>
+            <if test="areaNo != null">
+                areano = #{areaNo},
+            </if>
+            <if test="shortName != null">
+                shortname = #{shortName},
+            </if>
+            <if test="addr != null">
+                addr = #{addr},
+            </if>
+            <if test="sumDay != null">
+                sumday = #{sumDay},
+            </if>
+            <if test="lastsumDay != null">
+                lastsumday = #{lastsumDay},
+            </if>
+            <if test="createTime != null">
+                createtime = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                modifytime = #{modifyTime},
+            </if>
+            <if test="auditDay != null">
+                audit_day = #{auditDay},
+            </if>
+            <if test="auditResult != null">
+                audit_result = #{auditResult},
+            </if>
+            <if test="registeredNo != null">
+                registeredno = #{registeredNo},
+            </if>
+            <if test="ds != null">
+                ds = #{ds},
+            </if>
+        </trim>
+
+
+    </update>
+
+    <!--映射大区下面的小区名字-->
+    <resultMap id="SmallMap" type="HaArea">
+        <id column="areaid" property="areaId" />
+        <result column="registeredNo" property="registeredno"/>
+        <result column="DS" property="ds"/>
+        <result column="aname" property="name"/>
+        <association property="haBuilding" javaType="HaBuilding">
+            <result column="bname" property="name"/>
+
+        </association>
+    </resultMap>
+
+    <!--查询大区下的小区名字-->
+    <select id="BselectSmallName" resultMap="SmallMap">
+    SELECT a.areaid, case  when a.registeredNo!=null
+then a.registeredNo  else Right(a.areaNo, 4)  end as registeredNo, case a.DS when 'S' then '单月' else '双月' end  as DS, a.name as aname, COUNT(b.name) as bname FROM ha_area a
+LEFT JOIN ha_building b ON b.areaid=a.areaid WHERE Left(a.areaNo, 1) =#{areano}
+GROUP BY a.areaNo,a.registeredNo,a.areaid, case  when a.registeredNo!=null Or octet_length(a.registeredNo)=0
+then  Right(a.areaNo, 4) else a.registeredNo end, case a.DS when 'S' then '单月' else '双月' end, a.name
+ORDER BY case a.DS when 'S' then '单月' else '双月' end,case  when a.registeredNo!=null Or length(a.registeredNo)=0
+then  Right(a.areaNo, 4) else a.registeredNo end
+
+    </select>
+
+    <!--根据areaid查询并返回相应的记录数-->
+    <select id="BselectCountareaid" resultType="Integer">
+      SELECT Count(1) FROM ha_area
+        WHERE areaid=#{areaId}
+    </select>
+
+    <!--点击完成结算第一步 -->
+    <update id="BupdateWanChengJieSuanOne">
+       UPDATE ha_custom cu
+SET  paidTime=to_date(now()::text, 'yyyy-mm-dd'),
+expense=pl.sum,
+balance=case when balance is null then 0 else  balance end  -pl.sum
+from ha_room r,ha_meter m,ha_paylog pl
+WHERE cu.billid=pl.billid AND r.custid=cu.custid
+AND m.roomid=r.roomid AND m.areaid IN (#{areaId})
+    </update>
+
+    <!--点击完成结算第二步-->
+    <insert id="BupdateWanChenJieSuanTwo">
+      INSERT INTO ha_billRecords (custId,operation,charge,CurrentBalance,optTime,optMan)
+SELECT cu.custid,'扣费',0-cu.expense,cu.balance,cu.paidTime,'ha'
+ FROM ha_custom cu,ha_room r,ha_meter m
+ WHERE  r.custid=cu.custid AND m.roomid=r.roomid AND m.areaid = #{areaId}
+    </insert>
+
+    <!--点击完成结算第三步-->
+    <update id="BupdateWanChenJieSuanThree">
+       UPDATE ha_paylog pl
+SET state='完成',mbtime=to_date(now()::text, 'yyyy-mm-dd')
+from ha_custom cu,ha_room r,ha_meter m
+ WHERE cu.billid=pl.billid AND cu.custid=r.custid AND m.roomid=r.roomid AND m.areaid IN ('${areaId}')
+    </update>
+
+    <!--点击完成结算第四步-->
+    <update id="BupdateWanChenJieSuanFour">
+        UPDATE ha_custom cu
+SET lastBillid=null
+from ha_room r,ha_meter m
+WHERE cu.custid=r.custid AND r.roomid=m.roomid
+AND m.areaid IN ('${areaId}')
+    </update>
+
+    <!--点击完成结算第五步-->
+    <update id="BupdateWanChenJieSuanFive">
+         UPDATE ha_meter m
+SET lf_number=th_number,lf_time=to_date(now()::text, 'yyyy-mm-dd'),s_number=0
+WHERE m.areaid IN ('${areaId}')
+    </update>
+
+    <!--点击完成结算第六步-->
+    <update id="BupdateWanChenJieSuanSix">
+
+        UPDATE ha_area
+SET lastSumDay=to_date(now()::text, 'yyyy-mm-dd')
+WHERE areaid IN ('${areaId}')
+    </update>
+
+    <!--点击完成结算第七步-->
+    <update id="BupdateWanChenJieSuanSeven">
+        UPDATE ha_monthbtime mb SET
+        end_time=now()
+        WHERE mb.start_time =
+        (SELECT case when max(mb1.start_time)&gt;
+        (case when max(mb2.end_time) is  null then now() else max(mb2.end_time) end ) AND max(mb1.start_time) &lt; Now()
+        then max(mb1.start_time) else  now() end
+        FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid='${areaId}')
+        AND mb.areaid='${areaId}'
+    </update>
+
+
+
+
+
+    <select id="queryAllHaAreaC" resultType="com.ktamr.domain.HaArea">
+        select areaid,areano,name from ha_area
+    </select>
+
+    <insert id="addHaAreaC">
+       INSERT INTO ha_area(areaNo,name,description,addr,shortName,DS,registeredNo) VALUES(#{rgn}||#{areaNo},#{name},#{description},#{addr},#{shortName},#{ds},#{registeredNo})
+    </insert>
+
+    <select id="updateByIdHaAreaC" resultType="com.ktamr.domain.HaArea">
+        select areaid,areano,name,shortname,addr,trim(ds),description,registeredno from ha_area where areaid = #{areaId}
+    </select>
+
+    <delete id="deleteHaAreaC">
+        delete from ha_area where areaid = #{haArea.areaId}
+    </delete>
+
+    <update id="updateHaAreaC">
+        update ha_area
+        <trim prefix="set" suffixOverrides="," suffix="where areaid = #{haArea.areaId}">
+            <if test="haArea.areaNo != null">areano = #{haArea.rgn}||#{haArea.areaNo},</if>
+            <if test="haArea.name != null">name = #{haArea.name},</if>
+            <if test="haArea.description != null">description = #{haArea.description},</if>
+            <if test="haArea.addr != null">addr = #{haArea.addr},</if>
+            <if test="haArea.shortName != null">shortname = #{haArea.shortName},</if>
+            <if test="haArea.registeredNo != null">registeredno = #{haArea.registeredNo},</if>
+            <if test="haArea.reserved != null">reserved = #{haArea.reserved},</if>
+            <if test="haArea.ds != null and haArea.ds !=''">ds = #{haArea.ds},</if>
+        </trim>
+    </update>
+
+    <select id="queryHaAreaCountC" resultType="Integer">
+        select Count(1) from ha_area where areaid=#{areaId}
+    </select>
+
+    <resultMap id="queryAllSmallAreaMap" type="com.ktamr.domain.HaArea">
+        <id property="areaId" column="areaId"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="lastCheckTime" column="lastCheckTime"/>
+        <result property="state" column="state"/>
+        <result property="areaNo" column="areaNo"/>
+        <result property="shortName" column="shortName"/>
+        <result property="addr" column="addr"/>
+        <result property="ds" column="ds"/>
+        <result property="auditDay" column="auditDay"/>
+        <result property="auditResult" column="auditResult"/>
+        <result property="registeredNo" column="registeredNo"/>
+        <result property="lastsumDay" column="lastsumDay"/>
+        <result property="reserved" column="reserved"/>
+        <result property="monthType" column="monthType"/>
+        <result property="rgnIds" column="rgnIds"/>
+
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <id property="meterId" column="meterId"/>
+            <result property="haMeterCount" column="haMeterCount"/>
+            <result property="thNumber" column="thNumber"/>
+            <result property="sNumber" column="sNumber"/>
+            <result property="startTime" column="startTime"/>
+            <result property="thRTime" column="thrTime"/>
+        </association>
+
+        <association property="haRgn" javaType="com.ktamr.domain.HaRgn">
+            <id property="id" column="id"/>
+        </association>
+    </resultMap>
+
+    <select id="queryAllSmallArea" resultMap="queryAllSmallAreaMap">
+        SELECT
+        a.areaid AS areaId, Right(a.areaNo, 4) AS areaNo, trim(a.registeredNo) AS registeredNo, a.name AS name,
+        trim(n.name||'-'||a.addr) AS addr,
+        case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds,
+        COUNT(m.meterid) AS haMeterCount,
+        SUM(m.TH_NUMBER) AS thNumber,
+        SUM(m.S_NUMBER) AS sNumber,
+        t.n AS 不良表数,
+        trim(a.reserved) AS reserved,
+        to_char(MAX(m.TH_R_TIME),'yyyy-mm-dd hh24:mi:ss') AS thrTime,
+        trim(to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss')) AS lastsumDay,
+        to_char(MIN(m.starttime),'YYYY-MM-DD') AS startTime,a.description AS description
+        FROM ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1)
+        LEFT JOIN
+
+        (SELECT Count(i.meterid) AS n,i.areaid AS areaid FROM hav_meterinfo i
+        WHERE i.状态!='正常' AND i.状态!='正确'
+        AND i.状态!='建档' AND i.状态!='集中器无返回'
+        AND i.状态!='关阀' AND i.状态!='修改'
+        AND i.状态!='已更正' AND i.状态!='已更换'
+        AND i.状态!='采集器无返回' AND i.状态
+        NOT LIKE '%用量异常%'
+        AND i.表号 >0 GROUP BY i.areaid) as t
+
+        ON t.areaid=a.areaid
+        WHERE length(trim(to_char(a.areaid,'9999999')))>0
+        <if test="haArea.rgnIds!=null and haArea.rgnIds != '' and haArea.rgnIds != '-2'">
+            and left(a.areaNo,1) = #{haArea.rgnIds}
+        </if>
+        <if test="haArea.name !=null and haArea.name !=''">
+            and (a.registeredNo like '%${haArea.name}%' or a.name like '%${haArea.name}%' or a.areaNo like '%${haArea.name}%')
+        </if>
+        <if test="haArea.monthType != null and haArea.monthType != '' ">
+            and a.DS = #{haArea.monthType}
+        </if>
+        GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,
+        a.DS,a.description,a.reserved,to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n ORDER BY a.areaNo
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="smallAreaCount" resultType="_int">
+        select count(1) from ha_area
+    </select>
+
+    <select id="queryAllSmallArea2" resultType="com.ktamr.domain.HaArea">
+        SELECT a.areaid,
+        CASE WHEN  length(a.registeredNo)=0  OR registeredNo IS NULL
+        THEN Right(a.areaNo, 4) ELSE a.registeredNo END,
+        CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S'
+        THEN '[单月]' ELSE '' END, a.name, COUNT(b.name)
+        FROM ha_area a LEFT JOIN ha_building b ON b.areaid=a.areaid
+        WHERE Left(a.areaNo, 1)=#{areaNo} --根据大区id显示小区 不写显示全部
+        GROUP BY a.areaid,
+		CASE WHEN  length(a.registeredNo)=0
+		OR registeredNo IS NULL  THEN Right(a.areaNo, 4) ELSE a.registeredNo END,
+		CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE '' END, a.name ORDER BY
+		CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE '' END,CASE WHEN length(a.registeredNo)=0
+		OR registeredNo IS NULL THEN Right(a.areaNo, 4) ELSE a.registeredNo END
+    </select>
+
+</mapper>

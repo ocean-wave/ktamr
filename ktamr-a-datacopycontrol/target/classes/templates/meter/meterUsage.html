@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<style type="text/css">
+	.form-control[readonly] {
+		background-color: #fff;
+		opacity: 1;
+	}
+	.my-form-col {
+		margin-right:10px;padding:0;
+	}
+	.my-form-no-edge{
+		padding:0px;margin:0px;
+	}
+</style>
+<body class="myPage-body">
+<div class="container" style="width:100%;margin:0;padding:2px 2px;">
+	<div class="row">
+		<div class="col-xs-12"><span style="border-left: 2px solid green;padding-left:5px;">
+			<b>用户编号: </b>
+			<b th:text="${meter.custno}"></b>
+			<b>,用户名称:</b>
+			<b th:text="${meter.name}"></b>
+			<b>,用户地址:</b>
+			<b th:text="${meter.ds}"></b>
+			<b>,表号:</b>
+			<b th:text="${meter.meternumber}"></b>
+		</span></div>
+	</div>
+	<div class="row" style="margin:0;padding:5px 0px 0px 0px;">
+		<div class="col-xs-3 my-form-col">
+			<select id='query_type' class="selectpicker form-control" data-style="btn-default btn-sm" title="选择查询类型">
+				<option value='last' selected>每日最新记录</option>
+				<option value='all' >每日所有记录</option>
+				<option value='dayFreeze' >日冻结记录</option>
+				<option value='monFreeze' >月冻结记录</option>
+			</select>
+		</div>
+		<div class="col-xs-3 my-form-col">
+			<input id="date_range" class="input-sm form-control"  type="text" value='' readonly="readonly" placeholder="选择查询日期范围"/>
+		</div>
+		<div class="col-xs-1 my-form-col">
+			<button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+		</div>
+	</div>
+	<div class="row my-form-no-edge">
+		<div class="col-md-12 my-form-no-edge">
+			<form class="form-horizontal" id="jqgridForm" role="form">
+				<table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+				<div id="jqGridPager"></div>
+			</form>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+	layui.use(['layer', 'form'], function(){
+		var g_meterid = [[${meterid}]];
+		var Post_Data = {dataType: "last", meterid: g_meterid,sord:"DESC",orderByColumn:'t.csTime'};
+		if(query_type == "dayFreeze" || query_type == "monFreeze"){
+			Post_Data['orderByColumn'] = 'fday';
+		}else{
+			Post_Data['orderByColumn'] = 't.csTime';
+		}
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 136,'/smallbox/meterUsage/meterUsageList');
+		GridObj.jqdefaultGridConfig.caption = "";
+		GridObj.jqdefaultGridConfig.postData = Post_Data;
+		GridObj.jqdefaultGridConfig.colNames = ['itemid','抄收读数','抄收用量','抄收时间','表状态'];
+		GridObj.jqdefaultGridConfig.colModel = [
+			{ name: 'itemid',  width: 75, key: true, hidden: true},
+			{ name: 'thnumber', width: 70, align: 'right' },
+			{ name: 'delta', width: 70, align: 'right' },
+			{ name: 'cstime', width: 150 },
+			{ name: 'state', width: 110, cellattr: MeterStateCellColor }
+		];
+		GridObj.drawGrid();
+		GridObj.drawGridPager();
+		GridObj.setGridSize();
+		GridObj.gridResize();
+
+		$('#date_range').click(function(){
+			var options = {};
+			options.startDate = '';
+			options.endDate = '';
+			options.format_start = "YYYY-MM-DD";
+			options.format_end = "YYYY-MM-DD";
+			options.align="right";
+			options.cb_add = function(p_value){
+			};
+			myData.DataRangePicker(this, "DateRange", options);
+		});
+
+		$(document).keydown(function(event){
+			if(event.keyCode==13){
+				$(".search").click();
+			}
+		});
+		$(".search").click(function(){
+			var query_type = $("#query_type").val();
+			var postData = "";
+			var postData = $('#jqGrid').jqGrid("getGridParam", "postData");
+			var dataType = $("#query_type").val();
+			var  _pdArray = "";
+			var date_range = ['', ''];
+			date_range = $("#date_range").val().split("~");
+			_pdArray = {
+				"dataType": dataType,
+				"startDate": date_range[0],
+				"endDate": date_range[1]
+			};
+			if(postData != ""){
+				$.each(_pdArray, function (k, v) {
+					postData[k] = v;
+				});
+				if(query_type == "dayFreeze" || query_type == "monFreeze"){
+					postData['orderByColumn'] = 'fday';
+				}else{
+					postData['orderByColumn'] = 't.csTime';
+				}
+				$('#jqGrid').jqGrid('setGridParam',{
+					page:$("#input_jqGridPager").find("input").val(),
+					postData: postData
+				}).trigger("reloadGrid");
+			}
+		});
+	});
+</script>
+</body>
+</html>
