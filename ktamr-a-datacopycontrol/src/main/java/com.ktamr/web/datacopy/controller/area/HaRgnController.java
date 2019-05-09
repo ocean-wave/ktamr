@@ -14,7 +14,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/rgn")
 public class HaRgnController extends BaseController {
-    private  String pxePath = "/area";
+    private  String pxePath = "area";
 
     @Autowired
     private HaRngService haRngService;

@@ -15,7 +15,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/systemmaintenance")
 public class CmdListController extends BaseController {
-    private  String pxePath = "/datamng";
+    private  String pxePath = "datamng";
 
     @Autowired
     private HaCmdService haCmdService;

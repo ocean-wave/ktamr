@@ -14,7 +14,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/thirdPartyInterface")
 public class InterfaceCmdController extends BaseController {
-    private  String pxePath = "/interface";
+    private  String pxePath = "interface";
 
     @Autowired
     private HaCmdService haCmdService;

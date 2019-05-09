@@ -16,7 +16,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/area")
 public class HaAreaContrller extends BaseController{
-    private  String pxePath = "/area";
+    private  String pxePath = "area";
 
     @Autowired
     private HaAreaService haAreaService;

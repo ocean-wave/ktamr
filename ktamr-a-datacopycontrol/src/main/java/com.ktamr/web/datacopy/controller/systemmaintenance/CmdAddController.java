@@ -20,7 +20,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/systemmaintenance")
 public class CmdAddController extends BaseController {
-    private  String pxePath = "/datamng";
+    private  String pxePath = "datamng";
 
     @Autowired
     private HaCentorService haCentorService;
@@ -92,9 +92,12 @@ public class CmdAddController extends BaseController {
     @GetMapping("/loadKT300Meter")
     public String loadKT300Meter(@RequestParam( value = "cmdName") String cmdName,
                            @RequestParam( value = "centorId") Integer centorId,
-                           @RequestParam( value = "devDescription") String devDescription,ModelMap mmap){
+                           @RequestParam( value = "devDescription") String devDescription,
+                           @RequestParam( value = "ccentorAdd") String ccentorAdd,ModelMap mmap){
         mmap.put("cmdName",cmdName);
         mmap.put("centorId",centorId);
+        mmap.put("devDescription",devDescription);
+        mmap.put("ccentorAdd",ccentorAdd);
         return pxePath+"/loadKT300Meter";
     }
 

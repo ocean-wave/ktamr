@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/thirdpartydata")
 public class ThirdPartyController extends BaseController {
-    private  String pxePath = "/interface";
+    private  String pxePath = "interface";
 
     @Autowired
     private HaMeterService haMeterService;

@@ -67,11 +67,6 @@ public class HaMeterServiceImpl implements HaMeterService {
     }
 
     @Override
-    public List<Map<String, Object>> selectDosageHistory(ParameterInfo params) {
-        return haMeterMapper.selectDosageHistory(params);
-    }
-
-    @Override
     public List<Map<String, Object>> selectNotok(ParameterInfo params) {
         String[] str;
         if(params.getDataType() != null && params.getDataType() != ""){

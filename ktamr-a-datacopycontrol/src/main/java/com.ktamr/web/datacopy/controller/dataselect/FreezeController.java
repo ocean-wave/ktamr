@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/dataselect")
 public class FreezeController extends BaseController {
-    private  String pxePath = "/meter";
+    private  String pxePath = "meter";
 
     @Autowired
     private HaRecordsService haRecordsService;

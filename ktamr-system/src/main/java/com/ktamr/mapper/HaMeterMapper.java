@@ -20,8 +20,6 @@ public interface HaMeterMapper {
 
     public List<Map<String,Object>> selectDosageRecently(ParameterInfo params);
 
-    public List<Map<String,Object>> selectDosageHistory(ParameterInfo params);
-
     public List<Map<String,Object>> selectNotok(ParameterInfo params);
 
     public List<HaMeter> selectThirdParty(HaMeter haMeter);

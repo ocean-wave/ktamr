@@ -15,7 +15,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/building")
 public class HaBuildingContrller extends BaseController {
-    private  String pxePath = "/area";
+    private  String pxePath = "area";
 
     @Autowired
     private HaBuildingService haBuildingService;

@@ -16,7 +16,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/dataselect")
 public class NotokController extends BaseController {
-    private  String pxePath = "/meter";
+    private  String pxePath = "meter";
 
     @Autowired
     private HaMeterService haMeterService;

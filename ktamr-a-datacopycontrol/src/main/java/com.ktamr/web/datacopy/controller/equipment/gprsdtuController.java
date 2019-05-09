@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/equipment")
 public class gprsdtuController extends BaseController {
 
-    private  String pxePath = "/gprsdtu";
+    private  String pxePath = "gprsdtu";
 
     @Autowired
     private HaGprsdtuService haGprsdtuService;

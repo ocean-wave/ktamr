@@ -29,13 +29,7 @@
 					<div class="layui-input-inline" style="width: 85px;">
 						<!-- //M-BUS端口号10-60 加 KT300设备地址01-99 -->
 						<select id="mbus_port" lay-verify="">
-							<option th:value="${ccentorNo}>">不选择</option>
-							<option th:value="10${ccentorNo}">端口1</option>
-							<option th:value="20${ccentorNo}>">端口2</option>
-							<option th:value="30${ccentorNo}>">端口3</option>
-							<option th:value="40${ccentorNo}>">端口4</option>
-							<option th:value="50${ccentorNo}>">端口5</option>
-							<option th:value="60${ccentorNo}>">端口6</option>
+
 						</select>
 					</div>
 				</div>
@@ -51,7 +45,7 @@
 	<div class="form-inline" style="margin:5px 5px;text-align: right">
 		<button th:if=" ${ cmdName == '批量控阀' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="关阀"><img src="../../images/cross.png" />关阀</button>
 		<button th:if=" ${ cmdName == '批量控阀' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="开阀"><img src="../../images/tick.png" />开阀</button>
-		<button th:if=" ${ cmdName == '增删表地址' } "  type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="加表"><img src="../../images/add.png" />加表</button>
+		<button th:if=" ${ cmdName == '增删表地址' } "  type="button" class="btn btn-default btn-sm btnMargin addMeter" data-title="加表"><img src="../../images/add.png" />加表</button>
 		<button th:if=" ${ cmdName == '增删表地址' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="删表"><img src="../../images/delete.png" />删表</button>
 		<button th:if=" ${ devDescription == 'KT3NB GPRS' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="加全部表"><img src="../../images/add.png" />加全部表</button>
 		<button th:if=" ${ devDescription == 'KT3NB GPRS' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="删全部表"><img src="../../images/delete.png" />删全部表</button>
@@ -81,8 +75,8 @@
 		GridObj.jqdefaultGridConfig.colNames = ['meterId','用户编号','用户名称','表号','所属端口','表状态','执行结果'];
 		GridObj.jqdefaultGridConfig.colModel = [
 			{ name: 'meterId',  width: 75, key: true, hidden: true},
-			{ name: 'haRoom.custom.userNo', width: 100 },
-			{ name: 'haRoom.custom.name', width: 100 },
+			{ name: 'haRoom.haCustom.custNo', width: 100 },
+			{ name: 'haRoom.haCustom.name', width: 100 },
 			{ name: 'meterNumber', width: 100 },
 			{ name: 'haCollector.resultParams.nconf', width: 80 },
 			{ name: 'state', width: 100, cellattr: MeterStateCellColor  },
@@ -151,7 +145,7 @@
 				return false;
 			}
 			var rowData = $("#"+GridId).jqGrid('getRowData', rowId);
-			if(!rowData["表号"]){
+			if(!rowData["meterNumber"]){
 				parms.index = parms.index+1;
 				loadCmd("jqGrid", parms);
 				return false;
@@ -232,30 +226,66 @@
 				}
 			});
 		}
+
+		$(".addMeter").click(function(){
+			var ids = getSelectedRows("jqGrid").split(",");
+			var rowIds = new Array();
+			var rowIds2 = new Array();
+			var c = 0;
+			var j = 0;
+			for(var i=1;i<=ids.length;i++){
+				rowIds2[i-1]=ids[i-1];
+				j++;
+				if(i%8 == 0){
+					rowIds[c] = rowIds2;
+					c++;
+					rowIds2=[];
+				}
+				if(i==ids.length && i%8!=0){
+					rowIds[c] = rowIds2;
+					break;
+				}
+			}
+			for(var i = 0;i<rowIds.length;i++) {
+				var cmdName = $(this).data("title"), cmd = "";
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				$(":button").attr({"disabled": "disabled"});
+				var parms = {
+					"rowIds": rowIds[i]
+					, "index": 0
+					, "centorid": g_centorId
+					, "cmdName": cmdName
+					, "devDescription": g_devDescription
+				};
+				loadCmd("jqGrid", parms);
+			}
+		});
+
 		$(".meterControl").click(function(){
 			var ids = getSelectedRows("jqGrid").split(",");
 			var cmdName = $(this).data("title"), cmd = "";
 			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-			if(cmdName == "加全部表"){
-				cmd = "加表" +":"+"全部";
+			if (cmdName == "加全部表") {
+				cmd = "加表" + ":" + "全部";
 				parent.layui.parms.submitCmd(g_centorId, cmd);
 				parent.layer.close(index); //再执行关闭
-			}if(cmdName == "删全部表"){
-				cmd = "删表" +":"+"全部";
+			}
+			if (cmdName == "删全部表") {
+				cmd = "删表" + ":" + "全部";
 				parent.layui.parms.submitCmd(g_centorId, cmd);
 				parent.layer.close(index); //再执行关闭
-			}else{
-				if(ids == "" && cmdName != "关闭" && cmdName != "加全部表" && cmdName != "删全部表"){
+			} else {
+				if (ids == "" && cmdName != "关闭" && cmdName != "加全部表" && cmdName != "删全部表") {
 					layer.msg("请选择需要操作的表！", {icon: 5});
 					return false;
 				}
-				$(":button").attr({"disabled":"disabled"});
+				$(":button").attr({"disabled": "disabled"});
 				var parms = {
-					"rowIds": ids
-					,"index": 0
-					,"centorid": g_centorId
-					,"cmdName": cmdName
-					,"devDescription": g_devDescription
+					"rowIds": rowIds[i]
+					, "index": 0
+					, "centorid": g_centorId
+					, "cmdName": cmdName
+					, "devDescription": g_devDescription
 				};
 				loadCmd("jqGrid", parms);
 			}

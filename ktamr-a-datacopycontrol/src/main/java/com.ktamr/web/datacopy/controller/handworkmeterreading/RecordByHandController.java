@@ -16,7 +16,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/handworkmeterreading")
 public class RecordByHandController extends BaseController {
-    private  String pxePath = "/area";
+    private  String pxePath = "area";
 
     @Autowired
     private HaMeterService haMeterService;

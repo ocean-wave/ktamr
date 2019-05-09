@@ -28,4 +28,6 @@ public interface HaRecordsService {
      */
     public List<HaRecords> selectRecordsAndErrrecordTow(Integer cmdId);
 
+    public List<HaRecords> selectDosageHistory(ParameterInfo params);
+
 }

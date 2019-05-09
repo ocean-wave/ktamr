@@ -3,7 +3,10 @@ package com.ktamr.web.datacopy.controller.dataselect;
 
 import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.common.utils.DateUtils;
+import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaRecords;
 import com.ktamr.service.HaMeterService;
+import com.ktamr.service.HaRecordsService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +23,13 @@ import java.util.Map;
 @RequestMapping("/dataselect")
 public class DosageController extends BaseController {
 
-    private  String pxePath = "/meter";
+    private  String pxePath = "meter";
 
     @Autowired
     private HaMeterService haMeterService;
+
+    @Autowired
+    private HaRecordsService haRecordsService;
 
     @GetMapping("/dosage")
     public String dosage(ModelMap mmap){
@@ -44,7 +50,7 @@ public class DosageController extends BaseController {
     public Map<String,Object> dosageHistoryListJson(ParameterInfo parms){
         startPage();
         long startdate = System.currentTimeMillis();
-        List<Map<String,Object>> listHaMeter = haMeterService.selectDosageHistory(parms);
+        List<HaRecords> listHaMeter = haRecordsService.selectDosageHistory(parms);
         long enddate = System.currentTimeMillis();
         System.out.println((startdate-enddate)/1000);
         return getDataTable(listHaMeter);

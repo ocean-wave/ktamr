@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/dataselect")
 public class ReplaceController extends BaseController {
 
-    private  String pxePath = "/meter";
+    private  String pxePath = "meter";
 
     @Autowired
     private HaRecordsService haRecordsService;

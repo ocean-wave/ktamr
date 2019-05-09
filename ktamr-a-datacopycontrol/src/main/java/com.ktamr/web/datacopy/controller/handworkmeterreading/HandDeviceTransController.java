@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/handworkmeterreading")
 public class HandDeviceTransController extends BaseController {
-    private  String pxePath = "/area";
+    private  String pxePath = "area";
 
     @Autowired
     private HaMeterService haMeterService;

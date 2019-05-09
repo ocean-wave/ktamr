@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/dataselect")
 public class AuditController {
-    private  String pxePath = "/meter";
+    private  String pxePath = "meter";
 
     @Autowired
     private HaAreaService haAreaService;

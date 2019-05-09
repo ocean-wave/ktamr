@@ -418,7 +418,8 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 				_queryStr = [
 					"centorId="+getDeviceId(),
 					"cmdName="+cmdName,
-					"devDescription="+devDescription
+					"devDescription="+devDescription,
+					"ccentorAdd="+deviceAdd
 				];
 				_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
 				break;   

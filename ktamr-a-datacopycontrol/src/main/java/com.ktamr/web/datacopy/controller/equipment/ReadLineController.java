@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/equipment")
 public class ReadLineController extends BaseController {
 
-    private  String pxePath = "/devices";
+    private  String pxePath = "devices";
 
     @Autowired
     private HaCentorService haCentorService;

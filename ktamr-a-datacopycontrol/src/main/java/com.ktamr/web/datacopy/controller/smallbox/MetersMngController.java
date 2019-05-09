@@ -14,7 +14,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/smallbox/meter")
 public class MetersMngController extends BaseController {
-    private String path = "/meter";
+    private String path = "meter";
 
     @Autowired
     private HaMeterService haMeterService;

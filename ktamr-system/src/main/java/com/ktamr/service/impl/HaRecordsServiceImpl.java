@@ -57,4 +57,9 @@ public class HaRecordsServiceImpl implements HaRecordsService {
         return haRecordsMapper.selectRecordsAndErrrecordTow(cmdId);
     }
 
+    @Override
+    public List<HaRecords> selectDosageHistory(ParameterInfo params) {
+        return haRecordsMapper.selectDosageHistory(params);
+    }
+
 }
