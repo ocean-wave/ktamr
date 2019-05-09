@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaFreeze;
-import com.ktamr.domain.HaPaylog;
 import com.ktamr.domain.HaPricestandard;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaFreezeService;

@@ -1,7 +1,5 @@
 package com.ktamr.service;
 
-import com.ktamr.domain.HaPaylog;
-
 import java.util.List;
 
 /**
