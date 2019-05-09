@@ -158,4 +158,12 @@ public class CustomController {
         return "false";
     }
 
+    @RequestMapping("/showOtherInformation")
+    @ResponseBody
+    public Object showOtherInformation(Integer custId,HaCustom haCustom){
+        haCustom.setCustId(custId);
+        HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
+        return custom;
+    }
+
 }
