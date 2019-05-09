@@ -84,7 +84,15 @@
         CASE WHEN b.name != ''
         THEN b.name ELSE '[无对象]' END  as bname,
         CASE WHEN r.name != ''
-        THEN r.name ELSE '[无对象]' END as rname
+        THEN r.name ELSE '[无对象]' END as rname,
+        u.idname as idName,
+        u.idnumber as idNumber,
+        u.tel as tel,
+        u.mobil as mobil,
+        u.addr as addr,
+        u.zip as zip,
+        u.bank as bank,
+        u.account as account
         FROM ((ha_custom u LEFT JOIN ha_room r ON u.custid=r.custid)
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON b.areaid=a.areaid
@@ -98,4 +106,21 @@
     <delete id="deleteHaCustom">
         delete from ha_custom where custid = #{custId}
     </delete>
+
+    <update id="updateHaCustom">
+        update ha_custom
+        <trim prefix="set" suffixOverrides="," suffix="where custid = #{custId}">
+            <if test="custNo != null">custno = #{custNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="idNumber != null">idnumber = #{idNumber},</if>
+            <if test="idName != null">idname = #{idName},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="mobil != null">mobil = #{mobil},</if>
+            <if test="addr != null">addr = #{addr},</if>
+            <if test="zip != null">zip = #{zip},</if>
+            <if test="bank != null">bank = #{bank},</if>
+            <if test="account != null">account = #{account},</if>
+        </trim>
+    </update>
 </mapper>

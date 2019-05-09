@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,11 @@ public class CustomController {
     }
 
     @RequestMapping("/JumpCustUpdate")
-    public String jumpcustupdate() {
+    public String jumpcustupdate(Integer custid,HaCustom haCustom,Model model) {
+        haCustom.setCustId(custid);
+        HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
+        model.addAttribute("custom",custom);
+        model.addAttribute("custId",custid);
         return "custom/cust_update";
     }
 
@@ -123,6 +128,9 @@ public class CustomController {
 
     @RequestMapping("/AddHaCustom")
     public Object addHaCustom(HaCustom haCustom){
+        haCustom.setBalance(0);
+        haCustom.setCreateTime(new Date());
+        haCustom.setModifyTime(new Date());
         Integer custom = haCustomService.addHaCustom(haCustom);
         if(custom==1){
             return "true";
@@ -136,6 +144,16 @@ public class CustomController {
         Integer custom = haCustomService.deleteHaCustom(haCustom);
         if(custom==1){
             return "删除成功";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/updateHaCustom")
+    @ResponseBody
+    public Object updateHaCustom(HaCustom haCustom){
+        Integer custom = haCustomService.updateHaCustom(haCustom);
+        if(custom==1){
+            return "true";
         }
         return "false";
     }

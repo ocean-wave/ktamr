@@ -20,17 +20,18 @@
 </head>
 <body class="myPage-body">
 <form class="layui-form my-form-class" action="">
+    <input type="hidden" id="custId" name="custId" th:value="${custId}">
     <div class="layui-form-item">
         <div class="layui-block">
             <label class="layui-form-label">用户编号</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_no" lay-verify="required|number|cust_no" autocomplete="off" placeholder="数字,必填" class="layui-input" maxlength="20" value="">
+                <input id="custNo" name="custNo" lay-verify="required|number|cust_no" autocomplete="off" placeholder="数字,必填" class="layui-input" maxlength="20" th:value="${custom.custNo}">
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_name" lay-verify="required" autocomplete="off" placeholder="必填" class="layui-input" maxlength="32" value="">
+                <input id="name" name="name" lay-verify="required" autocomplete="off" placeholder="必填" class="layui-input" maxlength="32" th:value="${custom.name}">
             </div>
         </div>
     </div>
@@ -38,9 +39,9 @@
         <div class="layui-block">
             <label class="layui-form-label">性&nbsp;&nbsp;&nbsp;&nbsp;别</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="cust_sex" lay-filter="cust_sex" lay-verify="required">
-                    <option value="男">男</option>
-                    <option value="女">女</option>
+                <select id="sex" name="sex" lay-filter="cust_sex" lay-verify="required" th:value="${custom.sex}">
+                    <option th:selected="${custom.sex=='男'}" value="男">男</option>
+                    <option th:selected="${custom.sex=='女'}" value="女">女</option>
                 </select>
             </div>
         </div>
@@ -75,13 +76,13 @@
         <div class="layui-block">
             <label class="layui-form-label">编号类型/证件类型</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="id_name"  lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="20" value="">
+                <input id="idName" name="idName"  lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="20" th:value="${custom.idName}">
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">证件号码</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="id_number" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" value="">
+                <input id="idNumber" name="idNumber" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" th:value="${custom.idNumber}">
             </div>
         </div>
     </div>
@@ -90,13 +91,13 @@
         <div class="layui-block">
             <label class="layui-form-label">联系电话</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_tel" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" value="">
+                <input id="tel" name="tel" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" th:value="${custom.tel}">
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">手机号码</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_mobile" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" value="">
+                <input id="mobil" name="mobil" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" th:value="${custom.mobil}">
             </div>
         </div>
     </div>
@@ -104,13 +105,13 @@
         <div class="layui-block">
             <label class="layui-form-label">联系地址</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_addr" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" value="">
+                <input id="addr" name="addr" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" th:value="${custom.addr}">
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">邮政编码</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_zip" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" value="">
+                <input id="zip" name="zip" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" th:value="${custom.zip}">
             </div>
         </div>
     </div>
@@ -118,13 +119,13 @@
         <div class="layui-block">
             <label class="layui-form-label">开户银行</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_bank" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" value="">
+                <input id="bank" name="bank" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" th:value="${custom.bank}">
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">开户账号</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_account" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" value="">
+                <input id="account" name="account" lay-verify="code" autocomplete="off" placeholder="数字,选填" class="layui-input" maxlength="32" th:value="${custom.account}">
             </div>
         </div>
     </div>
@@ -140,9 +141,7 @@
         var form = layui.form
             ,layer = layui.layer;
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        var get_result_url = "./cust_update_do.asp";
-        var g_custid = "<%=custid%>";
-        var g_custno = "<%=custom.m_custno%>";
+        var get_result_url = "/custom/updateHaCustom";
 
         form.verify({
             cust_no: function(value, item){ //value：表单的值、item：表单的DOM对象
@@ -228,20 +227,20 @@
         form.on('submit(sure)', function (data) {
 
             var data = {
-                cust_id: g_custid,
-                cust_no: $("#cust_no").val(),
-                cust_name: $("#cust_name").val(),
-                cust_sex: $("#cust_sex").val(),
-                building_id: $("#building").val(),
-                room_name: $("#room").find("option:selected").text(),
-                id_name: $("#id_name").val(),
-                id_number: $("#id_number").val(),
-                cust_tel: $("#cust_tel").val(),
-                cust_mobile: $("#cust_mobile").val(),
-                cust_addr: $("#cust_addr").val(),
-                cust_zip: $("#cust_zip").val(),
-                cust_bank: $("#cust_bank").val(),
-                cust_account: $("#cust_account").val()
+                cust_id: $("#custId").val(),
+                custNo: $("#custNo").val(),
+                name: $("#name").val(),
+                sex: $("#sex").val(),
+                // building_id: $("#building").val(),
+                // room_name: $("#room").find("option:selected").text(),
+                idName: $("#idName").val(),
+                idNumber: $("#idNumber").val(),
+                tel: $("#tel").val(),
+                mobil: $("#mobil").val(),
+                addr: $("#addr").val(),
+                zip: $("#zip").val(),
+                bank: $("#bank").val(),
+                account: $("#account").val()
             };
             submitInfo(data);
         });
