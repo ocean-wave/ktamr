@@ -20,6 +20,7 @@
         </div>
     </div>
     <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+
         <div class="col-xs-2 my-form-col areas-col">
             <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区">
                 <option th:each="HaArea : ${areaListName}"
@@ -216,7 +217,7 @@
             var date_range = ['', ''];
             var _hhh="";
             if($("#areas").val()!=null && $("#areas").val() != ""){
-                _hhh = $('#areas option:selected') .text();
+                _hhh = $('#areas option:selected').val();
             }
             _pdArray = {
                 "state": $("#state_type").val(),
@@ -234,6 +235,13 @@
             fullTextSearch("jqGrid", _pdArray);
         });
     });
+
+
+
+
+
+
+
 </script>
 </body>
 

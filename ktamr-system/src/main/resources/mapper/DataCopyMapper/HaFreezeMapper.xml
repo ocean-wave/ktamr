@@ -132,6 +132,19 @@ WHERE (SELECT Count(*) FROM ha_monthBTime WHERE areaid=#{areaId})=0 limit 1
 				 FROM ((ha_freeze f LEFT JOIN ha_meter m ON m.meterid=f.meterid)
 					   LEFT JOIN ha_pricestandard p ON f.pricestand_id = p.pricestand_id)
 					   LEFT JOIN ha_metertype mt ON p.metertypeid = mt.metertypeid
-				 WHERE POSITION('${billId}' IN billid)>0 ORDER BY m.meterNumber
+		<trim prefix="where" prefixOverrides="and | or">
+		<if test="billId != null and billId != ''">
+			and POSITION('${billId}' IN billid)>0
+		</if>
+		<if test="billIdsList  != null and billIdsList.size()>0">
+			and billid in
+			<foreach collection="billIdsList" item="item" index="index"
+					 open="(" separator="," close=")"
+			>
+				'${item}'
+			</foreach>
+		</if>
+		</trim>
+				  ORDER BY m.meterNumber
 	</select>
 </mapper>

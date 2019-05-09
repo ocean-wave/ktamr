@@ -146,8 +146,8 @@ public class HaFreezeServiceImpl implements HaFreezeService {
      * @return
      */
     @Override
-    public List<HaFreeze> BselectPritJiaoFeiDan2(HaFreeze haFreeze) {
-        List<HaFreeze> bselectPritJiaoFeiDan2 = haFreezeMapper.BselectPritJiaoFeiDan2(haFreeze);
+    public HaFreeze BselectPritJiaoFeiDan2(HaFreeze haFreeze) {
+        HaFreeze bselectPritJiaoFeiDan2 = haFreezeMapper.BselectPritJiaoFeiDan2(haFreeze);
         if(bselectPritJiaoFeiDan2!=null){
             return  bselectPritJiaoFeiDan2;
         }
