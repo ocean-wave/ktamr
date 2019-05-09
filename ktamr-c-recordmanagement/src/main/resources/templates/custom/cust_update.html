@@ -49,7 +49,9 @@
             <label class="layui-form-label">所属小区</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="area" lay-filter="area" lay-verify="required"  lay-search>
-                    <option value=""></option>
+                    <option value="-1">请选择</option>
+                    <option th:each="haAreas : ${haArea}"
+                            th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
                 </select>
             </div>
         </div>
@@ -141,34 +143,34 @@
         var form = layui.form
             ,layer = layui.layer;
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        var get_result_url = "/custom/updateHaCustom";
 
-        form.verify({
-            cust_no: function(value, item){ //value：表单的值、item：表单的DOM对象
-                var _custno = Number($("#cust_no").val());
-                if(Number(g_custno) != _custno){
-                    queryData = {custNo: _custno};
-                    if(isDataRepeat(queryData) == true){
-                        return '用户编号重复';
-                    }
-                }
-            },
-            code: function(value, item){ //value：表单的值、item：表单的DOM对象
-                if(value != "" && isNaN(value)){
-                    return '输入只能为数字';
-                }
-            }
-        });
+        // form.verify({
+        //     cust_no: function(value, item){ //value：表单的值、item：表单的DOM对象
+        //         var _custno = Number($("#cust_no").val());
+        //         if(Number(g_custno) != _custno){
+        //             queryData = {custNo: _custno};
+        //             if(isDataRepeat(queryData) == true){
+        //                 return '用户编号重复';
+        //             }
+        //         }
+        //     },
+        //     code: function(value, item){ //value：表单的值、item：表单的DOM对象
+        //         if(value != "" && isNaN(value)){
+        //             return '输入只能为数字';
+        //         }
+        //     }
+        // });
         function submitInfo(sendData){
+            // alert("进来了");
             $.ajax({
-                url: get_result_url
+                url: "/custom/updateHaCustom"
                 ,data: sendData
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:false //同步请求
                 ,success: function(data){
                     if(data == "true"){
-                        layer.msg("修改成功！", {icon: 1});
+                        parent.layer.msg("修改成功！", {icon: 1});
                         parent.$("#jqGrid").trigger("reloadGrid");
                         parent.layer.close(index); //再执行关闭
                     }else{
@@ -177,42 +179,98 @@
                 }
             });
         }
-        form.on('select(area)', function(data){
-            var areaObj = $(data.elem),
-                _areaId = areaObj.val();
 
-            $.ajax({
-                url: "../common/load_select_option.asp"
-                ,data: {
-                    selectType: "building",
-                    selId: _areaId
-                }
-                ,async:true //异步请求
-                ,success: function(data){
-                    appendSelectOption("building", data, "");
-                    $("#room").empty();
-                    $("#room").append($("<option>").val("").text(""));
-                    form.render('select');//刷新表单元素
-                }
-            });
+        // form.on('select(area)', function(data){
+        //     var areaObj = $(data.elem),
+        //         _areaId = areaObj.val();
+        //
+        //     $.ajax({
+        //         url: "../common/load_select_option.asp"
+        //         ,data: {
+        //             selectType: "building",
+        //             selId: _areaId
+        //         }
+        //         ,async:true //异步请求
+        //         ,success: function(data){
+        //             appendSelectOption("building", data, "");
+        //             $("#room").empty();
+        //             $("#room").append($("<option>").val("").text(""));
+        //             form.render('select');//刷新表单元素
+        //         }
+        //     });
+        // });
+        // form.on('select(building)', function(data){
+        //     var buildingObj = $(data.elem),
+        //         _buildingId = buildingObj.val();
+        //
+        //     $.ajax({
+        //         url: "../common/load_select_option.asp"
+        //         ,data: {
+        //             selectType: "room",
+        //             selId: _buildingId
+        //         }
+        //         ,async:true //异步请求
+        //         ,success: function(data){
+        //             appendSelectOption("room", data, "");
+        //             form.render('select');//刷新表单元素
+        //         }
+        //     });
+        // });
+
+        form.on('select(area)', function (data) {
+            // var areaObj = $(data.elem),
+            //     _areaId = areaObj.val();
+            var areaId = $("#area").val(); //拿到所属小区值
+            if (areaId != null) {
+                $.ajax({
+                    url: "/custom/QueryHaBuildingJson"
+                    , data: {
+                        // selectType: "building",
+                        areaId: areaId
+                    },
+                    dataType: "json"
+                    , async: true //异步请求
+                    , success: function (data) {
+                        $("#building").empty();
+                        var option = $("<option>").val("").text("");
+                        $("#building").append(option);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#building").append("<option value='" + data[i].buildingId + "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
+                        }
+                        //appendSelectOption("building", data.areaId, "");
+                        $("#room").empty();
+                        $("#room").append($("<option>").val("").text(""));
+                        form.render('select');//刷新表单元素
+                    }
+                });
+            }
         });
+
         form.on('select(building)', function(data){
-            var buildingObj = $(data.elem),
-                _buildingId = buildingObj.val();
-
+            // var buildingObj = $(data.elem),
+            //     _buildingId = buildingObj.val();
+            var buildingId = $("#building").val(); //拿到所属楼栋值
             $.ajax({
-                url: "../common/load_select_option.asp"
+                url: "/custom/QueryRoomJson"
                 ,data: {
-                    selectType: "room",
-                    selId: _buildingId
+                    // selectType: "room",
+                    buildingId: buildingId
                 }
+                ,dataType:"json"
                 ,async:true //异步请求
                 ,success: function(data){
-                    appendSelectOption("room", data, "");
+                    // $("#room").empty();
+                    // var option = $("<option>").val("").text("");
+                    // $("#room").append(option);
+                    for (var i = 0; i < data.length; i++) {
+                        $("#room").append('<option value="'+data[i].roomId + '">' + data[i].name + '</option>');
+                    }
+                    // appendSelectOption("room", data, "");
                     form.render('select');//刷新表单元素
                 }
             });
         });
+
         form.on('select(room)', function(data){
             var roomObj = $(data.elem),
                 _roomName = roomObj.find("option:selected").text();
@@ -224,10 +282,10 @@
         $("#close").click(function(){
             parent.layer.close(index); //再执行关闭
         });
-        form.on('submit(sure)', function (data) {
 
+        form.on('submit(sure)', function (data) {
             var data = {
-                cust_id: $("#custId").val(),
+                custId: $("#custId").val(),
                 custNo: $("#custNo").val(),
                 name: $("#name").val(),
                 sex: $("#sex").val(),

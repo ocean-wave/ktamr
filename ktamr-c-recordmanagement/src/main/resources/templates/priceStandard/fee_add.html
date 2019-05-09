@@ -86,6 +86,8 @@
                 ,success: function(data){
                     if(data == "true"){
                         layer.msg("新增成功！", {icon: 1});
+                        parent.$("#jqGrid1").trigger("reloadGrid");
+                        parent.$("#jqGrid2").trigger("reloadGrid");
                     }else{
                         layer.msg(data, {icon: 5});
                     }

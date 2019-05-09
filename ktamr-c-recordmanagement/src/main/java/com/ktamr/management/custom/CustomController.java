@@ -54,7 +54,9 @@ public class CustomController {
     @RequestMapping("/JumpCustUpdate")
     public String jumpcustupdate(Integer custid,HaCustom haCustom,Model model) {
         haCustom.setCustId(custid);
+        List<HaArea> haArea = haAreaService.queryAllHaAreaC();
         HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
+        model.addAttribute("haArea",haArea);
         model.addAttribute("custom",custom);
         model.addAttribute("custId",custid);
         return "custom/cust_update";
@@ -127,6 +129,7 @@ public class CustomController {
     }
 
     @RequestMapping("/AddHaCustom")
+    @ResponseBody
     public Object addHaCustom(HaCustom haCustom){
         haCustom.setBalance(0);
         haCustom.setCreateTime(new Date());
@@ -140,7 +143,7 @@ public class CustomController {
 
     @RequestMapping("/DeleteHaCustom")
     @ResponseBody
-    public Object deleteHaCustom(HaCustom haCustom){
+    public String deleteHaCustom(HaCustom haCustom){
         Integer custom = haCustomService.deleteHaCustom(haCustom);
         if(custom==1){
             return "删除成功";
