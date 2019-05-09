@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaFreeze;
+import com.ktamr.domain.HaPaylog;
 import com.ktamr.domain.HaPricestandard;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaFreezeService;
@@ -55,7 +56,7 @@ public class HaPaylogController {
     @RequestMapping(value ="/showHaPaylogList")
     @ResponseBody
     public Object showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
-    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime,String hhh
+    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh
     ){
 
 

@@ -1,5 +1,6 @@
 package com.ktamr.mapper;
 
+import com.ktamr.domain.HaPaylog;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

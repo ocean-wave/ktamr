@@ -1,5 +1,6 @@
 package com.ktamr.service.impl;
 
+import com.ktamr.domain.HaPaylog;
 import com.ktamr.mapper.HaPaylogMapper;
 import com.ktamr.service.HaPaylogService;
 import org.springframework.stereotype.Service;
