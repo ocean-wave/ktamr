@@ -163,7 +163,7 @@
     layui.use(['form', 'layer'], function () {
         var form = layui.form
             , layer = layui.layer;
-        var get_result_url = "./cust_add_do.asp";
+        var get_result_url = "/custom/AddHaCustom";
 
         form.verify({
             cust_no: function (value, item) { //value：表单的值、item：表单的DOM对象
@@ -214,30 +214,29 @@
         // });
 
         //所属楼栋
-        /* form.on('select(area)',function (data) {
-             // $("#area").change(function () { //当所属小区选中
-                 $(".layui-anim-upbit").empty();
-                 var areaId = $("#area").val(); //拿到所属小区值
-                 if (areaId != null) {
-                     $.ajax({
-                         type: "GET",//请求类型
-                         url: "/custom/QueryHaBuildingJson",//请求的url
-                         data: {areaId: areaId},//请求参数
-                         dataType: "json",//ajax接口（请求url）返回的数据类型
-                         success: function (data) {//data：返回数据（json对象）
-                             console.log(data);
-                             if (data != null) {
-                                 for (var i = 0; i < data.length; i++) {
-                                     // $(building).append('<option th:value="'+data[i].buildingId + '" th:text="'+data[i].buildingNo+':'+data[i].name+'">'+'</option>');
-                                     $(".layui-anim-upbit").append('<dd lay-value="'+data[i].buildingId+'"class>'+data[i].buildingNo+':'+data[i].name+'</dd>');
-                                 }
-                             }
-                         },
-                         error: function (data) {
-                         }
-                     })
-                 }
-             });*/
+        // form.on('select(area)',function (data) {
+        //      // $("#area").change(function () { //当所属小区选中
+        //          $(".layui-anim-upbit").empty();
+        //          var areaId = $("#area").val(); //拿到所属小区值
+        //          if (areaId != null) {
+        //              $.ajax({
+        //                  type: "GET",//请求类型
+        //                  url: "/custom/QueryHaBuildingJson",//请求的url
+        //                  data: {areaId: areaId},//请求参数
+        //                  dataType: "json",//ajax接口（请求url）返回的数据类型
+        //                  success: function (data) {//data：返回数据（json对象）
+        //                      if (data != null) {
+        //                          for (var i = 0; i < data.length; i++) {
+        //                              // $(building).append('<option th:value="'+data[i].buildingId + '" th:text="'+data[i].buildingNo+':'+data[i].name+'">'+'</option>');
+        //                              $(".layui-anim-upbit").append('<dd lay-value="'+data[i].buildingId+'"class>'+data[i].buildingNo+':'+data[i].name+'</dd>');
+        //                          }
+        //                      }
+        //                  },
+        //                  error: function (data) {
+        //                  }
+        //              })
+        //          }
+        //      });
         // })
 
 
@@ -268,80 +267,89 @@
         // })
 
         form.on('select(area)', function (data) {
-            var areaObj = $(data.elem),
-                _areaId = areaObj.val();
-
-            $.ajax({
-                url: "/custom/QueryHaBuildingJson"
-                , data: {
-                    // selectType: "building",
-                    areaId: _areaId
-                }
-                , async: true //异步请求
-                , success: function (data) {
-                    $("#building").empty();
-                    var option = $("<option>").val("").text("");
-                    $("#building").append(option);
-                    for (var i = 0; i < data.length; i++) {
-                        $("#building").append("<option value='" + data[i].buildingId + "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");//新增
+            // var areaObj = $(data.elem),
+            //     _areaId = areaObj.val();
+            var areaId = $("#area").val(); //拿到所属小区值
+            if (areaId != null) {
+                $.ajax({
+                    url: "/custom/QueryHaBuildingJson"
+                    , data: {
+                        // selectType: "building",
+                        areaId: areaId
+                    },
+                    dataType: "json"
+                    , async: true //异步请求
+                    , success: function (data) {
+                        $("#building").empty();
+                        var option = $("<option>").val("").text("");
+                        $("#building").append(option);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#building").append("<option value='" + data[i].buildingId + "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
+                        }
+                        //appendSelectOption("building", data.areaId, "");
+                        $("#room").empty();
+                        $("#room").append($("<option>").val("").text(""));
+                        form.render('select');//刷新表单元素
                     }
-                    //appendSelectOption("building", data.areaId, "");
-                    $("#room").empty();
-                    $("#room").append($("<option>").val("").text(""));
+                });
+            }
+        });
+
+        form.on('select(building)', function(data){
+            // var buildingObj = $(data.elem),
+            //     _buildingId = buildingObj.val();
+            var buildingId = $("#building").val(); //拿到所属楼栋值
+            $.ajax({
+                url: "/custom/QueryRoomJson"
+                ,data: {
+                    // selectType: "room",
+                    buildingId: buildingId
+                }
+                ,dataType:"json"
+                ,async:true //异步请求
+                ,success: function(data){
+                    // $("#room").empty();
+                    // var option = $("<option>").val("").text("");
+                    // $("#room").append(option);
+                    for (var i = 0; i < data.length; i++) {
+                        $("#room").append('<option value="'+data[i].roomId + '">' + data[i].name + '</option>');
+                    }
+                    // appendSelectOption("room", data, "");
                     form.render('select');//刷新表单元素
                 }
             });
         });
-        // form.on('select(building)', function(data){
-        //     var buildingObj = $(data.elem),
-        //         _buildingId = buildingObj.val();
-        //
-        //     $.ajax({
-        //         url: "/custom/QueryRoomJson"
-        //         ,data: {
-        //             selectType: "room",
-        //             buildingId: _buildingId
-        //         }
-        //         ,async:true //异步请求
-        //         ,success: function(data){
-        //             $("#room").append(option);
-        //             for (var i = 0; i < data.length; i++) {
-        //                 $("#room").append("<option value='" + data[i].roomId + ':' + data[i].name + "</option>");//新增
-        //             }
-        //             // appendSelectOption("room", data, "");
-        //             form.render('select');//刷新表单元素
-        //         }
-        //     });
-        // });
-        // form.on('select(room)', function(data){
-        //     var roomObj = $(data.elem),
-        //         _roomName = roomObj.find("option:selected").text();
-        //
-        //     area = $("#area").find("option:selected").text().split(":");
-        //     building = $("#building").find("option:selected").text().split(":");
-        //     $("#cust_addr").val(area[1] +'-'+ building[1] +'-'+ _roomName);
-        // });
-        // $("#close").click(function(){
-        //     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        //     parent.$("#jqGrid").trigger("reloadGrid");
-        //     parent.layer.close(index); //再执行关闭
-        // });
+
+        form.on('select(room)', function(data){
+            var roomObj = $(data.elem),
+                _roomName = roomObj.find("option:selected").text();
+
+            area = $("#area").find("option:selected").text().split(":");
+            building = $("#building").find("option:selected").text().split(":");
+            $("#cust_addr").val(area[1] +'-'+ building[1] +'-'+ _roomName);
+        });
+
+        $("#close").click(function(){
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.$("#jqGrid").trigger("reloadGrid");
+            parent.layer.close(index); //再执行关闭
+        });
 
         form.on('submit(sure)', function (data) {
             var data = {
-                custno: $("#cust_no").val(),
+                custNo: $("#cust_no").val(),
                 name: $("#cust_name").val(),
                 sex: $("#cust_sex").val(),
                 building_id: $("#building").val(),
                 room_name: $("#room").find("option:selected").text(),
-                id_name: $("#id_name").val(),
-                id_number: $("#id_number").val(),
-                cust_tel: $("#cust_tel").val(),
-                cust_mobile: $("#cust_mobile").val(),
-                cust_addr: $("#cust_addr").val(),
-                cust_zip: $("#cust_zip").val(),
-                cust_bank: $("#cust_bank").val(),
-                cust_account: $("#cust_account").val()
+                idName: $("#id_name").val(),
+                idNumber: $("#id_number").val(),
+                tel: $("#cust_tel").val(),
+                mobil: $("#cust_mobile").val(),
+                addr: $("#cust_addr").val(),
+                zip: $("#cust_zip").val(),
+                bank: $("#cust_bank").val(),
+                account: $("#cust_account").val()
             };
             submitInfo(data);
         });

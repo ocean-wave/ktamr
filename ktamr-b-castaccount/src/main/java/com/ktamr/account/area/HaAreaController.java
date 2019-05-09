@@ -31,7 +31,7 @@ public class HaAreaController {
         List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         if(haAreaList!=null){
             model.addAttribute("areaListName",haAreaList);
-            return "/area/area_list.html";
+            return "area/area_list.html";
         }
         return  null;
     }
@@ -168,7 +168,7 @@ public class HaAreaController {
         }
 
         if(QuanJu>0){
-            return "/area/area_mng.html";
+            return "area/area_mng.html";
         }
         return null;
     }
@@ -179,7 +179,7 @@ public class HaAreaController {
      */
     @RequestMapping("/interface/interface_data_upload")
     public String interface_data_upload(){
-        return "/area/interface_data_upload.html";
+        return "area/interface_data_upload.html";
     }
 
 }

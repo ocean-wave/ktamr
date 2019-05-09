@@ -43,13 +43,13 @@
             <div class="layui-block" >
                 <label class="layui-form-label">房间名称</label>
                 <div class="layui-input-inline" style="width:110px;">
-                    <input id="roomName" name="roomName"  lay-verify="required|roomName" autocomplete="off" placeholder="" class="layui-input" maxlength="32" value="<%=roomName%>">
+                    <input id="roomName" name="roomName"  lay-verify="required|roomName" autocomplete="off" placeholder="" class="layui-input" maxlength="32">
                 </div>
             </div>
             <div class="layui-block">
                 <label class="layui-form-label">房间备注</label>
                 <div class="layui-input-inline">
-                    <input id="roomRemark" lay-verify="roomRemark" autocomplete="off" placeholder="" class="layui-input" maxlength="20" value="<%=roomRemark%>">
+                    <input id="roomRemark" lay-verify="roomRemark" autocomplete="off" placeholder="" class="layui-input" maxlength="20">
                 </div>
             </div>
         </div>
@@ -73,16 +73,16 @@
                 <div class="layui-block">
                     <label class="layui-form-label">表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="meterNumber" name="meterNumber" lay-verify="meterNumber" autocomplete="off" placeholder="数字,1~14位" maxlength="16" class="layui-input" onkeyup="generalMask(this)" value="<%=meterNumber%>">
+                        <input id="meterNumber" name="meterNumber" lay-verify="meterNumber" autocomplete="off" placeholder="数字,1~14位" maxlength="16" class="layui-input" onkeyup="generalMask(this)">
                     </div>
                 </div>
                 <div class="layui-block">
                     <label class="layui-form-label">抄收设备</label>
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select name="deviceType" lay-filter="deviceType">
-                            <option value="centor" <%if deviceType="centor" then%>selected=""<%end if%>>集中器</option>
-                            <option value="ccentor" <%if deviceType="ccentor" then%>selected=""<%end if%>>集采器</option>
-                            <option value="handDevice" <%if deviceType="handDevice" then%>selected=""<%end if%>>手抄器</option>
+                            <option value="centor">集中器</option>
+                            <option value="ccentor">集采器</option>
+                            <option value="handDevice">手抄器</option>
                         </select>
                     </div>
                 </div>
@@ -94,7 +94,6 @@
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select id="centor" name="centor" lay-filter="centor" lay-search>
                             <option value=""></option>
-                            <%DeviceByWhere dbconn, GetRightCondition("centorNo", "centor", ""), centorid, deviceType%>
                         </select>
                     </div>
                 </div>
@@ -103,12 +102,6 @@
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select id="collector" name="collector" lay-filter="collector" lay-search>
                             <option value=""></option>
-                            <%if Len(collectorid)=0 then
-                            CollectorByWhere dbconn, "centorid="&centorid, ""
-                            else
-                            CollectorByWhere dbconn, "centorid="&centorid, collectorid
-                            end if
-                            %>
                         </select>
                     </div>
                 </div>
@@ -127,7 +120,7 @@
                 <div class="layui-block">
                     <label class="layui-form-label">倍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="rate" lay-verify="rate" autocomplete="off" placeholder="数字" class="layui-input" value="<%=rate%>" >
+                        <input id="rate" lay-verify="rate" autocomplete="off" placeholder="数字" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -136,15 +129,15 @@
                 <div class="layui-block">
                     <label class="layui-form-label">安装时间</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="setupTime" name="setupTime" lay-verify="setupTime" autocomplete="off" placeholder="时间" class="layui-input" value="<%=starttime%>" readonly="readonly">
+                        <input id="setupTime" name="setupTime" lay-verify="setupTime" autocomplete="off" placeholder="时间" class="layui-input" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-block">
                     <label class="layui-form-label">总&nbsp;&nbsp;分&nbsp;表</label>
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select id="isBranch" lay-verify="isBranch">
-                            <option value="1" <%if isbranch = 1 then%>selected=""<%end if%>>分表</option>
-                            <option value="0" <%if isbranch = 0 then%>selected=""<%end if%>>总表</option>
+                            <option value="1">分表</option>
+                            <option value="0">总表</option>
                         </select>
                     </div>
                 </div>
@@ -154,13 +147,13 @@
                 <div class="layui-block">
                     <label class="layui-form-label">表&nbsp;&nbsp;底&nbsp;数</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="primalNumber" name="primalNumber" lay-verify="primalNumber" autocomplete="off" placeholder="数字" maxlength="12" class="layui-input my-layui-input" onkeyup="generalMask(this)" value="<%=primalNumber%>" <%if meter.m_state<>"建档" then%>readonly=""<%end if%>>
+                        <input id="primalNumber" name="primalNumber" lay-verify="primalNumber" autocomplete="off" placeholder="数字" maxlength="12" class="layui-input my-layui-input" onkeyup="generalMask(this)" value="">
                     </div>
                 </div>
                 <div class="layui-block">
                     <label class="layui-form-label">调&nbsp;&nbsp;节&nbsp;数</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="offsetNumber" name="offsetNumber" lay-verify="num" autocomplete="off" placeholder="选填,数字" maxlength="12" class="layui-input" value="<%=offsetNumber%>">
+                        <input id="offsetNumber" name="offsetNumber" lay-verify="num" autocomplete="off" placeholder="选填,数字" maxlength="12" class="layui-input">
                     </div>
                 </div>
             </div>

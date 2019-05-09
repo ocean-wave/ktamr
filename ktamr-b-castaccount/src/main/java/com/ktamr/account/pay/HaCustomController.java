@@ -71,7 +71,7 @@ public class HaCustomController {
         HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYong(haCustom);
         if(yuCunFeiYong!=null){
             model.addAttribute("HaCustomYuCunHuaFei",yuCunFeiYong);//存放数据
-            return "/com/ktamr/account/pay/cust_bill_operation.html";
+            return "com/ktamr/account/pay/cust_bill_operation.html";
         }
         return null;
     }
@@ -122,7 +122,7 @@ public class HaCustomController {
         HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYong(haCustom);
         if(yuCunFeiYong!=null){
             model.addAttribute("HaCustomYuCunHuaFei",yuCunFeiYong);//存放数据
-            return "/com/ktamr/account/pay/cust_bill_list2.html";
+            return "com/ktamr/account/pay/cust_bill_list2.html";
         }
         return  null;
     }

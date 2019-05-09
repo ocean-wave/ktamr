@@ -57,6 +57,9 @@
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON b.areaid=a.areaid
         where u.custid is not null
+        <!--<if test="haArea.name!=null and haArea.name!=''">-->
+            <!--and a.name = #{haArea.name}-->
+        <!--</if>-->
         <if test="haCustom.keyWord!=null and haCustom.keyWord !=''">
             and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
         </if>
@@ -87,6 +90,10 @@
         LEFT JOIN ha_area a ON b.areaid=a.areaid
         where u.custid = #{haCustom.custId}
     </select>
+
+    <insert id="addHaCustom">
+        insert into ha_custom values (default ,#{custNo},#{name},#{sex},#{idNumber},#{idName},#{tel},#{mobil},#{addr},#{zip},#{bank},#{account},#{lastbillId},#{billId},#{createTime},#{modifyTime},#{balance},#{expense},#{paidTime},#{recharge},#{rechargeTime},#{postTime})
+    </insert>
 
     <delete id="deleteHaCustom">
         delete from ha_custom where custid = #{custId}

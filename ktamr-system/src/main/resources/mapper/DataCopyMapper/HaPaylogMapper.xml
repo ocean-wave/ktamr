@@ -232,6 +232,14 @@ f.billid=p.billid)
             and POSITION('${HaPaylog.billId}' IN p.billid)>0
         </if>
 
+        <if test="HaPaylog.billIdsList  != null and HaPaylog.billIdsList.size()>0">
+
+            <foreach collection="HaPaylog.billIdsList" item="item" index="index"
+                      >
+                or  POSITION( '${item}' IN p.billid)>0
+            </foreach>
+
+        </if>
             <if test="HaPaylog.areaId != null  and HaPaylog.areaId != null ">
                 and mi.areaid=#{HaPaylog.areaId}
             </if>
