@@ -189,6 +189,8 @@
                 , success: function (data) {
                     if (data == "true") {
                         layer.msg("新增成功！", {icon: 1});
+                        parent.$("#jqGrid").trigger("reloadGrid");
+                        layer.close(index); //再执行关闭
                     } else {
                         layer.msg(data, {icon: 5});
                     }

@@ -138,6 +138,7 @@ function resizeGrids(op) {
 }
 function exportToExcel(jqGridID, tableName)
 {
+	alert("进入导入的方法");
 	var grid = $("#"+jqGridID);
 	var url, pdArray, excelTableName;
 	

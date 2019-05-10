@@ -59,7 +59,23 @@ public class HaPaylogController {
     , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh
     ){
 
-
+    if(hhh!=null){
+        boolean b = hhh.contains(",");
+        //包含返回true
+        List<Integer> xhlist=new ArrayList<>();
+        if(b==true){
+            //拆分字符根绝逗号
+            String[] split = hhh.split(",");
+            //进行循环添加
+            for (int i =0;i<split.length;i++){
+                xhlist.add(Integer.valueOf(split[i]));
+            }
+            haPaylog.setIdsList(xhlist);
+        }else {
+            xhlist.add(Integer.valueOf(hhh));
+            haPaylog.setIdsList(xhlist);
+        }
+    }
 
 
 
@@ -119,12 +135,12 @@ public class HaPaylogController {
      * @param model
      * @return
      */
-    @RequestMapping("/com/ktamr/account/pay/month_report.html")
+    @RequestMapping("/pay/month_report.html")
     public String showMonth_report(HaArea haArea,Model model){
         List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         if(haAreaList!=null){//判断是否有值
             model.addAttribute("areaListName",haAreaList);
-            return "com/ktamr/account/pay/month_report.html";
+            return "pay/month_report.html";
         }
         return null;
     }
@@ -138,7 +154,7 @@ public class HaPaylogController {
      */
     @RequestMapping(value ="/showMonthReportList")
     @ResponseBody
-    public String showHaMonthReportList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
+    public String showHaMonthReportList(HaPaylog haPaylog, HttpServletRequest request
 
     ){
 
@@ -191,9 +207,20 @@ public class HaPaylogController {
             }
             haPaylog.setBillIdsList(xhlist);
             haPaylog.setBillId(null);
+
         }
+        //查询上面的table
         List<HaPaylog> haPaylogList = haPaylogService.BselectPritJiaoFeiDan1(haPaylog);
-        List<HaFreeze> bselectPritJiaoFeiDan2 = haFreezeService.BselectPritJiaoFeiDan2(haFreeze);
+        HaFreeze bselectPritJiaoFeiDan2=null;//全局变量
+        //进行循环添加子list
+        for (int i=0;i<haPaylogList.size();i++){
+            haFreeze.setBillId(haPaylogList.get(i).getBillId());
+            bselectPritJiaoFeiDan2 = haFreezeService.BselectPritJiaoFeiDan2(haFreeze);
+
+                //对其进行循环录入
+            haPaylogList.get(i).setHaFreeze(bselectPritJiaoFeiDan2);
+        }
+
         if(haPaylogList!=null&&bselectPritJiaoFeiDan2!=null){
             model.addAttribute("haPaylogList",haPaylogList);
             model.addAttribute("bselectPritJiaoFeiDan2",bselectPritJiaoFeiDan2);

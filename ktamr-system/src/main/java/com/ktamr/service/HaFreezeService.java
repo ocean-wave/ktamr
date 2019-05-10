@@ -74,6 +74,6 @@ public interface HaFreezeService {
      * @param haFreeze
      * @return
      */
-    public List<HaFreeze> BselectPritJiaoFeiDan2(HaFreeze haFreeze);
+    public HaFreeze BselectPritJiaoFeiDan2(HaFreeze haFreeze);
 
 }

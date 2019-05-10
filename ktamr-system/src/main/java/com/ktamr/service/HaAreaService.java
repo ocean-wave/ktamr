@@ -148,7 +148,7 @@ public interface HaAreaService {
     /*
      *修改小区传值
      */
-    HaArea updateByIdHaAreaC(Integer areaid);
+    HaArea updateByIdHaAreaC(Integer areaId);
 
     /*
      *小区记录数

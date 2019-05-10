@@ -156,24 +156,33 @@
 		f.lf_number AS flf_number,
 		f.tf_number AS ftf_number,
 		f.delta AS fdelta,
-		to_date(to_char(f.th_time, 'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS fth_time,
+		to_char(f.th_time, 'YYYY-MM-DD hh:mm:ss') AS fth_time,
 		mt.name AS mtname,
 		ps.name AS psname,
 		m.rate AS mrate,
 		pl.sum AS plsum,
 		pl.lastarrear AS pllastarrear,
-		to_date(to_char(pl.planTime, 'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS plplanTime,
-		to_date(to_char(pl.mbTime, 'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS plmbTime
+		to_char(pl.planTime, 'YYYY-MM-DD hh:mm:ss') AS plplanTime,
+		to_char(pl.mbTime, 'YYYY-MM-DD hh:mm:ss') AS plmbTime
 	    FROM ha_paylog pl,ha_freeze f,ha_meter m,hav_meterinfo mi,ha_pricestandard ps,ha_meterType mt,
 		( SELECT f.meterid,MAX(f.itemid) AS itemid FROM ha_freeze f inner join  ha_meter m
   on f.meterid=m.meterid  GROUP BY f.meterid, f.RTime,m.starttime,m.lasttime
- having to_date(to_char(f.RTime, 'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss')
- BETWEEN  m.starttime  AND m.lasttime
+        <trim prefix="having" prefixOverrides="and | or">
+            <if test="HaPaylog.KaiShiTime != null and HaPaylog.KaiShiTime != '' and HaPaylog.JieShuTime != null and HaPaylog.JieShuTime != ''">
+                and to_char(f.RTime, 'YYYY-MM-DD hh:mm:ss') between '${HaPaylog.KaiShiTime}' and '${HaPaylog.JieShuTime}'
+            </if>
+        </trim>
+        ) t
+		WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid
+		AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
+        <if test="HaPaylog.areaId  != null and HaPaylog.areaId !=''">
+            and mi.areaid in ('${HaPaylog.areaId}')
+        </if>
 
-		) t
-		WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
 		AND ps.meterTypeId = mt.meterTypeId
-		 limit #{page} OFFSET #{rowNum}
+
+        ORDER BY mi.用户号, mi.用户地址
+        limit #{page} OFFSET #{rowNum}
     </select>
     <!--查询月报表列表的总记录数-->
     <select id="selectMonthReportListCount" resultType="Integer">
@@ -181,12 +190,18 @@
 	    FROM ha_paylog pl,ha_freeze f,ha_meter m,hav_meterinfo mi,ha_pricestandard ps,ha_meterType mt,
 		( SELECT f.meterid,MAX(f.itemid) AS itemid FROM ha_freeze f inner join  ha_meter m
   on f.meterid=m.meterid  GROUP BY f.meterid, f.RTime,m.starttime,m.lasttime
- having to_date(to_char(f.RTime, 'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss')
- BETWEEN  m.starttime  AND m.lasttime
-
+        <trim prefix="having" prefixOverrides="and | or">
+            <if test="HaPaylog.KaiShiTime != null and HaPaylog.KaiShiTime != '' and HaPaylog.JieShuTime != null and HaPaylog.JieShuTime != ''">
+                and to_char(f.RTime, 'YYYY-MM-DD hh:mm:ss') between '${HaPaylog.KaiShiTime}' and '${HaPaylog.JieShuTime}'
+            </if>
+        </trim>
 		) t
 		WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
 		AND ps.meterTypeId = mt.meterTypeId
+        <if test="HaPaylog.areaId  != null and HaPaylog.areaId !=''">
+            and mi.areaid in ('${HaPaylog.areaId}')
+        </if>
+
     </select>
 
     <!-- 点击打印缴费单时进行查询的map映射   -->
@@ -233,10 +248,11 @@ f.billid=p.billid)
         </if>
 
         <if test="HaPaylog.billIdsList  != null and HaPaylog.billIdsList.size()>0">
-
+           and  p.billid in
             <foreach collection="HaPaylog.billIdsList" item="item" index="index"
+                     open="(" separator="," close=")"
                       >
-                or  POSITION( '${item}' IN p.billid)>0
+              '${item}'
             </foreach>
 
         </if>

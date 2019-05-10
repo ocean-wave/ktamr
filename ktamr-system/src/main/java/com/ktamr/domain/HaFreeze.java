@@ -6,6 +6,7 @@ import com.ktamr.common.core.domain.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 public class HaFreeze extends BaseEntity {
 
@@ -23,7 +24,7 @@ public class HaFreeze extends BaseEntity {
   private String delta;
   private Integer priceStandId;
   private double price;
-  private double pay;
+  private String pay;
   private String billId;
 
   //开启存别名
@@ -34,7 +35,16 @@ public class HaFreeze extends BaseEntity {
   private HaMeter haMeter;
   private HaPricestandard haPricestandard;
   private HaMetertype haMetertype;
+  private List<String> billIdsList;//定义缴费单号的id List集合方便查询多个id时
 
+
+  public List<String> getBillIdsList() {
+    return billIdsList;
+  }
+
+  public void setBillIdsList(List<String> billIdsList) {
+    this.billIdsList = billIdsList;
+  }
 
   public HaMeter getHaMeter() {
     return haMeter;
@@ -140,11 +150,11 @@ public class HaFreeze extends BaseEntity {
     this.price = price;
   }
 
-  public double getPay() {
+  public String getPay() {
     return pay;
   }
 
-  public void setPay(double pay) {
+  public void setPay(String pay) {
     this.pay = pay;
   }
 
