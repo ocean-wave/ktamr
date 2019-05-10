@@ -41,8 +41,8 @@ public class HaPaylog extends BaseEntity {
   //方便用areaid中in的范围查询
   private  List<Integer> idsList;
   //方便查询根据日期查询
-  private Date KaiShiTime;//别名开始时间
-  private Date JieShuTime;//别名结束时间0
+  private Object  KaiShiTime;//别名开始时间
+  private Object JieShuTime;//别名结束时间0
   private Integer areaId;//别名小区id
   private List<String> billIdsList;//定义缴费单号的id List集合方便查询多个id时
 
@@ -63,19 +63,19 @@ public class HaPaylog extends BaseEntity {
     this.areaId = areaId;
   }
 
-  public Date getKaiShiTime() {
+  public Object getKaiShiTime() {
     return KaiShiTime;
   }
 
-  public void setKaiShiTime(Date kaiShiTime) {
+  public void setKaiShiTime(Object kaiShiTime) {
     KaiShiTime = kaiShiTime;
   }
 
-  public Date getJieShuTime() {
+  public Object getJieShuTime() {
     return JieShuTime;
   }
 
-  public void setJieShuTime(Date jieShuTime) {
+  public void setJieShuTime(Object jieShuTime) {
     JieShuTime = jieShuTime;
   }
 

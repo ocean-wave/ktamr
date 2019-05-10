@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaBillrecordsMapper">
+
+
+    <!--映射查询收费记录-->
+    <resultMap id="HaBillrecordsListMap" type="com.ktamr.domain.HaBillrecords">
+    <result column="bId" property="bid"/>
+    <result column="收费金额" property="charge"/>
+    <result column="用户地址" property="OtherName"/>
+    <result column="当前余额" property="currentBalance"/>
+    <result column="收费时间" property="optTime"/>
+    <result column="操作人" property="caoZuoRen"/>
+    <result column="operation" property="operaTion"/>
+    <association property="haCustom" javaType="HaCustom">
+        <result column="用户编号" property="custNo"/>
+        <result column="用户名称" property="name"/>
+        <result column="性别" property="sex"/>
+        <result column="手机号码" property="mobil"/>
+        <result column="联系电话" property="tel"/>
+        <result column="开户银行" property="bank"/>
+        <result column="银行账户" property="account"/>
+    </association>
+
+</resultMap>
+
+    <!--查询收费记录-->
+    <select id="ChaXunHaBillrecordsList" resultMap="HaBillrecordsListMap">
+
+        SELECT bl.bId AS bId, u.custno as 用户编号,u.name as 用户名称, u.sex as 性别,
+        concat_ws('-',case  when a.name!='' then  a.name else '[无对象]' end , case  when b.name!='' then  b.name else '[无对象]' end,case  when r.name!='' then  r.name else '[无对象]' end) as 用户地址,to_char(bl.charge, '0.00') AS 收费金额, to_char(bl.currentBalance, '0.00') AS 当前余额,
+        to_date(to_char(bl.optTime,'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS 收费时间,case when bl.optMan='sys' then   '系统' end ,case  when length(o.operator_name)>0 then o.operator_name end, case  when o.operator_name!=null then bl.optMan end AS 操作人,u.mobil as 手机号码, u.tel as 联系电话, u.bank as 开户银行,u.account as 银行账户 FROM ((((ha_billRecords bl LEFT JOIN ha_operator o ON bl.optMan=o.operator_code) LEFT JOIN ha_custom u ON u.custid=bl.custid) LEFT JOIN ha_room r ON r.custid=u.custid) LEFT JOIN ha_building b ON r.buildingid=b.buildingid) LEFT JOIN ha_area a ON b.areaid=a.areaid WHERE (bl.operation='收费' OR bl.operation='恢复收费')
+        <if test="HaBillrecords.nodeType != null and HaBillrecords.nodeType != '' and HaBillrecords.nodeIds != null and HaBillrecords.nodeIds != ''">
+            <if test="HaBillrecords.nodeType == 'area'">
+                AND a.areaid IN #{HaBillrecords.nodeIds}
+            </if>
+            <if test="HaBillrecords.nodeType == 'rgn'">
+                AND POSITION(#{HaBillrecords.nodeIds} in Left(a.areaNo, 1))>0
+            </if>
+        </if>
+        <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
+            and bl.optTime  between
+            date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+            and
+            date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+        </if>
+        ORDER BY u.custno,to_char(bl.optTime, 'YYYY-MM-DD hh:mm:ss')
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <!--查询收费记录的总记录数-->
+    <select id="ChaXunHaBillrecordsCount" resultType="Integer">
+    SELECT count(1) FROM ((((ha_billRecords bl LEFT JOIN ha_operator o ON bl.optMan=o.operator_code) LEFT JOIN ha_custom u ON u.custid=bl.custid) LEFT JOIN ha_room r ON r.custid=u.custid) LEFT JOIN ha_building b ON r.buildingid=b.buildingid) LEFT JOIN ha_area a ON b.areaid=a.areaid WHERE (bl.operation='收费' OR bl.operation='恢复收费')
+        <if test="HaBillrecords.nodeType != null and HaBillrecords.nodeType != '' and HaBillrecords.nodeIds != null and HaBillrecords.nodeIds != ''">
+            <if test="HaBillrecords.nodeType == 'area'">
+                AND a.areaid IN #{HaBillrecords.nodeIds}
+            </if>
+            <if test="HaBillrecords.nodeType == 'rgn'">
+                AND POSITION(#{HaBillrecords.nodeIds} in Left(a.areaNo, 1))>0
+            </if>
+        </if>
+     <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
+            and bl.optTime  between
+            date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+            and
+            date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+        </if>
+    </select>
+
+    <!--一个表复制数据，然后把数据插入到一个已存在的表中。目标表中任何已存在的行都不会受影响。
+            添加ha_billRecords表数据
+    -->
+    <insert id="insertHaBillrecords">
+        INSERT INTO ha_billRecords (custId,operation,charge,currentBalance,optTime,optMan)
+        SELECT cu.custid,#{optType},#{charge}, cu.balance, now(),#{optMan}
+        FROM ha_custom cu WHERE cu.custid=#{custId}
+    </insert>
+
+    <!--查询用户账单的列表Map映射-->
+    <resultMap id="selectYongHuZhangDanMap" type="HaBillrecords">
+        <result column="bId" property="bid"/>
+        <result column="操作" property="operaTion"/>
+        <result column="金额" property="charge"/>
+        <result column="操作时间" property="optTime"/>
+        <result column="当前余额" property="currentBalance"/>
+        <result column="操作人" property="caoZuoRen"/>
+       </resultMap>
+
+
+    <!--查询用户账单的列表根绝custid查询一波-->
+    <select id="selectYongHuZhangDan" resultMap="selectYongHuZhangDanMap">
+        SELECT b.bId AS bId , b.operation AS 操作,
+        to_char(b.charge, '0.00') AS 金额,
+        to_date(to_char(b.optTime,'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS 操作时间,
+        to_char(b.currentBalance, '0.00') AS 当前余额,
+        case when b.optMan = 'sys' then '系统'  when length(o.operator_name)>0 then o.operator_name when o.operator_name is  null then b.optMan  else 'true'   end
+         as  操作人
+        FROM ha_billRecords b
+        LEFT JOIN ha_operator o ON b.optMan=o.operator_code
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="HaBillrecords.custId !=null">
+                AND b.custid = ${HaBillrecords.custId}
+            </if>
+
+            <if test="HaBillrecords.optType !=null and HaBillrecords.optType !=''">
+                AND POSITION('${HaBillrecords.optType}'   in b.operation)>0
+            </if>
+
+            <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
+                and b.optTime  between
+                date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+                and
+                date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+            </if>
+        </trim>
+
+        ORDER BY to_char(b.optTime, 'YYYY-MM-DD hh:mm:ss') DESC
+        limit #{page} OFFSET #{rowNum}
+
+    </select>
+
+    <!--查询用户账单的列表根绝custid查询一波-->
+    <select id="selectYongHuZhangDanCount"  resultType="Integer">
+        SELECT count(1)
+        FROM ha_billRecords b
+        LEFT JOIN ha_operator o ON b.optMan=o.operator_code
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="HaBillrecords.custid !=null">
+                AND b.custid = ${HaBillrecords.custid}
+            </if>
+            <if test="HaBillrecords.optType !=null and HaBillrecords.optType !=''">
+                AND POSITION('${HaBillrecords.optType}'  in b.operation)>0
+            </if>
+            <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
+                and b.optTime  between
+                date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+                and
+                date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+            </if>
+        </trim>
+    </select>
+
+    <!--检查是否超过可恢复收费-->
+    <select id="selectShiFou" resultType="string">
+        SELECT case when Count(br1.bId)>
+      (SELECT Count(br2.bId)
+      FROM ha_billRecords br2 WHERE br2.operation='恢复收费' AND #{custid}=br2.custid AND '${charge}'=to_char(br2.charge, '0.00'))
+		   then 'true' else 'false' end
+       FROM ha_billRecords br1 WHERE br1.operation='收费' AND to_char(br1.charge, '0.00')='${charge}' AND br1.custid=#{custId}
+    </select>
+</mapper>

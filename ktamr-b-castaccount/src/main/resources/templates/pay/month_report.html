@@ -50,7 +50,7 @@
                 _daterange = $("#monthBTime").val(),
                 _startTime = "2019-03-29"+" 00:00:00",
                 _endTime = "2019-03-29"+" 23:59:59";
-            //console.log(_daterange);
+
             dateArray = _daterange.split("~");
             if(_daterange!="" && dateArray[0] != ""){
                 _startTime = dateArray[0];
@@ -63,6 +63,7 @@
                 _endTime = "2019-03-29"+" 23:59:59";
                 g_endTime = _endTime;
             }
+
             $("#jqGrid").jqGrid('setGridParam',{
                 mtype: 'POST',
                 postData:{areaId:_areaid, KaiShiTime:_startTime, JieShuTime:_endTime}
@@ -112,8 +113,8 @@
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,data: {
                     areaid: _areaid
-                    ,startTime: g_startTime
-                    ,endTime: g_endTime
+                    ,KaiShiTime: g_startTime
+                    ,JieShuTime: g_endTime
                 }
                 ,async: false
                 ,success: function(data){
@@ -147,7 +148,7 @@
             }
         });
 
-        var Post_Data = {ListNumber: 28,TotalLocation: "用户编号", SumColName: "本期用量,本期费用,上期余额", areaid: "", startTime:g_startTime, endTime:g_endTime};
+        var Post_Data = {ListNumber: 28,TotalLocation: "用户编号", SumColName: "本期用量,本期费用,上期余额", areaId: "", startTime:g_startTime, endTime:g_endTime};
         var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/showMonthReportList");
         GridObj.jqdefaultGridConfig.caption = "";
         GridObj.jqdefaultGridConfig.multiselect = false;

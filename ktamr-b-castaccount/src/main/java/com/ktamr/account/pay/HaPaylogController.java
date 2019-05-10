@@ -3,10 +3,7 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.ktamr.domain.HaArea;
-import com.ktamr.domain.HaFreeze;
-import com.ktamr.domain.HaPaylog;
-import com.ktamr.domain.HaPricestandard;
+import com.ktamr.domain.*;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaFreezeService;
 import com.ktamr.service.HaPaylogService;
@@ -149,14 +146,13 @@ public class HaPaylogController {
      * 月报表的查询
      * @param haPaylog
      * @param request
-     * @param pageSize
      * @return
      */
     @RequestMapping(value ="/showMonthReportList")
     @ResponseBody
     public String showHaMonthReportList(HaPaylog haPaylog, HttpServletRequest request
-
-    ){
+, HavMeterinfo havMeterinfo
+                                        ){
 
         Integer page,pageRows;
 

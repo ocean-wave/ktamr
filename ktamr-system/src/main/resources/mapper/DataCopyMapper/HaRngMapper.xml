@@ -156,4 +156,37 @@
         GROUP BY r.id,r.name ORDER BY r.name
     </select>
 
+
+    <!--查询大区表全部信息与小区,集中器,采集器数,表数的数量  B    -->
+    <select id="selectAllRngAndCountB" resultType="com.ktamr.domain.HaRgn" >
+      SELECT n.id AS rgnid
+        , n.name AS name
+        , n.shortName AS shortName
+        , n.zcode AS zCode
+        ,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount
+        ,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount
+        ,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount
+        ,(SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount
+      FROM ha_rgn n
+      order by n.name
+
+    </select>
+
+
+
+    <!--映射大区名字-->
+    <resultMap  id="BigNameMap"  type="haRgn">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <association property="haArea" javaType="HaArea">
+            <result column="areaNo" property="countAreaNo"/>
+
+        </association>
+    </resultMap>
+
+    <!--查询大区名字为了动态下拉框的值-->
+    <select id="selectBigNameB" resultMap="BigNameMap">
+        SELECT r.id,r.name,COUNT(a.areaNo) as areaNo FROM ha_rgn r LEFT JOIN ha_area a ON r.id=LEFT(a.areaNo,1)  GROUP BY r.id,r.name ORDER BY r.name
+    </select>
+
 </mapper>
