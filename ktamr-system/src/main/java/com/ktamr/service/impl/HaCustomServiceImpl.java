@@ -22,8 +22,8 @@ public class HaCustomServiceImpl implements HaCustomService {
      * @return
      */
     @Override
-    public List<HaCustom> queryHaCustomList(HaCustom haCustom, Integer page, Integer rowNum) {
-        List<HaCustom> haCustomList = haCustomMapper.queryHaCustomList(haCustom, page, rowNum);
+    public List<HaCustom> queryHaCustomListB(HaCustom haCustom, Integer page, Integer rowNum) {
+        List<HaCustom> haCustomList = haCustomMapper.queryHaCustomListB(haCustom, page, rowNum);
         if(haCustomList!=null){
             return haCustomList;
         }
@@ -37,9 +37,9 @@ public class HaCustomServiceImpl implements HaCustomService {
      * @return
      */
     @Override
-    public Integer queryHaCustomListCount(HaCustom haCustom) {
+    public Integer queryHaCustomListCountB(HaCustom haCustom) {
 
-        Integer haCustomListCount = haCustomMapper.queryHaCustomListCount(haCustom);
+        Integer haCustomListCount = haCustomMapper.queryHaCustomListCountB(haCustom);
         if(haCustomListCount!=null){
             return haCustomListCount;
         }
@@ -52,8 +52,8 @@ public class HaCustomServiceImpl implements HaCustomService {
      * @return
      */
     @Override
-    public HaCustom selectYuCunFeiYong(HaCustom haCustom) {
-        HaCustom yuCunFeiYong = haCustomMapper.selectYuCunFeiYong(haCustom);
+    public HaCustom selectYuCunFeiYongB(HaCustom haCustom) {
+        HaCustom yuCunFeiYong = haCustomMapper.selectYuCunFeiYongB(haCustom);
         if(yuCunFeiYong!=null){
             return yuCunFeiYong;
         }
@@ -66,8 +66,8 @@ public class HaCustomServiceImpl implements HaCustomService {
      * @return
      */
     @Override
-    public Integer updateYuCunFeiYong(HaCustom haCustom) {
-        Integer updateYuCunFeiYong = haCustomMapper.updateYuCunFeiYong(haCustom);
+    public Integer updateYuCunFeiYongB(HaCustom haCustom) {
+        Integer updateYuCunFeiYong = haCustomMapper.updateYuCunFeiYongB(haCustom);
         if(updateYuCunFeiYong!=null){
             return  updateYuCunFeiYong;
         }

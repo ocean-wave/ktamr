@@ -31,9 +31,9 @@ public class HaCustomController {
      * 打开用户账户页面
      * @return
      */
-    @RequestMapping("/com/ktamr/account/pay/cust_balance_list.html")
+    @RequestMapping("pay/cust_balance_list.html")
     public String showCust_balance_list(){
-        return "com/ktamr/account/pay/cust_balance_list.html";
+        return "pay/cust_balance_list.html";
     }
 
     /**
@@ -50,8 +50,8 @@ public class HaCustomController {
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
         //通过方法返回一波
         Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-        List<HaCustom> haCustomList = haCustomService.queryHaCustomList(haCustom, integers[0], integers[1]);
-        Integer haCustomListCount = haCustomService.queryHaCustomListCount(haCustom);
+        List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom, integers[0], integers[1]);
+        Integer haCustomListCount = haCustomService.queryHaCustomListCountB(haCustom);
         Map map = pageUtil.map(haCustomList, haCustomListCount);
         String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
         if(s!=null){
@@ -68,10 +68,10 @@ public class HaCustomController {
      */
     @RequestMapping("/opencust_bill_operation")
     public String testYuCunFeiYong(HaCustom haCustom, Model model){
-        HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYong(haCustom);
+        HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYongB(haCustom);
         if(yuCunFeiYong!=null){
             model.addAttribute("HaCustomYuCunHuaFei",yuCunFeiYong);//存放数据
-            return "com/ktamr/account/pay/cust_bill_operation.html";
+            return "pay/cust_bill_operation.html";
         }
         return null;
     }
@@ -96,7 +96,7 @@ public class HaCustomController {
 
 
         //先更新一波
-        Integer updateYuCunFeiYong = haCustomService.updateYuCunFeiYong(haCustom);
+        Integer updateYuCunFeiYong = haCustomService.updateYuCunFeiYongB(haCustom);
 
         //再添加一波
         Integer insertHaBillrecords = haBillrecordsService.insertHaBillrecords(haBillrecords);
@@ -119,10 +119,10 @@ public class HaCustomController {
     @RequestMapping("/cust_bill_list2")
     public String cust_bill_list2(HaCustom haCustom,Model model){
 
-        HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYong(haCustom);
+        HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYongB(haCustom);
         if(yuCunFeiYong!=null){
             model.addAttribute("HaCustomYuCunHuaFei",yuCunFeiYong);//存放数据
-            return "com/ktamr/account/pay/cust_bill_list2.html";
+            return "pay/cust_bill_list2.html";
         }
         return  null;
     }

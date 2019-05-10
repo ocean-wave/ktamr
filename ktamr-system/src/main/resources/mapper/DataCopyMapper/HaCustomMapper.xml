@@ -153,4 +153,137 @@
             <if test="account != null">account = #{account},</if>
         </trim>
     </update>
+
+
+
+    <!--映射查询用户账号列表的map集合-->
+    <resultMap id="queryHaCustomListMapB" type="HaCustom">
+        <result column="custid" property="custId"/>
+        <result column="用户编号" property="custNo"/>
+        <result column="用户名称" property="name"/>
+        <result column="性别" property="sex"/>
+        <result column="账户余额" property="balance"/>
+        <result column="最近费用" property="expense"/>
+        <result column="最近扣费时间" property="paidTime"/>
+        <result column="最近收费" property="recharge"/>
+        <result column="最近收费时间" property="rechargeTime"/>
+        <result column="手机号码" property="mobil"/>
+        <result column="联系电话" property="tel"/>
+        <result column="开户银行" property="bank"/>
+        <result column="银行账户" property="account"/>
+
+
+
+
+        <association property="haArea" javaType="HaArea">
+            <result column="用户地址" property="name"/>
+
+        </association>
+    </resultMap>
+
+    <!--查询用户账号的列表-->
+    <select id="queryHaCustomListB" resultMap="queryHaCustomListMapB">
+        SELECT u.custid as custid,u.custno as 用户编号,u.name as 用户名称,
+        case when u.sex is null  then '男' else u.sex end as 性别,
+        concat_ws('-',case  when a.name!='' then  a.name else '[无对象]' end , case  when b.name!='' then  b.name else '[无对象]' end,case  when r.name!='' then  r.name else '[无对象]' end) as 用户地址,
+        case when u.balance is null  then 0 else round(u.balance::numeric*1, 2) end as 账户余额,
+        case when u.expense is null  then 0 else round(u.expense) end as 最近费用,
+        to_char(u.paidTime, 'YYYY-MM-DD hh:mm:ss') as 最近扣费时间,
+        case when u.recharge is null  then 0 else round(u.balance) end as 最近收费,
+        to_char(u.rechargeTime, 'YYYY-MM-DD hh:mm:ss') as 最近收费时间,
+        u.mobil as 手机号码, u.tel as 联系电话, u.bank as 开户银行,u.account as 银行账户
+        FROM ((ha_custom u LEFT JOIN ha_room r ON u.custid=r.custid)
+        LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+        LEFT JOIN ha_area a ON b.areaid=a.areaid
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="HaCustom.nodeType != null and HaCustom.nodeType != '' and HaCustom.nodeIds != null and HaCustom.nodeIds != ''">
+                <if test="HaCustom.nodeType == 'area'">
+                    AND a.areaid = ${HaCustom.nodeIds}
+                </if>
+                <if test="HaCustom.nodeType == 'rgn'">
+                    AND POSITION(#{HaCustom.nodeIds} in Left(a.areaNo, 1))>0
+                </if>
+            </if>
+
+            <if test="HaCustom.balanceType == 'arrearage'">
+                AND u.balance &lt; 0
+            </if>
+            <if test="HaCustom.balanceType == 'notArrearage'">
+                AND (u.balance>=0 OR u.balance is null)
+            </if>
+        </trim>
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <!--查询用户账号的列表总记录数-->
+    <select id="queryHaCustomListCountB" resultType="Integer">
+        SELECT count(1)
+        FROM ((ha_custom u LEFT JOIN ha_room r ON u.custid=r.custid)
+        LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+        LEFT JOIN ha_area a ON b.areaid=a.areaid
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="HaCustom.nodeType != null and HaCustom.nodeType != '' and HaCustom.nodeIds != null and HaCustom.nodeIds != ''">
+                <if test="HaCustom.nodeType == 'area'">
+                    AND a.areaid = ${HaCustom.nodeIds}
+                </if>
+                <if test="HaCustom.nodeType == 'rgn'">
+                    AND POSITION(#{HaCustom.nodeIds} in Left(a.areaNo, 1))>0
+                </if>
+            </if>
+
+            <if test="HaCustom.balanceType == 'arrearage'">
+                AND u.balance &lt; 0
+            </if>
+            <if test="HaCustom.balanceType == 'notArrearage'">
+                AND (u.balance>=0 OR u.balance is null)
+            </if>
+        </trim>
+
+    </select>
+
+    <!--映射查询预存费用-->
+    <resultMap id="selectYuCunFeiYongMapB" type="HaCustom">
+        <result column="custid" property="custId"/>
+        <result column="用户编号" property="custNo"/>
+        <result column="用户名称" property="name"/>
+        <result column="cusex" property="sex"/>
+        <result column="用户地址" property="userAddress"/>
+        <result column="余额" property="userBalance"/>
+    </resultMap>
+
+    <!--查询预存费用-->
+    <select id="selectYuCunFeiYongB" resultMap="selectYuCunFeiYongMapB">
+
+SELECT  cu.custid,  case when cu.custno is null then '*' else cu.custno end AS 用户编号,
+ case when cu.name is null then '*' else cu.name end AS 用户名称,
+   case when length(cu.sex)=0  then '男' else cu.sex end AS cusex, concat_ws('_',a.name,b.name,r.name) AS 用户地址,
+case when (SELECT Count(*) FROM ha_billRecords WHERE custid=cu.custid)>0
+ then (SELECT  br.CurrentBalance FROM ha_billRecords br WHERE br.custid=cu.custid ORDER BY br.optTime  DESC limit 1) else 0 end  AS 余额
+FROM ((ha_custom cu LEFT JOIN ha_room r ON cu.custid=r.custid)
+	  LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+	  LEFT JOIN ha_area a ON b.areaid=a.areaid
+	  WHERE cu.custid=#{custId}
+    </select>
+
+    <!--佛系更新预存费用 -->
+    <update id="updateYuCunFeiYongB">
+        UPDATE ha_custom cu
+        <trim prefix="set" suffixOverrides="," suffix=" WHERE custid = #{custId}">
+            <if test="balance != null">
+                balance = #{balance},
+            </if>
+            <if test="balance == null">
+                balance = 0,
+            </if>
+
+            <if test="recharge != null">
+                recharge = #{recharge},
+            </if>
+            <if test="rechargeTime == null">
+                rechargeTime = now(),
+            </if>
+
+
+        </trim>
+    </update>
 </mapper>

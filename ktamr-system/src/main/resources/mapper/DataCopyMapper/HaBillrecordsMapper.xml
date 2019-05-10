@@ -34,17 +34,17 @@
         to_date(to_char(bl.optTime,'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS 收费时间,case when bl.optMan='sys' then   '系统' end ,case  when length(o.operator_name)>0 then o.operator_name end, case  when o.operator_name!=null then bl.optMan end AS 操作人,u.mobil as 手机号码, u.tel as 联系电话, u.bank as 开户银行,u.account as 银行账户 FROM ((((ha_billRecords bl LEFT JOIN ha_operator o ON bl.optMan=o.operator_code) LEFT JOIN ha_custom u ON u.custid=bl.custid) LEFT JOIN ha_room r ON r.custid=u.custid) LEFT JOIN ha_building b ON r.buildingid=b.buildingid) LEFT JOIN ha_area a ON b.areaid=a.areaid WHERE (bl.operation='收费' OR bl.operation='恢复收费')
         <if test="HaBillrecords.nodeType != null and HaBillrecords.nodeType != '' and HaBillrecords.nodeIds != null and HaBillrecords.nodeIds != ''">
             <if test="HaBillrecords.nodeType == 'area'">
-                AND a.areaid IN #{HaBillrecords.nodeIds}
+                AND a.areaid = ${HaBillrecords.nodeIds}
             </if>
             <if test="HaBillrecords.nodeType == 'rgn'">
                 AND POSITION(#{HaBillrecords.nodeIds} in Left(a.areaNo, 1))>0
             </if>
         </if>
         <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
-            and bl.optTime  between
-            date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+            and to_char(bl.optTime, 'YYYY-MM-DD hh:mm:ss')  between
+            '${HaBillrecords.kaiShi}'
             and
-            date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+            '${HaBillrecords.JieShu}'
         </if>
         ORDER BY u.custno,to_char(bl.optTime, 'YYYY-MM-DD hh:mm:ss')
         limit #{page} OFFSET #{rowNum}
@@ -55,17 +55,17 @@
     SELECT count(1) FROM ((((ha_billRecords bl LEFT JOIN ha_operator o ON bl.optMan=o.operator_code) LEFT JOIN ha_custom u ON u.custid=bl.custid) LEFT JOIN ha_room r ON r.custid=u.custid) LEFT JOIN ha_building b ON r.buildingid=b.buildingid) LEFT JOIN ha_area a ON b.areaid=a.areaid WHERE (bl.operation='收费' OR bl.operation='恢复收费')
         <if test="HaBillrecords.nodeType != null and HaBillrecords.nodeType != '' and HaBillrecords.nodeIds != null and HaBillrecords.nodeIds != ''">
             <if test="HaBillrecords.nodeType == 'area'">
-                AND a.areaid IN #{HaBillrecords.nodeIds}
+                AND a.areaid = ${HaBillrecords.nodeIds}
             </if>
             <if test="HaBillrecords.nodeType == 'rgn'">
                 AND POSITION(#{HaBillrecords.nodeIds} in Left(a.areaNo, 1))>0
             </if>
         </if>
      <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
-            and bl.optTime  between
-            date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+            and to_char(bl.optTime, 'YYYY-MM-DD hh:mm:ss')  between
+           '${HaBillrecords.kaiShi}'
             and
-            date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+           '${HaBillrecords.JieShu}'
         </if>
     </select>
 
@@ -109,10 +109,10 @@
             </if>
 
             <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
-                and b.optTime  between
-                date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+                and to_char(b.optTime, 'YYYY-MM-DD hh:mm:ss')  between
+               '${HaBillrecords.kaiShi}'
                 and
-                date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+                '${HaBillrecords.JieShu}'
             </if>
         </trim>
 
@@ -134,10 +134,10 @@
                 AND POSITION('${HaBillrecords.optType}'  in b.operation)>0
             </if>
             <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
-                and b.optTime  between
-                date(#{HaBillrecords.kaiShi,jdbcType=TIMESTAMP})
+                and to_char(b.optTime, 'YYYY-MM-DD hh:mm:ss')  between
+                '${HaBillrecords.kaiShi}'
                 and
-                date(#{HaBillrecords.JieShu,jdbcType=TIMESTAMP})
+                '${HaBillrecords.JieShu}'
             </if>
         </trim>
     </select>

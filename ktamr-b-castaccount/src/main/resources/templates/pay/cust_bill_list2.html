@@ -9,9 +9,9 @@
     <div class="row my-form-no-edge">
         <div class="col-xs-12 my-form-no-edge">
             <span style="border-left: 2px solid green;padding-left:5px;">
-                <input id="custid" type="hidden" th:value="${HaCustomYuCunHuaFei.custid}">
+                <input id="custid" type="hidden" th:value="${HaCustomYuCunHuaFei.custId}">
              <b>
-                用户编号:</b><b th:text="${HaCustomYuCunHuaFei.custno}"></b><b>，
+                用户编号:</b><b th:text="${HaCustomYuCunHuaFei.custNo}"></b><b>，
                 用户名称:</b><b th:text="${HaCustomYuCunHuaFei.name}"></b><b>，
                 性别:</b><b th:text="${HaCustomYuCunHuaFei.sex}"></b><b>，
                 用户地址:</b><b th:text="${HaCustomYuCunHuaFei.userAddress}"></b><b>
@@ -87,10 +87,10 @@
         //GridObj.jqdefaultGridConfig.colNames = [];
         GridObj.jqdefaultGridConfig.colModel = [
             {label:'bId', name: 'bid',  width: 75, key: true, hidden: true,frozen : true},
-            {label:'操作', name: 'operation', cellattr: CustBillOptCellColor, width: 80 },
+            {label:'操作', name: 'operaTion', cellattr: CustBillOptCellColor, width: 80 },
             {label:'金额', name: 'charge', align: 'right', width: 80 },
-            {label:'当前余额', name: 'currentbalance', align: 'right', width: 80 },
-            {label:'操作时间', name: 'opttime',
+            {label:'当前余额', name: 'currentBalance', align: 'right', width: 80 },
+            {label:'操作时间', name: 'optTime',
                 formatter: function (cellvalue, options, row) {
                     //2018/5/2 下午1:25:51
                     // alert(new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " "))
@@ -180,7 +180,7 @@
                     layer.confirm('确定要对本次收费进行误收费恢复吗？', {icon:3, title:'提示'},
                         function(index, layero){
                             var post_data = {
-                                custid: $("#custid").val(),
+                                custId: $("#custid").val(),
                                 optType: "恢复收费",
                                 charge: rowData["currentbalance"],
                                 optMan: "ha"

@@ -87,16 +87,16 @@
         //GridObj.jqdefaultGridConfig.colNames = [];
         GridObj.jqdefaultGridConfig.colModel = [
 
-            {label:'custid', name: 'custid',  width: 75, key: true, hidden: true,frozen : true},
-            {label:'用户编号', name: 'custno', width: 120 ,frozen : true},
+            {label:'custid', name: 'custId',  width: 75, key: true, hidden: true,frozen : true},
+            {label:'用户编号', name: 'custNo', width: 120 ,frozen : true},
             {label:'用户名称', name: 'name', width: 150 ,frozen : true},
             {label:'性别', name: 'sex', width: 40 },
             {label:'用户地址', name: 'haArea.name', width: 150 },
             {label:'账户余额', name: 'balance', formatter:'integer', align: 'right', width: 80 },
             {label:'最近费用', name: 'expense', align: 'right', width: 80 },
-            {label:'最近扣费时间', name: 'paidtime', width: 150 },
+            {label:'最近扣费时间', name: 'paidTime', width: 150 },
             {label:'最近收费', name: 'recharge', align: 'right', width: 80 },
-            {label:'最近收费时间', name: 'rechargetime',
+            {label:'最近收费时间', name: 'rechargeTime',
                 formatter: function (cellvalue, options, row) {
                     //2018/5/2 下午1:25:51
                     // alert(new Date(cellvalue).toLocaleString().replace(/\/|\//g, "-").replace(/上午|下午/g, " "))
@@ -120,7 +120,7 @@
         GridObj.gridResize();
 
         var zOption = {
-            url: "/area/showBigName",
+            url: "/area/showBigNameB",
             selectedMulti: true,
             nodeTypeId: "nodeType",
             nodeIdsId: "nodeIds",
@@ -187,7 +187,7 @@
                     _layerSize = ['560px', '350px'];
                     _queryStr = [
                         "cmdName=预存费用",
-                        "custid="+custids
+                        "custId="+custids
                     ];
                     _myLayui.showLayer("预存费用","/opencust_bill_operation", _queryStr, _layerSize);
                     break;
@@ -195,7 +195,7 @@
                     _layerSize = ['560px', '400px'];
                     _queryStr = [
                         "cmdName=查询账单",
-                        "custid="+custids
+                        "custId="+custids
                     ];
                     _myLayui.showLayer("查询账单","/cust_bill_list2", _queryStr, _layerSize);
                     break;
@@ -204,7 +204,7 @@
                     _queryStr = [
                         "cmdName=导入余额"
                     ];
-                    _myLayui.showLayer("导入余额","/cust_balance_import", _queryStr, _layerSize);
+                        _myLayui.showLayer("导入余额","/cust_balance_import", _queryStr, _layerSize);
                     break;
                 default:
                     layer.msg("不支持的命令", {icon: 5});

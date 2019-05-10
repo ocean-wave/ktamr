@@ -7,6 +7,7 @@ import com.ktamr.domain.*;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaFreezeService;
 import com.ktamr.service.HaPaylogService;
+import com.ktamr.util.PageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -151,32 +152,18 @@ public class HaPaylogController {
     @RequestMapping(value ="/showMonthReportList")
     @ResponseBody
     public String showHaMonthReportList(HaPaylog haPaylog, HttpServletRequest request
-, HavMeterinfo havMeterinfo
+, PageUtil pageUtil
                                         ){
 
-        Integer page,pageRows;
+
 
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if(page1==null&&pageRows1==null){//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        }else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2=page;//重新定义变量接收
-        --page2;
-//        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog, pageRows, page2);
-//        Integer paylogListCount = haPaylogService.selectHaPaylogListCount(haPaylog);
-        List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog, pageRows, page2);
+        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
+
+        List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog, integers[0] ,integers[1]);
         Integer monthReportListCount = haPaylogService.selectMonthReportListCount(haPaylog);
-        Map<String ,Object> map=new HashMap<String, Object>();
-        map.put("page",page);//设置初始的页码 就是第几页
-        map.put("rowNum",pageRows);//一页显示几条数据
-        map.put("records",monthReportListCount);//总记录数
-        map.put("total",(monthReportListCount-1)/pageRows+1);//总页数的计算
-        map.put("rows",haPaylogList);//存放集合
+        Map map = pageUtil.map(haPaylogList, monthReportListCount);
 
         String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
 

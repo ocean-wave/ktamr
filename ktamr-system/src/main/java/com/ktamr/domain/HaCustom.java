@@ -52,6 +52,55 @@ public class HaCustom extends BaseEntity {
     private String nodeIds;
 
 
+    //开启新的别名
+    private String balanceType;
+    private String  nodeType;
+    private String nodeIds;
+
+    private String userAddress;//用于存放用户地址
+    private Double userBalance;//用户存放余额
+
+
+    public String getBalanceType() {
+        return balanceType;
+    }
+
+    public void setBalanceType(String balanceType) {
+        this.balanceType = balanceType;
+    }
+
+    public String getNodeType() {
+        return nodeType;
+    }
+
+    public void setNodeType(String nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    public String getNodeIds() {
+        return nodeIds;
+    }
+
+    public void setNodeIds(String nodeIds) {
+        this.nodeIds = nodeIds;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public Double getUserBalance() {
+        return userBalance;
+    }
+
+    public void setUserBalance(Double userBalance) {
+        this.userBalance = userBalance;
+    }
+
     public Integer getCustId() {
         return custId;
     }
