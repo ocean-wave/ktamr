@@ -234,12 +234,13 @@
 			var c = 0;
 			var j = 0;
 			for(var i=1;i<=ids.length;i++){
-				rowIds2[i-1]=ids[i-1];
+				rowIds2[j]=ids[i-1];
 				j++;
 				if(i%8 == 0){
 					rowIds[c] = rowIds2;
 					c++;
 					rowIds2=[];
+					j=0;
 				}
 				if(i==ids.length && i%8!=0){
 					rowIds[c] = rowIds2;
