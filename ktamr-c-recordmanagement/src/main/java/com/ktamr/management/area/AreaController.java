@@ -50,10 +50,10 @@ public class AreaController {
     }
 
     @RequestMapping("/JumpAreaDelete")
-    public String JumpAreaDelete(Integer areaid, Model model) {
-        HaArea area = haAreaService.updateByIdHaAreaC(areaid);
+    public String JumpAreaDelete(Integer areaId, Model model) {
+        HaArea area = haAreaService.updateByIdHaAreaC(areaId);
         model.addAttribute("area", area);
-        model.addAttribute("areaid", areaid);
+        model.addAttribute("areaId", areaId);
         return "area/area_del";
     }
 
@@ -133,8 +133,8 @@ public class AreaController {
 
     @RequestMapping("/DeleteArea")
     @ResponseBody
-    public Object deleteArea(Integer areaid, HaArea haArea) {
-        haArea.setAreaId(areaid);
+    public Object deleteArea(Integer areaId, HaArea haArea) {
+        haArea.setAreaId(areaId);
         Integer area = haAreaService.deleteHaAreaC(haArea);
         if (area == 1) {
             return "删除成功";

@@ -165,7 +165,7 @@ public interface HaAreaMapper {
     /*
      *修改小区传值
      */
-    HaArea updateByIdHaAreaC(@Param("areaid") Integer areaid);
+    HaArea updateByIdHaAreaC(@Param("areaId") Integer areaId);
 
     /*
      *小区记录数

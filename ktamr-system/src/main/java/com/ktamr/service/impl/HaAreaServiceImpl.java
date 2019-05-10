@@ -278,8 +278,8 @@ public class HaAreaServiceImpl implements HaAreaService {
      *修改小区传值
      */
     @Override
-    public HaArea updateByIdHaAreaC(Integer areaid) {
-        return haAreaMapper.updateByIdHaAreaC(areaid);
+    public HaArea updateByIdHaAreaC(Integer areaId) {
+        return haAreaMapper.updateByIdHaAreaC(areaId);
     }
 
     /*
