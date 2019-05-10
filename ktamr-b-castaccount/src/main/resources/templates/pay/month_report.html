@@ -7,7 +7,7 @@
         <div class="col-xs-2 my-form-col area-div">
             <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区">
                 <option th:each="HaArea : ${areaListName}"
-                        th:value="${HaArea.areaid}" th:text="${HaArea.areaid}+':'+${HaArea.name}">Credit card</option>
+                        th:value="${HaArea.areaId}" th:text="${HaArea.areaId}+':'+${HaArea.name}">Credit card</option>
 
 
             </select>
@@ -65,25 +65,28 @@
             }
             $("#jqGrid").jqGrid('setGridParam',{
                 mtype: 'POST',
-                postData:{areaid:_areaid, startTime:_startTime, endTime:_endTime}
+                postData:{areaId:_areaid, KaiShiTime:_startTime, JieShuTime:_endTime}
             }).trigger("reloadGrid");
         }
         function loadMonthBTimeOption(_areaid , ID){
-            var _url = "load_monthBTime.asp";
+            var _url = "/load_monthBTime";
             $.ajax({
                 url: _url
                 ,data: {
-                    areaid: _areaid
+                    areaId: _areaid
                 }
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
                     //appendSelectOption(ID, data, "");
+
                     var str = "";
-                    var array = data.split(";");
-                    for(var i = 0;i<array.length-1;i++){
-                        str+="<option value='"+array[i]+"'>"+array[i]+"</option>";
+                    //var array = data.split(';');
+
+                    for(var i = 0;i<data.length;i++){
+
+                        str+="<option value='"+data[i].replace(/[;]/g,"")+"'>"+data[i].replace(/[;]/g,"")+"</option>";
                     }
                     $("#"+ID).html(str);
                     $(".selectpicker" ).selectpicker('refresh');
@@ -152,21 +155,21 @@
         GridObj.jqdefaultGridConfig.colNames = ['用户ID','用户编号','用户名称','用户地址','表号','状态','上期结算','本期结算','本期用量','抄表时间','表类型','收费价格','倍率(%)','本期费用','上期余额','出单时间','结算时间'];
         GridObj.jqdefaultGridConfig.colModel = [
             { name: 'havMeterinfo.custid',  width: 180, key: false, hidden: true},
-            { name: 'havMeterinfo.用户号', width: 80 },
-            { name: 'havMeterinfo.用户号', width: 120 },
-            { name: 'havMeterinfo.用户地址', width: 140 },
-            { name: 'haMeter.meternumber', width: 100, align: 'right' },
+            { name: 'havMeterinfo.userNo', width: 80 },
+            { name: 'havMeterinfo.userNo', width: 120 },
+            { name: 'havMeterinfo.userDs', width: 140 },
+            { name: 'haMeter.meterNumber', width: 100, align: 'right' },
             { name: 'haMeter.state', width: 60, cellattr: MeterStateCellColor },
             { name: 'haFreeze.lfNumber', width: 80, align: 'right' },
             { name: 'haFreeze.tfNumber', width: 80, align: 'right' },
             { name: 'haFreeze.delta', width: 80, align: 'right'},
             { name: 'haFreeze.thTime', width: 150 },
-            { name: 'havMeterinfo.name', width: 80, align: 'right'},
+            { name: 'haMetertype.name', width: 80, align: 'right'},
             { name: 'haPricestandard.name', width: 80, align: 'right'},
             { name: 'haMeter.rate', width: 60, align: 'right'},
             { name: 'sum', width: 80, align: 'right'},
             { name: 'lastarrear', width: 80, align: 'right', cellattr: arrearageCellColor},
-            { name: 'plantime', width: 150 },
+            { name: 'planTime', width: 150 },
             { name: 'mbtime', width: 150 }
         ];
         GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "表状态")};

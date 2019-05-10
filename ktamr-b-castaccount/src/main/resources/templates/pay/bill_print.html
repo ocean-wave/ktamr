@@ -6,7 +6,7 @@
 <body>
 <body style="text-align:center;margin-top:20px;">
 
-<div th:each="HaPaylog  : ${haPaylogList}" >
+<div  th:each="HaPaylog  : ${haPaylogList}" >
 <table  border="0" width="640" align="center">
     <tr>
         <td colspan=2 height=24><b th:text="'缴费单[' + ${HaPaylog.billId} + ']' "></b></td>
@@ -16,13 +16,14 @@
         <td style="width:40%;height:16px;text-align:left;padding-left:10px;" th:text="'用户地址：' + ${HaPaylog.havMeterinfo.userDs}"></td>
     </tr>
 </table>
-<table th:each="HaFreezeHHH  : ${bselectPritJiaoFeiDan2}" width="640" align="center" border="1" cellpadding="2" cellspacing="0" style="border-collapse:collapse;" borderColor="black">
+
+<table  width="640" align="center" border="1" cellpadding="2" cellspacing="0" style="border-collapse:collapse;" borderColor="black">
     <tr>
         <td colspan="8">
             <table width="100%" border="0">
                 <tr>
                     <td style="width:380px;text-align:left;padding-left:10px;">银行帐号：无</td>
-<!--                    <td th:text="'本次抄表时间：' + ${HaPaylog.haFreeze.thTime}"  ></td>-->
+                  <td th:text="'本次抄表时间：' + ${HaPaylog.haFreeze.thTime}"  ></td>
                 </tr>
             </table>
         </td>
@@ -38,13 +39,13 @@
     </tr>
 
     <tr>
-        <td nowrap align=center th:text="${HaFreezeHHH.haMetertype.name}"></td>
-        <td nowrap align=center th:text="${HaFreezeHHH.haMeter.rate}"></td>
-        <td nowrap align=center th:text="${HaFreezeHHH.lfNumber}"></td>
-        <td nowrap align=center th:text="${HaFreezeHHH.tfNumber}"></td>
-        <td nowrap align=center th:text="${HaFreezeHHH.delta}"></td>
-        <td nowrap align=center th:text="${HaFreezeHHH.haPricestandard.name}"></td>
-        <td nowrap align=center th:text="${HaFreezeHHH.pay}"></td>
+        <td nowrap align=center th:text="${HaPaylog.haFreeze.haMetertype.name}"></td>
+        <td nowrap align=center th:text="${HaPaylog.haFreeze.haMeter.rate}"></td>
+        <td nowrap align=center th:text="${HaPaylog.haFreeze.lfNumber}"></td>
+        <td nowrap align=center th:text="${HaPaylog.haFreeze.tfNumber}"></td>
+        <td nowrap align=center th:text="${HaPaylog.haFreeze.delta}"></td>
+        <td nowrap align=center th:text="${HaPaylog.haFreeze.haPricestandard.name}"></td>
+        <td nowrap align=center th:text="${HaPaylog.haFreeze.pay}"></td>
     </tr>
 
     <tr style="display:none;">
