@@ -47,6 +47,10 @@ public class HaCustom extends BaseEntity {
     private HaArea haArea;
     private String keyWord;
 
+    //存查询时用到的对象
+    private String  nodeType;
+    private String nodeIds;
+
 
     public Integer getCustId() {
         return custId;
@@ -258,5 +262,21 @@ public class HaCustom extends BaseEntity {
 
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
+    }
+
+    public String getNodeType() {
+        return nodeType;
+    }
+
+    public void setNodeType(String nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    public String getNodeIds() {
+        return nodeIds;
+    }
+
+    public void setNodeIds(String nodeIds) {
+        this.nodeIds = nodeIds;
     }
 }
