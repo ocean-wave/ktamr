@@ -6,8 +6,8 @@
 
 
     <resultMap id="HaGprsdtuMap" type="com.ktamr.domain.HaGprsdtu">
-        <result property="uId" column="uid"/>
-        <result property="telNubmer" column="telnubmer"/>
+        <result property="uId" column="uId"/>
+        <result property="telNubmer" column="telNubmer"/>
         <result property="addr" column="addr"/>
         <result property="centors" column="centors"/>
         <result property="state" column="state"/>
@@ -74,8 +74,41 @@
         ORDER BY d.uid,d.addr
         limit #{page} OFFSET #{rowNum}
     </select>
+
+    <select id="updateByIdHaGprsdtu" resultMap="HaGprsdtuMap">
+        SELECT d.uid As uid,
+        d.telnubmer As telnubmer,
+        d.addr As addr,
+        Count(c.id) As centors,
+        d.state As state,
+        d.dscrp As dscrp,
+        to_char(d.oplasttime, 'yyyy-mm-dd hh24:mi:ss') As oplastTime,
+        d.idle As idle FROM (ha_gprsDTU d LEFT JOIN ha_centor c ON d.uid=c.telnumber)
+        LEFT JOIN ha_area a ON Left(c.centorNo, 5)=a.areaNo
+        WHERE length(d.uid)>0 and d.uid = #{haGprsdtu.uId}
+        GROUP BY d.uid,d.telnubmer,d.addr,d.state,d.dscrp,d.oplasttime,d.idle
+        ORDER BY d.uid,d.addr
+    </select>
     
     <select id="HaGprsdtuCount" resultType="Integer">
         select count(1) from ha_gprsdtu
     </select>
+
+    <insert id="addHaGprsdtu">
+        INSERT INTO ha_gprsDTU VALUES(#{uId},#{telNubmer},#{addr},#{centors},#{state},#{dscrp},#{oplastTime},#{idle})
+    </insert>
+
+    <update id="updateHaGprsdtu">
+        update ha_gprsDTU
+        <trim prefix="set" suffixOverrides="," suffix="where uid = #{uId}">
+            <if test="uId != null">uid = #{uId},</if>
+            <if test="telNubmer != null">telnubmer = #{telNubmer},</if>
+            <if test="addr != null">addr = #{addr},</if>
+            <if test="idle != null">idle = #{idle},</if>
+        </trim>
+    </update>
+
+    <delete id="deleteHaGprsdtu">
+        delete from ha_gprsdtu where uid = #{uId}
+    </delete>
 </mapper>

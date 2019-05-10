@@ -37,6 +37,11 @@ public class HaGprsdtuServiceImpl implements HaGprsdtuService {
     }
 
     @Override
+    public HaGprsdtu updateByIdHaGprsdtu(HaGprsdtu haGprsdtu) {
+        return haGprsdtuMapper.updateByIdHaGprsdtu(haGprsdtu);
+    }
+
+    @Override
     public Integer HaGprsdtuCount(HaGprsdtu haGprsdtu) {
         return haGprsdtuMapper.HaGprsdtuCount(haGprsdtu);
     }
