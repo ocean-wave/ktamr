@@ -99,6 +99,31 @@
         where u.custid = #{haCustom.custId}
     </select>
 
+    <select id="ByIdHaCustom" resultMap="HaCustomMap">
+        SELECT u.custid as custId,
+        u.custno as custNo,
+        u.name as name,
+        u.sex as sex,
+        CASE WHEN a.name != ''
+        THEN a.name ELSE '[无对象]' END as aname,
+        CASE WHEN b.name != ''
+        THEN b.name ELSE '[无对象]' END  as bname,
+        CASE WHEN r.name != ''
+        THEN r.name ELSE '[无对象]' END as rname,
+        u.idname as idName,
+        u.idnumber as idNumber,
+        u.tel as tel,
+        u.mobil as mobil,
+        u.addr as addr,
+        u.zip as zip,
+        u.bank as bank,
+        u.account as account
+        FROM ((ha_custom u LEFT JOIN ha_room r ON u.custid=r.custid)
+        LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+        LEFT JOIN ha_area a ON b.areaid=a.areaid
+        where u.custid = #{custId}
+    </select>
+
     <insert id="addHaCustom">
         insert into ha_custom values (default ,#{custNo},#{name},#{sex},#{idNumber},#{idName},#{tel},#{mobil},#{addr},#{zip},#{bank},#{account},#{lastbillId},#{billId},#{createTime},#{modifyTime},#{balance},#{expense},#{paidTime},#{recharge},#{rechargeTime},#{postTime})
     </insert>

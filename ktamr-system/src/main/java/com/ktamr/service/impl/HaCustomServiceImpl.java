@@ -85,6 +85,11 @@ public class HaCustomServiceImpl implements HaCustomService {
     }
 
     @Override
+    public List<HaCustom> ByIdHaCustom(Integer custId) {
+        return haCustomMapper.ByIdHaCustom(custId);
+    }
+
+    @Override
     public Integer selectHaCustomCount(HaCustom haCustom) {
         Integer haCustoms = haCustomMapper.selectHaCustomCount(haCustom);
         if(haCustoms!=null){

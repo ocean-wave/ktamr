@@ -43,6 +43,8 @@ public interface HaCustomMapper {
 
     HaCustom updateByIdHaCustom(@Param("haCustom") HaCustom haCustom);
 
+    List<HaCustom> ByIdHaCustom(@Param("custId") Integer custId);
+
     Integer selectHaCustomCount(HaCustom haCustom);
 
     Integer addHaCustom(HaCustom haCustom);

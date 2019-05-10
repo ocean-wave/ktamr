@@ -23,4 +23,19 @@ public class HaConfigServiceImpl implements HaConfigService {
     public Integer haConfigCount(HaConfig haConfig) {
         return haConfigMapper.haConfigCount(haConfig);
     }
+
+    @Override
+    public Integer addHaConfig(HaConfig haConfig) {
+        return haConfigMapper.addHaConfig(haConfig);
+    }
+
+    @Override
+    public Integer deleteHaConfig(HaConfig haConfig) {
+        return haConfigMapper.deleteHaConfig(haConfig);
+    }
+
+    @Override
+    public Integer updateHaConfig(HaConfig haConfig) {
+        return haConfigMapper.updateHaConfig(haConfig);
+    }
 }

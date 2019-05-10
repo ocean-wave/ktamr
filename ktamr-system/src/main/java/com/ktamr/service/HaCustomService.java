@@ -45,6 +45,8 @@ public interface HaCustomService {
 
     HaCustom updateByIdHaCustom(HaCustom haCustom);
 
+    List<HaCustom> ByIdHaCustom(Integer custId);
+
     Integer selectHaCustomCount(HaCustom haCustom);
 
     Integer addHaCustom(HaCustom haCustom);

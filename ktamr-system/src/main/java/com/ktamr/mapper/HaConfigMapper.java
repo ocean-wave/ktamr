@@ -11,4 +11,10 @@ public interface HaConfigMapper {
                                  @Param("rowNum") Integer rowNum);
 
     Integer haConfigCount(HaConfig haConfig);
+
+    Integer addHaConfig(HaConfig haConfig);
+
+    Integer deleteHaConfig(HaConfig haConfig);
+
+    Integer updateHaConfig(HaConfig haConfig);
 }

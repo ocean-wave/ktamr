@@ -11,7 +11,8 @@
         <div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
             <input id="nodeType" type="text" class="input-sm form-control hide" value="">
             <input id="nodeIds" type="text" class="input-sm form-control hide" value="">
-            <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"  placeholder="---请选择区域---"/>
+            <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"
+                   placeholder="---请选择区域---"/>
             <div id="menuContent" class="menuContent">
                 <div class="ztreeInput">
                     <div>
@@ -35,12 +36,20 @@
             <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
         </div>
         <div class="col-xs-2 my-form-col">
-            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span
+                    class="glyphicon glyphicon-search"></span> 查询
+            </button>
         </div>
         <div class="my-btns pull-right" name="MngButtons" style="display:block;">
-            <button data-modal="" data-title="新增" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-plus"></span> 新增</button>
-            <button data-modal="" data-title="修改" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
-            <button data-modal="" data-title="删除" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+            <button data-modal="" data-title="新增" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-plus"></span> 新增
+            </button>
+            <button data-modal="" data-title="修改" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-pencil"></span> 修改
+            </button>
+            <button data-modal="" data-title="删除" class="layui-btn layui-btn-sm"><span
+                    class="glyphicon glyphicon-trash"></span> 删除
+            </button>
         </div>
     </div>
     <div class="row my-form-no-edge">
@@ -55,48 +64,48 @@
 <div th:include="include :: footer"></div>
 <script language="JavaScript">
     layui.config({
-        base : '/common/js/',
+        base: '/common/js/',
         version: '2.8.2'
     }).extend({
         myLayui: 'myLayui'
     });
-    layui.use(['layer', 'form', 'myLayui'], function(){
+    layui.use(['layer', 'form', 'myLayui'], function () {
         var layer = layui.layer,
             myLayui = layui.myLayui,
             form = layui.form;
 
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,"/custom/custListJson");
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114, "/custom/custListJson");
         //GridObj.jqdefaultGridConfig.caption = "用户列表：";
         GridObj.jqdefaultGridConfig.multiselect = true;
         GridObj.jqdefaultGridConfig.postData = {ListNumber: 22};
 
-        
+
         //GridObj.jqdefaultGridConfig.colNames = [];
         GridObj.jqdefaultGridConfig.colModel = [
-        //     <%If "sys_ycss" = Session("operator_company_id") Then%>
-        {label:'custid', name: 'custId',  width: 75, key: true, hidden: true,frozen : true},
+            //     <%If "sys_ycss" = Session("operator_company_id") Then%>
+            {label: 'custid', name: 'custId', width: 75, key: true, hidden: true, frozen: true},
             // {label:'用户编号', name: 'custno', width: 120 ,frozen : true},
             // {label:'用户名称', name: 'name', width: 150 ,frozen : true},
             // {label:'性别', name: 'sex', width: 40 },
             // {label:'所属小区', name: 'haArea.name', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return ' colspan=12'; }, formatter : function(value, options, rData){ return value + " | "+rData['所属楼栋'] + " | "+rData['所属房间']; } },
             // {label:'所属楼栋', name: 'haBuilding.name', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return " style=display:none; "; }},
             // {label:'所属房间', name: 'haRoom.name', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return " style=display:none; "; }},
-            {label:'用户编号', name: 'custNo', width: 120 ,frozen : true},
-            {label:'用户名称', name: 'name', width: 150 ,frozen : true},
-            {label:'性别', name: 'sex', width: 40 },
-            {label:'所属小区', name: 'haArea.name', width: 120},
-            {label:'所属楼栋', name: 'haBuilding.name', width: 120},
-            {label:'所属房间', name: 'haRoom.name', width: 120},
-        // <%Else%>
-        // {label:'custid', name: 'custid',  width: 75, key: true, hidden: true,frozen : true},
-        //     {label:'用户编号', name: '用户编号', width: 120 ,frozen : true},
-        //     {label:'用户名称', name: '姓名', width: 150 ,frozen : true},
-        //     {label:'性别', name: '性别', width: 40 },
-        //     {label:'所属小区', name: '所属小区', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return ' colspan=12'; }, formatter : function(value, options, rData){ return value + " | "+rData['所属楼栋'] + " | "+rData['所属房间']; } },
-        //     {label:'所属楼栋', name: '所属楼栋', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return " style=display:none; "; }},
-        // {label:'所属房间', name: '所属房间', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return " style=display:none; "; }}
-        // <%End If%>
-    ];
+            {label: '用户编号', name: 'custNo', width: 120, frozen: true},
+            {label: '用户名称', name: 'name', width: 150, frozen: true},
+            {label: '性别', name: 'sex', width: 40},
+            {label: '所属小区', name: 'haArea.name', width: 120},
+            {label: '所属楼栋', name: 'haBuilding.name', width: 120},
+            {label: '所属房间', name: 'haRoom.name', width: 120},
+            // <%Else%>
+            // {label:'custid', name: 'custid',  width: 75, key: true, hidden: true,frozen : true},
+            //     {label:'用户编号', name: '用户编号', width: 120 ,frozen : true},
+            //     {label:'用户名称', name: '姓名', width: 150 ,frozen : true},
+            //     {label:'性别', name: '性别', width: 40 },
+            //     {label:'所属小区', name: '所属小区', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return ' colspan=12'; }, formatter : function(value, options, rData){ return value + " | "+rData['所属楼栋'] + " | "+rData['所属房间']; } },
+            //     {label:'所属楼栋', name: '所属楼栋', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return " style=display:none; "; }},
+            // {label:'所属房间', name: '所属房间', width: 120, cellattr: function(rowId, value, rowObject, colModel, arrData) { return " style=display:none; "; }}
+            // <%End If%>
+        ];
         GridObj.jqdefaultGridConfig.beforeSelectRow = function (rowid, e) {  //jqgrid 设置点击当前行，不默认勾选checkbox
             var $myGrid = $(this),
                 i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
@@ -105,40 +114,40 @@
         };
         GridObj.jqdefaultGridConfig.subGrid = true;
         GridObj.jqdefaultGridConfig.subGridOptions = {
-            "plusicon" : "glyphicon glyphicon-chevron-right",
-            "minusicon" : "glyphicon glyphicon-chevron-down",
+            "plusicon": "glyphicon glyphicon-chevron-right",
+            "minusicon": "glyphicon glyphicon-chevron-down",
             //"plusicon" : "glyphicon glyphicon-plus",
             //"minusicon" : "glyphicon glyphicon-minus",
-            "openicon" : "glyphicon glyphicon-share-alt",
-            "reloadOnExpand" : false,
-            "selectOnExpand" : true
+            "openicon": "glyphicon glyphicon-share-alt",
+            "reloadOnExpand": false,
+            "selectOnExpand": true
         };
 
-        GridObj.jqdefaultGridConfig.subGridRowExpanded = function(subgrid_id, row_id) {
+        GridObj.jqdefaultGridConfig.subGridRowExpanded = function (subgrid_id, row_id) {
             var subgrid_table_id, pager_id;
-            subgrid_table_id = subgrid_id+"_t";
-            pager_id = "p_"+subgrid_table_id;
-            $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
-            jQuery("#"+subgrid_table_id).jqGrid({
-                    url:"/custom/showOtherInformation?custId="+row_id,
-                    styleUI: 'Bootstrap',
-                    datatype: "json",
-                    ajaxGridOptions: {contentType: 'application/json; charset=utf-8'},
-                    colModel: [
-                {label:'手机号码', name: 'mobil', width: 100  },
-                {label:'联系电话', name: 'tel', width: 100  },
-                {label:'证件类型', name: 'idName', width: 80  },
-                {label:'证件号码', name: 'idNumber', width: 180 },
-                {label:'邮编', name: 'zip', width: 80 },
-                {label:'开户银行', name: 'bank', width: 100 },
-                {label:'银行账户', name: 'account', width: 180 }
-        ],
-            rowNum:1,
+            subgrid_table_id = subgrid_id + "_t";
+            pager_id = "p_" + subgrid_table_id;
+            $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+            jQuery("#" + subgrid_table_id).jqGrid({
+                url: "/custom/showOtherInformation?custId=" + row_id,
+                styleUI: 'Bootstrap',
+                datatype: "json",
+                ajaxGridOptions: {contentType: 'application/json; charset=utf-8'},
+                colModel: [
+                    {label: '手机号码', name: 'mobil', width: 100},
+                    {label: '联系电话', name: 'tel', width: 100},
+                    {label: '证件类型', name: 'idName', width: 80},
+                    {label: '证件号码', name: 'idNumber', width: 180},
+                    {label: '邮编', name: 'zip', width: 80},
+                    {label: '开户银行', name: 'bank', width: 100},
+                    {label: '银行账户', name: 'account', width: 180}
+                ],
+                rowNum: 1,
                 //pager: pager_id,
                 sortorder: "asc",
                 height: '100%'
-        });
-            jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{edit:false,add:false,del:false})
+            });
+            jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false})
         };
         GridObj.drawGrid();
         GridObj.drawGridPager();
@@ -157,18 +166,18 @@
         var tree = new myzTree("areaTree", zOption);
         tree.dropDownTreeOpen();
         tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
-        $("#areaSel").click(function(){
+        $("#areaSel").click(function () {
             tree.showMenu();
         });
 
-        $(document).keydown(function(event){
-            if(event.keyCode==13){
+        $(document).keydown(function (event) {
+            if (event.keyCode == 13) {
                 $(".search").click();
             }
         });
         //全文查找
-        $(".search").click(function(){
-            var  _pdArray = "";
+        $(".search").click(function () {
+            var _pdArray = "";
             _pdArray = {
                 "keyWord": $("#keyWord").val(),
                 "nodeType": $("#nodeType").val(),
@@ -178,42 +187,42 @@
         });
 
         var _myLayui = new myLayui;
-        $(".my-btns .layui-btn").click(function(){
+        $(".my-btns .layui-btn").click(function () {
             var _this = this, _layerSize, _queryStr;
             var btnName = $(_this).data("title"), custids = GridObj.getSelRowIds();
             var b_isMultiIDs = isMultiIDs(custids);
-            if(custids=="" && btnName != "新增"){
+            if (custids == "" && btnName != "新增") {
                 layer.msg("请选择操作行", {icon: 5});
                 return false;
             }
-            if(b_isMultiIDs == true && (btnName == "修改")){
-                custids=getLastMultiIDs("jqGrid");
+            if (b_isMultiIDs == true && (btnName == "修改")) {
+                custids = getLastMultiIDs("jqGrid");
                 //layer.msg("只能单选", {icon: 5});
                 //return false;
             }
-            switch(btnName) {
+            switch (btnName) {
                 case "新增":
                     _layerSize = ['560px', '450px'];
                     _queryStr = [
                         "cmdName=新增用户资料"
                     ];
-                    _myLayui.showLayer("新增用户资料","/custom/JumpCustAdd", _queryStr, _layerSize);
+                    _myLayui.showLayer("新增用户资料", "/custom/JumpCustAdd", _queryStr, _layerSize);
                     break;
                 case "修改":
                     _layerSize = ['560px', '450px'];
                     _queryStr = [
                         "cmdName=修改用户资料",
-                        "custid="+custids
+                        "custid=" + custids
                     ];
-                    _myLayui.showLayer("修改用户资料","/custom/JumpCustUpdate", _queryStr, _layerSize);
+                    _myLayui.showLayer("修改用户资料", "/custom/JumpCustUpdate", _queryStr, _layerSize);
                     break;
                 case "删除":
                     _layerSize = ['600px', '350px'];
                     _queryStr = [
                         "cmdName=删除用户资料",
-                        "custids="+custids
+                        "custids=" + custids
                     ];
-                    _myLayui.showLayer("删除用户资料","/custom/cust_del", _queryStr, _layerSize);
+                    _myLayui.showLayer("删除用户资料", "/custom/cust_del", _queryStr, _layerSize);
                     break;
                 default:
                     layer.msg("不支持的命令", {icon: 5});
