@@ -89,8 +89,8 @@
 
         GridObj.jqdefaultGridConfig.colNames = ['终端编号','电话号码','安装地址','下属集采器数目','状态','说明','最近抄收时间','抄收间隔时间'];
         GridObj.jqdefaultGridConfig.colModel = [
-            { name: 'uid',  width: 120, key: true, hidden: false},
-            { name: 'telnubmer', width: 100 },
+            { name: 'uId',  width: 120, key: true, hidden: false},
+            { name: 'telNubmer', width: 100 },
             { name: 'addr', width: 200 },
             { name: 'centors', width: 100, align: 'right' },
             { name: 'state', width: 100, cellattr: deviceStateCellColor },
@@ -155,15 +155,15 @@
                     _queryStr = [
                         "cmdName=新增DTU资料"
                     ];
-                    _myLayui.showLayer("新增DTU资料","dtu_add.asp", _queryStr, _layerSize);
+                    _myLayui.showLayer("新增DTU资料","/gprsdtu/JumpAddGprsdtu", _queryStr, _layerSize);
                     break;
                 case "修改":
                     _layerSize = ['455px', '350px'];
                     _queryStr = [
                         "cmdName=修改DTU资料",
-                        "uid="+dtuids
+                        "uId="+dtuids
                     ];
-                    _myLayui.showLayer("修改DTU资料","dtu_update.asp", _queryStr, _layerSize);
+                    _myLayui.showLayer("修改DTU资料","/gprsdtu/JumpUpdateGprsdtu", _queryStr, _layerSize);
                     break;
                 case "删除":
                     _layerSize = ['650px', '300px'];
@@ -171,7 +171,7 @@
                         "cmdName=删除DTU资料",
                         "uids="+dtuids
                     ];
-                    _myLayui.showLayer("删除DTU资料","dtu_del.asp", _queryStr, _layerSize);
+                    _myLayui.showLayer("删除DTU资料","/gprsdtu/JumpDeleteGprsdtu", _queryStr, _layerSize);
                     break;
                 default:
                     layer.msg("不支持的命令", {icon: 5});
