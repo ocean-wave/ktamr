@@ -59,7 +59,7 @@
         where u.custid is not null
         <if test="haCustom.nodeType != null and haCustom.nodeType != '' and haCustom.nodeIds != null and haCustom.nodeIds != ''">
             <if test="haCustom.nodeType == 'area'">
-                AND a.areaid IN #{haCustom.nodeIds}
+                AND a.areaid = ${haCustom.nodeIds}
             </if>
             <if test="haCustom.nodeType == 'rgn'">
                 AND POSITION(#{haCustom.nodeIds} in Left(a.areaNo, 1))>0
