@@ -48,7 +48,7 @@ public class HaCustom extends BaseEntity {
     private String keyWord;
 
     //存查询时用到的对象
-    private String  nodeType;
+    private String nodeType;
     private String nodeIds;
 
 

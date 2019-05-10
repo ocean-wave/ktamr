@@ -32,8 +32,13 @@ public class HaGprsdtuServiceImpl implements HaGprsdtuService {
         return haGprsdtuMapper.selectAllGprsdtuAndCount(parms);
     }
 
-    public List<HaGprsdtu> HaGprsdtuList(HaGprsdtu haGprsdtu) {
-        return haGprsdtuMapper.HaGprsdtuList(haGprsdtu);
+    public List<HaGprsdtu> HaGprsdtuList(HaGprsdtu haGprsdtu,Integer page,Integer rowNum) {
+        return haGprsdtuMapper.HaGprsdtuList(haGprsdtu,page,rowNum);
+    }
+
+    @Override
+    public Integer HaGprsdtuCount(HaGprsdtu haGprsdtu) {
+        return haGprsdtuMapper.HaGprsdtuCount(haGprsdtu);
     }
 
     public Integer addHaGprsdtu(HaGprsdtu haGprsdtu) {

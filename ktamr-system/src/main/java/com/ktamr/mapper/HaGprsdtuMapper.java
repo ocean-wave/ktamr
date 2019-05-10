@@ -2,6 +2,7 @@ package com.ktamr.mapper;
 
 import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaGprsdtu;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,11 @@ public interface HaGprsdtuMapper {
      */
     public List<HaGprsdtu> selectAllGprsdtuAndCount(HaGprsdtu parms);
 
-    List<HaGprsdtu> HaGprsdtuList(HaGprsdtu haGprsdtu);
+
+    List<HaGprsdtu> HaGprsdtuList(@Param("haGprsdtu") HaGprsdtu haGprsdtu,@Param("page") Integer page,
+                                  @Param("rowNum") Integer rowNum);
+
+    Integer HaGprsdtuCount(HaGprsdtu haGprsdtu);
 
     Integer addHaGprsdtu(HaGprsdtu haGprsdtu);
 

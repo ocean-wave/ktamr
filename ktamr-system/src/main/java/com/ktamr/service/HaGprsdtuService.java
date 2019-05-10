@@ -17,7 +17,9 @@ public interface HaGprsdtuService {
      */
     public List<HaGprsdtu> selectAllGprsdtuAndCount(HaGprsdtu parms);
 
-    List<HaGprsdtu> HaGprsdtuList(HaGprsdtu haGprsdtu);
+    List<HaGprsdtu> HaGprsdtuList(HaGprsdtu haGprsdtu,Integer page,Integer rowNum);
+
+    Integer HaGprsdtuCount(HaGprsdtu haGprsdtu);
 
     Integer addHaGprsdtu(HaGprsdtu haGprsdtu);
 
