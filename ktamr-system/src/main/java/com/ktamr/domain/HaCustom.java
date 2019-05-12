@@ -54,8 +54,6 @@ public class HaCustom extends BaseEntity {
 
     //开启新的别名
     private String balanceType;
-    private String  nodeType;
-    private String nodeIds;
 
     private String userAddress;//用于存放用户地址
     private Double userBalance;//用户存放余额
@@ -311,21 +309,5 @@ public class HaCustom extends BaseEntity {
 
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
-    }
-
-    public String getNodeType() {
-        return nodeType;
-    }
-
-    public void setNodeType(String nodeType) {
-        this.nodeType = nodeType;
-    }
-
-    public String getNodeIds() {
-        return nodeIds;
-    }
-
-    public void setNodeIds(String nodeIds) {
-        this.nodeIds = nodeIds;
     }
 }
