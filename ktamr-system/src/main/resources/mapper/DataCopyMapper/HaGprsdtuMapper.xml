@@ -48,8 +48,8 @@
     </select>
 
     <select id="HaGprsdtuList" resultMap="HaGprsdtuMap">
-        SELECT d.uid As uid,
-        d.telnubmer As telnubmer,
+        SELECT d.uid As uId,
+        d.telnubmer As telNubmer,
         d.addr As addr,
         Count(c.id) As centors,
         d.state As state,
