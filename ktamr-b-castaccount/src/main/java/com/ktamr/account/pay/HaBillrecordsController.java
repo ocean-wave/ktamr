@@ -103,7 +103,7 @@ public class HaBillrecordsController {
      */
     @RequestMapping("/cust_balance_import")
     public String cust_balance_import(HaBillrecords haBillrecords){
-        return "com/ktamr/account/pay/cust_balance_import.html";
+        return "pay/cust_balance_import.html";
     }
 
 
