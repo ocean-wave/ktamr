@@ -60,21 +60,6 @@
 <script language="JavaScript">
 	layui.use(['layer','form'], function(){
 		var layer = layui.layer;
-		var zOption = {
-			url: "/nodes/getEquipmentNodes",
-			selectedMulti: true,
-			nodeTypeId: "nodeType",
-			nodeIdsId: "nodeIds",
-			nodeNamesId: "areaSel",
-			clickCallBack: ""
-		};
-
-		var tree = new myzTree("areaTree", zOption);
-		tree.dropDownTreeOpen();
-		tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
-		$("#areaSel").click(function(){
-			tree.showMenu();
-		});
 		$('.selectpicker').selectpicker({
 			actionsBox: true //保留全选,全不选按键
 			,noneSelectedText: '请选择'
@@ -92,38 +77,57 @@
 			options.cb_add = function(p_value){};
 			myData.DataRangePicker(this, "DateRange", options);
 		});
+		function gridChange() {
+			var dataType = $("#query_type").val();
+			var nodeType = $("#nodeType").val();
+			var nodeIds = $("#nodeIds").val();
+			var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115, '/dataselect/freezeListJson');
+			GridObj.unloadGrid();
+			GridObj.removeGridResize();
+			GridObj.jqdefaultGridConfig.caption = "";
+			GridObj.jqdefaultGridConfig.multiselect = true;
+			GridObj.jqdefaultGridConfig.postData = {"params[dataType]": dataType,"params[nodeType]":nodeType,"params[nodeIds]":nodeIds};
+			//GridObj.jqdefaultGridConfig.datatype = "local";
+			GridObj.jqdefaultGridConfig.colNames = ['meterid', '用户编号', '用户名称', '用户地址', '表号', '本次冻结数据', '上次冻结数据', '冻结用量', '表状态', '冻结日', '抄收时间'];
+			GridObj.jqdefaultGridConfig.colModel = [
+				{name: 'meterId', width: 75, hidden: true},
+				{name: 'havMeterinfo.userNo', width: 100, align: 'right'},
+				{name: 'havMeterinfo.userName', width: 150},
+				{name: 'havMeterinfo.userDs', width: 150},
+				{name: 'meterNumber', width: 120, align: 'right'},
+				{name: 'tRead', width: 80, align: 'right'},
+				{name: 'lRead', width: 80, align: 'right'},
+				{name: 'aMount', width: 80, align: 'right'},
+				{name: 'state', width: 80, cellattr: MeterStateCellColor},
+				{name: 'fDay', width: 100, formatter: "date", formatoptions: {newformat: 'Y-m-d'}},
+				{name: 'readTime', width: 150},
+			];
+			GridObj.jqdefaultGridConfig.gridComplete = function () {
+				$("#jqGrid").jqGrid('setGridParam', {datatype: 'json'})
+				MeterStateRowColor("jqGrid", "state");
+			};
+			GridObj.drawGrid();
+			GridObj.drawGridPager();
+			GridObj.setGridSize();
+			GridObj.gridResize();
+		}
 
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,'/dataselect/freezeListJson');
-		//GridObj.unloadGrid();
-		//GridObj.removeGridResize();
-		GridObj.jqdefaultGridConfig.caption = "";
-		GridObj.jqdefaultGridConfig.multiselect = false;
-		GridObj.jqdefaultGridConfig.postData = { dataType: "lastDayFreeze"};
-		//GridObj.jqdefaultGridConfig.datatype = "local";
-		GridObj.jqdefaultGridConfig.colNames = ['meterid','用户编号','用户名称','用户地址','表号','本次冻结数据','上次冻结数据','冻结用量','表状态','冻结日','抄收时间'];
-		GridObj.jqdefaultGridConfig.colModel = [
-			{ name: 'meterid',  width: 75, hidden: true},
-			{ name: 'userno', width: 100, align: 'right' },
-			{ name: 'username', width: 150 },
-			{ name: 'userds', width: 150 },
-			{ name: 'meternumber', width: 120, align: 'right' },
-			{ name: 'tread', width: 80, align: 'right' },
-			{ name: 'lread', width: 80, align: 'right' },
-			{ name: 'amount', width: 80, align: 'right' },
-			{ name: 'state', width: 80, cellattr: MeterStateCellColor },
-			{ name: 'fday', width: 100 },
-			{ name: 'readtime', width: 150 },
-		];
-		GridObj.jqdefaultGridConfig.gridComplete = function(){
-			$("#jqGrid").jqGrid('setGridParam',{datatype:'json'})
-			MeterStateRowColor("jqGrid", "state");
+		var zOption = {
+			url: "/nodes/getEquipmentNodes",
+			selectedMulti: false,
+			nodeTypeId: "nodeType",
+			nodeIdsId: "nodeIds",
+			nodeNamesId: "areaSel",
+			clickCallBack: gridChange
 		};
-		GridObj.drawGrid();
-		GridObj.drawGridPager();
-		GridObj.setGridSize();
-		GridObj.gridResize();
-		GridObj = null;
 
+		var tree = new myzTree("areaTree", zOption);
+		tree.dropDownTreeOpen();
+		tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
+		$("#areaSel").click(function(){
+			tree.showMenu();
+		});
+		gridChange();
 		$("#query_type").change(function(){
 			var dataType = $("#query_type").val();
 			if(dataType=="lastDayFreeze" || dataType=="lastMonFreeze"){
@@ -141,8 +145,8 @@
 			}
 
 			$("#jqGrid").jqGrid('setGridParam',{
-				postData: {dataType: dataType}
-			}).jqGrid("clearGridData");
+				postData: {"params[dataType]": dataType}
+			}).trigger("reloadGrid");
 		});
 		$(document).keydown(function(event){
 			if(event.keyCode==13){
@@ -160,25 +164,13 @@
 				date_range[0] = date_range[0].substr(0, 7);
 				date_range[1] = date_range[1].substr(0, 7);
 			}
-			if(dataType == "dayFreeze" || dataType == "monFreeze"){
-				if(!keyWord){
-					layer.msg("请输入关键字", { icon: 5 });
-					return false;
-				}else if(keyWord && isNaN(keyWord)==true && keyWord.length<2){
-					layer.msg("请输入至少2个汉字", { icon: 5 });
-					return false;
-				}else if(keyWord && isNaN(keyWord)==false && keyWord.length<4){
-					layer.msg("请输入至少4位数字", { icon: 5 });
-					return false;
-				}
-			}
 			_pdArray = {
-				"keyWord": $("#keyWord").val(),
-				"dataType": dataType,
-				"nodeType": $("#nodeType").val(),
-				"nodeIds": $("#nodeIds").val(),
-				"startDate": date_range[0],
-				"endDate": date_range[1]
+				"params[keyWord]": $("#keyWord").val(),
+				"params[dataType]": dataType,
+				"params[nodeType]": $("#nodeType").val(),
+				"params[nodeIds]": $("#nodeIds").val(),
+				"params[startDate]": date_range[0],
+				"params[endDate]": date_range[1]
 			};
 			fullTextSearch("jqGrid", _pdArray);
 		});

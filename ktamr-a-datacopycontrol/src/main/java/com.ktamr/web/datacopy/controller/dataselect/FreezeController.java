@@ -1,6 +1,9 @@
 package com.ktamr.web.datacopy.controller.dataselect;
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.common.utils.DateUtils;
+import com.ktamr.domain.HaDayfreeze;
+import com.ktamr.service.HaDayFreezeService;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaRecordsService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
@@ -20,7 +23,7 @@ public class FreezeController extends BaseController {
     private  String pxePath = "meter";
 
     @Autowired
-    private HaRecordsService haRecordsService;
+    private HaDayFreezeService haDayFreezeService;
 
     @GetMapping("/freeze")
     public String freeze(){
@@ -29,9 +32,13 @@ public class FreezeController extends BaseController {
 
     @PostMapping("/freezeListJson")
     @ResponseBody
-    public Map<String,Object> freezeListJson(ParameterInfo parms){
-        //startPage();
-        List<Map<String,Object>> listHaMeter = haRecordsService.selectFreeze(parms);
-        return getDataTable(listHaMeter);
+    public Map<String,Object> freezeListJson(HaDayfreeze parms){
+        startPage();
+        if(parms.getParams() != null && parms.getParams().get("startDate") != null && parms.getParams().get("startDate") != "") {
+            parms.getParams().put("startDate", DateUtils.dateTime("yyyy-MM-dd", parms.getParams().get("startDate").toString()));
+            parms.getParams().put("endDate", DateUtils.dateTime("yyyy-MM-dd", parms.getParams().get("endDate").toString()));
+        }
+        List<HaDayfreeze> listHaDayfreeze = haDayFreezeService.selectFreeze(parms);
+        return getDataTable(listHaDayfreeze);
     }
 }

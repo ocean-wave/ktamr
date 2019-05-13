@@ -134,42 +134,41 @@
         WHERE m.meterid =#{meterid}
     </select>
 
-    <select id="selectDosageRecently" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+    <select id="selectDosageRecently" resultMap="haMeterMap" parameterType="com.ktamr.domain.HaMeter">
         SELECT
         m.meterid AS id
         , mi.用户号 AS userNo
         , mi.用户名 AS userName
         , mi.用户地址 AS userDs
         ,m.meterNumber AS meterNumber
-        , trim(to_char(m.th_number, '99999999999999')) AS thNumber
-        ,trim(to_char(m.lf_number, '99999999999999')) AS lfNumber
-        ,trim(to_char(m.s_number, '99999999999999')) AS sNumber
+        , m.th_number AS thNumber
+        ,m.lf_number AS lfNumber
+        ,m.s_number AS sNumber
         , m.state AS state
-        ,to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') AS thrTime
-        ,to_char(m.lf_time, 'yyyy-mm-dd hh24:mi:ss') AS lfTime
-        FROM ha_meter m, hav_meterinfo mi, ha_area a
-        WHERE m.meterid=mi.meterid AND a.areaid=mi.areaid
-        <if test=" nodeType == 'area' and nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+        ,m.th_r_time AS thRTime
+        ,m.lf_time AS lfTime
+        FROM ha_meter m
+        inner join hav_meterinfo mi on mi.meterid = m.meterid
+        inner join ha_area a on a.areaid=mi.areaid
+        where 1=1
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
-        <if test=" nodeType == 'rgn' and nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
+        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            AND  position(Left(a.areaNo, 1) IN #{params.nodeIds})>0
         </if>
-        <if test=" monthType != null and monthType != '' ">
+        <if test=" params.monthType != null and params.monthType != '' ">
             AND a.DS=#{monthType}
         </if>
-        <if test=" wheresql != null and wheresql != '' ">
-            ${wheresql}
-        </if>
-        <if test=" keyWord != null and keyWord != '' ">
-            and (mi.用户号 like '%${keyWord}%' or mi.用户名 like '%${keyWord}%'
-            or mi.用户地址 like '%${keyWord}%' or m.state = #{keyWord}
-            or to_char(mi.表号,'999999999999999') like '%${keyWord}%'
-            or trim(to_char(m.th_number, '99999999999999')) like '%${keyWord}%'
-            or trim(to_char(m.lf_number, '99999999999999')) like '%${keyWord}%'
-            or trim(to_char(m.s_number, '99999999999999')) like '%${keyWord}%'
-            or to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') like '%${keyWord}%'
-            or to_char(m.lf_time, 'yyyy-mm-dd hh24:mi:ss') like '%${keyWord}%')
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
+            or mi.用户地址 like '%${params.keyWord}%' or m.state = #{params.keyWord}
+            or to_char(mi.表号,'999999999999999') like '%${params.keyWord}%'
+            or trim(to_char(m.th_number, '99999999999999')) like '%${params.keyWord}%'
+            or trim(to_char(m.lf_number, '99999999999999')) like '%${params.keyWord}%'
+            or trim(to_char(m.s_number, '99999999999999')) like '%${params.keyWord}%'
+            or to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') like '%${params.keyWord}%'
+            or to_char(m.lf_time, 'yyyy-mm-dd hh24:mi:ss') like '%${params.keyWord}%')
         </if>
         ORDER BY mi.用户地址
     </select>

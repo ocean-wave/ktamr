@@ -18,7 +18,12 @@ public interface HaMeterMapper {
 
     public Map<String,Object> selectMeterAndBuildingById(Integer meterid);
 
-    public List<Map<String,Object>> selectDosageRecently(ParameterInfo params);
+    /**
+     * 查询HaMeter表信息
+     * @param params 对象参数
+     * @return 返回泛型集合对象
+     */
+    public List<HaMeter> selectDosageRecently(HaMeter params);
 
     public List<Map<String,Object>> selectNotok(ParameterInfo params);
 

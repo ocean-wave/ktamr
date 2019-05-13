@@ -17,18 +17,26 @@ public class HavMeterinfo extends BaseEntity {
   private String addr;
   private Integer custid;
   private Integer pricestandId;
-  private String userNo;//ÓÃ»§ºÅ
-  private Integer meterNumber;//±íºÅ
-  private String maddr;//±íµØÖ·
-  private String userName;//ÓÃ»§Ãû
-  private String areaName;//Ð¡ÇøÃû
-  private String userDs;//ÓÃ»§µØÖ·
-  private double thNumber;//×î½ü¶ÈÊý
-  private double lfNumber;//ÉÏÆÚ¶ÈÊý
-  private double sNumber;//±¾ÆÚÓÃÁ¿
-  private String thRTime;//³­±íÊ±¼ä
-  private String lfTime;//ÉÏÆÚ³­ÊÕÊ±¼ä
+  private String userNo;//ï¿½Ã»ï¿½ï¿½ï¿½
+  private Long meterNumber;//ï¿½ï¿½ï¿½
+  private String maddr;//ï¿½ï¿½ï¿½Ö·
+  private String userName;//ï¿½Ã»ï¿½ï¿½ï¿½
+  private String areaName;//Ð¡ï¿½ï¿½ï¿½ï¿½
+  private String userDs;//ï¿½Ã»ï¿½ï¿½ï¿½Ö·
+  private double thNumber;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  private double lfNumber;//ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½
+  private double sNumber;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  private String thRTime;//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+  private String lfTime;//ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
   private String state;//×´Ì¬
+
+    public Long getMeterNumber() {
+        return meterNumber;
+    }
+
+    public void setMeterNumber(Long meterNumber) {
+        this.meterNumber = meterNumber;
+    }
 
     public String getMaddr() {
         return maddr;
@@ -44,14 +52,6 @@ public class HavMeterinfo extends BaseEntity {
 
     public void setUserNo(String userNo) {
         this.userNo = userNo;
-    }
-
-    public Integer getMeterNumber() {
-        return meterNumber;
-    }
-
-    public void setMeterNumber(Integer meterNumber) {
-        this.meterNumber = meterNumber;
     }
 
     public String getUserName() {
