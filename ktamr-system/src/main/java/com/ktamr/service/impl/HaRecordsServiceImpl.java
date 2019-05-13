@@ -33,11 +33,6 @@ public class HaRecordsServiceImpl implements HaRecordsService {
     }
 
     @Override
-    public List<Map<String, Object>> selectFreeze(ParameterInfo params) {
-        return haRecordsMapper.selectFreeze(params);
-    }
-
-    @Override
     public List<Map<String, Object>> selectReplace(ParameterInfo params) {
         return haRecordsMapper.selectReplace(params);
     }
@@ -57,8 +52,13 @@ public class HaRecordsServiceImpl implements HaRecordsService {
         return haRecordsMapper.selectRecordsAndErrrecordTow(cmdId);
     }
 
+    /**
+     * 查询历史抄收数据HaRecords表信息
+     * @param params 对象参数
+     * @return 返回泛型对象集合
+     */
     @Override
-    public List<HaRecords> selectDosageHistory(ParameterInfo params) {
+    public List<HaRecords> selectDosageHistory(HaRecords params) {
         return haRecordsMapper.selectDosageHistory(params);
     }
 

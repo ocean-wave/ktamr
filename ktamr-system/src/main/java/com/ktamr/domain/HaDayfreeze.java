@@ -9,108 +9,118 @@ import java.util.Date;
 
 public class HaDayfreeze extends BaseEntity {
 
-  private Integer meterId;
-  private Integer meterNumber;
-  private Integer centorId;
-  private Integer collectorId;
+    private Integer meterId;
+    private Long meterNumber;
+    private Integer centorId;
+    private Integer collectorId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date fDay;
+    private Date fDay;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date lDay;
-  private Date readTime;
-  private String state;
-  private Integer tRead;
-  private Integer lRead;
-  private Integer aMount;
+    private Date lDay;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date readTime;
+    private String state;
+    private Integer tRead;
+    private Integer lRead;
+    private Integer aMount;
 
+    private HavMeterinfo havMeterinfo;
 
-  public Integer getMeterId() {
-    return meterId;
-  }
+    public Long getMeterNumber() {
+      return meterNumber;
+    }
 
-  public void setMeterId(Integer meterId) {
-    this.meterId = meterId;
-  }
+    public void setMeterNumber(Long meterNumber) {
+      this.meterNumber = meterNumber;
+    }
 
-  public Integer getMeterNumber() {
-    return meterNumber;
-  }
+    public HavMeterinfo getHavMeterinfo() {
+      return havMeterinfo;
+    }
 
-  public void setMeterNumber(Integer meterNumber) {
-    this.meterNumber = meterNumber;
-  }
+    public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
+      this.havMeterinfo = havMeterinfo;
+    }
 
-  public Integer getCentorId() {
-    return centorId;
-  }
+    public Integer getMeterId() {
+      return meterId;
+    }
 
-  public void setCentorId(Integer centorId) {
-    this.centorId = centorId;
-  }
+    public void setMeterId(Integer meterId) {
+      this.meterId = meterId;
+    }
 
-  public Integer getCollectorId() {
-    return collectorId;
-  }
+    public Integer getCentorId() {
+      return centorId;
+    }
 
-  public void setCollectorId(Integer collectorId) {
-    this.collectorId = collectorId;
-  }
+    public void setCentorId(Integer centorId) {
+      this.centorId = centorId;
+    }
 
-  public Date getfDay() {
-    return fDay;
-  }
+    public Integer getCollectorId() {
+      return collectorId;
+    }
 
-  public void setfDay(Date fDay) {
-    this.fDay = fDay;
-  }
+    public void setCollectorId(Integer collectorId) {
+      this.collectorId = collectorId;
+    }
 
-  public Date getlDay() {
-    return lDay;
-  }
+    public Date getfDay() {
+      return fDay;
+    }
 
-  public void setlDay(Date lDay) {
-    this.lDay = lDay;
-  }
+    public void setfDay(Date fDay) {
+      this.fDay = fDay;
+    }
 
-  public Date getReadTime() {
-    return readTime;
-  }
+    public Date getlDay() {
+      return lDay;
+    }
 
-  public void setReadTime(Date readTime) {
-    this.readTime = readTime;
-  }
+    public void setlDay(Date lDay) {
+      this.lDay = lDay;
+    }
 
-  public String getState() {
-    return state;
-  }
+    public Date getReadTime() {
+      return readTime;
+    }
 
-  public void setState(String state) {
-    this.state = state;
-  }
+    public void setReadTime(Date readTime) {
+      this.readTime = readTime;
+    }
 
-  public Integer gettRead() {
-    return tRead;
-  }
+    public String getState() {
+      return state;
+    }
 
-  public void settRead(Integer tRead) {
-    this.tRead = tRead;
-  }
+    public void setState(String state) {
+      this.state = state;
+    }
 
-  public Integer getlRead() {
-    return lRead;
-  }
+    public Integer gettRead() {
+      return tRead;
+    }
 
-  public void setlRead(Integer lRead) {
-    this.lRead = lRead;
-  }
+    public void settRead(Integer tRead) {
+      this.tRead = tRead;
+    }
 
-  public Integer getaMount() {
-    return aMount;
-  }
+    public Integer getlRead() {
+      return lRead;
+    }
 
-  public void setaMount(Integer aMount) {
-    this.aMount = aMount;
-  }
+    public void setlRead(Integer lRead) {
+      this.lRead = lRead;
+    }
+
+    public Integer getaMount() {
+      return aMount;
+    }
+
+    public void setaMount(Integer aMount) {
+      this.aMount = aMount;
+    }
 }

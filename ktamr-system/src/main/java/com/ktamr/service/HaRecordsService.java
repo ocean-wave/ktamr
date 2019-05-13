@@ -15,8 +15,6 @@ public interface HaRecordsService {
 
     public List<Map<String,Object>> selectAllMonfreeze(ParameterInfo parms);
 
-    public List<Map<String,Object>> selectFreeze(ParameterInfo params);
-
     public List<Map<String,Object>> selectReplace(ParameterInfo params);
 
     public Integer insertRecords(HaMeter haMeter);
@@ -28,6 +26,11 @@ public interface HaRecordsService {
      */
     public List<HaRecords> selectRecordsAndErrrecordTow(Integer cmdId);
 
-    public List<HaRecords> selectDosageHistory(ParameterInfo params);
+    /**
+     * 查询历史抄收数据HaRecords表信息
+     * @param params 对象参数
+     * @return 返回泛型对象集合
+     */
+    public List<HaRecords> selectDosageHistory(HaRecords params);
 
 }

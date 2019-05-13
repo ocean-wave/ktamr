@@ -61,6 +61,7 @@
                     '</div>' +
                     '<button class="applyBtn" disabled="disabled"></button>&nbsp;' +
                     '<button class="cancelBtn"></button>' +
+                    '<button class="emptyBtn"></button>' +
                   '</div>' +
                 '</div>' +
               '</div>';
@@ -85,8 +86,11 @@
             this.container.find('.applyBtn').addClass(this.applyClass);
         if (this.cancelClass.length)
             this.container.find('.cancelBtn').addClass(this.cancelClass);
+        if (this.emptyClass.length)
+            this.container.find('.emptyBtn').addClass(this.emptyClass);
         this.container.find('.applyBtn').html(this.locale.applyLabel);
         this.container.find('.cancelBtn').html(this.locale.cancelLabel);
+        this.container.find('.emptyBtn').html(this.locale.emptyLabel);
 
         //event listeners
 
@@ -103,6 +107,7 @@
         this.container.find('.ranges')
             .on('click.daterangepicker', 'button.applyBtn', $.proxy(this.clickApply, this))
             .on('click.daterangepicker', 'button.cancelBtn', $.proxy(this.clickCancel, this))
+            .on('click.daterangepicker', 'button.emptyBtn', $.proxy(this.clickEmpty, this))
             .on('click.daterangepicker', '.daterangepicker_start_input,.daterangepicker_end_input', $.proxy(this.showCalendars, this))
             .on('change.daterangepicker', '.daterangepicker_start_input,.daterangepicker_end_input', $.proxy(this.inputsChanged, this))
             .on('keydown.daterangepicker', '.daterangepicker_start_input,.daterangepicker_end_input', $.proxy(this.inputsKeydown, this))
@@ -151,6 +156,7 @@
             this.buttonClasses = ['btn', 'btn-small btn-sm'];
             this.applyClass = 'btn-success';
             this.cancelClass = 'btn-default';
+            this.emptyClass = 'btn-default';
 
             this.format = 'MM/DD/YYYY';
             this.separator = ' - ';
@@ -158,6 +164,7 @@
             this.locale = {
                 applyLabel: 'Apply',
                 cancelLabel: 'Cancel',
+                emptyLabel: 'Cancel',
                 fromLabel: 'From',
                 toLabel: 'To',
                 weekLabel: 'W',
@@ -230,6 +237,9 @@
 
                 if (typeof options.locale.cancelLabel === 'string') {
                   this.locale.cancelLabel = options.locale.cancelLabel;
+                }
+                if (typeof options.locale.emptyLabel === 'string') {
+                    this.locale.emptyLabel = options.locale.emptyLabel;
                 }
 
                 if (typeof options.locale.fromLabel === 'string') {
@@ -839,6 +849,10 @@
             this.hide();
             this.element.trigger('cancel.daterangepicker', this);
         },
+        clickEmpty: function (e) {
+            this.element.val("");
+            this.element.trigger('cancel.daterangepicker', this);
+        },
 
         updateMonthYear: function (e) {
             var isLeft = $(e.target).closest('.calendar').hasClass('left'),
@@ -1235,6 +1249,7 @@
         remove: function() {
 
             this.container.remove();
+
             this.element.off('.daterangepicker');
             this.element.removeData('daterangepicker');
 

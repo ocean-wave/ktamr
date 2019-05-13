@@ -4,6 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaDayFreezeMapper">
 
+    <resultMap id="haDayfreezeMap" type="com.ktamr.domain.HaDayfreeze">
+
+        <result column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="meterNumber" property="meterNumber" javaType="java.lang.Long"></result>
+        <result column="tRead" property="tRead" javaType="java.lang.Integer"></result>
+        <result column="lRead" property="lRead" javaType="java.lang.Integer"></result>
+        <result column="aMount" property="aMount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="fday" property="fDay" javaType="java.util.Date" ></result>
+        <result column="readTime" property="readTime" javaType="java.util.Date" ></result>
+        <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
+            <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
+        </association>
+    </resultMap>
+
     <select id="selectDayFreezeMeterIdCount" resultType="java.lang.Integer"  parameterType="com.ktamr.domain.HaMeter">
         SELECT Count(meterid) FROM ha_dayfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
     </select>
@@ -22,4 +40,56 @@
          WHERE m.meterId=#{meterId}
     </insert>
 
+    <select id="selectFreeze" resultMap="haDayfreezeMap" parameterType="com.ktamr.domain.HaDayfreeze">
+        SELECT fz.meterId
+        ,mi.用户号 AS userNo
+        , mi.用户名 AS userName
+        , mi.用户地址 AS userDs
+        , fz.meterNumber AS meterNumber
+        , fz.t_read AS tRead
+        ,fz.l_read AS lRead
+        ,fz.amount AS aMount
+        ,fz.state AS state
+        ,fz.fday AS fday
+        ,fz.readTime AS readTime
+        <if test=" params.dataType == 'lastDayFreeze' " >
+            FROM ha_dayfreeze fz
+            inner join hav_meterinfo mi on mi.meterid = fz.meterid
+            inner join ha_area a on a.areaid=mi.areaid
+        </if>
+        <if test=" params.dataType == 'lastMonFreeze'" >
+            FROM ha_monfreeze fz
+            inner join hav_meterinfo mi on mi.meterid = fz.meterid
+            inner join ha_area a on a.areaid=mi.areaid
+        </if>
+        <if test=" params.dataType == 'dayFreeze'" >
+            FROM ha_dayfreeze fz
+            inner join hav_meterinfo mi on mi.meterid = fz.meterid
+            inner join ha_area a on a.areaid=mi.areaid
+            WHERE fz.meterid is not null
+        </if>
+        <if test=" params.dataType == 'monFreeze'" >
+            FROM ha_monfreeze fz
+            inner join hav_meterinfo mi on mi.meterid = fz.meterid
+            inner join ha_area a on a.areaid=mi.areaid
+            WHERE fz.meterid is not null
+        </if>
+
+        <if test=" params.dataType.substring(0,4) == 'last' and params.nodeType == 'area' and params.nodeIds != '' ">
+            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
+        </if>
+        <if test=" params.dataType.substring(0,4) == 'last' and params.nodeType == 'rgn' and params.nodeIds != '' ">
+            AND position(Left(a.areaNo, 1) IN #{params.nodeIds})>0
+        </if>
+        <if test=" params.dataType == 'dayFreeze' and params.startDate != null and params.startDate != '' and params.endDate != null and params.endDate != ''">
+            AND fz.fday BETWEEN #{startDate} and #{endDate}
+        </if>
+        <if test=" params.dataType == 'monFreeze' and params.startDate != null and params.startDate != '' and params.endDate != null and params.endDate != ''">
+            AND fz.readTime BETWEEN #{startDate} and #{endDate}
+        </if>
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
+            or mi.用户地址 like '%${params.keyWord}%')
+        </if>
+    </select>
 </mapper>

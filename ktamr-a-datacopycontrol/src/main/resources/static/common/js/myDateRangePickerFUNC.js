@@ -3,7 +3,9 @@
 		if(!options){options = {}};
 		// has daterangepicker or not
 		var drp = $(el).data('daterangepicker');
-		if (drp) {return};
+		if (drp) {
+			return}
+		;
 
 		// options{minDate,maxDate,startDate,endDate,limitDays,format, cb_add:function(p_value)}
 		var type = 'DateTime';
@@ -22,13 +24,14 @@
 		opts.timePickerSeconds = true;
 		opts.timePicker12Hour = false;
 		opts.timePickerIncrement = 1;
-
+		opts.clearBtn = true;
 		opts.locale = {
 		  fromLabel: '从',
 		  toLabel: '到',
 		  customRangeLabel: '自定义',
 		  applyLabel: '确定',
 		  cancelLabel: '取消',
+		  emptyLabel:'清空',
 		  daysOfWeek: ['日', '一', '二', '三', '四', '五','六'],
 		  monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
 		  firstDay: 1
@@ -36,6 +39,7 @@
 		opts.buttonClasses = ['btn btn-default'];
 		opts.applyClass = 'btn-small btn-primary';
 		opts.cancelClass = 'btn-small';
+		opts.emptyClass = 'btn-small';
 		opts.separator = ' ~ ';
 		opts.opens = options.align||'left';
 

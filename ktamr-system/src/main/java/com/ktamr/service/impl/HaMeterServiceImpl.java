@@ -61,8 +61,13 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.selectMeterAndBuildingById(meterid);
     }
 
+    /**
+     * 查询HaMeter表信息
+     * @param params 对象参数
+     * @return 返回泛型集合对象
+     */
     @Override
-    public List<Map<String, Object>> selectDosageRecently(ParameterInfo params) {
+    public List<HaMeter> selectDosageRecently(HaMeter params) {
         return haMeterMapper.selectDosageRecently(params);
     }
 

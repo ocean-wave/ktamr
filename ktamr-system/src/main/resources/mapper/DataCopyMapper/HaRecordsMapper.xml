@@ -17,7 +17,7 @@
             <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            <result column="meterNumber" property="meterNumber" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+            <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
         </association>
     </resultMap>
 
@@ -76,65 +76,6 @@
         <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
             and to_char(fday, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
         </if>
-    </select>
-
-    <select id="selectFreeze" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
-        SELECT fz.meterid
-        , mi.用户号 AS userNo
-        , mi.用户名 AS userName
-        , mi.用户地址 AS userDs
-        , trim(to_char(fz.meterNumber, '99999999999999')) AS meterNumber
-        , fz.t_read AS tRead
-        ,fz.l_read AS lRead
-        ,fz.amount AS amount
-        ,fz.state AS state
-        ,to_char(fz.fday, 'YYYY-MM-DD') AS fday
-        ,to_char(fz.readTime, 'yyyy-mm-dd hh24:mi:ss') AS readTime
-        <if test=" dataType == 'lastDayFreeze' " >
-            FROM ha_dayfreeze fz,hav_meterinfo mi,ha_area a
-            WHERE fz.fday=(
-            SELECT Max(fz2.fday)
-            FROM ha_dayfreeze fz2
-            WHERE fz2.meterid=fz.meterid
-            GROUP BY fz2.meterid)
-        </if>
-        <if test=" dataType == 'lastMonFreeze'" >
-            FROM ha_monfreeze fz,hav_meterinfo mi,ha_area a
-            WHERE fz.readTime=(
-            SELECT Max(fz2.readTime)
-            FROM ha_monfreeze fz2
-            WHERE fz2.meterid=fz.meterid
-            GROUP BY fz2.meterid)
-        </if>
-        <if test=" dataType == 'dayFreeze'" >
-            FROM ha_dayfreeze fz,hav_meterinfo mi,ha_area a
-            WHERE Not isNull(fz.meterid)
-        </if>
-        <if test=" dataType == 'monFreeze'" >
-            FROM ha_monfreeze fz,hav_meterinfo mi,ha_area a
-            WHERE Not isNull(fz.meterid)
-        </if>
-
-        <if test=" dataType.substring(0,4) == 'last' and nodeType == 'area' and nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
-        </if>
-        <if test=" dataType.substring(0,4) == 'last' and nodeType == 'rgn' and nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
-        </if>
-        <if test=" dataType == 'dayFreeze' and startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND to_char(fz.fday, 'YYYY-MM-DD') BETWEEN #{startDate} and #{endDate}
-        </if>
-        <if test=" dataType == 'monFreeze' and startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND to_char(fz.readTime, 'YYYY-MM') BETWEEN #{startDate} and #{endDate}
-        </if>
-        <if test=" wheresql != null and wheresql != '' ">
-            ${wheresql}
-        </if>
-        <if test=" keyWord != null and keyWord != '' ">
-            and (mi.用户号 like '%${keyWord}%' or mi.用户名 like '%${keyWord}%'
-            or mi.用户地址 like '%${keyWord}%')
-        </if>
-        limit 100
     </select>
 
     <select id="selectReplace" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
@@ -231,7 +172,7 @@
        LEFT OUTER JOIN hav_meterinfo mi ON t1.meterid=mi.meterid
     </select>
 
-    <select id="selectDosageHistory" resultMap="haRecords" parameterType="com.ktamr.common.parameter.ParameterInfo">
+    <select id="selectDosageHistory" resultMap="haRecords" parameterType="com.ktamr.domain.HaRecords">
         select
         t1.itemid AS itemid
         ,mi.用户号 AS userNo
@@ -267,24 +208,15 @@
         ) t1
         inner join hav_meterinfo mi on mi.meterid = t1.meterid
         inner join ha_area a on a.areaid=mi.areaid
-        <if test=" nodeType == 'area' and nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
-        </if>
-        <if test=" nodeType == 'rgn' and nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
-        </if>
-        <if test=" monthType != null and monthType != '' ">
-            AND a.DS=#{monthType}
-        </if>
-        <if test=" keyWord != null and keyWord != '' ">
-            and (mi.用户号 like '%${keyWord}%' or mi.用户名 like '%${keyWord}%'
-            or mi.用户地址 like '%${keyWord}%'
+        where 1=1
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
+            or mi.用户地址 like '%${params.keyWord}%'
             )
         </if>
-        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            AND to_char(to_date(t1.thTime,'yyyy-mm-dd'),'yyyy-mm-dd') BETWEEN #{startDate} AND #{endDate}
+        <if test=" params.startDate != null and params.endDate != null ">
+            AND t1.thTime BETWEEN #{params.startDate} AND #{params.endDate}
         </if>
-        order by t1.thTime desc
     </select>
 
 </mapper>
