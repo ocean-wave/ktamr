@@ -75,7 +75,7 @@
 			options.format_end = "YYYY-MM-DD";
 			options.align="right";
 			options.cb_add = function(p_value){};
-			myData.DataRangePicker(this, "DateRange", options);
+			myData.DataRangePicker(this, "DateTimeRange", options);
 		});
 		function gridChange() {
 			var dataType = $("#query_type").val();
@@ -87,7 +87,6 @@
 			GridObj.jqdefaultGridConfig.caption = "";
 			GridObj.jqdefaultGridConfig.multiselect = true;
 			GridObj.jqdefaultGridConfig.postData = {"params[dataType]": dataType,"params[nodeType]":nodeType,"params[nodeIds]":nodeIds};
-			//GridObj.jqdefaultGridConfig.datatype = "local";
 			GridObj.jqdefaultGridConfig.colNames = ['meterid', '用户编号', '用户名称', '用户地址', '表号', '本次冻结数据', '上次冻结数据', '冻结用量', '表状态', '冻结日', '抄收时间'];
 			GridObj.jqdefaultGridConfig.colModel = [
 				{name: 'meterId', width: 75, hidden: true},

@@ -1,8 +1,10 @@
 package com.ktamr.web.datacopy.controller.dataselect;
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaReplacerecords;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaRecordsService;
+import com.ktamr.service.HaReplaceRecordsService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,7 @@ public class ReplaceController extends BaseController {
     private  String pxePath = "meter";
 
     @Autowired
-    private HaRecordsService haRecordsService;
+    private HaReplaceRecordsService haReplaceRecordsService;
 
     @GetMapping("/replace")
     public String replace(){
@@ -30,9 +32,9 @@ public class ReplaceController extends BaseController {
 
     @PostMapping("/replaceListJson")
     @ResponseBody
-    public Map<String,Object> replaceListJson(ParameterInfo parms){
+    public Map<String,Object> replaceListJson(HaReplacerecords parms){
         startPage();
-        List<Map<String,Object>> listHaMeter = haRecordsService.selectReplace(parms);
+        List<HaReplacerecords> listHaMeter = haReplaceRecordsService.selectReplace(parms);
         return getDataTable(listHaMeter);
     }
 

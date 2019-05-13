@@ -11,18 +11,43 @@ public class HaReplacerecords extends BaseEntity {
 
   private Integer recordId;
   private Integer meterId;
-  private double oldmeterNumber;
-  private double newmeterNumber;
+  private double oldMeterNumber;
+  private double newMeterNumber;
   private double finalRead;
   private double finalUse;
   private String finalState;
   private double oriRead;
   private String replaceMan;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date replaceDate;
   private String exPlain;
 
+  private HavMeterinfo havMeterinfo;
+
+  public HavMeterinfo getHavMeterinfo() {
+    return havMeterinfo;
+  }
+
+  public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
+    this.havMeterinfo = havMeterinfo;
+  }
+
+  public double getOldMeterNumber() {
+    return oldMeterNumber;
+  }
+
+  public void setOldMeterNumber(double oldMeterNumber) {
+    this.oldMeterNumber = oldMeterNumber;
+  }
+
+  public double getNewMeterNumber() {
+    return newMeterNumber;
+  }
+
+  public void setNewMeterNumber(double newMeterNumber) {
+    this.newMeterNumber = newMeterNumber;
+  }
 
   public Integer getRecordId() {
     return recordId;
@@ -38,22 +63,6 @@ public class HaReplacerecords extends BaseEntity {
 
   public void setMeterId(Integer meterId) {
     this.meterId = meterId;
-  }
-
-  public double getOldmeterNumber() {
-    return oldmeterNumber;
-  }
-
-  public void setOldmeterNumber(double oldmeterNumber) {
-    this.oldmeterNumber = oldmeterNumber;
-  }
-
-  public double getNewmeterNumber() {
-    return newmeterNumber;
-  }
-
-  public void setNewmeterNumber(double newmeterNumber) {
-    this.newmeterNumber = newmeterNumber;
   }
 
   public double getFinalRead() {

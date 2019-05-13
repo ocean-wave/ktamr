@@ -34,10 +34,6 @@ public class FreezeController extends BaseController {
     @ResponseBody
     public Map<String,Object> freezeListJson(HaDayfreeze parms){
         startPage();
-        if(parms.getParams() != null && parms.getParams().get("startDate") != null && parms.getParams().get("startDate") != "") {
-            parms.getParams().put("startDate", DateUtils.dateTime("yyyy-MM-dd", parms.getParams().get("startDate").toString()));
-            parms.getParams().put("endDate", DateUtils.dateTime("yyyy-MM-dd", parms.getParams().get("endDate").toString()));
-        }
         List<HaDayfreeze> listHaDayfreeze = haDayFreezeService.selectFreeze(parms);
         return getDataTable(listHaDayfreeze);
     }

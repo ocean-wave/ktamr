@@ -18,8 +18,6 @@ public interface HaRecordsMapper {
 
     public List<Map<String,Object>> selectAllMonfreeze(ParameterInfo parms);
 
-    public List<Map<String,Object>> selectReplace(ParameterInfo params);
-
     public Integer insertRecords(HaMeter haMeter);
 
     /**

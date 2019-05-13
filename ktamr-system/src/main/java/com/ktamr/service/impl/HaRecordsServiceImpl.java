@@ -33,11 +33,6 @@ public class HaRecordsServiceImpl implements HaRecordsService {
     }
 
     @Override
-    public List<Map<String, Object>> selectReplace(ParameterInfo params) {
-        return haRecordsMapper.selectReplace(params);
-    }
-
-    @Override
     public Integer insertRecords(HaMeter haMeter) {
         return haRecordsMapper.insertRecords(haMeter);
     }
