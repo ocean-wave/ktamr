@@ -13,7 +13,7 @@ public interface HaCustomMapper {
      * @param haCustom
      * @return
      */
-    public List<HaCustom> queryHaCustomList(@Param("HaCustom") HaCustom haCustom, @Param("page") Integer page,
+    public List<HaCustom> queryHaCustomListB(@Param("HaCustom") HaCustom haCustom, @Param("page") Integer page,
                                             @Param("rowNum") Integer rowNum
     );
 
@@ -22,26 +22,28 @@ public interface HaCustomMapper {
      * @param haCustom
      * @return
      */
-    public Integer queryHaCustomListCount(@Param("HaCustom") HaCustom haCustom);
+    public Integer queryHaCustomListCountB(@Param("HaCustom") HaCustom haCustom);
 
     /**
      * 查询预存费用
      * @param haCustom
      * @return
      */
-    public HaCustom selectYuCunFeiYong(HaCustom haCustom);
+    public HaCustom selectYuCunFeiYongB(HaCustom haCustom);
 
     /**
      * 佛系更新预存费用
      * @param haCustom
      * @return
      */
-    public Integer updateYuCunFeiYong(HaCustom haCustom);
+    public Integer updateYuCunFeiYongB(HaCustom haCustom);
 
 
     List<HaCustom> HaCustomList(@Param("haCustom") HaCustom haCustom, @Param("page") Integer page, @Param("rowNum") Integer rowNum);
 
     HaCustom updateByIdHaCustom(@Param("haCustom") HaCustom haCustom);
+
+    List<HaCustom> ByIdHaCustom(@Param("custId") Integer custId);
 
     Integer selectHaCustomCount(HaCustom haCustom);
 

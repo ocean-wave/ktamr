@@ -26,10 +26,8 @@ public class HaBillrecords extends BaseEntity {
   //存查询时用到的对象
   private String  nodeType;
   private String nodeIds;
-  @JsonFormat(pattern = " yyyy-MM-dd HH:mm:ss ")
-  private Date kaiShi;
-  @JsonFormat(pattern = " yyyy-MM-dd HH:mm:ss ")
-  private Date JieShu;
+  private Object kaiShi;
+  private Object JieShu;
 
   public Integer getBid() {
     return bid;
@@ -135,19 +133,19 @@ public class HaBillrecords extends BaseEntity {
     this.nodeIds = nodeIds;
   }
 
-  public Date getKaiShi() {
+  public Object getKaiShi() {
     return kaiShi;
   }
 
-  public void setKaiShi(Date kaiShi) {
+  public void setKaiShi(Object kaiShi) {
     this.kaiShi = kaiShi;
   }
 
-  public Date getJieShu() {
+  public Object getJieShu() {
     return JieShu;
   }
 
-  public void setJieShu(Date jieShu) {
+  public void setJieShu(Object jieShu) {
     JieShu = jieShu;
   }
 }

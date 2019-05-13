@@ -165,8 +165,8 @@ public class CustomController {
     @ResponseBody
     public Object showOtherInformation(Integer custId,HaCustom haCustom){
         haCustom.setCustId(custId);
-        HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
-        return custom;
+        List<HaCustom> haCustoms = haCustomService.ByIdHaCustom(custId);
+        return haCustoms;
     }
 
 }

@@ -27,12 +27,12 @@ public class HaRngServiceImpl implements HaRngService {
     }
 
     /**
-     * 查询大区表全部信息与小区,集中器,采集器数,表数的数量
+     * 查询大区表全部信息与小区,集中器,采集器数,表数的数量  B
      * @return
      */
     @Override
-    public List<HaRgn> selectAllRngAndCount() {
-        return haRngMapper.selectAllRngAndCount();
+    public List<HaRgn> selectAllRngAndCountB() {
+        return haRngMapper.selectAllRngAndCountB();
     }
 
     /**
@@ -40,8 +40,8 @@ public class HaRngServiceImpl implements HaRngService {
      * @return
      */
     @Override
-    public List<HaRgn> selectBigName() {
-        List<HaRgn> haRgnList = haRngMapper.selectBigName();
+    public List<HaRgn> selectBigNameB() {
+        List<HaRgn> haRgnList = haRngMapper.selectBigNameB();
         if(haRgnList!=null){
             return haRgnList;
         }

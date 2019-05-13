@@ -23,4 +23,25 @@
         select count(1) from ha_config
     </select>
 
+    <insert id="addHaConfig">
+        insert into ha_config values (#{S},#{K},#{kname},#{V},#{lastTime},#{uid},#{pos})
+    </insert>
+
+    <delete id="deleteHaConfig">
+        delete from ha_config where pos = #{pos}
+    </delete>
+
+    <update id="updateHaCustom">
+        update ha_config
+        <trim prefix="set" suffixOverrides="," suffix="where pos = #{pos}">
+            <if test="S != null">s = #{S},</if>
+            <if test="K != null">k = #{K},</if>
+            <if test="kname != null">kname = #{kname},</if>
+            <if test="V != null">v = #{V},</if>
+            <if test="lastTime != null">lasttime = #{lastTime},</if>
+            <if test="uid != null">uid = #{uid},</if>
+            <if test="pos != null">pos = #{pos},</if>
+        </trim>
+    </update>
+
 </mapper>

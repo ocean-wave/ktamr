@@ -279,8 +279,13 @@
         a.name AS name
         FROM ha_centor ce LEFT JOIN ha_area a ON Left(ce.centorNo, 5)= a.areaNo
         where 1=1
-        <if test="haCentor.areaid!=null">
-            and a.areaid = #{haCentor.areaid}
+        <if test="haCentor.nodeType != null and haCentor.nodeType != '' and haCentor.nodeIds != null and haCentor.nodeIds != ''">
+            <if test="haCentor.nodeType == 'area'">
+                AND a.areaid = ${haCentor.nodeIds}
+            </if>
+            <if test="haCentor.nodeType == 'rgn'">
+                AND POSITION(#{haCentor.nodeIds} in Left(a.areaNo, 1))>0
+            </if>
         </if>
         ORDER BY ce.centorNo,ce.addr
     </select>

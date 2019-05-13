@@ -17,17 +17,17 @@ public interface HaRngMapper {
     public List<HaRgn> selectAllRngAndCount(HaRgn haRgn);
 
     /**
-     * 查询大区表全部信息与小区,集中器,采集器数,表数的数量
+     * 查询大区表全部信息与小区,集中器,采集器数,表数的数量  B
      * @return
      */
-    public List<HaRgn> selectAllRngAndCount();
+    public List<HaRgn> selectAllRngAndCountB();
 
 
     /**
      * 查询大区的名字
      * @return
      */
-    public List<HaRgn> selectBigName();
+    public List<HaRgn> selectBigNameB();
 
 
 

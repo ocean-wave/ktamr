@@ -1,9 +1,11 @@
 package com.ktamr.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /***
- * 定义一个菜单类
+ * 定义一个菜单类 B用
  *
  */
 public class Menu {
@@ -14,17 +16,8 @@ public class Menu {
     private String LevelType;
     private String name;
     private String iconSkin;
-    private Boolean open;
     private boolean isParent;
     private List<Menu> children;
-
-    public String getLevelType() {
-        return LevelType;
-    }
-
-    public void setLevelType(String levelType) {
-        this.LevelType = levelType;
-    }
 
     public String getId() {
         return id;
@@ -40,6 +33,15 @@ public class Menu {
 
     public void setpId(String pId) {
         this.pId = pId;
+    }
+
+    @JsonProperty("LevelType")
+    public String getLevelType() {
+        return LevelType;
+    }
+
+    public void setLevelType(String levelType) {
+        LevelType = levelType;
     }
 
     public String getName() {
@@ -61,19 +63,11 @@ public class Menu {
         this.iconSkin = iconSkin;
     }
 
-    public Boolean getOpen() {
-        return open;
-    }
-
-    public void setOpen(Boolean open) {
-        this.open = open;
-    }
-
-    public boolean isParent() {
+    public boolean getIsParent() {
         return isParent;
     }
 
-    public void setParent(boolean parent) {
+    public void setIsParent(boolean parent) {
         isParent = parent;
     }
 

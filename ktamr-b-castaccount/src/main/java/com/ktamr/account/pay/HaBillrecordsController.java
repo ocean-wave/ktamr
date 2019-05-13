@@ -31,57 +31,34 @@ public class HaBillrecordsController {
     private HaMonthbtimeService haMonthbtimeService;
 
 
-    @RequestMapping("/com/ktamr/account/pay/cust_recharge_list.html")
+    /**
+     * 打开收费记录查询页面
+     * @return
+     */
+    @RequestMapping("pay/cust_recharge_list.html")
     public String showCust_recharge_list(){
-        return "com/ktamr/account/pay/cust_recharge_list.html";
+        return "pay/cust_recharge_list.html";
     }
 
     /**
-     * 用于测试
+     * 对其收费记录查询Json数据
      * @param haBillrecords
      * @return
      */
-    @RequestMapping("/showBillRecordsList/showBillRecordsList")
+    @RequestMapping("/showBillRecordsList")
     @ResponseBody
-    public  Object  showBillRecordsList(HaBillrecords haBillrecords, HttpServletRequest request,  @RequestParam("startDate") Object startDate, @RequestParam("endDate")Object endDate
-
+    public  Object  showBillRecordsList(HaBillrecords haBillrecords, HttpServletRequest request, PageUtil pageUtil
     ){
-
-        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" );
-        if(startDate!=null&&startDate!="" &&endDate!=null&&endDate!=""){
-
-
-            try {
-                Date start= sdf.parse(String.valueOf(startDate));
-                Date end = sdf.parse(String.valueOf(endDate));
-                haBillrecords.setKaiShi(start);
-                haBillrecords.setJieShu(end);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        Integer page,pageRows;
-
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if(page1==null&&pageRows1==null){//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        }else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2=page;//重新定义变量接收
-        --page2;
-        List<HaBillrecords> haAreaList =haBillrecordsService.queryHaBillrecordsList(haBillrecords,pageRows ,page2 );
+        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
+        List<HaBillrecords> haAreaList =haBillrecordsService.queryHaBillrecordsList(haBillrecords,integers[0] ,integers[1] );
         Integer selectHaAreaCount = haBillrecordsService.ChaXunHaBillrecordsCount(haBillrecords);
-        Map<String ,Object> map=new HashMap<String, Object>();
-        map.put("page",page);//设置初始的页码 就是第几页
-        map.put("rowNum",pageRows);//一页显示几条数据
-        map.put("records",selectHaAreaCount);//总记录数
-        map.put("total",(selectHaAreaCount-1)/pageRows+1);//总页数的计算
-        map.put("rows",haAreaList);//存放集合
-        return map;
+        Map map = pageUtil.map(haAreaList, selectHaAreaCount);
+       if(map!=null){
+           return map;
+       }
+        return null;
     }
 
     /**
@@ -94,7 +71,7 @@ public class HaBillrecordsController {
     @RequestMapping("/selectYongHuZhangDan")
     @ResponseBody
      public String queryHaCustomList(HaBillrecords haBillrecords , HttpServletRequest request, PageUtil pageUtil
-    , String startDate, String endDate,String page
+    , String startDate, String endDate
 
     ) {
         if(startDate!=null&&startDate!="" &&endDate!=null&&endDate!=""){
@@ -103,10 +80,7 @@ public class HaBillrecordsController {
             haBillrecords.setKaiShi(start);
             haBillrecords.setJieShu(end);
         }
-
-
-
-        //接收一波
+         //接收一波
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
         //通过方法返回一波

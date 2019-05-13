@@ -14,7 +14,7 @@ public interface HaCustomService {
      * @param rowNum
      * @return
      */
-    public List<HaCustom> queryHaCustomList(HaCustom haCustom, Integer page,
+    public List<HaCustom> queryHaCustomListB(HaCustom haCustom, Integer page,
                                             Integer rowNum
     );
 
@@ -23,7 +23,7 @@ public interface HaCustomService {
      * @param haCustom
      * @return
      */
-    public Integer queryHaCustomListCount(HaCustom haCustom);
+    public Integer queryHaCustomListCountB(HaCustom haCustom);
 
 
     /**
@@ -31,19 +31,21 @@ public interface HaCustomService {
      * @param haCustom
      * @return
      */
-    public HaCustom selectYuCunFeiYong(HaCustom haCustom);
+    public HaCustom selectYuCunFeiYongB(HaCustom haCustom);
 
     /**
      * 佛系更新预存费用
      * @param haCustom
      * @return
      */
-    public Integer updateYuCunFeiYong(HaCustom haCustom);
+    public Integer updateYuCunFeiYongB(HaCustom haCustom);
 
     List<HaCustom> HaCustomList(HaCustom haCustom, Integer page,
                                 Integer rowNum);
 
     HaCustom updateByIdHaCustom(HaCustom haCustom);
+
+    List<HaCustom> ByIdHaCustom(Integer custId);
 
     Integer selectHaCustomCount(HaCustom haCustom);
 

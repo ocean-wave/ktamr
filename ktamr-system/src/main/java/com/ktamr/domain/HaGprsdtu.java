@@ -22,6 +22,10 @@ public class HaGprsdtu extends BaseEntity {
 
     private HaCentor haCentor;
     private HaArea haArea;
+    private String keyWord;
+    //存查询时用到的对象
+    private String nodeType;
+    private String nodeIds;
 
 
     public String getuId() {
@@ -102,5 +106,29 @@ public class HaGprsdtu extends BaseEntity {
 
     public void setHaArea(HaArea haArea) {
         this.haArea = haArea;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
+
+    public String getNodeType() {
+        return nodeType;
+    }
+
+    public void setNodeType(String nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    public String getNodeIds() {
+        return nodeIds;
+    }
+
+    public void setNodeIds(String nodeIds) {
+        this.nodeIds = nodeIds;
     }
 }

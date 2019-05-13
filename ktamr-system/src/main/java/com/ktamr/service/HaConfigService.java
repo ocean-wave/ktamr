@@ -10,4 +10,10 @@ public interface HaConfigService {
                                  Integer rowNum);
 
     Integer haConfigCount(HaConfig haConfig);
+
+    Integer addHaConfig(HaConfig haConfig);
+
+    Integer deleteHaConfig(HaConfig haConfig);
+
+    Integer updateHaConfig(HaConfig haConfig);
 }

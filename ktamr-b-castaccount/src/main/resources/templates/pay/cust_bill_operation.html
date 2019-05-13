@@ -8,11 +8,11 @@
 <form class="layui-form my-form-class" action="">
     <div class="layui-form-item">
         <!--设置custid隐藏域一波-->
-        <input id="custid" type="hidden" th:value="${HaCustomYuCunHuaFei.custid}">
+        <input id="custid" type="hidden" th:value="${HaCustomYuCunHuaFei.custId}">
         <div class="layui-block">
             <label class="layui-form-label">用户编号</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="custno" lay-verify="" autocomplete="off" placeholder="" class="layui-input" readonly="readonly" th:value="${HaCustomYuCunHuaFei.custno}">
+                <input id="custno" lay-verify="" autocomplete="off" placeholder="" class="layui-input" readonly="readonly" th:value="${HaCustomYuCunHuaFei.custNo}">
             </div>
         </div>
         <div class="layui-block">
@@ -58,7 +58,7 @@
         <div class="layui-block">
             <label class="layui-form-label">操&nbsp;&nbsp;作&nbsp;&nbsp;人</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="optMan" lay-verify="required" autocomplete="off" maxlength="16" placeholder="必填,文本" class="layui-input" value="<%=Session("operator_code")%>">
+                <input id="optMan" lay-verify="required" autocomplete="off" maxlength="16" placeholder="必填,文本" class="layui-input" th:value="${session.operatorCode}">
             </div>
         </div>
     </div>
@@ -108,7 +108,7 @@
 
         form.on('submit(sure)', function (data) {
             var data = {
-                custid: $("#custid").val(),
+                custId: $("#custid").val(),
                 optType: $("#operation").val(),
                 recharge: $("#recharge").val(),
                 optman: $("#optMan").val()

@@ -15,17 +15,17 @@
             <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
         </div>
         <div class="my-btns pull-right" style="display:block;">
-            <!--<%If operator_level_code() = "" Then%>-->
+            <th:if ${session.operatorLevelCode}=''>
             <button data-modal="" data-title="停止服务" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-stop"></span> 停止服务</button>
             <button data-modal="" data-title="启动服务" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-play"></span> 启动服务</button>
-            <!--<% End IF%>-->
+            </th:if>
         </div>
     </div>
     <div class="row my-form-no-edge">
         <div class="col-md-12 my-form-no-edge">
             <form class="form-horizontal" id="jqgridForm" role="form">
                 <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
-                <div id="jqGridPager"></div>
+                    <div id="jqGridPager"></div>
             </form>
         </div>
     </div>
