@@ -88,7 +88,7 @@
         (SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount
         FROM ha_rgn n where 1=1
         <if test="haRgn.keyWord != null and haRgn.keyWord != ''">
-            and (n.shortName like '%${haRgn.keyWord}%' or n.name like '%${haRgn.keyWord}%' or n.zCode like '%${haRgn.keyWord}%')
+            and (n.id = #{haRgn.keyWord} or n.shortName like '%${haRgn.keyWord}%' or n.name like '%${haRgn.keyWord}%' or n.zCode like '%${haRgn.keyWord}%')
         </if>
         limit #{page} OFFSET #{rowNum}
     </select>
