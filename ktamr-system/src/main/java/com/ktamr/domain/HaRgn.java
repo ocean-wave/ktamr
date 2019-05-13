@@ -44,6 +44,10 @@ public class HaRgn extends BaseEntity {
      * 表具资料表数量
      */
     private Integer haMeterCount;
+    /**
+     * 不良表数量
+     */
+    private Integer badMeterCount;
 
     private String keyWord;
 
@@ -168,5 +172,13 @@ public class HaRgn extends BaseEntity {
 
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
+    }
+
+    public Integer getBadMeterCount() {
+        return badMeterCount;
+    }
+
+    public void setBadMeterCount(Integer badMeterCount) {
+        this.badMeterCount = badMeterCount;
     }
 }
