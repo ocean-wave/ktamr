@@ -25,7 +25,12 @@ public interface HaMeterMapper {
      */
     public List<HaMeter> selectDosageRecently(HaMeter params);
 
-    public List<Map<String,Object>> selectNotok(ParameterInfo params);
+    /**
+     * 查询不良表信息
+     * @param params 对象参数
+     * @return 返回泛型集合
+     */
+    public List<HaMeter> selectNotok(HaMeter params);
 
     public List<HaMeter> selectThirdParty(HaMeter haMeter);
 

@@ -28,6 +28,9 @@
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <result column="centorNo" property="centorNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
         <association property="haFreeze" javaType="com.ktamr.domain.HaFreeze">
             <result column="ftfNumber" property="tfNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="fthTime" property="thTime" javaType="java.util.Date"></result>
@@ -42,15 +45,23 @@
                 <result column="cuBalance" property="balance" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
             </association>
         </association>
+
+        <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
+            <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
+            <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
+        </association>
     </resultMap>
 
     <sql id="getRightCondition">
         <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
             <if test=" params.operatorRgnType == 'rgn' ">
-                and position( LEFT(a.areaNo,1) in #{params.rgnStr})>0
+                and position( LEFT(mi.areaNo,1) in #{params.rgnStr})>0
             </if>
             <if test=" params.operatorRgnType == 'area' ">
-                and a.areano in (#{params.areaNo})
+                and mi.areano in (#{params.areaNo})
             </if>
         </if>
     </sql>
@@ -136,7 +147,7 @@
 
     <select id="selectDosageRecently" resultMap="haMeterMap" parameterType="com.ktamr.domain.HaMeter">
         SELECT
-        m.meterid AS id
+        m.meterid AS meterId
         , mi.用户号 AS userNo
         , mi.用户名 AS userName
         , mi.用户地址 AS userDs
@@ -149,7 +160,6 @@
         ,m.lf_time AS lfTime
         FROM ha_meter m
         inner join hav_meterinfo mi on mi.meterid = m.meterid
-        inner join ha_area a on a.areaid=mi.areaid
         where 1=1
         <include refid="getRightCondition"></include>
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
@@ -174,20 +184,25 @@
         ORDER BY mi.用户地址
     </select>
 
-    <select id="selectNotok" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
-        SELECT mi.meterid AS meterid
+    <select id="selectNotok" resultMap="haMeterMap" parameterType="com.ktamr.domain.HaMeter">
+        SELECT mi.meterid AS meterId
         ,mi.用户号 AS userNo
         ,mi.用户名 AS userName
         ,mi.用户地址 AS userDs
-        ,trim(to_char(mi.表号, '9999999999999999')) AS meterNumber
+        ,mi.表号 AS meterNumber
         ,t.th_number AS thNumber
         ,t.lf_number AS lfNumber
         ,t.s_number AS sNumber
         ,mi.状态 AS state
-        ,mi.抄表时间 AS firstTime
+        ,mi.抄表时间 AS thRTime
         , t.centorNo AS centorNo
         , to_hex(t.nconf) AS nconf
-        FROM hav_meterinfo mi,ha_area a,(SELECT * FROM (ha_meter m LEFT JOIN ha_centor ce ON m.centorid=ce.id) LEFT JOIN ha_collector co ON m.collectorid=co.collectorid) t
+        FROM hav_meterinfo mi
+        left join (
+          SELECT * FROM ha_meter m
+            LEFT JOIN ha_centor ce ON m.centorid=ce.id
+            LEFT JOIN ha_collector co ON m.collectorid=co.collectorid
+        ) t on t.meterId=mi.meterId
         WHERE mi.状态!='正常'
         AND mi.状态!='正确'
         AND mi.状态!='建档'
@@ -199,26 +214,25 @@
         AND mi.状态!='采集器无返回'
         AND mi.状态 NOT LIKE '%用量异常%'
         AND mi.表号 >0
-        AND mi.meterid=t.meterid AND mi.areaid=a.areaid
-        <if test=" nodeType == 'area' and nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
-        <if test=" nodeType == 'rgn' and nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
+        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
         </if>
-        <if test=" dataType !=null and dataType != '' ">
-            AND mi.状态 IN <foreach item="zt" index="index" collection="dataTypes"
+        <if test=" params.dataType !=null and params.dataType != '' ">
+            AND mi.状态 IN <foreach item="zt" index="index" collection="params.dataTypes"
                                      open="(" separator="," close=")">
                               #{zt}
                           </foreach>
         </if>
-        <if test=" keyWord != null and keyWord != '' ">
-            and (mi.用户号 like '%${keyWord}%' or mi.用户名 like '%${keyWord}%'
-            or mi.用户地址 like '%${keyWord}%' or trim(to_char(mi.表号, '9999999999999999')) like '%${keyWord}%'
-            or trim(to_char(t.lf_number, '9999999999999999')) like '%${keyWord}%'
-            or trim(to_char(t.s_number, '9999999999999999')) like '%${keyWord}%'
-            or mi.状态 =#{keyWord} or  t.centorNo like '%${keyWord}%'
-            or to_hex(t.nconf) like '%${keyWord}%'
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
+            or mi.用户地址 like '%${params.keyWord}%' or to_char(mi.表号, 'fm9999999999999999') like '%${params.keyWord}%'
+            or to_char(t.lf_number, 'fm9999999999999999') like '%${params.keyWord}%'
+            or to_char(t.s_number, 'fm9999999999999999') like '%${params.keyWord}%'
+            or mi.状态 =#{params.keyWord} or  t.centorNo like '%${params.keyWord}%'
+            or to_hex(t.nconf) like '%${params.keyWord}%'
             )
         </if>
         ORDER BY mi.用户地址, mi.状态, mi.用户号

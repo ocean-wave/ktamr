@@ -71,11 +71,16 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.selectDosageRecently(params);
     }
 
+    /**
+     * 查询不良表信息
+     * @param params 对象参数
+     * @return 返回泛型集合
+     */
     @Override
-    public List<Map<String, Object>> selectNotok(ParameterInfo params) {
+    public List<HaMeter> selectNotok(HaMeter params) {
         String[] str;
-        if(params.getDataType() != null && params.getDataType() != ""){
-            str = params.getDataType().split(",");
+        if(params.getParams().get("dataType") != null){
+            str = params.getParams().get("dataType").toString().split(",");
             for(int i = 0;i<str.length;i++){
                 switch (str[i]){
                     case "LightChannelInterference":
@@ -101,7 +106,7 @@ public class HaMeterServiceImpl implements HaMeterService {
                         break;
                 }
             }
-            params.setDataTypes(str);
+            params.getParams().put("dataTypes",str);
         }
         return haMeterMapper.selectNotok(params);
     }

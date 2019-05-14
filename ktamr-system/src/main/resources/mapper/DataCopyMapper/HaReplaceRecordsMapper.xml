@@ -40,7 +40,6 @@
         , r.replaceMan AS replaceMan
         FROM ha_replaceRecords r
         LEFT JOIN hav_meterinfo mi ON r.meterId=mi.meterId
-        LEFT JOIN ha_area a ON a.areaid=mi.areaid
         WHERE r.recordId>0
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
