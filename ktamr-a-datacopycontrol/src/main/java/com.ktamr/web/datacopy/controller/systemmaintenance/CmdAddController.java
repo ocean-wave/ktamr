@@ -130,7 +130,7 @@ public class CmdAddController extends BaseController {
     @ResponseBody
     public Map<String, Object> loadAreaJson(HaArea haArea){
         startPage();
-        List<HaArea> listArea = haAreaService.selectAreaIdAreaNoName(haArea);
+        List<HaArea> listArea = haAreaService.selectHaAreaIdAndName(haArea);
         return getDataTable(listArea);
     }
 

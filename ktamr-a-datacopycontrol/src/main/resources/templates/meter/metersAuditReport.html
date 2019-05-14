@@ -8,7 +8,7 @@
 	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
 		<div class="col-xs-2 my-form-col">
 			<select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-style="btn-default btn-sm" data-size="5">
-                    <option th:each="entries,stat:${listArea}" th:value="${entries['areaId']}" th:text="${entries['name']}"  th:selected="${ areaid eq entries['areaId']}" >
+                    <option th:each="entries,stat:${listArea}" th:value="${entries['areaId']}" th:text="${entries['resultParams'].cname}"  th:selected="${ areaid eq entries['areaId']}" >
                     </option>
 			</select>
 		</div>
