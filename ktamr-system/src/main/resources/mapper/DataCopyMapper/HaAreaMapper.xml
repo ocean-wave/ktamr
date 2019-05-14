@@ -5,10 +5,11 @@
 <mapper namespace="com.ktamr.mapper.HaAreaMapper">
 
     <resultMap id="areaMap" type="com.ktamr.domain.HaArea">
-        <id column="areaid" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <id column="areaId" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="areaNo" property="areaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="registeredNo" property="registeredNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="cname" property="resultParams.cname" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="ds" property="resultParams.ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="zBs" property="resultParams.zBs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
@@ -41,7 +42,7 @@
 
     <select id="selectAllAreaAndCount" resultMap="areaMap" parameterType="com.ktamr.domain.HaArea">
         SELECT
-         a.areaid AS areaid
+         a.areaid AS areaId
          , Right(a.areaNo, 4) AS areaNo
          , a.registeredNo AS registeredNo
          , a.name AS name
@@ -95,23 +96,12 @@
          ORDER BY a.areaNo
     </select>
 
-    <select id="selectHaAreaIdAndName" resultType="com.ktamr.domain.HaArea">
-          select areaid, Right(areaNo, 4)||':'||name as name
+    <select id="selectHaAreaIdAndName" resultMap="areaMap">
+          select areaId,Right(areaNo, 4) AS areaNo,name,Right(areaNo, 4)||':'||name as cname
           from ha_area a
           where 1=1
         <include refid="getRightCondition"></include>
     </select>
-
-    <select id="selectAreaIdAreaNoName" resultType="com.ktamr.domain.HaArea">
-        SELECT areaId
-        ,Right(areaNo, 4) AS areaNo
-        , name AS name
-        FROM ha_area
-        where 1=1
-        <include refid="getRightCondition"></include>
-        ORDER BY areaNo
-    </select>
-
 
     <!--映射查询小区表查询语句-->
     <resultMap  id="HaAreaMap"  type="HaArea">

@@ -11,11 +11,19 @@ import java.util.List;
  */
 public interface HaAreaMapper {
 
+    /**
+     * 查询小区信息并且统计总表叔、总读数、本期总用量、不良表数
+     * @param parms 对象参数
+     * @return 返回泛型集合
+     */
     public List<HaArea> selectAllAreaAndCount(HaArea parms);
 
+    /**
+     * 查询小区id与名称
+     * @param haArea 对象参数
+     * @return 返回泛型集合
+     */
     public List<HaArea> selectHaAreaIdAndName(HaArea haArea);
-
-    public List<HaArea> selectAreaIdAreaNoName(HaArea haArea);
 
     /**
      * 查询小区表
