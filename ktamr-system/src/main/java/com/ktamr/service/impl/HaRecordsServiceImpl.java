@@ -17,19 +17,14 @@ public class HaRecordsServiceImpl implements HaRecordsService {
     @Autowired
     private HaRecordsMapper haRecordsMapper;
 
+    /**
+     * 查询抄表记录表与抄表出错记录表信息
+     * @param parms Map参数
+     * @return 返回泛型集合
+     */
     @Override
-    public List<Map<String, Object>> selectRecordsAndErrrecord(ParameterInfo parms) {
+    public List<HaRecords> selectRecordsAndErrrecord(Map<String,Object> parms) {
         return haRecordsMapper.selectRecordsAndErrrecord(parms);
-    }
-
-    @Override
-    public List<Map<String, Object>> selectAllDayfreeze(ParameterInfo parms) {
-        return haRecordsMapper.selectAllDayfreeze(parms);
-    }
-
-    @Override
-    public List<Map<String, Object>> selectAllMonfreeze(ParameterInfo parms) {
-        return haRecordsMapper.selectAllMonfreeze(parms);
     }
 
     @Override

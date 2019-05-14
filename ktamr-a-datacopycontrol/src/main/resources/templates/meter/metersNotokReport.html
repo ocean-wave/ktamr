@@ -118,7 +118,7 @@
 			GridObj.unloadGrid();
 			GridObj.removeGridResize();
 			GridObj.jqdefaultGridConfig.caption = "";
-			GridObj.jqdefaultGridConfig.multiselect = true;
+			GridObj.jqdefaultGridConfig.multiselect = false;
 			GridObj.jqdefaultGridConfig.postData = {"params[dataType]": dataType,"params[nodeType]":nodeType,"params[nodeIds]":nodeIds};
 			GridObj.jqdefaultGridConfig.colNames = ['meterId', '用户编号', '用户名称', '用户地址', '表号', '最近读数', '上期结算', '本期用量', '表状态', '最近抄表时间', '所属集中器编号', '所属采集器地址'];
 			GridObj.jqdefaultGridConfig.colModel = [
@@ -191,7 +191,7 @@
 			var _layerSize = ['1000px', '700px'], meterid = getSelectedRows("jqGrid");
 			var _queryStr = [
 				"cmdName=单表数据查询",
-				"meterid=" + meterid
+				"meterId=" + meterid
 			];
 			if(meterid == ""){
 				layer.msg('请选择要操作的表', { icon: 5 });

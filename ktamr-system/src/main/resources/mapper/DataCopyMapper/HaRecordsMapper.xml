@@ -5,7 +5,7 @@
 <mapper namespace="com.ktamr.mapper.HaRecordsMapper">
 
     <resultMap id="haRecords" type="com.ktamr.domain.HaRecords">
-        <id column="itemid" property="itemId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <id column="itemId" property="itemId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
 
         <result column="thNumber" property="thNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="lfNumber" property="lfNumber" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -21,61 +21,29 @@
         </association>
     </resultMap>
 
-    <select id="selectRecordsAndErrrecord" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
+    <select id="selectRecordsAndErrrecord" resultMap="haRecords" parameterType="com.ktamr.domain.HaRecords">
         SELECT * FROM
-        (SELECT rc1.itemid
+        (SELECT rc1.itemId
         , rc1.th_number AS thNumber
-        , CAST (rc1.delta as TEXT)  AS delta
-        , to_char(rc1.th_time, 'yyyy-mm-dd hh24:mi:ss') AS csTime
+        , rc1.delta  AS delta
+        , rc1.th_time AS thTime
         ,CASE WHEN rc1.delta &lt; 0 THEN '用量异常' ELSE rc1.state END AS state
         FROM ha_records rc1
-        WHERE rc1.th_time IN (
-        SELECT MAX(rc2.th_time)
-        FROM ha_records rc2
-        WHERE rc2.meterid=rc1.meterid
-        GROUP BY to_char(rc2.th_time, 'YYYY-MM-DD')) AND rc1.meterid=#{meterid}
+        where rc1.meterid  = #{meterId}
         UNION ALL
-        SELECT er1.itemid
+        SELECT er1.itemId
         , er1.n AS thNumber
-        , '' AS delta
-        , to_char(er1.readtime, 'yyyy-mm-dd hh24:mi:ss') AS csTime
+        , 0 AS delta
+        , er1.readtime AS csTime
         , er1.state AS state
         FROM ha_errRecord er1
-        WHERE er1.readtime IN (
-        SELECT MAX(er2.readtime)
-        FROM ha_errRecord er2
-        WHERE er2.meterid=er1.meterid
-        GROUP BY to_char(er2.readtime, 'YYYY-MM-DD')) AND er1.meterid=#{meterid}) t
+        WHERE er1.meterid = #{meterId}
+        ) t
         where 1=1
         <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            and Left(t.csTime, 10) BETWEEN #{startDate} AND #{endDate}
+            and t.thTime BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate}, 'yyyy-mm-dd hh24:mi:ss')
         </if>
-    </select>
-
-    <select id="selectAllDayfreeze" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
-        SELECT meterid AS itemid
-        , t_read AS thNumber
-        , amount AS delta
-        , to_char(fday, 'YYYY-MM-DD') AS csTime
-        , state AS state
-        FROM ha_dayfreeze
-        WHERE meterid=#{meterid}
-        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            and to_char(fday, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
-        </if>
-    </select>
-
-    <select id="selectAllMonfreeze" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
-        SELECT meterid AS itemid
-        , t_read AS thNumber
-        , amount AS delta
-        , to_char(fday, 'YYYY-MM-DD') AS csTime
-        , state AS state
-        FROM ha_monfreeze
-        WHERE meterid=#{meterid}
-        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            and to_char(fday, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
-        </if>
+        order by t.thTime desc
     </select>
 
     <insert id="insertRecords" useGeneratedKeys="true"  keyProperty="resultParams.itemId" parameterType="com.ktamr.domain.HaMeter">

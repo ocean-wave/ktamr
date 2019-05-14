@@ -16,7 +16,12 @@ public interface HaMeterMapper {
 
     public Map<String,Object> selectMeterById(Integer meterid);
 
-    public Map<String,Object> selectMeterAndBuildingById(Integer meterid);
+    /**
+     * 查询表具资料表与房间表信息
+     * @param meterId 根据id查询
+     * @return 返回对象
+     */
+    public HaMeter selectMeterAndBuildingById(Integer meterId);
 
     /**
      * 查询HaMeter表信息

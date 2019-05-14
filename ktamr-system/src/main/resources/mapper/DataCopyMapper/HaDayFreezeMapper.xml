@@ -12,7 +12,7 @@
         <result column="lRead" property="lRead" javaType="java.lang.Integer"></result>
         <result column="aMount" property="aMount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="fday" property="fDay" javaType="java.util.Date" ></result>
+        <result column="fDay" property="fDay" javaType="java.util.Date" ></result>
         <result column="readTime" property="readTime" javaType="java.util.Date" ></result>
         <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
             <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -100,5 +100,20 @@
             and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
             or mi.用户地址 like '%${params.keyWord}%')
         </if>
+    </select>
+
+
+    <select id="selectAllDayfreeze" resultMap="haDayfreezeMap" parameterType="java.util.Map">
+        SELECT meterid AS meterId
+        , t_read AS tRead
+        , amount AS aMount
+        , fday AS fDay
+        , state AS state
+        FROM ha_dayfreeze
+        WHERE meterid = #{meterId}
+        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
+            and fday BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate}, 'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        order by fday desc
     </select>
 </mapper>

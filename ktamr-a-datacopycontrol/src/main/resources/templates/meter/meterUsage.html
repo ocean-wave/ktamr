@@ -20,13 +20,13 @@
 	<div class="row">
 		<div class="col-xs-12"><span style="border-left: 2px solid green;padding-left:5px;">
 			<b>用户编号: </b>
-			<b th:text="${meter.custno}"></b>
+			<b th:text="${meter.havMeterinfo.userNo}"></b>
 			<b>,用户名称:</b>
-			<b th:text="${meter.name}"></b>
+			<b th:text="${meter.havMeterinfo.userName}"></b>
 			<b>,用户地址:</b>
-			<b th:text="${meter.ds}"></b>
+			<b th:text="${meter.resultParams.userDs}"></b>
 			<b>,表号:</b>
-			<b th:text="${meter.meternumber}"></b>
+			<b th:text="${meter.meterNumber}"></b>
 		</span></div>
 	</div>
 	<div class="row" style="margin:0;padding:5px 0px 0px 0px;">
@@ -57,29 +57,50 @@
 <div th:include="include :: footer"></div>
 <script th:inline="javascript">
 	layui.use(['layer', 'form'], function(){
-		var g_meterid = [[${meterid}]];
-		var Post_Data = {dataType: "last", meterid: g_meterid,sord:"DESC",orderByColumn:'t.csTime'};
-		if(query_type == "dayFreeze" || query_type == "monFreeze"){
-			Post_Data['orderByColumn'] = 'fday';
-		}else{
-			Post_Data['orderByColumn'] = 't.csTime';
+		var g_meterid = [[${meterId}]];
+		var postData = {dataType: "last", meterId: g_meterid};
+		gridChange(postData);
+		function gridChange(postData) {
+			var dataType = $("#query_type").val();
+			var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 136, '/smallbox/meterUsage/meterUsageList');
+			GridObj.unloadGrid();
+			GridObj.removeGridResize();
+			GridObj.jqdefaultGridConfig.caption = "";
+			GridObj.jqdefaultGridConfig.multiselect = false;
+			GridObj.jqdefaultGridConfig.postData = postData;
+			GridObj.jqdefaultGridConfig.colNames = ['itemId', '抄收读数', '抄收用量', '抄收时间', '表状态'];
+			if (dataType == "last" || dataType == "all") {
+				GridObj.jqdefaultGridConfig.colModel = [
+					{name: 'itemId', width: 75, key: true, hidden: true},
+					{name: 'thNumber', width: 70, align: 'right'},
+					{name: 'delta', width: 70, align: 'right'},
+					{
+						name: 'thTime',
+						width: 150,
+						formatter: "date",
+						formatoptions: {srcformat: 'Y-m-d', newformat: 'Y-m-d'}
+					},
+					{name: 'state', width: 110, cellattr: MeterStateCellColor}
+				];
+			} else if (dataType == "dayFreeze" || dataType == "monFreeze") {
+				GridObj.jqdefaultGridConfig.colModel = [
+					{name: 'itemId', width: 75, key: true, hidden: true},
+					{name: 'tRead', width: 70, align: 'right'},
+					{name: 'aMount', width: 70, align: 'right'},
+					{
+						name: 'fDay',
+						width: 150,
+						formatter: "date",
+						formatoptions: {srcformat: 'Y-m-d', newformat: 'Y-m-d'}
+					},
+					{name: 'state', width: 110, cellattr: MeterStateCellColor}
+				];
+			}
+			GridObj.drawGrid();
+			GridObj.drawGridPager();
+			GridObj.setGridSize();
+			GridObj.gridResize();
 		}
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 136,'/smallbox/meterUsage/meterUsageList');
-		GridObj.jqdefaultGridConfig.caption = "";
-		GridObj.jqdefaultGridConfig.postData = Post_Data;
-		GridObj.jqdefaultGridConfig.colNames = ['itemid','抄收读数','抄收用量','抄收时间','表状态'];
-		GridObj.jqdefaultGridConfig.colModel = [
-			{ name: 'itemid',  width: 75, key: true, hidden: true},
-			{ name: 'thnumber', width: 70, align: 'right' },
-			{ name: 'delta', width: 70, align: 'right' },
-			{ name: 'cstime', width: 150 },
-			{ name: 'state', width: 110, cellattr: MeterStateCellColor }
-		];
-		GridObj.drawGrid();
-		GridObj.drawGridPager();
-		GridObj.setGridSize();
-		GridObj.gridResize();
-
 		$('#date_range').click(function(){
 			var options = {};
 			options.startDate = '';
@@ -89,7 +110,7 @@
 			options.align="right";
 			options.cb_add = function(p_value){
 			};
-			myData.DataRangePicker(this, "DateRange", options);
+			myData.DataRangePicker(this, "DateTimeRange", options);
 		});
 
 		$(document).keydown(function(event){
@@ -98,8 +119,6 @@
 			}
 		});
 		$(".search").click(function(){
-			var query_type = $("#query_type").val();
-			var postData = "";
 			var postData = $('#jqGrid').jqGrid("getGridParam", "postData");
 			var dataType = $("#query_type").val();
 			var  _pdArray = "";
@@ -114,15 +133,7 @@
 				$.each(_pdArray, function (k, v) {
 					postData[k] = v;
 				});
-				if(query_type == "dayFreeze" || query_type == "monFreeze"){
-					postData['orderByColumn'] = 'fday';
-				}else{
-					postData['orderByColumn'] = 't.csTime';
-				}
-				$('#jqGrid').jqGrid('setGridParam',{
-					page:$("#input_jqGridPager").find("input").val(),
-					postData: postData
-				}).trigger("reloadGrid");
+				gridChange(postData);
 			}
 		});
 	});

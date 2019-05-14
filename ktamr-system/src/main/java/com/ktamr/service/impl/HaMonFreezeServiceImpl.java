@@ -1,10 +1,14 @@
 package com.ktamr.service.impl;
 
 import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaMonfreeze;
 import com.ktamr.mapper.HaMonFreezeMapper;
 import com.ktamr.service.HaMonFreezeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class HaMonFreezeServiceImpl implements HaMonFreezeService {
@@ -25,5 +29,10 @@ public class HaMonFreezeServiceImpl implements HaMonFreezeService {
     @Override
     public Integer insertMonFreeze(HaMeter haMeter) {
         return haMonFreezeMapper.insertMonFreeze(haMeter);
+    }
+
+    @Override
+    public List<HaMonfreeze> selectAllMonfreeze(Map<String, Object> parms) {
+        return haMonFreezeMapper.selectAllMonfreeze(parms);
     }
 }

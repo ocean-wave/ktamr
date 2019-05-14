@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HaDayFreezeServiceImpl implements HaDayFreezeService {
@@ -39,5 +40,15 @@ public class HaDayFreezeServiceImpl implements HaDayFreezeService {
     @Override
     public List<HaDayfreeze> selectFreeze(HaDayfreeze params) {
         return haDayFreezeMapper.selectFreeze(params);
+    }
+
+    /**
+     * 查询冻结表信息
+     * @param params Map参数
+     * @return 返回泛型集合
+     */
+    @Override
+    public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params) {
+        return haDayFreezeMapper.selectAllDayfreeze(params);
     }
 }

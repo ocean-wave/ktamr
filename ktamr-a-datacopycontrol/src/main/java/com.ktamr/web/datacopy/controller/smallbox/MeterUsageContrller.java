@@ -1,7 +1,13 @@
 package com.ktamr.web.datacopy.controller.smallbox;
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaDayfreeze;
+import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaMonfreeze;
+import com.ktamr.domain.HaRecords;
+import com.ktamr.service.HaDayFreezeService;
 import com.ktamr.service.HaMeterService;
+import com.ktamr.service.HaMonFreezeService;
 import com.ktamr.service.HaRecordsService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,29 +30,41 @@ public class MeterUsageContrller extends BaseController {
     @Autowired
     private HaRecordsService haRecordsService;
 
+    @Autowired
+    private HaDayFreezeService haDayFreezeService;
+
+    @Autowired
+    private HaMonFreezeService haMonFreezeService;
+
     @GetMapping("/meterUsage")
-    public String metersMng(@RequestParam(value = "meterid", required = false) String meterid,ModelMap mmap) {
-        Map<String,Object> m = haMeterService.selectMeterAndBuildingById(Integer.parseInt(meterid.trim()));
-        mmap.put("meterid", meterid);
+    public String metersMng(@RequestParam(value = "meterId", required = false) Integer meterId,ModelMap mmap) {
+        HaMeter m = haMeterService.selectMeterAndBuildingById(meterId);
+        mmap.put("meterId", meterId);
         mmap.put("meter",m);
         return path + "/meterUsage";
     }
 
     @PostMapping("/meterUsageList")
     @ResponseBody
-    public Map<String,Object> meterUsageList(ParameterInfo parms) {
+    public Map<String,Object> meterUsageList(@RequestParam(value = "dataType", required = false) String dataType,
+                                             @RequestParam(value = "meterId", required = false) Integer meterId,
+                                             @RequestParam(value = "startDate", required = false) String startDate,
+                                             @RequestParam(value = "endDate", required = false) String endDate) {
         startPage();
-        String dataType = parms.getDataType();
         Map<String,Object> m = new HashMap<String,Object>();
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("meterId",meterId);
+        params.put("startDate",startDate);
+        params.put("endDate",endDate);
         if(dataType.equals("last") || dataType.equals("all")){
-            List<Map<String,Object>> listHaRecords = haRecordsService.selectRecordsAndErrrecord(parms);
+            List<HaRecords> listHaRecords = haRecordsService.selectRecordsAndErrrecord(params);
             m = getDataTable(listHaRecords);
         }
         if(dataType.equals("dayFreeze")){
-            List<Map<String,Object>> listHaRecords = haRecordsService.selectAllDayfreeze(parms);
+            List<HaDayfreeze> listHaRecords = haDayFreezeService.selectAllDayfreeze(params);
             m = getDataTable(listHaRecords);
         }else if(dataType.equals("monFreeze")){
-            List<Map<String,Object>> listHaRecords = haRecordsService.selectAllMonfreeze(parms);
+            List<HaMonfreeze> listHaRecords = haMonFreezeService.selectAllMonfreeze(params);
             m = getDataTable(listHaRecords);
         }
         return m;
