@@ -19,7 +19,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/area")
 public class CHaRgnController {
-    private static  final String pxePath = "/area";
+    private static final String pxePath = "/area";
 
     @Autowired
     private HaRngService haRngService;
@@ -31,72 +31,74 @@ public class CHaRgnController {
     private HaBuildingService haBuildingService;
 
     @RequestMapping("/JumpRgnAdd")
-    public String jumprgnadd(){
+    public String jumprgnadd() {
         return "area/rgn_add";
     }
 
     @RequestMapping("/JumpRgnUpdate")
-    public String jumprgnupdate(HaRgn haRgn,Model model,String rgnId){
+    public String jumprgnupdate(HaRgn haRgn, Model model, String rgnId) {
         haRgn.setId(rgnId);
         HaRgn rgn = haRngService.updateByIdRngC(haRgn);
-        model.addAttribute("rgn",rgn);
-        model.addAttribute("rgnId",rgnId);
+        model.addAttribute("rgn", rgn);
+        model.addAttribute("rgnId", rgnId);
         return "area/rgn_update";
     }
 
     @RequestMapping("/JumpRgnDelete")
-    public String jumprgndelete(HaRgn haRgn, Model model, String rgnId){
+    public String jumprgndelete(HaRgn haRgn, Model model, String rgnId) {
         haRgn.setId(rgnId);
         HaRgn rgn = haRngService.updateByIdRngC(haRgn);
-        model.addAttribute("rgn",rgn);
-        model.addAttribute("rgnId",rgnId);
+        model.addAttribute("rgn", rgn);
+        model.addAttribute("rgnId", rgnId);
         return "area/rgn_del";
     }
 
     @RequestMapping("/areasOpManageJsonC")
     @ResponseBody
-    public Object areasOpManageJson(HaRgn haRgn, HttpServletRequest request){
-        Integer page,pageRows;
+    public Object areasOpManageJson(HaRgn haRgn, HttpServletRequest request) {
+        Integer page, pageRows;
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if(page1==null&&pageRows1==null){//为了防止异常给它初始化一波
+        if (page1 == null && pageRows1 == null) {//为了防止异常给它初始化一波
             page = 100;
             pageRows = 100;
-        }else {//如果有那就获取一波
+        } else {//如果有那就获取一波
             page = Integer.parseInt(page1); // 取得当前页数
             pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
         }
-        int page2=page;//重新定义变量接收
+        int page2 = page;//重新定义变量接收
         --page2;
         List<HaRgn> haRgns = haRngService.selectAllRngAndCountC(haRgn, pageRows, page2);
         Integer haRgnCount = haRngService.HaRgnCountC(haRgn);
-        Map<String ,Object> map=new HashMap<String, Object>();
-        map.put("page",page);//设置初始的页码 就是第几页
-        map.put("rowNum",pageRows);//一页显示几条数据
-        map.put("records",haRgnCount);//总记录数
-        map.put("total",(haRgnCount-1)/pageRows+1);//总页数的计算
-        map.put("rows",haRgns);//存放集合
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);//设置初始的页码 就是第几页
+        map.put("rowNum", pageRows);//一页显示几条数据
+        map.put("records", haRgnCount);//总记录数
+        map.put("total", (haRgnCount - 1) / pageRows + 1);//总页数的计算
+        map.put("rows", haRgns);//存放集合
 
         int areaCount = 0;
         int centorCount = 0;
         int collectorCount = 0;
         int meterCount = 0;
         int badMeterCount = 0;
-        for(int i = 0;i<haRgns.size();i++){
-            areaCount+=haRgns.get(i).getHaAreaCount();
-            centorCount+=haRgns.get(i).getHaCentorCount();
-            collectorCount+=haRgns.get(i).getHaCollectorCount();
-            meterCount+=haRgns.get(i).getHaMeterCount();
-//            badMeterCount+=haRgns.get(i).getBadMeterCount();
+        for (int i = 0; i < haRgns.size(); i++) {
+            areaCount += haRgns.get(i).getHaAreaCount();
+            centorCount += haRgns.get(i).getHaCentorCount();
+            collectorCount += haRgns.get(i).getHaCollectorCount();
+            meterCount += haRgns.get(i).getHaMeterCount();
+            if(haRgns.get(i).getBadMeterCount()!=null){
+                badMeterCount += haRgns.get(i).getBadMeterCount();
+            }
         }
-        Map<String ,Object> map2=new HashMap<String, Object>();
-        map2.put("cb","总计:");
-        map2.put("haAreaCount",areaCount);
-        map2.put("haCentorCount",centorCount);
-        map2.put("haCollectorCount",collectorCount);
-        map2.put("haMeterCount",meterCount);
-//        map2.put("badMeterCount",badMeterCount);
-        map.put("userdata",map2);
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("cb", "总计:");
+        map2.put("haAreaCount", areaCount);
+        map2.put("haCentorCount", centorCount);
+        map2.put("haCollectorCount", collectorCount);
+        map2.put("haMeterCount", meterCount);
+        map2.put("badMeterCount", badMeterCount);
+        map.put("userdata", map2);
         return map;
     }
 
@@ -143,7 +145,7 @@ public class CHaRgnController {
             rgn.setId(haRgnList.get(i).getId());
             rgn.setpId("0");
             rgn.setLevelType("rgn");
-            rgn.setName(haRgnList.get(i).getName()+ "(" + haRgnList.get(i).getHaArea().getHaAreaCount() +")");
+            rgn.setName(haRgnList.get(i).getName() + "(" + haRgnList.get(i).getHaArea().getHaAreaCount() + ")");
             rgn.setIconSkin("pIcon01");
             rgn.setParent(true);
 
@@ -173,7 +175,7 @@ public class CHaRgnController {
                             rooms.setId(String.valueOf(haBuildingList.get(r).getBuildingId()));
                             rooms.setpId(String.valueOf(haAreaList.get(a).getAreaId()));
                             rooms.setLevelType("building");
-                            rooms.setName(haBuildingList.get(r).getName()+ "("+ haBuildingList.get(r).getBuildingCount()+")");
+                            rooms.setName(haBuildingList.get(r).getName() + "(" + haBuildingList.get(r).getBuildingCount() + ")");
                             rooms.setIconSkin("icon03");
                             rooms.setParent(false);
                             room.add(rooms);
@@ -217,7 +219,7 @@ public class CHaRgnController {
             rgn.setId(haRgnList.get(i).getId());
             rgn.setpId("0");
             rgn.setLevelType("rgn");
-            rgn.setName(haRgnList.get(i).getName()+ "(" + haRgnList.get(i).getHaArea().getHaAreaCount() +")");
+            rgn.setName(haRgnList.get(i).getName() + "(" + haRgnList.get(i).getHaArea().getHaAreaCount() + ")");
             rgn.setIconSkin("pIcon01");
             rgn.setParent(true);
 
@@ -245,7 +247,7 @@ public class CHaRgnController {
 
     @RequestMapping("/AddRgn")
     @ResponseBody
-    public Object addRgn(HaRgn haRgn){
+    public Object addRgn(HaRgn haRgn) {
         String id = null;
         Integer count0 = haRngService.count0();
         Integer countA = haRngService.countA();
@@ -253,48 +255,48 @@ public class CHaRgnController {
         Integer countNumber = haRngService.countNumber();
         Integer countUpperCase = haRngService.countUpperCase();
         String elseId = haRngService.elseId();
-        if(count0==0){
+        if (count0 == 0) {
             id = "0";
             haRgn.setId(id);
             haRgn.setCreateTime(new Date());
             haRgn.setModifyTime(new Date());
             Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-            if(addHaRgn==1){
+            if (addHaRgn == 1) {
                 return "true";
             }
             return "false";
-        }else if(countNumber==0 && countA ==0){
+        } else if (countNumber == 0 && countA == 0) {
             id = "A";
             haRgn.setId(id);
             haRgn.setCreateTime(new Date());
             haRgn.setModifyTime(new Date());
             Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-            if(addHaRgn==1){
+            if (addHaRgn == 1) {
                 return "true";
             }
             return "false";
-        }else if(countUpperCase==26 && countla==0){
-            id="a";
+        } else if (countUpperCase == 26 && countla == 0) {
+            id = "a";
             haRgn.setId(id);
             haRgn.setCreateTime(new Date());
             haRgn.setModifyTime(new Date());
             Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-            if(addHaRgn==1){
+            if (addHaRgn == 1) {
                 return "true";
             }
             return "false";
-        }else{
-            if(elseId!=null){
+        } else {
+            if (elseId != null) {
                 id = elseId;
                 haRgn.setId(id);
                 haRgn.setCreateTime(new Date());
                 haRgn.setModifyTime(new Date());
                 Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-                if(addHaRgn==1){
+                if (addHaRgn == 1) {
                     return "true";
                 }
                 return "false";
-            }else {
+            } else {
                 return "超过新增数量限制！";
             }
         }
@@ -302,10 +304,10 @@ public class CHaRgnController {
 
     @RequestMapping("/UpdateRgn")
     @ResponseBody
-    public Object updateRgn(HaRgn haRgn){
+    public Object updateRgn(HaRgn haRgn) {
         haRgn.setModifyTime(new Date());
         Integer updateHaRgn = haRngService.updateHaRgnC(haRgn);
-        if(updateHaRgn==1){
+        if (updateHaRgn == 1) {
             return "true";
         }
         return "false";
@@ -313,9 +315,9 @@ public class CHaRgnController {
 
     @RequestMapping("/DeleteRgn")
     @ResponseBody
-    public Object deleteRgn(HaRgn haRgn){
+    public Object deleteRgn(HaRgn haRgn) {
         Integer deleteHaRgn = haRngService.deleteHaRgnC(haRgn);
-        if(deleteHaRgn==1){
+        if (deleteHaRgn == 1) {
             return "删除成功";
         }
         return "false";
