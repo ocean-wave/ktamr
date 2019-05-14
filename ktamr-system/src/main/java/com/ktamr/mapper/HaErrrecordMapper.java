@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 接口Mapper层
+ * 抄表出错记录表Mapper层
  */
 public interface HaErrrecordMapper {
 

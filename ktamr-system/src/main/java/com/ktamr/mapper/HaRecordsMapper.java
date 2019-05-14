@@ -12,11 +12,12 @@ import java.util.Map;
  */
 public interface HaRecordsMapper {
 
-    public List<Map<String,Object>> selectRecordsAndErrrecord(ParameterInfo parms);
-
-    public List<Map<String,Object>> selectAllDayfreeze(ParameterInfo parms);
-
-    public List<Map<String,Object>> selectAllMonfreeze(ParameterInfo parms);
+    /**
+     * 查询抄表记录表与抄表出错记录表信息
+     * @param parms Map参数
+     * @return 返回泛型集合
+     */
+    public List<HaRecords> selectRecordsAndErrrecord(Map<String,Object> parms);
 
     public Integer insertRecords(HaMeter haMeter);
 

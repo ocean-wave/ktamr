@@ -56,9 +56,14 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.selectMeterById(meterid);
     }
 
+    /**
+     * 查询表具资料表与房间表信息
+     * @param meterId 根据id查询
+     * @return 返回对象
+     */
     @Override
-    public Map<String, Object> selectMeterAndBuildingById(Integer meterid) {
-        return haMeterMapper.selectMeterAndBuildingById(meterid);
+    public HaMeter selectMeterAndBuildingById(Integer meterId) {
+        return haMeterMapper.selectMeterAndBuildingById(meterId);
     }
 
     /**

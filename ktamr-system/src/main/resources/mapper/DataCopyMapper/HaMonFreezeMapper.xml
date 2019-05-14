@@ -4,6 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaMonFreezeMapper">
 
+    <resultMap id="HaMonFreezeMap" type="com.ktamr.domain.HaMonfreeze">
+
+        <result column="itemId" property="itemId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="tRead" property="tRead" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="aMount" property="aMount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="fDay" property="fDay" javaType="java.util.Date" ></result>
+    </resultMap>
+
     <select id="selectMonFreezeMeterIdCount" resultType="java.lang.Integer"  parameterType="com.ktamr.domain.HaMeter">
         SELECT Count(meterid) FROM ha_monfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
     </select>
@@ -22,4 +31,17 @@
          WHERE m.meterId=#{meterId}
     </insert>
 
+    <select id="selectAllMonfreeze" resultMap="HaMonFreezeMap" parameterType="java.util.Map">
+        SELECT meterid AS meterId
+        , t_read AS tRead
+        , amount AS aMount
+        , fday AS fDay
+        , state AS state
+        FROM ha_monfreeze
+        WHERE meterid = #{meterId}
+        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
+            and fday BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate}, 'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        order by fday desc
+    </select>
 </mapper>

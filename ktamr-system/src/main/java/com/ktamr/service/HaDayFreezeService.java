@@ -5,6 +5,7 @@ import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HaRecords;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HaDayFreezeService {
 
@@ -20,4 +21,11 @@ public interface HaDayFreezeService {
      * @return 返回泛型对象集合
      */
     public List<HaDayfreeze> selectFreeze(HaDayfreeze params);
+
+    /**
+     * 查询冻结表信息
+     * @param params Map参数
+     * @return 返回泛型集合
+     */
+    public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params);
 }

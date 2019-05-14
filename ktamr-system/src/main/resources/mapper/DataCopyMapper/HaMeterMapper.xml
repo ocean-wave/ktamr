@@ -133,16 +133,17 @@
           FROM ha_meter WHERE meterid=#{meterid}
     </select>
 
-    <select id="selectMeterAndBuildingById" resultType="java.util.Map" parameterType="java.lang.Integer">
-        SELECT CASE WHEN cu.custno is null THEN  '*' ELSE cu.custno End AS custno
-        , CASE WHEN cu.name is null THEN '*' ELSE cu.name END AS name
-        , a.name||'-'||b.name||'-'||r.name AS ds
+    <select id="selectMeterAndBuildingById" resultMap="haMeterMap" parameterType="java.lang.Integer">
+        SELECT
+          CASE WHEN cu.custno is null THEN  '*' ELSE cu.custno End AS userNo
+        , CASE WHEN cu.name is null THEN '*' ELSE cu.name END AS userName
+        , a.name||'-'||b.name||'-'||r.name AS userDs
         ,m.meterNumber AS meterNumber
         FROM (((ha_meter m LEFT JOIN ha_room r ON m.roomid=r.roomid)
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON m.areaid=a.areaid)
         LEFT JOIN ha_custom cu ON r.custid=cu.custid
-        WHERE m.meterid =#{meterid}
+        WHERE m.meterid =#{meterId}
     </select>
 
     <select id="selectDosageRecently" resultMap="haMeterMap" parameterType="com.ktamr.domain.HaMeter">
