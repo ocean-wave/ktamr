@@ -279,6 +279,15 @@
         a.name AS name
         FROM ha_centor ce LEFT JOIN ha_area a ON Left(ce.centorNo, 5)= a.areaNo
         where 1=1
+        <if test="haCentor.deviceType == 'centor' ">
+            and Left(ce.description, 3)='KT4'
+        </if>
+        <if test="haCentor.deviceType == 'ccentor' ">
+            and (Left(ce.description, 3)='COM' OR Left(ce.description, 4)='GPRS' OR Left(ce.description, 3)='KT3')
+        </if>
+        <if test="haCentor.deviceType == 'handDevice'">
+            and ce.description ='HAND'
+        </if>
         <if test="haCentor.nodeType != null and haCentor.nodeType != '' and haCentor.nodeIds != null and haCentor.nodeIds != ''">
             <if test="haCentor.nodeType == 'area'">
                 AND a.areaid = ${haCentor.nodeIds}
