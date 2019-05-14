@@ -489,8 +489,8 @@ WHERE areaid IN ('${areaId}')
         <if test="haArea.rgnIds!=null and haArea.rgnIds != '' and haArea.rgnIds != '-2'">
             and left(a.areaNo,1) = #{haArea.rgnIds}
         </if>
-        <if test="haArea.name !=null and haArea.name !=''">
-            and (a.registeredNo like '%${haArea.name}%' or a.name like '%${haArea.name}%' or a.areaNo like '%${haArea.name}%')
+        <if test="haArea.keyWord !=null and haArea.keyWord !=''">
+            and (a.registeredNo like '%${haArea.keyWord}%' or a.name like '%${haArea.keyWord}%' or a.areaNo like '%${haArea.keyWord}%')
         </if>
         <if test="haArea.monthType != null and haArea.monthType != '' ">
             and a.DS = #{haArea.monthType}
