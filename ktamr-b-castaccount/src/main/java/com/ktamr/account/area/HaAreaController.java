@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.domain.HaArea;
 import com.ktamr.service.HaAreaService;
+import com.ktamr.util.PageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,8 +45,8 @@ public class HaAreaController {
      */
     @RequestMapping("/area/showList")
     @ResponseBody
-    public Map<String ,Object> showList(HaArea haArea,HttpServletRequest request,@RequestParam("page") int pageSize
-    ,String aareaid
+    public Map<String ,Object> showList(HaArea haArea, HttpServletRequest request, @RequestParam("page") int pageSize
+    , String aareaid, PageUtil pageUtil
     ){
         String s1 = aareaid;//获取areaid  小区名字
         if(s1!=null && s1!=""){//判断小区名字如果没有赋值的话就不用查询
@@ -57,35 +58,17 @@ public class HaAreaController {
             haArea.setIdsList(idsList);
 
         }
-        Integer page,pageRows;
-
-            String page1 = request.getParameter("page");//获取需要多少行
+        String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if(page1==null&&pageRows1==null){//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        }else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2=page;//重新定义变量接收
-        --page2;
-        List<HaArea> haAreaList = haAreaService.selectHaAreaList(haArea,pageRows ,page2 );
+        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
+        List<HaArea> haAreaList = haAreaService.selectHaAreaList(haArea, integers[0] ,integers[1] );
         Integer selectHaAreaCount = haAreaService.selectHaAreaCount(haArea);
-        Map<String ,Object> map=new HashMap<String, Object>();
-        map.put("page",page);//设置初始的页码 就是第几页
-        map.put("rowNum",pageRows);//一页显示几条数据
-        map.put("records",selectHaAreaCount);//总记录数
-        map.put("total",(selectHaAreaCount-1)/pageRows+1);//总页数的计算
-        map.put("rows",haAreaList);//存放集合
-
-      //  String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
+        Map map = pageUtil.map(haAreaList, selectHaAreaCount);
         if(map!=null){
             return map;
         }else {
             return null;
         }
-
     }
 
 

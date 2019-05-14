@@ -45,7 +45,16 @@ public class HaPaylog extends BaseEntity {
   private Object JieShuTime;//别名结束时间0
   private Integer areaId;//别名小区id
   private List<String> billIdsList;//定义缴费单号的id List集合方便查询多个id时
+  private String keyWord; //定义从页面接收输入框的值
 
+
+  public String getKeyWord() {
+    return keyWord;
+  }
+
+  public void setKeyWord(String keyWord) {
+    this.keyWord = keyWord;
+  }
 
   public List<String> getBillIdsList() {
     return billIdsList;

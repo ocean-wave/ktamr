@@ -9,7 +9,8 @@
     <div class="row my-form-no-edge">
         <div class="col-xs-12 my-form-no-edge">
             <span style="border-left: 2px solid green;padding-left:5px;">
-                <input id="custid" type="hidden" th:value="${HaCustomYuCunHuaFei.custId}">
+                <!--这里设置隐藏域 -->
+                <input id="custId" type="hidden" th:value="${HaCustomYuCunHuaFei.custId}">
              <b>
                 用户编号:</b><b th:text="${HaCustomYuCunHuaFei.custNo}"></b><b>，
                 用户名称:</b><b th:text="${HaCustomYuCunHuaFei.name}"></b><b>，
@@ -79,7 +80,8 @@
             myData.DataRangePicker(this, "DateRange", options);
         });
 
-        var Post_Data = {ListNumber: 48, optType: "", custid: $("#custid").val()};
+        var Post_Data = {ListNumber: 48, optType: "", custId: $("#custId").val()};
+        console.log(Post_Data);
         var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 152,"/selectYongHuZhangDan");
         GridObj.jqdefaultGridConfig.caption = "";
         GridObj.jqdefaultGridConfig.multiselect = false;
@@ -172,17 +174,17 @@
             switch(btnName) {
                 case "恢复收费":
 
-                   alert(rowData["operation"]) ;
-                    if(rowData["operation"]!="收费"){
+
+                    if(rowData["operaTion"]!="收费"){
                         layer.msg("只能对收费进行恢复", {icon: 5});
                         return false;
                     }
                     layer.confirm('确定要对本次收费进行误收费恢复吗？', {icon:3, title:'提示'},
                         function(index, layero){
                             var post_data = {
-                                custId: $("#custid").val(),
+                                custId: $("#custId").val(),
                                 optType: "恢复收费",
-                                charge: rowData["currentbalance"],
+                                charge: rowData["currentBalance"],
                                 optMan: "ha"
                             };
                             submitInfo(get_result_url, post_data);

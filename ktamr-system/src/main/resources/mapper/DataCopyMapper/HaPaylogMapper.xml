@@ -70,6 +70,10 @@
             #{HaPaylog.haPricestandard.endTime,jdbcType=CHAR}
         </if>
     </if>
+         <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
+             and (p.billid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
+
+         </if>
         limit #{page} OFFSET #{rowNum}
 </select>
 
@@ -100,6 +104,10 @@
                #{HaPaylog.haPricestandard.endTime,jdbcType=CHAR}
             </if>
         </if>
+         <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
+             and (p.billid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
+
+         </if>
     </select>
 
     <!--查询月报表列表的映射-->
@@ -178,7 +186,10 @@
         <if test="HaPaylog.areaId  != null and HaPaylog.areaId !=''">
             and mi.areaid in ('${HaPaylog.areaId}')
         </if>
+        <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
+            and (mi.custid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
 
+        </if>
 		AND ps.meterTypeId = mt.meterTypeId
 
         ORDER BY mi.用户号, mi.用户地址
@@ -198,8 +209,9 @@
         ) t
         WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid
         AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
-        <if test="HaPaylog.areaId  != null and HaPaylog.areaId !=''">
-            and mi.areaid in ('${HaPaylog.areaId}')
+        <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
+            and (mi.custid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
+
         </if>
 
         AND ps.meterTypeId = mt.meterTypeId

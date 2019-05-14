@@ -81,11 +81,13 @@ public class CHaRgnController {
         int centorCount = 0;
         int collectorCount = 0;
         int meterCount = 0;
+        int badMeterCount = 0;
         for(int i = 0;i<haRgns.size();i++){
             areaCount+=haRgns.get(i).getHaAreaCount();
             centorCount+=haRgns.get(i).getHaCentorCount();
             collectorCount+=haRgns.get(i).getHaCollectorCount();
             meterCount+=haRgns.get(i).getHaMeterCount();
+//            badMeterCount+=haRgns.get(i).getBadMeterCount();
         }
         Map<String ,Object> map2=new HashMap<String, Object>();
         map2.put("cb","总计:");
@@ -93,6 +95,7 @@ public class CHaRgnController {
         map2.put("haCentorCount",centorCount);
         map2.put("haCollectorCount",collectorCount);
         map2.put("haMeterCount",meterCount);
+//        map2.put("badMeterCount",badMeterCount);
         map.put("userdata",map2);
         return map;
     }
