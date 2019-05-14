@@ -182,8 +182,8 @@
 
             </if>
 
-            <if test="HaArea.keyWord!=null and HaArea.keyWord!=null">
-                and (a.areaNo like '%{HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
+            <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
+                and (a.areaNo like '%${HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
 
             </if>
         </trim>
@@ -239,6 +239,11 @@
                          open="(" separator="," close=")">
                     #{item}
                 </foreach>
+            </if>
+
+            <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
+                and (a.areaNo like '%${HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
+
             </if>
         </trim>
     </select>

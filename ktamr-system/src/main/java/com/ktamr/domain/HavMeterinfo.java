@@ -1,34 +1,47 @@
 package com.ktamr.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+
+import java.util.Date;
 
 public class HavMeterinfo extends BaseEntity {
 
-  private Integer meterid;
-  private Integer areaid;
-  private String areano;
-  private String ds;
-  private Integer buildingid;
-  private Integer roomid;
-  private Integer centorid;
-  private Integer deviceid;
-  private String centorno;
-  private String addr;
-  private Integer custid;
-  private Integer pricestandId;
-  private String userNo;//�û���
-  private Long meterNumber;//���
-  private String maddr;//���ַ
-  private String userName;//�û���
-  private String areaName;//С����
-  private String userDs;//�û���ַ
-  private double thNumber;//�������
-  private double lfNumber;//���ڶ���
-  private double sNumber;//��������
-  private String thRTime;//����ʱ��
-  private String lfTime;//���ڳ���ʱ��
-  private String state;//״̬
+    private Integer meterid;
+    private Integer areaid;
+    private String areano;
+    private String ds;
+    private Integer buildingid;
+    private Integer roomid;
+    private Integer centorid;
+    private Integer deviceid;
+    private String centorno;
+    private String addr;
+    private Integer custid;
+    private Integer pricestandId;
+    private String userNo;//�û���
+    private Long meterNumber;//���
+    private String maddr;//���ַ
+    private String userName;//�û���
+    private String areaName;//С����
+    private String userDs;//�û���ַ
+    private double thNumber;//�������
+    private double lfNumber;//���ڶ���
+    private double sNumber;//��������
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date thRTime;//����ʱ��
+    private String lfTime;//���ڳ���ʱ��
+    private String state;//״̬
+
+
+    public Date getThRTime() {
+        return thRTime;
+    }
+
+    public void setThRTime(Date thRTime) {
+        this.thRTime = thRTime;
+    }
 
     public Long getMeterNumber() {
         return meterNumber;
@@ -100,14 +113,6 @@ public class HavMeterinfo extends BaseEntity {
 
     public void setsNumber(double sNumber) {
         this.sNumber = sNumber;
-    }
-
-    public String getThRTime() {
-        return thRTime;
-    }
-
-    public void setThRTime(String thRTime) {
-        this.thRTime = thRTime;
     }
 
     public String getLfTime() {

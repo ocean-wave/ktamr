@@ -78,58 +78,6 @@
         </if>
     </select>
 
-    <select id="selectReplace" resultType="java.util.Map" parameterType="com.ktamr.common.parameter.ParameterInfo">
-        SELECT r.recordId AS recordid
-        ,mi.用户号 AS userNo
-        ,mi.用户名 AS userName
-        ,mi.用户地址 AS userDs
-        ,trim(to_char(mi.表号, '9999999999999999')) AS dqMeterNumber
-        ,trim(to_char(r.oldMeterNumber, '9999999999999999')) AS oldMeterNumber
-        ,trim(to_char(r.newMeterNumber, '999999999999999999'))  AS newMeterNumber
-        ,trim(to_char(r.finalRead, '999999999999999999')) AS finalRead
-        ,trim(to_char(r.oriRead , '999999999999999999')) AS oriRead
-        ,trim(to_char(r.finalUse, '999999999999999999'))  AS finalUse
-        ,r.finalState AS finalState
-        ,to_char(r.replaceDate,'yyyy-mm-dd hh24:mi:ss') AS replaceDate
-        ,r.explain AS explain
-        , r.replaceMan AS replaceMan
-        FROM ha_replaceRecords r
-        LEFT JOIN hav_meterinfo mi ON r.meterId=mi.meterId
-        LEFT JOIN ha_area a ON a.areaid=mi.areaid
-        WHERE length(trim(to_char(r.recordId, '9999999999999999')))>0
-
-        <if test="nodeType == 'area' and nodeIds != '' ">
-            AND a.areaid IN (cast(#{nodeIds} as INTEGER))
-        </if>
-        <if test="nodeType == 'rgn' and nodeIds != '' ">
-            AND Left(a.areaNo, 1) IN (#{nodeIds})
-        </if>
-        <if test=" dataType == 'meterOriRead' ">
-            AND r.newMeterNumber is null
-        </if>
-        <if test=" dataType == 'meterReplace'">
-            AND length(trim(to_char(r.newMeterNumber, '99999999999999999')))!=0
-        </if>
-        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            AND to_char(r.replaceDate,'YYYY-MM-DD') BETWEEN #{startDate} and #{endDate}
-        </if>
-        <if test=" wheresql != null and wheresql != '' ">
-            ${wheresql}
-        </if>
-        <if test=" keyWord != null and keyWord != '' ">
-            and (mi.用户号 like '%${keyWord}%' or mi.用户名 like '%${keyWord}%'
-            or mi.用户地址 like '%${keyWord}%' or trim(to_char(mi.表号, '9999999999999999')) like '%${keyWord}%'
-            or trim(to_char(r.oldMeterNumber, '9999999999999999')) like '%${keyWord}%'
-            or trim(to_char(r.newMeterNumber, '999999999999999999')) like '%${keyWord}%'
-            or trim(to_char(r.finalRead, '999999999999999999')) like '%${keyWord}%'
-            or trim(to_char(r.oriRead , '999999999999999999')) like '%${keyWord}%'
-            or trim(to_char(r.finalUse, '999999999999999999')) like '%${keyWord}%'
-            or r.finalState =  #{keyWord} or to_char(r.replaceDate,'yyyy-mm-dd') like '%${keyWord}%'
-            or r.explain  like '%${keyWord}%' or r.replaceMan like '%${AkeyWord}%' )
-        </if>
-        ORDER BY mi.用户地址,to_char(r.replaceDate,'yyyy-mm-dd hh24:mi:ss')
-    </select>
-
     <insert id="insertRecords" useGeneratedKeys="true"  keyProperty="resultParams.itemId" parameterType="com.ktamr.domain.HaMeter">
         INSERT INTO ha_records(meterid,rate,lf_number,lf_time,th_number,th_time,delta,state,cmdid)
        SELECT meterid,rate,th_number,th_r_time,#{thNumber},#{thRTime},#{thNumber},#{state},#{params.meterId}
@@ -215,7 +163,7 @@
             )
         </if>
         <if test=" params.startDate != null and params.endDate != null ">
-            AND t1.thTime BETWEEN #{params.startDate} AND #{params.endDate}
+            AND t1.thTime BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
         </if>
     </select>
 

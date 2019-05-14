@@ -57,24 +57,9 @@
 <div th:include="include :: footer"></div>
 <script language="JavaScript">
 	layui.use(['layer', 'form'], function(){
+
 		var layer = layui.layer,
 				form = layui.form;
-		var zOption = {
-			url: "/nodes/getEquipmentNodes",
-			selectedMulti: true,
-			nodeTypeId: "nodeType",
-			nodeIdsId: "nodeIds",
-			nodeNamesId: "areaSel",
-			clickCallBack: ""
-		};
-
-		var tree = new myzTree("areaTree", zOption);
-		tree.dropDownTreeOpen();
-		tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
-		$("#areaSel").click(function(){
-			tree.showMenu();
-		});
-
 		$('.selectpicker').selectpicker({
 			actionsBox: true //保留全选,全不选按键
 			,noneSelectedText: '请选择'
@@ -90,34 +75,58 @@
 			options.format_end = "YYYY-MM-DD";
 			options.align="right";
 			options.cb_add = function(p_value){};
-			myData.DataRangePicker(this, "DateRange", options);
+			myData.DataRangePicker(this, "DateTimeRange", options);
 		});
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,'/dataselect/replaceListJson');
-		GridObj.jqdefaultGridConfig.caption = "";
-		GridObj.jqdefaultGridConfig.multiselect = false;
-		GridObj.jqdefaultGridConfig.postData = {dataType: "meterReplace"};
-		GridObj.jqdefaultGridConfig.colNames = ['recordid','用户编号','用户名称','当前地址','当前表号','旧表表号','新表表号','旧表终读数','新表表底数','旧表终用量','旧表终状态','换表时间','换表说明','换表人'];
-		GridObj.jqdefaultGridConfig.colModel = [
-			{ name: 'recordid',  width: 75, key: true, hidden: true},
-			{ name: 'userno', width: 100 },
-			{ name: 'username', width: 100 },
-			{ name: 'userds', width: 150 },
-			{ name: 'dqmeternumber', width: 120, align: 'right' },
-			{ name: 'oldmeternumber', width: 120, align: 'right' },
-			{ name: 'newmeternumber', width: 120, align: 'right' },
-			{ name: 'finalread', width: 90, align: 'right' },
-			{ name: 'oriread', width: 90, align: 'right' },
-			{ name: 'finaluse', width: 90, align: 'right' },
-			{ name: 'finalstate', width: 100, cellattr: MeterStateCellColor },
-			{ name: 'replacedate', width: 150 },
-			{ name: 'explain', width: 100 },
-			{ name: 'replaceman', width: 80 }
-		];
-		//GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "旧表终状态")};
-		GridObj.drawGrid();
-		GridObj.drawGridPager();
-		GridObj.setGridSize();
-		GridObj.gridResize();
+		function gridChange() {
+			var dataType = $("#query_type").val();
+			var nodeType = $("#nodeType").val();
+			var nodeIds = $("#nodeIds").val();
+			var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115, '/dataselect/replaceListJson');
+			GridObj.unloadGrid();
+			GridObj.removeGridResize();
+			GridObj.jqdefaultGridConfig.caption = "";
+			GridObj.jqdefaultGridConfig.multiselect = true;
+			GridObj.jqdefaultGridConfig.postData = {"params[dataType]": dataType,"params[nodeType]":nodeType,"params[nodeIds]":nodeIds};
+			GridObj.jqdefaultGridConfig.colNames = ['recordId', '用户编号', '用户名称', '当前地址', '当前表号', '旧表表号', '新表表号', '旧表终读数', '新表表底数', '旧表终用量', '旧表终状态', '换表时间', '换表说明', '换表人'];
+			GridObj.jqdefaultGridConfig.colModel = [
+				{name: 'recordId', width: 75, key: true, hidden: true},
+				{name: 'havMeterinfo.userNo', width: 100},
+				{name: 'havMeterinfo.userName', width: 100},
+				{name: 'havMeterinfo.userDs', width: 150},
+				{name: 'havMeterinfo.meterNumber', width: 120, align: 'right'},
+				{name: 'oldMeterNumber', width: 120, align: 'right'},
+				{name: 'newMeterNumber', width: 120, align: 'right'},
+				{name: 'finalRead', width: 90, align: 'right'},
+				{name: 'oriRead', width: 90, align: 'right'},
+				{name: 'finalUse', width: 90, align: 'right'},
+				{name: 'finalState', width: 100, cellattr: MeterStateCellColor},
+				{name: 'replaceDate', width: 150},
+				{name: 'exPlain', width: 100},
+				{name: 'replaceMan', width: 80}
+			];
+			//GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "旧表终状态")};
+			GridObj.drawGrid();
+			GridObj.drawGridPager();
+			GridObj.setGridSize();
+			GridObj.gridResize();
+		}
+
+		var zOption = {
+			url: "/nodes/getEquipmentNodes",
+			selectedMulti: true,
+			nodeTypeId: "nodeType",
+			nodeIdsId: "nodeIds",
+			nodeNamesId: "areaSel",
+			clickCallBack: gridChange
+		};
+
+		var tree = new myzTree("areaTree", zOption);
+		tree.dropDownTreeOpen();
+		tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
+		$("#areaSel").click(function(){
+			tree.showMenu();
+		});
+		gridChange();
 
 		$(document).keydown(function(event){
 			if(event.keyCode==13){
@@ -133,12 +142,12 @@
 				date_range = $("#date_range").val().split("~");
 			}
 			_pdArray = {
-				"keyWord": $("#keyWord").val(),
-				"dataType": dataType,
-				"nodeType": $("#nodeType").val(),
-				"nodeIds": $("#nodeIds").val(),
-				"startDate": date_range[0],
-				"endDate": date_range[1]
+				"params[keyWord]": $("#keyWord").val(),
+				"params[dataType]": dataType,
+				"params[nodeType]": $("#nodeType").val(),
+				"params[nodeIds]": $("#nodeIds").val(),
+				"params[startDate]": date_range[0],
+				"params[endDate]": date_range[1]
 			};
 			fullTextSearch("jqGrid", _pdArray);
 		});

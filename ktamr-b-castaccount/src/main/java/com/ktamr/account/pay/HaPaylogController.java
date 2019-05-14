@@ -54,10 +54,9 @@ public class HaPaylogController {
     @RequestMapping(value ="/showHaPaylogList")
     @ResponseBody
     public Object showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
-    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh
+    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh,PageUtil pageUtil
     ){
-
-    if(hhh!=null){
+    if(hhh!=null&& hhh!=""){
         boolean b = hhh.contains(",");
         //包含返回true
         List<Integer> xhlist=new ArrayList<>();
@@ -74,14 +73,8 @@ public class HaPaylogController {
             haPaylog.setIdsList(xhlist);
         }
     }
-
-
-
-
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss" );
         if(startTime!=null&&startTime!="" &&endTime!=null&&endTime!=""){
-
-
         try {
                 Date start    = sdf.parse( String.valueOf(startTime));
                 Date end = sdf.parse( String.valueOf(endTime));
@@ -89,37 +82,16 @@ public class HaPaylogController {
                 pricestandard.setEndTime(end);
                 pricestandard.setStartTime(start);
                 haPaylog.setHaPricestandard(pricestandard);
-
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
         }
-        Integer page,pageRows;
-
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if(page1==null&&pageRows1==null){//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        }else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2=page;//重新定义变量接收
-        --page2;
-        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog, pageRows, page2);
+        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
+        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog, integers[0] ,integers[1]);
         Integer paylogListCount = haPaylogService.selectHaPaylogListCount(haPaylog);
-
-        Map<String ,Object> map=new HashMap<String, Object>();
-        map.put("page",page);//设置初始的页码 就是第几页
-        map.put("rowNum",pageRows);//一页显示几条数据
-        map.put("records",paylogListCount);//总记录数
-        map.put("total",(paylogListCount-1)/pageRows+1);//总页数的计算
-        map.put("rows",haPaylogList);//存放集合
-
-
-
+        Map map = pageUtil.map(haPaylogList, paylogListCount);
         if(map!=null){
             return map;
         }
@@ -152,21 +124,14 @@ public class HaPaylogController {
     @RequestMapping(value ="/showMonthReportList")
     @ResponseBody
     public String showHaMonthReportList(HaPaylog haPaylog, HttpServletRequest request
-, PageUtil pageUtil
-                                        ){
-
-
-
+    , PageUtil pageUtil){
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
         Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-
         List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog, integers[0] ,integers[1]);
         Integer monthReportListCount = haPaylogService.selectMonthReportListCount(haPaylog);
         Map map = pageUtil.map(haPaylogList, monthReportListCount);
-
         String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
-
         if(s!=null){
             return s;
         }

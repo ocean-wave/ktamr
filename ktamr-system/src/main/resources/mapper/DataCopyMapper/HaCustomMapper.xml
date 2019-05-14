@@ -253,15 +253,13 @@
 
     <!--查询预存费用-->
     <select id="selectYuCunFeiYongB" resultMap="selectYuCunFeiYongMapB">
-
-SELECT  cu.custid,  case when cu.custno is null then '*' else cu.custno end AS 用户编号,
- case when cu.name is null then '*' else cu.name end AS 用户名称,
-   case when length(cu.sex)=0  then '男' else cu.sex end AS cusex, concat_ws('_',a.name,b.name,r.name) AS 用户地址,
-case when (SELECT Count(*) FROM ha_billRecords WHERE custid=cu.custid)>0
- then (SELECT  br.CurrentBalance FROM ha_billRecords br WHERE br.custid=cu.custid ORDER BY br.optTime  DESC limit 1) else 0 end  AS 余额
-FROM ((ha_custom cu LEFT JOIN ha_room r ON cu.custid=r.custid)
-	  LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
-	  LEFT JOIN ha_area a ON b.areaid=a.areaid
+SELECT cu.custid, case when cu.custno is null then '*' else cu.custno end AS 用户编号,
+case when cu.name is null then '*' else cu.name end AS 用户名称,
+ case when length(cu.sex)=0  then '男' else cu.sex end AS 性别,
+ concat_ws('_',a.name,b.name,r.name) AS 用户地址
+ FROM ((ha_custom cu LEFT JOIN ha_room r ON cu.custid=r.custid)
+ LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+ LEFT JOIN ha_area a ON b.areaid=a.areaid
 	  WHERE cu.custid=#{custId}
     </select>
 

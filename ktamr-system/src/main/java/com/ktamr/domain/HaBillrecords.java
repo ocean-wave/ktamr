@@ -3,6 +3,7 @@ package com.ktamr.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,6 +14,8 @@ public class HaBillrecords extends BaseEntity {
   private String operaTion;
   private double charge;
   private double currentBalance;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date optTime;
   private String optMan;
 
@@ -28,6 +31,16 @@ public class HaBillrecords extends BaseEntity {
   private String nodeIds;
   private Object kaiShi;
   private Object JieShu;
+  private String keyWord; //定义从页面接收输入框的值
+
+
+  public String getKeyWord() {
+    return keyWord;
+  }
+
+  public void setKeyWord(String keyWord) {
+    this.keyWord = keyWord;
+  }
 
   public Integer getBid() {
     return bid;

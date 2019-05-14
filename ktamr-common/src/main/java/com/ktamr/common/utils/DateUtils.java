@@ -91,6 +91,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
             throw new RuntimeException(e);
         }
     }
+    public static final Date dateTime(final String ts)
+    {
+        try
+        {
+            return new SimpleDateFormat(YYYY_MM_DD).parse(ts);
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * 日期路径 即年/月/日 如2018/08/08

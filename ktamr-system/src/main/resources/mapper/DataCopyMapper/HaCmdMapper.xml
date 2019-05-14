@@ -69,7 +69,7 @@
     </select>
 
     <select id="selectCentorById" parameterType="java.lang.Integer" resultType="java.lang.String">
-        SELECT description FROM ha_centor WHERE id=#{centorid}
+        SELECT description FROM ha_centor WHERE id=#{centorId}
     </select>
 
     <select id="selectAllCmd" resultMap="cmdMap">
@@ -170,4 +170,32 @@
                                     #{id}
                                 </foreach>
     </delete>
+
+    <!--查询是否已经存在未完成的相同命令-->
+    <select id="BreturnID" resultType="HaCmd">
+        SELECT * FROM ha_cmd
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="cmd != null and cmd != ''">
+                and cmd=#{cmd}
+            </if>
+            <if test="parms != null and parms != ''">
+                AND parms=#{parms}
+            </if>
+            <if test="centorId != null and centorId != ''">
+                AND centorid=#{centorId} AND state!='完成' AND state!='失败'
+            </if>
+        </trim>
+    </select>
+
+    <!--添加命令执行表 并返回序列主键id-->
+    <insert id="BinsertHaCmd">
+        INSERT INTO ha_cmd(cmd,parms,centorid,uid,createtime,state)
+        values(#{cmd},#{parms},#{centorId},#{uid},now(),'完成')
+        <selectKey resultType="Integer" keyProperty="id">
+            SELECT nextval('ha_cd_seq'::regclass) as id
+        </selectKey>
+    </insert>
 </mapper>

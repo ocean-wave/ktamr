@@ -22,6 +22,17 @@
         </association>
     </resultMap>
 
+    <sql id="getRightCondition">
+        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
+            <if test=" params.operatorRgnType == 'rgn' ">
+                and position( LEFT(mi.areaNo,1) in #{params.rgnStr})>0
+            </if>
+            <if test=" params.operatorRgnType == 'area' ">
+                and mi.areano in (#{params.areaNo})
+            </if>
+        </if>
+    </sql>
+
     <select id="selectDayFreezeMeterIdCount" resultType="java.lang.Integer"  parameterType="com.ktamr.domain.HaMeter">
         SELECT Count(meterid) FROM ha_dayfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
     </select>
@@ -55,37 +66,35 @@
         <if test=" params.dataType == 'lastDayFreeze' " >
             FROM ha_dayfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            inner join ha_area a on a.areaid=mi.areaid
+            where 1=1
         </if>
         <if test=" params.dataType == 'lastMonFreeze'" >
             FROM ha_monfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            inner join ha_area a on a.areaid=mi.areaid
+            where 1=1
         </if>
         <if test=" params.dataType == 'dayFreeze'" >
             FROM ha_dayfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            inner join ha_area a on a.areaid=mi.areaid
             WHERE fz.meterid is not null
         </if>
         <if test=" params.dataType == 'monFreeze'" >
             FROM ha_monfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            inner join ha_area a on a.areaid=mi.areaid
             WHERE fz.meterid is not null
         </if>
-
-        <if test=" params.dataType.substring(0,4) == 'last' and params.nodeType == 'area' and params.nodeIds != '' ">
+        <include refid="getRightCondition"></include>
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
-        <if test=" params.dataType.substring(0,4) == 'last' and params.nodeType == 'rgn' and params.nodeIds != '' ">
+        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
             AND position(Left(a.areaNo, 1) IN #{params.nodeIds})>0
         </if>
-        <if test=" params.dataType == 'dayFreeze' and params.startDate != null and params.startDate != '' and params.endDate != null and params.endDate != ''">
-            AND fz.fday BETWEEN #{startDate} and #{endDate}
+        <if test=" params.dataType == 'dayFreeze' and params.startDate != null and params.endDate != null ">
+            AND fz.fday BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
         </if>
-        <if test=" params.dataType == 'monFreeze' and params.startDate != null and params.startDate != '' and params.endDate != null and params.endDate != ''">
-            AND fz.readTime BETWEEN #{startDate} and #{endDate}
+        <if test=" params.dataType == 'monFreeze' and params.startDate != null and params.endDate != null ">
+            AND fz.readTime BETWEEN #{params.startDate} and #{params.endDate}
         </if>
         <if test=" params.keyWord != null and params.keyWord != '' ">
             and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'

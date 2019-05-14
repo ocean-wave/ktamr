@@ -48,10 +48,6 @@ public class DosageController extends BaseController {
     public Map<String,Object> dosageHistoryListJson(HaRecords parms){
         startPage();
         long startdate = System.currentTimeMillis();
-        if(parms.getParams() != null && parms.getParams().get("startDate") != null && parms.getParams().get("startDate") != "") {
-            parms.getParams().put("startDate", DateUtils.dateTime("yyyy-MM-dd HH:mm:ss", parms.getParams().get("startDate").toString()));
-            parms.getParams().put("endDate", DateUtils.dateTime("yyyy-MM-dd HH:mm:ss", parms.getParams().get("endDate").toString()));
-        }
         List<HaRecords> listHaMeter = haRecordsService.selectDosageHistory(parms);
         long enddate = System.currentTimeMillis();
         System.out.println((startdate-enddate)/1000);
