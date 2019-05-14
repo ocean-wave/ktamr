@@ -8,8 +8,8 @@
 
             <select id="rgns" class="selectpicker form-control" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-style="btn-default btn-sm" data-size="5">
 
-                <option th:each="HaArea : ${areaListName}"
-                        th:value="${HaArea.areaId}" th:text="${HaArea.name}">Credit card</option>
+                <option th:each="HaRgn : ${haRgnsListName}"
+                        th:value="${HaRgn.id}" th:text="${HaRgn.name}">Credit card</option>
             </select>
         </div>
         <div class="col-xs-2 my-form-col">
@@ -81,7 +81,7 @@
             ,{name: 'reserved', width: 100, align: 'center'
                 ,formatter: function (cellvalue, options, rowObject) {
 
-              //  console.log(cellvalue);
+
 
                     var isChecked = "", switch1;
                     if(cellvalue == "Y"){

@@ -106,24 +106,23 @@
     <!--映射查询小区表查询语句-->
     <resultMap  id="HaAreaMap"  type="HaArea">
         <id column="areaid" property="areaId" />
-        <result column="aareaNo" property="areaNo"/>
-        <result column="aregisteredNo" property="registeredNo"/>
-        <result column="aname" property="name"/>
-        <result column="aaddr" property="addr"/>
-        <result column="ads" property="ds"/>
-        <result column="areserved" property="reserved"/>
-        <result column="alastsumday" property="lastsumDay"/>
-        <result column="adescription" property="description"/>
+        <result column="小区编号" property="areaNo"/>
+        <result column="小区册号" property="registeredNo"/>
+        <result column="小区名称" property="name"/>
+        <result column="地址" property="addr"/>
+        <result column="抄收月份" property="ds"/>
+        <result column="冻结抄收" property="reserved"/>
+        <result column="结算日期" property="lastsumDay"/>
+        <result column="说明" property="description"/>
         <result column="atnNumber" property="atnNumber"/>
         <result column="keyWord" property="keyWord"/>
 
         <association property="haMeter" javaType="HaMeter">
-            <result column="mmeterid" property="meterId"/>
-            <result column="mTH_NUMBER" property="thNumber"/>
-            <result column="mS_NUMBER" property="sNumber"/>
-            <result column="mTH_R_TIME" property="thRTime"/>
-            <result column="mstarttime" property="startTime"/>
-            <result column="areaid" property="areaId"/>
+            <result column="总表数" property="meterId"/>
+            <result column="总读数" property="thNumber"/>
+            <result column="本期总用量" property="sNumber"/>
+            <result column="最近抄收时间" property="thRTime"/>
+            <result column="最早装表时间" property="startTime"/>
         </association>
 
     </resultMap>
@@ -136,40 +135,34 @@
     <!--查询小区表+分页+动态查询 -->
     <select id="BselectHaAreaList"  resultMap="HaAreaMap">
         SELECT
-        a.areaid AS areaid, Right(a.areaNo, 4) AS aareaNo, a.registeredNo AS aregisteredNo,
-        a.name AS aname,concat_ws('_',n.name,a.addr) AS aaddr,
-        case a.DS when 'S' then '单月' else '双月' end AS ads,
-        COUNT(m.meterid) AS mmeterid,
-        SUM(m.TH_NUMBER) AS mTH_NUMBER,
-        SUM(m.S_NUMBER) AS mS_NUMBER,
-        t.n AS atnNumber,
-        a.reserved AS areserved,
-        to_date(to_char(GREATEST(m.TH_R_TIME),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mTH_R_TIME,
-        to_date(to_char(a.lastsumday,'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS alastsumday,
-        to_date(to_char(LEAST(m.starttime),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mstarttime, a.description AS adescription
-        FROM ((ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid)
-        LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
-        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid
-        FROM hav_meterinfo i WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档'
-        AND i.状态!='集中器无返回' AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正'
-        AND i.状态!='已更换' AND i.状态!='采集器无返回' AND i.状态 NOT LIKE '%用量异常%'
-        AND i.表号 >0
-        GROUP BY i.areaid) t ON t.areaid=a.areaid
-        group by a.areaid,a.areaNo,a.registeredNo,a.name,n.name,a.addr,a.DS,t.n,
-        a.reserved,m.TH_R_TIME,
-        a.lastsumday,m.starttime,a.description
-        <trim prefix="having" prefixOverrides="and | or">
+        a.areaid AS areaid, a.areaNo AS 小区编号, a.registeredNo AS 小区册号, a.name AS 小区名称,
+        n.name||'-'||a.addr AS 地址, CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE  '' END AS 抄收月份,
+        COUNT(m.meterid) AS 总表数,
+        SUM(m.TH_NUMBER) AS 总读数,
+        SUM(m.S_NUMBER) AS 本期总用量,
+        t.n  AS atnNumber,
+        a.reserved AS 冻结抄收,
+        to_char(MAX(m.TH_R_TIME),'yyyy-mm-dd hh24:mi:ss') AS 最近抄收时间,
+        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss') AS 结算日期,
+        to_char(MIN(m.starttime),'YYYY-MM-DD') AS 最早装表时间, a.description AS 说明
+        FROM ((ha_area a LEFT OUTER JOIN ha_meter m ON m.areaid=a.areaid) LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
+        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid FROM hav_meterinfo i
+        WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档' AND i.状态!='集中器无返回'
+        AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正' AND i.状态!='已更换' AND i.状态!='采集器无返回'
+        AND i.状态 NOT LIKE '%用量异常%' AND i.表号 >0 GROUP BY i.areaid) t ON t.areaid=a.areaid
+
+        <trim prefix="where" prefixOverrides="and | or">
 
             <if test="HaArea.ds != null and HaArea.ds != ''">
                 and ds = #{HaArea.ds}
             </if>
 
-            <if test="HaArea.idsList  != null and HaArea.idsList.size()>0">
-                and a.areaid in
-                <foreach collection="HaArea.idsList" item="item" index="index" open="(" separator="," close=")">
+            <if test="HaArea.idsList2  != null and HaArea.idsList2.size()>0">
+                and  LEFT(a.areaNo,1) IN
+                <foreach collection="HaArea.idsList2" item="item" index="index"
+                         open="(" separator="," close=")">
                     #{item}
                 </foreach>
-
             </if>
 
             <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
@@ -177,7 +170,8 @@
 
             </if>
         </trim>
-        ORDER BY a.areaNo
+        GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
+        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n
         limit #{page} OFFSET #{rowNum}
     </select>
 
@@ -195,37 +189,30 @@
     <!--查询小区表,主要想查里面的数据记录数-->
     <select id="BselectHaAreaCount"  resultMap="HaAreaMap">
         SELECT
-        a.areaid AS areaid, Right(a.areaNo, 4) AS aareaNo, a.registeredNo AS aregisteredNo,
-        a.name AS aname,concat_ws('_',n.name,a.addr) AS aaddr,
-        case a.DS when 'S' then '单月' else '双月' end AS ads,
-        COUNT(m.meterid) AS mmeterid,
-        SUM(m.TH_NUMBER) AS mTH_NUMBER,
-        SUM(m.S_NUMBER) AS mS_NUMBER,
-        t.n AS atnNumber,
-        a.reserved AS areserved,
-        to_date(to_char(GREATEST(m.TH_R_TIME),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mTH_R_TIME,
-        to_date(to_char(a.lastsumday,'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS alastsumday,
-        to_date(to_char(LEAST(m.starttime),'YYYY-MM-DD hh:mm:ss'),'YYYY-MM-DD hh:mm:ss') AS mstarttime, a.description AS adescription
-        FROM ((ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid)
-        LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
-        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid
-        FROM hav_meterinfo i WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档'
-        AND i.状态!='集中器无返回' AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正'
-        AND i.状态!='已更换' AND i.状态!='采集器无返回' AND i.状态 NOT LIKE '%用量异常%'
-        AND i.表号 >0
-        GROUP BY i.areaid) t ON t.areaid=a.areaid
-        group by a.areaid,a.areaNo,a.registeredNo,a.name,n.name,a.addr,a.DS,t.n,
-        a.reserved,m.TH_R_TIME,
-        a.lastsumday,m.starttime,a.description
-        <trim prefix="having" prefixOverrides="and | or">
+        a.areaid AS areaid, a.areaNo AS 小区编号, a.registeredNo AS 小区册号, a.name AS 小区名称,
+        n.name||'-'||a.addr AS 地址, CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE  '' END AS 抄收月份,
+        COUNT(m.meterid) AS 总表数,
+        SUM(m.TH_NUMBER) AS 总读数,
+        SUM(m.S_NUMBER) AS 本期总用量,
+        t.n  AS atnNumber,
+        a.reserved AS 冻结抄收,
+        to_char(MAX(m.TH_R_TIME),'yyyy-mm-dd hh24:mi:ss') AS 最近抄收时间,
+        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss') AS 结算日期,
+        to_char(MIN(m.starttime),'YYYY-MM-DD') AS 最早装表时间, a.description AS 说明
+        FROM ((ha_area a LEFT OUTER JOIN ha_meter m ON m.areaid=a.areaid) LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
+        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid FROM hav_meterinfo i
+        WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档' AND i.状态!='集中器无返回'
+        AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正' AND i.状态!='已更换' AND i.状态!='采集器无返回'
+        AND i.状态 NOT LIKE '%用量异常%' AND i.表号 >0 GROUP BY i.areaid) t ON t.areaid=a.areaid
+        <trim prefix="where" prefixOverrides="and | or">
 
             <if test="HaArea.ds != null and HaArea.ds != ''">
                 and ds = #{HaArea.ds}
             </if>
 
-            <if test="HaArea.idsList  != null and HaArea.idsList.size()>0">
-                and a.areaid in
-                <foreach collection="HaArea.idsList" item="item" index="index"
+            <if test="HaArea.idsList2  != null and HaArea.idsList2.size()>0">
+                and LEFT(a.areaNo,1) IN
+                <foreach collection="HaArea.idsList2" item="item" index="index"
                          open="(" separator="," close=")">
                     #{item}
                 </foreach>
@@ -236,6 +223,10 @@
 
             </if>
         </trim>
+
+        GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
+        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n
+        ORDER BY a.areaNo
     </select>
 
 
@@ -328,29 +319,23 @@ then  Right(a.areaNo, 4) else a.registeredNo end
 
     <!--点击完成结算第一步 -->
     <update id="BupdateWanChengJieSuanOne">
-       UPDATE ha_custom cu
-SET  paidTime=to_date(now()::text, 'yyyy-mm-dd'),
-expense=pl.sum,
-balance=case when balance is null then 0 else  balance end  -pl.sum
-from ha_room r,ha_meter m,ha_paylog pl
-WHERE cu.billid=pl.billid AND r.custid=cu.custid
-AND m.roomid=r.roomid AND m.areaid IN (#{areaId})
+       UPDATE ha_custom cu SET expense=pl.sum, paidTime=now(),
+       balance=(CASE WHEN cu.balance IS NOT NULL then cu.balance ELSE 0 END)-pl.sum
+       FROM ha_paylog pl,ha_room r,ha_meter m
+        WHERE cu.billid=pl.billid AND r.custid=cu.custid AND m.roomid=r.roomid AND m.areaid IN (#{areaId})
     </update>
 
     <!--点击完成结算第二步-->
     <insert id="BupdateWanChenJieSuanTwo">
       INSERT INTO ha_billRecords (custId,operation,charge,CurrentBalance,optTime,optMan)
-SELECT cu.custid,'扣费',0-cu.expense,cu.balance,cu.paidTime,'ha'
- FROM ha_custom cu,ha_room r,ha_meter m
- WHERE  r.custid=cu.custid AND m.roomid=r.roomid AND m.areaid = #{areaId}
+SELECT cu.custid,'扣费',0-cu.expense,cu.balance,cu.paidTime,#{opertorCode}
+FROM ha_custom cu,ha_room r,ha_meter m WHERE r.custid=cu.custid AND m.roomid=r.roomid AND m.areaid IN (#{areaId})
     </insert>
 
     <!--点击完成结算第三步-->
     <update id="BupdateWanChenJieSuanThree">
-       UPDATE ha_paylog pl
-SET state='完成',mbtime=to_date(now()::text, 'yyyy-mm-dd')
-from ha_custom cu,ha_room r,ha_meter m
- WHERE cu.billid=pl.billid AND cu.custid=r.custid AND m.roomid=r.roomid AND m.areaid IN ('${areaId}')
+       UPDATE ha_paylog pl SET state='完成',mbtime=now() FROM ha_custom cu,ha_room r,ha_meter m
+WHERE cu.billid=pl.billid AND cu.custid=r.custid AND m.roomid=r.roomid AND m.areaid IN ('${areaId}')
     </update>
 
     <!--点击完成结算第四步-->
@@ -365,7 +350,7 @@ AND m.areaid IN ('${areaId}')
     <!--点击完成结算第五步-->
     <update id="BupdateWanChenJieSuanFive">
          UPDATE ha_meter m
-SET lf_number=th_number,lf_time=to_date(now()::text, 'yyyy-mm-dd'),s_number=0
+SET lf_number=th_number,lf_time=now(),s_number=0
 WHERE m.areaid IN ('${areaId}')
     </update>
 
@@ -373,20 +358,13 @@ WHERE m.areaid IN ('${areaId}')
     <update id="BupdateWanChenJieSuanSix">
 
         UPDATE ha_area
-SET lastSumDay=to_date(now()::text, 'yyyy-mm-dd')
+SET lastSumDay=now()
 WHERE areaid IN ('${areaId}')
     </update>
 
     <!--点击完成结算第七步-->
     <update id="BupdateWanChenJieSuanSeven">
-        UPDATE ha_monthbtime mb SET
-        end_time=now()
-        WHERE mb.start_time =
-        (SELECT case when max(mb1.start_time)&gt;
-        (case when max(mb2.end_time) is  null then now() else max(mb2.end_time) end ) AND max(mb1.start_time) &lt; Now()
-        then max(mb1.start_time) else  now() end
-        FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid='${areaId}')
-        AND mb.areaid='${areaId}'
+        UPDATE ha_monthbtime mb SET end_time=now() WHERE end_time IS NULL AND mb.areaid='${areaId}'
     </update>
 
 

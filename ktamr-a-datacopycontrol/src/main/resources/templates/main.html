@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head title="首页" th:include="include :: header">
+
+
+
+</head>
+<body>
+<div class="container myContainer">
+    <fieldset class="layui-elem-field layui-field-title field">
+        <legend class="lgd">统计信息</legend>
+        <div class="layui-field-box">
+            <div class="row">
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="小区总数"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${areaCount}">420</h1>
+                            <span>小区总数</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="表资料总数"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${meterCount}">111812</h1>
+                            <span>表档案总数</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="不良表总数"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${notOkCount}">5019</h1>
+                            <span>不良表总数</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="失联表总数"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${notConnectedCount}">5390</h1>
+                            <span>失联表总数（无线）</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="用户总量"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${userCount}">109450</h1>
+                            <span>用户资料总数</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="集采器总数"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${ccentorCount}">7733</h1>
+                            <span>集采器总数</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="集中器总数"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${centorCount}">95</h1>
+                            <span>集中器总数</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-3 col-md-2">
+                    <div class="value tab-menu" style="width:100%;height:100%;background-color:#F5F5F5;border-left: 2px solid #009688;">
+                        <a href="javascript:;" data-url="user-info.html" data-parent="true" data-title="采集器总数"><i class="iconfont " data-icon='&#xe672;'></i>
+                            <h1 th:text="${collectorCount}">332</h1>
+                            <span>采集器总数</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field layui-field-title field">
+        <legend class="lgd">数据概览</legend>
+        <div class="layui-field-box">
+            <div class="row">
+                <div class="col-sm-6 col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            表状态总览
+                        </div>
+                        <div class="panel-body">
+                            <div id="meterState" style="height:300px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            设备状态总览
+                        </div>
+                        <div class="panel-body">
+                            <div id="deviceState" style="height:300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+</div>
+
+<div th:include="include :: footer"></div>
+
+
+
+</body>
+</html>

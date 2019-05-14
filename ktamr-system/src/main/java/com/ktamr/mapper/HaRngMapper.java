@@ -29,6 +29,12 @@ public interface HaRngMapper {
      */
     public List<HaRgn> selectBigNameB();
 
+    /**
+     * 定义公用的下拉框的大区名称
+     * @return
+     */
+    public List<HaRgn> selectGongYongBigNameB();
+
 
 
     /**

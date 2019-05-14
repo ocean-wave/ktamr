@@ -4,7 +4,9 @@ package com.ktamr.account.area;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.domain.HaArea;
+import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaAreaService;
+import com.ktamr.service.HaRngService;
 import com.ktamr.util.PageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ public class HaAreaController {
 
     @Resource
     private HaAreaService haAreaService;
+    @Resource
+    private HaRngService haRngService;
     /**
      * 打开小区结算的页面+并进行小区名字的赋值
      * @return
@@ -29,9 +33,10 @@ public class HaAreaController {
     @RequestMapping("/area/area_list.html")
     public String showArea_list(HaArea haArea, Model model){
 
-        List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
-        if(haAreaList!=null){
-            model.addAttribute("areaListName",haAreaList);
+       // List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
+        List<HaRgn> haRgns = haRngService.selectBigNameB();
+        if(haRgns!=null){
+            model.addAttribute("haRgnsListName",haRgns);
             return "area/area_list.html";
         }
         return  null;
@@ -51,11 +56,11 @@ public class HaAreaController {
         String s1 = aareaid;//获取areaid  小区名字
         if(s1!=null && s1!=""){//判断小区名字如果没有赋值的话就不用查询
             String[] split = s1.split(",");
-            List<Integer> idsList = new ArrayList<Integer>();
+            List<String> idsList = new ArrayList<String>();
             for(int i=0;i<split.length;i++){
-                idsList.add(Integer.valueOf(split[i]));
+                idsList.add(split[i]);
             }
-            haArea.setIdsList(idsList);
+            haArea.setIdsList2(idsList);
 
         }
         String page1 = request.getParameter("page");//获取需要多少行

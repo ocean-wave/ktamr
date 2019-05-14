@@ -53,8 +53,27 @@ public class HaArea extends BaseEntity {
     private Integer countAreaNo;//2级菜单多少子的小区名称记录数
     private String cmdName;//定义别名类型接收
     private String keyWord; //定义从页面接收输入框的值
+    private String opertorCode;//定义这个别名方便获取用户会话操作人
     //方便用areaid中in的范围查询
-    List<Integer> idsList;
+    private List<Integer> idsList;
+    private List<String> idsList2;
+
+
+    public String getOpertorCode() {
+        return opertorCode;
+    }
+
+    public void setOpertorCode(String opertorCode) {
+        this.opertorCode = opertorCode;
+    }
+
+    public List<String> getIdsList2() {
+        return idsList2;
+    }
+
+    public void setIdsList2(List<String> idsList2) {
+        this.idsList2 = idsList2;
+    }
 
     public Integer getAreaId() {
         return areaId;
