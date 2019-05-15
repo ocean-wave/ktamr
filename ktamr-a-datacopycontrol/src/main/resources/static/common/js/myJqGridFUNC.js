@@ -55,23 +55,13 @@
 		,add:false
 		,edit:false
 	};
-
-
 };
 
 myJqGrid.prototype.unloadGrid = function(){
 	$.jgrid.gridUnload(this.GridId);
 }
-myJqGrid.prototype.aboutCounts = function(){
-	var tableData = $( '#jqGridPager_right' ).find( 'div' );
-	var jqGrid = $("#"+this.GridId).jqGrid('getGridParam', 'records');//获取JqGrid总记录数
-alert(jqGrid);
-	if(jqGrid>10){
-		//对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
-		tableData.html(tableData.html().replace(/共/ig,'大于'))
-		tableData.html(tableData.html().replace(new RegExp(jqGrid,'g'),'10'))
-	}
-	};
+
+
 myJqGrid.prototype.drawGrid = function(){
 
 	$("#"+this.GridId).jqGrid(this.jqdefaultGridConfig);
@@ -104,8 +94,6 @@ myJqGrid.prototype.gridResize = function(){
 		_this.setGridSize();
 		$(window).bind("onresize", this);
 	});
-
-
 }
 myJqGrid.prototype.removeGridResize = function(){
 	$(window).unbind('resize');
