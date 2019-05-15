@@ -44,7 +44,7 @@
 	this.excelButtonConfig = {
 		caption: "Excel",
 		buttonicon: "ui-icon-arrowthickstop-1-s",
-		onClickButton: function(){exportToExcel(GridId, this.ExcelFileName);},
+		onClickButton: function(){exportToExcel(url,this.GridId);},
 		position: "first",
 		title: "导出Excel",
 		cursor: "pointer",
@@ -136,38 +136,22 @@ function resizeGrids(op) {
 		$(window).bind("onresize", this);
 	});
 }
-function exportToExcel(jqGridID, tableName)
+function exportToExcel(url,GridId)
 {
-	alert("进入导入的方法");
-	var grid = $("#"+jqGridID);
-	var url, pdArray, excelTableName;
-	
-	url = "/client_trans/jqGridJSON.asp";
-	pdArray = grid.jqGrid("getGridParam", "postData");
-	pdArray["exportExcel"] = "true";
-	if(tableName != "")
-		excelTableName = tableName;
-	else
-		excelTableName = grid.jqGrid("getGridParam", "caption");
-	pdArray["excelTableName"] = excelTableName;
-	
-	$.ajax({
-		url: url,
-		type: "POST",
-		dataType:'text',
-		contentType: 'application/json; charset=utf-8',
-		async: false,
-		data: pdArray,
-		success: function(data){
-			var fileUrl = "/uploads/exportToExcel/"+unescape(data);
-			//alert(fileUrl);
-			window.open(fileUrl);
+	var grid = $("#"+GridId);
+	$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div> ' + "正在导出数据，请稍后..." + '</div>' });
+	url = url.substring(0,url.lastIndexOf("/"));
+	var pdArray = grid.jqGrid("getGridParam", "postData");
+	$.post(url+"/export", pdArray, function(result) {
+		if (result.code == web_status.SUCCESS) {
+			window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+		}else{
+			alert(result.msg);
 		}
+		setTimeout(function(){
+			$.unblockUI();
+		}, 50);
 	});
-	pdArray["exportExcel"] = "false";
-	grid.jqGrid('setGridParam',{
-		postData: pdArray
-	})	
 }
 //分页的数据，Page 当前位置是什么
 function fullTextSearch(jqGridID, postDataArray){
@@ -557,6 +541,12 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 	
 	return styleStr;
 }
+
+/** 消息状态码 */
+web_status = {
+	SUCCESS: 0,
+	FAIL: 500
+};
 
 
 

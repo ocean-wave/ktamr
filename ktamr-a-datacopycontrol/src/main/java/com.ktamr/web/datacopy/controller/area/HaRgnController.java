@@ -1,5 +1,7 @@
 package com.ktamr.web.datacopy.controller.area;
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.poi.ExcelUtil;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaRngService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
@@ -44,5 +46,14 @@ public class HaRgnController extends BaseController {
         Map<String,Object> m =getDataTable(listHaRng);
         m.put("userdata",map2);
         return m;
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaRgn haRgn)
+    {
+        List<HaRgn> list = haRngService.selectAllRngAndCount(haRgn);
+        ExcelUtil<HaRgn> util = new ExcelUtil<HaRgn>(HaRgn.class);
+        return util.exportExcel(list, "区域表抄控");
     }
 }

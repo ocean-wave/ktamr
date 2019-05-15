@@ -1,6 +1,9 @@
 package com.ktamr.web.datacopy.controller.area;
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.poi.ExcelUtil;
 import com.ktamr.domain.HaArea;
+import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.web.datacopy.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +44,14 @@ public class HaAreaContrller extends BaseController{
         Map<String,Object> m = getDataTable(listHaArea);
         m.put("userdata",map2);
         return m;
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaArea haArea)
+    {
+        List<HaArea> list = haAreaService.selectAllAreaAndCount(haArea);
+        ExcelUtil<HaArea> util = new ExcelUtil<HaArea>(HaArea.class);
+        return util.exportExcel(list, "小区表抄控");
     }
 }
