@@ -40,6 +40,7 @@
 			         repeatitems:false,
                      id : "id"
              }
+
 	};
 	this.excelButtonConfig = {
 		caption: "Excel",
@@ -53,19 +54,33 @@
 		del:false
 		,add:false
 		,edit:false
-	};	
+	};
+
+
 };
 
 myJqGrid.prototype.unloadGrid = function(){
 	$.jgrid.gridUnload(this.GridId);
 }
+myJqGrid.prototype.gridComplete = function(){
+	var tableData = $( '#jqGridPager_right' ).find( 'div' );
+	var jqGrid = $("#"+this.GridId).jqGrid('getGridParam', 'records');//获取JqGrid总记录数
+
+	if(jqGrid>10){
+		//对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
+		tableData.html(tableData.html().replace(/共/ig,'大于'))
+		tableData.html(tableData.html().replace(new RegExp(jqGrid,'g'),'100'))
+	}
+	};
 myJqGrid.prototype.drawGrid = function(){
+
 	$("#"+this.GridId).jqGrid(this.jqdefaultGridConfig);
 }
 myJqGrid.prototype.drawGridPager = function(){
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId, this.gridButtonConfig,{},{},{},{multipleSearch:true,multipleGroup:false,sopt: ["cn","nc","eq","ne"]}
 	);
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId).jqGrid('navButtonAdd', '#'+this.GridPagerId, this.excelButtonConfig);
+
 }
 myJqGrid.prototype.freezeGridCol = function(){
 	$("#"+this.GridId).jqGrid('setFrozenColumns');
@@ -79,7 +94,8 @@ myJqGrid.prototype.setGridSize = function(){
 		gridHeight = 100;
 	}
 	$("#"+_this.GridId).setGridWidth(gridWidth, false);
-	$("#"+_this.GridId).setGridHeight(gridHeight);	
+	$("#"+_this.GridId).setGridHeight(gridHeight);
+
 }
 myJqGrid.prototype.gridResize = function(){
 	var _this = this;
@@ -88,6 +104,8 @@ myJqGrid.prototype.gridResize = function(){
 		_this.setGridSize();
 		$(window).bind("onresize", this);
 	});
+
+
 }
 myJqGrid.prototype.removeGridResize = function(){
 	$(window).unbind('resize');
@@ -171,6 +189,7 @@ function exportToExcel(jqGridID, tableName)
 }
 //分页的数据，Page 当前位置是什么
 function fullTextSearch(jqGridID, postDataArray){
+
 	var grid = $("#"+jqGridID);
 	var _postData=grid.getGridParam("postData");
 	$.each(postDataArray, function (k, v) { 

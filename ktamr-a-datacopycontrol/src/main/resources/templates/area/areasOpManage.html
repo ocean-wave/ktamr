@@ -115,9 +115,12 @@
 				$("#nav1").show();
 				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145, "/rgn/areasOpManageJson");
 				GridObj.unloadGrid();
+
 				GridObj.removeGridResize();
+
 				//GridObj.jqdefaultGridConfig.caption = "大区列表：";
 				GridObj.jqdefaultGridConfig.multiselect = true;
+
                 GridObj.jqdefaultGridConfig.postData = {};
 				GridObj.jqdefaultGridConfig.colNames = ['大区编号', '大区名称', '简称', '行政区号', '小区数', '集中器数', '采集器数', '表数'];
 				GridObj.jqdefaultGridConfig.colModel = [
@@ -130,12 +133,20 @@
 					{name: 'resultParams.haCollectorCount', align: 'right', width: 80},
 					{name: 'resultParams.haMeterCount', align: 'right', width: 80}
 				];
+
 				GridObj.jqdefaultGridConfig.footerrow = true;
+
 				GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+				GridObj.jqdefaultGridConfig.loadComplete = function () {
+					form.render('checkbox');
+					GridObj.gridComplete();
+				}
+
 				GridObj.drawGrid();
 				GridObj.drawGridPager();
 				GridObj.setGridSize();
 				GridObj.gridResize();
+
 			}else if (listType == "allArea" || listType == "rgn"){
 				$("#nav4").hide();
 				$(".month-type-div").show();
@@ -175,15 +186,19 @@
 					{name: 'haMeter.thRTime', width: 150},
 					{name: 'lastsumDay', width: 150 },
 				];
+
 				GridObj.jqdefaultGridConfig.footerrow = true;
 				GridObj.jqdefaultGridConfig.userDataOnFooter = true;
 				GridObj.jqdefaultGridConfig.loadComplete = function () {
 					form.render('checkbox');
+					GridObj.gridComplete();
 				}
 				GridObj.drawGrid();
+
 				GridObj.drawGridPager();
 				GridObj.setGridSize();
 				GridObj.gridResize();
+
 			}else if(listType == "allMeter" || listType == "area" || listType == "building") {
 				var _areaid = "", _buildingid = "";
 				$(".month-type-div").hide();
