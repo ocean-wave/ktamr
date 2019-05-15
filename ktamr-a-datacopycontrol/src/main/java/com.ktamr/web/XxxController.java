@@ -38,8 +38,18 @@ public class XxxController {
         model.addAttribute("collectorCount",collectorCount);
 
         //开始统计图
+        Integer[] meterStateCount = new Integer[15];
+        meterStateCount[2] = 2;
+        meterStateCount[4] = 4;
+        meterStateCount[5] = 5;
+        meterStateCount[6] = 6;
+        meterStateCount[7] = 7;
+        meterStateCount[8] = 8;
+        meterStateCount[12] = 12;
+        meterStateCount[13] = 13;
+        meterStateCount[14] = 14;
 
-        Integer[] meterStateCount = new Integer[16];
+
         String t_stateNameList="";
         String stateNameList = "'建档','无返回','失联','正常','光通道干扰',' 强光干扰','气泡干扰','通讯故障','表具故障','异常','用量异常','开阀','关阀',' 开阀故障','关阀故障'";
         //1、正常表计数'
@@ -64,7 +74,20 @@ public class XxxController {
         if(t_stateNameList.length()>0){
             String[] strings = split(stateNameList, ",");
         }
-
-        return "main";
+        //集中器状态统计
+        Integer[] centorStateCount = new Integer[3];
+        centorStateCount[0]=001;
+        centorStateCount[1]=002;
+        centorStateCount[2]=003;
+        //采集器统计
+        Integer collectorConnCount=111;
+        Integer collectorDisConnCount=222;
+        model.addAttribute("meterStateCount",meterStateCount);
+        model.addAttribute("t_stateNameList",t_stateNameList);
+        model.addAttribute("stateNameList",stateNameList);
+        model.addAttribute("centorStateCount",centorStateCount);
+        model.addAttribute("collectorConnCount",collectorConnCount);
+        model.addAttribute("collectorDisConnCount",collectorDisConnCount);
+         return "main";
     }
 }
