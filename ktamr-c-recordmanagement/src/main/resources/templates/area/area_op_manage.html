@@ -244,9 +244,10 @@
                 ];
                 GridObj.jqdefaultGridConfig.footerrow = true;
                 GridObj.jqdefaultGridConfig.userDataOnFooter = true;
-                GridObj.jqdefaultGridConfig.loadComplete = function () {
-                    form.render('checkbox');
-                }
+                // GridObj.jqdefaultGridConfig.loadComplete = function () {
+                //     form.render('checkbox');
+                //     GridObj.aboutCounts();
+                // }
                 GridObj.drawGrid();
                 GridObj.drawGridPager();
                 GridObj.setGridSize();
@@ -371,6 +372,7 @@
                 };
                 GridObj.jqdefaultGridConfig.loadComplete = function () {
                     MeterStateRowColor("jqGrid2", "表状态");
+                    //GridObj.aboutCounts();
                 }
                 GridObj.drawGrid();
                 GridObj.drawGridPager();
