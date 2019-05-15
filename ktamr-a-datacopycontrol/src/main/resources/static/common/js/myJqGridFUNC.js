@@ -64,19 +64,19 @@ myJqGrid.prototype.unloadGrid = function () {
 }
 
 //将数字进行格式化，每三位都进行逗号隔开
-function toThousands(newnum) { //每隔3位，用逗号隔开
-    var result = [],
-        counter = 0;
-    newnum = (newnum || 0).toString().split('');
-    for (var i = newnum.length - 1; i >= 0; i--) {
-        counter++;
-        result.unshift(newnum[i]);
-        if (!(counter % 3) && i != 0) {
-            result.unshift(',');
-        }
-    }
-    return result.join('');
-}
+// function toThousands(newnum) { //每隔3位，用逗号隔开
+//     var result = [],
+//         counter = 0;
+//     newnum = (newnum || 0).toString().split('');
+//     for (var i = newnum.length - 1; i >= 0; i--) {
+//         counter++;
+//         result.unshift(newnum[i]);
+//         if (!(counter % 3) && i != 0) {
+//             result.unshift(',');
+//         }
+//     }
+//     return result.join('');
+// }
 
 // myJqGrid.prototype.aboutCounts = function () {
 //     var tableData = $('#jqGridPager_right').find('div');
