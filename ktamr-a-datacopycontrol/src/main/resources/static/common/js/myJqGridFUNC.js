@@ -40,6 +40,7 @@
 			         repeatitems:false,
                      id : "id"
              }
+
 	};
 	this.excelButtonConfig = {
 		caption: "Excel",
@@ -53,19 +54,23 @@
 		del:false
 		,add:false
 		,edit:false
-	};	
+	};
 };
 
 myJqGrid.prototype.unloadGrid = function(){
 	$.jgrid.gridUnload(this.GridId);
 }
+
+
 myJqGrid.prototype.drawGrid = function(){
+
 	$("#"+this.GridId).jqGrid(this.jqdefaultGridConfig);
 }
 myJqGrid.prototype.drawGridPager = function(){
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId, this.gridButtonConfig,{},{},{},{multipleSearch:true,multipleGroup:false,sopt: ["cn","nc","eq","ne"]}
 	);
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId).jqGrid('navButtonAdd', '#'+this.GridPagerId, this.excelButtonConfig);
+
 }
 myJqGrid.prototype.freezeGridCol = function(){
 	$("#"+this.GridId).jqGrid('setFrozenColumns');
@@ -79,7 +84,8 @@ myJqGrid.prototype.setGridSize = function(){
 		gridHeight = 100;
 	}
 	$("#"+_this.GridId).setGridWidth(gridWidth, false);
-	$("#"+_this.GridId).setGridHeight(gridHeight);	
+	$("#"+_this.GridId).setGridHeight(gridHeight);
+
 }
 myJqGrid.prototype.gridResize = function(){
 	var _this = this;
@@ -155,6 +161,7 @@ function exportToExcel(url,GridId)
 }
 //分页的数据，Page 当前位置是什么
 function fullTextSearch(jqGridID, postDataArray){
+
 	var grid = $("#"+jqGridID);
 	var _postData=grid.getGridParam("postData");
 	$.each(postDataArray, function (k, v) { 

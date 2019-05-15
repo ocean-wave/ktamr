@@ -109,9 +109,11 @@
         GridObj.jqdefaultGridConfig.userDataOnFooter = true;
         GridObj.jqdefaultGridConfig.loadComplete = function () {
             form.render('checkbox');
-        };
+
+            };
 
         GridObj.drawGrid();
+
         GridObj.drawGridPager();
         GridObj.setGridSize();
         GridObj.gridResize();
