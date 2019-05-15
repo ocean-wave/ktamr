@@ -63,43 +63,44 @@
         ,fz.state AS state
         ,fz.fday AS fday
         ,fz.readTime AS readTime
-        <if test=" params.dataType == 'lastDayFreeze' " >
+        <if test=" params.dataType == 'lastDayFreeze'.toString() " >
             FROM ha_dayfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            where 1=1
+            where fday = (select max(fday) from ha_dayfreeze)
         </if>
-        <if test=" params.dataType == 'lastMonFreeze'" >
+        <if test=" params.dataType == 'lastMonFreeze'.toString() " >
             FROM ha_monfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            where 1=1
+            where fday = (select max(fday) from ha_monfreeze)
         </if>
-        <if test=" params.dataType == 'dayFreeze'" >
+        <if test=" params.dataType == 'dayFreeze'.toString() " >
             FROM ha_dayfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            WHERE fz.meterid is not null
+            WHERE 1=1
         </if>
-        <if test=" params.dataType == 'monFreeze'" >
+        <if test=" params.dataType == 'monFreeze'.toString() " >
             FROM ha_monfreeze fz
             inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            WHERE fz.meterid is not null
+            WHERE 1=1
         </if>
         <include refid="getRightCondition"></include>
-        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
-            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
+        <if test=" params.nodeType == 'area'.toString() and params.nodeIds != '' ">
+            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
-        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
-            AND position(Left(a.areaNo, 1) IN #{params.nodeIds})>0
+        <if test=" params.nodeType == 'rgn'.toString() and params.nodeIds != '' ">
+            AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
         </if>
-        <if test=" params.dataType == 'dayFreeze' and params.startDate != null and params.endDate != null ">
+        <if test="  params.startDate != null and params.startDate != ''  ">
             AND fz.fday BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
         </if>
-        <if test=" params.dataType == 'monFreeze' and params.startDate != null and params.endDate != null ">
+        <if test=" params.dataType == 'monFreeze'.toString() and params.startDate != null and params.endDate != null ">
             AND fz.readTime BETWEEN #{params.startDate} and #{params.endDate}
         </if>
         <if test=" params.keyWord != null and params.keyWord != '' ">
             and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
             or mi.用户地址 like '%${params.keyWord}%')
         </if>
+        order by fday desc
     </select>
 
 

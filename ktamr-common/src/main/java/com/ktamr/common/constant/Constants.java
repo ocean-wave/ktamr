@@ -55,7 +55,7 @@ public class Constants
     /**
      * 排序列
      */
-    public static String ORDER_BY_COLUMN = "orderByColumn";
+    public static String ORDER_BY_COLUMN = "sidx";
 
     /**
      * 排序的方向 "desc" 或者 "asc".

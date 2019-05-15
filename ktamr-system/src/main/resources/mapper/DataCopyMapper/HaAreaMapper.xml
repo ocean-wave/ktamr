@@ -63,17 +63,7 @@
          LEFT JOIN (
              SELECT Count(i.meterid) AS n,i.areaid AS areaid
              FROM hav_meterinfo i
-             WHERE i.状态!='正常'
-             AND i.状态!='正确'
-             AND i.状态!='建档'
-             AND i.状态!='集中器无返回'
-             AND i.状态!='关阀'
-             AND i.状态!='修改'
-             AND i.状态!='已更正'
-             AND i.状态!='已更换'
-             AND i.状态!='采集器无返回'
-             AND i.状态
-             NOT LIKE '%用量异常%'
+             WHERE is_meter_err_state(mi.状态)
              AND i.表号 >0
              GROUP BY i.areaid) t ON t.areaid=a.areaid
          WHERE length(to_char(a.areaid,'9999'))>0
@@ -489,8 +479,8 @@ WHERE areaid IN ('${areaId}')
         <if test="haArea.rgnIds!=null and haArea.rgnIds != '' and haArea.rgnIds != '-2'">
             and left(a.areaNo,1) = #{haArea.rgnIds}
         </if>
-        <if test="haArea.keyWord !=null and haArea.keyWord !=''">
-            and (a.registeredNo like '%${haArea.keyWord}%' or a.name like '%${haArea.keyWord}%' or a.areaNo like '%${haArea.keyWord}%')
+        <if test="haArea.name !=null and haArea.name !=''">
+            and (a.registeredNo like '%${haArea.name}%' or a.name like '%${haArea.name}%' or a.areaNo like '%${haArea.name}%')
         </if>
         <if test="haArea.monthType != null and haArea.monthType != '' ">
             and a.DS = #{haArea.monthType}

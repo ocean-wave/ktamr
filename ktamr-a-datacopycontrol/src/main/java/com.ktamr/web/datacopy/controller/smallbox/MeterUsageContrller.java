@@ -57,6 +57,7 @@ public class MeterUsageContrller extends BaseController {
         params.put("startDate",startDate);
         params.put("endDate",endDate);
         if(dataType.equals("last") || dataType.equals("all")){
+            params.put("dataType",dataType);
             List<HaRecords> listHaRecords = haRecordsService.selectRecordsAndErrrecord(params);
             m = getDataTable(listHaRecords);
         }

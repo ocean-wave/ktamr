@@ -72,7 +72,7 @@
         , mi.用户号 AS userNo
         , mi.用户名 AS userName
         , mi.用户地址 AS userDs
-        , trim(to_char(mi.表号, '9999999999999999')) AS uNo
+        , mi.表号 AS meterNumber
         , t1.bcds
         , t1.scds
         , t1.csyl
@@ -87,8 +87,8 @@
             , rc1.lf_number AS scds
             , rc1.delta AS csyl
             , rc1.state AS bzt
-            , to_char(rc1.th_time, 'yyyy-mm-dd hh24:mi:ss') AS bccbTime
-            ,to_char(rc1.lf_time, 'yyyy-mm-dd hh24:mi:ss') AS sccbTime
+            , rc1.th_time AS bccbTime
+            ,rc1.lf_time AS sccbTime
             FROM ha_records rc1
             WHERE rc1.cmdid IN <foreach item="id" index="index" collection="cmdids"
                                         open="(" separator="," close=")">
@@ -101,8 +101,8 @@
             , 0 AS scds
             , 0 AS csyl
             , er1.state AS bzt
-            , to_char(er1.readtime, 'yyyy-mm-dd hh24:mi:ss') AS bccbTime
-            , '' AS sccbTime
+            , er1.readtime AS bccbTime
+            , null AS sccbTime
             FROM ha_errRecord er1
             WHERE er1.cmdid IN <foreach item="id" index="index" collection="cmdids"
                                         open="(" separator="," close=")">
@@ -126,10 +126,10 @@
 
     <select id="selectMeterById" resultType="java.util.Map" parameterType="java.lang.Integer">
         SELECT
-          th_number AS mthnumber
-          , to_char(th_r_time, 'yyyy-mm-dd hh24:mi:ss') AS mthrtime
-          , state AS mstate
-          , s_number AS msnumber
+          th_number AS thNumber
+          , th_r_time AS thRTime
+          , state AS state
+          , s_number AS sNumber
           FROM ha_meter WHERE meterid=#{meterid}
     </select>
 
@@ -164,21 +164,21 @@
         where 1=1
         <include refid="getRightCondition"></include>
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
-            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
+            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
         <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
-            AND  position(Left(a.areaNo, 1) IN #{params.nodeIds})>0
+            AND  position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
         </if>
         <if test=" params.monthType != null and params.monthType != '' ">
-            AND a.DS=#{monthType}
+            AND mi.DS=#{params.monthType}
         </if>
         <if test=" params.keyWord != null and params.keyWord != '' ">
             and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
             or mi.用户地址 like '%${params.keyWord}%' or m.state = #{params.keyWord}
-            or to_char(mi.表号,'999999999999999') like '%${params.keyWord}%'
-            or trim(to_char(m.th_number, '99999999999999')) like '%${params.keyWord}%'
-            or trim(to_char(m.lf_number, '99999999999999')) like '%${params.keyWord}%'
-            or trim(to_char(m.s_number, '99999999999999')) like '%${params.keyWord}%'
+            or to_char(mi.表号,'fm999999999999999') like '%${params.keyWord}%'
+            or to_char(m.th_number, 'fm99999999999999') like '%${params.keyWord}%'
+            or to_char(m.lf_number, 'fm99999999999999') like '%${params.keyWord}%'
+            or to_char(m.s_number, 'fm99999999999999') like '%${params.keyWord}%'
             or to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') like '%${params.keyWord}%'
             or to_char(m.lf_time, 'yyyy-mm-dd hh24:mi:ss') like '%${params.keyWord}%')
         </if>
@@ -204,16 +204,7 @@
             LEFT JOIN ha_centor ce ON m.centorid=ce.id
             LEFT JOIN ha_collector co ON m.collectorid=co.collectorid
         ) t on t.meterId=mi.meterId
-        WHERE mi.状态!='正常'
-        AND mi.状态!='正确'
-        AND mi.状态!='建档'
-        AND mi.状态!='集中器无返回'
-        AND mi.状态!='关阀'
-        AND mi.状态!='修改'
-        AND mi.状态!='已更正'
-        AND mi.状态!='已更换'
-        AND mi.状态!='采集器无返回'
-        AND mi.状态 NOT LIKE '%用量异常%'
+        WHERE is_meter_err_state(mi.状态)
         AND mi.表号 >0
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))

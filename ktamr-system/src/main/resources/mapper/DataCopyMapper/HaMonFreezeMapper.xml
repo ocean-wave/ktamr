@@ -39,7 +39,7 @@
         , state AS state
         FROM ha_monfreeze
         WHERE meterid = #{meterId}
-        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
+        <if test="  startDate != null and startDate != ''  ">
             and fday BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate}, 'yyyy-mm-dd hh24:mi:ss')
         </if>
         order by fday desc

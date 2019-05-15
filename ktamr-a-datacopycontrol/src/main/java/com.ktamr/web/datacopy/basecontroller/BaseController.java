@@ -46,7 +46,8 @@ public class BaseController {
         Integer rows = pageDomain.getRows();
         if (StringUtils.isNotNull(page) && StringUtils.isNotNull(rows))
         {
-            PageHelper.startPage(page, rows);
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            PageHelper.startPage(page, rows,orderBy);
         }
     }
 

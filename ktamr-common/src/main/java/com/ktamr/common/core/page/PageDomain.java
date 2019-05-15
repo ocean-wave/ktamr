@@ -54,6 +54,8 @@ public class PageDomain
         {
             return "";
         }
+        String[] str = orderByColumn.split("\\.");
+        orderByColumn = str.length==0?orderByColumn:str[str.length-1];
         return orderByColumn + " " + isAsc;
     }
 
