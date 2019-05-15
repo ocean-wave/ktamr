@@ -96,10 +96,10 @@
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="operator_level" lay-filter="" lay-verify="required" lay-search>
                     <option value=""></option>
-                    <option value="admin">系统管理员</option>
-                    <option value="normal">普通管理员</option>
-                    <option value="readMan">抄收员</option>
-                    <option value="viewMan">查阅员</option>
+                    <option value="admin" th:if="${session.operatorLevelCode}<=0">系统管理员</option>
+                    <option value="normal" th:if="${session.operatorLevelCode}<=0">普通管理员</option>
+                    <option value="readMan" th:if="${session.operatorLevelCode}==1">抄收员</option>
+                    <option value="viewMan" th:if="${session.operatorLevelCode}==1">查阅员</option>
                 </select>
             </div>
         </div>
@@ -110,9 +110,14 @@
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="operator_rgn_type" lay-filter="operator_rgn_type" lay-verify="required">
                     <option value=""></option>
-                    <option value="all" selected="">全部区域</option>
-                    <option value="rgn">大区</option>
-                    <option value="area">小区</option>
+                    <option value="all" selected="" th:if="${session.operatorLevelCode}<=0">全部区域</option>
+                    <option value="rgn" th:if="${session.operatorLevelCode}<=0">大区</option>
+                    <option value="area" th:if="${session.operatorLevelCode}<=0">小区</option>
+                    <div th:if="${session.operatorLevelCode}==1">
+                        <option value="all" th:if="${session.operatorRgnType=='all'}">全部区域</option>
+                        <option value="rgn" th:if="${session.operatorRgnType=='all' or session.operatorRgnType=='rgn'}">大区</option>
+                        <option value="area" th:if="${session.operatorRgnType=='all' or session.operatorRgnType=='area'}">小区</option>
+                    </div>
                 </select>
             </div>
         </div>

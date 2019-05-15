@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class HaFreezeController {
@@ -27,7 +28,7 @@ public class HaFreezeController {
      */
     @RequestMapping("/bill_op")
     @ResponseBody
-    public String bill_op(HaFreeze haFreeze, HaArea haArea){
+    public String bill_op(HaFreeze haFreeze, HaArea haArea, HttpSession session){
 
         //判断是否点击费用结算按钮的事件
         if(haFreeze.getOpType().equals("费用结算")){
@@ -40,11 +41,15 @@ public class HaFreezeController {
             Integer binsertHaFreeze43 = haFreezeService.BinsertHaFreeze43(haFreeze);
             Integer binsertHaFreeze51 = haFreezeService.BinsertHaFreeze51(haFreeze);
             Integer binsertHaFreeze52 = haFreezeService.BinsertHaFreeze52(haFreeze);
-            if((insertHaFreeze1+insertHaFreeze2)>0){
+            if((insertHaFreeze1+insertHaFreeze2+binsertHaFreeze2+binsertHaFreeze3+binsertHaFreeze41+binsertHaFreeze42
+            +binsertHaFreeze43+binsertHaFreeze51+binsertHaFreeze52
+            )>0){
                 return "<font color='green'>费用结算成功</font>";
             }
         }else if (haFreeze.getOpType().equals("完成结算")){
+            Object attribute = session.getAttribute("operatorCode");
             Integer integer1 = haAreaService.updateWanChengJieSuanOne(haArea);
+            haArea.setOpertorCode(String.valueOf(attribute));
             Integer integer2 = haAreaService.updateWanChenJieSuanTwo(haArea);
             Integer integer3 = haAreaService.updateWanChenJieSuanThree(haArea);
             Integer integer4 = haAreaService.updateWanChenJieSuanFour(haArea);

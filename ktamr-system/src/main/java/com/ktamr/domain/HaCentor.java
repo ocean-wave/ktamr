@@ -46,6 +46,8 @@ public class HaCentor extends BaseEntity {
     private String nodeType;
     private String nodeIds;
 
+    private String deviceType;
+
     public HaMeter getHaMeter() {
         return haMeter;
     }
@@ -296,5 +298,13 @@ public class HaCentor extends BaseEntity {
 
     public void setNodeIds(String nodeIds) {
         this.nodeIds = nodeIds;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 }

@@ -88,21 +88,16 @@ WHERE (SELECT Count(*) FROM ha_monthBTime WHERE areaid=#{areaId})=0 limit 1
 	<!--点击费用结算所做的步骤5.2 即最后步骤	-->
 	<insert id="BinsertHaFreeze52">
 		INSERT INTO ha_monthBTime(start_time, areaid)
-		SELECT now(),  #{areaId}
-		FROM ha_monthBTime bt
-		WHERE (
-		SELECT case when
-		case when MAX(mb1.start_time)<![CDATA[ <> ]]>NULL then MAX(mb1.start_time)
-		else now() end
-		&lt;
-				case when MAX(mb2.end_time)<![CDATA[ <> ]]>NULL then  MAX(mb2.end_time)
-		else now() end
-		and
-		case  when MAX(mb2.end_time)<![CDATA[ <> ]]>NULL then MAX(mb2.end_time)
-		else now() end &lt; now()
-		then	  #{areaId} else -1 end
-		FROM ha_monthBTime mb1,ha_monthBTime mb2 WHERE mb1.areaid=mb2.areaid AND mb1.areaid=#{areaId})=bt.areaid ORDER BY bt.end_time DESC limit 1
-	</insert>
+		SELECT now(), areaid FROM (
+		SELECT
+		areaid,
+		max(CASE WHEN end_time IS NULL THEN current_date+10 ELSE end_time END) AS e
+		FROM ha_monthBtime GROUP BY areaid
+		HAVING
+		areaid= ${areaId} AND
+		max(CASE WHEN end_time IS NULL THEN current_date+10 ELSE end_time END) &lt; now()
+		) m
+		</insert>
 
 	<resultMap id="BselectPritJiaoFeiDan2Map" type="HaFreeze">
 		<result column="上次抄读" property="lfNumber" />

@@ -173,13 +173,14 @@
 		to_char(pl.planTime, 'YYYY-MM-DD hh:mm:ss') AS plplanTime,
 		to_char(pl.mbTime, 'YYYY-MM-DD hh:mm:ss') AS plmbTime
 	    FROM ha_paylog pl,ha_freeze f,ha_meter m,hav_meterinfo mi,ha_pricestandard ps,ha_meterType mt,
-		( SELECT f.meterid,MAX(f.itemid) AS itemid FROM ha_freeze f inner join  ha_meter m
-  on f.meterid=m.meterid  GROUP BY f.meterid, f.RTime,m.starttime,m.lasttime
-        <trim prefix="having" prefixOverrides="and | or">
+		( SELECT f.meterid,MAX(f.itemid) AS itemid
+		FROM ha_freeze f
+        <trim prefix="where" prefixOverrides="and | or">
             <if test="HaPaylog.KaiShiTime != null  and HaPaylog.JieShuTime != null ">
                 and to_char(f.RTime, 'YYYY-MM-DD hh:mm:ss') between '${HaPaylog.KaiShiTime}' and '${HaPaylog.JieShuTime}'
             </if>
         </trim>
+        GROUP BY f.meterid
         ) t
 		WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid
 		AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
@@ -199,13 +200,14 @@
     <select id="selectMonthReportListCount" resultType="Integer">
         SELECT  count(1)
         FROM ha_paylog pl,ha_freeze f,ha_meter m,hav_meterinfo mi,ha_pricestandard ps,ha_meterType mt,
-        ( SELECT f.meterid,MAX(f.itemid) AS itemid FROM ha_freeze f inner join  ha_meter m
-        on f.meterid=m.meterid  GROUP BY f.meterid, f.RTime,m.starttime,m.lasttime
-        <trim prefix="having" prefixOverrides="and | or">
+        ( SELECT f.meterid,MAX(f.itemid) AS itemid
+        FROM ha_freeze f
+        <trim prefix="where" prefixOverrides="and | or">
             <if test="HaPaylog.KaiShiTime != null  and HaPaylog.JieShuTime != null ">
                 and to_char(f.RTime, 'YYYY-MM-DD hh:mm:ss') between '${HaPaylog.KaiShiTime}' and '${HaPaylog.JieShuTime}'
             </if>
         </trim>
+        GROUP BY f.meterid
         ) t
         WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid
         AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
