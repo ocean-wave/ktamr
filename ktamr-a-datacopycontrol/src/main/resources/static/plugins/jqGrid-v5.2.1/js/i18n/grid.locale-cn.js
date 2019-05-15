@@ -29,18 +29,6 @@
     if (!$.jgrid.hasOwnProperty("regional")) {
         $.jgrid.regional = [];
     }
-    function aboutCounts(xxx){
-        alert(xxx);
-        return "第{0}到第{1}条\u3000共{2}条";
-    };
-    var tableData = $('#jqGridPager_right').find('div');
-    var jqGrid = $("#" + this.GridId).jqGrid('getGridParam', 'records');//获取JqGrid总记录数
-    if (jqGrid > 10000) {
-        jqGrid = toThousands(jqGrid);
-        //对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
-        tableData.html(tableData.html().replace(/共/ig, '大于'));
-        tableData.html(tableData.html().replace(new RegExp(jqGrid, 'g'), '10000'))
-    }
     $.jgrid.regional["cn"] = {
         defaults: {
             recordtext: "第{0}到第{1}条\u3000共{2}条", // 共字前是全角空格

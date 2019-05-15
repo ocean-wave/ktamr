@@ -78,16 +78,16 @@ function toThousands(newnum) { //每隔3位，用逗号隔开
     return result.join('');
 }
 
-myJqGrid.prototype.aboutCounts = function () {
-    var tableData = $('#jqGridPager_right').find('div');
-    var jqGrid = $("#" + this.GridId).jqGrid('getGridParam', 'records');//获取JqGrid总记录数
-    if (jqGrid > 10000) {
-        jqGrid = toThousands(jqGrid);
-        //对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
-        tableData.html(tableData.html().replace(/共/ig, '大于'));
-        tableData.html(tableData.html().replace(new RegExp(jqGrid, 'g'), '10000'))
-    }
-};
+// myJqGrid.prototype.aboutCounts = function () {
+//     var tableData = $('#jqGridPager_right').find('div');
+//     var jqGrid = $("#" + this.GridId).jqGrid('getGridParam', 'records');//获取JqGrid总记录数
+//     if (jqGrid > 10000) {
+//         jqGrid = toThousands(jqGrid);
+//         //对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
+//         tableData.html(tableData.html().replace(/共/ig, '大于'));
+//         tableData.html(tableData.html().replace(new RegExp(jqGrid, 'g'), '10000'))
+//     }
+// };
 myJqGrid.prototype.drawGrid = function () {
 
     $("#" + this.GridId).jqGrid(this.jqdefaultGridConfig);
