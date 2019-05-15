@@ -1,12 +1,15 @@
 package com.ktamr.management.devices;
 
+import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HaCollector;
 import com.ktamr.domain.HaMeter;
+import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaCentorService;
 import com.ktamr.service.HaCollectorService;
 import com.ktamr.service.HaMeterService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,6 +29,9 @@ public class DevicesController {
     @Resource
     private HaMeterService haMeterService;
 
+    @Resource
+    private HaAreaService haAreaService;
+
     @RequestMapping("/device_data_mng")
     public String device_data_mng(){
         return "devices/device_data_mng";
@@ -34,6 +40,13 @@ public class DevicesController {
     @RequestMapping("/device_addr_set")
     public String device_addr_set(){return "devices/device_addr_set";}
 
+    @RequestMapping("/JumpCentorAdd")
+    public String jumpCentorAdd(String cmdName,Model model){
+        List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        model.addAttribute("haArea",haArea);
+        model.addAttribute("cmdName",cmdName);
+        return "devices/centor_add";
+    }
 
     @RequestMapping("/deviceDataMngJson")
     @ResponseBody
@@ -61,4 +74,6 @@ public class DevicesController {
         }
         return null;
     }
+
+
 }

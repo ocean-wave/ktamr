@@ -84,6 +84,9 @@
                     </ul>
                 </div>
                 <div class="btn-group btnMargin">
+                    <button data-modal="" data-title="取消关联设备" class="layui-btn layui-btn-sm"><img src="../../images/delete.png" />&nbsp;取消关联设备</button>
+                </div>
+                <div class="btn-group btnMargin">
                     <button data-modal="" data-title="导入" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-upload"></span>&nbsp;导入</button>
                 </div>
             </div>
@@ -121,6 +124,9 @@
                         <li><a href="#" >2.端口关联表</a></li>
                         <li><a href="#" >3.表选择端口</a></li>
                     </ul>
+                </div>
+                <div class="btn-group btnMargin">
+                    <button data-modal="" data-title="取消关联设备" class="layui-btn layui-btn-sm"><img src="../../images/delete.png" />&nbsp;取消关联设备</button>
                 </div>
                 <div class="btn-group btnMargin">
                     <button data-modal="" data-title="导入" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-upload"></span>&nbsp;导入</button>
@@ -448,7 +454,7 @@
                     _queryStr = [
                         "cmdName="+cmdName
                     ]
-                    _myLayui.showLayer(cmdName, "./centor_add.asp", _queryStr, _layerSize);
+                    _myLayui.showLayer(cmdName, "/devices/JumpCentorAdd", _queryStr, _layerSize);
                     break;
                 case "新增采集器":
                 case "新增端口":
