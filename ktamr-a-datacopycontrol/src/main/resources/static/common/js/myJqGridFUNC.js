@@ -12,8 +12,6 @@
 		datatype: "json",
 		ajaxGridOptions: {contentType: 'application/x-www-form-urlencoded; charset=utf-8'},
 		autowidth: true,
-
-
 		height: 100,//默认高度
 		shrinkToFit: false,
 		rowNum: 200,
@@ -56,10 +54,12 @@
 		,add:false
 		,edit:false
 	};
-	this.gridComplete();
+	this.gridComplete(GridId);
 };
 //重写Jqgrid本身的函数
-myJqGrid.prototype.gridComplete= function () {
+myJqGrid.prototype.gridComplete= function (xxx) {
+	var grid = $("#"+GridId);
+
     var tableData = $('#jqGridPager_right').find('div');//寻找节点
 	var jqGrid = this.jqdefaultGridConfig.jsonReader.records;//通过jqGrid中的解析Json数据获取总记录数
 	console.log(jqGrid);

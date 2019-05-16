@@ -4,8 +4,12 @@ import com.ktamr.service.ZhuYeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.util.StringUtils.split;
 @Controller
@@ -35,7 +39,12 @@ public class ZhuYeController {
         model.addAttribute("ccentorCount",ccentorCount);
         model.addAttribute("centorCount",centorCount);
         model.addAttribute("collectorCount",collectorCount);
+        return "main";
+    }
 
+    @RequestMapping("/openMainHtml2")
+    @ResponseBody
+    public Map<String ,Object> openMainHtml2(){
         //开始统计图
         Integer[] meterStateCount = new Integer[15];
         meterStateCount[2] = 2;
@@ -50,7 +59,7 @@ public class ZhuYeController {
 
 
         String t_stateNameList="";
-        String stateNameList = "'建档','无返回','失联','正常','光通道干扰',' 强光干扰','气泡干扰','通讯故障','表具故障','异常','用量异常','开阀','关阀',' 开阀故障','关阀故障'";
+        String stateNameList = "建档,无返回,失联,正常,强光干扰,气泡干扰,通讯故障,表具故障,异常,用量异常,开阀,关阀";
         //1、正常表计数'
         meterStateCount[3] = 3;
         t_stateNameList = t_stateNameList + "'正常'" +",";
@@ -81,12 +90,17 @@ public class ZhuYeController {
         //采集器统计
         Integer collectorConnCount=111;
         Integer collectorDisConnCount=222;
-        model.addAttribute("meterStateCount",meterStateCount);
-        model.addAttribute("t_stateNameList",t_stateNameList);
-        model.addAttribute("stateNameList",stateNameList);
-        model.addAttribute("centorStateCount",centorStateCount);
-        model.addAttribute("collectorConnCount",collectorConnCount);
-        model.addAttribute("collectorDisConnCount",collectorDisConnCount);
-        return "main";
+//        model.addAttribute("meterStateCount",meterStateCount);
+        Map<String ,Object> map=new HashMap<>();
+        map.put("meterStateCount",meterStateCount);
+        map.put("stateNameList",stateNameList);
+        map.put("centorStateCount",centorStateCount);
+        map.put("collectorConnCount",collectorConnCount);
+        map.put("collectorDisConnCount",collectorDisConnCount);
+        map.put("collectorDisConnCount",collectorDisConnCount);
+        if(map!=null){
+            return map;
+        }
+        return null;
     }
 }
