@@ -259,12 +259,15 @@
 				};
 				GridObj.jqdefaultGridConfig.loadComplete = function () {
 					MeterStateRowColor("jqGrid", "room.meter..state");
+					alert("我又重新刷新了")
 				}
+
 				GridObj.drawGrid();
 				GridObj.drawGridPager();
 				//GridObj.freezeGridCol();
 				GridObj.setGridSize();
 				GridObj.gridResize();
+
 				var operatorCompany = [[${operatorCompanyId}]];
 				if(operatorCompany == "ntrq"){
 					var cols = new Array("room.meter.meterNumber")
