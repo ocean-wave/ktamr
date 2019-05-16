@@ -300,40 +300,41 @@
     </select>
 
     <insert id="addHaCentor">
-        insert into ha_centor values (default ,#{centorId},#{ver},#{rTime},#{setupTime},#{addr},#{description},#{telNumber},#{endTime},#{state},#{centorNo},#{areaId},#{remark});
+        insert into ha_centor (id,centorid, ver,description,rtime,setuptime,addr,endTime,telNumber,remark,centorNo,state,areaid)
+         values (default ,#{centorId},#{ver},#{description},#{rTime},#{setupTime},#{addr},#{endTime},#{telNumber},#{remark},#{centorNo},#{state},#{areaId});
     </insert>
 
     <delete id="deleteHaCentor">
         delete from ha_centor where id = #{id}
     </delete>
 
-    <update id="updateHaCentor">
-        update ha_centor
-        <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
-            <if test="centorid != null">centorid = #{centorid},</if>
-            <if test="ver != null">ver = #{ver},</if>
-            <if test="rtime != null">rtime = #{rtime},</if>
-            <if test="setuptime != null">setuptime = #{setuptime},</if>
-            <if test="addr != null">addr = #{addr},</if>
-            <if test="description != null">description = #{description},</if>
-            <if test="telnumber != null">telnumber = #{telnumber},</if>
-            <if test="endtime != null">endtime = #{endtime},</if>
-            <if test="usetypecode != null">usetypecode = #{usetypecode},</if>
-            <if test="state != null">state = #{state},</if>
-            <if test="centorno != null">centorno = #{centorno},</if>
-            <if test="lastfreezetime != null">lastfreezetime = #{lastfreezetime},</if>
-            <if test="lastfreezeday != null">lastfreezeday = #{lastfreezeday},</if>
-            <if test="lastfreezemon != null">lastfreezemon = #{lastfreezemon},</if>
-            <if test="createtime != null">createtime = #{createtime},</if>
-            <if test="modifytime != null">modifytime = #{modifytime},</if>
-            <if test="meters != null">meters = #{meters},</if>
-            <if test="areaid != null">areaid = #{areaid},</if>
-            <if test="last_state_change_time != null">last_state_change_time = #{last_state_change_time},</if>
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="rssi != null">rssi = #{rssi},</if>
-            <if test="vol != null">vol = #{vol},</if>
-            <if test="imsi != null">imsi = #{imsi},</if>
-            <if test="imei != null">imei = #{imei},</if>
-        </trim>
-    </update>
+    <!--<update id="updateHaCentor">-->
+        <!--update ha_centor-->
+        <!--<trim prefix="set" suffixOverrides="," suffix="where id = #{id}">-->
+            <!--<if test="centorid != null">centorid = #{centorid},</if>-->
+            <!--<if test="ver != null">ver = #{ver},</if>-->
+            <!--<if test="rtime != null">rtime = #{rtime},</if>-->
+            <!--<if test="setuptime != null">setuptime = #{setuptime},</if>-->
+            <!--<if test="addr != null">addr = #{addr},</if>-->
+            <!--<if test="description != null">description = #{description},</if>-->
+            <!--<if test="telnumber != null">telnumber = #{telnumber},</if>-->
+            <!--<if test="endtime != null">endtime = #{endtime},</if>-->
+            <!--<if test="usetypecode != null">usetypecode = #{usetypecode},</if>-->
+            <!--<if test="state != null">state = #{state},</if>-->
+            <!--<if test="centorno != null">centorno = #{centorno},</if>-->
+            <!--<if test="lastfreezetime != null">lastfreezetime = #{lastfreezetime},</if>-->
+            <!--<if test="lastfreezeday != null">lastfreezeday = #{lastfreezeday},</if>-->
+            <!--<if test="lastfreezemon != null">lastfreezemon = #{lastfreezemon},</if>-->
+            <!--<if test="createtime != null">createtime = #{createtime},</if>-->
+            <!--<if test="modifytime != null">modifytime = #{modifytime},</if>-->
+            <!--<if test="meters != null">meters = #{meters},</if>-->
+            <!--<if test="areaid != null">areaid = #{areaid},</if>-->
+            <!--<if test="last_state_change_time != null">last_state_change_time = #{last_state_change_time},</if>-->
+            <!--<if test="remark != null">remark = #{remark},</if>-->
+            <!--<if test="rssi != null">rssi = #{rssi},</if>-->
+            <!--<if test="vol != null">vol = #{vol},</if>-->
+            <!--<if test="imsi != null">imsi = #{imsi},</if>-->
+            <!--<if test="imei != null">imei = #{imei},</if>-->
+        <!--</trim>-->
+    <!--</update>-->
 </mapper>
