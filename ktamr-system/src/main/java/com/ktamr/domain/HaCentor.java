@@ -46,7 +46,11 @@ public class HaCentor extends BaseEntity {
     private String nodeType;
     private String nodeIds;
 
+    //表类型
     private String deviceType;
+
+    //表名
+    private String cmdName;
 
     public HaMeter getHaMeter() {
         return haMeter;
@@ -306,5 +310,13 @@ public class HaCentor extends BaseEntity {
 
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
+    }
+
+    public String getCmdName() {
+        return cmdName;
+    }
+
+    public void setCmdName(String cmdName) {
+        this.cmdName = cmdName;
     }
 }

@@ -300,7 +300,7 @@
     </select>
 
     <insert id="addHaCentor">
-        insert into ha_centor values (default ,#{centorid},#{ver},#{rtime},#{setuptime},#{addr},#{description},#{telnumber},#{endtime},#{usetypecode},#{state},#{centorno},#{lastfreezetime},#{lastfreezeday},#{lastfreezemon},#{createtime},#{modifytime},#{meters},#{areaid},#{last_state_change_time},#{remark},#{rssi},#{vol},#{imsi},#{imei},);
+        insert into ha_centor values (default ,#{centorId},#{ver},#{rTime},#{setupTime},#{addr},#{description},#{telNumber},#{endTime},#{useTypeCode},#{state},#{centorNo},#{lastfreezeTime},#{lastfreezeDay},#{lastfreezeMon},#{createTime},#{modifyTime},#{meters},#{areaId},#{lastStateChangeTime},#{remark},#{rssi},#{vol},#{imsi},#{imei},);
     </insert>
 
     <delete id="deleteHaCentor">
