@@ -3,6 +3,7 @@ package com.ktamr.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,19 +14,27 @@ public class HaCentor extends BaseEntity {
     private String ver;
     private String rTime;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date setupTime;
     private String addr;
     private String description;
     private String telNumber;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endTime;
     private String useTypeCode;
     private String state;
     private String centorNo;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lastfreezeTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastfreezeDay;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastfreezeMon;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date modifyTime;
     private Integer meters;
     private Integer areaId;
