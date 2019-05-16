@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 
 @Controller
-public class xxxController {
+public class XxxController {
 
     @Resource
     private ZhuYeService zhuYeService;
