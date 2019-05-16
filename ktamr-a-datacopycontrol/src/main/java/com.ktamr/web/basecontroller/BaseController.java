@@ -52,18 +52,17 @@ public class BaseController {
             Class userCla =  obj.getClass();
             /* 得到类中的所有属性集合 */
             Class cs = userCla.getSuperclass();
-            Field[] fs = cs.getDeclaredFields();
+            Field[] fs = userCla.getDeclaredFields();
             for (int i = 0; i < fs.length; i++) {
                 Field f = fs[i];
                 f.setAccessible(true); // 设置些属性是可以访问的
                 try {
-                    if (f.getName().endsWith("resultParams")) {
-                        Map<String,Object> ms = (Map<String, Object>) f.get(obj);
-                        for (int j=0;j<m.size();j++){
-                            if (map.get(j) != null && ms.get(m.get(j)) != null) {
-                                map.put(j, map.get(j) + Integer.parseInt(ms.get(m.get(j)).toString()));
-                            } else if (map.get(j) == null && ms.get(m.get(j)) != null) {
-                                map.put(j, Integer.parseInt(ms.get(m.get(j)).toString()));
+                    for (int j=0;j<m.size();j++){
+                    if (f.getName().endsWith(m.get(j))) {
+                            if (map.get(j) != null && f.get(obj) != null) {
+                                map.put(j, map.get(j) + Integer.parseInt(f.get(obj).toString()));
+                            } else if (map.get(j) == null && f.get(obj) != null) {
+                                map.put(j, Integer.parseInt(f.get(obj).toString()));
                             } else if (map.get(j) == null) {
                                 map.put(j, 0);
                             }

@@ -11,10 +11,10 @@
         <result column="zCode" property="zCode" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="createtime" property="createTime" javaType="java.util.Date" jdbcType="DATE"></result>
         <result column="modifytime" property="modifyTime" javaType="java.util.Date" jdbcType="DATE"></result>
-        <result column="haAreaCount" property="resultParams.haAreaCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="haCentorCount" property="resultParams.haCentorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="haCollectorCount" property="resultParams.haCollectorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="haMeterCount" property="resultParams.haMeterCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haAreaCount" property="haAreaCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haCentorCount" property="haCentorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haCollectorCount" property="haCollectorCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="haMeterCount" property="haMeterCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
 
     </resultMap>
 

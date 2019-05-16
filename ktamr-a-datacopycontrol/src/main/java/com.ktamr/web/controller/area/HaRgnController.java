@@ -39,10 +39,10 @@ public class HaRgnController extends BaseController {
         mi.put(3,"haMeterCount");
         Map<Integer,Integer> mm = getValuesByKey(listHaRng,mi);
         map2.put("cb","总计:");
-        map2.put("resultParams.haAreaCount",mm.get(0).toString());
-        map2.put("resultParams.haCentorCount",mm.get(1).toString());
-        map2.put("resultParams.haCollectorCount",mm.get(2).toString());
-        map2.put("resultParams.haMeterCount",mm.get(3).toString());
+        map2.put("haAreaCount",mm.get(0).toString());
+        map2.put("haCentorCount",mm.get(1).toString());
+        map2.put("haCollectorCount",mm.get(2).toString());
+        map2.put("haMeterCount",mm.get(3).toString());
         Map<String,Object> m =getDataTable(listHaRng);
         m.put("userdata",map2);
         return m;
@@ -54,6 +54,6 @@ public class HaRgnController extends BaseController {
     {
         List<HaRgn> list = haRngService.selectAllRngAndCount(haRgn);
         ExcelUtil<HaRgn> util = new ExcelUtil<HaRgn>(HaRgn.class);
-        return util.exportExcel(list, "区域表抄控");
+        return util.exportExcel(list, "大区表数据");
     }
 }

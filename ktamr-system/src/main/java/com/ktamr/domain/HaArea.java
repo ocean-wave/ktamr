@@ -3,8 +3,10 @@ package com.ktamr.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.annotation.Excel;
+import com.ktamr.common.annotation.Excel.Type;
 import com.ktamr.common.core.domain.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
+import sun.security.krb5.internal.crypto.EType;
 
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,7 @@ public class HaArea extends BaseEntity {
 
 
     //开始存
+    @Excel(name = {"最近抄表时间","开始时间"}, targetAttr = {"startTime","thRTime"},dateFormat = "yyyy-MM-dd HH:mm:ss",type = Type.EXPORT)
     private HaMeter haMeter;
     private HaRgn haRgn;
     private HavMeterinfo havMeterinfo;

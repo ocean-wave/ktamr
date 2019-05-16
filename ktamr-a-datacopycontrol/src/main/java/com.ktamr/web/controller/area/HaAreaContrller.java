@@ -51,6 +51,6 @@ public class HaAreaContrller extends BaseController{
     {
         List<HaArea> list = haAreaService.selectAllAreaAndCount(haArea);
         ExcelUtil<HaArea> util = new ExcelUtil<HaArea>(HaArea.class);
-        return util.exportExcel(list, "小区表抄控");
+        return util.exportExcel(list, "小区表数据");
     }
 }
