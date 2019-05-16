@@ -2429,6 +2429,7 @@ $.fn.jqGrid = function( pin ) {
 			queryResults = null;
 			return  retresult;
 		},
+
 		updatepager = function(rn, dnd) {
 			var cp, last, base, from,to,tot,fmt, pgboxes = "", sppg,
 			pgid = ts.p.pager ? $.jgrid.jqID(ts.p.pager.substr(1)) : "",
@@ -2478,13 +2479,22 @@ $.fn.jqGrid = function( pin ) {
 					} else {
 						from = base+1;
 						tot=ts.p.records;
+						var tot2=tot;//相当于把总记录数复制一份
 						if($.fmatter) {
 							from = $.fmatter.util.NumberFormat(from,fmt);
 							to = $.fmatter.util.NumberFormat(to,fmt);
 							tot = $.fmatter.util.NumberFormat(tot,fmt);
 						}
+
 						var rt = $.jgrid.getRegional(ts, "defaults.recordtext", ts.p.recordtext);
 						$(".ui-paging-info",pgboxes).html($.jgrid.template( rt ,from,to,tot));
+						if(tot2>10000){//判断是否大于1000条，然后对其进行替换里面的某个字符
+
+							$(".ui-paging-info",pgboxes).html($(".ui-paging-info",pgboxes).html().replace(/共/ig, "大于"));
+							$(".ui-paging-info",pgboxes).html($(".ui-paging-info",pgboxes).html().replace(new RegExp(tot,'g'), "10000"));
+							
+						}
+
 					}
 				}
 				if(ts.p.pgbuttons===true) {
@@ -16820,6 +16830,7 @@ $.jgrid.extend({
 			$.jgrid.saveAs( ret, p.fileName, { type : p.mimetype });
 		}
 	},
+
 	/*
 	 * 
 	 * @param object o - settings for the export

@@ -112,12 +112,10 @@
 
 <div th:include="include :: footer"></div>
 
-<script language="JavaScript">
-
-
+<script  type="text/javascript" th:inline="none">
     layui.config({
-        base : '../common/js/',
-        version: 'V2.7.10'
+        base : '/common/js/',
+        version: ''
     }).extend({
         myLayui: 'myLayui'
     });
@@ -125,7 +123,7 @@
         var layer = layui.layer,
             myLayui = layui.myLayui;
         var _myLayui = new myLayui;
-        var areaId="1";
+        var areaId="";
         var colorList1 = [
             '#C0C0C0' //建档
             ,'#FFA07A' //无返回
@@ -143,20 +141,18 @@
             ,'#D48265' //开阀故障
             ,'#FF00CC' //关阀故障
         ];
-        var legendData1 = "'建档','无返回','失联','正常','光通道干扰',' 强光干扰','气泡干扰','通讯故障','表具故障','异常','用量异常','开阀','关阀',' 开阀故障','关阀故障'";
-        var dataList1 = [
-             [[${meterStateCount[0]}]],[[${meterStateCount[1]}]],[[${meterStateCount[2]}]],[[${meterStateCount[3]}]]
-            ,[[${meterStateCount[4]}]],[[${meterStateCount[5]}]],[[${meterStateCount[6]}]],[[${meterStateCount[7]}]]
-            ,[[${meterStateCount[8]}]],[[${meterStateCount[9]}]],[[${meterStateCount[10]}]],[[${meterStateCount[11]}]]
-            ,[[${meterStateCount[12]}]],[[${meterStateCount[13]}]],[[${meterStateCount[14]}]]
-    ];
+        var legendData1 = "建档,无返回,失联,正常,强光干扰,气泡干扰,通讯故障,表具故障,异常,用量异常,开阀,关阀";
+        //var dataList1 = [[6000],[100],[100],[0],[100],[50],[150],[150],[100],[100],[4000],[1000],[100],[100]];
+        var dataList1 = [[574],[110],[5390],[100176]
+            ,[0],[612],[63],[3969]
+            ,[300],[75],[543],[101095]
+            ,[56],[0],[0]
+        ];
         var colorList2 = [
             '#3CB371' //联机
             ,'#D48265' //离线
         ];
-        var dataList2 = [
-            '[[${centorStateCount[0]}]]',[[${centorStateCount[1]}]],[[${collectorConnCount}]],[[${collectorDisConnCount}]]
-                        ];
+        var dataList2 = [[25],[6616],[210],[9]];
         var option1 = {
             tooltip : {
                 trigger: 'item',
@@ -207,380 +203,380 @@
                     nameLocation : "middle",
                     nameGap : 35,
                     type : 'value',
-                    max : [[${meterCount}]],
-                axisLabel:{
-            show: true,
-                showMaxLabel: true
-        }
-    }
-    ],
-        series : [
-            //背景
-            /*{
-                name:'表档案总数',
-                type:'bar',
-                //颜色需要有透明度
-                //barGap: '-100%',
-                itemStyle: {normal: {color:'rgba(102, 102, 102,0.5)'}},
-                //data填你需要的背景的值
-                data:[6180]
-            },*/
-            {
-                name:'建档',
-                type:'bar',
-                stack: '表抄收状态',
-                data: dataList1[0],
-                label: {
-                    normal: {
+                    max : 111812,
+                    axisLabel:{
                         show: true,
-                        position: 'bottom',
-                        textStyle: {
-                            color: '#666'
-                        },
-                        formatter: function(params) {
-                            var i, meterCount=0;
-                            for(i=0; i<=2; i++){
-                                meterCount = meterCount+dataList1[i][0];
+                        showMaxLabel: true
+                    }
+                }
+            ],
+            series : [
+                //背景
+                /*{
+                    name:'表档案总数',
+                    type:'bar',
+                    //颜色需要有透明度
+                    //barGap: '-100%',
+                    itemStyle: {normal: {color:'rgba(102, 102, 102,0.5)'}},
+                    //data填你需要的背景的值
+                    data:[6180]
+                },*/
+                {
+                    name:'建档',
+                    type:'bar',
+                    stack: '表抄收状态',
+                    data: dataList1[0],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'bottom',
+                            textStyle: {
+                                color: '#666'
+                            },
+                            formatter: function(params) {
+                                var i, meterCount=0;
+                                for(i=0; i<=2; i++){
+                                    meterCount = meterCount+dataList1[i][0];
+                                }
+                                return "无数据表("+meterCount+")";
                             }
-                            return "无数据表("+meterCount+")";
-                        }
-                    },
-                    emphasis: {
-                        show: true,
-                        position: 'inside',
-                        formatter: function(params) {
-                            return params.value;
-                        }
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[0]
-                    }
-                }
-            },
-            {
-                name:'无返回',
-                type:'bar',
-                stack: '表抄收状态',
-                //barMaxWidth: '15%',
-                data: dataList1[1],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[1]
-                    }
-                }
-            },
-            {
-                name:'失联',
-                type:'bar',
-                stack: '表抄收状态',
-                data: dataList1[2],
-                //barMaxWidth: '15%',
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[2]
-                    }
-                }
-            },
-            {
-                name:'正常',
-                type:'bar',
-                stack: '表具状态',
-                data: dataList1[3],
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'bottom',
-                        textStyle: {
-                            color: '#666'
                         },
-                        formatter: function(params) {
-                            var i, meterCount=0;
-                            for(i=3; i<=9; i++){
-                                meterCount = meterCount+dataList1[i][0];
+                        emphasis: {
+                            show: true,
+                            position: 'inside',
+                            formatter: function(params) {
+                                return params.value;
                             }
-                            return "表具状态("+meterCount+")";
                         }
                     },
-                    emphasis: {
-                        show: true,
-                        position: 'inside',
-                        formatter: function(params) {
-                            return params.value;
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[0]
                         }
                     }
                 },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[3],
+                {
+                    name:'无返回',
+                    type:'bar',
+                    stack: '表抄收状态',
+                    //barMaxWidth: '15%',
+                    data: dataList1[1],
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[1]
+                        }
                     }
+                },
+                {
+                    name:'失联',
+                    type:'bar',
+                    stack: '表抄收状态',
+                    data: dataList1[2],
+                    //barMaxWidth: '15%',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[2]
+                        }
+                    }
+                },
+                {
+                    name:'正常',
+                    type:'bar',
+                    stack: '表具状态',
+                    data: dataList1[3],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'bottom',
+                            textStyle: {
+                                color: '#666'
+                            },
+                            formatter: function(params) {
+                                var i, meterCount=0;
+                                for(i=3; i<=9; i++){
+                                    meterCount = meterCount+dataList1[i][0];
+                                }
+                                return "表具状态("+meterCount+")";
+                            }
+                        },
+                        emphasis: {
+                            show: true,
+                            position: 'inside',
+                            formatter: function(params) {
+                                return params.value;
+                            }
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[3],
+                        }
 
-                }
-            },
-            {
-                name:'光通道干扰',
-                type:'bar',
-                stack: '表具状态',
-                data: dataList1[4],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
                     }
                 },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[4]
-                    }
-                }
-            },
-            {
-                name:'强光干扰',
-                type:'bar',
-                stack: '表具状态',
-                data: dataList1[5],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[5]
-                    }
-                }
-            },
-            {
-                name:'气泡干扰',
-                type:'bar',
-                stack: '表具状态',
-                data: dataList1[6],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[6]
-                    }
-                }
-            },
-            {
-                name:'通讯故障',
-                type:'bar',
-                stack: '表具状态',
-                data: dataList1[7],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[7]
-                    }
-                }
-            },
-            {
-                name:'表具故障',
-                type:'bar',
-                stack: '表具状态',
-                data: dataList1[8],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[8]
-                    }
-                }
-            },
-            {
-                name:'异常',
-                type:'bar',
-                stack: '表具状态',
-                data: dataList1[9],
-                //barMaxWidth: '15%',
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[9]
-                    }
-                }
-            },
-            {
-                name:'用量异常',
-                type:'bar',
-                stack: '表用量状态',
-                data: dataList1[10],
-                //barMaxWidth: '15%',
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'bottom',
-                        textStyle: {
-                            color: '#666'
+                {
+                    name:'光通道干扰',
+                    type:'bar',
+                    stack: '表具状态',
+                    data: dataList1[4],
+                    label: {
+                        normal: {
+                            show: false
                         },
-                        formatter: function(params) {
-                            var i, meterCount=0;
-                            for(i=10; i<=10; i++){
-                                meterCount = meterCount+dataList1[i][0];
-                            }
-                            return "表用量状态("+meterCount+")";
+                        emphasis: {
+                            show: true
                         }
                     },
-                    emphasis: {
-                        show: true,
-                        position: 'inside',
-                        formatter: function(params) {
-                            return params.value;
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[4]
                         }
                     }
                 },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[10]
-                    }
-
-                }
-            },
-            {
-                name:'开阀',
-                type:'bar',
-                stack: '表阀门状态',
-                data: dataList1[11],
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'bottom',
-                        textStyle: {
-                            color: '#666'
+                {
+                    name:'强光干扰',
+                    type:'bar',
+                    stack: '表具状态',
+                    data: dataList1[5],
+                    label: {
+                        normal: {
+                            show: false
                         },
-                        formatter: function(params) {
-                            var i, meterCount=0;
-                            for(i=11; i<=14; i++){
-                                meterCount = meterCount+dataList1[i][0];
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[5]
+                        }
+                    }
+                },
+                {
+                    name:'气泡干扰',
+                    type:'bar',
+                    stack: '表具状态',
+                    data: dataList1[6],
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[6]
+                        }
+                    }
+                },
+                {
+                    name:'通讯故障',
+                    type:'bar',
+                    stack: '表具状态',
+                    data: dataList1[7],
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[7]
+                        }
+                    }
+                },
+                {
+                    name:'表具故障',
+                    type:'bar',
+                    stack: '表具状态',
+                    data: dataList1[8],
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[8]
+                        }
+                    }
+                },
+                {
+                    name:'异常',
+                    type:'bar',
+                    stack: '表具状态',
+                    data: dataList1[9],
+                    //barMaxWidth: '15%',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[9]
+                        }
+                    }
+                },
+                {
+                    name:'用量异常',
+                    type:'bar',
+                    stack: '表用量状态',
+                    data: dataList1[10],
+                    //barMaxWidth: '15%',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'bottom',
+                            textStyle: {
+                                color: '#666'
+                            },
+                            formatter: function(params) {
+                                var i, meterCount=0;
+                                for(i=10; i<=10; i++){
+                                    meterCount = meterCount+dataList1[i][0];
+                                }
+                                return "表用量状态("+meterCount+")";
                             }
-                            return "表阀门状态("+meterCount+")";
+                        },
+                        emphasis: {
+                            show: true,
+                            position: 'inside',
+                            formatter: function(params) {
+                                return params.value;
+                            }
                         }
                     },
-                    emphasis: {
-                        show: true,
-                        position: 'inside',
-                        formatter: function(params) {
-                            return params.value;
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[10]
                         }
-                    }
-                },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[11]
-                    }
 
-                }
-            },
-            {
-                name:'关阀',
-                type:'bar',
-                stack: '表阀门状态',
-                data: dataList1[12],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                    emphasis: {
-                        show: true
                     }
                 },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[12]
-                    }
-                }
-            },
-            {
-                name:'开阀故障',
-                type:'bar',
-                stack: '表阀门状态',
-                data: dataList1[13],
-                label: {
-                    normal: {
-                        show: false
+                {
+                    name:'开阀',
+                    type:'bar',
+                    stack: '表阀门状态',
+                    data: dataList1[11],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'bottom',
+                            textStyle: {
+                                color: '#666'
+                            },
+                            formatter: function(params) {
+                                var i, meterCount=0;
+                                for(i=11; i<=14; i++){
+                                    meterCount = meterCount+dataList1[i][0];
+                                }
+                                return "表阀门状态("+meterCount+")";
+                            }
+                        },
+                        emphasis: {
+                            show: true,
+                            position: 'inside',
+                            formatter: function(params) {
+                                return params.value;
+                            }
+                        }
                     },
-                    emphasis: {
-                        show: true
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[11]
+                        }
+
                     }
                 },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[13]
-                    }
-                }
-            },
-            {
-                name:'关阀故障',
-                type:'bar',
-                stack: '表阀门状态',
-                barGap: '100%',
-                data: dataList1[14],
-                //barMaxWidth: '15%',
-                label: {
-                    normal: {
-                        show: false
+                {
+                    name:'关阀',
+                    type:'bar',
+                    stack: '表阀门状态',
+                    data: dataList1[12],
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
                     },
-                    emphasis: {
-                        show: true
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[12]
+                        }
                     }
                 },
-                itemStyle : {
-                    normal: {
-                        color: colorList1[14]
+                {
+                    name:'开阀故障',
+                    type:'bar',
+                    stack: '表阀门状态',
+                    data: dataList1[13],
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[13]
+                        }
+                    }
+                },
+                {
+                    name:'关阀故障',
+                    type:'bar',
+                    stack: '表阀门状态',
+                    barGap: '100%',
+                    data: dataList1[14],
+                    //barMaxWidth: '15%',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle : {
+                        normal: {
+                            color: colorList1[14]
+                        }
                     }
                 }
-            }
-        ]
-    };
+            ]
+        };
 
         var option2 = {
             tooltip : {
@@ -821,7 +817,7 @@
             showDeviceStateList(params.name);
         });
     });
-</script>
 
+</script>
 </body>
 </html>

@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 
 import static org.springframework.util.StringUtils.split;
-
 @Controller
-public class XxxController {
+public class ZhuYeController {
 
     @Resource
     private ZhuYeService zhuYeService;
@@ -88,6 +87,6 @@ public class XxxController {
         model.addAttribute("centorStateCount",centorStateCount);
         model.addAttribute("collectorConnCount",collectorConnCount);
         model.addAttribute("collectorDisConnCount",collectorDisConnCount);
-         return "main";
+        return "main";
     }
 }
