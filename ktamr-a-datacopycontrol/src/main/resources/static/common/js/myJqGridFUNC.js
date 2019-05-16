@@ -145,18 +145,16 @@ function resizeGrids(op) {
 function exportToExcel(url,GridId)
 {
 	var grid = $("#"+GridId);
-	$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div> ' + "正在导出数据，请稍后..." + '</div>' });
+	$.loading("正在导出数据，请稍后...");
 	url = url.substring(0,url.lastIndexOf("/"));
 	var pdArray = grid.jqGrid("getGridParam", "postData");
 	$.post(url+"/export", pdArray, function(result) {
-		if (result.code == web_status.SUCCESS) {
+		if (result.code == 0) {
 			window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
 		}else{
-			alert(result.msg);
+			$.alert(result.msg,"error");
 		}
-		setTimeout(function(){
-			$.unblockUI();
-		}, 50);
+		$.closeloading();
 	});
 }
 //分页的数据，Page 当前位置是什么
@@ -549,11 +547,26 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 	return styleStr;
 }
 
-/** 消息状态码 */
-web_status = {
-	SUCCESS: 0,
-	FAIL: 500
-};
+(function ($) {
+	$.extend({
+		loading: function (message) {
+			$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div> ' + message + '</div>' });
+		},
+		closeloading: function(){
+			setTimeout(function(){
+				$.unblockUI();
+			}, 50);
+		},
+		alert:function (content,type) {
+			layer.alert(content, {
+				icon: type,
+				title: "系统提示",
+				btn: ['确认'],
+				btnclass: ['btn btn-primary'],
+			});
+		}
+	});
+})(jQuery);
 
 
 
