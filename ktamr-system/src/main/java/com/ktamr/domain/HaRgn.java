@@ -2,6 +2,7 @@ package com.ktamr.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ktamr.common.annotation.Excel;
 import com.ktamr.common.core.domain.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
 public class HaRgn extends BaseEntity {
 
     private String id;
+    @Excel(name = "区域名称")
     private String name;
     private String shortName;
     private String zCode;

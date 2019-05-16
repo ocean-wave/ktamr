@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .layui-form-label {
+            padding: 6px 10px;
+            width: 80px;
+        }
+        .layui-input{
+            height: 32px;
+            line-height: 32px;
+        }
+        .mySelect dl{max-height: 170px;}
+    </style>
+</head>
+<body class="myPage-body">
+<form class="layui-form my-form-class" action="">
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">所属小区</label>
+            <div class="layui-input-inline mySelect my-form-input">
+                <select name="area" lay-filter="area" lay-verify="required">
+                    <option value=""></option>
+                    <%
+                    AreaByWhere dbconn, GetRightCondition("areaNo", "area", ""), "code", areaNo
+                    %>
+                </select>
+            </div>
+        </div>
+    </div>
+    <%if cmdName = "修改集中器" then%>
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">区&nbsp;&nbsp;域&nbsp;号</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="areaNo" name="areaNo" lay-verify="required|number" autocomplete="off" placeholder="数字,4位" class="layui-input my-layui-input" maxlength="4"  readonly="" value="<%=Right(areaNo, 4)%>">
+            </div>
+        </div>
+        <div class="layui-block">
+            <label class="layui-form-label">设备地址</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="deviceAdd" lay-verify="required|number|centorAdd|centorNo"  autocomplete="off" placeholder="数字,值为1~65535" class="layui-input" maxlength="5" value="<%=centorObj.m_centorid%>">
+            </div>
+        </div>
+    </div>
+    <%elseIf cmdName="修改集采器" Then%>
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">设备地址</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="deviceAdd" lay-verify="required|number|num_gt_0|centorID" autocomplete="off" placeholder="数字" class="layui-input" maxlength="10" value="<%=centorObj.m_centorid%>">
+            </div>
+        </div>
+    </div>
+    <%else%>
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">线路编号</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="areaNo" name="areaNo"  lay-verify="required" autocomplete="off" placeholder="5位区域号" class="layui-input" maxlength="5" disabled="disabled" value="<%=areaNo%>">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline my-form-input">
+                <input id="lineNo" name="lineNo" lay-verify="required|number|num_gt_0|lineNo" autocomplete="off" placeholder="5位编号" class="layui-input" maxlength="5" value="<%=Right(centorObj.m_centorNo, 5)%>">
+            </div>
+        </div>
+    </div>
+    <%end if%>
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">通讯方式</label>
+            <div class="layui-input-inline mySelect my-form-input">
+                <select id="commMode" lay-verify="required">
+                    <%if cmdName = "修改集中器" then%>
+                    <option value=""></option>
+                    <option value="KT410 GPRS">KT GPRS</option>
+                    <option value="KT410 COM">KT COM</option>
+                    <option value="KT4EW GPRS">KT4EW GPRS</option>
+                    <option value="KT4GW COM">KT4GW COM</option>
+                    <option value="KT4ZK GPRS">KT4ZK GPRS</option>
+                    <%elseif cmdName="修改集采器" then%>
+                    <option value=""></option>
+                    <option value="KT300 GPRS">KT300 GPRS</option>
+                    <option value="KT300 COM">KT300 串口</option>
+                    <option value="KT3NB GPRS">KT3NB GPRS</option>
+                    <option value="KT3NB VIRTUAL">KT3NB VIRTUAL</option>
+                    <%elseif cmdName="修改抄收线路" then%>
+                    <option value="HAND">手工</option>
+                    <%end if%>
+                </select>
+            </div>
+        </div>
+        <div class="layui-block">
+            <label class="layui-form-label">设备版本</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="deviceVer" lay-verify="" autocomplete="off" placeholder="例如:0.0.0" class="layui-input" value="<%=centorObj.m_ver%>">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">安装日期</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="setupDay" name="setupDay" lay-verify="required" autocomplete="off" placeholder="日期,格式：YYYY-MM-DD" class="layui-input" value="<%=typeSetupTime%>" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-block">
+            <label class="layui-form-label">停用日期</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="endDay" name="endDay" lay-verify="required" autocomplete="off" placeholder="日期,格式：YYYY-MM-DD" class="layui-input" value="<%=typeEndTime%>" readonly="readonly">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">抄表时间</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="readTime" lay-verify="required" placeholder="第几日 时间,格式：n hh:mm" autocomplete="off" class="layui-input" value="<%=centorObj.m_rtime%>">
+            </div>
+        </div>
+        <div class="layui-block">
+            <label class="layui-form-label">安装地点</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="addr" name="addr" lay-verify="required|addr" placeholder="格式：小区名-位置" autocomplete="off" class="layui-input" type="text" value="<%=centorObj.m_addr%>">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-block">
+            <label class="layui-form-label">拨号号码</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="tel" lay-verify="tel" placeholder="数字" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" value="<%=centorObj.m_telNumber%>">
+            </div>
+        </div>
+        <div class="layui-block">
+            <label class="layui-form-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</label>
+            <div class="layui-input-inline my-form-input">
+                <input id="remark" lay-verify="" placeholder="选填" maxlength="32" autocomplete="off" class="layui-input" value="<%=centorObj.m_remark%>">
+            </div>
+        </div>
+    </div>
+    <%if cmdName = "修改集中器" then%>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+        </button>
+        提示：集中器的4位区域号要和小区编号4位编号一致。
+    </div>
+    <%elseIf cmdName = "修改集采器" then%>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+        </button>
+        提示：KT300集采器在同一小区下设备地址唯一，NB集采器在整个系统设备地址唯一。
+    </div>
+    <%else%>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+        </button>
+        提示：线路编号为10位数字，由5位小区编号+3位楼栋号+2位序号组成。
+    </div>
+    <%end if%>
+    <div class="form-inline my-page-btn">
+        <button lay-submit type="button" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</form>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        var get_result_url = "./centor_update_do.asp";
+        var g_deviceId = "<%=deviceId%>";
+        var g_areaNo = "<%=areaNo%>";
+        var g_centorNo = "<%=centorObj.m_centorNo%>";
+        var g_centorid = "<%=centorObj.m_centorid%>";
+        var g_addr = "<%=centorObj.m_addr%>";
+        var g_cmdName = "<%=cmdName%>";
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+        $('#setupDay').datepicker({
+            weekStart: 1,
+            autoclose: true,
+            daysOfWeekHighlighted: "0,6",
+            format: "yyyy-mm-dd",
+            language: "zh-CN",
+            orientation: "auto",
+            todayHighlight: true
+        });
+        $('#endDay').datepicker({
+            weekStart: 1,
+            autoclose: true,
+            daysOfWeekHighlighted: "0,6",
+            format: "yyyy-mm-dd",
+            language: "zh-CN",
+            orientation: "auto",
+            todayHighlight: true
+        });
+
+        //给数字字符串补零，不支持负数
+        function padNumber(num, fill) {
+            var len = ('' + num).length;
+            return (Array(
+                fill > len ? fill - len + 1 || 0 : 0
+            ).join(0) + num);
+        }
+        form.verify({
+            num_gt_0: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(Number(value)<= 0){
+                    return '必须大于0';
+                }
+            },
+            centorAdd: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(Number(value)<= 0 || $("#deviceAdd").val()>65535){
+                    return '设备地址超过范围';
+                }
+            },
+            centorNo: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _centorNo = g_areaNo + padNumber(value, 5);
+                queryData = {centorNo: _centorNo};
+                if(g_centorNo != _centorNo && isDataRepeat(queryData) == true){
+                    return '设备地址重复';
+                }
+            },
+            centorID: function(value, item){
+                var isNBccentor = $("#commMode").val().indexOf("KT3NB")>=0 ? true : false;
+                if(isNBccentor){
+                    queryData = {deviceType: "KT3NB", centorID: Number(value)};
+                }else{
+                    queryData = {centorNo: g_areaNo + padNumber(value, 5)};
+                }
+                if(Number(g_centorid) != Number(value) && isDataRepeat(queryData) == true){
+                    return '设备地址重复';
+                }
+            },
+            lineNo: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _lineNo = g_areaNo + padNumber(value, 5);
+                queryData = {centorNo: _lineNo};
+                if(Number(g_centorNo) != Number(_lineNo) && isDataRepeat(queryData) == true){
+                    return '线路编号重复';
+                }
+            },
+            addr: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _addr = $("#addr").val();
+                queryData = {centorAddr: _addr};
+                if(g_addr != _addr && isDataRepeat(queryData) == true){
+                    return '安装地址重复';
+                }
+            },
+            tel:function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(value != "" && (isNaN(value) || Number(value)<=0)){
+                    return '请输入正确的号码';
+                }
+            }
+        });
+        function submitInfo(sendData){
+            $.ajax({
+                url: get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:true //异步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        parent.layer.msg("修改成功！", {icon: 1});
+                        parent.$("#jqGrid1").trigger("reloadGrid");
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+        form.on('select(area)', function(data){
+            var areaObj = $(data.elem);
+            var textArray = "";
+            g_areaNo = areaObj.val();
+            if(g_cmdName == "修改集中器"){
+                $("#areaNo").val(g_areaNo.substr(1,4));
+            }else if(g_cmdName == "修改抄收线路"){
+                $("#areaNo").val(g_areaNo);
+            }
+            textArray = areaObj.find("option:selected").text().split(":");
+            $("#addr").val(textArray[1]+"-");
+        });
+
+        $("#close").click(function(){
+            parent.$("#jqGrid1").trigger("reloadGrid");
+            parent.layer.close(index); //再执行关闭
+        });
+        form.on('submit(sure)', function (data) {
+            var _centorNo = "", _deviceAdd = $("#deviceAdd").val();
+            if(g_cmdName == "修改集中器" || g_cmdName == "修改集采器"){
+                if(_deviceAdd.length>=5){
+                    _centorNo = g_areaNo + padNumber(_deviceAdd.substring(_deviceAdd.length-5), 5);
+                }else{
+                    _centorNo = g_areaNo + padNumber(_deviceAdd, 5);
+                }
+            }else{
+                _centorNo = g_areaNo + padNumber($("#lineNo").val(), 5);
+                _deviceAdd = 1
+            }
+            var data = {
+                centorNo: _centorNo,
+                centorid: _deviceAdd,
+                ver: $("#deviceVer").val(),
+                dscrpt: $("#commMode").val(),
+                setuptime: $("#setupDay").val(),
+                endTime: $("#endDay").val(),
+                rtime: $("#readTime").val(),
+                addr: $("#addr").val(),
+                telNumber: $("#tel").val(),
+                remark: $("#remark").val(),
+                id: g_deviceId
+            };
+            submitInfo(data);
+        });
+
+    });
+</script>
+</body>
+</html>

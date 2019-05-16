@@ -46,11 +46,12 @@ public interface HaCentorMapper {
      */
     public List<HaCentor> selectAllCentorHandAndCount(HaCentor parms);
 
+
     public List<HaCentor> selectCentor(HaCentor haCentor);
 
-
-
     List<HaCentor> HaCentorList(@Param("haCentor") HaCentor haCentor);
+
+    List<HaCentor> deviceTypeList(@Param("haCentor") HaCentor haCentor);
 
     Integer addHaCentor(HaCentor haCentor);
 

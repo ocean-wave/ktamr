@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .mylayui-item {
+            width: 380px;
+        }
+
+        .layui-form-label {
+            padding: 6px 10px;
+            width: 80px;
+        }
+
+        .layui-input {
+            height: 32px;
+            line-height: 32px;
+        }
+
+        .mySelect dl {
+            max-height: 170px;
+        }
+    </style>
+</head>
+<body class="myPage-body">
+<form class="layui-form my-form-class-single" action="">
+    <%if cmdName = "修改采集器" then%>
+    <div class="layui-form-item mylayui-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">设备地址</label>
+            <div class="layui-input-inline my-form-input-single">
+                <input id="deviceNo" lay-verify="required|hex|deviceAdd" autocomplete="off" placeholder="十六进制数,值为01~FF" class="layui-input" type="text" maxlength="2" value="<%=collectorObj.m_nconf%>">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item mylayui-item">
+        <label class="layui-form-label">设备类型</label>
+        <div class="layui-input-inline mySelect my-form-input-single">
+            <select id="collectorType" name="collectorType" lay-verify="required" lay-filter="collectorType">
+                <option value=""></option>
+                <option value="KT310" <%if collectorObj.m_ver="KT310" then%>selected<%end if%> >KT310</option>
+                <option value="KT300" <%if collectorObj.m_ver="KT300" then%>selected<%end if%> >KT300</option>
+                <option value="KT360" <%if collectorObj.m_ver="KT360" then%>selected<%end if%> >KT360</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item mylayui-item">
+        <label class="layui-form-label">安装地点</label>
+        <div class="layui-input-inline my-form-input-single">
+            <input id="addr" name="addr" lay-verify="required|addr" placeholder="格式：小区名-楼栋位置" autocomplete="off" class="layui-input" type="text" value="<%=collectorObj.m_addr%>">
+        </div>
+    </div>
+    <%elseif cmdName = "修改端口" then%>
+    <div class="layui-form-item mylayui-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">端口序号</label>
+            <div class="layui-input-inline my-form-input-single">
+                <input id="deviceNo" lay-verify="required|num_gt_0" autocomplete="off" placeholder="数字,值为1~6" class="layui-input" type="text" maxlength="2" value="<%=collectorObj.m_nconf%>">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item mylayui-item" style="display:block;">
+        <label class="layui-form-label">设备类型</label>
+        <div class="layui-input-inline mySelect my-form-input-single">
+            <select id="collectorType" name="collectorType" lay-verify="required" lay-filter="collectorType">
+                <option value=""></option>
+                <option value="readPort" selected="">端口</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item mylayui-item">
+        <label class="layui-form-label">端口名称</label>
+        <div class="layui-input-inline my-form-input-single">
+            <input id="addr" name="addr" lay-verify="required|addr" placeholder="格式：集采器名-端口名" autocomplete="off" class="layui-input" type="text" value="<%=collectorObj.m_addr%>">
+        </div>
+    </div>
+    <%end if%>
+    <div class="form-inline my-page-btn-single">
+        <button lay-submit type="button" id="sure" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</form>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        var get_result_url = "./collector_update_do.asp";
+        var g_deviceId = "<%=collectorObj.m_centorid%>";
+        var g_deviceNo = "<%=collectorObj.m_nconf%>";
+        var g_collectorId = "<%=collectorId%>";
+        var g_addr = "<%=collectorObj.m_addr%>";
+        var g_cmdName = "<%=cmdName%>";
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        function checkCode(value){
+            var chrhex = /^[a-fA-F0-9]+$/;
+            if( value == 0) return false;
+            return chrhex.test(value);
+        }
+        form.verify({
+            num_gt_0: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(Number(value)<= 0){
+                    return '必须大于0';
+                }
+            },
+            deviceAdd: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _deviceNo = $("#deviceNo").val();
+                queryData = {centorId: g_deviceId, collectorNo: _deviceNo};
+                if(g_deviceNo != _deviceNo && isDataRepeat(queryData) == true){
+                    if(g_cmdName == "修改采集器")
+                        msg = "设备地址重复";
+                    else
+                        msg = "端口号重复";
+                    return msg;
+                }
+            },
+            addr: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _addr = $("#addr").val();
+                queryData = {collectorAddr: _addr};
+                if(g_addr != _addr && isDataRepeat(queryData) == true){
+                    if(g_cmdName == "修改采集器")
+                        msg = "安装地址重复";
+                    else
+                        msg = "端口名称不能重复";
+                    return msg;
+                }
+            },
+            hex:function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(!checkCode(value)){
+                    return '请输入正确设备地址';
+                }
+            }
+        });
+        function submitInfo(sendData){
+            $.ajax({
+                url: get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        parent.layer.msg("修改成功！", {icon: 1});
+                        parent.$("#jqGrid2").trigger("reloadGrid");
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+
+        $("#close").click(function(){
+            parent.$("#jqGrid2").trigger("reloadGrid");
+            parent.layer.close(index); //再执行关闭
+        });
+        form.on('submit(sure)', function (data) {
+            var data = {
+                centorId: g_deviceId,
+                collectorId: g_collectorId,
+                collectorType: $("#collectorType").val(),
+                collectorNo: padNumber($("#deviceNo").val(), 2),
+                addr: $("#addr").val()
+            };
+            submitInfo(data);
+        });
+
+    });
+</script>
+</body>
+</html>

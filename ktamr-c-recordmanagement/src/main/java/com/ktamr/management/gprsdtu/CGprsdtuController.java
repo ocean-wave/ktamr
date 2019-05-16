@@ -71,11 +71,18 @@ public class CGprsdtuController {
         map.put("records",haGprsdtuCount);//总记录数
         map.put("total",(haGprsdtuCount-1)/pageRows+1);//总页数的计算
         map.put("rows",haGprsdtusList);//存放集合
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
-        if(s!=null){
-            return s;
+
+        int centors = 0;
+        for (int i = 0; i < haGprsdtusList.size(); i++) {
+            if(haGprsdtusList.get(i).getCentors()!=null){
+                centors += haGprsdtusList.get(i).getCentors();
+            }
         }
-        return null;
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("cb", "总计:");
+        map2.put("centors", centors);
+        map.put("userdata", map2);
+        return map;
     }
 
     @RequestMapping("/AddGprsdtu")

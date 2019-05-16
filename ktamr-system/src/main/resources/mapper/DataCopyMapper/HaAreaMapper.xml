@@ -61,11 +61,11 @@
          ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid
          LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1)
          LEFT JOIN (
-             SELECT Count(i.meterid) AS n,i.areaid AS areaid
-             FROM hav_meterinfo i
+             SELECT Count(mi.meterid) AS n,mi.areaid AS areaid
+             FROM hav_meterinfo mi
              WHERE is_meter_err_state(mi.状态)
-             AND i.表号 >0
-             GROUP BY i.areaid) t ON t.areaid=a.areaid
+             AND mi.表号 >0
+             GROUP BY mi.areaid) t ON t.areaid=a.areaid
          WHERE length(to_char(a.areaid,'9999'))>0
          <include refid="getRightCondition"></include>
          <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">

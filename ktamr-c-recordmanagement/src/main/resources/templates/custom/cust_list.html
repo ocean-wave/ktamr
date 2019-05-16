@@ -149,6 +149,9 @@
             });
             jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false})
         };
+        // GridObj.jqdefaultGridConfig.loadComplete = function () {
+        //     GridObj.aboutCounts();
+        // }
         GridObj.drawGrid();
         GridObj.drawGridPager();
         GridObj.setGridSize();
