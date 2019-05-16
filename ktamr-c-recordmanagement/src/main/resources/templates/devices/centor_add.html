@@ -26,7 +26,7 @@
         <div class="layui-block">
             <label class="layui-form-label">所属小区</label>
             <div class="layui-input-inline mySelect my-form-input">
-                <select name="area" lay-filter="area" lay-verify="required" lay-search>
+                <select id="area" name="area" lay-filter="area" lay-verify="required" lay-search>
                     <option value=""></option>
                     <option th:each="haAreas : ${haArea}"
                             th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
@@ -46,7 +46,7 @@
             <label class="layui-form-label">设备地址</label>
             <div class="layui-input-inline my-form-input">
                 <input id="deviceAdd" lay-verify="required|number|centorAdd|centorNo" autocomplete="off"
-                       placeholder="数字,值为1~65535" th:value="111" class="layui-input" maxlength="5">
+                       placeholder="数字,值为1~65535" class="layui-input" maxlength="5">
             </div>
         </div>
     </div>
@@ -300,13 +300,11 @@
 
         form.on('submit(sure)', function (data) {
             var _centorNo = "", _deviceAdd = $("#deviceAdd").val();
-            alert(g_cmdName+","+_deviceAdd);
             if (g_cmdName == "新增集中器" || g_cmdName == "新增集采器") {
                 if (_deviceAdd.length >= 5) {
                     _centorNo = g_areaNo + padNumber(_deviceAdd.substring(_deviceAdd.length - 5), 5);
                 } else {
                     _centorNo = g_areaNo + padNumber(_deviceAdd, 5);
-                    alert(_centorNo);
                 }
             } else {
                 _centorNo = g_areaNo + padNumber($("#lineNo").val(), 5);
