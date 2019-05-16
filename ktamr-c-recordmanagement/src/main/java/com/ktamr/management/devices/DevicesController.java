@@ -32,6 +32,7 @@ public class DevicesController {
     @Resource
     private HaAreaService haAreaService;
 
+    //跳转到设备档案页面
     @RequestMapping("/device_data_mng")
     public String device_data_mng(){
         return "devices/device_data_mng";
@@ -40,6 +41,7 @@ public class DevicesController {
     @RequestMapping("/device_addr_set")
     public String device_addr_set(){return "devices/device_addr_set";}
 
+    //跳转新增集中器，集采器，手抄器页面
     @RequestMapping("/JumpCentorAdd")
     public String jumpCentorAdd(String cmdName,Model model){
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
@@ -74,6 +76,19 @@ public class DevicesController {
         }
         return null;
     }
+
+    @RequestMapping("/AddCentor")
+    @ResponseBody
+    public Object addCentor(HaCentor haCentor){
+        haCentor.setState("建档");
+        Integer centor = haCentorService.addHaCentor(haCentor);
+        if(centor==1){
+            return "true";
+        }
+        return "false";
+    }
+
+
 
 
 }

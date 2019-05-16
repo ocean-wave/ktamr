@@ -38,7 +38,7 @@
         <div class="layui-block">
             <label class="layui-form-label">区&nbsp;&nbsp;域&nbsp;号</label>
             <div class="layui-input-inline my-form-input">
-                <input id="areaNo" name="areaNo" lay-verify="required|number" autocomplete="off" placeholder="数字,4位" class="layui-input my-layui-input" maxlength="4" readonly="" >
+                <input id="areaNo" name="areaNo" lay-verify="required|number" autocomplete="off" placeholder="数字,4位" class="layui-input my-layui-input" value="1232" maxlength="4" readonly="" >
             </div>
         </div>
         <div class="layui-block">
@@ -105,7 +105,7 @@
         <div class="layui-block">
             <label class="layui-form-label">安装日期</label>
             <div class="layui-input-inline my-form-input">
-                <input id="setupDay" name="setupDay" lay-verify="required" autocomplete="off" placeholder="日期,格式：YYYY-MM-DD" class="layui-input" th:value="" readonly="readonly">
+                <input id="setupDay" name="setupDay" lay-verify="required" autocomplete="off" placeholder="日期,格式：YYYY-MM-DD" class="layui-input" value="" readonly="readonly">
             </div>
         </div>
         <div class="layui-block">
@@ -168,7 +168,7 @@
     layui.use(['form', 'layer'], function(){
         var form = layui.form
             ,layer = layui.layer;
-        var get_result_url = "./centor_add_do.asp";
+        var get_result_url = "/devices/AddCentor";
         var g_areaNo = "";
         var g_cmdName = $("#cmdName");
 
