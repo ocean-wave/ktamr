@@ -41,6 +41,7 @@
                      id : "id"
              }
 
+
 	};
 	this.excelButtonConfig = {
 		caption: "Excel",
@@ -55,8 +56,20 @@
 		,add:false
 		,edit:false
 	};
+	this.gridComplete();
 };
-
+//重写Jqgrid本身的函数
+myJqGrid.prototype.gridComplete= function () {
+    var tableData = $('#jqGridPager_right').find('div');//寻找节点
+	var jqGrid = this.jqdefaultGridConfig.jsonReader.records;//通过jqGrid中的解析Json数据获取总记录数
+	console.log(jqGrid);
+    if (jqGrid > 10000) {
+        //对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
+        tableData.html(tableData.html().replace(/共/ig, '大于'));
+        tableData.html(tableData.html().replace(new RegExp(jqGrid, 'g'), '10000'))
+        alert(tableData.html());
+    }
+};
 myJqGrid.prototype.unloadGrid = function(){
 	$.jgrid.gridUnload(this.GridId);
 }
@@ -67,13 +80,16 @@ myJqGrid.prototype.drawGrid = function(){
 	$("#"+this.GridId).jqGrid(this.jqdefaultGridConfig);
 }
 myJqGrid.prototype.drawGridPager = function(){
+
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId, this.gridButtonConfig,{},{},{},{multipleSearch:true,multipleGroup:false,sopt: ["cn","nc","eq","ne"]}
 	);
+
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId).jqGrid('navButtonAdd', '#'+this.GridPagerId, this.excelButtonConfig);
 
 }
 myJqGrid.prototype.freezeGridCol = function(){
 	$("#"+this.GridId).jqGrid('setFrozenColumns');
+
 }
 myJqGrid.prototype.setGridSize = function(){
 	var _this = this;
@@ -94,18 +110,22 @@ myJqGrid.prototype.gridResize = function(){
 		_this.setGridSize();
 		$(window).bind("onresize", this);
 	});
+
 }
 myJqGrid.prototype.removeGridResize = function(){
 	$(window).unbind('resize');
+
 }
 myJqGrid.prototype.getSelRowIds = function(){
 	var _this = this;
 	return getSelectedRows(_this.GridId);
+
 }
 
 myJqGrid.prototype.hideCols = function(colNameArray){
 	var _this = this;
 	$("#"+_this.GridId).setGridParam().hideCol(colNameArray);
+
 }
 
 function setGridsSize(op) {
@@ -130,6 +150,7 @@ function setGridsSize(op) {
 		  $(this).setGridHeight(gridHeight);
 		}
 	});
+
 }
 function resizeGrids(op) {
 	var formId = "jqgridForm";
@@ -141,6 +162,7 @@ function resizeGrids(op) {
 		setGridsSize(op);
 		$(window).bind("onresize", this);
 	});
+
 }
 function exportToExcel(url,GridId)
 {
@@ -170,6 +192,7 @@ function fullTextSearch(jqGridID, postDataArray){
         page:$("#input_jqGridPager").find("input").val(),
 		postData: _postData
 	}).trigger("reloadGrid");
+
 }
 
 function relodThisPage(jqGridID){
@@ -178,6 +201,7 @@ function relodThisPage(jqGridID){
 	grid.jqGrid('setGridParam',{
         page:p
 	}).trigger("reloadGrid");
+
 }
 function getSelectedRows(jqGridID, idType) {
 	var grid = $("#"+jqGridID);
@@ -210,6 +234,7 @@ function getSelectedRows(jqGridID, idType) {
 	}
 	//alert(reIDs);
 	return reIDs;
+
 }
 
 function isMultiIDs(IDs)
@@ -223,6 +248,7 @@ function isMultiIDs(IDs)
 
 function isIDsHaveID(IDs)
 {
+
 	var IDsArray = new Array();
 	IDsArray = IDs.split(",");
 	for(var i=0; i<IDsArray.length; i++){
@@ -236,6 +262,7 @@ function isIDsHaveNull(IDs){
 		return true;
 	else
 		return false;
+
 }
 
 function checkIDsNumbers(IDs, MaxIDscount)
