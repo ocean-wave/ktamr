@@ -74,7 +74,10 @@
 
     <!--  6、其他状态表计数  -->
     <select id="meterStateCount12" resultType="Integer">
-       SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position('光通道干扰' in m.state)>0 OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
+     SELECT m.state AS 状态, Count(m.meterid) AS 总数
+    FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid
+    AND m.meterNumber>0 AND m.state NOT LIKE '%用量异常%' AND m.state NOT LIKE '%重号%'
+    GROUP BY m.state ORDER BY m.state
     </select>
 
 
