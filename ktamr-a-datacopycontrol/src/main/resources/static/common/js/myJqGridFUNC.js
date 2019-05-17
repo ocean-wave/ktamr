@@ -45,7 +45,7 @@
 	this.excelButtonConfig = {
 		caption: "Excel",
 		buttonicon: "ui-icon-arrowthickstop-1-s",
-		onClickButton: function(){exportToExcel(url,this.GridId);},
+		onClickButton: function(){exportToExcel(url,GridId);},
 		position: "first",
 		title: "导出Excel",
 		cursor: "pointer",
@@ -65,6 +65,7 @@ myJqGrid.prototype.unloadGrid = function(){
 myJqGrid.prototype.drawGrid = function(){
 
 	$("#"+this.GridId).jqGrid(this.jqdefaultGridConfig);
+
 }
 myJqGrid.prototype.drawGridPager = function(){
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId, this.gridButtonConfig,{},{},{},{multipleSearch:true,multipleGroup:false,sopt: ["cn","nc","eq","ne"]}
@@ -147,7 +148,24 @@ function exportToExcel(url,GridId)
 	var grid = $("#"+GridId);
 	$.loading("正在导出数据，请稍后...");
 	url = url.substring(0,url.lastIndexOf("/"));
+	var reg=/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/gi;
 	var pdArray = grid.jqGrid("getGridParam", "postData");
+	var colModel = grid.jqGrid("getGridParam", "colModel");
+	var excelName = new Array();
+	var excelWidth = new Array();
+	for(var i = 0;i<colModel.length;i++){
+		if(reg.exec(colModel[i].label) && !reg.exec(colModel[i].name)){
+			excelName.push(colModel[i].label);
+			excelWidth.push(colModel[i].width)
+		}
+	}
+	var pdArray = {
+		"excelName=":excelName,
+		"excelWidth":excelWidth
+
+	};
+	// pdArray['excelName'] = excelName;
+	// pdArray['excelWidth'] = excelWidth;
 	$.post(url+"/export", pdArray, function(result) {
 		if (result.code == 0) {
 			window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;

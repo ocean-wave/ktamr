@@ -38,7 +38,7 @@ public @interface Excel
     /**
      * 导出时在excel中每个列的宽 单位为字符
      */
-    public double width() default 16;
+    public double[] width() default 16;
 
     /**
      * 文字后缀,如% 90 变成90%

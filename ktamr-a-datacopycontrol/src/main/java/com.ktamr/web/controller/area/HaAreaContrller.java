@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/area")
+@RequestMapping("/area/area")
 public class HaAreaContrller extends BaseController{
     private  String pxePath = "area";
 
@@ -30,16 +30,16 @@ public class HaAreaContrller extends BaseController{
         List<HaArea> listHaArea = haAreaService.selectAllAreaAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
-        mi.put(0,"zBs");
-        mi.put(1,"zDs");
-        mi.put(2,"bqyl");
-        mi.put(3,"blbs");
+        mi.put(0,"sumNumber");
+        mi.put(1,"readNumber");
+        mi.put(2,"sumDosage");
+        mi.put(3,"atnNumber");
         Map<Integer,Integer> ms = getValuesByKey(listHaArea,mi);
         map2.put("cb","总计:");
-        map2.put("resultParams.zBs",ms.get(0).toString());
-        map2.put("resultParams.zDs",ms.get(1).toString());
-        map2.put("resultParams.bqyl",ms.get(2).toString());
-        map2.put("resultParams.blbs",ms.get(3).toString());
+        map2.put("sumNumber",ms.get(0).toString());
+        map2.put("readNumber",ms.get(1).toString());
+        map2.put("sumDosage",ms.get(2).toString());
+        map2.put("atnNumber",ms.get(3).toString());
         Map<String,Object> m = getDataTable(listHaArea);
         m.put("userdata",map2);
         return m;

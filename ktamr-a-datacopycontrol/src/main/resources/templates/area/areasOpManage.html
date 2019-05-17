@@ -113,7 +113,7 @@
 				$("#nav4").hide();
 				$(".month-type-div").hide();
 				$("#nav1").show();
-				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145, "/rgn/areasOpManageJson");
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145, "/area/rgn/areasOpManageJson");
 				GridObj.unloadGrid();
 				GridObj.removeGridResize();
 				//GridObj.jqdefaultGridConfig.caption = "大区列表：";
@@ -132,7 +132,6 @@
 				];
 				GridObj.jqdefaultGridConfig.footerrow = true;
 				GridObj.jqdefaultGridConfig.userDataOnFooter = true;
-				GridObj.jqdefaultGridConfig.exportUrl = 'ddddd';
 				GridObj.drawGrid();
 				GridObj.drawGridPager();
 				GridObj.setGridSize();
@@ -141,10 +140,9 @@
 				$("#nav4").hide();
 				$(".month-type-div").show();
 				$("#nav1").show();
-				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145, "/area/areasOpManageJson");
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145, "/area/area/areasOpManageJson");
 				GridObj.unloadGrid();
 				GridObj.removeGridResize();
-				//GridObj.jqdefaultGridConfig.caption = "小区列表：";
 				GridObj.jqdefaultGridConfig.multiselect = true;
 				GridObj.jqdefaultGridConfig.postData = {"params[rgnid]":nodeId};
 				GridObj.jqdefaultGridConfig.colNames = [
@@ -156,11 +154,11 @@
 					{ name: 'registeredNo', width: 70, frozen : true},
 					{name: 'name', width: 150,frozen : true },
 					{name: 'addr', width: 150 },
-					{name: 'resultParams.ds', width: 80 },
-					{name: 'resultParams.zBs', align: 'right' ,width: 70 },
-					{name: 'resultParams.zDs', align: 'right' ,width: 70 },
-					{name: 'resultParams.bqyl', align: 'right' ,width: 80 },
-					{name: 'resultParams.blbs', align: 'right' ,width: 80 },
+					{name: 'ds', width: 80 },
+					{name: 'sumNumber', align: 'right' ,width: 70 },
+					{name: 'readNumber', align: 'right' ,width: 70 },
+					{name: 'sumDosage', align: 'right' ,width: 80 },
+					{name: 'atnNumber', align: 'right' ,width: 80 },
 					{name: 'reserved', width: 75, align: 'center'
 						,formatter: function (cellvalue, options, rowObject) {
 							var isChecked = "", switch1;
@@ -185,6 +183,7 @@
 				GridObj.drawGridPager();
 				GridObj.setGridSize();
 				GridObj.gridResize();
+				//$.jgrid.regional["cn"].defaults.recordtext = "第{0}到第{1}条\u3000大于 {2} 条";
 			}else if(listType == "allMeter" || listType == "area" || listType == "building") {
 				var _areaid = "", _buildingid = "";
 				$(".month-type-div").hide();
@@ -196,18 +195,18 @@
 					_buildingid = nodeId;
 				}
 
-				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,'/building/buildingsOpManageJson');
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,'/area/building/buildingsOpManageJson');
 				GridObj.unloadGrid();
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.multiselect = true;
 				GridObj.jqdefaultGridConfig.postData = {areaId: _areaid, buildingId: _buildingid};
 				GridObj.jqdefaultGridConfig.colModel = [
-					{label: 'roommeterid', name: 'resultParams.roomMeterid', width: 75, key: true, hidden: true, frozen: false},
+					{label: 'roomMeterId', name: 'roomMeterId', width: 75, key: true, hidden: true, frozen: false},
 					{label: 'centorid', name: 'haRoom.haMeter.haCentor.id', width: 50, hidden: true},
 					{label: '用户编号', name: 'haRoom.haCustom.custNo', width: 90},
 					{label: '用户名称', name: 'haRoom.haCustom.name', width: 80},
-					{label: '用户地址', name: 'resultParams.cuds', width: 150},
-					{label: '房间备注', name: 'haRoom.haCustom.description', width: 80},
+					{label: '用户地址', name: 'haRoom.haCustom.addr', width: 150},
+					{label: '房间备注', name: 'haRoom.description', width: 80},
 					{label: '表地址', name: 'haRoom.haMeter.addr', width: 160},
 					{label: '表号', name: 'haRoom.haMeter.meterNumber', align: 'right', width: 120},
 					{label: '最近读数', name: 'haRoom.haMeter.thNumber', align: 'right', width: 75},

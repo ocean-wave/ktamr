@@ -13,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
@@ -66,6 +67,11 @@ public class ExcelUtil<T>
     private List<T> list;
 
     /**
+     * 不需要导出的列
+     */
+    private List<String> listNotField;
+
+    /**
      * 注解列表
      */
     private List<Field> fields;
@@ -77,6 +83,12 @@ public class ExcelUtil<T>
 
     public ExcelUtil(Class<T> clazz)
     {
+        this.clazz = clazz;
+    }
+
+    public ExcelUtil(Class<T> clazz,List<String> listNotField)
+    {
+        this.listNotField = listNotField;
         this.clazz = clazz;
     }
 
@@ -267,6 +279,7 @@ public class ExcelUtil<T>
     public AjaxResult exportExcel()
     {
         OutputStream out = null;
+        int callIndex = 0;
         try
         {
             // 取出一共有多少个sheet.
@@ -285,7 +298,7 @@ public class ExcelUtil<T>
                     Excel attr = field.getAnnotation(Excel.class);
                     // 创建列
                     for(int k=0;k<attr.name().length;k++) {
-                        cell = row.createCell(k+i);
+                        cell = row.createCell(callIndex);
                         // 设置列中写入内容为String类型
                         cell.setCellType(CellType.STRING);
                         CellStyle cellStyle = wb.createCellStyle();
@@ -297,7 +310,7 @@ public class ExcelUtil<T>
                             font.setColor(HSSFFont.COLOR_RED);
                             cellStyle.setFont(font);
                             cellStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
-                            sheet.setColumnWidth(i, 6000);
+                            sheet.setColumnWidth(callIndex, 6000);
                         } else {
                             Font font = wb.createFont();
                             // 粗体显示
@@ -306,7 +319,7 @@ public class ExcelUtil<T>
                             cellStyle.setFont(font);
                             cellStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_YELLOW.getIndex());
                             // 设置列宽
-                            sheet.setColumnWidth(i, (int) ((attr.width() + 0.72) * 256));
+                            sheet.setColumnWidth(callIndex, (int) ((attr.width()[k] + 0.72) * 256));
                             row.setHeight((short) (attr.height() * 20));
                         }
 
@@ -320,13 +333,14 @@ public class ExcelUtil<T>
                         // 如果设置了提示信息则鼠标放上去提示.
                         if (StringUtils.isNotEmpty(attr.prompt())) {
                             // 这里默认设了2-101列提示.
-                            setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, i, i);
+                            setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, callIndex, callIndex);
                         }
                         // 如果设置了combo属性则本列只能选择不能输入
                         if (attr.combo().length > 0) {
                             // 这里默认设了2-101列只能选择不能输入.
-                            setXSSFValidation(sheet, attr.combo(), 1, 100, i, i);
+                            setXSSFValidation(sheet, attr.combo(), 1, 100, callIndex, callIndex);
                         }
+                        callIndex++;
                     }
                 }
                 if (Type.EXPORT.equals(type))
@@ -334,6 +348,7 @@ public class ExcelUtil<T>
                     fillExcelData(index, row, cell);
                 }
             }
+            //sheet.addMergedRegion(new CellRangeAddress(0,1,0,0)); 跨行与跨列
             String filename = encodingFilename(sheetName);
             out = new FileOutputStream(getAbsoluteFile(filename));
             wb.write(out);
@@ -389,6 +404,7 @@ public class ExcelUtil<T>
         for (int i = startNo; i < endNo; i++)
         {
             row = sheet.createRow(i + 1 - startNo);
+            int callIndex = 0;
             // 得到导出对象.
             T vo = (T) list.get(i);
             for (int j = 0; j < fields.size(); j++)
@@ -414,7 +430,8 @@ public class ExcelUtil<T>
                         }
                         for (int k = 0;k<value.length;k++) {
                             // 创建cell
-                            cell = row.createCell(j+k);
+                            cell = row.createCell(callIndex);
+                            callIndex++;
                             cell.setCellStyle(cs);
                             if (vo == null) {
                                 // 如果数据存在就填入,不存在填入空格.
@@ -424,8 +441,9 @@ public class ExcelUtil<T>
 
 
                             String dateFormat = attr.dateFormat();
+
                             String readConverterExp = attr.readConverterExp();
-                            if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value[k]) && StringUtils.isNotEmpty(value[k].toString())) {
+                            if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value[k]) && StringUtils.isNotEmpty(value[k].toString()) && value[k] instanceof Date ) {
                                 cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value[k]));
                             } else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value[k]) && StringUtils.isNotEmpty(value[k].toString())) {
                                 cell.setCellValue(convertByExp(String.valueOf(value[k]), readConverterExp));
@@ -683,9 +701,21 @@ public class ExcelUtil<T>
         for (Field field : fields)
         {
             Excel attr = field.getAnnotation(Excel.class);
-            if (attr != null && (attr.type() == Type.ALL || attr.type() == type))
-            {
-                this.fields.add(field);
+            if (attr != null && (attr.type() == Type.ALL || attr.type() == type)) {
+                if(listNotField == null){
+                    this.fields.add(field);
+                    continue;
+                }
+                for (int i = 0; i < attr.name().length; i++) {
+                    for (String s : listNotField) {
+                        if (!s.equals(attr.name()[i])) {
+                            this.fields.add(field);
+                            continue;
+                        }
+                        listNotField.remove(s);
+                        break;
+                    }
+                }
             }
         }
     }
