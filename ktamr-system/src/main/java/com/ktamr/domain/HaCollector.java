@@ -15,6 +15,7 @@ public class HaCollector extends BaseEntity {
   private Integer oconf;
   private Integer nconf;
   private String state;
+  private Integer centorId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date lastdoTime;
@@ -80,7 +81,15 @@ public class HaCollector extends BaseEntity {
     this.state = state;
   }
 
-  public Date getLastdoTime() {
+    public Integer getCentorId() {
+        return centorId;
+    }
+
+    public void setCentorId(Integer centorId) {
+        this.centorId = centorId;
+    }
+
+    public Date getLastdoTime() {
     return lastdoTime;
   }
 

@@ -45,4 +45,39 @@
        SELECT Count(co.collectorid) FROM ha_centor ce,ha_collector co WHERE ce.id=co.centorid AND Left(ce.description, 3)='KT4'
     </select>
 
+    <!--  《表状态统计begin》  -->
+
+    <!--1、正常表计数    -->
+    <select id="meterStateCount03" resultType="Integer">
+    SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR m.state='关阀')
+    </select>
+
+    <!--  2、异常状态计数  -->
+    <select id="meterStateCount09" resultType="Integer">
+        SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND m.state LIKE '异常%'
+    </select>
+
+    <!--  3、无返回数据计数  -->
+    <select id="meterStateCount01" resultType="Integer">
+        SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND m.state LIKE '%无返回%'
+    </select>
+
+    <!--  4、用量异常计数  -->
+    <select id="meterStateCount10" resultType="Integer">
+       SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND m.state LIKE '%用量异常%'
+    </select>
+
+    <!--  5、开阀状态计数  -->
+    <select id="meterStateCount11" resultType="Integer">
+       SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position('光通道干扰' in m.state)>0 OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
+    </select>
+
+    <!--  6、其他状态表计数  -->
+    <select id="meterStateCount12" resultType="Integer">
+       SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position('光通道干扰' in m.state)>0 OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
+    </select>
+
+
+
+    <!--  《表状态统计end》  -->
 </mapper>

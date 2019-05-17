@@ -471,5 +471,10 @@
             AND a.areaid=#{areaId}
         </if>
         order by mi.用户地址
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <select id="HaMeterCount" resultType="Integer">
+        select count(1) from ha_meter
     </select>
 </mapper>
