@@ -57,30 +57,17 @@
 	};
 
 };
-//将数字进行格式化，每三位都进行逗号隔开
-function toThousands(newnum) { //每隔3位，用逗号隔开
-    var result = [],
-        counter = 0;
-    newnum = (newnum || 0).toString().split('');
-    for (var i = newnum.length - 1; i >= 0; i--) {
-        counter++;
-        result.unshift(newnum[i]);
-        if (!(counter % 3) && i != 0) {
-            result.unshift(',');
-        }
-    }
-    return result.join('');
-}
+
+
 //写一个方法
 function gridComplete(GridId) {
     var tableData = $('#jqGridPager_right').find('div');//寻找节点
     var jqGrid =  $("#"+GridId).jqGrid("getGridParam", "records");//通过jqGrid中的解析Json数据获取总记录数
-    alert(jqGrid);
+
     if (jqGrid > 10000) {
         //对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
         tableData.html(tableData.html().replace(/共/ig, '大于'));
-        tableData.html(tableData.html().replace(new RegExp(toThousands(jqGrid), 'ig'), '10000'))
-        alert(tableData.html());
+
 
     }
 };
@@ -180,6 +167,7 @@ function resizeGrids(op) {
 }
 function exportToExcel(url,GridId)
 {
+    alert("请稍后，我在搞");
 	var grid = $("#"+GridId);
 	$.loading("正在导出数据，请稍后...");
 	url = url.substring(0,url.lastIndexOf("/"));
