@@ -52,7 +52,7 @@
             <label class="layui-form-label">安装地点</label>
             <div class="layui-input-inline my-form-input-single">
                 <input id="addr" name="addr" lay-verify="required|addr" placeholder="格式：小区名-楼栋位置" autocomplete="off"
-                       class="layui-input" type="text" value="<%=centorAddr%>-">
+                       class="layui-input" type="text" th:value="${centorAddr.addr}">
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@
             <label class="layui-form-label">端口名称</label>
             <div class="layui-input-inline my-form-input-single">
                 <input id="addr" name="addr" lay-verify="required|addr" placeholder="格式：集采器名-端口名" autocomplete="off"
-                       class="layui-input" type="text" value="<%=centorAddr%>-端口">
+                       class="layui-input" type="text" th:value="${centorAddr.addr}+'端口'">
             </div>
         </div>
     </div>

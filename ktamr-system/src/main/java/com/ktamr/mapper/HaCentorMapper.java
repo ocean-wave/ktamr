@@ -53,6 +53,8 @@ public interface HaCentorMapper {
 
     List<HaCentor> deviceTypeList(@Param("haCentor") HaCentor haCentor);
 
+    HaCentor queryAddr(@Param("id") Integer id);
+
     Integer addHaCentor(HaCentor haCentor);
 
     Integer updateHaCentor(HaCentor haCentor);

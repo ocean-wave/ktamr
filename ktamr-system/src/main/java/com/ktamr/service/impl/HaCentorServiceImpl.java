@@ -81,6 +81,11 @@ public class HaCentorServiceImpl implements HaCentorService {
         return haCentorMapper.HaCentorList(haCentor);
     }
 
+    @Override
+    public HaCentor queryAddr(Integer id) {
+        return haCentorMapper.queryAddr(id);
+    }
+
     public Integer addHaCentor(HaCentor haCentor) {
         return haCentorMapper.addHaCentor(haCentor);
     }
