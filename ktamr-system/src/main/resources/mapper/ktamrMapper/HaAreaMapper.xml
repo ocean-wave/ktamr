@@ -11,11 +11,11 @@
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="cname" property="resultParams.cname" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="ds" property="resultParams.ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="zBs" property="resultParams.zBs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="zDs" property="resultParams.zDs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="bqyl" property="resultParams.bqyl" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="blbs" property="resultParams.blbs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="ds" property="ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="atnNumber" property="atnNumber" javaType="java.lang.Integer"></result>
+        <result column="sumNumber" property="sumNumber" javaType="java.lang.Integer"></result>
+        <result column="readNumber" property="readNumber" javaType="java.lang.Integer"></result>
+        <result column="sumDosage" property="sumDosage" javaType="java.lang.Integer"></result>
         <result column="reserved" property="reserved" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="lastsumDay" property="lastsumDay" javaType="java.util.Date"></result>
         <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -25,8 +25,8 @@
     </resultMap>
 
     <resultMap id="meterMap" type="com.ktamr.domain.HaMeter">
-        <result column="zjcssj" property="thRTime" javaType="java.util.Date" ></result>
-        <result column="zzzbsj" property="startTime" javaType="java.util.Date" ></result>
+        <result column="thRTime" property="thRTime" javaType="java.util.Date" ></result>
+        <result column="startTime" property="startTime" javaType="java.util.Date" ></result>
     </resultMap>
 
     <sql id="getRightCondition">
@@ -48,14 +48,14 @@
          , a.name AS name
          ,n.name||'-'||a.addr AS addr
          ,case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds
-         ,COUNT(m.meterid) AS zBs
-         ,SUM(m.TH_NUMBER) AS zDs
-         ,SUM(m.S_NUMBER) AS bqyl
-         ,t.n AS blbs
+         ,COUNT(m.meterid) AS sumNumber
+         ,SUM(m.TH_NUMBER) AS readNumber
+         ,SUM(m.S_NUMBER) AS sumDosage
+         ,t.n AS atnNumber
          ,a.reserved AS reserved
-         ,MAX(m.TH_R_TIME) AS zjcssj
+         ,MAX(m.TH_R_TIME) AS thRTime
          ,a.lastsumday AS lastsumDay
-         ,MIN(m.starttime) AS zzzbsj
+         ,MIN(m.starttime) AS startTime
          , a.description AS description
          FROM
          ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid
@@ -66,7 +66,7 @@
              WHERE is_meter_err_state(mi.状态)
              AND mi.表号 >0
              GROUP BY mi.areaid) t ON t.areaid=a.areaid
-         WHERE length(to_char(a.areaid,'9999'))>0
+         WHERE 1=1
          <include refid="getRightCondition"></include>
          <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">
              and left(a.areaNo,1) = #{params.rgnid}

@@ -24,11 +24,11 @@ public class HaMeter extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
     private Date lastTime;
-    private double sNumber;
-    private double jNumber;
-    private double fNumber;
-    private double pNumber;
-    private double gNumber;
+    private double snumber;
+    private double jnumber;
+    private double fnumber;
+    private double pnumber;
+    private double gnumber;
     private String state;
     private Date lfTime;
     private double lfNumber;
@@ -39,10 +39,10 @@ public class HaMeter extends BaseEntity {
     private Date thRTime;
     private Integer areaId;
     private long meterNumber;
-    private Date fDay;
-    private Date fMon;
-    private double fDayN;
-    private double fMonN;
+    private Date fday;
+    private Date fmon;
+    private double fdayn;
+    private double fmonn;
     private Integer vendorId;
     private String isUsed;
     private double vendorMeterId;
@@ -64,6 +64,78 @@ public class HaMeter extends BaseEntity {
     private HavMeterinfo havMeterinfo;
     private Integer haMeterCount;
     private HaArea haArea;
+
+    public double getSnumber() {
+        return snumber;
+    }
+
+    public void setSnumber(double snumber) {
+        this.snumber = snumber;
+    }
+
+    public double getJnumber() {
+        return jnumber;
+    }
+
+    public void setJnumber(double jnumber) {
+        this.jnumber = jnumber;
+    }
+
+    public double getFnumber() {
+        return fnumber;
+    }
+
+    public void setFnumber(double fnumber) {
+        this.fnumber = fnumber;
+    }
+
+    public double getPnumber() {
+        return pnumber;
+    }
+
+    public void setPnumber(double pnumber) {
+        this.pnumber = pnumber;
+    }
+
+    public double getGnumber() {
+        return gnumber;
+    }
+
+    public void setGnumber(double gnumber) {
+        this.gnumber = gnumber;
+    }
+
+    public Date getFday() {
+        return fday;
+    }
+
+    public void setFday(Date fday) {
+        this.fday = fday;
+    }
+
+    public Date getFmon() {
+        return fmon;
+    }
+
+    public void setFmon(Date fmon) {
+        this.fmon = fmon;
+    }
+
+    public double getFdayn() {
+        return fdayn;
+    }
+
+    public void setFdayn(double fdayn) {
+        this.fdayn = fdayn;
+    }
+
+    public double getFmonn() {
+        return fmonn;
+    }
+
+    public void setFmonn(double fmonn) {
+        this.fmonn = fmonn;
+    }
 
     public long getMeterNumber() {
         return meterNumber;
@@ -137,46 +209,6 @@ public class HaMeter extends BaseEntity {
         this.lastTime = lastTime;
     }
 
-    public double getsNumber() {
-        return sNumber;
-    }
-
-    public void setsNumber(double sNumber) {
-        this.sNumber = sNumber;
-    }
-
-    public double getjNumber() {
-        return jNumber;
-    }
-
-    public void setjNumber(double jNumber) {
-        this.jNumber = jNumber;
-    }
-
-    public double getfNumber() {
-        return fNumber;
-    }
-
-    public void setfNumber(double fNumber) {
-        this.fNumber = fNumber;
-    }
-
-    public double getpNumber() {
-        return pNumber;
-    }
-
-    public void setpNumber(double pNumber) {
-        this.pNumber = pNumber;
-    }
-
-    public double getgNumber() {
-        return gNumber;
-    }
-
-    public void setgNumber(double gNumber) {
-        this.gNumber = gNumber;
-    }
-
     public String getState() {
         return state;
     }
@@ -231,38 +263,6 @@ public class HaMeter extends BaseEntity {
 
     public void setAreaId(Integer areaId) {
         this.areaId = areaId;
-    }
-
-    public Date getfDay() {
-        return fDay;
-    }
-
-    public void setfDay(Date fDay) {
-        this.fDay = fDay;
-    }
-
-    public Date getfMon() {
-        return fMon;
-    }
-
-    public void setfMon(Date fMon) {
-        this.fMon = fMon;
-    }
-
-    public double getfDayN() {
-        return fDayN;
-    }
-
-    public void setfDayN(double fDayN) {
-        this.fDayN = fDayN;
-    }
-
-    public double getfMonN() {
-        return fMonN;
-    }
-
-    public void setfMonN(double fMonN) {
-        this.fMonN = fMonN;
     }
 
     public String getIsUsed() {

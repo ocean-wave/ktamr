@@ -139,6 +139,20 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
             return null;
         }
     }
+    public static boolean isDateString(String datevalue) {
+        try {
+            SimpleDateFormat fmt = new SimpleDateFormat(YYYY_MM_DD);
+            java.util.Date dd = fmt.parse(datevalue);
+            if (datevalue.equals(fmt.format(dd))) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     
     /**
      * 获取服务器启动时间

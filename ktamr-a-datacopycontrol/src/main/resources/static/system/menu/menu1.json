@@ -16,7 +16,7 @@
 				"sub": [
 					{
 						"id": "1-1-1",
-						"url": "/rgn",
+						"url": "/area/rgn",
 						"name": "区域表抄控",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",

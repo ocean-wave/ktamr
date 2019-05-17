@@ -11,10 +11,13 @@ import java.sql.Timestamp;
 
 public class HaRgn extends BaseEntity {
 
+    @Excel( name = {"大区编号"})
     private String id;
-    @Excel(name = "区域名称")
+    @Excel( name = {"大区名称"})
     private String name;
+    @Excel( name = {"简称"})
     private String shortName;
+    @Excel( name = {"行政区号"})
     private String zCode;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -27,24 +30,29 @@ public class HaRgn extends BaseEntity {
     private HaArea haArea;
     private HaCentor haCentor;
     private HaCollector haCollector;
+
     private HaMeter haMeter;
 
     /**
      * 小区表数量
      */
+    @Excel( name = {"小区数"})
     private Integer haAreaCount;
 
     /**
      * 集中器数量
      */
+    @Excel( name = {"集中器数"})
     private Integer haCentorCount;
     /**
      * 采集器数量
      */
+    @Excel( name = {"采集器数"})
     private Integer haCollectorCount;
     /**
      * 表具资料表数量
      */
+    @Excel( name = {"表数"})
     private Integer haMeterCount;
     /**
      * 不良表数量
