@@ -299,6 +299,10 @@
         ORDER BY ce.centorNo,ce.addr
     </select>
 
+    <select id="queryAddr" resultType="com.ktamr.domain.HaCentor">
+        SELECT addr FROM ha_centor WHERE id=#{id}
+    </select>
+
     <insert id="addHaCentor">
         insert into ha_centor (id,centorid, ver,description,rtime,setuptime,addr,endTime,telNumber,remark,centorNo,state,areaid)
          values (default ,#{centorId},#{ver},#{description},#{rTime},#{setupTime},#{addr},#{endTime},#{telNumber},#{remark},#{centorNo},#{state},#{areaId});

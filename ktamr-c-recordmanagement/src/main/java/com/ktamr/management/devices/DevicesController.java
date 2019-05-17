@@ -53,11 +53,13 @@ public class DevicesController {
         return "devices/centor_add";
     }
 
-    //跳转新增集采器
+    //跳转新增采集器
     @RequestMapping("/JumpCollectorAdd")
     public String jumpCollectorAdd(String cmdName,Integer deviceId,Model model){
+        HaCentor haCentors = haCentorService.queryAddr(deviceId);
         model.addAttribute("cmdName",cmdName);
         model.addAttribute("deviceId",deviceId);
+        model.addAttribute("centorAddr",haCentors);
         return "devices/collector_add";
     }
 
@@ -118,6 +120,9 @@ public class DevicesController {
     @RequestMapping("/AddCollector")
     @ResponseBody
     public Object addCollector(HaCollector haCollector){
+        if(haCollector.getOconf()==null){
+            haCollector.setOconf(0);
+        }
         haCollector.setState("建档");
         Integer collector = haCollectorService.addHaCollector(haCollector);
         if(collector==1){

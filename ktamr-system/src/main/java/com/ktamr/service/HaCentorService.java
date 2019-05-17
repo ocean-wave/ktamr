@@ -49,6 +49,8 @@ public interface HaCentorService {
 
     List<HaCentor> HaCentorList(HaCentor haCentor);
 
+    HaCentor queryAddr(Integer id);
+
     Integer addHaCentor(HaCentor haCentor);
 
     Integer updateHaCentor(HaCentor haCentor);
