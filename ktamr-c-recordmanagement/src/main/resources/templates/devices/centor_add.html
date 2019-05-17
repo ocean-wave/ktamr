@@ -27,7 +27,7 @@
             <label class="layui-form-label">所属小区</label>
             <div class="layui-input-inline mySelect my-form-input">
                 <select id="area" name="area" lay-filter="area" lay-verify="required" lay-search>
-                    <option value=""></option>
+                    <option value="-1"></option>
                     <option th:each="haAreas : ${haArea}"
                             th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
                 </select>

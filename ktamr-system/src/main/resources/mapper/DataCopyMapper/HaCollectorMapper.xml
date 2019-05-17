@@ -36,7 +36,7 @@
     </select>
 
     <insert id="addHaCollector">
-        insert into ha_collector values (default ,#{addr},#{ver},#{oconf},#{nconf},#{state},#{centorid},#{lastdo_time},#{last_state},#{createtime},#{modifytime},#{routers},#{meters})
+        insert into ha_collector(collectorid,addr,ver,oconf.nconf,centorid,state) values (default ,#{addr},#{ver},#{oconf},#{nconf},#{centorId},#{state})
     </insert>
 
     <delete id="deleteHaCollector">

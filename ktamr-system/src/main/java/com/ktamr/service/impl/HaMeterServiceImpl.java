@@ -156,8 +156,13 @@ public class HaMeterServiceImpl implements HaMeterService {
     }
 
     @Override
-    public List<HaMeter> queryHaMeter(Integer areaId,Integer collectorid) {
-        return haMeterMapper.queryHaMeter(areaId,collectorid);
+    public List<HaMeter> queryHaMeter(Integer areaId,Integer collectorid,Integer page,Integer rowNum) {
+        return haMeterMapper.queryHaMeter(areaId,collectorid,page,rowNum);
+    }
+
+    @Override
+    public Integer HaMeterCount(HaMeter haMeter) {
+        return haMeterMapper.HaMeterCount(haMeter);
     }
 
     public Integer addHaMeter(HaMeter haMeter) {
