@@ -63,6 +63,18 @@ public class DevicesController {
         return "devices/collector_add";
     }
 
+    //跳转修改集中器，集采器，手抄器页面
+    @RequestMapping("/JumpCentorUpdate")
+    public String jumpCentorUpdate(String cmdName,Integer deviceId,Model model){
+        HaCentor uCentor = haCentorService.updateByIdHaCentor(deviceId);
+        List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        model.addAttribute("haArea",haArea);
+        model.addAttribute("cmdName",cmdName);
+        model.addAttribute("uCentor",uCentor);
+        model.addAttribute("deviceId",deviceId);
+        return "devices/centor_update";
+    }
+
     @RequestMapping("/deviceDataMngJson")
     @ResponseBody
     public Object deviceDataMngJson(HaCentor haCentor){
@@ -126,6 +138,16 @@ public class DevicesController {
         haCollector.setState("建档");
         Integer collector = haCollectorService.addHaCollector(haCollector);
         if(collector==1){
+            return "true";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/UpdateCentor")
+    @ResponseBody
+    public Object updateCentor(HaCentor haCentor){
+        Integer centor = haCentorService.updateHaCentor(haCentor);
+        if(centor==1){
             return "true";
         }
         return "false";

@@ -4,7 +4,6 @@ import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaCentor;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 接口Service层
@@ -48,6 +47,8 @@ public interface HaCentorService {
     public List<HaCentor> selectCentor(HaCentor haCentor);
 
     List<HaCentor> HaCentorList(HaCentor haCentor);
+
+    HaCentor updateByIdHaCentor(Integer id);
 
     HaCentor queryAddr(Integer id);
 

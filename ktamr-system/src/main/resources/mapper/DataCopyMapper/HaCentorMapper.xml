@@ -15,6 +15,7 @@
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="zbs" property="resultParams.zbs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="meters" property="resultParams.meters" javaType="java.lang.String" jdbcType="INTEGER"></result>
+        <result column="areaId" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="jdbs" property="resultParams.jdbs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="wfhbs" property="resultParams.wfhbs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="thNumber" property="resultParams.thNumber" javaType="java.lang.String"></result>
@@ -299,6 +300,24 @@
         ORDER BY ce.centorNo,ce.addr
     </select>
 
+    <select id="updateByIdHaCentor" resultMap="haCentorMap">
+        SELECT ce.id as id,ce.centorNo AS centorNo,ce.addr AS addr,
+        ce.state AS state,
+        ce.centorid AS centorId,
+        ce.description AS description,
+        ce.centorid AS centorId,
+        ce.rtime AS rTime,
+        ce.telnumber AS telNumber,
+        ce.areaid AS areaId,
+        ce.endtime AS endTime,
+        ce.ver AS ver,
+        ce.setuptime AS setupTime,
+        ce.remark AS remark,
+        a.name AS name
+        FROM ha_centor ce LEFT JOIN ha_area a ON Left(ce.centorNo, 5)= a.areaNo
+        where ce.id = #{id}
+    </select>
+
     <select id="queryAddr" resultType="com.ktamr.domain.HaCentor">
         SELECT addr FROM ha_centor WHERE id=#{id}
     </select>
@@ -312,33 +331,21 @@
         delete from ha_centor where id = #{id}
     </delete>
 
-    <!--<update id="updateHaCentor">-->
-        <!--update ha_centor-->
-        <!--<trim prefix="set" suffixOverrides="," suffix="where id = #{id}">-->
-            <!--<if test="centorid != null">centorid = #{centorid},</if>-->
-            <!--<if test="ver != null">ver = #{ver},</if>-->
-            <!--<if test="rtime != null">rtime = #{rtime},</if>-->
-            <!--<if test="setuptime != null">setuptime = #{setuptime},</if>-->
-            <!--<if test="addr != null">addr = #{addr},</if>-->
-            <!--<if test="description != null">description = #{description},</if>-->
-            <!--<if test="telnumber != null">telnumber = #{telnumber},</if>-->
-            <!--<if test="endtime != null">endtime = #{endtime},</if>-->
-            <!--<if test="usetypecode != null">usetypecode = #{usetypecode},</if>-->
-            <!--<if test="state != null">state = #{state},</if>-->
-            <!--<if test="centorno != null">centorno = #{centorno},</if>-->
-            <!--<if test="lastfreezetime != null">lastfreezetime = #{lastfreezetime},</if>-->
-            <!--<if test="lastfreezeday != null">lastfreezeday = #{lastfreezeday},</if>-->
-            <!--<if test="lastfreezemon != null">lastfreezemon = #{lastfreezemon},</if>-->
-            <!--<if test="createtime != null">createtime = #{createtime},</if>-->
-            <!--<if test="modifytime != null">modifytime = #{modifytime},</if>-->
-            <!--<if test="meters != null">meters = #{meters},</if>-->
-            <!--<if test="areaid != null">areaid = #{areaid},</if>-->
-            <!--<if test="last_state_change_time != null">last_state_change_time = #{last_state_change_time},</if>-->
-            <!--<if test="remark != null">remark = #{remark},</if>-->
-            <!--<if test="rssi != null">rssi = #{rssi},</if>-->
-            <!--<if test="vol != null">vol = #{vol},</if>-->
-            <!--<if test="imsi != null">imsi = #{imsi},</if>-->
-            <!--<if test="imei != null">imei = #{imei},</if>-->
-        <!--</trim>-->
-    <!--</update>-->
+    <update id="updateHaCentor">
+        update ha_centor
+        <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+            <if test="centorId != null">centorid = #{centorId},</if>
+            <if test="ver != null">ver = #{ver},</if>
+            <if test="rTime != null">rtime = #{rTime},</if>
+            <if test="setupTime != null">setuptime = #{setupTime},</if>
+            <if test="addr != null">addr = #{addr},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="telNumber != null">telnumber = #{telNumber},</if>
+            <if test="endTime != null">endtime = #{endTime},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="centorNo != null">centorno = #{centorNo},</if>
+            <if test="areaId != null">areaid = #{areaId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+    </update>
 </mapper>
