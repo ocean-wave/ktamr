@@ -99,7 +99,7 @@ public class HaCentorServiceImpl implements HaCentorService {
         return haCentorMapper.updateHaCentor(haCentor);
     }
 
-    public Integer deleteHaCentor(HaCentor haCentor) {
-        return haCentorMapper.deleteHaCentor(haCentor);
+    public Integer deleteHaCentor(Integer id) {
+        return haCentorMapper.deleteHaCentor(id);
     }
 }

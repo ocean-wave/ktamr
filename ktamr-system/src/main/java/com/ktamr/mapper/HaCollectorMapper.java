@@ -25,5 +25,5 @@ public interface HaCollectorMapper {
 
     Integer updateHaCollector(HaCollector haCollector);
 
-    Integer deleteHaCollector(HaCollector haCollector);
+    Integer deleteHaCollector(@Param("collectorId") Integer collectorId);
 }

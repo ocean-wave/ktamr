@@ -153,4 +153,24 @@ public class DevicesController {
         return "false";
     }
 
+    @RequestMapping("/DeleteCentor")
+    @ResponseBody
+    public Object deleteCentor(Integer deviceId){
+        Integer centor = haCentorService.deleteHaCentor(deviceId);
+        if(centor==1){
+            return "true";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/DeleteCollector")
+    @ResponseBody
+    public Object deleteCollector(Integer collectorId){
+        Integer collector = haCollectorService.deleteHaCollector(collectorId);
+        if(collector==1){
+            return "true";
+        }
+        return "false";
+    }
+
 }

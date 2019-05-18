@@ -56,6 +56,6 @@ public interface HaCentorService {
 
     Integer updateHaCentor(HaCentor haCentor);
 
-    Integer deleteHaCentor(HaCentor haCentor);
+    Integer deleteHaCentor(Integer id);
 
 }

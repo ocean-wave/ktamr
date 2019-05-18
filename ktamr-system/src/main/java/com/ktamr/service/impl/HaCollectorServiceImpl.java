@@ -47,7 +47,7 @@ public class HaCollectorServiceImpl implements HaCollectorService {
         return haCollectorMapper.updateHaCollector(haCollector);
     }
 
-    public Integer deleteHaCollector(HaCollector haCollector) {
-        return haCollectorMapper.deleteHaCollector(haCollector);
+    public Integer deleteHaCollector(Integer collectorId) {
+        return haCollectorMapper.deleteHaCollector(collectorId);
     }
 }
