@@ -1,5 +1,6 @@
 package com.ktamr.web;
 
+import com.ktamr.domain.zhuYe;
 import com.ktamr.service.ZhuYeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.util.StringUtils.split;
@@ -42,48 +44,96 @@ public class ZhuYeController {
         return "main";
     }
 
+    /**
+     * 主页下方的统计图,无刷新请求
+     * @return
+     */
     @RequestMapping("/openMainHtml2")
     @ResponseBody
     public Map<String ,Object> openMainHtml2(){
         //开始统计图
         Integer[] meterStateCount = new Integer[15];
-        meterStateCount[2] = 2;
-        meterStateCount[4] = 4;
-        meterStateCount[5] = 5;
-        meterStateCount[6] = 6;
-        meterStateCount[7] = 7;
-        meterStateCount[8] = 8;
-        meterStateCount[12] = 12;
-        meterStateCount[13] = 13;
-        meterStateCount[14] = 14;
+
 
 
         String t_stateNameList="";
         String stateNameList = "建档,无返回,失联,正常,强光干扰,气泡干扰,通讯故障,表具故障,异常,用量异常,开阀,关阀";
         //1、正常表计数'
-        meterStateCount[3] = 3;
+        meterStateCount[3] = zhuYeService.meterStateCount03();
         t_stateNameList = t_stateNameList + "'正常'" +",";
         //2、异常状态计数
-        meterStateCount[9] = 9;
+        meterStateCount[9] = zhuYeService.meterStateCount09();
         t_stateNameList = t_stateNameList + "'异常'" +",";
         //3、无返回数据计数
-        meterStateCount[1] = 1;
+        meterStateCount[1] = zhuYeService.meterStateCount01();
         t_stateNameList = t_stateNameList + "'无返回'" +",";
         //4、用量异常计数
-        meterStateCount[10] = 10;
+        meterStateCount[10] = zhuYeService.meterStateCount10();
         t_stateNameList = t_stateNameList + "'用量异常'" +",";
         //5、开阀状态计数
-        meterStateCount[11] = 11;
+        meterStateCount[11] = zhuYeService.meterStateCount11();
         t_stateNameList = t_stateNameList + "'开阀'" +",";
         //6、其他状态表计数
-        meterStateCount[0] = 1000;
-        t_stateNameList = t_stateNameList + "'通讯故障'" +",";
+        List<zhuYe> zhuYeList = zhuYeService.meterStateCountQiTa();
+
+
+
+        //进行循环
+        for (int i =0;i<zhuYeList.size();i++){
+            //获取状态，总数
+            String state = zhuYeList.get(i).getState();//状态
+            Integer total = zhuYeList.get(i).getTotal();//总数
+
+                if(state.contains("建档") ) {
+                    meterStateCount[0]=total;
+                }else if(state.contains("失联")){
+                    meterStateCount[2]=total;
+                }else if(state.contains("光通道干扰")){
+                    meterStateCount[4]=total;
+                }else if(state.contains("强光干扰")){
+                    meterStateCount[5]=total;
+                }else if(state.contains("气泡干扰")){
+                    meterStateCount[6]=total;
+                }else if(state.contains("通讯故障")){
+                    meterStateCount[7]=total;
+                }else if(state.contains("表具故障")){
+                    meterStateCount[8]=total;
+                }else if(state.contains("关阀")){
+                    meterStateCount[12]=total;
+                }else if(state.contains("开阀故障")){
+                    meterStateCount[13]=total;
+                }else if(state.contains("关阀故障")){
+                    meterStateCount[14]=total;
+                }
+
+                if(total>0){
+                    t_stateNameList = t_stateNameList +"'"+ state +"',";
+                }
+
+
+        }
+
         //状态按照固定的顺序排序
         if(t_stateNameList.length()>0){
-            String[] strings = split(stateNameList, ",");
+            String[] stateNameArray = split(stateNameList, ",");
+             stateNameList = "";
+            for (int i=0;i<stateNameArray.length;i++){
+                if(t_stateNameList.indexOf(stateNameArray[i])>0){
+                    stateNameList = stateNameList + stateNameArray[i] +",";
+                }
+            }
+            if(stateNameList!=null){
+                stateNameList =  stateNameList.substring(0,stateNameList.lastIndexOf(',')-1);
+                stateNameList =  stateNameList.replace("'", "");
+
+            }
         }
         //集中器状态统计
+        List<zhuYe> meterStateCountJiZhongQi = zhuYeService.meterStateCountJiZhongQi();
         Integer[] centorStateCount = new Integer[3];
+        for (int i=0;i<meterStateCountJiZhongQi.size();i++){
+            Integer total = meterStateCountJiZhongQi.get(i).getTotal();
+        }
         centorStateCount[0]=001;
         centorStateCount[1]=002;
         centorStateCount[2]=003;

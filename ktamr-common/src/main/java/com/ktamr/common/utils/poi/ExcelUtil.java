@@ -13,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
@@ -66,6 +67,11 @@ public class ExcelUtil<T>
     private List<T> list;
 
     /**
+     * 不需要导出的列
+     */
+    private List<String> listNotField;
+
+    /**
      * 注解列表
      */
     private List<Field> fields;
@@ -77,6 +83,12 @@ public class ExcelUtil<T>
 
     public ExcelUtil(Class<T> clazz)
     {
+        this.clazz = clazz;
+    }
+
+    public ExcelUtil(Class<T> clazz,List<String> listNotField)
+    {
+        this.listNotField = listNotField;
         this.clazz = clazz;
     }
 
@@ -267,6 +279,7 @@ public class ExcelUtil<T>
     public AjaxResult exportExcel()
     {
         OutputStream out = null;
+        int callIndex = 0;
         try
         {
             // 取出一共有多少个sheet.
@@ -284,50 +297,50 @@ public class ExcelUtil<T>
                     Field field = fields.get(i);
                     Excel attr = field.getAnnotation(Excel.class);
                     // 创建列
-                    cell = row.createCell(i);
-                    // 设置列中写入内容为String类型
-                    cell.setCellType(CellType.STRING);
-                    CellStyle cellStyle = wb.createCellStyle();
-                    cellStyle.setAlignment(HorizontalAlignment.CENTER);
-                    cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-                    if (attr.name().indexOf("注：") >= 0)
-                    {
-                        Font font = wb.createFont();
-                        font.setColor(HSSFFont.COLOR_RED);
-                        cellStyle.setFont(font);
-                        cellStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
-                        sheet.setColumnWidth(i, 6000);
-                    }
-                    else
-                    {
-                        Font font = wb.createFont();
-                        // 粗体显示
-                        font.setBold(true);
-                        // 选择需要用到的字体格式
-                        cellStyle.setFont(font);
-                        cellStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_YELLOW.getIndex());
-                        // 设置列宽
-                        sheet.setColumnWidth(i, (int) ((attr.width() + 0.72) * 256));
-                        row.setHeight((short) (attr.height() * 20));
-                    }
-                    cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-                    cellStyle.setWrapText(true);
-                    cell.setCellStyle(cellStyle);
+                    for(int k=0;k<attr.name().length;k++) {
+                        cell = row.createCell(callIndex);
+                        // 设置列中写入内容为String类型
+                        cell.setCellType(CellType.STRING);
+                        CellStyle cellStyle = wb.createCellStyle();
+                        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+                        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
-                    // 写入列名
-                    cell.setCellValue(attr.name());
+                        if (attr.name()[k].indexOf("注：") >= 0) {
+                            Font font = wb.createFont();
+                            font.setColor(HSSFFont.COLOR_RED);
+                            cellStyle.setFont(font);
+                            cellStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+                            sheet.setColumnWidth(callIndex, 6000);
+                        } else {
+                            Font font = wb.createFont();
+                            // 粗体显示
+                            font.setBold(true);
+                            // 选择需要用到的字体格式
+                            cellStyle.setFont(font);
+                            cellStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_YELLOW.getIndex());
+                            // 设置列宽
+                            sheet.setColumnWidth(callIndex, (int) ((attr.width()[k] + 0.72) * 256));
+                            row.setHeight((short) (attr.height() * 20));
+                        }
 
-                    // 如果设置了提示信息则鼠标放上去提示.
-                    if (StringUtils.isNotEmpty(attr.prompt()))
-                    {
-                        // 这里默认设了2-101列提示.
-                        setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, i, i);
-                    }
-                    // 如果设置了combo属性则本列只能选择不能输入
-                    if (attr.combo().length > 0)
-                    {
-                        // 这里默认设了2-101列只能选择不能输入.
-                        setXSSFValidation(sheet, attr.combo(), 1, 100, i, i);
+                        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                        cellStyle.setWrapText(true);
+                        cell.setCellStyle(cellStyle);
+                        // 写入列名
+                        cell.setCellValue(attr.name()[k]);
+
+
+                        // 如果设置了提示信息则鼠标放上去提示.
+                        if (StringUtils.isNotEmpty(attr.prompt())) {
+                            // 这里默认设了2-101列提示.
+                            setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, callIndex, callIndex);
+                        }
+                        // 如果设置了combo属性则本列只能选择不能输入
+                        if (attr.combo().length > 0) {
+                            // 这里默认设了2-101列只能选择不能输入.
+                            setXSSFValidation(sheet, attr.combo(), 1, 100, callIndex, callIndex);
+                        }
+                        callIndex++;
                     }
                 }
                 if (Type.EXPORT.equals(type))
@@ -335,6 +348,7 @@ public class ExcelUtil<T>
                     fillExcelData(index, row, cell);
                 }
             }
+            //sheet.addMergedRegion(new CellRangeAddress(0,1,0,0)); 跨行与跨列
             String filename = encodingFilename(sheetName);
             out = new FileOutputStream(getAbsoluteFile(filename));
             wb.write(out);
@@ -390,6 +404,7 @@ public class ExcelUtil<T>
         for (int i = startNo; i < endNo; i++)
         {
             row = sheet.createRow(i + 1 - startNo);
+            int callIndex = 0;
             // 得到导出对象.
             T vo = (T) list.get(i);
             for (int j = 0; j < fields.size(); j++)
@@ -406,33 +421,38 @@ public class ExcelUtil<T>
                     // 根据Excel中设置情况决定是否导出,有些情况需要保持为空,希望用户填写这一列.
                     if (attr.isExport())
                     {
-                        // 创建cell
-                        cell = row.createCell(j);
-                        cell.setCellStyle(cs);
-                        if (vo == null)
-                        {
-                            // 如果数据存在就填入,不存在填入空格.
-                            cell.setCellValue("");
-                            continue;
-                        }
-
                         // 用于读取对象中的属性
-                        Object value = getTargetValue(vo, field, attr);
-                        String dateFormat = attr.dateFormat();
-                        String readConverterExp = attr.readConverterExp();
-                        if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
-                        {
-                            cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
+                        Object[] value = new Object[attr.targetAttr().length];
+                        if(attr.targetAttr().length==1) {
+                            value[0] = getTargetValue(vo, field, attr);
+                        }else {
+                            value = getTargetArray(vo, field, attr);
                         }
-                        else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
-                        {
-                            cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp));
-                        }
-                        else
-                        {
-                            cell.setCellType(CellType.STRING);
-                            // 如果数据存在就填入,不存在填入空格.
-                            cell.setCellValue(StringUtils.isNull(value) ? attr.defaultValue() : value + attr.suffix());
+                        for (int k = 0;k<value.length;k++) {
+                            // 创建cell
+                            cell = row.createCell(callIndex);
+                            callIndex++;
+                            cell.setCellStyle(cs);
+                            if (vo == null) {
+                                // 如果数据存在就填入,不存在填入空格.
+                                cell.setCellValue("");
+                                continue;
+                            }
+
+
+                            String dateFormat = attr.dateFormat();
+
+                            String readConverterExp = attr.readConverterExp();
+                            if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value[k]) && StringUtils.isNotEmpty(value[k].toString()) && value[k] instanceof Date ) {
+                                cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value[k]));
+                            } else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value[k]) && StringUtils.isNotEmpty(value[k].toString())) {
+                                cell.setCellValue(convertByExp(String.valueOf(value[k]), readConverterExp));
+                            } else {
+                                cell.setCellType(CellType.STRING);
+                                // 如果数据存在就填入,不存在填入空格.
+                                cell.setCellValue(StringUtils.isNull(value[k]) ? attr.defaultValue() : value[k] + attr.suffix());
+
+                            }
                         }
                     }
                 }
@@ -598,21 +618,39 @@ public class ExcelUtil<T>
         Object o = field.get(vo);
         if (StringUtils.isNotEmpty(excel.targetAttr()))
         {
-            String target = excel.targetAttr();
-            if (target.indexOf(".") > -1)
-            {
-                String[] targets = target.split("[.]");
-                for (String name : targets)
-                {
-                    o = getValue(o, name);
+            String[] target = excel.targetAttr();
+            if (target[0].indexOf(".") > -1) {
+                String[] targets = target[0].split("[.]");
+                for (String name : targets) {
+                    o = o!=null?getValue(o, name):"";
                 }
-            }
-            else
-            {
-                o = getValue(o, target);
+            } else {
+                    o = o!=null?getValue(o, target[0]):"";
             }
         }
         return o;
+    }
+
+    private Object[] getTargetArray(T vo, Field field, Excel excel) throws Exception
+    {
+        String[] target = excel.targetAttr();
+        Object o = field.get(vo);
+        Object o2[] = new Object[target.length];
+        if (StringUtils.isNotEmpty(excel.targetAttr()))
+        {
+
+            for (int i = 0;i<target.length;i++) {
+                if (target[i].indexOf(".") > -1) {
+                    String[] targets = target[i].split("[.]");
+                    for (String name : targets) {
+                        o2[i] = o!=null?getValue(o, name):"";
+                    }
+                } else {
+                    o2[i] = o!=null?getValue(o, target[i]):"";
+                }
+            }
+        }
+        return o2;
     }
 
     /**
@@ -663,9 +701,21 @@ public class ExcelUtil<T>
         for (Field field : fields)
         {
             Excel attr = field.getAnnotation(Excel.class);
-            if (attr != null && (attr.type() == Type.ALL || attr.type() == type))
-            {
-                this.fields.add(field);
+            if (attr != null && (attr.type() == Type.ALL || attr.type() == type)) {
+                if(listNotField == null){
+                    this.fields.add(field);
+                    continue;
+                }
+                for (int i = 0; i < attr.name().length; i++) {
+                    for (String s : listNotField) {
+                        if (!s.equals(attr.name()[i])) {
+                            this.fields.add(field);
+                            continue;
+                        }
+                        listNotField.remove(s);
+                        break;
+                    }
+                }
             }
         }
     }

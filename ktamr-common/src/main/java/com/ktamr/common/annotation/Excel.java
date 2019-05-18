@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.List;
 
 /**
  * 自定义导出Excel数据注解
@@ -17,7 +18,7 @@ public @interface Excel
     /**
      * 导出到Excel中的名字.
      */
-    public String name();
+    public String[] name() default {};
 
     /**
      * 日期格式, 如: yyyy-MM-dd
@@ -37,7 +38,7 @@ public @interface Excel
     /**
      * 导出时在excel中每个列的宽 单位为字符
      */
-    public double width() default 16;
+    public double[] width() default 16;
 
     /**
      * 文字后缀,如% 90 变成90%
@@ -67,7 +68,7 @@ public @interface Excel
     /**
      * 另一个类中的属性名称,支持多级获取,以小数点隔开
      */
-    public String targetAttr() default "";
+    public String[] targetAttr() default "";
 
     /**
      * 字段类型（0：导出导入；1：仅导出；2：仅导入）

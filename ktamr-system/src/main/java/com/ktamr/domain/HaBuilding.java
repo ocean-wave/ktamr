@@ -2,6 +2,7 @@ package com.ktamr.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ktamr.common.annotation.Excel;
 import com.ktamr.common.core.domain.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,90 +11,98 @@ import java.util.List;
 
 public class HaBuilding extends BaseEntity {
 
-  private Integer buildingId;
-  private Integer areaId;
-  private String name;
-  private String description;
-  private String areaNo;
-  private String buildingNo;
+    private Integer buildingId;
+    private Integer areaId;
+    private String name;
+    private String areaNo;
+    private String buildingNo;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date createTime;
+    private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date modifyTime;
+    private Date modifyTime;
 
-  private Integer buildingCount;
-  private HaRoom haRoom;
+    private Integer buildingCount;
+    private HaRoom haRoom;
+    private String description;
+    private String roomMeterId;
 
+    public String getRoomMeterId() {
+        return roomMeterId;
+    }
 
-  public Integer getBuildingId() {
-    return buildingId;
-  }
+    public void setRoomMeterId(String roomMeterId) {
+        this.roomMeterId = roomMeterId;
+    }
 
-  public void setBuildingId(Integer buildingId) {
-    this.buildingId = buildingId;
-  }
+    public Integer getBuildingId() {
+        return buildingId;
+    }
 
-  public Integer getAreaId() {
-    return areaId;
-  }
+    public void setBuildingId(Integer buildingId) {
+        this.buildingId = buildingId;
+    }
 
-  public void setAreaId(Integer areaId) {
-    this.areaId = areaId;
-  }
+    public Integer getAreaId() {
+        return areaId;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public void setAreaId(Integer areaId) {
+        this.areaId = areaId;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public String getAreaNo() {
-    return areaNo;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public void setAreaNo(String areaNo) {
-    this.areaNo = areaNo;
-  }
+    public String getAreaNo() {
+        return areaNo;
+    }
 
-  public String getBuildingNo() {
-    return buildingNo;
-  }
+    public void setAreaNo(String areaNo) {
+        this.areaNo = areaNo;
+    }
 
-  public void setBuildingNo(String buildingNo) {
-    this.buildingNo = buildingNo;
-  }
+    public String getBuildingNo() {
+        return buildingNo;
+    }
 
-  @Override
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public void setBuildingNo(String buildingNo) {
+        this.buildingNo = buildingNo;
+    }
 
-  @Override
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    @Override
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  @Override
-  public Date getModifyTime() {
-    return modifyTime;
-  }
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-  @Override
-  public void setModifyTime(Date modifyTime) {
-    this.modifyTime = modifyTime;
-  }
+    @Override
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    @Override
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
 
     public Integer getBuildingCount() {
         return buildingCount;
@@ -104,10 +113,10 @@ public class HaBuilding extends BaseEntity {
     }
 
     public HaRoom getHaRoom() {
-    return haRoom;
-  }
+        return haRoom;
+    }
 
-  public void setHaRoom(HaRoom haRoom) {
-    this.haRoom = haRoom;
-  }
+    public void setHaRoom(HaRoom haRoom) {
+        this.haRoom = haRoom;
+    }
 }

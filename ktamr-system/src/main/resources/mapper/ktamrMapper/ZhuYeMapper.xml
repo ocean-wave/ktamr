@@ -72,12 +72,34 @@
        SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position('光通道干扰' in m.state)>0 OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
     </select>
 
+    <!--主页查询时映射的别名    -->
+    <resultMap id="zhuYeMap" type="zhuYe">
+        <result property="state" column="状态"/>
+        <result property="total" column="总数"/>
+    </resultMap>
     <!--  6、其他状态表计数  -->
-    <select id="meterStateCount12" resultType="Integer">
-       SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position('光通道干扰' in m.state)>0 OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
+    <select id="meterStateCountQiTa" resultMap="zhuYeMap">
+     SELECT m.state AS 状态, Count(m.meterid) AS 总数
+    FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid
+    AND m.meterNumber>0 AND m.state NOT LIKE '%用量异常%' AND m.state NOT LIKE '%重号%'
+    GROUP BY m.state ORDER BY m.state
     </select>
 
+    <!--集中器状态统计    -->
+    <select id="meterStateCountJiZhongQi" resultMap="zhuYeMap">
+    SELECT ce.state AS 状态,Count(ce.id) AS 总数 FROM ha_centor ce WHERE (Left(ce.description,3)='KT4' OR Left(ce.description,3)='KT3')
+    GROUP BY ce.state ORDER BY ce.state DESC
+    </select>
 
+    <!-- 采集器统计1   -->
+    <select id="meterStateCountCaiJiQi1" resultType="Integer">
+    SELECT Count(co.collectorid) AS 总数 FROM ha_centor ce,ha_collector co WHERE ce.id=co.centorid AND co.state ~* '^[0-9]'
+    </select>
+
+    <!-- 采集器统计2   -->
+    <select id="meterStateCountCaiJiQi2" resultType="Integer">
+    SELECT Count(co.collectorid) AS 总数 FROM ha_centor ce,ha_collector co WHERE ce.id=co.centorid AND co.state='EE'
+    </select>
 
     <!--  《表状态统计end》  -->
 </mapper>
