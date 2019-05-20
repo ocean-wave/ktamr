@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="小区表状态列表" th:include="include :: header">
+</head>
+<body class="myPage-body">
+<div class="container myContainer">
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <div class="layui-tab layui-tab-brief" lay-filter="stateMeters" style="margin:0;">
+                <ul class="layui-tab-title hide" style="margin-bottom: 0px;">
+                    <li class="layui-this" lay-id="areas">小区列表</li>
+                    <li lay-id="meters">表列表</li>
+                </ul>
+                <div class="row" style="margin:0;padding:5px 0px 0px 0px;">
+                    <div class="col-xs-2 my-form-col" style="width:128px;padding-bottom:5px;">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-sm btn-default">
+                                <input type="radio" name="options" data-title="areas" checked >小区列表
+                            </label>
+                            <label class="btn btn-sm btn-default">
+                                <input type="radio" name="options" data-title="meters">表列表
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 my-form-col areas-params">
+                        <select id="rgns" class="selectpicker form-control" multiple data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5">
+                            <option th:each="HaRgn : ${haRgnsListName}"
+                                    th:value="${HaRgn.id}" th:text="${HaRgn.name}">Credit card</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2 my-form-col areas-params">
+                        <select id='month_type' class="selectpicker form-control" data-style="btn-default btn-sm" title="选择月份类型">
+                            <option value='' >未选择</option>
+                            <option value='S' >单月</option>
+                            <option value='D' >双月</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2 my-form-col">
+                        <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+                    </div>
+                    <div class="col-xs-1 my-form-col">
+                        <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+                    </div>
+                </div>
+                <div class="layui-tab-content" style="padding: 0;">
+                    <div class="layui-tab-item layui-show">
+                        <form class="form-horizontal" id="jqgridForm1" role="form">
+                            <table id="jqGrid1" rel="jqgridForm" class="jqgrid"></table>
+                            <div id="jqGridPager1"></div>
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <form class="form-horizontal" id="jqgridForm2" role="form">
+                            <table id="jqGrid2" rel="jqgridForm" class="jqgrid"></table>
+                            <div id="jqGridPager2"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+
+<script>
+    layui.use(['layer','element'], function(){
+        var layer = layui.layer,
+            element = layui.element;
+        var lastSel1="";
+        var isSubGridDraw = false;
+        $('.selectpicker').selectpicker({
+            actionsBox: true //保留全选,全不选按键
+            ,noneSelectedText: '请选择大区'
+            ,selectAllText: '选择所有'
+            ,deselectAllText: '取消全选'
+            ,liveSearchPlaceholder: '搜索'
+        });
+        var Post_Data1 = {ListNumber: 49, TotalLocation: "编号", SumColName: "状态表数量", rgnids: "", monthType: "", meterState: "失联"};
+        var GridObj1 = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 146,"/area/area/getAreaMeterState");
+        GridObj1.jqdefaultGridConfig.caption = "";
+        GridObj1.jqdefaultGridConfig.multiselect = false;
+        GridObj1.jqdefaultGridConfig.postData = Post_Data1;
+        GridObj1.jqdefaultGridConfig.colNames = ['areaid','编号','名称','地址','抄收月份','状态表数量','百分比'];
+        GridObj1.jqdefaultGridConfig.colModel = [
+            { name: 'areaId',  width: 75, key: true, hidden: true},
+            { name: 'areaNo', width: 100 },
+            { name: 'name', width: 120 },
+            { name: 'addr', width: 160 },
+            { name: 'ds', width: 90 },
+            { name: 'atnNumber', width: 100 },
+            { name: 'haAreaPercentage', width: 100 }
+        ];
+        GridObj1.jqdefaultGridConfig.footerrow = true;
+        GridObj1.jqdefaultGridConfig.userDataOnFooter = true;
+        GridObj1.jqdefaultGridConfig.gridComplete = function(){
+            var firstRowId = $("#jqGrid1").jqGrid('getDataIDs')[0];
+            $("#jqGrid1").jqGrid('setSelection', firstRowId);//选中第一行
+            if(isSubGridDraw == false){
+                subGridDraw(firstRowId);
+                isSubGridDraw = true;
+            }
+            if(firstRowId == null){
+                $("#jqGrid2").jqGrid('setGridParam',{
+                    postData: {"areaid": ""}
+                }).trigger("reloadGrid");
+            }
+        };
+        GridObj1.jqdefaultGridConfig.onSelectRow = function(id){
+            if(id && id!==lastSel1){
+                lastSel1=id;
+                $("#jqGrid2").jqGrid('setGridParam',{
+                    postData: {"areaid": id}
+                }).trigger("reloadGrid");
+            }
+        };
+        GridObj1.drawGrid();
+        GridObj1.drawGridPager();
+        GridObj1.setGridSize();
+        GridObj1.gridResize();
+
+        var GridObj2 = new myJqGrid("jqGrid2", "jqGridPager2", "jqgridForm2", 112);
+
+        function subGridDraw(areaid){
+            var Post_Data2 = {ListNumber: 10, areaid: areaid, meterState: "失联"};
+            GridObj2.jqdefaultGridConfig.caption = "";
+            GridObj2.jqdefaultGridConfig.multiselect = false;
+            GridObj2.jqdefaultGridConfig.postData = Post_Data2;
+            GridObj2.jqdefaultGridConfig.colNames = ['meterid','用户编号','用户名称','用户地址','表号','最近读数','表状态','最近抄表时间'];
+            GridObj2.jqdefaultGridConfig.colModel = [
+                { name: 'meterid',  width: 75, key: true, hidden: true},
+                { name: '用户编号', width: 120 },
+                { name: '用户名称', width: 120 },
+                { name: '用户地址', width: 200 },
+                { name: '表号', align: 'right', width: 120 },
+                { name: '最近读数', align: 'right' ,width: 80 },
+                { name: '表状态', width: 80, cellattr: MeterStateCellColor },
+                { name: '最近抄表时间', width: 150 }
+            ];
+            GridObj2.drawGrid();
+            GridObj2.drawGridPager();
+            GridObj2.setGridSize();
+            GridObj2.gridResize();
+        }
+
+        var g_listName = "";
+        function switchGrid(listName){
+            if(listName == "areas"){
+                $(".areas-params").show();
+                GridObj1.setGridSize();
+            }else if(listName == "meters"){
+                $(".areas-params").hide();
+                GridObj2.setGridSize();
+            }
+            $("#keyWord").val("");
+            $("#jqGrid1").jqGrid('setGridParam',{
+                postData: {"keyWord": ""}
+            });
+            $("#jqGrid2").jqGrid('setGridParam',{
+                postData: {"keyWord": ""}
+            });
+        }
+        $('input:radio[name="options"]:checked').parent('label').addClass('active');
+        $('input:radio[name="options"]').change(function(){
+            var listName = $('input:radio[name="options"]:checked').data("title");
+            element.tabChange('stateMeters', listName);
+            switchGrid(listName);
+        });
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $(".search").click();
+            }
+        });
+        $(".search").click(function(){
+            var  _pdArray = "";
+            var listName = $('input:radio[name="options"]:checked').data("title");
+            if(listName == "areas"){
+                _pdArray = {
+                    "keyWord": $("#keyWord").val()
+                    ,"aareaid": $("#rgns").val().join(",")
+                    ,"ds": $("#month_type").val()
+                };
+                fullTextSearch("jqGrid1", _pdArray);
+            }else if(listName == "meters"){
+                _pdArray = {
+                    "keyWord": $("#keyWord").val()
+                };
+                fullTextSearch("jqGrid2", _pdArray);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

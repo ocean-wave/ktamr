@@ -26,6 +26,21 @@ public interface HaAreaMapper {
     public List<HaArea> selectHaAreaIdAndName(HaArea haArea);
 
     /**
+     * 在主页概况中统计图根据状态查询一波
+     * @param haArea
+     * @return 返回泛型集合
+     */
+    public List<HaArea> AQueryHaAreabystatus(@Param("HaArea") HaArea haArea, @Param("page") Integer page,
+                                             @Param("rowNum") Integer rowNum);
+
+    /**
+     * 在主页概况中统计图根据状态总记录数查询一波
+     * @param haArea
+     * @return 返回Integer整数值
+     */
+    public List<HaArea> AQueryHaAreabystatusCount(@Param("HaArea") HaArea haArea);
+
+    /**
      * 查询小区表
      *
      * @param haArea
@@ -148,6 +163,8 @@ public interface HaAreaMapper {
      *查询全部
      */
     public List<HaArea> BfindAllHaArea();
+
+
 
 
     /*

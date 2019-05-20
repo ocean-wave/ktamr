@@ -25,7 +25,7 @@ public class ClientTransContrller {
     @GetMapping("/rowDataGet")
     @ResponseBody
     public Map<String,Object> getCmdAjax(@RequestParam( value = "dataList", required = false) String dataList,
-                                        @RequestParam( value = "meterId", required = false) String meterId,
+                                         @RequestParam( value = "meterId", required = false) String meterId,
                                          @RequestParam( value = "id", required = false) String id){
 
         Map<String,Object> m = new HashMap<String, Object>();

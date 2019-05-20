@@ -93,6 +93,105 @@
         <include refid="getRightCondition"></include>
     </select>
 
+    <!--在主页概况中统计图根据状态查询一波映射-->
+    <resultMap  id="AQueryHaAreabystatusMap"  type="HaArea">
+            <id column="areaid" property="areaId" />
+            <result column="编号" property="areaNo"/>
+            <result column="名称" property="name"/>
+            <result column="地址" property="addr"/>
+            <result column="抄收月份" property="ds"/>
+            <result column="状态表数量" property="atnNumber"/>
+            <result column="百分比" property="haAreaPercentage"/>
+    </resultMap>
+
+    <!--  在主页概况中统计图根据状态查询一波 -->
+    <select id="AQueryHaAreabystatus"  resultMap="AQueryHaAreabystatusMap">
+        SELECT
+        a.areaid AS areaid, a.areaNo AS 编号, a.name AS 名称,
+        n.name||'-'||a.addr AS 地址, CASE WHEN a.DS='S' THEN '单月' WHEN a.DS='D' THEN '双月' ELSE '' END AS 抄收月份,
+        CASE WHEN t.n IS NULL THEN  0 ELSE t.n END AS 状态表数量,
+        CASE WHEN COUNT(m.meterid)&lt;=0 Or t.n IS NULL THEN  0 ELSE round(t.n::numeric/COUNT(m.meterid)::numeric, 4)*100 END  AS 百分比
+        FROM ((ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid) LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
+        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid
+        FROM hav_meterinfo i WHERE i.表号 >0
+
+        <if test="HaArea.state != null and HaArea.state == '开阀'">
+            AND (position( '正常' in i.状态)>0 OR position('正确' in i.状态)>0 OR
+            position('光通道干扰' in i.状态)>0 OR position('强光干扰' in i.状态)>0 OR
+            position('气泡干扰' in i.状态)>0 OR position('表具故障' in i.状态)>0)
+        </if>
+        <if test="HaArea.state != null and HaArea.state == '用量异常'">
+            AND Left(i.状态, 4)=#{HaArea.state}
+        </if>
+        <if test="HaArea.state != null and HaArea.state  != ''">
+            AND position( #{HaArea.state} in i.状态)>0
+        </if>
+         GROUP BY i.areaid) t ON t.areaid=a.areaid
+        WHERE a.areaid>0
+        <if test="HaArea.idsList2  != null and HaArea.idsList2.size()>0">
+            and  LEFT(a.areaNo,1) IN
+            <foreach collection="HaArea.idsList2" item="item" index="index"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="HaArea.ds != null and HaArea.ds != ''">
+            and ds = #{HaArea.ds}
+        </if>
+
+        <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
+            and (a.areaid like '%${HaArea.keyWord}' or a.areaNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
+
+        </if>
+        GROUP BY a.areaid,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,t.n ORDER BY a.areaNo
+        limit #{page} OFFSET #{rowNum}
+    </select>
+
+    <!--  在主页概况中统计图根据状态总记录数查询一波  -->
+    <select id="AQueryHaAreabystatusCount"  resultMap="AQueryHaAreabystatusMap">
+        SELECT
+        a.areaid AS areaid, a.areaNo AS 编号, a.name AS 名称,
+        n.name||'-'||a.addr AS 地址, CASE WHEN a.DS='S' THEN '单月' WHEN a.DS='D' THEN '双月' ELSE '' END AS 抄收月份,
+        CASE WHEN t.n IS NULL THEN  0 ELSE t.n END AS 状态表数量,
+        CASE WHEN COUNT(m.meterid)&lt;=0 Or t.n IS NULL THEN  0 ELSE round(t.n::numeric/COUNT(m.meterid)::numeric, 4)*100 END  AS 百分比
+        FROM ((ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid) LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
+        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid
+        FROM hav_meterinfo i WHERE i.表号 >0
+
+        <if test="HaArea.state != null and HaArea.state == '开阀'">
+            AND (position( '正常' in i.状态)>0 OR position('正确' in i.状态)>0 OR
+            position('光通道干扰' in i.状态)>0 OR position('强光干扰' in i.状态)>0 OR
+            position('气泡干扰' in i.状态)>0 OR position('表具故障' in i.状态)>0)
+        </if>
+        <if test="HaArea.state != null and HaArea.state == '用量异常'">
+            AND Left(i.状态, 4)=#{HaArea.state}
+        </if>
+        <if test="HaArea.state != null and HaArea.state  != ''">
+            AND position( #{HaArea.state} in i.状态)>0
+        </if>
+        GROUP BY i.areaid) t ON t.areaid=a.areaid
+        WHERE a.areaid>0
+        <if test="HaArea.idsList2  != null and HaArea.idsList2.size()>0">
+            and  LEFT(a.areaNo,1) IN
+            <foreach collection="HaArea.idsList2" item="item" index="index"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="HaArea.ds != null and HaArea.ds != ''">
+            and ds = #{HaArea.ds}
+        </if>
+        <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
+            and (a.areaid like '%${HaArea.keyWord}' or a.areaNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
+
+        </if>
+        GROUP BY a.areaid,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,t.n ORDER BY a.areaNo
+
+    </select>
+
+
+
     <!--映射查询小区表查询语句-->
     <resultMap  id="HaAreaMap"  type="HaArea">
         <id column="areaid" property="areaId" />
@@ -110,12 +209,14 @@
         <association property="haMeter" javaType="HaMeter">
             <result column="总表数" property="meterId"/>
             <result column="总读数" property="thNumber"/>
-            <result column="本期总用量" property="sNumber"/>
+            <result column="本期总用量" property="snumber"/>
             <result column="最近抄收时间" property="thRTime"/>
             <result column="最早装表时间" property="startTime"/>
         </association>
 
     </resultMap>
+
+
 
     <!--查询小区表的名字 填充条件查询的下拉框的值-->
     <select id="BselectHareaNameList" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">

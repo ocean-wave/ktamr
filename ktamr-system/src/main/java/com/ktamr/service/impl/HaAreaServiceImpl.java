@@ -39,6 +39,37 @@ public class HaAreaServiceImpl implements HaAreaService {
     }
 
     /**
+     * 在主页概况中统计图根据状态查询一波
+     * @param haArea
+     * @param page
+     * @param rowNum
+     * @return
+     */
+    @Override
+    public List<HaArea> AQueryHaAreabystatus(HaArea haArea, Integer page, Integer rowNum) {
+        List<HaArea> haAreaList = haAreaMapper.AQueryHaAreabystatus(haArea, page, rowNum);
+        if(haAreaList!=null){
+            return haAreaList;
+        }
+        return null;
+    }
+
+    /**
+     * 在主页概况中统计图根据状态总记录数查询一波
+     * @param haArea
+     * @return
+     */
+    @Override
+    public Integer AQueryHaAreabystatusCount(HaArea haArea) {
+        List<HaArea> haAreaList = haAreaMapper.AQueryHaAreabystatusCount(haArea);
+        if(haAreaList!=null){
+            return haAreaList.size();
+        }
+        return null;
+    }
+
+
+    /**
      * 查询小区+分页+条件月份查询
      * @param haArea
      * @param page
