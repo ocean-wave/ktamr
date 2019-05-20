@@ -52,10 +52,9 @@ public class HaRgnController extends BaseController {
 
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HaRgn haRgn)
+    public AjaxResult export(HaRgn haRgn,ExcelUtilTwo excelUtilTwo)
     {
         List<HaRgn> list = haRngService.selectAllRngAndCount(haRgn);
-        ExcelUtil<HaRgn> util = new ExcelUtil<HaRgn>(HaRgn.class);
-        return util.exportExcel(list, "大区表数据");
+        return excelUtilTwo.init(list, "大区表数据");
     }
 }
