@@ -38,7 +38,7 @@ public class MetersMngController extends BaseController {
         mmap.put("ids",ids);
         return path+"/metersReadResultList";
     }
-    @PostMapping("/metersReadResultLists")
+    @PostMapping("/metersReadResultListJson")
     @ResponseBody
     public Map<String,Object> metersReadResultLists(HavMeterinfo haMeter){
         startPage();

@@ -1,9 +1,8 @@
 package com.ktamr.web.controller.smallbox;
 
-import com.ktamr.domain.HaDayfreeze;
-import com.ktamr.domain.HaMeter;
-import com.ktamr.domain.HaMonfreeze;
-import com.ktamr.domain.HaRecords;
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.poi.ExcelUtilTwo;
+import com.ktamr.domain.*;
 import com.ktamr.service.HaDayFreezeService;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaMonFreezeService;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,5 +68,26 @@ public class MeterUsageContrller extends BaseController {
             m = getDataTable(listHaRecords);
         }
         return m;
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaBuilding haBuilding,@RequestParam(value = "dataType", required = false) String dataType,
+                            @RequestParam(value = "meterId", required = false) Integer meterId,
+                             ExcelUtilTwo excelUtilTwo)
+    {
+        List<?> list = new ArrayList<>();
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("meterId",meterId);
+        if(dataType.equals("last") || dataType.equals("all")){
+            params.put("dataType",dataType);
+            list = haRecordsService.selectRecordsAndErrrecord(params);
+        }
+        if(dataType.equals("dayFreeze")){
+            list = haDayFreezeService.selectAllDayfreeze(params);
+        }else if(dataType.equals("monFreeze")){
+            list = haMonFreezeService.selectAllMonfreeze(params);
+        }
+        return excelUtilTwo.init(list,"房间表数据");
     }
 }
