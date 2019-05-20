@@ -49,4 +49,32 @@ public class SystemController {
         map.put("rows",haConfigs);//存放集合
         return map;
     }
+
+    public Object checkOpLevel(String key,String uid){
+        boolean isOK = false;
+        if(key=="系统参数" && uid =="ha"){
+            isOK = true;
+        }else if(key!="系统参数"){
+            isOK = false;
+        }
+        return isOK;
+    }
+
+    public Object opConfigTable(){
+        return null;
+    }
+
+    @RequestMapping("/OpNumbers")
+    @ResponseBody
+    public String OpNumbers(Integer OpNumber){
+        if(OpNumber==1){
+            opConfigTable();
+        }else if(OpNumber==2){
+
+        }else if(OpNumber==3){
+
+        }
+        return "false";
+    }
+
 }
