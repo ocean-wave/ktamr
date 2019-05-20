@@ -37,7 +37,7 @@
         var Post_Data = {ListNumber: 30, colKey: "pos"};
         var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,"/system/ConfigListJson");
         //GridObj.jqdefaultGridConfig.caption = "配置参数列表：";
-        GridObj.jqdefaultGridConfig.editurl = '/client_trans/RowEditing.asp?OpNumber=1';
+        GridObj.jqdefaultGridConfig.editurl = '/system/OpNumbers?OpNumber=1';
         GridObj.jqdefaultGridConfig.multiselect = false;
         GridObj.jqdefaultGridConfig.postData = Post_Data;
         GridObj.jqdefaultGridConfig.colNames = ['','显示顺序','配置类别','配置项','配置名称','配置值','修改时间','修改人'];
