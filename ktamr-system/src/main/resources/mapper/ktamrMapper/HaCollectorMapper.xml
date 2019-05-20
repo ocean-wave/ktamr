@@ -35,6 +35,10 @@
         SELECT collectorid,centorid,addr,nconf,ver,state FROM ha_collector WHERE centorid=#{centorId} ORDER BY addr
     </select>
 
+    <select id="updateByIdHaCollector" resultType="com.ktamr.domain.HaCollector">
+        SELECT collectorid,centorid,addr,nconf,ver,state FROM ha_collector WHERE collectorid=#{collectorId} ORDER BY addr
+    </select>
+
     <insert id="addHaCollector">
         insert into ha_collector(collectorid,addr,ver,oconf,nconf,centorid,state) values (default ,#{addr},#{ver},#{oconf},#{nconf},#{centorId},#{state})
     </insert>
@@ -45,19 +49,11 @@
 
     <update id="updateHaCollector">
         update ha_collector
-        <trim prefix="set" suffixOverrides="," suffix="where collectorid = #{collectorid}">
+        <trim prefix="set" suffixOverrides="," suffix="where collectorid = #{collectorId}">
             <if test="addr != null">addr = #{addr},</if>
             <if test="ver != null">ver = #{ver},</if>
             <if test="oconf != null">oconf = #{oconf},</if>
             <if test="nconf != null">nconf = #{nconf},</if>
-            <if test="state != null">state = #{state},</if>
-            <if test="centorid != null">centorid = #{centorid},</if>
-            <if test="lastdo_time != null">lastdo_time = #{lastdo_time},</if>
-            <if test="last_state != null">last_state = #{last_state},</if>
-            <if test="createtime != null">createtime = #{createtime},</if>
-            <if test="modifytime != null">modifytime = #{modifytime},</if>
-            <if test="routers != null">routers = #{routers},</if>
-            <if test="meters != null">meters = #{meters},</if>
         </trim>
     </update>
 </mapper>

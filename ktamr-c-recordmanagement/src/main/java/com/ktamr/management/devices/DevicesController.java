@@ -63,15 +63,28 @@ public class DevicesController {
         return "devices/collector_add";
     }
 
+    @RequestMapping("/JumpCollectorUpdate")
+    public String jumpCollectorUpdate(String cmdName,Integer collectorId,Model model){
+        HaCollector haCollector = haCollectorService.updateByIdHaCollector(collectorId);
+        model.addAttribute("cmdName",cmdName);
+        model.addAttribute("collectorId",collectorId);
+        model.addAttribute("haCollector",haCollector);
+        return "devices/collector_update";
+    }
+
     //跳转修改集中器，集采器，手抄器页面
     @RequestMapping("/JumpCentorUpdate")
     public String jumpCentorUpdate(String cmdName,Integer deviceId,Model model){
         HaCentor uCentor = haCentorService.updateByIdHaCentor(deviceId);
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        String uCentorNo4 = uCentor.getCentorNo().substring(uCentor.getCentorNo().length()-4);
+        String uCentorNo5 = uCentor.getCentorNo().substring(uCentor.getCentorNo().length()-5);
         model.addAttribute("haArea",haArea);
         model.addAttribute("cmdName",cmdName);
         model.addAttribute("uCentor",uCentor);
         model.addAttribute("deviceId",deviceId);
+        model.addAttribute("uCentorNo4",uCentorNo4);
+        model.addAttribute("uCentorNo5",uCentorNo5);
         return "devices/centor_update";
     }
 
@@ -137,6 +150,19 @@ public class DevicesController {
         }
         haCollector.setState("建档");
         Integer collector = haCollectorService.addHaCollector(haCollector);
+        if(collector==1){
+            return "true";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/UpdateCollector")
+    @ResponseBody
+    public Object updateCollector(HaCollector haCollector){
+        if(haCollector.getOconf()==null){
+            haCollector.setOconf(0);
+        }
+        Integer collector = haCollectorService.updateHaCollector(haCollector);
         if(collector==1){
             return "true";
         }

@@ -8,17 +8,17 @@ import java.util.Date;
 
 public class HavMeterinfo extends BaseEntity {
 
-    private Integer meterid;
-    private Integer areaid;
-    private String areano;
+    private Integer meterId;
+    private Integer areaId;
+    private String areaNo;
     private String ds;
-    private Integer buildingid;
-    private Integer roomid;
-    private Integer centorid;
-    private Integer deviceid;
-    private String centorno;
+    private Integer buildingId;
+    private Integer roomId;
+    private Integer centorId;
+    private Integer deviceId;
+    private String centorNo;
     private String addr;
-    private Integer custid;
+    private Integer custId;
     private Integer pricestandId;
     private String userNo;//�û���
     private Long meterNumber;//���
@@ -34,6 +34,111 @@ public class HavMeterinfo extends BaseEntity {
     private String lfTime;//���ڳ���ʱ��
     private String state;//״̬
 
+    private HaRecords haRecords;
+
+    public HaRecords getHaRecords() {
+        return haRecords;
+    }
+
+    public void setHaRecords(HaRecords haRecords) {
+        this.haRecords = haRecords;
+    }
+
+    public Integer getMeterId() {
+        return meterId;
+    }
+
+    public void setMeterId(Integer meterId) {
+        this.meterId = meterId;
+    }
+
+    public Integer getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(Integer areaId) {
+        this.areaId = areaId;
+    }
+
+    public String getAreaNo() {
+        return areaNo;
+    }
+
+    public void setAreaNo(String areaNo) {
+        this.areaNo = areaNo;
+    }
+
+    public String getDs() {
+        return ds;
+    }
+
+    public void setDs(String ds) {
+        this.ds = ds;
+    }
+
+    public Integer getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(Integer buildingId) {
+        this.buildingId = buildingId;
+    }
+
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
+    }
+
+    public Integer getCentorId() {
+        return centorId;
+    }
+
+    public void setCentorId(Integer centorId) {
+        this.centorId = centorId;
+    }
+
+    public Integer getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Integer deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getCentorNo() {
+        return centorNo;
+    }
+
+    public void setCentorNo(String centorNo) {
+        this.centorNo = centorNo;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public Integer getCustId() {
+        return custId;
+    }
+
+    public void setCustId(Integer custId) {
+        this.custId = custId;
+    }
+
+    public Integer getPricestandId() {
+        return pricestandId;
+    }
+
+    public void setPricestandId(Integer pricestandId) {
+        this.pricestandId = pricestandId;
+    }
 
     public Date getThRTime() {
         return thRTime;
@@ -129,101 +234,5 @@ public class HavMeterinfo extends BaseEntity {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public Integer getMeterid() {
-        return meterid;
-    }
-
-    public void setMeterid(Integer meterid) {
-        this.meterid = meterid;
-    }
-
-    public Integer getAreaid() {
-        return areaid;
-    }
-
-    public void setAreaid(Integer areaid) {
-        this.areaid = areaid;
-    }
-
-    public String getAreano() {
-        return areano;
-    }
-
-    public void setAreano(String areano) {
-        this.areano = areano;
-    }
-
-    public String getDs() {
-        return ds;
-    }
-
-    public void setDs(String ds) {
-        this.ds = ds;
-    }
-
-    public Integer getBuildingid() {
-        return buildingid;
-    }
-
-    public void setBuildingid(Integer buildingid) {
-        this.buildingid = buildingid;
-    }
-
-    public Integer getRoomid() {
-        return roomid;
-    }
-
-    public void setRoomid(Integer roomid) {
-        this.roomid = roomid;
-    }
-
-    public Integer getCentorid() {
-        return centorid;
-    }
-
-    public void setCentorid(Integer centorid) {
-        this.centorid = centorid;
-    }
-
-    public Integer getDeviceid() {
-        return deviceid;
-    }
-
-    public void setDeviceid(Integer deviceid) {
-        this.deviceid = deviceid;
-    }
-
-    public String getCentorno() {
-        return centorno;
-    }
-
-    public void setCentorno(String centorno) {
-        this.centorno = centorno;
-    }
-
-    public String getAddr() {
-        return addr;
-    }
-
-    public void setAddr(String addr) {
-        this.addr = addr;
-    }
-
-    public Integer getCustid() {
-        return custid;
-    }
-
-    public void setCustid(Integer custid) {
-        this.custid = custid;
-    }
-
-    public Integer getPricestandId() {
-        return pricestandId;
-    }
-
-    public void setPricestandId(Integer pricestandId) {
-        this.pricestandId = pricestandId;
     }
 }

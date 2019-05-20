@@ -20,38 +20,6 @@ public class HaMeterServiceImpl implements HaMeterService {
     private HaMeterMapper haMeterMapper;
 
     @Override
-    public List<Map<String,Object>> selectAllMeter(ParameterInfo parms) {
-        String[] s;
-        Integer[] si;
-        Map<String,Object> map;
-        s = parms.getCmdids().toString().split(",");
-        si = new Integer[s.length];
-        String[] ids = parms.getIds().split(",");
-        Integer[] id = new Integer[ids.length];
-        if (ids.length>1){
-            for (int i = 0; i < ids.length; i++) {
-                id[i] = Integer.parseInt(ids[i]);
-            }
-        }
-        if(s.length > 1) {
-            for (int i = 0; i < s.length; i++) {
-                si[i] = Integer.parseInt(s[i]);
-            }
-        }else{
-            si[0] = 0;
-        }
-        map = new HashMap<String,Object>();
-        map.put("cmdName",parms.getCmdName());
-        map.put("cmdids",si);
-        if(ids.length>1) {
-            map.put("ids",id);
-        }else {
-            map.put("ids", parms.getIds());
-        }
-        return haMeterMapper.selectAllMeter(map);
-    }
-
-    @Override
     public Map<String, Object> selectMeterById(Integer meterid) {
         return haMeterMapper.selectMeterById(meterid);
     }

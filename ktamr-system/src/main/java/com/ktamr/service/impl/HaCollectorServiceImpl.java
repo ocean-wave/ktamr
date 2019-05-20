@@ -39,6 +39,11 @@ public class HaCollectorServiceImpl implements HaCollectorService {
         return haCollectorMapper.queryHaCollector(centorId);
     }
 
+    @Override
+    public HaCollector updateByIdHaCollector(Integer collectorId) {
+        return haCollectorMapper.updateByIdHaCollector(collectorId);
+    }
+
     public Integer addHaCollector(HaCollector haCollector) {
         return haCollectorMapper.addHaCollector(haCollector);
     }

@@ -14,20 +14,14 @@ import java.util.List;
 public class HaArea extends BaseEntity {
 
     private Integer areaId;
-    @Excel(name = "小区编号",width = 8)
     private String areaNo;
-    @Excel(name = "小区册号",width = 8)
     private String registeredNo;
-    @Excel(name = "小区名称",width = 20)
     private String name;
-    @Excel(name = "地址",width = 32)
     private String addr;
-    @Excel(name = "抄收月份",width = 5)
     private String ds;
     private String description;
     private Date lastcheckTime;
     private String state;
-    @Excel(name = "冻结抄收",width = 5)
     private String reserved;
     private String shortName;
     private String sumDay;
@@ -42,13 +36,9 @@ public class HaArea extends BaseEntity {
     private Date auditDay;
     private String auditResult;
 
-    @Excel(name = "总表数",width = 8)
     private Integer sumNumber;
-    @Excel(name = "总读数",width = 8)
     private Integer readNumber;
-    @Excel(name = "本期总用量",width = 8)
     private Integer sumDosage;
-    @Excel(name = "不良表数",width = 8)
     private Integer atnNumber;
     private String monthType;
     private Integer haAreaCount;
@@ -56,7 +46,6 @@ public class HaArea extends BaseEntity {
     private String rgnIds;
 
     //开始存
-    @Excel(name = {"最近抄表时间"}, targetAttr = {"thRTime"},width = {20},dateFormat = "yyyy-MM-dd HH:mm:ss",type = Type.EXPORT)
     private HaMeter haMeter;
     private HaRgn haRgn;
     private HavMeterinfo havMeterinfo;
@@ -65,7 +54,6 @@ public class HaArea extends BaseEntity {
     //定义接收
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "结算日期",dateFormat = "yyyy-MM-dd HH:mm:ss",width = 20)
     private Date lastsumDay;
     private Integer countAreaNo;//2级菜单多少子的小区名称记录数
     private String cmdName;//定义别名类型接收

@@ -1,7 +1,10 @@
 package com.ktamr.web.controller.smallbox;
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.service.HaMeterService;
+import com.ktamr.service.HavMeterinfoService;
 import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +20,7 @@ public class MetersMngController extends BaseController {
     private String path = "meter";
 
     @Autowired
-    private HaMeterService haMeterService;
+    private HavMeterinfoService havMeterinfoService;
 
     @GetMapping("/metersMng")
     public String metersMng(@RequestParam( value = "cmdName", required = false) String cmdName,
@@ -35,11 +38,11 @@ public class MetersMngController extends BaseController {
         mmap.put("ids",ids);
         return path+"/metersReadResultList";
     }
-    @PostMapping("/metersReadResultLists")
+    @PostMapping("/metersReadResultListJson")
     @ResponseBody
-    public Map<String,Object> metersReadResultLists(ParameterInfo parms){
+    public Map<String,Object> metersReadResultLists(HavMeterinfo haMeter){
         startPage();
-        List<Map<String,Object>> listMeter = haMeterService.selectAllMeter(parms);
+        List<HavMeterinfo> listMeter = havMeterinfoService.selectReadResult(haMeter);
         return getDataTable(listMeter);
     }
 }
