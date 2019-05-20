@@ -491,7 +491,7 @@
                             "cmdName="+cmdName,
                             "deviceId="+deviceId
                         ];
-                        _myLayui.showLayer(cmdName, "./centor_update.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer(cmdName, "/devices/JumpCentorUpdate", _queryStr, _layerSize);
                     }
                     break;
 
@@ -531,7 +531,7 @@
                         };
                         layer.confirm('确实要删除档案吗？', {icon:3, title:'提示'},
                             function(index, layero){
-                                delDevice("./centor_del_do.asp", _queryStr, "centor");
+                                delDevice("/devices/DeleteCentor?id='"+deviceId+'"', _queryStr, "centor");
                                 layer.close(index);
                             });
                     }
@@ -551,7 +551,7 @@
                         };
                         layer.confirm('确实要删除档案吗？', {icon:3, title:'提示'},
                             function(index, layero){
-                                delDevice("./collector_del_do.asp", _queryStr, "collector");
+                                delDevice("/devices/DeleteCollector?collectorid='"+collectorId+'"', _queryStr, "collector");
                                 layer.close(index);
                             });
                     }

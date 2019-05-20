@@ -24,5 +24,5 @@ public interface HaCollectorService {
 
     Integer updateHaCollector(HaCollector haCollector);
 
-    Integer deleteHaCollector(HaCollector haCollector);
+    Integer deleteHaCollector(Integer collectorId);
 }

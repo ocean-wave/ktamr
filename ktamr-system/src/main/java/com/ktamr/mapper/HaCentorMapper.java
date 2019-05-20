@@ -55,9 +55,11 @@ public interface HaCentorMapper {
 
     HaCentor queryAddr(@Param("id") Integer id);
 
+    HaCentor updateByIdHaCentor(@Param("id") Integer id);
+
     Integer addHaCentor(HaCentor haCentor);
 
     Integer updateHaCentor(HaCentor haCentor);
 
-    Integer deleteHaCentor(HaCentor haCentor);
+    Integer deleteHaCentor(@Param("id") Integer id);
 }

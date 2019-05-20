@@ -40,7 +40,7 @@
     </insert>
 
     <delete id="deleteHaCollector">
-        delete from ha_collector where collectorid = #{collectorid}
+        delete from ha_collector where collectorid = #{collectorId}
     </delete>
 
     <update id="updateHaCollector">
