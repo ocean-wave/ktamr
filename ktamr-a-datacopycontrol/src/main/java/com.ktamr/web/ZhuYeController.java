@@ -132,14 +132,28 @@ public class ZhuYeController {
         List<zhuYe> meterStateCountJiZhongQi = zhuYeService.meterStateCountJiZhongQi();
         Integer[] centorStateCount = new Integer[3];
         for (int i=0;i<meterStateCountJiZhongQi.size();i++){
-            Integer total = meterStateCountJiZhongQi.get(i).getTotal();
+            Integer total = meterStateCountJiZhongQi.get(i).getTotal();//获取总数
+            String state = meterStateCountJiZhongQi.get(i).getState();//获取状态
+            switch (state){
+                case "联机":
+                    centorStateCount[0] = total;
+                    break;
+                case "断开":
+                    centorStateCount[1] = total;
+                    break;
+                case "建档":
+                    centorStateCount[2] = total;
+                    break;
+            }
+
         }
-        centorStateCount[0]=001;
-        centorStateCount[1]=002;
-        centorStateCount[2]=003;
+
         //采集器统计
-        Integer collectorConnCount=111;
-        Integer collectorDisConnCount=222;
+        Integer meterStateCountCaiJiQi1 = zhuYeService.meterStateCountCaiJiQi1();
+        Integer meterStateCountCaiJiQi2 = zhuYeService.meterStateCountCaiJiQi2();
+        Integer collectorConnCount=meterStateCountCaiJiQi1;
+        Integer collectorDisConnCount=meterStateCountCaiJiQi1;
+        Integer meterCount = zhuYeService.meterCount();
 //        model.addAttribute("meterStateCount",meterStateCount);
         Map<String ,Object> map=new HashMap<>();
         map.put("meterStateCount",meterStateCount);
@@ -148,6 +162,7 @@ public class ZhuYeController {
         map.put("collectorConnCount",collectorConnCount);
         map.put("collectorDisConnCount",collectorDisConnCount);
         map.put("collectorDisConnCount",collectorDisConnCount);
+        map.put("meterCount",meterCount);
         if(map!=null){
             return map;
         }

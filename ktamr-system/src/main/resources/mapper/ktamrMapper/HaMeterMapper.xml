@@ -13,7 +13,7 @@
         <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
         <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
         <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
-        <result column="sNumber" property="sNumber" javaType="java.lang.Double"></result>
+        <result column="sNumber" property="snumber" javaType="java.lang.Double"></result>
         <result column="zjsl" property="resultParams.zjsl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="sfny" property="resultParams.sfny" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="sycjs" property="resultParams.sycjs" javaType="java.lang.String" jdbcType="VARCHAR"></result>

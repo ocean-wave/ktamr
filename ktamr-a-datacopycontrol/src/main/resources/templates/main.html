@@ -107,13 +107,14 @@
             </div>
         </div>
     </fieldset>
-    //将值赋给hidden域
-    <input type="hidden" th:value="${meterStateCount}" id="staff_name2"/>
+
+
 </div>
 
 <div th:include="include :: footer"></div>
 
 <script  type="text/javascript" th:inline="none">
+    <!--在打开页面的同时直接从页面获取直接ajax从后台获取-->
     window.onload=function() {
         $.ajax({
             url: "/openMainHtml2"
@@ -214,7 +215,7 @@
                                 nameLocation : "middle",
                                 nameGap : 35,
                                 type : 'value',
-                                max : 111812,
+                                max : data.meterCount,
                                 axisLabel:{
                                     show: true,
                                     showMaxLabel: true

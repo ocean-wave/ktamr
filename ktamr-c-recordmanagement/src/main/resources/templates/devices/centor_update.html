@@ -17,7 +17,6 @@
         .mySelect dl {
             max-height: 170px;
         }
-
     </style>
 </head>
 <body class="myPage-body">
@@ -41,7 +40,7 @@
             <label class="layui-form-label">区&nbsp;&nbsp;域&nbsp;号</label>
             <div class="layui-input-inline my-form-input">
                 <input id="areaNo" name="areaNo" lay-verify="required|number" autocomplete="off" placeholder="数字,4位"
-                       class="layui-input my-layui-input" maxlength="4" readonly="" th:value="${uCentor.centorNo}">
+                       class="layui-input my-layui-input" maxlength="4" readonly="" th:value="${uCentorNo4}">
             </div>
         </div>
         <div class="layui-block">
@@ -66,12 +65,12 @@
             <label class="layui-form-label">线路编号</label>
             <div class="layui-input-inline my-form-input">
                 <input id="areaNo" name="areaNo" lay-verify="required" autocomplete="off" placeholder="5位区域号"
-                       class="layui-input" maxlength="5" disabled="disabled" th:value="${uCentor.centorNo}">
+                       class="layui-input" maxlength="5" disabled="disabled" th:value="${uCentorNo5}">
             </div>
             <div class="layui-form-mid">-</div>
             <div class="layui-input-inline my-form-input">
                 <input id="lineNo" name="lineNo" lay-verify="required|number|num_gt_0|lineNo" autocomplete="off"
-                       placeholder="5位编号" class="layui-input" maxlength="5" th:value="${uCentor.centorNo}">
+                       placeholder="5位编号" class="layui-input" maxlength="5" th:value="${uCentorNo5}">
             </div>
         </div>
     </div>
@@ -300,7 +299,8 @@
         form.on('select(area)', function (data) {
             var areaObj = $(data.elem);
             var textArray = "";
-            g_areaNo = areaObj.val();
+            var areaNo = areaObj.find("option:selected").text().split(":");
+            g_areaNo = areaNo[0];
             if (g_cmdName == "修改集中器") {
                 $("#areaNo").val(g_areaNo.substr(1, 4));
             } else if (g_cmdName == "修改抄收线路") {
