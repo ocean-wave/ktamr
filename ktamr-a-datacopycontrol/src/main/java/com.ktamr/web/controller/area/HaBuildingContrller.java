@@ -33,8 +33,6 @@ import java.util.Map;
 @RequestMapping("/area/building")
 public class HaBuildingContrller extends BaseController {
 
-    private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
-
     private  String pxePath = "area";
 
     @Autowired
@@ -50,55 +48,9 @@ public class HaBuildingContrller extends BaseController {
 
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HaBuilding haBuilding, ExcelUtilTwo excelUtilTwo)
+    public AjaxResult export(HaBuilding haBuilding,ExcelUtilTwo excelUtilTwo)
     {
         List<HaBuilding> list = haBuildingService.selectAllBuildingAndCount(haBuilding);
-
-        Workbook wb = new SXSSFWorkbook(500);
-        Sheet sheet = wb.createSheet();
-        Row row = sheet.createRow(0);
-        Cell cell = null;
-        cell = row.createCell(0);
-        cell.setCellValue("用户编号");
-        cell.setCellValue("用户名称");
-        cell.setCellValue("用户地址");
-        cell.setCellValue("房间备注");
-        cell.setCellValue("表地址");
-        cell.setCellValue("用户编号");
-        cell.setCellValue("用户编号");
-        cell.setCellValue("用户编号");
-        OutputStream out = null;
-        String filename = ExceStr.encodingFilename("房间表数据");
-        try {
-            out = new FileOutputStream(ExceStr.getAbsoluteFile(filename));
-            wb.write(out);
-        } catch (Exception e) {
-            log.error("导出Excel异常{}", e.getMessage());
-            throw new BusinessException("导出Excel失败，请联系网站管理员！");
-        }finally {
-            if (wb != null)
-            {
-                try
-                {
-                    wb.close();
-                }
-                catch (IOException e1)
-                {
-                    e1.printStackTrace();
-                }
-            }
-            if (out != null)
-            {
-                try
-                {
-                    out.close();
-                }
-                catch (IOException e1)
-                {
-                    e1.printStackTrace();
-                }
-            }
-        }
-        return AjaxResult.success(filename);
+        return excelUtilTwo.init(list,"房间表数据");
     }
 }

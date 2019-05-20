@@ -168,36 +168,44 @@ function resizeGrids(op) {
 }
 function exportToExcel(url,GridId)
 {
-    alert("请稍后，我在搞");
 	var grid = $("#"+GridId);
 	$.loading("正在导出数据，请稍后...");
 	url = url.substring(0,url.lastIndexOf("/"));
-	var reg=/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/gi;
-	var pdArray = grid.jqGrid("getGridParam", "postData");
+	var reg=/[\u4E00-\u9FA5]/;
+	var pdArray =grid.jqGrid("getGridParam", "postData");
 	var colModel = grid.jqGrid("getGridParam", "colModel");
+	var colNames = grid.jqGrid("getGridParam", "colNames");
+	var excelLabel = new Array();
 	var excelName = new Array();
 	var excelWidth = new Array();
 	for(var i = 0;i<colModel.length;i++){
-		if(reg.exec(colModel[i].label) && !reg.exec(colModel[i].name)){
-			excelName.push(colModel[i].label);
+		if(colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
+			excelLabel.push(colNames[i]);
 			excelWidth.push(colModel[i].width)
+			excelName.push(colModel[i].name);
+			continue;
+		}
+		if(reg.exec(colModel[i].label) && !reg.exec(colModel[i].name)){
+			excelLabel.push(colModel[i].label);
+			excelWidth.push(colModel[i].width);
+			excelName.push(colModel[i].name);
 		}
 	}
-	var pdArray = {
-		"excelName=":excelName,
-		"excelWidth":excelWidth
-
-	};
-	// pdArray['excelName'] = excelName;
-	// pdArray['excelWidth'] = excelWidth;
-	$.post(url+"/export", pdArray, function(result) {
-		if (result.code == 0) {
-			window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
-		}else{
-			$.alert(result.msg,"error");
-		}
-		$.closeloading();
-	});
+	pdArray['excelName'] = excelName;
+	pdArray['excelWidth'] = excelWidth;
+	$.ajax({
+		url:url+"/export",
+		type: "POST",
+		traditional :true,
+		data:pdArray,
+		success:function(result){
+			if (result.code == 0) {
+				window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+			}else{
+				$.alert(result.msg,"error");
+			}
+			$.closeloading();
+		}});
 }
 //分页的数据，Page 当前位置是什么
 function fullTextSearch(jqGridID, postDataArray){

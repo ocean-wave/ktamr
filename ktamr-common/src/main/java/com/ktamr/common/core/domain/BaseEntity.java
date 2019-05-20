@@ -39,6 +39,8 @@ public class BaseEntity implements Serializable{
     /** 请求参数 */
     private Map<String, Object> params;
 
+    private Map<String,Object[]> paramsArray;
+
     private Map<String,Object> resultParams;
 
     public BaseEntity() {
@@ -51,6 +53,14 @@ public class BaseEntity implements Serializable{
         params.put("operatorCompanyId",ServletUtils.getSession().getAttribute("operatorCompanyId"));
         params.put("operatorCode",ServletUtils.getSession().getAttribute("operatorCode"));
         params.put("operatorLevel",ServletUtils.getSession().getAttribute("operatorLevel"));
+    }
+
+    public Map<String, Object[]> getParamsArray() {
+        return paramsArray;
+    }
+
+    public void setParamsArray(Map<String, Object[]> paramsArray) {
+        this.paramsArray = paramsArray;
     }
 
     public Map<String, Object> getResultParams() {
