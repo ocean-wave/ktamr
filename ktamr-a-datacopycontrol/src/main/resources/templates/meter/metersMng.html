@@ -120,7 +120,7 @@
 		
 		metersManage.prototype.loadCmd = function(){
 			var _this = this, cmdName=_this.cmdName,title="", cmd="";
-			var selRowId = _this.rowIds[this.index];
+			var selRowId = _this.rowIds[1];
 			if(selRowId == "" || selRowId == undefined){
 				if(cmdName.indexOf("抄收")>=0){
 					$(".cmd_list").show();

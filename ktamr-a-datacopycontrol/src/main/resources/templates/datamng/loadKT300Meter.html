@@ -45,7 +45,7 @@
 	<div class="form-inline" style="margin:5px 5px;text-align: right">
 		<button th:if=" ${ cmdName == '批量控阀' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="关阀"><img src="../../images/cross.png" />关阀</button>
 		<button th:if=" ${ cmdName == '批量控阀' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="开阀"><img src="../../images/tick.png" />开阀</button>
-		<button th:if=" ${ cmdName == '增删表地址' } "  type="button" class="btn btn-default btn-sm btnMargin addMeter" data-title="加表"><img src="../../images/add.png" />加表</button>
+		<button th:if=" ${ cmdName == '增删表地址' } "  type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="加表"><img src="../../images/add.png" />加表</button>
 		<button th:if=" ${ cmdName == '增删表地址' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="删表"><img src="../../images/delete.png" />删表</button>
 		<button th:if=" ${ devDescription == 'KT3NB GPRS' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="加全部表"><img src="../../images/add.png" />加全部表</button>
 		<button th:if=" ${ devDescription == 'KT3NB GPRS' } " type="button" class="btn btn-default btn-sm btnMargin meterControl" data-title="删全部表"><img src="../../images/delete.png" />删全部表</button>
@@ -282,7 +282,7 @@
 				}
 				$(":button").attr({"disabled": "disabled"});
 				var parms = {
-					"rowIds": rowIds[i]
+					"rowIds": ids
 					, "index": 0
 					, "centorid": g_centorId
 					, "cmdName": cmdName

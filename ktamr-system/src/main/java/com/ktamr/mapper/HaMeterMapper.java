@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public interface HaMeterMapper {
 
-    public List<Map<String,Object>> selectAllMeter(Map<String, Object> parms);
-
     public Map<String,Object> selectMeterById(Integer meterid);
 
     /**

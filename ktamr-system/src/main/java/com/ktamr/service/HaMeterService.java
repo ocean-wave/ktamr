@@ -11,8 +11,6 @@ import java.util.Map;
  */
 public interface HaMeterService {
 
-    public List<Map<String,Object>> selectAllMeter(ParameterInfo parms);
-
     public Map<String,Object> selectMeterById(Integer meterid);
 
     /**

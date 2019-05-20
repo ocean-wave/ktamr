@@ -33,8 +33,6 @@ import java.util.Map;
 @RequestMapping("/area/building")
 public class HaBuildingContrller extends BaseController {
 
-    private  String pxePath = "area";
-
     @Autowired
     private HaBuildingService haBuildingService;
 

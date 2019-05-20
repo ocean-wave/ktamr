@@ -178,21 +178,26 @@ function exportToExcel(url,GridId)
 	var excelLabel = new Array();
 	var excelName = new Array();
 	var excelWidth = new Array();
+	var excelDataFormat = new Array();
 	for(var i = 0;i<colModel.length;i++){
 		if(colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
 			excelLabel.push(colNames[i]);
 			excelWidth.push(colModel[i].width)
 			excelName.push(colModel[i].name);
-			continue;
 		}
-		if(reg.exec(colModel[i].label) && !reg.exec(colModel[i].name)){
+		if(colNames == null && reg.exec(colModel[i].label) && !reg.exec(colModel[i].name) && colNames[i] != "操作" && colNames[i] !="操作结果"){
 			excelLabel.push(colModel[i].label);
 			excelWidth.push(colModel[i].width);
 			excelName.push(colModel[i].name);
 		}
+		if(colModel[i].dataFormat != undefined){
+			excelDataFormat.push(colModel[i].dataFormat);
+		}
 	}
-	pdArray['excelName'] = excelName;
+	pdArray['excelLabel'] = excelLabel;
 	pdArray['excelWidth'] = excelWidth;
+	pdArray['excelName'] = excelName;
+	pdArray['excelDataFormat'] = excelDataFormat;
 	$.ajax({
 		url:url+"/export",
 		type: "POST",

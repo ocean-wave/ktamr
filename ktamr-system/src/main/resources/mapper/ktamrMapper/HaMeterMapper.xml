@@ -66,64 +66,6 @@
         </if>
     </sql>
 
-    <select id="selectAllMeter" resultType="java.util.Map" parameterType="java.util.Map">
-        SELECT
-        t1.itemid
-        , mi.用户号 AS userNo
-        , mi.用户名 AS userName
-        , mi.用户地址 AS userDs
-        , mi.表号 AS meterNumber
-        , t1.bcds
-        , t1.scds
-        , t1.csyl
-        , t1.bzt
-        , t1.bccbTime
-        , t1.sccbTime
-        FROM hav_meterinfo mi
-        LEFT JOIN (
-            SELECT rc1.itemid AS itemid
-            , rc1.meterid AS meterid
-            , rc1.th_number AS bcds
-            , rc1.lf_number AS scds
-            , rc1.delta AS csyl
-            , rc1.state AS bzt
-            , rc1.th_time AS bccbTime
-            ,rc1.lf_time AS sccbTime
-            FROM ha_records rc1
-            WHERE rc1.cmdid IN <foreach item="id" index="index" collection="cmdids"
-                                        open="(" separator="," close=")">
-                                ${id}
-                            </foreach>
-            UNION ALL
-            SELECT er1.itemid AS itemid
-            , er1.meterid AS meterid
-            , er1.n AS bcds
-            , 0 AS scds
-            , 0 AS csyl
-            , er1.state AS bzt
-            , er1.readtime AS bccbTime
-            , null AS sccbTime
-            FROM ha_errRecord er1
-            WHERE er1.cmdid IN <foreach item="id" index="index" collection="cmdids"
-                                        open="(" separator="," close=")">
-                                ${id}
-                            </foreach>)
-            t1 ON t1.meterid=mi.meterid
-        where 1=1
-        <if test=" cmdName == '抄收区域' ">
-            and mi.areaid IN (
-            SELECT a.areaid FROM ha_rgn n, ha_area a
-            WHERE n.id=Left(a.areaNo, 1) and #{ids} = n.id)
-        </if>
-        <if test=" cmdName == '抄收小区' ">
-            and mi.areaid IN  <foreach item="id" index="index" collection="ids"
-                                  open="(" separator="," close=")">
-                          ${id}
-                    </foreach>
-        </if>
-
-    </select>
-
     <select id="selectMeterById" resultType="java.util.Map" parameterType="java.lang.Integer">
         SELECT
           th_number AS thNumber
