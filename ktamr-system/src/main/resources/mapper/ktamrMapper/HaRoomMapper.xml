@@ -25,10 +25,10 @@
             <result property="meterNumber" column="meterNumber"/>
             <result property="thNumber" column="thNumber"/>
             <result property="lfNumber" column="lfNumber"/>
-            <result property="sNumber" column="sNumber"/>
+            <result property="snumber" column="sNumber"/>
             <result property="state" column="state"/>
             <result property="thRTime" column="thRTime"/>
-            <result property="gNumber" column="gNumber"/>
+            <result property="gnumber" column="gNumber"/>
             <result property="offsetN" column="offsetN"/>
             <result property="vendorId" column="vendorId"/>
             <result property="meterChannel" column="meterChannel"/>

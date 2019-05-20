@@ -417,7 +417,7 @@ WHERE areaid IN ('${areaId}')
             <id property="meterId" column="meterId"/>
             <result property="haMeterCount" column="haMeterCount"/>
             <result property="thNumber" column="thNumber"/>
-            <result property="sNumber" column="sNumber"/>
+            <result property="snumber" column="sNumber"/>
             <result property="startTime" column="startTime"/>
             <result property="thRTime" column="thrTime"/>
         </association>

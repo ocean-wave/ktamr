@@ -21,6 +21,8 @@ public interface HaCollectorMapper {
 
     List<HaCollector> queryHaCollector(@Param("centorId") Integer centorId);
 
+    HaCollector updateByIdHaCollector(@Param("collectorId") Integer collectorId);
+
     Integer addHaCollector(HaCollector haCollector);
 
     Integer updateHaCollector(HaCollector haCollector);
