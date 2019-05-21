@@ -25,14 +25,24 @@ public class HaBuilding extends BaseEntity {
     private Integer buildingCount;
     private HaRoom haRoom;
     private String description;
-    private String roomMeterId;
 
-    public String getRoomMeterId() {
-        return roomMeterId;
+    private String cuaddr;
+    private String maddr;
+
+    public String getCuaddr() {
+        return cuaddr;
     }
 
-    public void setRoomMeterId(String roomMeterId) {
-        this.roomMeterId = roomMeterId;
+    public void setCuaddr(String cuaddr) {
+        this.cuaddr = cuaddr;
+    }
+
+    public String getMaddr() {
+        return maddr;
+    }
+
+    public void setMaddr(String maddr) {
+        this.maddr = maddr;
     }
 
     public Integer getBuildingId() {
