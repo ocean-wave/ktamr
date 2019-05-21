@@ -79,12 +79,14 @@ public class DevicesController {
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
         String uCentorNo4 = uCentor.getCentorNo().substring(uCentor.getCentorNo().length()-4);
         String uCentorNo5 = uCentor.getCentorNo().substring(uCentor.getCentorNo().length()-5);
+        String uCentorNoFirst5 = uCentor.getCentorNo().substring(0,5);
         model.addAttribute("haArea",haArea);
         model.addAttribute("cmdName",cmdName);
         model.addAttribute("uCentor",uCentor);
         model.addAttribute("deviceId",deviceId);
         model.addAttribute("uCentorNo4",uCentorNo4);
         model.addAttribute("uCentorNo5",uCentorNo5);
+        model.addAttribute("uCentorNoFirst5",uCentorNoFirst5);
         return "devices/centor_update";
     }
 

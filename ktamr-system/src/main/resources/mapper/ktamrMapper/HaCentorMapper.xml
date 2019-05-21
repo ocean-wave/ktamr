@@ -309,9 +309,9 @@
         ce.rtime AS rTime,
         ce.telnumber AS telNumber,
         ce.areaid AS areaId,
-        to_char(ce.endtime, 'yyyy-MM-dd') AS endTime,
+        ce.endtime AS endTime,
         ce.ver AS ver,
-        to_char(ce.setuptime, 'yyyy-MM-dd') AS setupTime,
+        ce.setuptime AS setupTime,
         ce.remark AS remark,
         a.name AS name
         FROM ha_centor ce LEFT JOIN ha_area a ON Left(ce.centorNo, 5)= a.areaNo

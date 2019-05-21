@@ -13,14 +13,14 @@ public class HaCentor extends BaseEntity {
     private long centorId;
     private String ver;
     private String rTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ) //出参
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //入参
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") //出参
     private Date setupTime;
     private String addr;
     private String description;
     private String telNumber;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ) //出参
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //入参
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") //出参
     private Date endTime;
     private String useTypeCode;
     private String state;

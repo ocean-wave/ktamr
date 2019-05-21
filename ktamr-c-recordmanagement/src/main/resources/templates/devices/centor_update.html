@@ -23,6 +23,7 @@
 <form class="layui-form my-form-class" action="">
     <input type="hidden" id="cmdName" name="cmdName" th:value="${cmdName}">
     <input type="hidden" id="deviceId" name="deviceId" th:value="${deviceId}">
+    <input type="hidden" id="uCentorNoFirst5" name="uCentorNoFirst5" th:value="${uCentorNoFirst5}">
     <div class="layui-form-item">
         <div class="layui-block">
             <label class="layui-form-label">所属小区</label>
@@ -193,7 +194,7 @@
             , layer = layui.layer;
         var get_result_url = "/devices/UpdateCentor";
         var g_deviceId = $("#deviceId").val();
-        var g_areaNo = "<%=areaNo%>";
+        var g_areaNo = $("#uCentorNoFirst5").val();
         var g_centorNo = "<%=centorObj.m_centorNo%>";
         var g_centorid = "<%=centorObj.m_centorid%>";
         var g_addr = "<%=centorObj.m_addr%>";
@@ -324,7 +325,7 @@
                 }
             } else {
                 _centorNo = g_areaNo + padNumber($("#lineNo").val(), 5);
-                _deviceAdd = 1
+                _deviceAdd = 1;
             }
             var data = {
                 centorNo: _centorNo,
