@@ -67,4 +67,21 @@ public interface HaMeterMapper {
     Integer updateHaMeter(HaMeter haMeter);
 
     Integer deleteHaMeter(HaMeter haMeter);
+
+    /**
+     * 主页统计表==》表列表
+     * @param haMeter
+     * @param page
+     * @param rowNum
+     * @return 全部数据List集合
+     */
+    public List<HaMeter> zhuYegetStateMeter(@Param("HaMeter") HaMeter haMeter, @Param("page") Integer page,
+                                            @Param("rowNum") Integer rowNum);
+
+    /**
+     * 主页统计表==》表列表
+     * @param haMeter
+     * @return 全部数据的总记录数
+     */
+    public Integer zhuYegetStateMeterCount(@Param("HaMeter") HaMeter haMeter);
 }

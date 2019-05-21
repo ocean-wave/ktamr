@@ -2,6 +2,7 @@ package com.ktamr.service;
 
 import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaMeter;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -65,4 +66,21 @@ public interface HaMeterService {
     Integer updateHaMeter(HaMeter haMeter);
 
     Integer deleteHaMeter(HaMeter haMeter);
+
+    /**
+     * 主页统计表==》表列表
+     * @param haMeter
+     * @param page
+     * @param rowNum
+     * @return 全部数据List集合
+     */
+    public List<HaMeter> zhuYegetStateMeter(@Param("HaMeter") HaMeter haMeter, @Param("page") Integer page,
+                                            @Param("rowNum") Integer rowNum);
+
+    /**
+     * 主页统计表==》表列表
+     * @param haMeter
+     * @return 全部数据的总记录数
+     */
+    public Integer zhuYegetStateMeterCount(@Param("HaMeter") HaMeter haMeter);
 }

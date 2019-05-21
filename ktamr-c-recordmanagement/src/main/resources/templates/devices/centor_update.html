@@ -23,6 +23,7 @@
 <form class="layui-form my-form-class" action="">
     <input type="hidden" id="cmdName" name="cmdName" th:value="${cmdName}">
     <input type="hidden" id="deviceId" name="deviceId" th:value="${deviceId}">
+    <input type="hidden" id="uCentorNoFirst5" name="uCentorNoFirst5" th:value="${uCentorNoFirst5}">
     <div class="layui-form-item">
         <div class="layui-block">
             <label class="layui-form-label">所属小区</label>
@@ -119,7 +120,7 @@
             <label class="layui-form-label">安装日期</label>
             <div class="layui-input-inline my-form-input">
                 <input id="setupDay" name="setupDay" lay-verify="required" autocomplete="off"
-                       placeholder="日期,格式：YYYY-MM-DD" class="layui-input" th:value="${uCentor.setupTime}"
+                       placeholder="日期,格式：YYYY-MM-DD" class="layui-input" th:value="${#dates.format(uCentor.setupTime,'yyyy-MM-dd')}"
                        readonly="readonly">
             </div>
         </div>
@@ -127,7 +128,7 @@
             <label class="layui-form-label">停用日期</label>
             <div class="layui-input-inline my-form-input">
                 <input id="endDay" name="endDay" lay-verify="required" autocomplete="off" placeholder="日期,格式：YYYY-MM-DD"
-                       class="layui-input" th:value="${uCentor.endTime}" readonly="readonly">
+                       class="layui-input" th:value="${#dates.format(uCentor.endTime,'yyyy-MM-dd')}" readonly="readonly">
             </div>
         </div>
     </div>
@@ -193,7 +194,7 @@
             , layer = layui.layer;
         var get_result_url = "/devices/UpdateCentor";
         var g_deviceId = $("#deviceId").val();
-        var g_areaNo = "<%=areaNo%>";
+        var g_areaNo = $("#uCentorNoFirst5").val();
         var g_centorNo = "<%=centorObj.m_centorNo%>";
         var g_centorid = "<%=centorObj.m_centorid%>";
         var g_addr = "<%=centorObj.m_addr%>";
@@ -324,7 +325,7 @@
                 }
             } else {
                 _centorNo = g_areaNo + padNumber($("#lineNo").val(), 5);
-                _deviceAdd = 1
+                _deviceAdd = 1;
             }
             var data = {
                 centorNo: _centorNo,

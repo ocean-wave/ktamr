@@ -62,4 +62,6 @@ public interface HaCentorMapper {
     Integer updateHaCentor(HaCentor haCentor);
 
     Integer deleteHaCentor(@Param("id") Integer id);
+
+
 }

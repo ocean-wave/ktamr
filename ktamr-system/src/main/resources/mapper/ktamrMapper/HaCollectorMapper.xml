@@ -36,7 +36,7 @@
     </select>
 
     <select id="updateByIdHaCollector" resultType="com.ktamr.domain.HaCollector">
-        SELECT collectorid,centorid,addr,nconf,ver,state FROM ha_collector WHERE collectorid=#{collectorId} ORDER BY addr
+        SELECT collectorid,centorid,addr,to_hex(oconf) as oconf,to_hex(nconf) AS nconf,ver,state FROM ha_collector WHERE collectorid=#{collectorId} ORDER BY addr
     </select>
 
     <insert id="addHaCollector">
