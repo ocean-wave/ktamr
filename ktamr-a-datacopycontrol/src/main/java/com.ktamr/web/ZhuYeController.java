@@ -1,14 +1,24 @@
 package com.ktamr.web;
 
+import com.ktamr.domain.HaArea;
+import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaRgn;
 import com.ktamr.domain.zhuYe;
+import com.ktamr.service.HaAreaService;
+import com.ktamr.service.HaMeterService;
+import com.ktamr.service.HaRngService;
 import com.ktamr.service.ZhuYeService;
+import com.ktamr.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +27,19 @@ import static org.springframework.util.StringUtils.split;
 @Controller
 public class ZhuYeController {
 
+
+    //定义一个全局变量
+    private String Globalstate=null;
+
+    @Autowired
+    private HaAreaService haAreaService;
+    @Autowired
+    private HaRngService haRngService;
     @Resource
     private ZhuYeService zhuYeService;
+    @Resource
+    private HaMeterService haMeterService;
+
     /**
      * 打开首页
      * @return
@@ -168,5 +189,85 @@ public class ZhuYeController {
             return map;
         }
         return null;
+    }
+
+
+    /**
+     * 统计图中==》打开根据状态表查询页面
+     * @param haArea
+     * @return
+     */
+    @RequestMapping("/meter/meters_state_list")
+    public String  centorList(HaArea haArea, Model model){
+        Globalstate=haArea.getState();//把从页面来的状态赋给全局变量里
+        List<HaRgn> haRgns = haRngService.selectBigNameB();
+        if(Globalstate!=null&&haRgns!=null){
+            model.addAttribute("haRgnsListName",haRgns);
+            return "meter/meters_state_list.html";//返回打开的页面
+        }
+        return null;
+    }
+
+    /**
+     * 状态表列表之==》小区列表
+     * @param haArea
+     * @param request
+     * @param pageUtil
+     * @return
+     */
+    @RequestMapping("/getAreaMeterState")
+    @ResponseBody
+    public Map<String ,Object> showList(HaArea haArea, HttpServletRequest request, PageUtil pageUtil,
+                                        String aareaid
+    ){
+        String s1 = aareaid;//获取areaid  小区名字
+        if(s1!=null && s1!=""){//判断小区名字如果没有赋值的话就不用查询
+            String[] split = s1.split(",");
+            List<String> idsList = new ArrayList<String>();
+            for(int i=0;i<split.length;i++){
+                idsList.add(split[i]);
+            }
+            haArea.setIdsList2(idsList);
+
+        }
+        haArea.setState(Globalstate);//将刚才设置的全局变量赋值一波
+        String page1 = request.getParameter("page");//获取需要多少行
+        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
+        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
+        List<HaArea> haAreaList = haAreaService.AQueryHaAreabystatus(haArea, integers[0], integers[1]);
+        Integer queryHaAreabystatusCount = haAreaService.AQueryHaAreabystatusCount(haArea);
+        Map map = pageUtil.map(haAreaList, queryHaAreabystatusCount);
+        if(map!=null){
+            return map;
+        }else {
+            return null;
+        }
+    }
+
+
+    /**
+     * 主页统计表==》表列表
+     * @param haMeter
+     * @param request
+     * @param pageUtil
+     * @return
+     */
+    @RequestMapping("/getStateMeter")
+    @ResponseBody
+    public Map<String ,Object> getStateMeterCount(HaMeter haMeter, HttpServletRequest request, PageUtil pageUtil
+    ){
+
+        haMeter.setState(Globalstate);//将刚才设置的全局变量赋值一波
+        String page1 = request.getParameter("page");//获取需要多少行
+        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
+        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
+        List<HaMeter> haMeterList = haMeterService.zhuYegetStateMeter(haMeter, integers[0], integers[1]);
+        Integer zhuYegetStateMeterCount = haMeterService.zhuYegetStateMeterCount(haMeter);
+        Map map = pageUtil.map(haMeterList, zhuYegetStateMeterCount);
+        if(map!=null){
+            return map;
+        }else {
+            return null;
+        }
     }
 }

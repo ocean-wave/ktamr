@@ -78,7 +78,7 @@
             ,liveSearchPlaceholder: '搜索'
         });
         var Post_Data1 = {ListNumber: 49, TotalLocation: "编号", SumColName: "状态表数量", rgnids: "", monthType: "", meterState: "失联"};
-        var GridObj1 = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 146,"/area/area/getAreaMeterState");
+        var GridObj1 = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 146,"/getAreaMeterState");
         GridObj1.jqdefaultGridConfig.caption = "";
         GridObj1.jqdefaultGridConfig.multiselect = false;
         GridObj1.jqdefaultGridConfig.postData = Post_Data1;
@@ -120,7 +120,7 @@
         GridObj1.setGridSize();
         GridObj1.gridResize();
 
-        var GridObj2 = new myJqGrid("jqGrid2", "jqGridPager2", "jqgridForm2", 112);
+        var GridObj2 = new myJqGrid("jqGrid2", "jqGridPager2", "jqgridForm2", 112,"/getStateMeter");
 
         function subGridDraw(areaid){
             var Post_Data2 = {ListNumber: 10, areaid: areaid, meterState: "失联"};
@@ -129,14 +129,14 @@
             GridObj2.jqdefaultGridConfig.postData = Post_Data2;
             GridObj2.jqdefaultGridConfig.colNames = ['meterid','用户编号','用户名称','用户地址','表号','最近读数','表状态','最近抄表时间'];
             GridObj2.jqdefaultGridConfig.colModel = [
-                { name: 'meterid',  width: 75, key: true, hidden: true},
-                { name: '用户编号', width: 120 },
-                { name: '用户名称', width: 120 },
-                { name: '用户地址', width: 200 },
-                { name: '表号', align: 'right', width: 120 },
-                { name: '最近读数', align: 'right' ,width: 80 },
-                { name: '表状态', width: 80, cellattr: MeterStateCellColor },
-                { name: '最近抄表时间', width: 150 }
+                { name: 'meterId',  width: 75, key: true, hidden: true},
+                { name: 'haRoom.haCustom.custNo', width: 120 },
+                { name: 'haRoom.haCustom.name', width: 120 },
+                { name: 'addr', width: 200 },
+                { name: 'havMeterinfo.meterNumber', align: 'right', width: 120 },
+                { name: 'thNumber', align: 'right' ,width: 80 },
+                { name: 'state', width: 80, cellattr: MeterStateCellColor },
+                { name: 'thRTime', width: 150 }
             ];
             GridObj2.drawGrid();
             GridObj2.drawGridPager();

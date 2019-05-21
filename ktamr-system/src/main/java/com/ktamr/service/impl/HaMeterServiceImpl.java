@@ -144,4 +144,34 @@ public class HaMeterServiceImpl implements HaMeterService {
     public Integer deleteHaMeter(HaMeter haMeter) {
         return haMeterMapper.deleteHaMeter(haMeter);
     }
+
+    /**
+     * 主页统计表==》表列表
+     * @param haMeter
+     * @param page
+     * @param rowNum
+     * @return 全部数据List集合
+     */
+    @Override
+    public List<HaMeter> zhuYegetStateMeter(HaMeter haMeter, Integer page, Integer rowNum) {
+        List<HaMeter> haMeterList = haMeterMapper.zhuYegetStateMeter(haMeter, page, rowNum);
+        if(haMeterList!=null){
+            return haMeterList;
+        }
+        return null;
+    }
+
+    /**
+     * 主页统计表==》表列表
+     * @param haMeter
+     * @return 全部数据的总记录数
+     */
+    @Override
+    public Integer zhuYegetStateMeterCount(HaMeter haMeter) {
+        Integer zhuYegetStateMeterCount = haMeterMapper.zhuYegetStateMeterCount(haMeter);
+        if(zhuYegetStateMeterCount!=null){
+            return zhuYegetStateMeterCount;
+        }
+        return null;
+    }
 }

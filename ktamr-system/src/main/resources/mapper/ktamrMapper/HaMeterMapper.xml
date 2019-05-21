@@ -66,6 +66,47 @@
         </if>
     </sql>
 
+    <!-- 主页统计表==》表列表 全部数据List集合    -->
+    <select id="zhuYegetStateMeter" resultMap="haMeterMap">
+        SELECT
+			 m.meterid as meterId,r.ccustno as userNo,r.cname as userName,a.name || '-' || b.name || '-' || r.name AS addr,
+			 m.meterNumber ::VARCHAR(16) as meterNumber, m.state as state,
+			th_number as thNumber, m.th_r_time AS thRTime
+		FROM
+			ha_meter m, ha_area a, ha_building b, ha_pricestandard p,
+			(SELECT r.*,c.custno AS ccustno, c.name AS cname FROM ha_room r LEFT OUTER JOIN ha_custom c ON(r.custid=c.custid)) r
+		WHERE
+			m.meterNumber>0 AND b.areaid=a.areaid AND m.pricestand_id=p.pricestand_id AND m.roomid=r.roomid AND r.buildingid=b.buildingid
+
+        <if test="HaMeter.state != null and HaMeter.state == '开阀'">
+            AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position( '光通道干扰' in m.state)>0
+            OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
+        </if>
+        <if test="HaMeter.state != null and HaMeter.state  != ''">
+            AND (Left(m.state, 2) != '重号' AND m.state LIKE '%${HaMeter.state}%')
+        </if>
+
+			ORDER BY a.areaid,p.name,b.name,r.name,m.meterNumber
+			 limit #{page} OFFSET #{rowNum}
+    </select>
+    <!-- 主页统计表==》表列表 全部数据的总记录    -->
+    <select id="zhuYegetStateMeterCount" resultType="Integer">
+        SELECT
+			count(1)
+		FROM
+			ha_meter m, ha_area a, ha_building b, ha_pricestandard p,
+			(SELECT r.*,c.custno AS ccustno, c.name AS cname FROM ha_room r LEFT OUTER JOIN ha_custom c ON(r.custid=c.custid)) r
+		WHERE
+			m.meterNumber>0 AND b.areaid=a.areaid AND m.pricestand_id=p.pricestand_id AND m.roomid=r.roomid AND r.buildingid=b.buildingid
+        <if test="HaMeter.state != null and HaMeter.state == '开阀'">
+            AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position( '光通道干扰' in m.state)>0
+            OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
+        </if>
+        <if test="HaMeter.state != null and HaMeter.state  != ''">
+            AND (Left(m.state, 2) != '重号' AND m.state LIKE '%${HaMeter.state}%')
+        </if>
+    </select>
+
     <select id="selectMeterById" resultType="java.util.Map" parameterType="java.lang.Integer">
         SELECT
           th_number AS thNumber
