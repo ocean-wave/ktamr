@@ -5,18 +5,19 @@
 <mapper namespace="com.ktamr.mapper.HaBuildingMapper">
 
     <resultMap id="buildingMap" type="com.ktamr.domain.HaBuilding">
-        <result column="roomMeterId" property="roomMeterId" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="cuaddr" property="cuaddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="maddr" property="maddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haRoom" resultMap="roomMap">
 
         </association>
     </resultMap>
 
     <resultMap id="roomMap" type="com.ktamr.domain.HaRoom">
+        <result column="roomId" property="roomId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="rdescription" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
             <result column="custNo" property="custNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            <result column="cuName" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            <result column="cuAddr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
 
         <association property="haMeter" resultMap="meterMap">
@@ -25,7 +26,7 @@
     </resultMap>
 
     <resultMap id="meterMap" type="com.ktamr.domain.HaMeter">
-        <result column="maddr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="mmeterNumber" property="meterNumber" javaType="java.lang.Long"></result>
         <result column="mthNumber" property="thNumber" javaType="java.lang.Double"></result>
         <result column="mlfNumber" property="lfNumber"></result>
@@ -65,10 +66,11 @@
 
     <select id="selectAllBuildingAndCount" resultMap="buildingMap" parameterType="com.ktamr.domain.HaBuilding">
         SELECT
-            to_char(r.roomid, 'fm9999999999')||'_'|| case when m.meterid is null then '' else to_char(m.meterid, 'fm9999999999') end AS roomMeterId
+            r.roomid AS roomId
+            ,m.meterid AS meterId
             , cu.custno AS custNo
-            , cu.name as cuName
-            , cu.addr AS cuAddr
+            , cu.name as name
+            , a.name||'-'||b.name||'-'||r.name AS cuaddr
             , r.description AS rdescription
             ,m.addr AS maddr
             , m.meterNumber AS mmeterNumber
@@ -76,7 +78,7 @@
             , m.lf_number as mlfNumber
             , m.s_number as msnumber
             , m.state as mstate
-            , to_char(m.th_r_time, 'YYYY-MM-DD hh:mm:ss') as mthRTime
+            , th_r_time as mthRTime
             ,c.id AS centorId
         FROM
             ha_room r LEFT JOIN ha_custom cu ON r.custid=cu.custid
@@ -95,7 +97,7 @@
             and r.buildingid = #{buildingId}
         </if>
         <if test=" params.keyWord != null and params.keyWord != ''  ">
-                and (a.name||'-'||b.name||'-'||r.name like '${params.keyWord}' or cu.name like '%${params.keyWord}%' or a.areaNo like '${params.keyWord}'
+                and (a.name||'-'||b.name||'-'||r.name like '%${params.keyWord}%' or cu.name like '%${params.keyWord}%' or a.areaNo like '${params.keyWord}'
                     or r.description like '${params.keyWord}' or m.state = #{params.keyWord} or to_char(m.th_r_time, 'YYYY-MM-DD hh:mm:ss') like '${params.keyWord}'
                 <if test=" params.operatorCompanyId == 'sys_ntrq'  ">
                     or m.addr like '${params.keyWord}'
@@ -105,7 +107,7 @@
                 </if>
                 )
         </if>
-        ORDER BY a.name||'-'||b.name||'-'||r.name
+        ORDER BY cuaddr
     </select>
 
 

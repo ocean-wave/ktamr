@@ -201,13 +201,14 @@
 				GridObj.jqdefaultGridConfig.multiselect = true;
 				GridObj.jqdefaultGridConfig.postData = {areaId: _areaid, buildingId: _buildingid};
 				GridObj.jqdefaultGridConfig.colModel = [
-					{label: 'roomMeterId', name: 'roomMeterId', width: 75, key: true, hidden: true, frozen: false},
+					{label: 'roomId', name: 'haRoom.roomId', width: 75,hidden: true, frozen: false},
+					{label: 'roomId', name: 'haRoom.haMeter.meterId', width: 75,hidden: true, frozen: false},
 					{label: 'centorid', name: 'haRoom.haMeter.haCentor.id', width: 50, hidden: true},
 					{label: '用户编号', name: 'haRoom.haCustom.custNo', width: 90},
 					{label: '用户名称', name: 'haRoom.haCustom.name', width: 80},
-					{label: '用户地址', name: 'haRoom.haCustom.addr', width: 150},
+					{label: '用户地址', name: 'cuaddr', width: 150},
 					{label: '房间备注', name: 'haRoom.description', width: 80},
-					{label: '表地址', name: 'haRoom.haMeter.addr', width: 160},
+					{label: '表地址', name: 'maddr', width: 160},
 					{label: '表号', name: 'haRoom.haMeter.meterNumber', align: 'right', width: 120},
 					{label: '最近读数', name: 'haRoom.haMeter.thNumber', align: 'right', width: 75},
 					{label: '上期结算', name: 'haRoom.haMeter.lfNumber', align: 'right', width: 75},
@@ -217,12 +218,13 @@
 					{
 						label: '操作', name: '操作', width: 140, align: 'center', frozen: false
 						, formatter: function (cellvalue, options, rowObject) {
+							var haMeter = rowObject['haRoom']['haMeter'];
+							var roomMeterId = rowObject["haRoom"].roomId+'_'+((haMeter)?haMeter.meterId:'');
 							var btns = '<div class="layui-btn-group">';
-							btns += '<button type="button" data-id="' + rowObject["resultParams.roomMeterid"] + '" class="layui-btn layui-btn-xs readMeter">抄收</button>';
-							btns += '<button type="button" data-id="' + rowObject["resultParams.roomMeterid"] + '" class="layui-btn layui-btn-xs openMeter">开阀</button>';
-							btns += '<button type="button" data-id="' + rowObject["resultParams.roomMeterid"] + '" class="layui-btn layui-btn-xs closeMeter">关阀</button>';
+							btns += '<button type="button" data-id="' + roomMeterId + '" class="layui-btn layui-btn-xs readMeter">抄收</button>';
+							btns += '<button type="button" data-id="' + roomMeterId + '" class="layui-btn layui-btn-xs openMeter">开阀</button>';
+							btns += '<button type="button" data-id="' + roomMeterId + '" class="layui-btn layui-btn-xs closeMeter">关阀</button>';
 							btns += '</div>';
-
 							return btns;
 						}
 					},
