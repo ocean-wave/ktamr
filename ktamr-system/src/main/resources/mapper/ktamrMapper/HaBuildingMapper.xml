@@ -97,13 +97,17 @@
             and r.buildingid = #{buildingId}
         </if>
         <if test=" params.keyWord != null and params.keyWord != ''  ">
-                and (a.name||'-'||b.name||'-'||r.name like '%${params.keyWord}%' or cu.name like '%${params.keyWord}%' or a.areaNo like '${params.keyWord}'
-                    or r.description like '${params.keyWord}' or m.state = #{params.keyWord} or to_char(m.th_r_time, 'YYYY-MM-DD hh:mm:ss') like '${params.keyWord}'
+                and (a.name||'-'||b.name||'-'||r.name like '%${params.keyWord}%'
+                or cu.name like '%${params.keyWord}%'
+                or a.areaNo like '%${params.keyWord}%'
+                or r.description like '%${params.keyWord}%'
+                or m.state like '%${params.keyWord}%'
+                or to_char(m.th_r_time, 'YYYY-MM-DD hh:mm:ss') like '%${params.keyWord}%'
                 <if test=" params.operatorCompanyId == 'sys_ntrq'  ">
-                    or m.addr like '${params.keyWord}'
+                    or m.addr like '%${params.keyWord}%'
                 </if>
                 <if test=" params.operatorCompanyId != 'sys_ntrq'  ">
-                    or to_char(m.meterNumber,'fm999999999999') like '${params.keyWord}'
+                    or to_char(m.meterNumber,'fm999999999999') like '%${params.keyWord}%'
                 </if>
                 )
         </if>

@@ -58,23 +58,9 @@
 
 };
 
-
-//写一个方法
-/*function gridComplete(GridId) {
-    var tableData = $('#jqGridPager_right').find('div');//寻找节点
-    var jqGrid =  $("#"+GridId).jqGrid("getGridParam", "records");//通过jqGrid中的解析Json数据获取总记录数
-
-    if (jqGrid > 10000) {
-        //对其进行替换 ig表示正则表达式，全文匹配，忽略大小写
-        tableData.html(tableData.html().replace(/共/ig, '大于'));
-
-
-    }
-};*/
 myJqGrid.prototype.unloadGrid = function(){
 	$.jgrid.gridUnload(this.GridId);
 }
-
 
 myJqGrid.prototype.drawGrid = function(){
 
@@ -169,7 +155,7 @@ function resizeGrids(op) {
 function exportToExcel(url,GridId)
 {
 	var grid = $("#"+GridId);
-	$.loading("正在导出数据，请稍后...");
+	$.ktamr.loading("正在导出数据，请稍后...");
 	url = url.substring(0,url.lastIndexOf("/"));
 	var reg=/[\u4E00-\u9FA5]/;
 	var pdArray =grid.jqGrid("getGridParam", "postData");
@@ -179,6 +165,7 @@ function exportToExcel(url,GridId)
 	var excelName = new Array();
 	var excelWidth = new Array();
 	var excelDataFormat = new Array();
+	var excelAlign = new Array();
 	for(var i = 0;i<colModel.length;i++){
 		if(colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
 			excelLabel.push(colNames[i]);
@@ -190,6 +177,11 @@ function exportToExcel(url,GridId)
 			excelWidth.push(colModel[i].width);
 			excelName.push(colModel[i].name);
 		}
+		if(colModel[i].align != undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
+			excelAlign.push(colModel[i].align);
+		}else if(colModel[i].align == undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
+			excelAlign.push("left");
+		}
 		if(colModel[i].dataFormat != undefined){
 			excelDataFormat.push(colModel[i].dataFormat);
 		}
@@ -198,18 +190,19 @@ function exportToExcel(url,GridId)
 	pdArray['excelWidth'] = excelWidth;
 	pdArray['excelName'] = excelName;
 	pdArray['excelDataFormat'] = excelDataFormat;
+	pdArray['excelAlign'] = excelAlign;
 	$.ajax({
 		url:url+"/export",
 		type: "POST",
 		traditional :true,
 		data:pdArray,
 		success:function(result){
-			if (result.code == 0) {
+			if (result.code == web_status.SUCCESS) {
 				window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
 			}else{
-				$.alert(result.msg,"error");
+				$.ktamr.alert(result.msg,modal_status.FAIL);
 			}
-			$.closeloading();
+			$.ktamr.closeloading();
 		}});
 }
 //分页的数据，Page 当前位置是什么
@@ -220,7 +213,6 @@ function fullTextSearch(jqGridID, postDataArray){
 	$.each(postDataArray, function (k, v) { 
 		_postData[k] = v;
 	});
-	//console.log(_postData);
 	grid.jqGrid('setGridParam',{
         page:$("#input_jqGridPager").find("input").val(),
 		postData: _postData
@@ -609,26 +601,39 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 
 (function ($) {
 	$.extend({
-		loading: function (message) {
-			$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div> ' + message + '</div>' });
-		},
-		closeloading: function(){
-			setTimeout(function(){
-				$.unblockUI();
-			}, 50);
-		},
-		alert:function (content,type) {
-			layer.alert(content, {
-				icon: type,
-				title: "系统提示",
-				btn: ['确认'],
-				btnclass: ['btn btn-primary'],
-			});
+		ktamr: {
+			loading: function (message) {
+				$.blockUI({message: '<div class="loaderbox"><div class="loading-activity"></div> ' + message + '</div>'});
+			},
+			closeloading: function () {
+				setTimeout(function () {
+					$.unblockUI();
+				}, 50);
+			},
+			alert: function (content, type) {
+				layer.alert(content, {
+					icon: type,
+					title: "系统提示",
+					btn: ['确认'],
+					btnclass: ['btn btn-primary'],
+				});
+			}
 		}
 	});
 })(jQuery);
 
+/** 消息状态码 */
+web_status = {
+	SUCCESS: 0,
+	FAIL: 500
+};
 
+/** 弹窗状态码 */
+modal_status = {
+	SUCCESS: "success",
+	FAIL: "error",
+	WARNING: "warning"
+};
 
 
 

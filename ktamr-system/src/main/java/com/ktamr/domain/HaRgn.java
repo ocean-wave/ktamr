@@ -14,7 +14,7 @@ public class HaRgn extends BaseEntity {
     private String id;
     private String name;
     private String shortName;
-    private String zCode;
+    private String zcode;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
@@ -52,6 +52,14 @@ public class HaRgn extends BaseEntity {
     private Integer badMeterCount;
     private String keyWord;
 
+    public String getZcode() {
+        return zcode;
+    }
+
+    public void setZcode(String zcode) {
+        this.zcode = zcode;
+    }
+
     public String getId() {
         return id;
     }
@@ -74,14 +82,6 @@ public class HaRgn extends BaseEntity {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
-    }
-
-    public String getzCode() {
-        return zCode;
-    }
-
-    public void setzCode(String zCode) {
-        this.zCode = zCode;
     }
 
     @Override

@@ -124,7 +124,7 @@
 					{name: 'id', width: 75, key: true, hidden: false},
 					{name: 'name', width: 120},
 					{name: 'shortName', width: 100},
-					{name: 'zCode', width: 80},
+					{name: 'zcode', width: 80},
 					{name: 'haAreaCount', align: 'right', width: 80},
 					{name: 'haCentorCount', align: 'right', width: 80},
 					{name: 'haCollectorCount', align: 'right', width: 80},
@@ -153,7 +153,7 @@
 					{ name: 'areaNo', width: 70, formatter:'interger',frozen : true},
 					{ name: 'registeredNo', width: 70, frozen : true},
 					{name: 'name', width: 150,frozen : true },
-					{name: 'addr', width: 150 },
+					{name: 'addr', width: 240 },
 					{name: 'ds', width: 80 },
 					{name: 'sumNumber', align: 'right' ,width: 70 },
 					{name: 'readNumber', align: 'right' ,width: 70 },
@@ -201,7 +201,7 @@
 				GridObj.jqdefaultGridConfig.multiselect = true;
 				GridObj.jqdefaultGridConfig.postData = {areaId: _areaid, buildingId: _buildingid};
 				GridObj.jqdefaultGridConfig.colModel = [
-					{label: 'roomId', name: 'haRoom.roomId', width: 75,hidden: true, frozen: false},
+					{label: 'roomId', name: 'haRoom.roomId', width: 75,key: true,hidden: true, frozen: false},
 					{label: 'roomId', name: 'haRoom.haMeter.meterId', width: 75,hidden: true, frozen: false},
 					{label: 'centorid', name: 'haRoom.haMeter.haCentor.id', width: 50, hidden: true},
 					{label: '用户编号', name: 'haRoom.haCustom.custNo', width: 90},
@@ -245,7 +245,7 @@
 					"selectOnExpand": true
 				};
 				GridObj.jqdefaultGridConfig.loadComplete = function () {
-					MeterStateRowColor("jqGrid", "room.meter..state");
+					MeterStateRowColor("jqGrid", "haRoom.haMeter.state");
 				}
 				GridObj.drawGrid();
 				GridObj.drawGridPager();
@@ -254,10 +254,10 @@
 				GridObj.gridResize();
 				var operatorCompany = [[${operatorCompanyId}]];
 				if(operatorCompany == "ntrq"){
-					var cols = new Array("room.meter.meterNumber")
+					var cols = new Array("haRoom.haMeter.meterNumber")
 					GridObj.hideCols(cols);
 				}else{
-					var cols = new Array("room.meter.addr")
+					var cols = new Array("maddr")
 					GridObj.hideCols(cols);
 				}
 			}
@@ -279,8 +279,6 @@
 		$("#areaSel").click(function(){
 			tree.showMenu();
 		});
-
-
 
 		//点击冻结抄收触发点击事件
 		$(document).on('click','.layui-form-switch',function(){
@@ -314,21 +312,10 @@
 
 			if( btnName.indexOf("单表记录")>=0){
 				gridIds=getLastMultiIDs("jqGrid");
-			}
-			if(nodeType == "building" || nodeType == "allMeter" || nodeType == "area"){
-				if(gridIds != ""){
-					roomid_meterid_arry = gridIds.split(",");
-					for(var i=0; i<roomid_meterid_arry.length ;i++){
-						roomid_meterid = roomid_meterid_arry[i].split("_");
-						if(i == 0){
-							roomids = roomids + roomid_meterid[0];
-							meterids = meterids + roomid_meterid[1];
-						}else{
-							roomids = roomids +","+ roomid_meterid[0];
-							meterids = meterids +","+ roomid_meterid[1];
-						}
-					}
-				}
+				var rowData = $("#jqGrid").jqGrid('getRowData',gridIds);
+				var meterId = rowData['haRoom.haMeter.meterId'];
+				roomids = rowData['haRoom.roomId'];
+				meterids = (meterId)?meterId:"";
 			}
             switch(btnName){
                 case "抄收":

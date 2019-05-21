@@ -8,7 +8,7 @@
         <id column="rgnid" property="id" javaType="java.lang.String" jdbcType="VARCHAR"></id>
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="shortName" property="shortName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="zCode" property="zCode" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="zcode" property="zcode" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="createtime" property="createTime" javaType="java.util.Date" jdbcType="DATE"></result>
         <result column="modifytime" property="modifyTime" javaType="java.util.Date" jdbcType="DATE"></result>
         <result column="haAreaCount" property="haAreaCount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
@@ -33,7 +33,7 @@
       SELECT n.id AS rgnid
         , n.name AS name
         , n.shortName AS shortName
-        , n.zcode AS zCode
+        , n.zcode AS zcode
         ,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount
         ,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount
         ,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount

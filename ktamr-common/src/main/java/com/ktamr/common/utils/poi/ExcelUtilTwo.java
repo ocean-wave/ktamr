@@ -3,9 +3,7 @@ package com.ktamr.common.utils.poi;
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.exception.BusinessException;
 import com.ktamr.common.utils.DateUtils;
-import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
@@ -26,6 +24,7 @@ public class ExcelUtilTwo {
     private Integer[] excelWidth;
     private String[] excelName;
     private String[] excelDataFormat;
+    private String[] excelAlign;
 
     private List<?> list;
     private String sheetName;
@@ -49,7 +48,7 @@ public class ExcelUtilTwo {
         cell = null;
         for(int i = 0;i<excelLabel.length;i++){
             cell = row.createCell(i);
-            sheet.setColumnWidth(i,excelWidth[i]*45);
+            sheet.setColumnWidth(i,excelWidth[i]*35);
             cell.setCellValue(excelLabel[i]);
         }
     }
@@ -80,15 +79,31 @@ public class ExcelUtilTwo {
                             cell.setCellValue(DateUtils.dateTimeTwo((Date) value));
                         }
                     }else{
+                        cell.setCellStyle(getCellStyle(i));
                         cell.setCellType(CellType.STRING);
                         cell.setCellValue(StringUtils.isNull(value)?"":value.toString());
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private CellStyle getCellStyle(int i){
+        CellStyle style =  wb.createCellStyle();
+        switch (excelAlign[i]){
+            case "left":
+                style.setAlignment(HorizontalAlignment.LEFT);
+                break;
+            case "right":
+                style.setAlignment(HorizontalAlignment.RIGHT);
+                break;
+            case "center":
+                style.setAlignment(HorizontalAlignment.CENTER);
+                break;
+        }
+        return style;
     }
 
     private Object getTargetValue(Object o, String[] sc)  throws Exception {
@@ -152,6 +167,14 @@ public class ExcelUtilTwo {
                 }
             }
         }
+    }
+
+    public String[] getExcelAlign() {
+        return excelAlign;
+    }
+
+    public void setExcelAlign(String[] excelAlign) {
+        this.excelAlign = excelAlign;
     }
 
     public String[] getExcelDataFormat() {
