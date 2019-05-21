@@ -62,7 +62,16 @@ public class HaArea extends BaseEntity {
     //方便用areaid中in的范围查询
     private List<Integer> idsList;
     private List<String> idsList2;
+    private String  haAreaPercentage;//声明HaArea别名百分比
 
+
+    public String getHaAreaPercentage() {
+        return haAreaPercentage;
+    }
+
+    public void setHaAreaPercentage(String haAreaPercentage) {
+        this.haAreaPercentage = haAreaPercentage;
+    }
 
     public Integer getSumNumber() {
         return sumNumber;

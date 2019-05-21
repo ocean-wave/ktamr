@@ -115,7 +115,7 @@ public class ZhuYeController {
 
         //状态按照固定的顺序排序
         if(t_stateNameList.length()>0){
-            String[] stateNameArray = split(stateNameList, ",");
+            String[] stateNameArray = stateNameList.split(",");
              stateNameList = "";
             for (int i=0;i<stateNameArray.length;i++){
                 if(t_stateNameList.indexOf(stateNameArray[i])>0){
@@ -123,7 +123,9 @@ public class ZhuYeController {
                 }
             }
             if(stateNameList!=null){
-                stateNameList =  stateNameList.substring(0,stateNameList.lastIndexOf(',')-1);
+                //上面在vb中把最后一个多余的逗号给去掉，在java中不需要
+//                stateNameList =  stateNameList.substring(0,stateNameList.lastIndexOf(',')-1);
+
                 stateNameList =  stateNameList.replace("'", "");
 
             }
@@ -152,7 +154,7 @@ public class ZhuYeController {
         Integer meterStateCountCaiJiQi1 = zhuYeService.meterStateCountCaiJiQi1();
         Integer meterStateCountCaiJiQi2 = zhuYeService.meterStateCountCaiJiQi2();
         Integer collectorConnCount=meterStateCountCaiJiQi1;
-        Integer collectorDisConnCount=meterStateCountCaiJiQi1;
+        Integer collectorDisConnCount=meterStateCountCaiJiQi2;
         Integer meterCount = zhuYeService.meterCount();
 //        model.addAttribute("meterStateCount",meterStateCount);
         Map<String ,Object> map=new HashMap<>();
@@ -160,7 +162,6 @@ public class ZhuYeController {
         map.put("stateNameList",stateNameList);
         map.put("centorStateCount",centorStateCount);
         map.put("collectorConnCount",collectorConnCount);
-        map.put("collectorDisConnCount",collectorDisConnCount);
         map.put("collectorDisConnCount",collectorDisConnCount);
         map.put("meterCount",meterCount);
         if(map!=null){

@@ -50,8 +50,8 @@ public class HaAreaController {
      */
     @RequestMapping("/area/showList")
     @ResponseBody
-    public Map<String ,Object> showList(HaArea haArea, HttpServletRequest request, @RequestParam("page") int pageSize
-    , String aareaid, PageUtil pageUtil
+    public Map<String ,Object> showList(HaArea haArea, HttpServletRequest request,
+     String aareaid, PageUtil pageUtil
     ){
         String s1 = aareaid;//获取areaid  小区名字
         if(s1!=null && s1!=""){//判断小区名字如果没有赋值的话就不用查询

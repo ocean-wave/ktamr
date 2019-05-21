@@ -24,6 +24,21 @@ public interface HaAreaService {
     public List<HaArea> selectHaAreaIdAndName(HaArea haArea);
 
     /**
+     * 在主页概况中统计图根据状态查询一波
+     * @param haArea
+     * @return 返回泛型集合
+     */
+    public List<HaArea> AQueryHaAreabystatus( HaArea haArea,  Integer page,
+                                              Integer rowNum);
+
+    /**
+     * 在主页概况中统计图根据状态查询一波
+     * @param haArea
+     * @return 返回Integer整数值
+     */
+    public Integer AQueryHaAreabystatusCount( HaArea haArea);
+
+    /**
      * 查询小区表+ 条件查询月份查询
      * @param haArea
      * @param page
