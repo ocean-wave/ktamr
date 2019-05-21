@@ -27,6 +27,7 @@
         <result column="remark" property="remark" javaType="java.lang.String"></result>
         <result column="setupTime" property="setupTime" javaType="java.util.Date"></result>
         <result column="endTime" property="endTime" javaType="java.util.Date"></result>
+        <result column="rTime" property="rTime" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="oconf" property="resultParams.oconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="centorAddr" property="resultParams.centorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -220,7 +221,7 @@
         ,(select  COUNT(*) from ha_meter m where m.centorid=c.id) AS zbs
         ,c.meters AS meters
         ,(select COUNT(*) from ha_meter m WHERE m.centorid=c.id and m.state='建档') AS jdbs
-        ,c.rtime AS rtime
+        ,c.rtime AS rTime
         ,c.remark AS remark
         ,c.setuptime AS setupTime
         ,c.endTime AS endTime
