@@ -37,8 +37,8 @@
 			         root:'rows',
 			         repeatitems:false,
                      id : "id"
-             },
-        gridComplete:function(){gridComplete(GridId);}//调用方法
+             }
+             /*, gridComplete:function(){gridComplete(GridId);}//调用方法*/
 
 
 	};
@@ -60,7 +60,7 @@
 
 
 //写一个方法
-function gridComplete(GridId) {
+/*function gridComplete(GridId) {
     var tableData = $('#jqGridPager_right').find('div');//寻找节点
     var jqGrid =  $("#"+GridId).jqGrid("getGridParam", "records");//通过jqGrid中的解析Json数据获取总记录数
 
@@ -70,7 +70,7 @@ function gridComplete(GridId) {
 
 
     }
-};
+};*/
 myJqGrid.prototype.unloadGrid = function(){
 	$.jgrid.gridUnload(this.GridId);
 }
