@@ -69,7 +69,7 @@ myJqGrid.prototype.drawGrid = function(){
 }
 myJqGrid.prototype.drawGridPager = function(){
 
-	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId, this.gridButtonConfig,{},{},{},{multipleSearch:true,multipleGroup:false,sopt: ["cn","nc","eq","ne"]}
+	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId, this.gridButtonConfig,{},{},{},{multipleSearch:true,multipleGroup:false,sopt: ["like","not like","=","!="]}
 	);
 
 	$("#"+this.GridId).jqGrid('navGrid', '#'+this.GridPagerId).jqGrid('navButtonAdd', '#'+this.GridPagerId, this.excelButtonConfig);

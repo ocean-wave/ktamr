@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ExcelUtilTwo {
 
-    private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(ExcelUtilTwo.class);
 
     private String[] excelLabel;
     private Integer[] excelWidth;

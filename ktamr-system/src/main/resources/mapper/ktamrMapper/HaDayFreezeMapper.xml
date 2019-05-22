@@ -105,16 +105,20 @@
 
 
     <select id="selectAllDayfreeze" resultMap="haDayfreezeMap" parameterType="java.util.Map">
-        SELECT meterid AS meterId
-        , t_read AS tRead
-        , amount AS aMount
-        , fday AS fDay
-        , state AS state
-        FROM ha_dayfreeze
-        WHERE meterid = #{meterId}
-        <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            and fday BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate}, 'yyyy-mm-dd hh24:mi:ss')
-        </if>
+        select * from (SELECT meterid AS meterId
+            , t_read AS tRead
+            , amount AS aMount
+            , fday AS fDay
+            , state AS state
+            FROM ha_dayfreeze
+            WHERE meterid = #{meterId}
+            <if test=" startDate != null and startDate != '' and endDate != null and endDate != '' ">
+                and fday BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate},
+                'yyyy-mm-dd hh24:mi:ss')
+            </if>
+        ) t
+        <!--多条件查询-->
+        ${multipleConditions}
         order by fday desc
     </select>
 </mapper>

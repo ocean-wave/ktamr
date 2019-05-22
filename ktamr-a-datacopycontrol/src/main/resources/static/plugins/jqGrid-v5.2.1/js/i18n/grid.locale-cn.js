@@ -55,7 +55,7 @@
             caption: "搜索...",
             Find: "查找",
             Reset: "重置",
-            odata: [{oper: 'eq', text: '等于\u3000\u3000'}, {oper: 'ne', text: '不等于\u3000'}, {
+            odata: [{oper:'like',text:"包含"},{oper:'not like',text:"不包含"},{oper:'=',text:"等于"},{oper:'!=',text:"不等于"},{oper: 'eq', text: '等于\u3000\u3000'}, {oper: 'ne', text: '不等于\u3000'}, {
                 oper: 'lt',
                 text: '小于\u3000\u3000'
             }, {oper: 'le', text: '小于等于'}, {oper: 'gt', text: '大于\u3000\u3000'}, {

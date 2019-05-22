@@ -14,7 +14,7 @@
 
     <resultMap id="roomMap" type="com.ktamr.domain.HaRoom">
         <result column="roomId" property="roomId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="rdescription" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
             <result column="custNo" property="custNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -27,17 +27,17 @@
 
     <resultMap id="meterMap" type="com.ktamr.domain.HaMeter">
         <result column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="mmeterNumber" property="meterNumber" javaType="java.lang.Long"></result>
-        <result column="mthNumber" property="thNumber" javaType="java.lang.Double"></result>
-        <result column="mlfNumber" property="lfNumber"></result>
-        <result column="msNumber" property="snumber"></result>
-        <result column="mstate" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="mthRTime" property="thRTime" javaType="java.util.Date"></result>
-        <result column="mgNumber" property="gNumber" javaType="java.lang.Double"></result>
-        <result column="moffsetn" property="offsetN" javaType="java.lang.Long" ></result>
-        <result column="mstartTime" property="startTime" javaType="java.util.Date"></result>
-        <result column="mmeterChannel" property="meterChannel" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="mmeterSequence" property="meterSequence" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="meterNumber" property="meterNumber" javaType="java.lang.Long"></result>
+        <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
+        <result column="lfNumber" property="lfNumber"></result>
+        <result column="sNumber" property="snumber"></result>
+        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
+        <result column="gNumber" property="gNumber" javaType="java.lang.Double"></result>
+        <result column="offsetn" property="offsetN" javaType="java.lang.Long" ></result>
+        <result column="startTime" property="startTime" javaType="java.util.Date"></result>
+        <result column="meterChannel" property="meterChannel" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="meterSequence" property="meterSequence" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
 
         <association property="haVendor" javaType="com.ktamr.domain.HaVendor">
             <id column="mvendorId" property="vendorId"></id>
@@ -65,22 +65,22 @@
     </sql>
 
     <select id="selectAllBuildingAndCount" resultMap="buildingMap" parameterType="com.ktamr.domain.HaBuilding">
-        SELECT
-            r.roomid AS roomId
+        select * from (SELECT
+             r.roomid AS roomId
             ,m.meterid AS meterId
             , cu.custno AS custNo
             , cu.name as name
             , a.name||'-'||b.name||'-'||r.name AS cuaddr
-            , r.description AS rdescription
+            , r.description AS description
             ,m.addr AS maddr
-            , m.meterNumber AS mmeterNumber
-            , m.th_number as mthNumber
-            , m.lf_number as mlfNumber
-            , m.s_number as msnumber
-            , m.state as mstate
-            , th_r_time as mthRTime
+            , m.meterNumber AS meterNumber
+            , m.th_number as thNumber
+            , m.lf_number as lfNumber
+            , m.s_number as snumber
+            , m.state as state
+            , th_r_time as thRTime
             ,c.id AS centorId
-        FROM
+            FROM
             ha_room r LEFT JOIN ha_custom cu ON r.custid=cu.custid
             LEFT JOIN ha_meter m ON m.roomid=r.roomid
             LEFT JOIN ha_centor c ON c.id=m.centorid
@@ -88,29 +88,32 @@
             LEFT JOIN ha_pricestandard p ON m.pricestand_id=p.pricestand_id
             LEFT JOIN ha_building b ON r.buildingid=b.buildingid
             LEFT JOIN ha_area a ON a.areaid=b.areaid
-        WHERE r.roomid>0
-        <include refid="getRightCondition"></include>
-        <if test=" areaId != null and areaId != -1 ">
-            and a.areaid=#{areaId}
-        </if>
-        <if test=" buildingId != null and buildingId != -1 ">
-            and r.buildingid = #{buildingId}
-        </if>
-        <if test=" params.keyWord != null and params.keyWord != ''  ">
-                and (a.name||'-'||b.name||'-'||r.name like '%${params.keyWord}%'
-                or cu.name like '%${params.keyWord}%'
-                or a.areaNo like '%${params.keyWord}%'
-                or r.description like '%${params.keyWord}%'
-                or m.state like '%${params.keyWord}%'
-                or to_char(m.th_r_time, 'YYYY-MM-DD hh:mm:ss') like '%${params.keyWord}%'
-                <if test=" params.operatorCompanyId == 'sys_ntrq'  ">
-                    or m.addr like '%${params.keyWord}%'
-                </if>
-                <if test=" params.operatorCompanyId != 'sys_ntrq'  ">
-                    or to_char(m.meterNumber,'fm999999999999') like '%${params.keyWord}%'
-                </if>
-                )
-        </if>
+            WHERE r.roomid>0
+            <include refid="getRightCondition"></include>
+            <if test=" areaId != null and areaId != -1 ">
+                and a.areaid=#{areaId}
+            </if>
+            <if test=" buildingId != null and buildingId != -1 ">
+                and r.buildingid = #{buildingId}
+            </if>
+            <if test=" params.keyWord != null and params.keyWord != ''  ">
+                    and (a.name||'-'||b.name||'-'||r.name like '%${params.keyWord}%'
+                    or cu.name like '%${params.keyWord}%'
+                    or a.areaNo like '%${params.keyWord}%'
+                    or r.description like '%${params.keyWord}%'
+                    or m.state like '%${params.keyWord}%'
+                    or to_char(m.th_r_time, 'YYYY-MM-DD hh:mm:ss') like '%${params.keyWord}%'
+                    <if test=" params.operatorCompanyId == 'sys_ntrq'  ">
+                        or m.addr like '%${params.keyWord}%'
+                    </if>
+                    <if test=" params.operatorCompanyId != 'sys_ntrq'  ">
+                        or to_char(m.meterNumber,'fm999999999999') like '%${params.keyWord}%'
+                    </if>
+                    )
+            </if>
+            ) t
+        <!--多条件查询-->
+        ${params.multipleConditions}
         ORDER BY cuaddr
     </select>
 

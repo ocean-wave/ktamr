@@ -22,34 +22,38 @@
     </resultMap>
 
     <select id="selectRecordsAndErrrecord" resultMap="haRecords" parameterType="java.util.Map">
-        SELECT * FROM
-        (SELECT rc1.itemId
-        , rc1.th_number AS thNumber
-        , rc1.delta  AS delta
-        , rc1.th_time AS thTime
-        ,CASE WHEN rc1.delta &lt; 0 THEN '用量异常' ELSE rc1.state END AS state
-        FROM ha_records rc1
-        where rc1.meterid  = #{meterId}
-        <if test=" dataType == 'last'.toString() ">
-            and rc1.th_time = (select max(th_time) from ha_records WHERE meterid = #{meterId})
-        </if>
-        UNION ALL
-        SELECT er1.itemId
-        , er1.n AS thNumber
-        , 0 AS delta
-        , er1.readtime AS csTime
-        , er1.state AS state
-        FROM ha_errRecord er1
-        WHERE er1.meterid = #{meterId}
-        <if test=" dataType == 'last'.toString() ">
-            and er1.readtime = (select max(readtime) from ha_errRecord WHERE meterid = #{meterId})
-        </if>
+        select * from (SELECT * FROM
+            (SELECT rc1.itemId
+            , rc1.th_number AS thNumber
+            , rc1.delta AS delta
+            , rc1.th_time AS thTime
+            ,CASE WHEN rc1.delta &lt; 0 THEN '用量异常' ELSE rc1.state END AS state
+            FROM ha_records rc1
+            where rc1.meterid = #{meterId}
+            <if test=" dataType == 'last'.toString() ">
+                and rc1.th_time = (select max(th_time) from ha_records WHERE meterid = #{meterId})
+            </if>
+            UNION ALL
+            SELECT er1.itemId
+            , er1.n AS thNumber
+            , 0 AS delta
+            , er1.readtime AS csTime
+            , er1.state AS state
+            FROM ha_errRecord er1
+            WHERE er1.meterid = #{meterId}
+            <if test=" dataType == 'last'.toString() ">
+                and er1.readtime = (select max(readtime) from ha_errRecord WHERE meterid = #{meterId})
+            </if>
+            ) t
+            where 1=1
+            <if test=" startDate != null and startDate != '' ">
+                and t.thTime BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate},
+                'yyyy-mm-dd hh24:mi:ss')
+            </if>
         ) t
-        where 1=1
-        <if test=" startDate != null and startDate != '' ">
-            and t.thTime BETWEEN to_date(#{startDate}, 'yyyy-mm-dd hh24:mi:ss') AND to_date(#{endDate}, 'yyyy-mm-dd hh24:mi:ss')
-        </if>
-        order by t.thTime desc
+        <!--多条件查询-->
+        ${multipleConditions}
+        order by thTime desc
     </select>
 
     <insert id="insertRecords" useGeneratedKeys="true"  keyProperty="resultParams.itemId" parameterType="com.ktamr.domain.HaMeter">
