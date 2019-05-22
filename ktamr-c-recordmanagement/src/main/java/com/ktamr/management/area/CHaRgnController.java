@@ -2,6 +2,8 @@ package com.ktamr.management.area;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.domain.HaRgn;
@@ -10,6 +12,7 @@ import com.ktamr.util.Menus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -321,5 +324,13 @@ public class CHaRgnController {
             return "删除成功";
         }
         return "false";
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaRgn haRgn, ExcelUtilTwo excelUtilTwo)
+    {
+        List<HaRgn> list = haRngService.selectAllRngAndCountC(haRgn,1,99);
+        return excelUtilTwo.init(list, "大区表数据");
     }
 }
