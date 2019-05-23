@@ -12,7 +12,7 @@ public interface NodesService {
      * 查询所有大区节点名称
      * @return
      */
-    public List<Map<String,Object>> selectAllRgnNodes();
+    public List<Map<String,Object>> selectAllRgnNodes(Map<String,Object> params);
 
     public List<Map<String,Object>> selectAllAreaNodes(String id);
 
@@ -20,7 +20,7 @@ public interface NodesService {
 
     public List<Map<String,Object>> selectAllCentorzNodes(String areaType,String id);
 
-    public List<Map<String,Object>> selectAllCentorcNodes(String wheresql);
+    public List<Map<String,Object>> selectAllCentorcNodes(Map<String,Object> params);
 
     public List<Map<String,Object>> selectAllCollectorNodes(Integer collectorid);
 }

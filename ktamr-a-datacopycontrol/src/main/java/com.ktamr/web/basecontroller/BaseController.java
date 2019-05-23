@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.core.page.PageDomain;
 import com.ktamr.common.core.page.TableSupport;
+import com.ktamr.common.utils.KtamrSession;
 import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.StringUtils;
 import com.ktamr.common.utils.sql.SqlCondition;
@@ -27,12 +28,7 @@ public class BaseController {
         if(baseEntity.getParams() == null){
             baseEntity.setParams(new HashMap<>());
         }
-        baseEntity.getParams().put("operatorRgnType", ServletUtils.getSession().getAttribute("operatorRgnType"));
-        baseEntity.getParams().put("rgnStr", ServletUtils.getSession().getAttribute("rgnStr"));
-        baseEntity.getParams().put("areaNo", ServletUtils.getSession().getAttribute("areaNo"));
-        baseEntity.getParams().put("operatorCompanyId", ServletUtils.getSession().getAttribute("operatorCompanyId"));
-        baseEntity.getParams().put("operatorCode", ServletUtils.getSession().getAttribute("operatorCode"));
-        baseEntity.getParams().put("operatorLevel",ServletUtils.getSession().getAttribute("operatorLevel"));
+        baseEntity.setParams(KtamrSession.getKtamrSession(baseEntity.getParams()));
         baseEntity.getParams().put("multipleConditions", SqlCondition.getMultipleConditions());
         startPage();
     }
@@ -62,7 +58,7 @@ public class BaseController {
         }
     }
 
-    public static Map<Integer,Integer> getValuesByKey(List<?> object,Map<Integer,String> m) {
+    public Map<Integer,Integer> getValuesByKey(List<?> object,Map<Integer,String> m) {
         List<Map<Integer,Integer>> list = new ArrayList<Map<Integer,Integer>>();
         Map<Integer,Integer> map = new HashMap<>();
         for (Object obj : object) {
@@ -86,9 +82,8 @@ public class BaseController {
                             }
                         }
                     }
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                } catch (Exception e) {
+                    logger.error("计算总数错误{}", e.getMessage());
                     e.printStackTrace();
                 }
             }

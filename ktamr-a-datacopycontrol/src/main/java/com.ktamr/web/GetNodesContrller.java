@@ -1,5 +1,7 @@
 package com.ktamr.web;
 
+import com.ktamr.common.utils.KtamrSession;
+import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.service.NodesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +24,7 @@ public class GetNodesContrller {
     @ResponseBody
     public String getAreaNodes(){
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allRgn', name:'全部大区', iconSkin:'icon00', open:true},{ id:'-2', pId:0, LevelType:'allArea', name:'全部小区', iconSkin:'icon00', open:true},{ id:'-3', pId:0, LevelType:'allMeter', name:'全部房间表', iconSkin:'icon00', open:true}";
-        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes();
+        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(KtamrSession.getKtamrSession());
         for  (Map<String,Object> haRgn : listHaRgn){
             jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:'" + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
             List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(haRgn.get("id").toString());
@@ -51,7 +54,7 @@ public class GetNodesContrller {
     @ResponseBody
     public String getEquipmentNodes(){
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部区域', iconSkin:'icon00',isParent:false}";
-        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes();
+        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(KtamrSession.getKtamrSession());
         for  (Map<String,Object> haRgn : listHaRgn){
             jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:'" + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
             List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(haRgn.get("id").toString());
@@ -96,13 +99,7 @@ public class GetNodesContrller {
     public String getEquipmentCentorcNodes(@RequestParam( value = "areaType",required = false) String areaType,
                                            @RequestParam( value = "id",required = false) Integer id){
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部集采器', iconSkin:'icon00', open:true}";
-        String wheresql = "";
-        if(areaType != null && areaType.equals("rgn")){
-            wheresql = " and Left(a.areaNo, 1) in ('"+id+"')";
-        }else if(areaType != null && areaType.equals("area")){
-            wheresql = " and a.areaid IN ("+id+")";
-        }
-        List<Map<String,Object>> listCentor = nodesService.selectAllCentorcNodes(wheresql);
+        List<Map<String,Object>> listCentor = nodesService.selectAllCentorcNodes(KtamrSession.getKtamrSession());
         for  (Map<String,Object> haCentor : listCentor){
             jsonStr = jsonStr + ",{ id:'"+haCentor.get("id")+"', pId:'0', LevelType:'centorc', name:'"+haCentor.get("centorid")+""+haCentor.get("addr")+"("+haCentor.get("meteridcount")+")', description:'"+haCentor.get("description")+"', iconSkin:'pIcon04'}";
         }

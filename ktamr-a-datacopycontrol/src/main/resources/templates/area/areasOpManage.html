@@ -54,17 +54,6 @@
 			<button data-modal="" data-title="抄收" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-stats"></span> 抄收</button>
 			<button data-modal="" data-title="刷新" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-refresh"></span> 刷新数据</button>
 		</div>
-		<div id="nav5" class="my-btns pull-right" name="MngButtons" style="display:none;">
-			<button data-modal="" id="btn4" data-title="初始化" class="layui-btn layui-btn-danger layui-btn-sm"><span class="glyphicon glyphicon-remove-circle"></span> 初始化</button>
-		</div>
-		<div id="nav6" class="my-btns pull-right" style="display:none;">
-			<button data-modal="" data-title="换表业务" class="layui-btn layui-btn-primary layui-btn-sm">换表业务</button>
-		</div>
-		<div id="nav3" class="my-btns pull-right" name="ControlButtons" style="display:none;">
-			<button data-modal="" id="btn2" data-title="费用结算" class="layui-btn layui-btn-sm">费用结算</button>
-			<button data-modal="" id="btn3" data-title="完成结算" class="layui-btn layui-btn-sm">完成结算</button>
-			<button data-modal="" id="btn1" data-title="结算上传" class="layui-btn layui-btn-sm">结算上传</button>
-		</div>
 		<div id="nav4" class="my-btns pull-right" style="display:none;">
 			<button data-modal="" data-title="批量单抄" class="layui-btn layui-btn-sm multiOperation">批量单抄</button>
 			<button data-modal="" data-title="批量开阀" class="layui-btn layui-btn-sm multiOperation">批量开阀</button>
@@ -183,7 +172,6 @@
 				GridObj.drawGridPager();
 				GridObj.setGridSize();
 				GridObj.gridResize();
-				//$.jgrid.regional["cn"].defaults.recordtext = "第{0}到第{1}条\u3000大于 {2} 条";
 			}else if(listType == "allMeter" || listType == "area" || listType == "building") {
 				var _areaid = -1, _buildingid = -1;
 				$(".month-type-div").hide();
@@ -249,7 +237,6 @@
 				}
 				GridObj.drawGrid();
 				GridObj.drawGridPager();
-				//GridObj.freezeGridCol();
 				GridObj.setGridSize();
 				GridObj.gridResize();
 				var operatorCompany = [[${operatorCompanyId}]];
