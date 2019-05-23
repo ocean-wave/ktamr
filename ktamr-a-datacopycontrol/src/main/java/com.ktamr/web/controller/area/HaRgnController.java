@@ -1,6 +1,7 @@
 package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.KtamrSession;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaRngService;
@@ -52,6 +53,7 @@ public class HaRgnController extends BaseController {
     @ResponseBody
     public AjaxResult export(HaRgn haRgn,ExcelUtilTwo excelUtilTwo)
     {
+        haRgn.setParams(KtamrSession.getKtamrSession(haRgn.getParams()));
         List<HaRgn> list = haRngService.selectAllRngAndCount(haRgn);
         return excelUtilTwo.init(list, "大区表数据");
     }
