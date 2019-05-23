@@ -326,7 +326,7 @@
                     postData: {"centorId":id}
                 }).trigger("reloadGrid");
                 $("#jqGrid3").jqGrid('setGridParam',{
-                    postData: {"areaId": id}
+                    postData: {"centorId": id, "collectorId": ""}
                 }).trigger("reloadGrid");
             }
         }
@@ -349,7 +349,7 @@
             if(id && id!==lastSel2){
                 lastSel2=id;
                 $("#jqGrid3").jqGrid('setGridParam',{
-                    postData: {"collectorid": id}
+                    postData: {"collectorId": id,"centorId": ""}
                 }).trigger("reloadGrid");
             }
         };

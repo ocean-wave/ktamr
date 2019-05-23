@@ -59,7 +59,7 @@ public interface HaMeterMapper {
     List<HaMeter> HaMeterList(@Param("haMeter") HaMeter haMeter,@Param("page") Integer page,
                               @Param("rowNum") Integer rowNum);
 
-    List<HaMeter> queryHaMeter(@Param("areaId") Integer areaId, @Param("collectorid") Integer collectorid,@Param("page") Integer page,
+    List<HaMeter> queryHaMeter(@Param("centorId") Integer centorId, @Param("collectorId") Integer collectorId,@Param("page") Integer page,
                                @Param("rowNum") Integer rowNum);
 
     Integer HaMeterCount(HaMeter haMeter);
