@@ -55,7 +55,9 @@ public interface HaMeterMapper {
      */
     public List<HaMeter> selectMeterByCollectorId(Integer collectorId);
 
-    List<HaMeter> HaMeterList(HaMeter haMeter);
+
+    List<HaMeter> HaMeterList(@Param("haMeter") HaMeter haMeter,@Param("page") Integer page,
+                              @Param("rowNum") Integer rowNum);
 
     List<HaMeter> queryHaMeter(@Param("areaId") Integer areaId, @Param("collectorid") Integer collectorid,@Param("page") Integer page,
                                @Param("rowNum") Integer rowNum);

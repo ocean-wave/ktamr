@@ -55,7 +55,7 @@ public interface HaMeterService {
      */
     public List<HaMeter> selectMeterByCollectorId(Integer collectorId);
 
-    List<HaMeter> HaMeterList(HaMeter haMeter);
+    List<HaMeter> HaMeterList(HaMeter haMeter,Integer page,Integer rowNum);
 
     List<HaMeter> queryHaMeter(Integer areaId,Integer collectorid,Integer page,Integer rowNum);
 

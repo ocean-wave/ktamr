@@ -119,8 +119,8 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.selectMeterByCollectorId(collectorId);
     }
 
-    public List<HaMeter> HaMeterList(HaMeter haMeter) {
-        return haMeterMapper.HaMeterList(haMeter);
+    public List<HaMeter> HaMeterList(HaMeter haMeter,Integer page,Integer rowNum) {
+        return haMeterMapper.HaMeterList(haMeter,page,rowNum);
     }
 
     @Override

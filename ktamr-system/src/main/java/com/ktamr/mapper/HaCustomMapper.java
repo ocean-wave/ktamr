@@ -14,8 +14,7 @@ public interface HaCustomMapper {
      * @return
      */
     public List<HaCustom> queryHaCustomListB(@Param("HaCustom") HaCustom haCustom, @Param("page") Integer page,
-                                            @Param("rowNum") Integer rowNum
-    );
+                                            @Param("rowNum") Integer rowNum);
 
     /**
      * 查询用户账号列表的总记录数

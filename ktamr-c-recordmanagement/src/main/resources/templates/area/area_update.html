@@ -17,7 +17,7 @@
 </head>
 <body class="myPage-body">
 <form class="layui-form my-form-class" action="">
-    <input type="hidden" id="areaid" name="areaid" th:value="${areaid}">
+    <input type="hidden" id="areaId" name="areaId" th:value="${areaId}">
     <div class="layui-form-item">
         <div class="layui-block">
             <label class="layui-form-label">所属大区</label>
@@ -145,7 +145,7 @@
         form.on('submit(sure)', function (data) {
             var _centorNo = "";
             var data = {
-                areaId: $("#areaid").val(),
+                areaId: $("#areaId").val(),
                 rgn: $("#rgn").val(),
                 registeredNo: $("#registeredNo").val(),
                 areaNo: padNumber($("#areaNo").val(), 4),

@@ -421,6 +421,7 @@
         WHERE m.collectorId=#{collectorId}
     </select>
 
+
     <resultMap id="queryHaMeterMap" type="com.ktamr.domain.HaMeter">
         <id property="meterId" column="meterId"/>
         <result  property="meterNumber" column="meterNumber"/>
@@ -428,7 +429,7 @@
         <result property="collectorId" column="collectorId"/>
 
         <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
-            <id property="meterid" column="meterid"/>
+            <id property="meterId" column="meterId"/>
             <result property="userNo" column="userNo"/>
             <result property="userName" column="userName"/>
             <result property="userDs" column="userDs"/>
@@ -437,7 +438,47 @@
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <id property="areaId" column="areaid"/>
         </association>
+
+        <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
+            <id property="custId" column="custId"/>
+            <result property="custNo" column="custNo"/>
+            <result property="name" column="cname"/>
+        </association>
+
+        <association property="haBuilding" javaType="com.ktamr.domain.HaBuilding">
+            <id property="buildingId" column="buildingId"/>
+            <result property="name" column="bname"/>
+        </association>
+
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <id property="id" column="id"/>
+            <result property="addr" column="centoraddr"/>
+        </association>
+
+        <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
+            <id property="collectorId" column="collectorId"/>
+            <result property="addr" column="collectoraddr"/>
+        </association>
+
+        <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
+            <id property="roomId" column="roomId"/>
+            <result property="name" column="rname"/>
+        </association>
     </resultMap>
+
+    <select id="HaMeterList" resultMap="queryHaMeterMap">
+        SELECT meterid as meterId, cu.custno AS custNo, b.name AS bname,
+        r.name AS rname, Left(cu.name,16) AS cname,
+        m.meterNumber ::VARCHAR(16) AS meterNumber,
+        ce.addr AS centoraddr, co.addr AS collectoraddr
+        FROM ((((ha_meter m LEFT JOIN ha_room r ON m.roomid=r.roomid)
+		LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+		LEFT JOIN ha_custom cu ON r.custid=cu.custid)
+		LEFT JOIN ha_centor ce ON m.centorid=ce.id) LEFT JOIN
+		ha_collector co ON m.collectorid=co.collectorid WHERE m.areaid=#{haMeter.areaId}
+		ORDER BY cu.custno,b.name||'-'||r.name
+		limit #{page} OFFSET #{rowNum}
+    </select>
 
     <select id="queryHaMeter" resultMap="queryHaMeterMap">
         SELECT m.meterid as meterId,

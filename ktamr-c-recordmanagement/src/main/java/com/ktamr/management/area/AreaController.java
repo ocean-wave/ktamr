@@ -58,12 +58,12 @@ public class AreaController {
     }
 
     @RequestMapping("/JumpAreaUpdate")
-    public String JumpAreaUpdate(Integer areaid, Model model) {
-        HaArea area = haAreaService.updateByIdHaAreaC(areaid);
+    public String JumpAreaUpdate(Integer areaId, Model model) {
+        HaArea area = haAreaService.updateByIdHaAreaC(areaId);
         List<HaRgn> haRgn = haRngService.queryAllRngC();
         model.addAttribute("haRgn", haRgn);
         model.addAttribute("area", area);
-        model.addAttribute("areaid", areaid);
+        model.addAttribute("areaId", areaId);
         return "area/area_update";
     }
 
@@ -144,8 +144,8 @@ public class AreaController {
 
     @RequestMapping("/UpdateArea")
     @ResponseBody
-    public Object updateArea(Integer areaid, HaArea haArea) {
-        haArea.setAreaId(areaid);
+    public Object updateArea(Integer areaId, HaArea haArea) {
+        haArea.setAreaId(areaId);
         Integer area = haAreaService.updateHaArea(haArea);
         if (area == 1) {
             return "true";

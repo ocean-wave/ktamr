@@ -64,6 +64,7 @@ public class DevicesController {
         return "devices/collector_add";
     }
 
+    //跳转修改采集器
     @RequestMapping("/JumpCollectorUpdate")
     public String jumpCollectorUpdate(String cmdName,Integer collectorId,Model model){
         HaCollector haCollector = haCollectorService.updateByIdHaCollector(collectorId);
@@ -89,6 +90,36 @@ public class DevicesController {
         model.addAttribute("uCentorNo5",uCentorNo5);
         model.addAttribute("uCentorNoFirst5",uCentorNoFirst5);
         return "devices/centor_update";
+    }
+
+    //跳转采集器选择表，端口选择表页面
+    @RequestMapping("/JumpLoadAreaMeter")
+    public String jumpLoadAreaMeter(String cmdName,Integer deviceId,Integer collectorId,String readLineId,Model model){
+        model.addAttribute("cmdName",cmdName);
+        model.addAttribute("deviceId",deviceId);
+        model.addAttribute("collectorId",collectorId);
+        model.addAttribute("readLineId",readLineId);
+        return "devices/loadAreaMeter";
+    }
+
+    //跳转表选择采集器，表选择端口，表选择线路页面
+    @RequestMapping("/JumpLoadCentorCollector")
+    public String jumpLoadCentorCollector(String cmdName,String deviceType,Integer meterIds,Model model){
+        model.addAttribute("cmdName",cmdName);
+        model.addAttribute("deviceType",deviceType);
+        model.addAttribute("meterIds",meterIds);
+        return "devices/loadCentorCollector";
+    }
+
+    @RequestMapping("/JumpBoundMeter")
+    public String jumpBoundMeter(String cmdName,Integer deviceId,Integer collectorId,String readLineId,Model model){
+        List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        model.addAttribute("cmdName",cmdName);
+        model.addAttribute("deviceId",deviceId);
+        model.addAttribute("collectorId",collectorId);
+        model.addAttribute("readLineId",readLineId);
+        model.addAttribute("haArea",haArea);
+        return "devices/boundMeter";
     }
 
     @RequestMapping("/deviceDataMngJson")
@@ -134,6 +165,61 @@ public class DevicesController {
         return map;
     }
 
+    //采集器选择表，端口选择表 表列表显示
+    @RequestMapping("/HaMeterList")
+    @ResponseBody
+    public Object HaMeterList(HaMeter haMeter,HttpServletRequest request){
+        Integer page, pageRows;
+        String page1 = request.getParameter("page");//获取需要多少行
+        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
+        if (page1 == null && pageRows1 == null) {//为了防止异常给它初始化一波
+            page = 100;
+            pageRows = 100;
+        } else {//如果有那就获取一波
+            page = Integer.parseInt(page1); // 取得当前页数
+            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
+        }
+        int page2 = page;//重新定义变量接收
+        --page2;
+        List<HaMeter> haMeters = haMeterService.HaMeterList(haMeter, pageRows, page2);
+        Integer haMeterCount = haMeterService.HaMeterCount(haMeter);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);//设置初始的页码 就是第几页
+        map.put("rowNum", pageRows);//一页显示几条数据
+        map.put("records", haMeterCount);//总记录数
+        map.put("total", (haMeterCount - 1) / pageRows + 1);//总页数的计算
+        map.put("rows", haMeters);//存放集合
+        return map;
+    }
+
+    //表选择采集器，表选择端口，表选择线路页面 采集器列表显示
+    @RequestMapping("/HaCollectorList")
+    @ResponseBody
+    public Object HaCollectorList(HaCollector haCollector,HttpServletRequest request){
+        Integer page, pageRows;
+        String page1 = request.getParameter("page");//获取需要多少行
+        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
+        if (page1 == null && pageRows1 == null) {//为了防止异常给它初始化一波
+            page = 100;
+            pageRows = 100;
+        } else {//如果有那就获取一波
+            page = Integer.parseInt(page1); // 取得当前页数
+            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
+        }
+        int page2 = page;//重新定义变量接收
+        --page2;
+        List<HaCollector> haCollectors = haCollectorService.HaCollectorList(haCollector, pageRows, page2);
+        Integer haCollectorCount = haCollectorService.HaCollectorCount(haCollector);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);//设置初始的页码 就是第几页
+        map.put("rowNum", pageRows);//一页显示几条数据
+        map.put("records", haCollectorCount);//总记录数
+        map.put("total", (haCollectorCount - 1) / pageRows + 1);//总页数的计算
+        map.put("rows", haCollectors);//存放集合
+        return map;
+    }
+
+    //添加集中器
     @RequestMapping("/AddCentor")
     @ResponseBody
     public Object addCentor(HaCentor haCentor){
@@ -145,6 +231,7 @@ public class DevicesController {
         return "false";
     }
 
+    //添加集采器
     @RequestMapping("/AddCollector")
     @ResponseBody
     public Object addCollector(HaCollector haCollector){
@@ -159,6 +246,7 @@ public class DevicesController {
         return "false";
     }
 
+    //修改集采器
     @RequestMapping("/UpdateCollector")
     @ResponseBody
     public Object updateCollector(HaCollector haCollector){
@@ -172,6 +260,7 @@ public class DevicesController {
         return "false";
     }
 
+    //修改集中器
     @RequestMapping("/UpdateCentor")
     @ResponseBody
     public Object updateCentor(HaCentor haCentor){
@@ -182,6 +271,7 @@ public class DevicesController {
         return "false";
     }
 
+    //删除集中器
     @RequestMapping("/DeleteCentor")
     @ResponseBody
     public Object deleteCentor(Integer deviceId){
@@ -192,6 +282,7 @@ public class DevicesController {
         return "false";
     }
 
+    //删除集采器
     @RequestMapping("/DeleteCollector")
     @ResponseBody
     public Object deleteCollector(Integer collectorId){
@@ -201,5 +292,7 @@ public class DevicesController {
         }
         return "false";
     }
+
+    //采集器选择表，端口选择表 表列表显示
 
 }

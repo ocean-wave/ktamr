@@ -356,7 +356,7 @@
         GridObj2.drawGrid();
         GridObj2.drawGridPager();
 
-        var GridObj3 = new myJqGrid("jqGrid3", "jqGridPager3", "jqgridForm2", 288,"");
+        var GridObj3 = new myJqGrid("jqGrid3", "jqGridPager3", "jqgridForm2", 288,"/meter/queryHaMeter");
         // /meter/queryHaMeter
         GridObj3.jqdefaultGridConfig.caption = "表列表：";
         GridObj3.jqdefaultGridConfig.multiselect = true;
@@ -572,7 +572,7 @@
                             "deviceId="+deviceId,
                             "collectorId="+collectorId
                         ];
-                        _myLayui.showLayer(cmdName, "../datamng/OperateDevice/loadAreaMeter.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer(cmdName, "/devices/JumpLoadAreaMeter", _queryStr, _layerSize);
                     }
                     break;
                 case "线路选择表":
@@ -585,7 +585,7 @@
                             "cmdName="+cmdName,
                             "readLineId="+readLineId
                         ];
-                        _myLayui.showLayer(cmdName, "../datamng/OperateDevice/loadAreaMeter.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer(cmdName, "/devices/JumpLoadAreaMeter", _queryStr, _layerSize);
                     }
                     break;
                 case "采集器关联表":
@@ -603,7 +603,7 @@
                             "deviceId="+deviceId,
                             "collectorId="+collectorId
                         ];
-                        _myLayui.showLayer(cmdName, "./boundMeter.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer(cmdName, "/devices/JumpBoundMeter", _queryStr, _layerSize);
                     }
                     break;
                 case "线路关联表":
@@ -616,7 +616,7 @@
                             "cmdName="+cmdName,
                             "readLineId="+readLineId
                         ];
-                        _myLayui.showLayer(cmdName, "./boundMeter.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer(cmdName, "/devices/JumpBoundMeter", _queryStr, _layerSize);
                     }
                     break;
                 case "表选择采集器":
@@ -631,7 +631,7 @@
                             "deviceType="+deviceType,
                             "meterIds="+meterIds
                         ];
-                        _myLayui.showLayer(cmdName, "../datamng/OperateDevice/loadCentorCollector.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer(cmdName, "/devices/JumpLoadCentorCollector", _queryStr, _layerSize);
                     }
                     break;
                 default:
