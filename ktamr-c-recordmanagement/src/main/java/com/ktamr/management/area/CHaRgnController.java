@@ -325,12 +325,4 @@ public class CHaRgnController {
         }
         return "false";
     }
-
-    @PostMapping("/export")
-    @ResponseBody
-    public AjaxResult export(HaRgn haRgn, ExcelUtilTwo excelUtilTwo)
-    {
-        List<HaRgn> list = haRngService.selectAllRngAndCountC(haRgn,1,99);
-        return excelUtilTwo.init(list, "大区表数据");
-    }
 }
