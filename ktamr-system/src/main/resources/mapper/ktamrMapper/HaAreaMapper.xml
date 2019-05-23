@@ -531,7 +531,15 @@ WHERE areaid IN ('${areaId}')
         <association property="haRgn" javaType="com.ktamr.domain.HaRgn">
             <id property="id" column="id"/>
         </association>
+
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <id property="id" column="id"/>
+        </association>
     </resultMap>
+
+    <select id="getAreaId" resultMap="queryAllSmallAreaMap">
+        SELECT a.areaid as areaId  FROM ha_area a, ha_centor ce WHERE a.areaNo=Left(ce.centorNo, 5) AND ce.id=#{deviceId}
+    </select>
 
     <select id="queryAllSmallArea" resultMap="queryAllSmallAreaMap">
         SELECT

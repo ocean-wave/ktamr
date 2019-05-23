@@ -192,4 +192,9 @@ public interface HaAreaService {
      *大区下所属小区记录数
      */
     Integer smallAreaCount(HaArea haArea);
+
+    /*
+     *拿到areaId
+     */
+    HaArea getAreaId(Integer deviceId);
 }

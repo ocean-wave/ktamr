@@ -213,5 +213,10 @@ public interface HaAreaMapper {
      */
     Integer smallAreaCount(HaArea haArea);
 
+    /*
+     *拿到areaId
+     */
+    HaArea getAreaId(@Param("deviceId") Integer deviceId);
+
 
 }
