@@ -30,11 +30,11 @@
     </resultMap>
 
     <sql id="getRightCondition">
-        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
-            <if test=" params.operatorRgnType == 'rgn' ">
+        <if test=" params.haOperator.operatorRgnType != null and params.haOperator.operatorRgnType != '' ">
+            <if test=" params.haOperator.operatorRgnType == 'rgn' ">
                 and position( LEFT(a.areaNo,1) in #{params.rgnStr})>0
             </if>
-            <if test=" params.operatorRgnType == 'area' ">
+            <if test=" params.haOperator.operatorRgnType == 'area' ">
                 and a.areano in (#{params.areaNo})
             </if>
         </if>
@@ -74,12 +74,14 @@
                  and left(a.areaNo,1) = #{params.rgnid}
              </if>
              <if test=" params.keyWord != null and params.keyWord != ''  ">
-                 and (a.areaNo l.TH_R_TIME,'yyyy-MM-dd') like '%${params.keyWord}%'
-                 or to_char(a.ike '%${params.keyWord}%' or a.registeredNo like '%${params.keyWord}%' or a.name like '%${params.keyWord}%'
-                      or n.name||'-'||a.addr like '%${params.keyWord}%'
-                      or to_char(mlastsumday,'yyyy-MM-dd') like '%${params.keyWord}%'
-                      or case when a.DS='S' then '单月' when a.DS='D' then '双月' end = #{params.keyWord}
-                    )
+                 and (a.areaNo like '%${params.keyWord}%'
+                 or a.registeredNo like '%${params.keyWord}%'
+                 or a.name like '%${params.keyWord}%'
+                 or n.name||'-'||a.addr like '%${params.keyWord}%'
+                 or to_char(a.lastsumday,'yyyy-MM-dd') like '%${params.keyWord}%'
+                 or to_char(m.TH_R_TIME,'yyyy-MM-dd') like '%${params.keyWord}%'
+                 or case when a.DS='S' then '单月' when a.DS='D' then '双月' end = #{params.keyWord}
+                 )
              </if>
              <if test=" params.monthType != null and params.monthType != '' ">
                  and a.DS = #{params.monthType}

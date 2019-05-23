@@ -4,12 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.NodesMapper">
 
+    <sql id="getRightCondition">
+        <if test=" haOperator.operatorRgnType != null and haOperator.operatorRgnType != '' ">
+            <if test=" haOperator.operatorRgnType == 'rgn' ">
+                and position( LEFT(n.id,1) in #{rgnStr})>0
+            </if>
+            <if test=" haOperator.operatorRgnType == 'area' ">
+                and n.id = left(#{areaNo},1)
+            </if>
+        </if>
+    </sql>
+
+    <sql id="getRightConditionTwo">
+        <if test=" haOperator.operatorRgnType != null and haOperator.operatorRgnType != '' ">
+            <if test=" haOperator.operatorRgnType == 'rgn' ">
+                and position( LEFT(a.areaNo,1) in #{rgnStr})>0
+            </if>
+            <if test=" haOperator.operatorRgnType == 'area' ">
+                and a.areaNo = #{areaNo}
+            </if>
+        </if>
+    </sql>
+
     <select id="selectAllRgnNodes" resultType="java.util.Map">
         SELECT
-        r.id
-        ,r.name
-        ,(SELECT Count(a.areaid) FROM ha_area a WHERE r.id=Left(a.areaNo,1)) as haAreaCount
-        FROM ha_rgn r
+        n.id
+        ,n.name
+        ,(SELECT Count(a.areaid) FROM ha_area a WHERE n.id=Left(a.areaNo,1)) as haAreaCount
+        FROM ha_rgn n
+        where 1=1
+        <include refid="getRightCondition"></include>
     </select>
 
     <select id="selectAllAreaNodes" resultType="java.util.Map" parameterType="java.lang.String">
@@ -65,7 +89,7 @@
             WHERE co.centorid=#{collectorid}
             GROUP BY co.collectorid, to_hex(co.nconf), co.addr ORDER BY co.addr
     </select>
-    <select id="selectAllCentorcNodes" resultType="java.util.Map" parameterType="java.lang.Integer">
+    <select id="selectAllCentorcNodes" resultType="java.util.Map">
             SELECT ce.id
             , ce.centorid
             , ce.addr
@@ -78,9 +102,7 @@
             WHERE (Left(ce.description, 3)='KT3'
             OR ce.description='GPRS'
             OR ce.description='COM')
-            <if test=" wheresql != null and wheresql != ''">
-                ${wheresql}
-            </if>
+            <include refid="getRightConditionTwo"></include>
             GROUP BY ce.id, ce.centorid, ce.centorNo, ce.addr, ce.description
             ORDER BY ce.centorNo,ce.addr
     </select>

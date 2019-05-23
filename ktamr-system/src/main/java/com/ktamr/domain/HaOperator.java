@@ -23,6 +23,7 @@ public class HaOperator extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date operatorCreatTime;
     private String operatorCompany;
+    private Integer operatorLevelCode;
     private String keyWord;
 
 
@@ -122,6 +123,14 @@ public class HaOperator extends BaseEntity {
         this.operatorCompany = operatorCompany;
     }
 
+    public Integer getOperatorLevelCode() {
+        return operatorLevelCode;
+    }
+
+    public void setOperatorLevelCode(Integer operatorLevelCode) {
+        this.operatorLevelCode = operatorLevelCode;
+    }
+
     public String getKeyWord() {
         return keyWord;
     }
@@ -129,4 +138,5 @@ public class HaOperator extends BaseEntity {
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
     }
+
 }

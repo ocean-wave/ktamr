@@ -31,13 +31,6 @@ public class LoginController {
         if(haOperator.getOperatorPwd().trim().equals(pwd.trim())){
             String rgnid = haOperatorService.selectOperatorRgnByName(haOperator.getOperatorName());
             String areano = haOperatorService.selectOperatorAreaByName(haOperator.getOperatorName());
-            session.setAttribute("operatorRgnType",haOperator.getOperatorRgnType());
-            session.setAttribute("rgnStr",rgnid);
-            session.setAttribute("areaNo",areano);
-            session.setAttribute("operatorName",haOperator.getOperatorName());
-            session.setAttribute("operatorCompanyId",haOperator.getOperatorCompany());
-            session.setAttribute("operatorCode",haOperator.getOperatorCode());
-            session.setAttribute("operatorUpper",haOperator.getOperatorUpper());
             Integer operatorLevelCode = -1;
             switch (haOperator.getOperatorLevel()){
                 case "admin":
@@ -53,8 +46,10 @@ public class LoginController {
                     operatorLevelCode = 3;
                     break;
             }
-            session.setAttribute("operatorLevelCode",operatorLevelCode);
-            session.setAttribute("operatorLevel",haOperator.getOperatorLevel());
+            haOperator.setOperatorLevelCode(operatorLevelCode);
+            session.setAttribute("haOperator",haOperator);
+            session.setAttribute("rgnStr",rgnid);
+            session.setAttribute("areaNo",areano);
             return "true";
         }
         return "false";

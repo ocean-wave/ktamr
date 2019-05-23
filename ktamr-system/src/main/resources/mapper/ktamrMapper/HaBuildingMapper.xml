@@ -54,11 +54,11 @@
 
 
     <sql id="getRightCondition">
-        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
-            <if test=" params.operatorRgnType == 'rgn' ">
+        <if test=" params.haOperator.operatorRgnType != null and params.haOperator.operatorRgnType != '' ">
+            <if test=" params.haOperator.operatorRgnType == 'rgn' ">
                 and position( LEFT(a.areaNo,1) in #{params.rgnStr})>0
             </if>
-            <if test=" params.operatorRgnType == 'area' ">
+            <if test=" params.haOperator.operatorRgnType == 'area' ">
                 and a.areaNo in (#{params.areaNo})
             </if>
         </if>

@@ -15,8 +15,8 @@ public class NodesServiceImpl implements NodesService {
     private NodesMapper nodesMapper;
 
     @Override
-    public List<Map<String,Object>> selectAllRgnNodes() {
-        return nodesMapper.selectAllRgnNodes();
+    public List<Map<String,Object>> selectAllRgnNodes(Map<String,Object> params) {
+        return nodesMapper.selectAllRgnNodes(params);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class NodesServiceImpl implements NodesService {
     }
 
     @Override
-    public List<Map<String, Object>> selectAllCentorcNodes(String wheresql) {
-        return nodesMapper.selectAllCentorcNodes(wheresql);
+    public List<Map<String, Object>> selectAllCentorcNodes(Map<String,Object> params) {
+        return nodesMapper.selectAllCentorcNodes(params);
     }
 
     @Override
