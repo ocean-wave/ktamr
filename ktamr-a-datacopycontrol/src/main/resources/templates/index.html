@@ -70,7 +70,7 @@
 				<li class="layui-nav-item locksys" >
 					<a href="javascript:;"><i class="fa fa-lock" aria-hidden="true"></i><cite> 锁屏</cite></a>
 				</li>
-				<li class="layui-nav-item" id="userInfo">
+				<li class="layui-nav-item" id="userInfo"   th:attr="data-usercode=${session.operatorCode}">
 					<a href="javascript:;" ><img src="../static/images/head_portrait_man.png" class="layui-nav-img userPortrait"  th:src="@{/images/head_portrait_man.png}"  width="35" height="35" /><cite class="userName" >[[${operatorName}]]</cite></a>
 					<dl class="layui-nav-child">
 						<dd>

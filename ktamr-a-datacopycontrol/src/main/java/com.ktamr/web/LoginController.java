@@ -37,6 +37,7 @@ public class LoginController {
             session.setAttribute("operatorName",haOperator.getOperatorName());
             session.setAttribute("operatorCompanyId",haOperator.getOperatorCompany());
             session.setAttribute("operatorCode",haOperator.getOperatorCode());
+            session.setAttribute("operatorUpper",haOperator.getOperatorUpper());
             Integer operatorLevelCode = -1;
             switch (haOperator.getOperatorLevel()){
                 case "admin":

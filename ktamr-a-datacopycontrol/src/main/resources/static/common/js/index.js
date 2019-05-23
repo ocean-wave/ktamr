@@ -614,12 +614,12 @@ layui.define(['jquery', 'laytpl', 'form', 'layer', 'element', 'myLayui'], functi
 			var ajaxReturnData;
             //登陆验证
             $.ajax({
-                url: '/checklogin.asp',
+                url: '/login',
                 type: 'post',
                 async: false,
                 data: {
-					"lockUid": getUserCode,
-					"lockPwd": getPassWord
+					"uid": getUserCode,
+					"pwd": getPassWord
 				},
                 success: function (data) {
                     ajaxReturnData = data;

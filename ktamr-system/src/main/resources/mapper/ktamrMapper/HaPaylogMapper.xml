@@ -139,7 +139,7 @@
             <result column="用户名称" property="userName"/>
             <result column="用户地址" property="userDs"/>
             <result column="用户编号" property="userNo"/>
-            <result column="micustid" property="custid"/>
+            <result column="micustid" property="custId"/>
 
         </association>
         <!--ha_pricestandard(ps)-->
