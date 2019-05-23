@@ -414,7 +414,7 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 				_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
 				break;   
 			case "增删表地址":
-				_layerSize = ['650px', '400px'];
+				_layerSize = ['700px', '400px'];
 				_queryStr = [
 					"centorId="+getDeviceId(),
 					"cmdName="+cmdName,

@@ -41,49 +41,54 @@
     </sql>
 
     <select id="selectAllAreaAndCount" resultMap="areaMap" parameterType="com.ktamr.domain.HaArea">
-        SELECT
-         a.areaid AS areaId
-         , Right(a.areaNo, 4) AS areaNo
-         , a.registeredNo AS registeredNo
-         , a.name AS name
-         ,n.name||'-'||a.addr AS addr
-         ,case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds
-         ,COUNT(m.meterid) AS sumNumber
-         ,SUM(m.TH_NUMBER) AS readNumber
-         ,SUM(m.S_NUMBER) AS sumDosage
-         ,t.n AS atnNumber
-         ,a.reserved AS reserved
-         ,MAX(m.TH_R_TIME) AS thRTime
-         ,a.lastsumday AS lastsumDay
-         ,MIN(m.starttime) AS startTime
-         , a.description AS description
-         FROM
-         ha_area a LEFT JOIN ha_meter m ON m.areaid=a.areaid
-         LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1)
-         LEFT JOIN (
-             SELECT Count(mi.meterid) AS n,mi.areaid AS areaid
-             FROM hav_meterinfo mi
-             WHERE is_meter_err_state(mi.状态)
-             AND mi.表号 >0
-             GROUP BY mi.areaid) t ON t.areaid=a.areaid
-         WHERE 1=1
-         <include refid="getRightCondition"></include>
-         <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">
-             and left(a.areaNo,1) = #{params.rgnid}
-         </if>
-         <if test=" params.keyWord != null and params.keyWord != ''  ">
-             and (a.areaNo like '%${params.keyWord}%' or a.registeredNo like '%${params.keyWord}%' or a.name like '%${params.keyWord}%'
-                  or n.name||'-'||a.addr like '%${params.keyWord}%'
-                  or to_char(m.TH_R_TIME,'yyyy-MM-dd') like '%${params.keyWord}%'
-                  or to_char(a.lastsumday,'yyyy-MM-dd') like '%${params.keyWord}%'
-                  or case when a.DS='S' then '单月' when a.DS='D' then '双月' end = #{params.keyWord}
-                )
-         </if>
-         <if test=" params.monthType != null and params.monthType != '' ">
-             and a.DS = #{params.monthType}
-         </if>
-         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,a.lastsumday,t.n
-         ORDER BY a.areaNo
+        select * from (
+            SELECT
+            a.areaid AS areaId
+            , Right(a.areaNo, 4) AS areaNo
+            , a.registeredNo AS registeredNo
+            , a.name AS name
+            ,n.name||'-'||a.addr AS addr
+            ,case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds
+            ,COUNT(m.meterid) AS sumNumber
+            ,SUM(m.TH_NUMBER) AS readNumber
+            ,SUM(m.S_NUMBER) AS sumDosage
+            ,t.n AS atnNumber
+            ,a.reserved AS reserved
+            ,MAX(m.TH_R_TIME) AS thRTime
+            ,a.lastsumday AS lastsumDay
+            ,MIN(m.starttime) AS startTime
+            , a.description AS description
+            FROM
+            ha_area a
+            LEFT JOIN ha_meter m ON m.areaid=a.areaid
+            LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1)
+            LEFT JOIN (
+            SELECT Count(mi.meterid) AS n,mi.areaid AS areaid
+            FROM hav_meterinfo mi
+            WHERE is_meter_err_state(mi.状态)
+            AND mi.表号 >0
+            GROUP BY mi.areaid) t ON t.areaid=a.areaid
+            WHERE 1=1
+             <include refid="getRightCondition"></include>
+             <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">
+                 and left(a.areaNo,1) = #{params.rgnid}
+             </if>
+             <if test=" params.keyWord != null and params.keyWord != ''  ">
+                 and (a.areaNo l.TH_R_TIME,'yyyy-MM-dd') like '%${params.keyWord}%'
+                 or to_char(a.ike '%${params.keyWord}%' or a.registeredNo like '%${params.keyWord}%' or a.name like '%${params.keyWord}%'
+                      or n.name||'-'||a.addr like '%${params.keyWord}%'
+                      or to_char(mlastsumday,'yyyy-MM-dd') like '%${params.keyWord}%'
+                      or case when a.DS='S' then '单月' when a.DS='D' then '双月' end = #{params.keyWord}
+                    )
+             </if>
+             <if test=" params.monthType != null and params.monthType != '' ">
+                 and a.DS = #{params.monthType}
+             </if>
+             GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,a.lastsumday,t.n
+          ) t
+         <!--多条件查询-->
+         ${params.multipleConditions}
+         ORDER BY areaNo
     </select>
 
     <select id="selectHaAreaIdAndName" resultMap="areaMap">

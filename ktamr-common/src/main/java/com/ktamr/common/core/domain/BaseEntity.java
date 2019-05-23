@@ -2,6 +2,7 @@ package com.ktamr.common.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.sql.SqlCondition;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -42,18 +43,6 @@ public class BaseEntity implements Serializable{
     private Map<String,Object[]> paramsArray;
 
     private Map<String,Object> resultParams;
-
-    public BaseEntity() {
-        if(params == null){
-            params = new HashMap<>();
-        }
-        params.put("operatorRgnType",ServletUtils.getSession().getAttribute("operatorRgnType"));
-        params.put("rgnStr",ServletUtils.getSession().getAttribute("rgnStr"));
-        params.put("areaNo",ServletUtils.getSession().getAttribute("areaNo"));
-        params.put("operatorCompanyId",ServletUtils.getSession().getAttribute("operatorCompanyId"));
-        params.put("operatorCode",ServletUtils.getSession().getAttribute("operatorCode"));
-        params.put("operatorLevel",ServletUtils.getSession().getAttribute("operatorLevel"));
-    }
 
     public Map<String, Object[]> getParamsArray() {
         return paramsArray;

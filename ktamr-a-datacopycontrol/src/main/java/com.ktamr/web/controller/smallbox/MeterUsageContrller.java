@@ -2,6 +2,7 @@ package com.ktamr.web.controller.smallbox;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.*;
 import com.ktamr.service.HaDayFreezeService;
 import com.ktamr.service.HaMeterService;
@@ -55,6 +56,7 @@ public class MeterUsageContrller extends BaseController {
         params.put("meterId",meterId);
         params.put("startDate",startDate);
         params.put("endDate",endDate);
+        params.put("multipleConditions", SqlCondition.getMultipleConditions());
         if(dataType.equals("last") || dataType.equals("all")){
             params.put("dataType",dataType);
             List<HaRecords> listHaRecords = haRecordsService.selectRecordsAndErrrecord(params);
@@ -88,6 +90,6 @@ public class MeterUsageContrller extends BaseController {
         }else if(dataType.equals("monFreeze")){
             list = haMonFreezeService.selectAllMonfreeze(params);
         }
-        return excelUtilTwo.init(list,"房间表数据");
+        return excelUtilTwo.init(list,"单表记录数据");
     }
 }

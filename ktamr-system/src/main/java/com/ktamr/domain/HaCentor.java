@@ -56,6 +56,11 @@ public class HaCentor extends BaseEntity {
     private HaArea haArea;
     private HaCollector haCollector;
     private HaMeter haMeter;
+
+    private Integer zbs;
+    private Integer jdbs;
+    private Integer wfhbs;
+
     //存查询时用到的对象
     private String nodeType;
     private String nodeIds;
@@ -65,6 +70,30 @@ public class HaCentor extends BaseEntity {
 
     //表名
     private String cmdName;
+
+    public Integer getZbs() {
+        return zbs;
+    }
+
+    public void setZbs(Integer zbs) {
+        this.zbs = zbs;
+    }
+
+    public Integer getJdbs() {
+        return jdbs;
+    }
+
+    public void setJdbs(Integer jdbs) {
+        this.jdbs = jdbs;
+    }
+
+    public Integer getWfhbs() {
+        return wfhbs;
+    }
+
+    public void setWfhbs(Integer wfhbs) {
+        this.wfhbs = wfhbs;
+    }
 
     public HaMeter getHaMeter() {
         return haMeter;

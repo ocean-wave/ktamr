@@ -2,10 +2,14 @@ package com.ktamr.web.basecontroller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.core.page.PageDomain;
 import com.ktamr.common.core.page.TableSupport;
+import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.StringUtils;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.common.utils.sql.SqlUtil;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +22,20 @@ import java.util.Map;
 public class BaseController {
 
     protected final Logger logger = LoggerFactory.getLogger(BaseController.class);
+
+    protected void inti(BaseEntity baseEntity){
+        if(baseEntity.getParams() == null){
+            baseEntity.setParams(new HashMap<>());
+        }
+        baseEntity.getParams().put("operatorRgnType", ServletUtils.getSession().getAttribute("operatorRgnType"));
+        baseEntity.getParams().put("rgnStr", ServletUtils.getSession().getAttribute("rgnStr"));
+        baseEntity.getParams().put("areaNo", ServletUtils.getSession().getAttribute("areaNo"));
+        baseEntity.getParams().put("operatorCompanyId", ServletUtils.getSession().getAttribute("operatorCompanyId"));
+        baseEntity.getParams().put("operatorCode", ServletUtils.getSession().getAttribute("operatorCode"));
+        baseEntity.getParams().put("operatorLevel",ServletUtils.getSession().getAttribute("operatorLevel"));
+        baseEntity.getParams().put("multipleConditions", SqlCondition.getMultipleConditions());
+        startPage();
+    }
 
     protected Map<String,Object> getDataTable(List<?> list)
     {

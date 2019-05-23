@@ -5,7 +5,7 @@
 <mapper namespace="com.ktamr.mapper.HaRngMapper">
 
     <resultMap id="HaRngMap" type="com.ktamr.domain.HaRgn">
-        <id column="rgnid" property="id" javaType="java.lang.String" jdbcType="VARCHAR"></id>
+        <id column="id" property="id" javaType="java.lang.String" jdbcType="VARCHAR"></id>
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="shortName" property="shortName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="zcode" property="zcode" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -30,21 +30,27 @@
     </sql>
 
     <select id="selectAllRngAndCount" resultMap="HaRngMap" parameterType="com.ktamr.domain.HaRgn">
-      SELECT n.id AS rgnid
-        , n.name AS name
-        , n.shortName AS shortName
-        , n.zcode AS zcode
-        ,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount
-        ,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount
-        ,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount
-        ,(SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount
-      FROM ha_rgn n
-      where 1=1
-      <include refid="getRightCondition"></include>
-      <if test=" params.keyWord != null and params.keyWord != ''">
-            and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like '%${params.keyWord}%')
-      </if>
-       ORDER BY n.name
+        select * from (SELECT n.id AS id
+                , n.name AS name
+                , n.shortName AS shortName
+                , n.zcode AS zcode
+                ,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount
+                ,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount
+                ,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND
+                n.id=Left(c.centorNo,1)) AS haCollectorCount
+                ,(SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS
+                haMeterCount
+                FROM ha_rgn n
+                where 1=1
+                <include refid="getRightCondition"></include>
+              <if test=" params.keyWord != null and params.keyWord != ''">
+                  and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like
+                  '%${params.keyWord}%')
+              </if>
+        ) t
+        <!--多条件查询-->
+        ${params.multipleConditions}
+        ORDER BY name
     </select>
 
 

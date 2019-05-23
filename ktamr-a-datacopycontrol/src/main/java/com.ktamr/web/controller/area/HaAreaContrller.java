@@ -1,24 +1,16 @@
 package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
-import com.ktamr.common.utils.poi.ExcelUtil;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaArea;
-import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaAreaService;
-import com.ktamr.service.HaRngService;
-import com.ktamr.util.PageUtil;
 import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +29,7 @@ public class HaAreaContrller extends BaseController{
     @PostMapping("/areasOpManageJson")
     @ResponseBody
     public Map<String,Object> areasOpManageJson(HaArea parms){
-        startPage();
+        inti(parms);
         List<HaArea> listHaArea = haAreaService.selectAllAreaAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
