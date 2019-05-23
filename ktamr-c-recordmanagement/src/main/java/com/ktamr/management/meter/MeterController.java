@@ -21,7 +21,7 @@ public class MeterController {
 
     @RequestMapping("/queryHaMeter")
     @ResponseBody
-    public Object queryHaMeter(Integer areaId, Integer collectorId, HaMeter haMeter, HttpServletRequest request){
+    public Object queryHaMeter(Integer centorId, Integer collectorId, HaMeter haMeter, HttpServletRequest request){
         Integer page, pageRows;
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
@@ -34,7 +34,7 @@ public class MeterController {
         }
         int page2 = page;//重新定义变量接收
         --page2;
-        List<HaMeter> haMeters = haMeterService.queryHaMeter(areaId,collectorId,pageRows, page2);
+        List<HaMeter> haMeters = haMeterService.queryHaMeter(centorId,collectorId,pageRows, page2);
         Integer haMeterCount = haMeterService.HaMeterCount(haMeter);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);//设置初始的页码 就是第几页

@@ -124,9 +124,10 @@ public class HaMeterServiceImpl implements HaMeterService {
     }
 
     @Override
-    public List<HaMeter> queryHaMeter(Integer areaId,Integer collectorid,Integer page,Integer rowNum) {
-        return haMeterMapper.queryHaMeter(areaId,collectorid,page,rowNum);
+    public List<HaMeter> queryHaMeter(Integer centorId, Integer collectorId, Integer page, Integer rowNum) {
+        return haMeterMapper.queryHaMeter(centorId,collectorId,page,rowNum);
     }
+
 
     @Override
     public Integer HaMeterCount(HaMeter haMeter) {

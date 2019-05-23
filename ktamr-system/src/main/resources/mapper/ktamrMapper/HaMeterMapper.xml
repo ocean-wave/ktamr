@@ -488,11 +488,11 @@
         m.meterNumber AS meterNumber
         from (ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid)
         LEFT JOIN ha_area a ON m.areaid=a.areaid WHERE m.meterid>0
-        <if test="collectorid!=null">
-            and m.collectorid=#{collectorid}
+        <if test="collectorId!=null">
+            and m.collectorid=#{collectorId}
         </if>
-        <if test="areaId!=null">
-            AND a.areaid=#{areaId}
+        <if test="centorId!=null">
+            AND m.centorid=#{centorId}
         </if>
         order by mi.用户地址
         limit #{page} OFFSET #{rowNum}

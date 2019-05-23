@@ -57,7 +57,7 @@ public interface HaMeterService {
 
     List<HaMeter> HaMeterList(HaMeter haMeter,Integer page,Integer rowNum);
 
-    List<HaMeter> queryHaMeter(Integer areaId,Integer collectorid,Integer page,Integer rowNum);
+    List<HaMeter> queryHaMeter(Integer centorId,Integer collectorId,Integer page,Integer rowNum);
 
     Integer HaMeterCount(HaMeter haMeter);
 
