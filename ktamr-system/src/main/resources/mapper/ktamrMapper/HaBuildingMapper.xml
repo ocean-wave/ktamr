@@ -114,7 +114,7 @@
             ) t
         <!--多条件查询-->
         ${params.multipleConditions}
-        ORDER BY cuaddr
+        order by cuaddr
     </select>
 
 

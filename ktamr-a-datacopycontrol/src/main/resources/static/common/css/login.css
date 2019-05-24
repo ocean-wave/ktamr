@@ -1,16 +1,7 @@
-.carousel_div1{
-    background: url(../img/login-bg1.jpg) fixed center center;
-}
-.carousel_div2{
-    background: url(../img/login-bg2.jpg) fixed center center;
-}
-.carousel_div3{
-    background: url(../img/login-bg3.jpg) fixed center center;
-}
 
 body {
     overflow: hidden;
-	background: url(/images/SmartCity.jpg);
+	background: url(../../images/SmartCity.jpg);
     height: 100vh;
     width: 100vw;
     background-size: cover;
@@ -127,6 +118,6 @@ body {
       transform-origin:center center;
       -ms-transform-origin:center center;
       -webkit-transform-origin:center center;
-      background:url() no-repeat;	
+
     }
   }
