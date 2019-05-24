@@ -48,9 +48,9 @@
         <div class="layui-block">
             <label class="layui-form-label">所属小区</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="area" lay-filter="area" lay-verify="required"  lay-search>
+                <select id="area" lay-filter="area" lay-verify="required"  lay-search th:value="${custom.haArea.areaId}">
                     <option value="-1">请选择</option>
-                    <option th:each="haAreas : ${haArea}"
+                    <option th:selected="${custom.haArea.areaId eq haAreas.areaId}" th:each="haAreas : ${haArea}"
                             th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
                 </select>
             </div>
@@ -60,7 +60,7 @@
         <div class="layui-block">
             <label class="layui-form-label">所属楼栋</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="building" lay-filter="building" lay-verify="required" lay-search>
+                <select id="building" lay-filter="building" lay-verify="required" lay-search th:value="${custom.haBuilding.buildingId}">
                     <option value=""></option>
                 </select>
             </div>
@@ -68,7 +68,7 @@
         <div class="layui-block">
             <label class="layui-form-label">所属房间</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="room" lay-filter="room" lay-verify="required"  lay-search>
+                <select id="room" lay-filter="room" lay-verify="required"  lay-search th:value="${custom.haRoom.roomId}">
                     <option value=""></option>
                 </select>
             </div>

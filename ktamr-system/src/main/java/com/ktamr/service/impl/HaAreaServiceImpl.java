@@ -350,5 +350,13 @@ public class HaAreaServiceImpl implements HaAreaService {
         return haAreaMapper.smallAreaCount(haArea);
     }
 
+    /*
+     *拿到areaId
+     */
+    @Override
+    public HaArea getAreaId(Integer deviceId) {
+        return haAreaMapper.getAreaId(deviceId);
+    }
+
 
 }

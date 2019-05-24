@@ -50,6 +50,7 @@ public class HaArea extends BaseEntity {
     private HaRgn haRgn;
     private HavMeterinfo havMeterinfo;
     private HaBuilding haBuilding;
+    private HaCentor haCentor;
 
     //定义接收
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -355,5 +356,13 @@ public class HaArea extends BaseEntity {
 
     public void setRgnIds(String rgnIds) {
         this.rgnIds = rgnIds;
+    }
+
+    public HaCentor getHaCentor() {
+        return haCentor;
+    }
+
+    public void setHaCentor(HaCentor haCentor) {
+        this.haCentor = haCentor;
     }
 }

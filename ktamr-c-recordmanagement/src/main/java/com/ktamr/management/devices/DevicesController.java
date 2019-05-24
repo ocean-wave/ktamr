@@ -114,12 +114,17 @@ public class DevicesController {
     @RequestMapping("/JumpBoundMeter")
     public String jumpBoundMeter(Integer areaId,String cmdName,Integer deviceId,Integer collectorId,String readLineId,Model model){
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        HaArea gAreaId = haAreaService.getAreaId(deviceId);
+        if(gAreaId==null){
+            gAreaId=new HaArea();
+        }
         model.addAttribute("cmdName",cmdName);
         model.addAttribute("deviceId",deviceId);
         model.addAttribute("collectorId",collectorId);
         model.addAttribute("readLineId",readLineId);
         model.addAttribute("haArea",haArea);
         model.addAttribute("areaId",areaId);
+        model.addAttribute("gAreaId",gAreaId.getAreaId());
         return "devices/boundMeter";
     }
 

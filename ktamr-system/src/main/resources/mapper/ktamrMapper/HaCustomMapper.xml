@@ -84,12 +84,9 @@
         u.custno as custNo,
         u.name as name,
         u.sex as sex,
-        CASE WHEN a.name != ''
-        THEN a.name ELSE '[无对象]' END as aname,
-        CASE WHEN b.name != ''
-        THEN b.name ELSE '[无对象]' END  as bname,
-        CASE WHEN r.name != ''
-        THEN r.name ELSE '[无对象]' END as rname,
+        a.areaid as areaId,
+        b.buildingid as buildingId,
+        r.roomid as roomId,
         u.idname as idName,
         u.idnumber as idNumber,
         u.tel as tel,
