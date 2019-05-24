@@ -38,6 +38,7 @@ public class HaMeter extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date thRTime;
     private Integer areaId;
+    private Integer centorId;
     private Integer collectorId;
     private long meterNumber;
     private Date fday;
@@ -450,5 +451,13 @@ public class HaMeter extends BaseEntity {
 
     public void setHaBuilding(HaBuilding haBuilding) {
         this.haBuilding = haBuilding;
+    }
+
+    public Integer getCentorId() {
+        return centorId;
+    }
+
+    public void setCentorId(Integer centorId) {
+        this.centorId = centorId;
     }
 }

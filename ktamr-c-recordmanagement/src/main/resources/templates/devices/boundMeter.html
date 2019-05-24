@@ -139,6 +139,27 @@
                 selectObj.empty();
             }
         }
+        // function load_building_option(parentId){
+        //     var load_building_url = "/custom/QueryHaBuildingJson";
+        //     $.ajax({
+        //         url: load_building_url
+        //         ,data: {
+        //             areaId: parentId
+        //         }
+        //         ,type: "POST"
+        //         ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+        //         ,async:true //异步请求
+        //         ,success: function(data){
+        //             var option = $("<option>").val("").text("");
+        //             $("#building").append(option);
+        //             for (var i = 0; i < data.length; i++) {
+        //                 $("#building").append("<option value='" + data[i].buildingId + "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
+        //             }
+        //             form.render('select');//刷新表单元素
+        //             g_buildingId = "";
+        //         }
+        //     });
+        // }
         function load_building_option(parentId){
             var load_building_url = "/custom/QueryHaBuildingJson";
             $.ajax({
@@ -162,8 +183,10 @@
             form.render('select');
         }
         form.on('select(area)', function(data){
-            var areaObj = $(data.elem);
-            areaId = areaObj.val();
+            var areaId = $("#area").val();
+            // var areaObj = $(data.elem);
+            // areaId = areaObj.val();
+            alert(areaId);
             load_building_option(areaId);
         });
         form.on('select(building)', function(data){

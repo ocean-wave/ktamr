@@ -1,6 +1,7 @@
 package com.ktamr.mapper;
 
-import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaCentor;
+import com.ktamr.domain.HaCollector;
 import com.ktamr.domain.HaMeter;
 import org.apache.ibatis.annotations.Param;
 
@@ -67,6 +68,24 @@ public interface HaMeterMapper {
     Integer addHaMeter(HaMeter haMeter);
 
     Integer updateHaMeter(HaMeter haMeter);
+
+    //采集器选择表,端口选择表
+    Integer updateHaMeterCollector(@Param("haMeter") HaMeter haMeter,@Param("haCentor") HaCentor haCentor,@Param("haCollector") HaCollector haCollector);
+
+    //采集器选择表,端口选择表关联成功记录数
+    Integer HaMeterCollectorCount(@Param("centorId") Integer centorId,@Param("collectorId") Integer collectorId,@Param("meterIds") Integer meterIds);
+
+    //线路选择表
+    Integer updateHaMeterReadLine(@Param("haMeter") HaMeter haMeter,@Param("haCentor") HaCentor haCentor,@Param("readLineId") Integer readLineId);
+
+    //线路选择表关联成功记录数
+    Integer HaMeterReadLineCount(@Param("readLineId") Integer readLineId,@Param("meterIds") Integer meterIds);
+
+    //都不是 centorId < 0 && collectorId < 0 或 readLineId < 0
+    Integer updateHaMeterNull(@Param("haMeter") HaMeter haMeter);
+
+    //空关联成功记录数
+    Integer HaMeterNullCount(@Param("meterIds") Integer meterIds);
 
     Integer deleteHaMeter(HaMeter haMeter);
 
