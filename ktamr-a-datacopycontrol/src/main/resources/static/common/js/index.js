@@ -651,7 +651,7 @@ layui.define(['jquery', 'laytpl', 'form', 'layer', 'element', 'myLayui'], functi
 		//login = 0;
 		//localStorage.setItem('login', login);
 		window.sessionStorage.clear();
-		window.location.href = "logout.asp";
+		window.location.href = "/";
 	});
 	//$('.loginin').click(function() {
 	//	login = 1;

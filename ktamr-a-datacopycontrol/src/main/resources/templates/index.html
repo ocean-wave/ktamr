@@ -190,10 +190,10 @@
 <script type="text/javascript" src='../static/plugins/zTree_v3/demo/js/fuzzysearch.js' th:src="@{/plugins/zTree_v3/demo/js/fuzzysearch.js}"></script>
 <script type="text/javascript" src="../static/common/js/myZtreeFunc.js?v=2.8.2" th:src="@{/common/js/myZtreeFunc.js?v=2.8.2}"></script>
 
-<script language="JavaScript">
+<script th:inline="javascript">
 	layui.config({
 		base: 'common/js/'
-		,version: '2.8.2'
+		,version: [[${version}]]
 	}).use('index');
 </script>
 

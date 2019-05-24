@@ -10,7 +10,8 @@
 #spring.datasource.password=yuhangmysql
 
 ktamr:
-  webVersion: V2.7.10
+  webVersion: V2.6.5
+  version: 2.6.5
 #服务配置
 server:
   #访问端口号80

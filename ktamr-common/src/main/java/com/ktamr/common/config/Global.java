@@ -80,9 +80,14 @@ public class Global
     /**
      * 获取项目版本
      */
-    public static String getVersion()
+    public static String getWebVersion()
     {
         return StringUtils.nvl(getConfig("ktamr.webVersion"), "V2.7.10");
+    }
+
+    public static String getVersion()
+    {
+        return StringUtils.nvl(getConfig("ktamr.version"), "2.8.2");
     }
 
     /**
