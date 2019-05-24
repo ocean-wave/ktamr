@@ -18,8 +18,8 @@ public class indexContrller {
 
     @RequestMapping("/index")
     public String index(ModelMap mmap, HttpSession session){
-        mmap.put("webVersion", Global.getVersion());
-        mmap.put("operatorName", ServletUtils.getSession().getAttribute("operatorName"));
+        mmap.put("webVersion", Global.getWebVersion());
+        mmap.put("version", Global.getVersion());
         return "index";
     }
 }

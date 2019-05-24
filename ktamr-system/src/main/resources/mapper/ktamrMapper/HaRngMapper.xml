@@ -50,7 +50,7 @@
         ) t
         <!--多条件查询-->
         ${params.multipleConditions}
-        ORDER BY name
+        order by name
     </select>
 
 

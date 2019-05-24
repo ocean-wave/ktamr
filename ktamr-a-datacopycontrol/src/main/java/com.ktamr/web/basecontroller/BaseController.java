@@ -29,7 +29,6 @@ public class BaseController {
             baseEntity.setParams(new HashMap<>());
         }
         baseEntity.setParams(KtamrSession.getKtamrSession(baseEntity.getParams()));
-        baseEntity.getParams().put("multipleConditions", SqlCondition.getMultipleConditions());
         startPage();
     }
 

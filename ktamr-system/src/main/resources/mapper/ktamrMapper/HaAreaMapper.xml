@@ -90,7 +90,7 @@
           ) t
          <!--多条件查询-->
          ${params.multipleConditions}
-         ORDER BY areaNo
+         order by areaNo
     </select>
 
     <select id="selectHaAreaIdAndName" resultMap="areaMap">

@@ -1,6 +1,7 @@
 package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.KtamrSession;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.service.HaBuildingService;
@@ -33,6 +34,7 @@ public class HaBuildingContrller extends BaseController {
     @ResponseBody
     public AjaxResult export(HaBuilding haBuilding,ExcelUtilTwo excelUtilTwo)
     {
+        haBuilding.setParams(KtamrSession.getKtamrSession(haBuilding.getParams()));
         List<HaBuilding> list = haBuildingService.selectAllBuildingAndCount(haBuilding);
         return excelUtilTwo.init(list,"房间表数据");
     }
