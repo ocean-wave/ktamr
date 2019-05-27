@@ -20,6 +20,8 @@ public interface HaCollectorService {
 
     Integer HaCollectorCount(HaCollector haCollector);
 
+    Integer HaCollectorDelCount(Integer centorId);
+
     List<HaCollector> queryHaCollector(Integer centorId);
 
     HaCollector updateByIdHaCollector(Integer collectorId);

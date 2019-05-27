@@ -136,21 +136,21 @@
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="operator_company" lay-verify="required" lay-search>
                     <option value=""></option>
-                    <option value="骏普科技" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='骏普科技')}" selected="">骏普科技(默认)</option>
-                    <option value="镇江水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='镇江水司')}" selected="">镇江水司</option>
-                    <option value="泰州水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='泰州水司')}" selected="">泰州水司</option>
-                    <option value="南通燃气" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='南通燃气')}" selected="">南通燃气</option>
-                    <option value="玉溪水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='玉溪水司')}" selected="">玉溪水司</option>
-                    <option value="保定水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='保定水司')}" selected="">保定水司</option>
-                    <option value="盐城水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='盐城水司')}" selected="">盐城水司</option>
-                    <option value="鹤山水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='鹤山水司')}" selected="">鹤山水司</option>
-                    <option value="上海真诺" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='上海真诺')}" selected="">上海真诺</option>
-                    <option value="中科君达" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='中科君达')}" selected="">中科君达</option>
-                    <option value="浦口水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='浦口水司')}" selected="">浦口水司</option>
-                    <option value="融安水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='融安水司')}" selected="">融安水司</option>
-                    <option value="句容水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='句容水司')}" selected="">句容水司</option>
-                    <option value="湖南成聪" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='湖南成聪')}" selected="">湖南成聪</option>
-                    <option value="宁远水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorCode()==0 and session.haOperator.getOperatorCompany()=='宁远水司')}" selected="">宁远水司</option>
+                    <option value="骏普科技" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='骏普科技')}" selected="">骏普科技(默认)</option>
+                    <option value="镇江水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='镇江水司')}" selected="">镇江水司</option>
+                    <option value="泰州水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='泰州水司')}" selected="">泰州水司</option>
+                    <option value="南通燃气" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='南通燃气')}" selected="">南通燃气</option>
+                    <option value="玉溪水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='玉溪水司')}" selected="">玉溪水司</option>
+                    <option value="保定水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='保定水司')}" selected="">保定水司</option>
+                    <option value="盐城水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='盐城水司')}" selected="">盐城水司</option>
+                    <option value="鹤山水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='鹤山水司')}" selected="">鹤山水司</option>
+                    <option value="上海真诺" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='上海真诺')}" selected="">上海真诺</option>
+                    <option value="中科君达" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='中科君达')}" selected="">中科君达</option>
+                    <option value="浦口水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='浦口水司')}" selected="">浦口水司</option>
+                    <option value="融安水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='融安水司')}" selected="">融安水司</option>
+                    <option value="句容水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='句容水司')}" selected="">句容水司</option>
+                    <option value="湖南成聪" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='湖南成聪')}" selected="">湖南成聪</option>
+                    <option value="宁远水司" th:if="${session.haOperator.getOperatorCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='宁远水司')}" selected="">宁远水司</option>
                 </select>
             </div>
         </div>
@@ -246,7 +246,7 @@
         form.on('select(operator_rgn_type)', function (data) {
             var elemObj = $(data.elem);
             $.ajax({
-                url: ""
+                url: "/operator/LoadSelectOption"
                 , data: {
                     selectType: $("#operator_rgn_type").val(),
                     op: "add"

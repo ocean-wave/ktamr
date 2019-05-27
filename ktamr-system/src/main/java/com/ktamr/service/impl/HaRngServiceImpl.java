@@ -159,4 +159,9 @@ public class HaRngServiceImpl implements HaRngService {
     public List<HaRgn> queryAllBigAreaC() {
         return haRngMapper.queryAllBigAreaC();
     }
+
+    @Override
+    public List<HaRgn> queryRgnByRgn() {
+        return haRngMapper.queryRgnByRgn();
+    }
 }

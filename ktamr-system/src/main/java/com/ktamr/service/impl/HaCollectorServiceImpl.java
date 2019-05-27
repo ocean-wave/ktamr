@@ -40,6 +40,11 @@ public class HaCollectorServiceImpl implements HaCollectorService {
     }
 
     @Override
+    public Integer HaCollectorDelCount(Integer centorId) {
+        return haCollectorMapper.HaCollectorDelCount(centorId);
+    }
+
+    @Override
     public List<HaCollector> queryHaCollector(Integer centorId) {
         return haCollectorMapper.queryHaCollector(centorId);
     }

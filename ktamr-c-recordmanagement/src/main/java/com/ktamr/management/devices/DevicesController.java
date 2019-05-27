@@ -282,12 +282,21 @@ public class DevicesController {
     //删除集中器
     @RequestMapping("/DeleteCentor")
     @ResponseBody
-    public Object deleteCentor(Integer deviceId) {
-        Integer centor = haCentorService.deleteHaCentor(deviceId);
-        if (centor == 1) {
-            return "true";
+    public Object deleteCentor(String cmdName,Integer deviceId) {
+        Integer collectorDelCount = haCollectorService.HaCollectorDelCount(deviceId);
+        if(collectorDelCount==0){
+            Integer centor = haCentorService.deleteHaCentor(deviceId);
+            if (centor == 1) {
+                return "true";
+            }
+        }else {
+            if (cmdName.equals("删除集中器")) {
+                return "集中器下面存在" + collectorDelCount + "个采集器未删除！";
+            } else if (cmdName.equals("删除集采器")) {
+                return "集采器下面存在" + collectorDelCount + "个采集器未删除！";
+            }
         }
-        return "false";
+        return "";
     }
 
     //删除集采器

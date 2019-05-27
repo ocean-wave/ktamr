@@ -102,4 +102,7 @@ public interface HaRngMapper {
      */
     List<HaRgn> queryAllBigAreaC();
 
+    //选择区域类型为大区，选择大区下区域
+    List<HaRgn> queryRgnByRgn();
+
 }

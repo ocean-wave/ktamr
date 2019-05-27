@@ -19,13 +19,15 @@
     </resultMap>
 
     <sql id="getRightCondition">
-        <if test=" params.haOperator.operatorRgnType != null and params.haOperator.operatorRgnType != '' ">
-          <if test=" params.haOperator.operatorRgnType == 'rgn' ">
-              and position( LEFT(n.id,1) in #{params.rgnStr})>0
-          </if>
-            <if test=" params.haOperator.operatorRgnType == 'area' ">
-                and n.id = left(#{params.areaNo},1)
-            </if>
+        <if test="params != null and params!= ''">
+                  <if test=" params.haOperator.operatorRgnType != null and params.haOperator.operatorRgnType != ''">
+                      <if test=" params.haOperator.operatorRgnType == 'rgn' ">
+                          and position( LEFT(n.id,1) in #{params.rgnStr})>0
+                      </if>
+                        <if test=" params.haOperator.operatorRgnType == 'area' ">
+                            and n.id = left(#{params.areaNo},1)
+                        </if>
+                  </if>
         </if>
     </sql>
 
@@ -170,6 +172,12 @@
         GROUP BY r.id,r.name ORDER BY r.name
     </select>
 
+    <!--选择区域类型为大区，选择大区下区域-->
+    <select id="queryRgnByRgn" resultType="com.ktamr.domain.HaRgn" parameterType="com.ktamr.domain.HaRgn">
+        select id, name from ha_rgn
+        <include refid="getRightCondition"></include>
+        ORDER BY id
+    </select>
 
     <!--查询大区表全部信息与小区,集中器,采集器数,表数的数量  B    -->
     <select id="selectAllRngAndCountB" resultType="com.ktamr.domain.HaRgn" >

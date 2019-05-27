@@ -1,7 +1,6 @@
 package com.ktamr.mapper;
 
 import com.ktamr.domain.HaArea;
-import com.ktamr.domain.HaRgn;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -217,6 +216,9 @@ public interface HaAreaMapper {
      *拿到areaId
      */
     HaArea getAreaId(@Param("deviceId") Integer deviceId);
+
+    //选择区域类型为小区，选择小区下区域
+    List<HaArea> queryAreaByArea();
 
 
 }
