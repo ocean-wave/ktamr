@@ -11,24 +11,25 @@
 
     <artifactId>ktamr-b-castaccount</artifactId>
     <dependencies>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.56</version>
-            <scope>compile</scope>
+            <version>${fastjson.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.ktamr</groupId>
             <artifactId>ktamr-system</artifactId>
-            <version>3.2</version>
-            <scope>compile</scope>
+            <version>${ktamr.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.ktamr</groupId>
             <artifactId>ktamr-framework</artifactId>
-            <version>3.2</version>
+            <version>${ktamr.version}</version>
         </dependency>
-    </dependencies>
 
+    </dependencies>
 
 </project>

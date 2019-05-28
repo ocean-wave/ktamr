@@ -32,11 +32,6 @@ public class LoginController extends BaseController {
     @GetMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response)
     {
-        Subject currentUser = SecurityUtils.getSubject();
-        Session session = currentUser.getSession();
-        Date d = session.getLastAccessTime();
-        session.getAttribute("");
-        Object obj = currentUser.getPrincipal();
         // 如果是Ajax请求，返回Json字符串。
         if (ServletUtils.isAjaxRequest(request))
         {
