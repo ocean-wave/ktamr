@@ -3,7 +3,7 @@ package com.ktamr.common.exception.operator;
 /**
  * 用户不存在异常类
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class HaOperatorSystemException extends HaOperatorException
 {

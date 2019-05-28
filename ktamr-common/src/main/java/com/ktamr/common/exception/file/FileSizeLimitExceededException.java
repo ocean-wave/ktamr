@@ -3,7 +3,7 @@ package com.ktamr.common.exception.file;
 /**
  * 文件名大小限制异常类
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class FileSizeLimitExceededException extends FileException
 {

@@ -65,4 +65,7 @@ shiro:
     loginUrl: /login
     # 首页地址
     indexUrl: /index
+  session:
+    #session超时时间默认30分钟
+    expireTime: 1
 

@@ -16,6 +16,10 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 导出Excel工具类
+ * @author ktamr
+ */
 public class ExcelUtilTwo {
 
     private static final Logger log = LoggerFactory.getLogger(ExcelUtilTwo.class);
