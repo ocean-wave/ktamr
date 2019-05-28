@@ -86,8 +86,8 @@
 <script language="JavaScript">
     layui.use(['layer'], function(){
         var layer = layui.layer;
-        var get_result_url = "../../devices/bound_devices_do.asp";
-        var g_cmdName = $("#cmdName");
+        var get_result_url = "/devices/LoadAreaMeterCall";
+        var g_cmdName = $("#cmdName").val();
 
         function collectorBoundMeter(post_data){
             $.ajax({
@@ -119,13 +119,13 @@
                 return false;
             if(g_cmdName == "采集器选择表" || g_cmdName == "端口选择表"){
                 post_data = {
-                    centorId: $("#centorId"),
-                    collectorId: $("#collectorId"),
+                    centorId: $("#deviceId").val(),
+                    collectorId: $("#collectorId").val(),
                     meterIds: rowId
                 };
             }else if(g_cmdName == "线路选择表"){
                 post_data = {
-                    readLineId: $("#readLineId"),
+                    readLineId: $("#readLineId").val(),
                     meterIds: rowId
                 };
             }

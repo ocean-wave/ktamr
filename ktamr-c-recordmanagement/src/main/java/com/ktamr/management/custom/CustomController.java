@@ -52,14 +52,27 @@ public class CustomController {
     }
 
     @RequestMapping("/JumpCustUpdate")
-    public String jumpcustupdate(Integer custid,HaCustom haCustom,Model model) {
+    public String jumpcustupdate(Integer areaId,Integer buildingId,Integer custid,HaCustom haCustom,Model model) {
         haCustom.setCustId(custid);
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        List<HaBuilding> haBuilding = haBuildingService.queryHaBuildingC(areaId);
+        List<HaRoom> haRoom = haRoomService.queryRoomC(buildingId);
         HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
         model.addAttribute("haArea",haArea);
+        model.addAttribute("haBuilding",haBuilding);
+        model.addAttribute("haRoom",haRoom);
         model.addAttribute("custom",custom);
         model.addAttribute("custId",custid);
         return "custom/cust_update";
+    }
+
+    @RequestMapping("/JumpCustDel")
+    public String cust_del(HaCustom haCustom,Model model,Integer custids){
+        haCustom.setCustId(custids);
+        HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
+        model.addAttribute("custom",custom);
+        model.addAttribute("custId",custids);
+        return "custom/cust_del";
     }
 
     @RequestMapping("/custListJson")
@@ -119,15 +132,6 @@ public class CustomController {
         return null;
     }
 
-    @RequestMapping("/cust_del")
-    public String cust_del(HaCustom haCustom,Model model,Integer custids){
-        haCustom.setCustId(custids);
-        HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
-        model.addAttribute("custom",custom);
-        model.addAttribute("custId",custids);
-        return "custom/cust_del";
-    }
-
     @RequestMapping("/AddHaCustom")
     @ResponseBody
     public Object addHaCustom(HaCustom haCustom){
@@ -146,7 +150,7 @@ public class CustomController {
     public String deleteHaCustom(HaCustom haCustom){
         Integer custom = haCustomService.deleteHaCustom(haCustom);
         if(custom==1){
-            return "删除成功";
+            return "true";
         }
         return "false";
     }

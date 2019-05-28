@@ -4,6 +4,7 @@ import com.ktamr.domain.HaFeestandard;
 import com.ktamr.domain.HaMetertype;
 import com.ktamr.domain.HaPricestandard;
 import com.ktamr.service.HaFeestandardService;
+import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaMetertypeService;
 import com.ktamr.service.HaPricestandardService;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class PriceStandardController {
 
     @Resource
     private HaFeestandardService haFeestandardService;
+
+    @Resource
+    private HaMeterService haMeterService;
 
     @RequestMapping("/price_list")
     public String price_list(HaMetertype haMetertype, Model model){
@@ -170,11 +174,16 @@ public class PriceStandardController {
     @RequestMapping("/DeletePricestandard")
     @ResponseBody
     public Object deletePricestandard(HaPricestandard haPricestandard){
-        Integer haPricestandards = haPricestandardService.deleteHaPricestandard(haPricestandard);
-        if(haPricestandards==1){
-            return "删除成功";
+        Integer priceUsed = haMeterService.isPriceUsed(haPricestandard.getPricestandId());
+        if(priceUsed==0){
+            Integer haPricestandards = haPricestandardService.deleteHaPricestandard(haPricestandard);
+            if(haPricestandards==1){
+                return "true";
+            }
+        }else{
+            return "false";
         }
-        return "false";
+        return null;
     }
 
     @RequestMapping("/DeleteHaFeestandard")
@@ -182,7 +191,7 @@ public class PriceStandardController {
     public Object deleteHaFeestandard(HaFeestandard haFeestandard){
         Integer haFeestandards = haFeestandardService.deleteHaFeestandard(haFeestandard);
         if(haFeestandards==1){
-            return "删除成功";
+            return "true";
         }
         return "false";
     }

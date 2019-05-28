@@ -22,6 +22,8 @@ public interface HaCollectorMapper {
 
     Integer HaCollectorCount(HaCollector haCollector);
 
+    Integer HaCollectorDelCount(@Param("centorId") Integer centorId);
+
     List<HaCollector> queryHaCollector(@Param("centorId") Integer centorId);
 
     HaCollector updateByIdHaCollector(@Param("collectorId") Integer collectorId);

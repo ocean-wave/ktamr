@@ -1,7 +1,11 @@
 package com.ktamr.management.operator;
 
+import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaOperator;
+import com.ktamr.domain.HaRgn;
+import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaOperatorService;
+import com.ktamr.service.HaRngService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +22,12 @@ public class OperatorController {
 
     @Resource
     private HaOperatorService haOperatorService;
+
+    @Resource
+    private HaRngService haRngService;
+
+    @Resource
+    private HaAreaService haAreaService;
 
     @RequestMapping("/operator_list")
     public String operator_list(){
@@ -74,5 +84,19 @@ public class OperatorController {
             return "";
         }
             return "false";
+    }
+
+    //根据区域类型选择所属区域
+    @RequestMapping("/LoadSelectOption")
+    @ResponseBody
+    public Object LoadSelectOption(String selectType,String op){
+        if(selectType.equals("rgn") && op.equals("add")){
+            List<HaRgn> queryRgnByRgn = haRngService.queryRgnByRgn();
+            return queryRgnByRgn;
+        }else if(selectType.equals("area") && op.equals("add")){
+            List<HaArea> queryAreaByArea = haAreaService.queryAreaByArea();
+            return queryAreaByArea;
+        }
+        return null;
     }
 }

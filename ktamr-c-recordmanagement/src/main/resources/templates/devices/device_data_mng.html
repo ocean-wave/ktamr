@@ -649,6 +649,33 @@
                 _myLayui.showLayer("设备档案导入","./device_upload.asp", "", _layerSize);
                 return false;
             }
+            else if(btnTitle == "取消关联设备")
+            {
+                var meterIds = getSelectedRows("jqGrid3");
+                if(meterIds == ""){
+                    layer.msg("请选择表！", {icon: 5});
+                }else{
+                    var get_result_url = "/devices/LoadAreaMeterCall";
+                    $.ajax({
+                        url: get_result_url
+                        ,data: {
+                            meterIds: meterIds
+                        }
+                        ,type: "POST"
+                        ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                        ,async:false //同步请求
+                        ,success: function(data){
+                            var n = Number(data);
+
+                            if(!isNaN(n)){
+                                layer.msg("取消关联"+n+"块表！", {icon: 1});
+                            }else{
+                                layer.msg("取消关联失败！", {icon: 5});
+                            }
+                        }
+                    });
+                }
+            }
         });
     });
 </script>

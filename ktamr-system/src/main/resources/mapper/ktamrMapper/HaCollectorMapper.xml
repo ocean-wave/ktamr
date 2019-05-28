@@ -38,6 +38,10 @@
         select count(1) from ha_collector
     </select>
 
+    <select id="HaCollectorDelCount" resultType="INTEGER">
+        SELECT COUNT(*) FROM ha_collector WHERE centorid = #{centorId}
+    </select>
+
     <select id="queryHaCollector" resultType="com.ktamr.domain.HaCollector">
         SELECT collectorid,centorid,addr,nconf,ver,state FROM ha_collector WHERE centorid=#{centorId} ORDER BY addr
     </select>

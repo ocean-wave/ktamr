@@ -358,5 +358,15 @@ public class HaAreaServiceImpl implements HaAreaService {
         return haAreaMapper.getAreaId(deviceId);
     }
 
+    @Override
+    public List<HaArea> queryAreaByArea() {
+        return haAreaMapper.queryAreaByArea();
+    }
+
+    @Override
+    public Integer delRgnAreaCount(String id) {
+        return haAreaMapper.delRgnAreaCount(id);
+    }
+
 
 }

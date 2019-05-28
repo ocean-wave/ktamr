@@ -588,6 +588,10 @@ WHERE areaid IN ('${areaId}')
         select count(1) from ha_area
     </select>
 
+    <select id="delRgnAreaCount" resultType="INTEGER">
+        SELECT COUNT(areaid) FROM ha_area WHERE Left(areaNo, 1)=#{id}
+    </select>
+
     <select id="queryAllSmallArea2" resultType="com.ktamr.domain.HaArea">
         SELECT a.areaid,
         CASE WHEN  length(a.registeredNo)=0  OR registeredNo IS NULL
@@ -604,4 +608,10 @@ WHERE areaid IN ('${areaId}')
 		OR registeredNo IS NULL THEN Right(a.areaNo, 4) ELSE a.registeredNo END
     </select>
 
+    <!--选择区域类型为小区，选择小区下区域-->
+    <select id="queryAreaByArea" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
+        select areaNo, areaNo||':'||name from ha_area
+        <include refid="getRightCondition"></include>
+        ORDER BY areaNo
+    </select>
 </mapper>

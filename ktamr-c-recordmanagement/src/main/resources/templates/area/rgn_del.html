@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script>
+    var delResult = "";
+</script>
 <body class="myPage-body">
-<form action="/area/DeleteRgn" method="post" onsubmit="">
+<form action="" method="post" onsubmit="">
     <table class="table table-bordered">
         <input type="hidden" id="rgnId" name="id" th:value="${rgnId}">
         <input type="hidden" name="rgnIds" value=<%=rgnIds%>
@@ -21,20 +24,52 @@
         <tr th:each="rgns:${rgn}">
             <td th:text="${rgns.name}"></td>
             <td th:text="${rgns.shortName}"></td>
-            <td th:text="${rgns.zCode}"></td>
-            <td></td>
+            <td th:text="${rgns.zcode}"></td>
+            <td><font id="delResult" color="red"></font></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>
-                <button type="submit" class="btn btn-default btn-sm"><img src="../../images/delete.png"/>删除</button>
+                <button id="del" type="button" class="btn btn-default btn-sm"><img src="../../images/delete.png"/>删除</button>
             </td>
         </tr>
         </tbody>
     </table>
 </form>
 <div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,get_result_url = "/area/DeleteRgn";
+
+        function submitInfo(sendData){
+            $.ajax({
+                url: get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        $("#delResult").html("删除成功");
+                    }else{
+                        var n = Number(data);
+                        $("#delResult").html("失败，下属存在"+n+"个小区资料");
+                    }
+                }
+            });
+        }
+        $("#del").click(function(){
+            var rgnId = $("#rgnId").val();
+            var data = {
+               id : rgnId
+            };
+            submitInfo(data);
+        });
+    });
+</script>
 </body>
 </html>

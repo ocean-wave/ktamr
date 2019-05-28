@@ -1,6 +1,8 @@
 package com.ktamr.service.impl;
 
 import com.ktamr.common.parameter.ParameterInfo;
+import com.ktamr.domain.HaCentor;
+import com.ktamr.domain.HaCollector;
 import com.ktamr.domain.HaMeter;
 import com.ktamr.mapper.HaMeterMapper;
 import com.ktamr.service.HaMeterService;
@@ -140,6 +142,41 @@ public class HaMeterServiceImpl implements HaMeterService {
 
     public Integer updateHaMeter(HaMeter haMeter) {
         return haMeterMapper.updateHaMeter(haMeter);
+    }
+
+    @Override
+    public Integer updateHaMeterCollector(HaMeter haMeter, HaCentor haCentor, HaCollector haCollector) {
+        return haMeterMapper.updateHaMeterCollector(haMeter,haCentor,haCollector);
+    }
+
+    @Override
+    public Integer HaMeterCollectorCount(Integer centorId, Integer collectorId, Integer meterIds) {
+        return haMeterMapper.HaMeterCollectorCount(centorId,collectorId,meterIds);
+    }
+
+    @Override
+    public Integer updateHaMeterReadLine(HaMeter haMeter, HaCentor haCentor, Integer readLineId) {
+        return haMeterMapper.updateHaMeterReadLine(haMeter,haCentor,readLineId);
+    }
+
+    @Override
+    public Integer HaMeterReadLineCount(Integer readLineId, Integer meterIds) {
+        return haMeterMapper.HaMeterReadLineCount(readLineId,meterIds);
+    }
+
+    @Override
+    public Integer updateHaMeterNull(HaMeter haMeter) {
+        return haMeterMapper.updateHaMeterNull(haMeter);
+    }
+
+    @Override
+    public Integer HaMeterNullCount(Integer meterIds) {
+        return haMeterMapper.HaMeterNullCount(meterIds);
+    }
+
+    @Override
+    public Integer isPriceUsed(Integer id) {
+        return haMeterMapper.isPriceUsed(id);
     }
 
     public Integer deleteHaMeter(HaMeter haMeter) {

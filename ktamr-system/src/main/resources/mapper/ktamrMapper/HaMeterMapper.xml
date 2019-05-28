@@ -501,4 +501,58 @@
     <select id="HaMeterCount" resultType="Integer">
         select count(1) from ha_meter
     </select>
+
+    <!--采集器选择表,端口选择表-->
+    <update id="updateHaMeterCollector">
+        update ha_meter m
+        <trim prefix="set" suffixOverrides="," suffix="where ce.id=#{haCentor.centorId} and co.collectorid=#{haCollector.collectorId} and m.meterid IN (#{haMeter.meterId})">
+            <if test="haMeter.centorId != null">centorid = #{haMeter.centorId},</if>
+            <if test="haMeter.collectorId != null">collectorid = #{haMeter.collectorId},</if>
+            addr=ce.centorid::varchar(10)||','||to_hex(co.nconf)||','||(CASE WHEN m.meterNumber!=0 THEN m.meterNumber::varchar(16) ELSE 'x' END)
+            FROM ha_centor ce,ha_collector co
+        </trim>
+    </update>
+
+    <!--采集器选择表,端口选择表关联成功记录数-->
+    <select id="HaMeterCollectorCount" resultType="INTEGER">
+        SELECT Count(m.meterId) FROM ha_meter m
+        WHERE m.centorid=#{centorId} AND m.collectorid=#{collectorId} AND m.meterid IN (#{meterIds})
+    </select>
+
+    <!--线路选择表-->
+    <update id="updateHaMeterReadLine">
+        update ha_meter m
+        <trim prefix="set" suffixOverrides="," suffix="where ce.id=#{readLineId} and m.meterid IN (#{haMeter.meterId})">
+            <if test="haMeter.centorId != null">centorid = #{readLineId},</if>
+            collectorid=NULL,
+            addr=ce.centorid::varchar(10)||',x,'||(CASE WHEN m.meterNumber!=0 THEN m.meterNumber::varchar(16) ELSE 'x' END)
+            FROM ha_centor ce
+        </trim>
+    </update>
+
+    <!--线路选择表关联成功记录数-->
+    <select id="HaMeterReadLineCount" resultType="INTEGER">
+        SELECT Count(m.meterId) FROM ha_meter m WHERE m.centorid=#{readLineId} AND m.meterid IN (#{meterIds})
+    </select>
+
+    <!--都不是 centorId < 0 && collectorId < 0 或 readLineId < 0-->
+    <update id="updateHaMeterNull">
+        update ha_meter m
+        <trim prefix="set" suffixOverrides="," suffix="where m.meterid IN (#{haMeter.meterId})">
+            centorid=NULL,
+            collectorid=NULL,
+            addr='x,x,'||(CASE WHEN m.meterNumber!=0 THEN m.meterNumber::varchar(16) ELSE 'x' END)
+        </trim>
+    </update>
+
+    <!--空关联成功记录数-->
+    <select id="HaMeterNullCount" resultType="INTEGER">
+        SELECT Count(m.meterId) FROM ha_meter m WHERE m.meterid IN (#{meterIds})
+    </select>
+
+    <!--删除价格列表时判断收费标准是否在使用-->
+    <select id="isPriceUsed" resultType="INTEGER">
+        SELECT COUNT(meterid) FROM ha_meter WHERE pricestand_id IN (#{id})
+    </select>
+
 </mapper>
