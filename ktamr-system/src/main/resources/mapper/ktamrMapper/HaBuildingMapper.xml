@@ -52,18 +52,6 @@
         </association>
     </resultMap>
 
-
-    <sql id="getRightCondition">
-        <if test=" params.haOperator.operatorRgnType != null and params.haOperator.operatorRgnType != '' ">
-            <if test=" params.haOperator.operatorRgnType == 'rgn' ">
-                and position( LEFT(a.areaNo,1) in #{params.haOperator.rgnStr})>0
-            </if>
-            <if test=" params.haOperator.operatorRgnType == 'area' ">
-                and a.areaNo in (#{params.haOperator.areaNo})
-            </if>
-        </if>
-    </sql>
-
     <select id="selectAllBuildingAndCount" resultMap="buildingMap" parameterType="com.ktamr.domain.HaBuilding">
         select * from (SELECT
              r.roomid AS roomId
@@ -89,7 +77,7 @@
             LEFT JOIN ha_building b ON r.buildingid=b.buildingid
             LEFT JOIN ha_area a ON a.areaid=b.areaid
             WHERE r.roomid>0
-            <include refid="getRightCondition"></include>
+            and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
             <if test=" areaId != null and areaId != -1 ">
                 and a.areaid=#{areaId}
             </if>
@@ -113,7 +101,7 @@
             </if>
             ) t
         <!--多条件查询-->
-        ${params.multipleConditions}
+        ${multipleConditions}
         order by cuaddr
     </select>
 

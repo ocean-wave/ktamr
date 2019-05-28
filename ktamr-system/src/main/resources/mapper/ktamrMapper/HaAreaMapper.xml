@@ -29,17 +29,6 @@
         <result column="startTime" property="startTime" javaType="java.util.Date" ></result>
     </resultMap>
 
-    <sql id="getRightCondition">
-        <if test=" params.haOperator.operatorRgnType != null and params.haOperator.operatorRgnType != '' ">
-            <if test=" params.haOperator.operatorRgnType == 'rgn' ">
-                and position( LEFT(a.areaNo,1) in #{params.haOperator.rgnStr})>0
-            </if>
-            <if test=" params.haOperator.operatorRgnType == 'area' ">
-                and a.areano in (#{params.haOperator.areaNo})
-            </if>
-        </if>
-    </sql>
-
     <select id="selectAllAreaAndCount" resultMap="areaMap" parameterType="com.ktamr.domain.HaArea">
         select * from (
             SELECT
@@ -69,7 +58,7 @@
             AND mi.表号 >0
             GROUP BY mi.areaid) t ON t.areaid=a.areaid
             WHERE 1=1
-             <include refid="getRightCondition"></include>
+            and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
              <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">
                  and left(a.areaNo,1) = #{params.rgnid}
              </if>
@@ -89,7 +78,7 @@
              GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,a.lastsumday,t.n
           ) t
          <!--多条件查询-->
-         ${params.multipleConditions}
+         ${multipleConditions}
          order by areaNo
     </select>
 
@@ -97,7 +86,7 @@
           select areaId,Right(areaNo, 4) AS areaNo,name,Right(areaNo, 4)||':'||name as cname
           from ha_area a
           where 1=1
-        <include refid="getRightCondition"></include>
+          and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
     </select>
 
     <!--在主页概况中统计图根据状态查询一波映射-->
@@ -611,7 +600,7 @@ WHERE areaid IN ('${areaId}')
     <!--选择区域类型为小区，选择小区下区域-->
     <select id="queryAreaByArea" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
         select areaNo, areaNo||':'||name from ha_area
-        <include refid="getRightCondition"></include>
+        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         ORDER BY areaNo
     </select>
 </mapper>
