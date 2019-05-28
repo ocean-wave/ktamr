@@ -1,11 +1,11 @@
 package com.ktamr.web.controller.dataselect;
 
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.DateUtils;
 import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HaRecords;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaRecordsService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

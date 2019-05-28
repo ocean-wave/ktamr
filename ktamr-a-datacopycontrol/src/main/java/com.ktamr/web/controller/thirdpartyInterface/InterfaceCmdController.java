@@ -1,8 +1,8 @@
 package com.ktamr.web.controller.thirdpartyInterface;
 
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.domain.HaCmd;
 import com.ktamr.service.HaCmdService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

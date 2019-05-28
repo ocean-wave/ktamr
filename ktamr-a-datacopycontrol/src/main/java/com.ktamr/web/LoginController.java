@@ -1,57 +1,71 @@
 package com.ktamr.web;
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.core.domain.BaseEntity;
+import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.StringUtils;
 import com.ktamr.domain.HaOperator;
 import com.ktamr.service.HaOperatorService;
+import com.ktamr.util.ShiroUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
-public class LoginController {
+public class LoginController extends BaseController {
 
     @Autowired
     private HaOperatorService haOperatorService;
 
-    @RequestMapping("/")
-    public String index(){
+    @GetMapping("/login")
+    public String login(HttpServletRequest request, HttpServletResponse response)
+    {
+        Subject currentUser = SecurityUtils.getSubject();
+        Session session = currentUser.getSession();
+        Date d = session.getLastAccessTime();
+        session.getAttribute("");
+        Object obj = currentUser.getPrincipal();
+        // 如果是Ajax请求，返回Json字符串。
+        if (ServletUtils.isAjaxRequest(request))
+        {
+            return ServletUtils.renderString(response, "{\"code\":\"1\",\"msg\":\"未登录或登录超时。请重新登录\"}");
+        }
+
         return "login";
     }
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     @ResponseBody
     public String login(@RequestParam( value = "uid") String uid,
-                        @RequestParam( value = "pwd") String pwd
-                        , ModelMap mmap, HttpSession session){
-        HaOperator haOperator = haOperatorService.selectOperatorByUid(uid);
-        if(haOperator.getOperatorPwd().trim().equals(pwd.trim())){
-            String rgnid = haOperatorService.selectOperatorRgnByName(haOperator.getOperatorName());
-            String areano = haOperatorService.selectOperatorAreaByName(haOperator.getOperatorName());
-            Integer operatorLevelCode = -1;
-            switch (haOperator.getOperatorLevel()){
-                case "admin":
-                    operatorLevelCode = 0;
-                    break;
-                case "normal":
-                    operatorLevelCode = 1;
-                    break;
-                case "readMan":
-                    operatorLevelCode = 2;
-                    break;
-                case "viewMan":
-                    operatorLevelCode = 3;
-                    break;
-            }
-            haOperator.setOperatorLevelCode(operatorLevelCode);
-            session.setAttribute("haOperator",haOperator);
-            session.setAttribute("rgnStr",rgnid);
-            session.setAttribute("areaNo",areano);
+                            @RequestParam( value = "pwd") String pwd
+                        , ModelMap mmap){
+        UsernamePasswordToken token = new UsernamePasswordToken(uid, pwd);
+        Subject subject = SecurityUtils.getSubject();
+        try
+        {
+            subject.login(token);
             return "true";
         }
-        return "false";
+        catch (AuthenticationException e)
+        {
+            String msg = "";
+            if (StringUtils.isNotEmpty(e.getMessage()))
+            {
+                msg = e.getMessage();
+            }
+            return msg;
+        }
     }
 }

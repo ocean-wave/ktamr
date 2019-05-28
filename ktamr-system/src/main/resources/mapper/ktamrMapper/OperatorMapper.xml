@@ -17,6 +17,8 @@
         <result column="operator_state" property="operatorState" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="operator_creattime" property="operatorCreattime" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="operator_company" property="operatorCompany" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="operatorLevelCode" property="operatorLevelCode" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="rgnAndAreaId" property="rgnAndAreaId" javaType="java.lang.String" jdbcType="VARCHAR"></result>
     </resultMap>
 
     <select id="selectOperatorByUid" resultMap="OperatorMap">
@@ -29,7 +31,11 @@
       ,operator_state
       ,operator_company
       ,operator_rgn_type
-      From ha_operator
+      ,case when o.operator_level = 'admin' then 0 when o.operator_level = 'normal' then 1 when o.operator_level = 'readMan' then 2 when o.operator_level = 'viewMan' then 3 end AS operatorLevelCode
+	  ,case when a.areano is not null then a.areano when n.id is not null then n.id when o.operator_rgn_type = 'all' then '' else '-1' end AS rgnAndAreaId
+      From ha_operator o
+      left join ha_rgn n on n.name = o.operator_name
+	  left join ha_area a on a.name = o.operator_name
       Where operator_code = #{uid}
       limit 1
     </select>

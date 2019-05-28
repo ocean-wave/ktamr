@@ -641,22 +641,7 @@ layui.define(['jquery', 'laytpl', 'form', 'layer', 'element', 'myLayui'], functi
             $("#unlock").click();
         }
 	});
-	
-	/**
-	 *@todo 模拟登录
-	 * 判断初次登录时，跳转到登录页
-	 */
-	//var login = localStorage.getItem('login');
-	$('.loginOut').click(function() {
-		//login = 0;
-		//localStorage.setItem('login', login);
-		window.sessionStorage.clear();
-		window.location.href = "/";
-	});
-	//$('.loginin').click(function() {
-	//	login = 1;
-	//	localStorage.setItem('login', login);
-	//});
+
 	$('.passwordChange').click(function(){
 		var _queryStr = "", _layerSize = ['455px', '350px'];
 		_myLayui.showLayer("修改密码","/operator/operator_pwd_change.asp", _queryStr, _layerSize);

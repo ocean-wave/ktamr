@@ -1,11 +1,8 @@
 package com.ktamr.web.controller.smallbox;
 
-import com.ktamr.common.parameter.ParameterInfo;
-import com.ktamr.domain.HaMeter;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.domain.HavMeterinfo;
-import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HavMeterinfoService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

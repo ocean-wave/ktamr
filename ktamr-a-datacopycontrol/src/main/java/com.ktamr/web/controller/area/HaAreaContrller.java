@@ -1,11 +1,10 @@
 package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
-import com.ktamr.common.utils.KtamrSession;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaArea;
 import com.ktamr.service.HaAreaService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,19 +17,13 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/area/area")
-public class HaAreaContrller extends BaseController{
-    private  String pxePath = "area";
-
-
+public class HaAreaContrller extends BaseController {
 
     @Autowired
     private HaAreaService haAreaService;
-
-
     @PostMapping("/areasOpManageJson")
     @ResponseBody
     public Map<String,Object> areasOpManageJson(HaArea parms){
-        inti(parms);
         List<HaArea> listHaArea = haAreaService.selectAllAreaAndCount(parms);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
@@ -53,7 +46,6 @@ public class HaAreaContrller extends BaseController{
     @ResponseBody
     public AjaxResult export(HaArea haArea, ExcelUtilTwo excelUtilTwo)
     {
-        haArea.setParams(KtamrSession.getKtamrSession(haArea.getParams()));
         List<HaArea> list = haAreaService.selectAllAreaAndCount(haArea);
         return excelUtilTwo.init(list, "小区表数据");
     }

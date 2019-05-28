@@ -1,16 +1,12 @@
-package com.ktamr.web.basecontroller;
+package com.ktamr.common.core.domain;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.core.page.PageDomain;
 import com.ktamr.common.core.page.TableSupport;
-import com.ktamr.common.utils.KtamrSession;
-import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.StringUtils;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.common.utils.sql.SqlUtil;
-import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,14 +19,6 @@ import java.util.Map;
 public class BaseController {
 
     protected final Logger logger = LoggerFactory.getLogger(BaseController.class);
-
-    protected void inti(BaseEntity baseEntity){
-        if(baseEntity.getParams() == null){
-            baseEntity.setParams(new HashMap<>());
-        }
-        baseEntity.setParams(KtamrSession.getKtamrSession(baseEntity.getParams()));
-        startPage();
-    }
 
     protected Map<String,Object> getDataTable(List<?> list)
     {
@@ -93,5 +81,20 @@ public class BaseController {
             }
         }
         return map;
+    }
+
+    /**
+     * 返回失败消息
+     */
+    public AjaxResult error()
+    {
+        return AjaxResult.error();
+    }
+    /**
+     * 返回失败消息
+     */
+    public AjaxResult error(String message)
+    {
+        return AjaxResult.error(message);
     }
 }

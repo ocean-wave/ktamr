@@ -1,10 +1,10 @@
 package com.ktamr.web.controller.equipment;
 
 
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.DateUtils;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.service.HaCentorService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

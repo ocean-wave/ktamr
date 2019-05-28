@@ -24,8 +24,27 @@ public class HaOperator extends BaseEntity {
     private Date operatorCreatTime;
     private String operatorCompany;
     private Integer operatorLevelCode;
+
+    private String rgnStr;
+    private String areaNo;
+    private String rgnAndAreaId;
     private String keyWord;
 
+    public String getRgnStr() {
+        return rgnStr;
+    }
+
+    public void setRgnStr(String rgnStr) {
+        this.rgnStr = rgnStr;
+    }
+
+    public String getAreaNo() {
+        return areaNo;
+    }
+
+    public void setAreaNo(String areaNo) {
+        this.areaNo = areaNo;
+    }
 
     public String getOperatorCode() {
         return operatorCode;
@@ -139,4 +158,11 @@ public class HaOperator extends BaseEntity {
         this.keyWord = keyWord;
     }
 
+    public String getRgnAndAreaId() {
+        return rgnAndAreaId;
+    }
+
+    public void setRgnAndAreaId(String rgnAndAreaId) {
+        this.rgnAndAreaId = rgnAndAreaId;
+    }
 }

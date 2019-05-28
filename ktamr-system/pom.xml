@@ -16,13 +16,7 @@
         <dependency>
             <groupId>com.ktamr</groupId>
             <artifactId>ktamr-common</artifactId>
-            <version>3.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ktamr</groupId>
-            <artifactId>ktamr-framework</artifactId>
-            <version>3.2</version>
+            <version>${ktamr.version}</version>
         </dependency>
 
     </dependencies>

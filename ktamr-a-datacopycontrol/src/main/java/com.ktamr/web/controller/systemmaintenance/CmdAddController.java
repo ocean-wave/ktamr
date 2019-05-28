@@ -1,5 +1,6 @@
 package com.ktamr.web.controller.systemmaintenance;
 
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HaCollector;
@@ -8,7 +9,6 @@ import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaCentorService;
 import com.ktamr.service.HaCollectorService;
 import com.ktamr.service.HaMeterService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

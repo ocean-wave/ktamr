@@ -14,7 +14,7 @@ public interface NodesMapper {
      * 查询所有大区节点名称
      * @return
      */
-    public List<Map<String,Object>> selectAllRgnNodes(Map<String,Object> params);
+    public List<Map<String,Object>> selectAllRgnNodes(String rgnAndAreaId);
 
     public List<Map<String,Object>> selectAllAreaNodes(String id);
 
@@ -22,7 +22,7 @@ public interface NodesMapper {
 
     public List<Map<String,Object>> selectAllCentorzNodes(@Param( value = "areaType") String areaType,@Param( value = "id") String id);
 
-    public List<Map<String,Object>> selectAllCentorcNodes(Map<String,Object> params);
+    public List<Map<String,Object>> selectAllCentorcNodes(String rgnAndAreaId);
 
     public List<Map<String,Object>> selectAllCollectorNodes(Integer collectorid);
 }

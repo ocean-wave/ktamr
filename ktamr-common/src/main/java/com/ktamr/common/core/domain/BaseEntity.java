@@ -40,25 +40,9 @@ public class BaseEntity implements Serializable{
     /** 请求参数 */
     private Map<String, Object> params;
 
-    private Map<String,Object[]> paramsArray;
+    private String multipleConditions;
 
-    private Map<String,Object> resultParams;
-
-    public Map<String, Object[]> getParamsArray() {
-        return paramsArray;
-    }
-
-    public void setParamsArray(Map<String, Object[]> paramsArray) {
-        this.paramsArray = paramsArray;
-    }
-
-    public Map<String, Object> getResultParams() {
-        return resultParams;
-    }
-
-    public void setResultParams(Map<String, Object> resultParams) {
-        this.resultParams = resultParams;
-    }
+    private String rgnAndAreaId;
 
     public Date getCreateTime() {
         return createTime;
@@ -94,8 +78,7 @@ public class BaseEntity implements Serializable{
 
     public Map<String, Object> getParams()
     {
-        if (params == null)
-        {
+        if (params == null) {
             params = new HashMap<>();
         }
         return params;
@@ -106,4 +89,25 @@ public class BaseEntity implements Serializable{
         this.params = params;
     }
 
+    public String getRgnAndAreaId() {
+        if(rgnAndAreaId == null){
+            rgnAndAreaId = (String) ServletUtils.getSession().getAttribute("rgnAndAreaId");
+        }
+        return rgnAndAreaId;
+    }
+
+    public void setRgnAndAreaId(String rgnAndAreaId) {
+        this.rgnAndAreaId = rgnAndAreaId;
+    }
+
+    public String getMultipleConditions() {
+        if(multipleConditions == null) {
+            multipleConditions = SqlCondition.getMultipleConditions();
+        }
+        return multipleConditions;
+    }
+
+    public void setMultipleConditions(String multipleConditions) {
+        this.multipleConditions = multipleConditions;
+    }
 }

@@ -1,6 +1,7 @@
 package com.ktamr.web.controller.smallbox;
 
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.*;
@@ -8,7 +9,6 @@ import com.ktamr.service.HaDayFreezeService;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaMonFreezeService;
 import com.ktamr.service.HaRecordsService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

@@ -2,12 +2,11 @@ package com.ktamr.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ktamr.common.annotation.Excel;
 import com.ktamr.common.core.domain.BaseEntity;
+import com.ktamr.util.Tool;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 public class HaRgn extends BaseEntity {
 
@@ -50,6 +49,7 @@ public class HaRgn extends BaseEntity {
      * 不良表数量
      */
     private Integer badMeterCount;
+
     private String keyWord;
 
     public String getZcode() {

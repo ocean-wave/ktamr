@@ -1,8 +1,8 @@
 package com.ktamr.web.controller.thirdpartydata;
 
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.domain.HaMeter;
 import com.ktamr.service.HaMeterService;
-import com.ktamr.web.basecontroller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

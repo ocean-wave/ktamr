@@ -18,17 +18,6 @@
 
     </resultMap>
 
-    <sql id="getRightCondition">
-        <if test=" params.haOperator.operatorRgnType != null and params.haOperator.operatorRgnType != '' ">
-          <if test=" params.haOperator.operatorRgnType == 'rgn' ">
-              and position( LEFT(n.id,1) in #{params.rgnStr})>0
-          </if>
-            <if test=" params.haOperator.operatorRgnType == 'area' ">
-                and n.id = left(#{params.areaNo},1)
-            </if>
-        </if>
-    </sql>
-
     <select id="selectAllRngAndCount" resultMap="HaRngMap" parameterType="com.ktamr.domain.HaRgn">
         select * from (SELECT n.id AS id
                 , n.name AS name
@@ -42,14 +31,14 @@
                 haMeterCount
                 FROM ha_rgn n
                 where 1=1
-                <include refid="getRightCondition"></include>
+                and (n.id = left(#{rgnAndAreaId},1) or #{rgnAndAreaId} = '')
               <if test=" params.keyWord != null and params.keyWord != ''">
                   and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like
                   '%${params.keyWord}%')
               </if>
         ) t
         <!--多条件查询-->
-        ${params.multipleConditions}
+        ${multipleConditions}
         order by name
     </select>
 

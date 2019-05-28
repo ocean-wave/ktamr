@@ -35,6 +35,9 @@ spring:
     #配置thymeleaf前端模板
   thymeleaf:
     cache: false
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
   #redis:
     #host: 106.14.72.179
     #password: redispassword
@@ -65,4 +68,13 @@ logging:
     com.ktamr: debug
     org.springframework: WARN
     org.spring.springboot.dao: debug
+
+
+# Shiro
+shiro:
+  operator:
+    # 登录地址
+    loginUrl: /login
+    # 首页地址
+    indexUrl: /index
 

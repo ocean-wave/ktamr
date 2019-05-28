@@ -1,11 +1,11 @@
 package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
-import com.ktamr.common.utils.KtamrSession;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaRngService;
-import com.ktamr.web.basecontroller.BaseController;
+import com.ktamr.util.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class HaRgnController extends BaseController {
     @PostMapping("/areasOpManageJson")
     @ResponseBody
     public Map<String,Object> areasOpManageJson(HaRgn haRgn){
-        inti(haRgn);
+        startPage();
         List<HaRgn> listHaRng = haRngService.selectAllRngAndCount(haRgn);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
@@ -53,7 +53,6 @@ public class HaRgnController extends BaseController {
     @ResponseBody
     public AjaxResult export(HaRgn haRgn,ExcelUtilTwo excelUtilTwo)
     {
-        haRgn.setParams(KtamrSession.getKtamrSession(haRgn.getParams()));
         List<HaRgn> list = haRngService.selectAllRngAndCount(haRgn);
         return excelUtilTwo.init(list, "大区表数据");
     }
