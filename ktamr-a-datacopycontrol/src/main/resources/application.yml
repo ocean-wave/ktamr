@@ -67,5 +67,5 @@ shiro:
     indexUrl: /index
   session:
     #session超时时间默认30分钟
-    expireTime: 1
+    expireTime: 30
 
