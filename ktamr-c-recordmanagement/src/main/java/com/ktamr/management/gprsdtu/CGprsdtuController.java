@@ -110,7 +110,7 @@ public class CGprsdtuController {
     public Object deleteHaGprsdtu(HaGprsdtu haGprsdtu){
         Integer gprsdtu = haGprsdtuService.deleteHaGprsdtu(haGprsdtu);
         if(gprsdtu==1){
-            return "删除成功";
+            return "true";
         }
         return "false";
     }

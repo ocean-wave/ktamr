@@ -69,6 +69,10 @@ public interface HaMeterMapper {
 
     Integer updateHaMeter(HaMeter haMeter);
 
+    //删除价格列表时判断收费标准是否在使用
+    Integer isPriceUsed(@Param("id") Integer id);
+
+
     //采集器选择表,端口选择表
     Integer updateHaMeterCollector(@Param("haMeter") HaMeter haMeter,@Param("haCentor") HaCentor haCentor,@Param("haCollector") HaCollector haCollector);
 

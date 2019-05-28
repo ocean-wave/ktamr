@@ -87,13 +87,15 @@
         GridObj.jqdefaultGridConfig.jsonReader.records="records";
         GridObj.jqdefaultGridConfig.jsonReader.repeatitems=false;
 
-        GridObj.jqdefaultGridConfig.colNames = ['终端编号','电话号码','安装地址','下属集采器数目','状态','说明','最近抄收时间','抄收间隔时间'];
+        GridObj.jqdefaultGridConfig.colNames = ['','','终端编号','电话号码','安装地址','下属集采器数目','状态','说明','最近抄收时间','抄收间隔时间'];
         GridObj.jqdefaultGridConfig.colModel = [
+            { name: '',  width: 120, hidden: true},
+            { name: '',  width: 120, hidden: true},
             { name: 'uId',  width: 120, key: true, hidden: false},
             { name: 'telNubmer', width: 100 },
             { name: 'addr', width: 200 },
-            { name: 'centors', width: 100, align: 'right' },
-            { name: 'state', width: 100, cellattr: deviceStateCellColor },
+            { name: 'centors', width: 100, cellattr: deviceStateCellColor },
+            { name: 'state', width: 100, align: 'right' },
             { name: 'dscrp', width: 200 },
             { name: 'oplastTime', width: 120 },
             { name: 'idle', width: 120, align: 'right' }

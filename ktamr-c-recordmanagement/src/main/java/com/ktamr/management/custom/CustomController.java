@@ -150,7 +150,7 @@ public class CustomController {
     public String deleteHaCustom(HaCustom haCustom){
         Integer custom = haCustomService.deleteHaCustom(haCustom);
         if(custom==1){
-            return "删除成功";
+            return "true";
         }
         return "false";
     }

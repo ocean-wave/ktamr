@@ -85,6 +85,8 @@ public interface HaMeterService {
     //空关联成功记录数
     Integer HaMeterNullCount(Integer meterIds);
 
+    //删除价格列表时判断收费标准是否在使用
+    Integer isPriceUsed(Integer id);
 
     Integer deleteHaMeter(HaMeter haMeter);
 

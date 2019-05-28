@@ -174,6 +174,11 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.HaMeterNullCount(meterIds);
     }
 
+    @Override
+    public Integer isPriceUsed(Integer id) {
+        return haMeterMapper.isPriceUsed(id);
+    }
+
     public Integer deleteHaMeter(HaMeter haMeter) {
         return haMeterMapper.deleteHaMeter(haMeter);
     }

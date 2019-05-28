@@ -220,5 +220,7 @@ public interface HaAreaMapper {
     //选择区域类型为小区，选择小区下区域
     List<HaArea> queryAreaByArea();
 
+    //删除大区时看下属小区记录数
+    Integer delRgnAreaCount(@Param("id") String id);
 
 }

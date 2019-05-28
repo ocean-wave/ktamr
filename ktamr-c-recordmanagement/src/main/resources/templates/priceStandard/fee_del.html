@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body class="myPage-body">
-<form action="/priceStandard/DeleteHaFeestandard" method="post" onsubmit="">
+<form action="" method="post" onsubmit="">
     <table class="table table-bordered">
         <input type="hidden" id="feeId" name="feeId" th:value="${feeId}">
         <thead>
@@ -14,6 +14,7 @@
             <th>单价1</th>
             <th>单价2</th>
             <th>单价3</th>
+            <th>执行结果</th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
             <td th:text="${haFeestandard.price1}"></td>
             <td th:text="${haFeestandard.price2}"></td>
             <td th:text="${haFeestandard.price3}"></td>
+            <td><font id="delResult" color="red"></font></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
@@ -29,12 +31,44 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>
-                <button type="submit" class="btn btn-default btn-sm"><img src="../images/delete.png"/>删除</button>
+                <button id="del" type="button" class="btn btn-default btn-sm"><img src="../images/delete.png"/>删除</button>
             </td>
         </tr>
         </tbody>
     </table>
 </form>
 <div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,get_result_url = "/priceStandard/DeleteHaFeestandard";
+
+        function submitInfo(sendData){
+            $.ajax({
+                url: get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        $("#delResult").html("删除成功");
+                        parent.$("#jqGrid2").trigger("reloadGrid");
+                    }else{
+                        $("#delResult").html("删除失败");
+                    }
+                }
+            });
+        }
+        $("#del").click(function(){
+            var feeId = $("#feeId").val();
+            var data = {
+                feeId : feeId
+            };
+            submitInfo(data);
+        });
+    });
+</script>
 </body>
 </html>

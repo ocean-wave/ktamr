@@ -550,4 +550,9 @@
         SELECT Count(m.meterId) FROM ha_meter m WHERE m.meterid IN (#{meterIds})
     </select>
 
+    <!--删除价格列表时判断收费标准是否在使用-->
+    <select id="isPriceUsed" resultType="INTEGER">
+        SELECT COUNT(meterid) FROM ha_meter WHERE pricestand_id IN (#{id})
+    </select>
+
 </mapper>

@@ -588,6 +588,10 @@ WHERE areaid IN ('${areaId}')
         select count(1) from ha_area
     </select>
 
+    <select id="delRgnAreaCount" resultType="INTEGER">
+        SELECT COUNT(areaid) FROM ha_area WHERE Left(areaNo, 1)=#{id}
+    </select>
+
     <select id="queryAllSmallArea2" resultType="com.ktamr.domain.HaArea">
         SELECT a.areaid,
         CASE WHEN  length(a.registeredNo)=0  OR registeredNo IS NULL

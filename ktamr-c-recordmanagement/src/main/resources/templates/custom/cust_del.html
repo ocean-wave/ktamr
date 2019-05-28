@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body class="myPage-body">
-<form action="/custom/DeleteHaCustom" method="post" onsubmit="">
+<form action="" method="post" onsubmit="">
     <table class="table table-bordered">
         <input type="hidden" id="custids" name="custId" th:value="${custId}">
         <thead>
@@ -23,19 +23,51 @@
             <td th:text="${customs.name}"></td>
             <td th:text="${customs.sex}"></td>
             <td th:text="${customs.haArea.name}+${customs.haBuilding.name}+${customs.haRoom.name}"></td>
-            <td></td>
+            <td><font id="delResult" color="red"></font></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td><button type="submit" class="btn btn-default btn-sm"><img src="../images/delete.png" />删除</button>
+            <td><button id="del" type="button" class="btn btn-default btn-sm"><img src="../images/delete.png" />删除</button>
             </td>
         </tr>
         </tbody>
     </table>
 </form>
 <div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,get_result_url = "/custom/DeleteHaCustom";
+
+        function submitInfo(sendData){
+            $.ajax({
+                url: get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        $("#delResult").html("删除成功");
+                        parent.$("#jqGrid").trigger("reloadGrid");
+                    }else{
+                        $("#delResult").html("删除失败");
+                    }
+                }
+            });
+        }
+        $("#del").click(function(){
+            var custId = $("#custids").val();
+            var data = {
+                custId : custId
+            };
+            submitInfo(data);
+        });
+    });
+</script>
 </body>
 </html>

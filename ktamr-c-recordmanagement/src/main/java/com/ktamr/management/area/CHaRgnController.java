@@ -319,10 +319,15 @@ public class CHaRgnController {
     @RequestMapping("/DeleteRgn")
     @ResponseBody
     public Object deleteRgn(HaRgn haRgn) {
-        Integer deleteHaRgn = haRngService.deleteHaRgnC(haRgn);
-        if (deleteHaRgn == 1) {
-            return "删除成功";
+        Integer delRgnAreaCount = haAreaService.delRgnAreaCount(haRgn.getId());
+        if(delRgnAreaCount==0){
+            Integer deleteHaRgn = haRngService.deleteHaRgnC(haRgn);
+            if (deleteHaRgn == 1) {
+                return "true";
+            }
+        }else{
+            return delRgnAreaCount;
         }
-        return "false";
+        return "";
     }
 }
