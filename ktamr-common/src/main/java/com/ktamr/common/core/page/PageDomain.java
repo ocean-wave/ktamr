@@ -5,7 +5,7 @@ import com.ktamr.common.utils.StringUtils;
 /**
  * 分页数据
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class PageDomain
 {

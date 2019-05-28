@@ -6,7 +6,7 @@ import com.ktamr.common.exception.base.BaseException;
 /**
  * 用户信息异常类
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class HaOperatorException extends BaseException
 {

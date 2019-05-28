@@ -2,6 +2,7 @@ package com.ktamr.config;
 
 
 import com.ktamr.shiro.realm.OperatorRealm;
+import com.ktamr.shiro.web.session.OnlineWebSessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,14 +16,31 @@ import java.util.Map;
 /**
  * 权限配置加载
  *
- * @author ruoyi
+ * @author ktamr
  */
 @Configuration
 public class ShiroConfig {
 
+    // Session超时时间，单位为毫秒（默认30分钟）
+    @Value("${shiro.session.expireTime}")
+    private int expireTime;
+
     // 登录地址
     @Value("${shiro.operator.loginUrl}")
     private String loginUrl;
+
+    /**
+     * 会话管理器
+     */
+    @Bean
+    public OnlineWebSessionManager sessionManager()
+    {
+        OnlineWebSessionManager manager = new OnlineWebSessionManager();
+        // 设置全局session超时时间
+        manager.setGlobalSessionTimeout(expireTime * 60 * 1000);
+
+        return manager;
+    }
 
     /**
      * 自定义Realm
@@ -41,6 +59,7 @@ public class ShiroConfig {
         // 设置realm.
         securityManager.setRealm(operatorRealm);
 
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 

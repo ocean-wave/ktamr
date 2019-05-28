@@ -38,7 +38,6 @@ public class OperatorRealm extends AuthorizingRealm {
         }catch (HaOperatorNotPasswordException e){
             throw new UnknownAccountException(e.getMessage(),e);
         }catch (Exception e){
-            e.printStackTrace();
             throw new HaOperatorSystemException();
         }
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(haOperator, pwd, getName());

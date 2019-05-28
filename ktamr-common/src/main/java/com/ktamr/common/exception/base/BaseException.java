@@ -6,7 +6,7 @@ import com.ktamr.common.utils.StringUtils;
 /**
  * 基础异常
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class BaseException extends RuntimeException
 {

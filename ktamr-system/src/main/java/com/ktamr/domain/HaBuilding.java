@@ -2,12 +2,10 @@ package com.ktamr.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ktamr.common.annotation.Excel;
 import com.ktamr.common.core.domain.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 
 public class HaBuilding extends BaseEntity {
 

@@ -5,6 +5,11 @@ import com.ktamr.common.config.Global;
 import java.io.File;
 import java.util.UUID;
 
+/**
+ * Excel String类
+ *
+ * @author ktamr
+ */
 public class ExceStr {
 
     /**

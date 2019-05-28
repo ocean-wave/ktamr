@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 /**
  * 通用请求处理
  * 
- * @author ruoyi
+ * @author ktamr
  */
 @Controller
 public class CommonController

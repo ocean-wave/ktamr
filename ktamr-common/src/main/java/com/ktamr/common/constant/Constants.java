@@ -3,7 +3,7 @@ package com.ktamr.common.constant;
 /**
  * 通用常量信息
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class Constants
 {

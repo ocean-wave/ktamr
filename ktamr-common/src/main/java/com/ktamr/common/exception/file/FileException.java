@@ -5,7 +5,7 @@ import com.ktamr.common.exception.base.BaseException;
 /**
  * 文件信息异常类
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class FileException extends BaseException
 {

@@ -3,7 +3,7 @@ package com.ktamr.common.exception;
 /**
  * 业务异常
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class BusinessException extends RuntimeException
 {

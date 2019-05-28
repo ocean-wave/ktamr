@@ -5,7 +5,7 @@ import com.ktamr.common.utils.StringUtils;
 /**
  * 字符串格式化
  * 
- * @author ruoyi
+ * @author ktamr
  */
 public class StrFormatter
 {

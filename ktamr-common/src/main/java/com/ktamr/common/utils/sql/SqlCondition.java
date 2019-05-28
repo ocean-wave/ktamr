@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * sql工具类 多条件查询
+ *
+ * @author ktamr
+ */
 public class SqlCondition {
 
     protected final Logger logger = LoggerFactory.getLogger(SqlCondition.class);
