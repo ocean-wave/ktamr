@@ -159,6 +159,13 @@
         GROUP BY r.id,r.name ORDER BY r.name
     </select>
 
+    <!--选择区域类型为大区，选择大区下区域-->
+    <select id="queryRgnByRgn" resultType="com.ktamr.domain.HaRgn" parameterType="com.ktamr.domain.HaRgn">
+        select id, name from ha_rgn
+         where (id = left(#{rgnAndAreaId},1) or #{rgnAndAreaId} = '')
+        ORDER BY id
+    </select>
+
 
     <!--查询大区表全部信息与小区,集中器,采集器数,表数的数量  B    -->
     <select id="selectAllRngAndCountB" resultType="com.ktamr.domain.HaRgn" >

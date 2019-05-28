@@ -599,8 +599,8 @@ WHERE areaid IN ('${areaId}')
 
     <!--选择区域类型为小区，选择小区下区域-->
     <select id="queryAreaByArea" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
-        select areaNo, areaNo||':'||name from ha_area
-        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+        select areaNo, areaNo||':'||name from ha_area a
+        where (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         ORDER BY areaNo
     </select>
 </mapper>
