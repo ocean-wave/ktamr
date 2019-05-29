@@ -2,6 +2,7 @@ package com.ktamr.config;
 
 
 import com.ktamr.shiro.realm.OperatorRealm;
+import com.ktamr.shiro.web.filter.LogoutFilter;
 import com.ktamr.shiro.web.session.OnlineWebSessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -28,6 +29,16 @@ public class ShiroConfig {
     // 登录地址
     @Value("${shiro.operator.loginUrl}")
     private String loginUrl;
+
+    /**
+     * 退出过滤器
+     */
+    public LogoutFilter logoutFilter()
+    {
+        LogoutFilter logoutFilter = new LogoutFilter();
+        logoutFilter.setLoginUrl(loginUrl);
+        return logoutFilter;
+    }
 
     /**
      * 会话管理器
@@ -60,6 +71,7 @@ public class ShiroConfig {
         securityManager.setRealm(operatorRealm);
 
         securityManager.setSessionManager(sessionManager());
+
         return securityManager;
     }
 
@@ -90,6 +102,8 @@ public class ShiroConfig {
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon");
         Map<String, Filter> filters = new LinkedHashMap<>();
+
+        filters.put("logout",logoutFilter());
 
         shiroFilterFactoryBean.setFilters(filters);
 

@@ -9,7 +9,7 @@
         <result column="areaNo" property="areaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="registeredNo" property="registeredNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="cname" property="resultParams.cname" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="cname" property="cname" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="ds" property="ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="atnNumber" property="atnNumber" javaType="java.lang.Integer"></result>
@@ -19,15 +19,12 @@
         <result column="reserved" property="reserved" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="lastsumDay" property="lastsumDay" javaType="java.util.Date"></result>
         <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <association property="haMeter" resultMap="meterMap">
-
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <result column="thRTime" property="thRTime" javaType="java.util.Date" ></result>
+            <result column="startTime" property="startTime" javaType="java.util.Date" ></result>
         </association>
     </resultMap>
 
-    <resultMap id="meterMap" type="com.ktamr.domain.HaMeter">
-        <result column="thRTime" property="thRTime" javaType="java.util.Date" ></result>
-        <result column="startTime" property="startTime" javaType="java.util.Date" ></result>
-    </resultMap>
 
     <select id="selectAllAreaAndCount" resultMap="areaMap" parameterType="com.ktamr.domain.HaArea">
         select * from (
@@ -69,7 +66,6 @@
                  or n.name||'-'||a.addr like '%${params.keyWord}%'
                  or to_char(a.lastsumday,'yyyy-MM-dd') like '%${params.keyWord}%'
                  or to_char(m.TH_R_TIME,'yyyy-MM-dd') like '%${params.keyWord}%'
-                 or case when a.DS='S' then '单月' when a.DS='D' then '双月' end = #{params.keyWord}
                  )
              </if>
              <if test=" params.monthType != null and params.monthType != '' ">
@@ -83,7 +79,9 @@
     </select>
 
     <select id="selectHaAreaIdAndName" resultMap="areaMap">
-          select areaId,Right(areaNo, 4) AS areaNo,name,Right(areaNo, 4)||':'||name as cname
+          select
+                areaId,Right(areaNo, 4) AS areaNo
+                ,name,Right(areaNo, 4)||':'||name as cname
           from ha_area a
           where 1=1
           and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')

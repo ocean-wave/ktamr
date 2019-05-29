@@ -14,9 +14,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class indexContrller {
 
-    @Autowired
-    private HaOperatorService haOperatorService;
-
     @RequestMapping("/index")
     public String index(ModelMap mmap, HttpSession session){
         mmap.put("webVersion", Global.getWebVersion());
