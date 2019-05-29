@@ -142,4 +142,8 @@
     <delete id="deleteHaPricestandard">
         delete from ha_pricestandard where pricestand_id = #{pricestandId}
     </delete>
+
+    <select id="PriceStandardGenOptionSelected" resultMap="HaPricestandardMap">
+        select pricestand_id as pricestandId,name from ha_pricestandard where endtime is null or endtime>now() order by pricestand_id
+    </select>
 </mapper>

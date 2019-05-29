@@ -20,5 +20,7 @@ public interface HaPricestandardMapper {
 
     Integer deleteHaPricestandard(HaPricestandard haPricestandard);
 
+    //收费类型下拉框
+    List<HaPricestandard> PriceStandardGenOptionSelected();
 
 }

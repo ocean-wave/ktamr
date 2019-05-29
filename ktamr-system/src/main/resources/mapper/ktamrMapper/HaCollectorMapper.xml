@@ -67,4 +67,8 @@
             <if test="nconf != null">nconf = #{nconf},</if>
         </trim>
     </update>
+
+    <select id="collectorByDeviceId" resultType="com.ktamr.domain.HaCollector">
+        SELECT collectorid, to_hex(nconf),addr FROM ha_collector WHERE centorid=#{deviceId}
+    </select>
 </mapper>

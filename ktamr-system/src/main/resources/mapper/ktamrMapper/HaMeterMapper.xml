@@ -502,6 +502,11 @@
         select count(1) from ha_meter
     </select>
 
+    <insert id="addHaMeter">
+        insert into ha_meter (meterid, roomid, pricestand_id, rate, isbranch, starttime,centorid, meternumber, collectorid,offset_n)
+        values (default ,#{roomId},#{pricestandId},#{rate},#{isBranch},#{startTime},#{centorId},#{meterNumber},#{collectorId},#{offsetN})
+    </insert>
+
     <!--采集器选择表,端口选择表-->
     <update id="updateHaMeterCollector">
         update ha_meter m

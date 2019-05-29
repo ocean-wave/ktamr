@@ -6,34 +6,30 @@
     <style type="text/css">
         .layui-form-label {
             padding: 6px 10px;
-            width: 80px;
+            width: 90px;
         }
-
-        .layui-input {
+        .layui-input{
             height: 32px;
             line-height: 32px;
         }
-
-        .layui-form-select dl dd {
+        .layui-form-select dl dd{
             overflow: visible;
         }
-
-        .mySelect dl {
-            max-height: 170px;
-        }
-
+        .mySelect dl{max-height: 170px;}
         .my-form-class {
             padding: 15px 10px 0px 10px;
         }
-
         .my-form-item {
-            margin-left: -15px;
-            margin-right: -15px;
+            margin-left:-15px;margin-right:-15px;
         }
     </style>
 </head>
 <body class="myPage-body">
 <form class="layui-form my-form-class">
+    <input type="hidden" id="cmdName" name="cmdName" th:value="${cmdName}">
+    <input type="hidden" id="buildingId" name="buildingId" th:value="${buildingId}">
+    <input type="hidden" id="roomId" name="roomId" th:value="${roomId}">
+    <input type="hidden" id="meterId" name="meterId" th:value="${meterId}">
     <fieldset class="layui-elem-field layui-box">
         <legend>新增房间资料</legend>
         <div class="layui-form-item my-form-item">
@@ -63,7 +59,7 @@
             <div class="layui-block">
                 <label class="layui-form-label">抄收设备</label>
                 <div class="layui-input-inline mySelect" style="width:150px;">
-                    <select name="deviceType" lay-filter="deviceType">
+                    <select id="deviceType" name="deviceType" lay-filter="deviceType">
                         <option value=""></option>
                         <option value="centor">集中器</option>
                         <option value="ccentor">集采器</option>
@@ -100,7 +96,8 @@
                 <div class="layui-input-inline mySelect" style="width:150px;">
                     <select id="priceStand" lay-verify="priceStand">
                         <option value=""></option>
-                        <% PriceStandard_GenOptionSelected dbconn, ""%>
+                        <option th:each="haPricestandardLists : ${haPricestandardList}"
+                                th:value="${haPricestandardLists.pricestandId}" th:text="${haPricestandardLists.name}"></option>
                     </select>
                 </div>
             </div>
@@ -116,7 +113,7 @@
             <div class="layui-block">
                 <label class="layui-form-label">安装时间</label>
                 <div class="layui-input-inline" style="width:150px;">
-                    <input id="setupTime" name="setupTime" lay-verify="setupTime" autocomplete="off" placeholder="时间" class="layui-input" readonly="readonly">
+                    <input id="setupTime" name="setupTime" lay-verify="setupTime" autocomplete="off" placeholder="时间" class="layui-input" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}" readonly="readonly">
                 </div>
             </div>
             <div class="layui-block">
@@ -163,10 +160,10 @@
         var form = layui.form
             ,layer = layui.layer;
 
-        var load_option_url = "../devices/load_device_option.asp";
-        var op_url = "room_meter_add_do.asp";
-        var g_roomId = "<%=roomId%>";
-        var g_buildingId = "<%=buildingId%>";
+        var load_option_url = "/room/LoadDeviceOption";
+        var op_url = "";
+        var g_roomId = $("#roomId").val();
+        var g_buildingId = $("#buildingId").val();
         var g_deviceType = "centor";
         $('#setupTime').datetimepicker({
             language: 'zh-CN',//显示中文
@@ -200,20 +197,29 @@
         pageInit();
 
         form.on('select(deviceType)', function(data){
-            var deviceTypeObj = $(data.elem);
-            g_deviceType = deviceTypeObj.val();
+            // var deviceTypeObj = $(data.elem);
+            g_deviceType = $("#deviceType").val();
 
             pageInit();
             $.ajax({
                 url: load_option_url
                 ,data: {
-                    deviceType: g_deviceType
+                    deviceType: g_deviceType,
+                    roomId: g_roomId,
+                    buildingId: g_buildingId
                 }
+                ,dataType: "json"
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
-                    appendSelectOption("centor", data, "");
+                    $("#centor").empty();
+                    var option = $("<option>").val("").text("");
+                    $("#centor").append(option);
+                    for (var i = 0; i < data.length; i++) {
+                        $("#centor").append("<option value='" + data[i].id + "'>" + data[i].centorNo + ':' + data[i].addr + "</option>");
+                    }
+                    // appendSelectOption("centor", data, "");
                     $("#collector").empty();
                     $("#collector").append($("<option>").val("").text(""));
                     form.render('select');//刷新表单元素
@@ -230,13 +236,18 @@
                 url: load_option_url
                 ,data: {
                     deviceType: g_deviceType,
-                    deviceId: deviceId
+                    deviceId: deviceId,
+                    buildingId:g_buildingId,
                 }
+                ,dataType:"json"
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
-                    appendSelectOption("collector", data, "");
+                    // appendSelectOption("collector", data, "");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#collector").append("<option value='" + data[i].collectorId + "'>" + data[i].nconf + ':' + data[i].addr + "</option>");
+                    }
                     form.render('select');//刷新表单元素
                     //g_buildingId = "";
                 }
@@ -330,19 +341,19 @@
             var tip = "";
             var data = {
                 buildingId: g_buildingId,
-                roomId: g_roomId,
-                roomName: $("#roomName").val(),
-                roomRemark: $("#roomRemark").val(),
-                meterNumber: $("#meterNumber").val(),
-                deviceType: $("#deviceType").val(),
-                centorId: $("#centor").val(),
-                collectorId: $("#collector").val(),
-                priceStandId: $("#priceStand").val(),
-                rate: $("#rate").val(),
-                setupTime: $("#setupTime").val(),
-                isBranch: $("#isBranch").val(),
-                primalNumber: $("#primalNumber").val(),
-                offsetNumber: $("#offsetNumber").val()
+                roomId: g_roomId, //房间号
+                name: $("#roomName").val(), //房间名称
+                description: $("#roomRemark").val(), //房间备注
+                meterNumber: $("#meterNumber").val(), //表号
+                deviceType: $("#deviceType").val(), //抄收设备
+                centorId: $("#centor").val(), //集中器
+                collectorId: $("#collector").val(), //采集器
+                pricestandId: $("#priceStand").val(), //收费类型
+                rate: $("#rate").val(), //倍率
+                startTime: $("#setupTime").val(), //安装时间
+                isBranch: $("#isBranch").val(), //总分表
+                primalNumber: $("#primalNumber").val(), //表底数
+                offsetN: $("#offsetNumber").val() //调节数
             };
 
             if($("#meterNumber").val() && g_deviceType == "centor" && $("#collector").val() == ""){

@@ -161,9 +161,7 @@
 
     <!--选择区域类型为大区，选择大区下区域-->
     <select id="queryRgnByRgn" resultType="com.ktamr.domain.HaRgn" parameterType="com.ktamr.domain.HaRgn">
-        select id, name from ha_rgn
-         where (id = left(#{rgnAndAreaId},1) or #{rgnAndAreaId} = '')
-        ORDER BY id
+        select id, name from ha_rgn ORDER BY id
     </select>
 
 

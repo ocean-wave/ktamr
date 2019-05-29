@@ -1,8 +1,15 @@
 package com.ktamr.management.area;
 
+import com.ktamr.domain.HaCentor;
+import com.ktamr.domain.HaCollector;
+import com.ktamr.domain.HaPricestandard;
 import com.ktamr.domain.HaRoom;
+import com.ktamr.service.HaCentorService;
+import com.ktamr.service.HaCollectorService;
+import com.ktamr.service.HaPricestandardService;
 import com.ktamr.service.HaRoomService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,6 +25,36 @@ public class RoomController {
 
     @Resource
     private HaRoomService haRoomService;
+
+    @Resource
+    private HaCollectorService haCollectorService;
+
+    @Resource
+    private HaCentorService haCentorService;
+
+    @Resource
+    private HaPricestandardService haPricestandardService;
+
+    @RequestMapping("/JumpRoomMeterAdd")
+    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Integer roomId, Integer meterId, Model model){
+        List<HaPricestandard> haPricestandardList = haPricestandardService.PriceStandardGenOptionSelected();
+        model.addAttribute("haPricestandardList",haPricestandardList);
+        model.addAttribute("cmdName",cmdName);
+        model.addAttribute("buildingId",buildingId);
+        model.addAttribute("roomId",roomId);
+        model.addAttribute("meterId",meterId);
+        return "area/room_meter_add";
+    }
+
+    @RequestMapping("/JumpRoomMeterDel")
+    public String JumpRoomMeterDel(){
+        return "area/room_meter_del";
+    }
+
+    @RequestMapping("/JumpRoomMeterUpdate")
+    public String JumpRoomMeterUpdate(){
+        return "area/room_meter_update";
+    }
 
     @RequestMapping("/QueryAllRoomJson")
     @ResponseBody
@@ -45,5 +82,28 @@ public class RoomController {
         map.put("rows", allRoom);//存放集合
         return map;
     }
+
+    @RequestMapping("/LoadDeviceOption")
+    @ResponseBody
+    public Object loadDeviceOption(String deviceType,Integer deviceId){
+        if(deviceId!=null){
+            List<HaCollector> collectorByDeviceId = haCollectorService.collectorByDeviceId(deviceId);
+            return collectorByDeviceId;
+        }else {
+            if(deviceType.equals("centor")){
+                List<HaCentor> centors = haCentorService.deviceTypeCentor();
+                return centors;
+            }else if (deviceType.equals("ccentor")){
+                List<HaCentor> ccentors = haCentorService.deviceTypeCcentor();
+                return ccentors;
+            }else if(deviceType.equals("handDevice")){
+                List<HaCentor> handDevice = haCentorService.deviceTypehandDevice();
+                return handDevice;
+            }
+        }
+        return null;
+    }
+
+
 
 }

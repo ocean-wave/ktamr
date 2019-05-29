@@ -18,4 +18,7 @@ public interface HaPricestandardService {
     Integer updateHaPricestandard(HaPricestandard haPricestandard);
 
     Integer deleteHaPricestandard(HaPricestandard haPricestandard);
+
+    //收费类型下拉框
+    List<HaPricestandard> PriceStandardGenOptionSelected();
 }
