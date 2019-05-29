@@ -19,9 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController extends BaseController {
 
-    @Autowired
-    private HaOperatorService haOperatorService;
-
     @GetMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response)
     {
