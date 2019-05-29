@@ -16,6 +16,7 @@ public class indexContrller {
         mmap.put("webVersion", Global.getWebVersion());
         mmap.put("version", Global.getVersion());
         session.setAttribute("haOperator", ShiroUtils.getHaOperator());
+        session.setAttribute("operatorCode", ShiroUtils.getOperatorCode());
         session.setAttribute("rgnAndAreaId", ShiroUtils.getRgnAndAreaId());
         return "index";
     }

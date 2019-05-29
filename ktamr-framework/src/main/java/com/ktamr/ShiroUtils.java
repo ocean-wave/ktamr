@@ -59,6 +59,11 @@ public class ShiroUtils
         return getHaOperator().getOperatorName();
     }
 
+    public static String getOperatorCode()
+    {
+        return getHaOperator().getOperatorCode();
+    }
+
     public static String getRgnAndAreaId()
     {
         return getHaOperator().getRgnAndAreaId();

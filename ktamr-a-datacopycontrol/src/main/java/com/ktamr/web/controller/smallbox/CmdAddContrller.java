@@ -1,5 +1,6 @@
 package com.ktamr.web.controller.smallbox;
 
+import com.ktamr.common.soket.Client;
 import com.ktamr.common.utils.StringUtils;
 import com.ktamr.service.HaCmdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,14 @@ public class CmdAddContrller {
             if (centorid == "" && (cmds[0].equals("单表抄表") || cmds[0].equals("开阀") || cmds[0].equals("关阀"))){
                 return "<span class='fontRed'>centorid 等于null值</span>";
             }
-            str = haCmdService.insertCmd(cmd,centorid).toString();
+            try {
+                str = haCmdService.insertCmd(cmd,centorid).toString();
+            }catch (Exception e){
+                return "<span class='fontRed'>sql语句插入失败</span>";
+            }
         }
-        Random ran = new Random();
-        if(1==1){
+        String result = Client.getSoketClient(cmd,parms);
+        if(!result.equals("ok")){
             if(centorid!="") {
                 String centorStr = haCmdService.selectCentorById(Integer.parseInt(centorid));
                 if (centorStr.substring(0, 5).equals("KT3NB")) {
