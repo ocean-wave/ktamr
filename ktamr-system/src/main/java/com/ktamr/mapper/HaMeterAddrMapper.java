@@ -1,12 +1,9 @@
 package com.ktamr.mapper;
 
-import com.ktamr.common.parameter.ParameterInfo;
-import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HaMeterAddr;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface HaMeterAddrMapper {
 

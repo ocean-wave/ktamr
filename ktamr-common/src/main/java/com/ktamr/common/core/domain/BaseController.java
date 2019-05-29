@@ -1,10 +1,10 @@
 package com.ktamr.common.core.domain;
 
+import com.ktamr.common.core.page.PageDomain;
+import com.ktamr.common.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ktamr.common.core.page.PageDomain;
 import com.ktamr.common.core.page.TableSupport;
-import com.ktamr.common.utils.StringUtils;
 import com.ktamr.common.utils.sql.SqlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,22 +3,19 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.ktamr.common.utils.DateUtils;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaMonthbtime;
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.service.HaBillrecordsService;
 import com.ktamr.service.HaMonthbtimeService;
 import com.ktamr.util.PageUtil;
 import com.ktamr.util.Tool;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller

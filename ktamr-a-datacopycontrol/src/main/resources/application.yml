@@ -1,6 +1,8 @@
 ﻿ktamr:
   webVersion: V2.6.5
   version: 2.6.5
+  dbVersion: V2.8.0
+
 #服务配置
 server:
   #访问端口号80

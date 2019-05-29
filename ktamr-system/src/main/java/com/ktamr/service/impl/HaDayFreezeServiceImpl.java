@@ -2,7 +2,6 @@ package com.ktamr.service.impl;
 
 import com.ktamr.domain.HaDayfreeze;
 import com.ktamr.domain.HaMeter;
-import com.ktamr.domain.HaRecords;
 import com.ktamr.mapper.HaDayFreezeMapper;
 import com.ktamr.service.HaDayFreezeService;
 import org.springframework.beans.factory.annotation.Autowired;

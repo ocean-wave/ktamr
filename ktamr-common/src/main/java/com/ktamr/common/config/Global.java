@@ -90,6 +90,11 @@ public class Global
         return StringUtils.nvl(getConfig("ktamr.version"), "2.8.2");
     }
 
+    public static String getDbVersion()
+    {
+        return StringUtils.nvl(getConfig("ktamr.dbVersion"), "V2.8.0");
+    }
+
     /**
      * 获取版权年份
      */

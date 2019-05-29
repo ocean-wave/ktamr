@@ -1,6 +1,5 @@
 package com.ktamr.service.impl;
 
-import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HaRecords;
 import com.ktamr.mapper.HaRecordsMapper;

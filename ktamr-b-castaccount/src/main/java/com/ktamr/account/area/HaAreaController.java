@@ -1,12 +1,10 @@
 package com.ktamr.account.area;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaRgn;
+import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaRngService;
 import com.ktamr.util.PageUtil;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;

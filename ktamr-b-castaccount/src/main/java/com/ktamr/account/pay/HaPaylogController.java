@@ -3,7 +3,10 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.ktamr.domain.*;
+import com.ktamr.domain.HaArea;
+import com.ktamr.domain.HaFreeze;
+import com.ktamr.domain.HaPaylog;
+import com.ktamr.domain.HaPricestandard;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaFreezeService;
 import com.ktamr.service.HaPaylogService;
@@ -54,7 +57,7 @@ public class HaPaylogController {
     @RequestMapping(value ="/showHaPaylogList")
     @ResponseBody
     public Object showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
-    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh,PageUtil pageUtil
+    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh, PageUtil pageUtil
     ){
     if(hhh!=null&& hhh!=""){
         boolean b = hhh.contains(",");
@@ -140,7 +143,7 @@ public class HaPaylogController {
 
     //点击打印缴费单的事件
     @RequestMapping("/bill_print")
-    public String billPrint(HaPaylog haPaylog, HaFreeze haFreeze,Model model){
+    public String billPrint(HaPaylog haPaylog, HaFreeze haFreeze, Model model){
         //检测字符串是否包含逗号
         boolean b = haPaylog.getBillId().contains(",");
         //包含返回true

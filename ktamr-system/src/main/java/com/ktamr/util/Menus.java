@@ -1,6 +1,5 @@
 package com.ktamr.util;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

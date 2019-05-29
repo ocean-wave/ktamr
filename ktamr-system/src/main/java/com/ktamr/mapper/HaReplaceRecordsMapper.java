@@ -1,8 +1,6 @@
 package com.ktamr.mapper;
 
 import com.ktamr.domain.HaReplacerecords;
-import com.ktamr.domain.HaRgn;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

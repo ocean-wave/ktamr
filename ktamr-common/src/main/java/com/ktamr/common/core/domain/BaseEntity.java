@@ -1,8 +1,8 @@
 package com.ktamr.common.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.sql.SqlCondition;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;

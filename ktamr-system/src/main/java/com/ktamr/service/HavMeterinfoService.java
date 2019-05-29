@@ -3,7 +3,6 @@ package com.ktamr.service;
 import com.ktamr.domain.HavMeterinfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 视图HavMeterinfo

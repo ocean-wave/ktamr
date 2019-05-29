@@ -2,7 +2,6 @@ package com.ktamr.mapper;
 
 import com.ktamr.domain.HaDayfreeze;
 import com.ktamr.domain.HaMeter;
-import com.ktamr.domain.HaRecords;
 
 import java.util.List;
 import java.util.Map;

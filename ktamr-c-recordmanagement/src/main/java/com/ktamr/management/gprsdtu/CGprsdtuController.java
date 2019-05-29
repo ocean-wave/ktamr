@@ -1,7 +1,5 @@
 package com.ktamr.management.gprsdtu;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.domain.HaGprsdtu;
 import com.ktamr.service.HaGprsdtuService;
 import org.springframework.stereotype.Controller;

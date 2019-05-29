@@ -1,12 +1,11 @@
 package com.ktamr.shiro.service;
 
+import com.ktamr.domain.HaOperator;
 import com.ktamr.common.exception.operator.HaOperatorNotPasswordException;
 import com.ktamr.common.exception.operator.HaOperatorNullException;
-import com.ktamr.domain.HaOperator;
 import com.ktamr.service.HaOperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class OperatorService {

@@ -1,6 +1,5 @@
 package com.ktamr.service;
 
-import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaCentor;
 
 import java.util.List;

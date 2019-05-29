@@ -35,7 +35,7 @@ public class HaPaylog extends BaseEntity {
   private  HaPricestandard haPricestandard;
 
   //第二波
-  private  HaMeter haMeter;
+  private HaMeter haMeter;
   private  HaMetertype haMetertype;
   private  HaCustom haCustom;
   //方便用areaid中in的范围查询

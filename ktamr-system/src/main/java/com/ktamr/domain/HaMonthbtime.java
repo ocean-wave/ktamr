@@ -1,10 +1,8 @@
 package com.ktamr.domain;
 
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ktamr.common.core.domain.BaseEntity;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 

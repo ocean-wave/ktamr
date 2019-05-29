@@ -37,8 +37,6 @@
 	<div class="login layui-anim layui-anim-up">
 		<h1>自动抄表(AMR)管理系统</h1>
 		<form class="layui-form" action="" method="post">
-			<input type="text" name="serverPort" value='<%=Application("serverPort")%>' style="display:none;">
-			<input type="text" name="androidPort" value='<%=Application("androidPort")%>' style="display:none;">
 			<div class="layui-form-item">
 				<input type="text" name="uid" lay-verify="myRequired" placeholder="请输入账号" autocomplete="off"  value="" class="layui-input">
 			</div>
@@ -133,12 +131,7 @@
 
 		$("#sys_details").click(function(){
 			var layerSize = ['500px', '350px'];
-			var queryStr = [
-				"webVer="+"",
-				"serverName="+'KTAMR For JPCustom',
-				"KT410ListenPort="+""
-			];
-			_myLayui.showLayer("系统详情", "/system/update_details.asp", queryStr, layerSize);
+			_myLayui.showLayer("系统详情", "system/updateDetails.html", [], layerSize);
 		});
 
 

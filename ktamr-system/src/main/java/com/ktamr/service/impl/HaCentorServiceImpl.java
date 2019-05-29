@@ -1,6 +1,5 @@
 package com.ktamr.service.impl;
 
-import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.mapper.HaCentorMapper;
 import com.ktamr.service.HaCentorService;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 实现层(HaCentorServiceImpl)

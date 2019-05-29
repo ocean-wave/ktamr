@@ -1,8 +1,6 @@
 package com.ktamr.shiro.web.filter;
 
 import com.ktamr.common.utils.StringUtils;
-import com.ktamr.domain.HaOperator;
-import com.ktamr.util.ShiroUtils;
 import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
