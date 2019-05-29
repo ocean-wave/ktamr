@@ -1,4 +1,4 @@
-package com.ktamr.web.common;
+package com.ktamr.web;
 
 import com.ktamr.common.config.Global;
 import com.ktamr.common.utils.StringUtils;
