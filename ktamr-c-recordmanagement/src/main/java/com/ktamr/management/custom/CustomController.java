@@ -52,7 +52,7 @@ public class CustomController {
     }
 
     @RequestMapping("/JumpCustUpdate")
-    public String jumpcustupdate(Integer areaId,Integer buildingId,Integer custid,HaCustom haCustom,Model model) {
+    public String jumpcustupdate(Integer areaId, Integer buildingId, Integer custid, HaCustom haCustom, Model model) {
         haCustom.setCustId(custid);
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
         List<HaBuilding> haBuilding = haBuildingService.queryHaBuildingC(areaId);

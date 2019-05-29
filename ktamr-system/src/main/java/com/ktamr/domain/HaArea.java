@@ -33,6 +33,8 @@ public class HaArea extends BaseEntity {
     private Date auditDay;
     private String auditResult;
 
+    private String cname;
+
     private Integer sumNumber;
     private Integer readNumber;
     private Integer sumDosage;
@@ -361,5 +363,13 @@ public class HaArea extends BaseEntity {
 
     public void setHaCentor(HaCentor haCentor) {
         this.haCentor = haCentor;
+    }
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 }

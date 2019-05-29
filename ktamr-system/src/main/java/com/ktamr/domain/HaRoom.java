@@ -3,8 +3,6 @@ package com.ktamr.domain;
 
 import com.ktamr.common.core.domain.BaseEntity;
 
-import java.util.List;
-
 public class HaRoom extends BaseEntity {
 
     private Integer roomId;

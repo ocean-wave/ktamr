@@ -1,11 +1,9 @@
 package com.ktamr.mapper;
 
-import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaGprsdtu;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 设备表Mapper

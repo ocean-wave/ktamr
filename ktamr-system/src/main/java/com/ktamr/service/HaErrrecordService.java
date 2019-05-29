@@ -1,7 +1,6 @@
 package com.ktamr.service;
 
 import com.ktamr.domain.HaErrrecord;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

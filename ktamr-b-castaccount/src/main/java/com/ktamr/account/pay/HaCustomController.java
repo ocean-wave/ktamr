@@ -44,7 +44,7 @@ public class HaCustomController {
      */
     @RequestMapping("/queryHaCustomList")
     @ResponseBody
-    public String queryHaCustomList(HaCustom haCustom ,HttpServletRequest request,PageUtil pageUtil){
+    public String queryHaCustomList(HaCustom haCustom , HttpServletRequest request, PageUtil pageUtil){
         //接收一波
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置

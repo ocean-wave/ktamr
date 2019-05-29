@@ -1,8 +1,5 @@
 package com.ktamr.util;
 
-import com.ktamr.common.utils.StringUtils;
-import com.ktamr.common.utils.bean.BeanUtils;
-import com.ktamr.domain.HaOperator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

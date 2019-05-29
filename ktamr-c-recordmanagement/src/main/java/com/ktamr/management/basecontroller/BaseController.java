@@ -2,11 +2,11 @@ package com.ktamr.management.basecontroller;//package com.ktamr.web.Controller.b
 //
 //import com.github.pagehelper.PageHelper;
 //import com.github.pagehelper.PageInfo;
-//import com.ktamr.common.core.page.PageDomain;
-//import com.ktamr.common.core.page.TableSupport;
-//import com.ktamr.common.utils.ServletUtils;
-//import com.ktamr.common.utils.StringUtils;
-//import com.ktamr.common.utils.sql.SqlUtil;
+//import PageDomain;
+//import TableSupport;
+//import ServletUtils;
+//import StringUtils;
+//import SqlUtil;
 //
 //import java.util.HashMap;
 //import java.util.List;

@@ -1,7 +1,6 @@
 package com.ktamr.common.utils.sql;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ktamr.common.exception.BusinessException;
 import com.ktamr.common.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

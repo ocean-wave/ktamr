@@ -2,8 +2,6 @@ package com.ktamr.service;
 
 import com.ktamr.domain.HaFreeze;
 
-import java.util.List;
-
 public interface HaFreezeService {
     /**
      *点击费用结算所做的步骤1

@@ -1,10 +1,8 @@
 package com.ktamr.service;
 
-import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaGprsdtu;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 设备表Service

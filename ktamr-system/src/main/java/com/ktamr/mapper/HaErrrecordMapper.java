@@ -1,7 +1,6 @@
 package com.ktamr.mapper;
 
 import com.ktamr.domain.HaErrrecord;
-import com.ktamr.domain.HaMeterAddr;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

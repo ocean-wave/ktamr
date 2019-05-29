@@ -152,59 +152,6 @@ function resizeGrids(op) {
 	});
 
 }
-function exportToExcel(url,GridId)
-{
-	var grid = $("#"+GridId);
-	$.ktamr.loading("正在导出数据，请稍后...");
-	url = url.substring(0,url.lastIndexOf("/"));
-	var reg=/[\u4E00-\u9FA5]/;
-	var pdArray =grid.jqGrid("getGridParam", "postData");
-	var colModel = grid.jqGrid("getGridParam", "colModel");
-	var colNames = grid.jqGrid("getGridParam", "colNames");
-	var excelLabel = new Array();
-	var excelName = new Array();
-	var excelWidth = new Array();
-	var excelDataFormat = new Array();
-	var excelAlign = new Array();
-	for(var i = 0;i<colModel.length;i++){
-		if(colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelLabel.push(colNames[i]);
-			excelWidth.push(colModel[i].width)
-			excelName.push(colModel[i].name);
-		}
-		if(colNames == null && reg.exec(colModel[i].label) && !reg.exec(colModel[i].name) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelLabel.push(colModel[i].label);
-			excelWidth.push(colModel[i].width);
-			excelName.push(colModel[i].name);
-		}
-		if(colModel[i].align != undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelAlign.push(colModel[i].align);
-		}else if(colModel[i].align == undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelAlign.push("left");
-		}
-		if(colModel[i].dataFormat != undefined){
-			excelDataFormat.push(colModel[i].dataFormat);
-		}
-	}
-	pdArray['excelLabel'] = excelLabel;
-	pdArray['excelWidth'] = excelWidth;
-	pdArray['excelName'] = excelName;
-	pdArray['excelDataFormat'] = excelDataFormat;
-	pdArray['excelAlign'] = excelAlign;
-	$.ajax({
-		url:url+"/export",
-		type: "POST",
-		traditional :true,
-		data:pdArray,
-		success:function(result){
-			if (result.code == web_status.SUCCESS) {
-				window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
-			}else{
-				$.ktamr.alert(result.msg,modal_status.FAIL);
-			}
-			$.ktamr.closeloading();
-		}});
-}
 //分页的数据，Page 当前位置是什么
 function fullTextSearch(jqGridID, postDataArray){
 
@@ -597,6 +544,63 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 	}
 	
 	return styleStr;
+}
+
+function exportToExcel(url,GridId)
+{
+	var grid = $("#"+GridId);
+	$.ktamr.loading("正在导出数据，请稍后...");
+	url = url.substring(0,url.lastIndexOf("/"));
+	var reg=/[\u4E00-\u9FA5]/;
+	var pdArray =grid.jqGrid("getGridParam", "postData");
+	var colModel = grid.jqGrid("getGridParam", "colModel");
+	var colNames = grid.jqGrid("getGridParam", "colNames");
+	var excelLabel = new Array();
+	var excelName = new Array();
+	var excelWidth = new Array();
+	var excelDataFormat = new Array();
+	var excelAlign = new Array();
+	for(var i = 0;i<colModel.length;i++){
+		if(!colModel[i].hidden) {
+			if (colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelLabel.push(colNames[i]);
+				excelWidth.push(colModel[i].width)
+				excelName.push(colModel[i].name);
+			}
+			if (colNames == null && reg.exec(colModel[i].label) && !reg.exec(colModel[i].name) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelLabel.push(colModel[i].label);
+				excelWidth.push(colModel[i].width);
+				excelName.push(colModel[i].name);
+			}
+			if (colModel[i].align != undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelAlign.push(colModel[i].align);
+			} else if (colModel[i].align == undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelAlign.push("left");
+			}
+			if (colModel[i].dataFormat != undefined) {
+				excelDataFormat.push(colModel[i].dataFormat);
+			}
+		}
+	}
+	pdArray['excelLabel'] = excelLabel;
+	pdArray['excelWidth'] = excelWidth;
+	pdArray['excelName'] = excelName;
+	pdArray['excelDataFormat'] = excelDataFormat;
+	pdArray['excelAlign'] = excelAlign;
+	$.ajax({
+		url:url+"/export",
+		type: "POST",
+		traditional :true,
+		data:pdArray,
+		success:function(result){
+			if (result.code == web_status.SUCCESS) {
+				window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+			}else{
+				$.ktamr.alert(result.msg,modal_status.FAIL);
+			}
+			$.ktamr.closeloading();
+		}
+	});
 }
 
 (function ($) {

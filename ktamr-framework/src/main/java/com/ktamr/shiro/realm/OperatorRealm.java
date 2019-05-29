@@ -1,9 +1,9 @@
 package com.ktamr.shiro.realm;
 
 import com.ktamr.common.exception.operator.HaOperatorNotPasswordException;
-import com.ktamr.common.exception.operator.HaOperatorNullException;
 import com.ktamr.common.exception.operator.HaOperatorSystemException;
 import com.ktamr.domain.HaOperator;
+import com.ktamr.common.exception.operator.HaOperatorNullException;
 import com.ktamr.shiro.service.OperatorService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

@@ -3,7 +3,6 @@ package com.ktamr.service.impl;
 import com.ktamr.domain.HaArea;
 import com.ktamr.mapper.HaAreaMapper;
 import com.ktamr.service.HaAreaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

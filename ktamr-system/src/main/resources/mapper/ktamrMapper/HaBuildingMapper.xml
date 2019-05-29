@@ -7,48 +7,36 @@
     <resultMap id="buildingMap" type="com.ktamr.domain.HaBuilding">
         <result column="cuaddr" property="cuaddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="maddr" property="maddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <association property="haRoom" resultMap="roomMap">
-
-        </association>
-    </resultMap>
-
-    <resultMap id="roomMap" type="com.ktamr.domain.HaRoom">
-        <result column="roomId" property="roomId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
-            <result column="custNo" property="custNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        </association>
-
-        <association property="haMeter" resultMap="meterMap">
-
-        </association>
-    </resultMap>
-
-    <resultMap id="meterMap" type="com.ktamr.domain.HaMeter">
-        <result column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="meterNumber" property="meterNumber" javaType="java.lang.Long"></result>
-        <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
-        <result column="lfNumber" property="lfNumber"></result>
-        <result column="sNumber" property="snumber"></result>
-        <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
-        <result column="gNumber" property="gNumber" javaType="java.lang.Double"></result>
-        <result column="offsetn" property="offsetN" javaType="java.lang.Long" ></result>
-        <result column="startTime" property="startTime" javaType="java.util.Date"></result>
-        <result column="meterChannel" property="meterChannel" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="meterSequence" property="meterSequence" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-
-        <association property="haVendor" javaType="com.ktamr.domain.HaVendor">
-            <id column="mvendorId" property="vendorId"></id>
-        </association>
-
-        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
-            <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
-        </association>
-
-        <association property="haPricestandard" javaType="com.ktamr.domain.HaPricestandard">
-            <result column="pname" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
+            <result column="roomId" property="roomId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+            <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
+                <result column="custNo" property="custNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+                <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            </association>
+            <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+                <result column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+                <result column="meterNumber" property="meterNumber" javaType="java.lang.Long"></result>
+                <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
+                <result column="lfNumber" property="lfNumber"></result>
+                <result column="sNumber" property="snumber"></result>
+                <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+                <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
+                <result column="gNumber" property="gNumber" javaType="java.lang.Double"></result>
+                <result column="offsetn" property="offsetN" javaType="java.lang.Long" ></result>
+                <result column="startTime" property="startTime" javaType="java.util.Date"></result>
+                <result column="meterChannel" property="meterChannel" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+                <result column="meterSequence" property="meterSequence" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+                <association property="haVendor" javaType="com.ktamr.domain.HaVendor">
+                    <id column="mvendorId" property="vendorId"></id>
+                </association>
+                <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+                    <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+                </association>
+                <association property="haPricestandard" javaType="com.ktamr.domain.HaPricestandard">
+                    <result column="pname" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+                </association>
+            </association>
         </association>
     </resultMap>
 

@@ -1,11 +1,8 @@
 package com.ktamr.mapper;
-
-import com.ktamr.common.parameter.ParameterInfo;
 import com.ktamr.domain.HaCentor;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 接口Mapper层
