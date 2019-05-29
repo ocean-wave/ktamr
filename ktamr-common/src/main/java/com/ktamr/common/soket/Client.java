@@ -4,9 +4,13 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * 发送参数到服务器端
+ * @author ktamr
+ */
 public class Client {
 
-    public static String getSoketClient(String cmd,String params){
+    public synchronized static String getSoketClient(String cmd,String params){
         String result="";
         try {
             //创建Socket对象

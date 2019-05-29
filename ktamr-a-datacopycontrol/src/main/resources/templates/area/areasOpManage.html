@@ -108,8 +108,9 @@
 				//GridObj.jqdefaultGridConfig.caption = "大区列表：";
 				GridObj.jqdefaultGridConfig.multiselect = true;
                 GridObj.jqdefaultGridConfig.postData = {};
-				GridObj.jqdefaultGridConfig.colNames = ['大区编号', '大区名称', '简称', '行政区号', '小区数', '集中器数', '采集器数', '表数'];
+				GridObj.jqdefaultGridConfig.colNames = ['','大区编号', '大区名称', '简称', '行政区号', '小区数', '集中器数', '采集器数', '表数'];
 				GridObj.jqdefaultGridConfig.colModel = [
+					{name: 'ids',width: 75, key: true, hidden: true},
 					{name: 'id',width: 75, key: true, hidden: false},
 					{name: 'name', width: 120},
 					{name: 'shortName', width: 100},

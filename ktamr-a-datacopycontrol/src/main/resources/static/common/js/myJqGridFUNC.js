@@ -561,23 +561,25 @@ function exportToExcel(url,GridId)
 	var excelDataFormat = new Array();
 	var excelAlign = new Array();
 	for(var i = 0;i<colModel.length;i++){
-		if(colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelLabel.push(colNames[i]);
-			excelWidth.push(colModel[i].width)
-			excelName.push(colModel[i].name);
-		}
-		if(colNames == null && reg.exec(colModel[i].label) && !reg.exec(colModel[i].name) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelLabel.push(colModel[i].label);
-			excelWidth.push(colModel[i].width);
-			excelName.push(colModel[i].name);
-		}
-		if(colModel[i].align != undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelAlign.push(colModel[i].align);
-		}else if(colModel[i].align == undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] !="操作结果"){
-			excelAlign.push("left");
-		}
-		if(colModel[i].dataFormat != undefined){
-			excelDataFormat.push(colModel[i].dataFormat);
+		if(!colModel[i].hidden) {
+			if (colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelLabel.push(colNames[i]);
+				excelWidth.push(colModel[i].width)
+				excelName.push(colModel[i].name);
+			}
+			if (colNames == null && reg.exec(colModel[i].label) && !reg.exec(colModel[i].name) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelLabel.push(colModel[i].label);
+				excelWidth.push(colModel[i].width);
+				excelName.push(colModel[i].name);
+			}
+			if (colModel[i].align != undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelAlign.push(colModel[i].align);
+			} else if (colModel[i].align == undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+				excelAlign.push("left");
+			}
+			if (colModel[i].dataFormat != undefined) {
+				excelDataFormat.push(colModel[i].dataFormat);
+			}
 		}
 	}
 	pdArray['excelLabel'] = excelLabel;
