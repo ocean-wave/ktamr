@@ -31,4 +31,7 @@ public interface HaCollectorService {
     Integer updateHaCollector(HaCollector haCollector);
 
     Integer deleteHaCollector(Integer collectorId);
+
+    //deviceId不为空查询
+    List<HaCollector> collectorByDeviceId(Integer deviceId);
 }

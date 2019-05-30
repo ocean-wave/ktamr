@@ -65,4 +65,9 @@ public class HaCollectorServiceImpl implements HaCollectorService {
     public Integer deleteHaCollector(Integer collectorId) {
         return haCollectorMapper.deleteHaCollector(collectorId);
     }
+
+    @Override
+    public List<HaCollector> collectorByDeviceId(Integer deviceId) {
+        return haCollectorMapper.collectorByDeviceId(deviceId);
+    }
 }

@@ -60,5 +60,13 @@ public interface HaCentorMapper {
 
     Integer deleteHaCentor(@Param("id") Integer id);
 
+    //设备类型为centor下拉框
+    List<HaCentor> deviceTypeCentor();
+
+    //设备类型为ccentor下拉框
+    List<HaCentor> deviceTypeCcentor();
+
+    //设备类型为handDevice下拉框
+    List<HaCentor> deviceTypehandDevice();
 
 }

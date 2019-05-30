@@ -40,4 +40,9 @@ public class HaPricestandardServiceImpl implements HaPricestandardService {
     public Integer deleteHaPricestandard(HaPricestandard haPricestandard) {
         return haPricestandardMapper.deleteHaPricestandard(haPricestandard);
     }
+
+    @Override
+    public List<HaPricestandard> PriceStandardGenOptionSelected() {
+        return haPricestandardMapper.PriceStandardGenOptionSelected();
+    }
 }

@@ -99,4 +99,8 @@
         select count(1) from ha_room
     </select>
 
+    <insert id="addHaRoomC">
+        insert into ha_room values(default ,#{name},#{description},#{buildingId})
+    </insert>
+
 </mapper>

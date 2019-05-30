@@ -100,4 +100,19 @@ public class HaCentorServiceImpl implements HaCentorService {
     public Integer deleteHaCentor(Integer id) {
         return haCentorMapper.deleteHaCentor(id);
     }
+
+    @Override
+    public List<HaCentor> deviceTypeCentor() {
+        return haCentorMapper.deviceTypeCentor();
+    }
+
+    @Override
+    public List<HaCentor> deviceTypeCcentor() {
+        return haCentorMapper.deviceTypeCcentor();
+    }
+
+    @Override
+    public List<HaCentor> deviceTypehandDevice() {
+        return haCentorMapper.deviceTypehandDevice();
+    }
 }

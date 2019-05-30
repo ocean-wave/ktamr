@@ -33,4 +33,7 @@ public interface HaCollectorMapper {
     Integer updateHaCollector(HaCollector haCollector);
 
     Integer deleteHaCollector(@Param("collectorId") Integer collectorId);
+
+    //deviceId不为空查询
+    List<HaCollector> collectorByDeviceId(@Param("deviceId") Integer deviceId);
 }
