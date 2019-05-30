@@ -202,7 +202,7 @@ public class ZhuYeController {
         List<HaRgn> haRgns = haRngService.selectBigNameB();
         if(Globalstate!=null&&haRgns!=null){
             model.addAttribute("haRgnsListName",haRgns);
-            return "meter/meters_state_list.html";//返回打开的页面
+            return "meter/metersStateList.html";//返回打开的页面
         }
         return null;
     }

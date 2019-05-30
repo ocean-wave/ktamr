@@ -55,4 +55,32 @@ public class HaOperatorServiceImpl implements HaOperatorService {
     public Integer deleteHaOperator(HaOperator haOperator) {
         return haOperatorMapper.deleteHaOperator(haOperator);
     }
+
+    /**
+     * 修改密码时验证原密码
+     * @param haOperator
+     * @return
+     */
+    @Override
+    public String CheckPwd(HaOperator haOperator) {
+        String checkPwd = haOperatorMapper.CheckPwd(haOperator);
+        if(checkPwd!=null){
+            return checkPwd;
+        }
+        return null;
+    }
+
+    /**
+     * 修改密码操作
+     * @param haOperator
+     * @return
+     */
+    @Override
+    public Integer ChangePWD(HaOperator haOperator) {
+        Integer changePWD = haOperatorMapper.ChangePWD(haOperator);
+        if(changePWD!=null){
+            return changePWD;
+        }
+        return null;
+    }
 }

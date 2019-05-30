@@ -3,6 +3,8 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaMonthbtime;
 import com.ktamr.common.utils.DateUtils;
@@ -11,6 +13,7 @@ import com.ktamr.service.HaMonthbtimeService;
 import com.ktamr.util.PageUtil;
 import com.ktamr.util.Tool;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,7 +45,7 @@ public class HaBillrecordsController {
      * @param haBillrecords
      * @return
      */
-    @RequestMapping("/showBillRecordsList")
+    @RequestMapping("/pay/sfjl/showBillRecordsList")
     @ResponseBody
     public  Object  showBillRecordsList(HaBillrecords haBillrecords, HttpServletRequest request, PageUtil pageUtil
     ){
@@ -58,6 +61,23 @@ public class HaBillrecordsController {
         return null;
     }
 
+    /**
+     * 收费记录导出
+     * @param haBillrecords
+     * @param excelUtilTwo
+     * @return
+     */
+    @PostMapping("/pay/sfjl/export")
+    @ResponseBody
+    public AjaxResult ybbexport(HaBillrecords haBillrecords, ExcelUtilTwo excelUtilTwo)
+    {
+        //这里保证查询的是全部的数据
+        List<HaBillrecords> haAreaList =haBillrecordsService.queryHaBillrecordsList(haBillrecords,9999999,0 );
+        if (haAreaList!=null){
+            return excelUtilTwo.init(haAreaList, "月报表数据");
+        }
+        return null;
+    }
     /**
      * 查询用户账单列表
      * @param haBillrecords

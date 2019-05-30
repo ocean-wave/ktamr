@@ -78,7 +78,7 @@
         $("#date_range").val(today+' ~ '+today);
 
         var Post_Data = {ListNumber: 53, TotalLocation: "用户编号", SumColName: "收费金额,当前余额", startDate: today, endDate: today};
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/showBillRecordsList");
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/pay/sfjl/showBillRecordsList");
         GridObj.jqdefaultGridConfig.caption = "";
         GridObj.jqdefaultGridConfig.multiselect = false;
         GridObj.jqdefaultGridConfig.postData = Post_Data;

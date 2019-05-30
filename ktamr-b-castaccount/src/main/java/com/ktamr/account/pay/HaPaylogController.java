@@ -3,6 +3,8 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaFreeze;
 import com.ktamr.domain.HaPaylog;
@@ -13,6 +15,7 @@ import com.ktamr.service.HaPaylogService;
 import com.ktamr.util.PageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,13 +51,30 @@ public class HaPaylogController {
     }
 
     /**
+     * 导出缴费单数据
+     * @param haPaylog
+     * @param excelUtilTwo
+     * @return
+     */
+    @PostMapping("/pay/export")
+    @ResponseBody
+    public AjaxResult export(HaPaylog haPaylog, ExcelUtilTwo excelUtilTwo)
+    {
+        //这里保证查询的是全部的数据
+        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog, 9999999,0);
+        if (haPaylogList!=null){
+            return excelUtilTwo.init(haPaylogList, "缴费单数据");
+        }
+        return null;
+    }
+    /**
      * 缴费单页面查询+分页
      * @param haPaylog
      * @param request
      * @param pageSize
      * @return
      */
-    @RequestMapping(value ="/showHaPaylogList")
+    @RequestMapping(value ="/pay/showHaPaylogList")
     @ResponseBody
     public Object showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
     , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh, PageUtil pageUtil
@@ -118,13 +138,32 @@ public class HaPaylogController {
         return null;
     }
 
+
+    /**
+     * 导出月报表
+     * @param haPaylog
+     * @param excelUtilTwo
+     * @return
+     */
+    @PostMapping("/pay/ybb/export")
+    @ResponseBody
+    public AjaxResult ybbexport(HaPaylog haPaylog, ExcelUtilTwo excelUtilTwo)
+    {
+        //这里保证查询的是全部的数据
+        List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog, 9999999,0);
+        if (haPaylogList!=null){
+            return excelUtilTwo.init(haPaylogList, "月报表数据");
+        }
+        return null;
+    }
+
     /**
      * 月报表的查询
      * @param haPaylog
      * @param request
      * @return
      */
-    @RequestMapping(value ="/showMonthReportList")
+    @RequestMapping(value ="/pay/ybb/showMonthReportList")
     @ResponseBody
     public String showHaMonthReportList(HaPaylog haPaylog, HttpServletRequest request
     , PageUtil pageUtil){
