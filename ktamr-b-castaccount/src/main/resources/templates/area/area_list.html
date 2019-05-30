@@ -76,7 +76,7 @@
             {name: 'name', width: 150,frozen : true },
             {name: 'addr', width: 150 },
             {name: 'ds', width: 80 },
-            {name: 'meter.meterId', align: 'right' ,width: 70 }
+            {name: 'haMeter.meterId', align: 'right' ,width: 70 }
 
             ,{name: 'reserved', width: 100, align: 'center'
                 ,formatter: function (cellvalue, options, rowObject) {
@@ -132,6 +132,7 @@
         });
         //查询按钮点击事件
         $(".search").click(function(){
+            alert("GridId:  "+"jqGrid"+" , "+"execelFileName:  "+' ');
            // var  _pdArray = "", _rgnIds = $("#rgns").val().join(",");
              var  _pdArray = "";
             var _rgnIds=null;
@@ -154,6 +155,7 @@
             console.log(data);
             var confirmText = "";
             if(data["isON"] == "true"){
+
                 confirmText = "确定开启小区冻结抄收吗？";
             }else{
                 confirmText = "确定关闭小区冻结抄收吗？";
@@ -274,7 +276,7 @@
             var _this = this, _layerSize, _queryStr;
             var btnName = $(_this).data("title"),
                 areaids = GridObj.getSelRowIds();
-            console.log("areaids值为"+areaids);
+            //console.log("areaids值为"+areaids);
             var b_isMultiIDs = isMultiIDs(areaids);
             if(areaids=="" && btnName != "新增" && btnName != "结算上传"){
                 layer.msg("请选择操作行", {icon: 5});

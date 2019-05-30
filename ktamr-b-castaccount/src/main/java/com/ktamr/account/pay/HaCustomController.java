@@ -3,6 +3,8 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaCustom;
 import com.ktamr.service.HaBillrecordsService;
@@ -10,6 +12,7 @@ import com.ktamr.service.HaCustomService;
 import com.ktamr.util.PageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,12 +40,12 @@ public class HaCustomController {
     }
 
     /**
-     * 打开用户账户列表
+     * 查询用户账户列表
      * @param haCustom
      * @param request
      * @return
      */
-    @RequestMapping("/queryHaCustomList")
+    @RequestMapping("/pay/yhzh/queryHaCustomList")
     @ResponseBody
     public String queryHaCustomList(HaCustom haCustom , HttpServletRequest request, PageUtil pageUtil){
         //接收一波
@@ -60,6 +63,23 @@ public class HaCustomController {
         return null;
     }
 
+    /**
+     * 收费记录导出
+     * @param haCustom
+     * @param excelUtilTwo
+     * @return
+     */
+    @PostMapping("/pay/yhzh/export")
+    @ResponseBody
+    public AjaxResult ybbexport(HaCustom haCustom, ExcelUtilTwo excelUtilTwo)
+    {
+        //这里保证查询的是全部的数据
+        List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom, 9999999,0);
+        if (haCustomList!=null){
+            return excelUtilTwo.init(haCustomList, "月报表数据");
+        }
+        return null;
+    }
 
     /**
      * 此方法用于查询用户账户中的预存费用,并打开费用查询页面

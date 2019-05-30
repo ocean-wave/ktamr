@@ -155,8 +155,8 @@
     <select id="selectMonthReportList" resultMap="HaPaylogMap2">
 
        SELECT f.itemid AS itemid,
-         mi.custid as micustid,
-         mi.用户号 AS 用户编号,
+
+        mi.用户号 AS 用户编号,
 		mi.用户名 AS 用户名称,
 		mi.用户地址 AS 用户地址,
 		m.meterNumber AS mmeterNumber,

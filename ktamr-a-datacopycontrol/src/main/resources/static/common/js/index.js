@@ -644,7 +644,7 @@ layui.define(['jquery', 'laytpl', 'form', 'layer', 'element', 'myLayui'], functi
 
 	$('.passwordChange').click(function(){
 		var _queryStr = "", _layerSize = ['455px', '350px'];
-		_myLayui.showLayer("修改密码","/operator/operator_pwd_change.asp", _queryStr, _layerSize);
+		_myLayui.showLayer("修改密码","/operator/operator_pwd_change", _queryStr, _layerSize);
 	});
 
 	exports('index', {});
