@@ -845,7 +845,7 @@
                     charts[1] = echarts.init(document.getElementById('deviceState'));
                     charts[1].setOption(option2);
 
-                    //echarts相应式显示
+                    //echarts响应式显示
                     $(window).resize(function(){
                         $(charts).each(function(index, chart){
                             chart.resize();
