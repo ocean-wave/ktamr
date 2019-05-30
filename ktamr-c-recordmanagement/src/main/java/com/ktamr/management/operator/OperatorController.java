@@ -7,11 +7,13 @@ import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HaRngService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,47 +32,61 @@ public class OperatorController {
     private HaAreaService haAreaService;
 
     @RequestMapping("/operator_list")
-    public String operator_list(){
+    public String operator_list() {
         return "operator/operator_list";
     }
 
     @RequestMapping("/JumpOperatorAdd")
-    public String jumpoperatoradd(){return "operator/operator_add";}
+    public String jumpoperatoradd() {
+        return "operator/operator_add";
+    }
 
     @RequestMapping("/JumpOperatorUpdate")
-    public String jumpoperatorupdate(){return "operator/operator_update";}
+    public String jumpoperatorupdate(String operatorCode, Model model) {
+        HaOperator haOperator = haOperatorService.updateByIdHaOperator(operatorCode);
+        HaOperator selUpperRgnType = haOperatorService.selUpperRgnType(haOperator.getOperatorCode());
+        List<HaRgn> queryRgnByRgn = haRngService.queryRgnByRgn();
+        List<HaArea> queryAreaByArea = haAreaService.queryAreaByArea();
+        model.addAttribute("haOperator", haOperator);
+        model.addAttribute("selUpperRgnType", selUpperRgnType);
+        model.addAttribute("queryRgnByRgn", queryRgnByRgn);
+        model.addAttribute("queryAreaByArea", queryAreaByArea);
+        model.addAttribute("operatorCode", operatorCode);
+        return "operator/operator_update";
+    }
 
     @RequestMapping("/operatorListJson")
     @ResponseBody
-    public Object operatorlistjson(HaOperator haOperator, HttpServletRequest request){
-        Integer page,pageRows;
+    public Object operatorlistjson(HaOperator haOperator, HttpServletRequest request) {
+        Integer page, pageRows;
         String page1 = request.getParameter("page");//获取需要多少行
         String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if(page1==null&&pageRows1==null){//为了防止异常给它初始化一波
+        if (page1 == null && pageRows1 == null) {//为了防止异常给它初始化一波
             page = 100;
             pageRows = 100;
-        }else {//如果有那就获取一波
+        } else {//如果有那就获取一波
             page = Integer.parseInt(page1); // 取得当前页数
             pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
         }
-        int page2=page;//重新定义变量接收
+        int page2 = page;//重新定义变量接收
         --page2;
-        List<HaOperator> haOperatorsList = haOperatorService.HaOperatorList(haOperator,pageRows,page2);
+        List<HaOperator> haOperatorsList = haOperatorService.HaOperatorList(haOperator, pageRows, page2);
         Integer haOperatorCount = haOperatorService.selectHaOperatorCount(haOperator);
-        Map<String ,Object> map=new HashMap<String, Object>();
-        map.put("page",page);//设置初始的页码 就是第几页
-        map.put("rowNum",pageRows);//一页显示几条数据
-        map.put("records",haOperatorCount);//总记录数
-        map.put("total",(haOperatorCount-1)/pageRows+1);//总页数的计算
-        map.put("rows",haOperatorsList);//存放集合
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);//设置初始的页码 就是第几页
+        map.put("rowNum", pageRows);//一页显示几条数据
+        map.put("records", haOperatorCount);//总记录数
+        map.put("total", (haOperatorCount - 1) / pageRows + 1);//总页数的计算
+        map.put("rows", haOperatorsList);//存放集合
         return map;
     }
 
     @RequestMapping("/AddHaOperator")
     @ResponseBody
-    public Object addHaOperator(HaOperator haOperator){
+    public Object addHaOperator(HaOperator haOperator) {
+        haOperator.setOperatorCreatTime(new Date());
         Integer haOperators = haOperatorService.addHaOperator(haOperator);
-        if(haOperators!=null){
+        if (haOperators == 1) {
             return "true";
         }
         return "false";
@@ -78,22 +94,32 @@ public class OperatorController {
 
     @RequestMapping("/DeleteHaOperator")
     @ResponseBody
-    public Object deleteHaOperator(HaOperator haOperator){
+    public Object deleteHaOperator(HaOperator haOperator) {
         Integer haOperators = haOperatorService.deleteHaOperator(haOperator);
-        if(haOperators!=null){
+        if (haOperators != null) {
             return "";
         }
-            return "false";
+        return "false";
+    }
+
+    @RequestMapping("/UpdateHaOperator")
+    @ResponseBody
+    public Object updateHaOperator(HaOperator haOperator) {
+        Integer updateHaOperator = haOperatorService.updateHaOperator(haOperator);
+        if (updateHaOperator == 1) {
+            return "true";
+        }
+        return "false";
     }
 
     //根据区域类型选择所属区域
     @RequestMapping("/LoadSelectOption")
     @ResponseBody
-    public Object LoadSelectOption(String selectType,String op){
-        if(selectType.equals("rgn") && op.equals("add")){
+    public Object LoadSelectOption(String selectType, String op) {
+        if (selectType.equals("rgn") && op.equals("add")) {
             List<HaRgn> queryRgnByRgn = haRngService.queryRgnByRgn();
             return queryRgnByRgn;
-        }else if(selectType.equals("area") && op.equals("add")){
+        } else if (selectType.equals("area") && op.equals("add")) {
             List<HaArea> queryAreaByArea = haAreaService.queryAreaByArea();
             return queryAreaByArea;
         }

@@ -36,6 +36,16 @@ public class HaOperatorServiceImpl implements HaOperatorService {
     }
 
     @Override
+    public HaOperator updateByIdHaOperator(String operatorCode) {
+        return haOperatorMapper.updateByIdHaOperator(operatorCode);
+    }
+
+    @Override
+    public HaOperator selUpperRgnType(String operatorCode) {
+        return haOperatorMapper.selUpperRgnType(operatorCode);
+    }
+
+    @Override
     public Integer selectHaOperatorCount(HaOperator haOperator) {
         Integer haOperators = haOperatorMapper.selectHaOperatorCount(haOperator);
         if(haOperators!=null){

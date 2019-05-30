@@ -352,17 +352,17 @@
 
     <!--设备类型为centor下拉框-->
     <select id="deviceTypeCentor" resultType="com.ktamr.domain.HaCentor">
-        SELECT id, centorNo,addr FROM ha_centor WHERE Left(description, 3)='KT4'
+        SELECT id,centorNo,addr FROM ha_centor WHERE Left(description, 3)='KT4'
     </select>
 
     <!--设备类型为ccentor下拉框-->
     <select id="deviceTypeCcentor" resultType="com.ktamr.domain.HaCentor">
-        SELECT id, centorNo,addr FROM ha_centor
+        SELECT id,centorNo,addr FROM ha_centor
          WHERE (Left(description, 3)='COM' OR Left(description, 4)='GPRS' OR Left(description, 3)='KT3')
     </select>
 
     <!--设备类型为handDevice下拉框-->
     <select id="deviceTypehandDevice" resultType="com.ktamr.domain.HaCentor">
-        SELECT id, centorNo,addr FROM ha_centor WHERE description = 'HAND'
+        SELECT id,centorNo,addr FROM ha_centor WHERE description = 'HAND'
     </select>
 </mapper>

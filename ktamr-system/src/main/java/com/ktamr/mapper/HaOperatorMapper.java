@@ -15,6 +15,10 @@ public interface HaOperatorMapper {
 
     List<HaOperator> HaOperatorList(@Param("haOperator") HaOperator haOperator, @Param("page") Integer page, @Param("rowNum") Integer rowNum);
 
+    HaOperator updateByIdHaOperator(@Param("operatorCode") String operatorCode);
+
+    HaOperator selUpperRgnType(@Param("operatorCode") String operatorCode);
+
     Integer selectHaOperatorCount(HaOperator haOperator);
 
     Integer addHaOperator(HaOperator haOperator);

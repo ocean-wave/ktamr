@@ -68,7 +68,15 @@
         </trim>
     </update>
 
-    <select id="collectorByDeviceId" resultType="com.ktamr.domain.HaCollector">
-        SELECT collectorid, to_hex(nconf),addr FROM ha_collector WHERE centorid=#{deviceId}
+    <resultMap id="collectorMap" type="com.ktamr.domain.HaCollector">
+        <id column="collectorId" property="collectorId"></id>
+        <result column="addr" property="addr"></result>
+        <result column="nconf" property="nconf"></result>
+        <result column="ver" property="ver"></result>
+        <result column="state" property="state"></result>
+    </resultMap>
+
+    <select id="collectorByDeviceId" resultMap="collectorMap">
+        SELECT collectorid as collectorId,nconf as nconf,addr as addr FROM ha_collector WHERE centorid=#{deviceId}
     </select>
 </mapper>

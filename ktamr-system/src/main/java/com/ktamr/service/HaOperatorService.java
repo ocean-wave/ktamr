@@ -14,6 +14,10 @@ public interface HaOperatorService {
     List<HaOperator> HaOperatorList(HaOperator haOperator, Integer page,
                                     Integer rowNum);
 
+    HaOperator updateByIdHaOperator(String operatorCode);
+
+    HaOperator selUpperRgnType(String operatorCode);
+
     Integer selectHaOperatorCount(HaOperator haOperator);
 
     Integer addHaOperator(HaOperator haOperator);

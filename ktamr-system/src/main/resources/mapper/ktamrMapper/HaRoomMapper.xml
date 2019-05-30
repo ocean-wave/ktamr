@@ -100,7 +100,7 @@
     </select>
 
     <insert id="addHaRoomC">
-        insert into ha_room values(default ,#{name},#{description},#{buildingId})
+        insert into ha_room(roomid,name,description,buildingid) values(default ,#{name},#{description},#{buildingId})
     </insert>
 
 </mapper>

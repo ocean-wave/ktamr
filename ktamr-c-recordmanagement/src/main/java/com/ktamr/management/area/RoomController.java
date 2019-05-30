@@ -1,13 +1,7 @@
 package com.ktamr.management.area;
 
-import com.ktamr.domain.HaCentor;
-import com.ktamr.domain.HaCollector;
-import com.ktamr.domain.HaPricestandard;
-import com.ktamr.domain.HaRoom;
-import com.ktamr.service.HaCentorService;
-import com.ktamr.service.HaCollectorService;
-import com.ktamr.service.HaPricestandardService;
-import com.ktamr.service.HaRoomService;
+import com.ktamr.domain.*;
+import com.ktamr.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,24 +29,27 @@ public class RoomController {
     @Resource
     private HaPricestandardService haPricestandardService;
 
+    @Resource
+    private HaMeterService haMeterService;
+
     @RequestMapping("/JumpRoomMeterAdd")
-    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Integer roomId, Integer meterId, Model model){
+    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Integer roomId, Integer meterId, Model model) {
         List<HaPricestandard> haPricestandardList = haPricestandardService.PriceStandardGenOptionSelected();
-        model.addAttribute("haPricestandardList",haPricestandardList);
-        model.addAttribute("cmdName",cmdName);
-        model.addAttribute("buildingId",buildingId);
-        model.addAttribute("roomId",roomId);
-        model.addAttribute("meterId",meterId);
+        model.addAttribute("haPricestandardList", haPricestandardList);
+        model.addAttribute("cmdName", cmdName);
+        model.addAttribute("buildingId", buildingId);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("meterId", meterId);
         return "area/room_meter_add";
     }
 
     @RequestMapping("/JumpRoomMeterDel")
-    public String JumpRoomMeterDel(){
+    public String JumpRoomMeterDel() {
         return "area/room_meter_del";
     }
 
     @RequestMapping("/JumpRoomMeterUpdate")
-    public String JumpRoomMeterUpdate(){
+    public String JumpRoomMeterUpdate() {
         return "area/room_meter_update";
     }
 
@@ -72,7 +69,7 @@ public class RoomController {
         int page2 = page;//重新定义变量接收
         --page2;
 
-        List<HaRoom> allRoom = haRoomService.queryAllRoomC(haRoom,pageRows,page2);
+        List<HaRoom> allRoom = haRoomService.queryAllRoomC(haRoom, pageRows, page2);
         Integer roomCount = haRoomService.allRoomCountC(haRoom);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);//设置初始的页码 就是第几页
@@ -85,18 +82,18 @@ public class RoomController {
 
     @RequestMapping("/LoadDeviceOption")
     @ResponseBody
-    public Object loadDeviceOption(String deviceType,Integer deviceId){
-        if(deviceId!=null){
+    public Object loadDeviceOption(String deviceType, Integer deviceId) {
+        if (deviceId != null) {
             List<HaCollector> collectorByDeviceId = haCollectorService.collectorByDeviceId(deviceId);
             return collectorByDeviceId;
-        }else {
-            if(deviceType.equals("centor")){
+        } else {
+            if (deviceType.equals("centor")) {
                 List<HaCentor> centors = haCentorService.deviceTypeCentor();
                 return centors;
-            }else if (deviceType.equals("ccentor")){
+            } else if (deviceType.equals("ccentor")) {
                 List<HaCentor> ccentors = haCentorService.deviceTypeCcentor();
                 return ccentors;
-            }else if(deviceType.equals("handDevice")){
+            } else if (deviceType.equals("handDevice")) {
                 List<HaCentor> handDevice = haCentorService.deviceTypehandDevice();
                 return handDevice;
             }
@@ -104,6 +101,15 @@ public class RoomController {
         return null;
     }
 
-
+    @RequestMapping("/RoomMeterAdd")
+    @ResponseBody
+    public Object roomMeterAdd(HaRoom haRoom, HaMeter haMeter) {
+        Integer addHaRoomC = haRoomService.addHaRoomC(haRoom);
+        Integer addHaMeter = haMeterService.addHaMeter(haMeter);
+        if (addHaRoomC == 1 && addHaMeter == 1) {
+            return "true";
+        }
+        return "false";
+    }
 
 }
