@@ -29,6 +29,7 @@ public class ExcelUtilTwo {
     private String[] excelName;
     private String[] excelDataFormat;
     private String[] excelAlign;
+    private CellStyle[] cellStyles;
 
     private List<?> list;
     private String sheetName;
@@ -42,6 +43,7 @@ public class ExcelUtilTwo {
         sheet = wb.createSheet();
         this.list = list;
         this.sheetName = sheetName;
+        getCellStyle();
         createExcelField();
         createExcelData();
         return wbWrite();
@@ -83,7 +85,7 @@ public class ExcelUtilTwo {
                             cell.setCellValue(DateUtils.dateTimeTwo((Date) value));
                         }
                     }else{
-                        cell.setCellStyle(getCellStyle(i));
+                        cell.setCellStyle(cellStyles[i]);
                         cell.setCellType(CellType.STRING);
                         cell.setCellValue(StringUtils.isNull(value)?"":value.toString());
                     }
@@ -94,20 +96,23 @@ public class ExcelUtilTwo {
         }
     }
 
-    private CellStyle getCellStyle(int i){
-        CellStyle style =  wb.createCellStyle();
-        switch (excelAlign[i]){
-            case "left":
-                style.setAlignment(HorizontalAlignment.LEFT);
-                break;
-            case "right":
-                style.setAlignment(HorizontalAlignment.RIGHT);
-                break;
-            case "center":
-                style.setAlignment(HorizontalAlignment.CENTER);
-                break;
+    private void getCellStyle(){
+        cellStyles = new CellStyle[excelName.length];
+        for(int i = 0;i<excelName.length;i++) {
+            CellStyle style =  wb.createCellStyle();
+            switch (excelAlign[i]) {
+                case "left":
+                    style.setAlignment(HorizontalAlignment.LEFT);
+                    break;
+                case "right":
+                    style.setAlignment(HorizontalAlignment.RIGHT);
+                    break;
+                case "center":
+                    style.setAlignment(HorizontalAlignment.CENTER);
+                    break;
+            }
+            cellStyles[i] = style;
         }
-        return style;
     }
 
     private Object getTargetValue(Object o, String[] sc)  throws Exception {
