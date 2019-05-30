@@ -32,6 +32,9 @@ public class HaCollector extends BaseEntity {
   private HaCentor haCentor;
   private Integer haCollectorCount;
 
+  private String snconf;
+  private String soconf;
+
 
   public Integer getCollectorId() {
     return collectorId;
@@ -156,4 +159,20 @@ public class HaCollector extends BaseEntity {
     public void setHaCollectorCount(Integer haCollectorCount) {
         this.haCollectorCount = haCollectorCount;
     }
+
+  public String getSnconf() {
+    return snconf;
+  }
+
+  public void setSnconf(String snconf) {
+    this.snconf = snconf;
+  }
+
+  public String getSoconf() {
+    return soconf;
+  }
+
+  public void setSoconf(String soconf) {
+    this.soconf = soconf;
+  }
 }

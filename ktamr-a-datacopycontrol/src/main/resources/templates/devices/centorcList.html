@@ -81,6 +81,7 @@
             </div>
             <div class="layui-btn-group">
                 <button class="layui-btn layui-btn-sm" data-title="加全部表">加全部表</button>
+                <button class="layui-btn layui-btn-sm" data-title="读IMSI/IMEI">读IMSI/IMEI</button>
             </div>
         </div>
         <div class="col-xs-12 my-form-no-edge btns meterBtns">
@@ -107,10 +108,10 @@
 </div>
 
 <div th:include="include :: footer"></div>
-<script>
+<script th:inline="javascript">
     layui.config({
         base : '/common/js/',
-        version: '2.8.2'
+        version: [[${version}]]
     }).extend({
         myLayui: 'myLayui'
     });
@@ -146,13 +147,13 @@
                     { name: 'addr', width: 200 },
                     { name: 'description', width: 110 },
                     { name: 'state', width: 50, cellattr: deviceStateCellColor },
-                    { name: 'resultParams.zbs', width: 75, align: 'right' },
-                    { name: 'resultParams.meters', width: 75, align: 'right', cellattr: compareMetersCellColor},
-                    { name: 'resultParams.jdbs', width: 75, align: 'right' },
-                    { name: 'resultParams.wfhbs', width: 80, align: 'right' },
+                    { name: 'zbs', width: 75, align: 'right' },
+                    { name: 'meters', width: 75, align: 'right', cellattr: compareMetersCellColor},
+                    { name: 'jdbs', width: 75, align: 'right' },
+                    { name: 'wfhbs', width: 80, align: 'right' },
                     { name: 'lastStateChangeTime', width: 150 },
-                    { name: 'resultParams.xhqd', width: 75, align: 'right' },
-                    { name: 'resultParams.dcdy', width: 80, align: 'right' },
+                    { name: 'xhqd', width: 75, align: 'right' },
+                    { name: 'dcdy', width: 80, align: 'right' },
                     //{ name: '固定抄表时间', width: 100 },
                     { name: 'ver', width: 70 },
                     { name: 'remark', width: 100 },
@@ -178,11 +179,11 @@
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'haMeter.meterId',  width: 75, key: true, hidden: true},
                     { name: 'centorId',  width: 75, hidden: true},
-                    { name: 'resultParams.centorAddr',  width: 75, hidden: true},
+                    { name: 'centorAddr',  width: 75, hidden: true},
                     { name: 'haMeter.havMeterinfo.userNo', width: 120 },
                     { name: 'haMeter.havMeterinfo.userName', width: 120 },
                     { name: 'haMeter.havMeterinfo.userDs', width: 200 },
-                    { name: 'haMeter.havMeterinfo.meterNumber', align: 'right', width: 120 },
+                    { name: 'haMeter.meterNumber', align: 'right', width: 120 },
                     { name: 'haMeter.lfNumber', align: 'right' ,width: 80 },
                     { name: 'haMeter.thNumber', align: 'right' ,width: 80 },
                     { name: 'haMeter.sNumber', width: 80, align: 'right' },
@@ -393,7 +394,7 @@
                 return false;
             }
             var cmdName = $(this).data("title");
-            var deviceType = $("#nodeType2").val() ? $("#nodeType2").val() : "allCentor";
+            var deviceType = $("#nodeType2").val() ? $("#nodeType2").val() : "allCCentor";
             //var deviceId = $("#nodeId2").val();
             var rowIds = getSelectedRows("jqGrid");
             var b_isMultiIDs = isMultiIDs(rowIds);
@@ -402,7 +403,7 @@
                 return false;
             }
 
-            if(rowIds == "" && cmdName != "加全部表" && cmdName != "删全部表"){
+            if(rowIds == ""){
                 layer.msg("请选择操作行！", {icon: 5});
                 return false;
             }
@@ -415,30 +416,16 @@
                 layer.msg("一次最多只能选择5条表资料！", {icon: 5});
                 return false;
             }
-            var rowData = "", deviceAdd = 0;
 
-            if(deviceType == "allCentor"){
+            if(deviceType == "allCCentor"){
                 _layerSize = ['455px', '360px'];
                 _queryStr = [
-                    "deviceType=centorc",
+                    "deviceType=ccentor",
                     "cmdName="+cmdName,
                     "ids="+rowIds
                 ];
-                _myLayui.showLayer(cmdName,"/equipment/deviceMng", _queryStr, _layerSize);
-            }else if(cmdName == "加全部表" || cmdName == "删全部表"){
-                var deviceId = $("#nodeIds2").val();
-                var deviceName = $("#deviceSel").val().split(":");
-                _layerSize = ['455px', '360px'];
-                _queryStr = [
-                    "deviceType=centorc",
-                    "cmdName="+cmdName,
-                    "ids="+deviceId,
-                    "deviceName="+escape(deviceName[1])
-                ];
-                _myLayui.showLayer(cmdName,"/equipment/deviceMng", _queryStr, _layerSize);
+                _myLayui.showLayer(cmdName,"./device_mng.asp", _queryStr, _layerSize);
             }else{
-                //console.log(deviceType);
-                //console.log(rowIds);
                 cmdsObj.cmdName = cmdName;
                 cmdsObj.rowIds = rowIds.split(",");
                 cmdsObj.index = 0;

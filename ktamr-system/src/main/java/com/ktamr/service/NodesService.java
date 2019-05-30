@@ -20,7 +20,7 @@ public interface NodesService {
 
     public List<Map<String,Object>> selectAllCentorzNodes(String areaType,String id);
 
-    public List<Map<String,Object>> selectAllCentorcNodes(String rgnAndAreaId);
+    public List<Map<String,Object>> selectAllCentorcNodes(String rgnAndAreaId,String id);
 
     public List<Map<String,Object>> selectAllCollectorNodes(Integer collectorid);
 }

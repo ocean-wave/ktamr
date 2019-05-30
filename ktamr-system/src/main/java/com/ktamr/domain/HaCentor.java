@@ -61,6 +61,13 @@ public class HaCentor extends BaseEntity {
     private Integer jdbs;
     private Integer wfhbs;
 
+    private String centorDs;
+    private String centorAddr;
+    private String collectorAddr;
+    private String xhqd;
+    private String dcdy;
+    private String centorAreaNo;
+
     //存查询时用到的对象
     private String nodeType;
     private String nodeIds;
@@ -361,5 +368,53 @@ public class HaCentor extends BaseEntity {
 
     public void setCmdName(String cmdName) {
         this.cmdName = cmdName;
+    }
+
+    public String getCentorDs() {
+        return centorDs;
+    }
+
+    public void setCentorDs(String centorDs) {
+        this.centorDs = centorDs;
+    }
+
+    public String getCentorAddr() {
+        return centorAddr;
+    }
+
+    public void setCentorAddr(String centorAddr) {
+        this.centorAddr = centorAddr;
+    }
+
+    public String getCollectorAddr() {
+        return collectorAddr;
+    }
+
+    public void setCollectorAddr(String collectorAddr) {
+        this.collectorAddr = collectorAddr;
+    }
+
+    public String getXhqd() {
+        return xhqd;
+    }
+
+    public void setXhqd(String xhqd) {
+        this.xhqd = xhqd;
+    }
+
+    public String getDcdy() {
+        return dcdy;
+    }
+
+    public void setDcdy(String dcdy) {
+        this.dcdy = dcdy;
+    }
+
+    public String getCentorAreaNo() {
+        return centorAreaNo;
+    }
+
+    public void setCentorAreaNo(String centorAreaNo) {
+        this.centorAreaNo = centorAreaNo;
     }
 }

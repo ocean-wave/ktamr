@@ -34,6 +34,11 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.selectMeterAndBuildingById(meterId);
     }
 
+    @Override
+    public HaMeter selectMeterAndBuildingByKeyWordTwo(String keyWordTwo) {
+        return haMeterMapper.selectMeterAndBuildingByKeyWordTwo(keyWordTwo);
+    }
+
     /**
      * 查询HaMeter表信息
      * @param params 对象参数

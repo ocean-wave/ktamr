@@ -69,6 +69,16 @@ public class HaMeter extends BaseEntity {
     private HaCustom haCustom;
     private HaBuilding haBuilding;
 
+    private String zjsl;
+    private String sfny;
+    private String sycjs;
+    private String ysl;
+    private String csdrbj;
+    private String cbrq;
+    private String amtabnum;
+    private String watermete;
+    private String cbtdate;
+
     public HaCustom getHaCustom() {
         return haCustom;
     }
@@ -459,5 +469,77 @@ public class HaMeter extends BaseEntity {
 
     public void setCentorId(Integer centorId) {
         this.centorId = centorId;
+    }
+
+    public String getZjsl() {
+        return zjsl;
+    }
+
+    public void setZjsl(String zjsl) {
+        this.zjsl = zjsl;
+    }
+
+    public String getSfny() {
+        return sfny;
+    }
+
+    public void setSfny(String sfny) {
+        this.sfny = sfny;
+    }
+
+    public String getSycjs() {
+        return sycjs;
+    }
+
+    public void setSycjs(String sycjs) {
+        this.sycjs = sycjs;
+    }
+
+    public String getYsl() {
+        return ysl;
+    }
+
+    public void setYsl(String ysl) {
+        this.ysl = ysl;
+    }
+
+    public String getCsdrbj() {
+        return csdrbj;
+    }
+
+    public void setCsdrbj(String csdrbj) {
+        this.csdrbj = csdrbj;
+    }
+
+    public String getCbrq() {
+        return cbrq;
+    }
+
+    public void setCbrq(String cbrq) {
+        this.cbrq = cbrq;
+    }
+
+    public String getAmtabnum() {
+        return amtabnum;
+    }
+
+    public void setAmtabnum(String amtabnum) {
+        this.amtabnum = amtabnum;
+    }
+
+    public String getWatermete() {
+        return watermete;
+    }
+
+    public void setWatermete(String watermete) {
+        this.watermete = watermete;
+    }
+
+    public String getCbtdate() {
+        return cbtdate;
+    }
+
+    public void setCbtdate(String cbtdate) {
+        this.cbtdate = cbtdate;
     }
 }

@@ -9,24 +9,23 @@
 
         <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="userDs" property="resultParams.userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
         <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
         <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
         <result column="sNumber" property="snumber" javaType="java.lang.Double"></result>
-        <result column="zjsl" property="resultParams.zjsl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="sfny" property="resultParams.sfny" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="sycjs" property="resultParams.sycjs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="ysl" property="resultParams.ysl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="csdrbj" property="resultParams.csdrbj" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="cbrq" property="resultParams.cbrq" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="amtabnum" property="resultParams.amtabnum" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="watermete" property="resultParams.watermete" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="cbtdate" property="resultParams.cbtdate" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="zjsl" property="zjsl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="sfny" property="sfny" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="sycjs" property="sycjs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="ysl" property="ysl" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="csdrbj" property="csdrbj" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="cbrq" property="cbrq" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="amtabnum" property="amtabnum" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="watermete" property="watermete" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="cbtdate" property="cbtdate" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
 
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
-            <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="nconf" property="snconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
         <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
             <result column="centorNo" property="centorNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -54,17 +53,6 @@
             <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
         </association>
     </resultMap>
-
-    <sql id="getRightCondition">
-        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
-            <if test=" params.operatorRgnType == 'rgn' ">
-                and position( LEFT(mi.areaNo,1) in #{params.rgnStr})>0
-            </if>
-            <if test=" params.operatorRgnType == 'area' ">
-                and mi.areano in (#{params.areaNo})
-            </if>
-        </if>
-    </sql>
 
     <!-- 主页统计表==》表列表 全部数据List集合    -->
     <select id="zhuYegetStateMeter" resultMap="haMeterMap">
@@ -129,6 +117,20 @@
         WHERE m.meterid =#{meterId}
     </select>
 
+    <select id="selectMeterAndBuildingByKeyWordTwo" resultMap="haMeterMap">
+        SELECT
+          CASE WHEN cu.custno is null THEN  '*' ELSE cu.custno End AS userNo
+        , CASE WHEN cu.name is null THEN '*' ELSE cu.name END AS userName
+        , a.name||'-'||b.name||'-'||r.name AS userDs
+        ,m.meterNumber AS meterNumber
+        ,m.meterid AS meterId
+        FROM (((ha_meter m LEFT JOIN ha_room r ON m.roomid=r.roomid)
+        LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
+        LEFT JOIN ha_area a ON m.areaid=a.areaid)
+        LEFT JOIN ha_custom cu ON r.custid=cu.custid
+        WHERE (cu.custno = #{ketWordTwo} or to_char(m.meterNumber,'fm9999999999999') = #{ketWordTwo})
+    </select>
+
     <select id="selectDosageRecently" resultMap="haMeterMap" parameterType="com.ktamr.domain.HaMeter">
         SELECT
         m.meterid AS meterId
@@ -145,7 +147,7 @@
         FROM ha_meter m
         inner join hav_meterinfo mi on mi.meterid = m.meterid
         where 1=1
-        <include refid="getRightCondition"></include>
+        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -339,7 +341,7 @@
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             WHERE mi.meterid IS NOT NULL
         </if>
-        <include refid="getRightCondition"></include>
+        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND a.areaid IN (cast(#{params.nodeIds} as INTEGER ))
         </if>
@@ -369,7 +371,7 @@
         , to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') AS recentreadtime
         FROM ha_meter m, hav_meterinfo mi, ha_area a
         WHERE m.meterid=mi.meterid AND a.areaid=mi.areaid
-        <include refid="getRightCondition"></include>
+        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.keyWord != null and params.keyWord != '' ">
             and ( mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
             or mi.用户地址 like '%${params.keyWord}%' or to_char(m.meterNumber,'fm99999999999999') like '%${params.keyWord}%'

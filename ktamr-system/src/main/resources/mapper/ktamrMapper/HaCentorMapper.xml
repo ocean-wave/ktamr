@@ -7,8 +7,8 @@
     <resultMap id="haCentorMap" type="com.ktamr.domain.HaCentor">
         <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="centorNo" property="centorNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="centorAreaNo" property="resultParams.centorAreaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="centorDs" property="resultParams.centorDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centorAreaNo" property="centorAreaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centorDs" property="centorDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="centorId" property="centorId" javaType="java.lang.Long"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="description" property="description" javaType="java.lang.String"></result>
@@ -18,9 +18,6 @@
         <result column="areaId" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="jdbs" property="jdbs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="wfhbs" property="wfhbs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="thNumber" property="resultParams.thNumber" javaType="java.lang.String"></result>
-        <result column="lfNumber" property="resultParams.lfNumber" javaType="java.lang.String"></result>
-        <result column="sNumber" property="resultParams.sNumber" javaType="java.lang.String"></result>
         <result column="lastStateChangeTime" property="lastStateChangeTime" javaType="java.util.Date"></result>
         <result column="telNumber" property="telNumber" javaType="java.lang.String"></result>
         <result column="ver" property="ver" javaType="java.lang.String"></result>
@@ -28,18 +25,18 @@
         <result column="setupTime" property="setupTime" javaType="java.util.Date"></result>
         <result column="endTime" property="endTime" javaType="java.util.Date"></result>
         <result column="rTime" property="rTime" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="oconf" property="resultParams.oconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="centorAddr" property="resultParams.centorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="collectorAddr" property="resultParams.collectorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="xhqd" property="resultParams.xhqd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="dcdy" property="resultParams.dcdy" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="centorAddr" property="centorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="collectorAddr" property="collectorAddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="xhqd" property="xhqd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="dcdy" property="dcdy" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <id column="collectorId" property="collectorId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
             <result column="routers" property="routers" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="nconf" property="snconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="oconf" property="soconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
 
             <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
                 <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
@@ -51,7 +48,7 @@
             <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
             <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
             <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
-            <result column="sNumber" property="sNumber" javaType="java.lang.Double"></result>
+            <result column="snumber" property="snumber" javaType="java.lang.Double"></result>
             <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
                 <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
@@ -60,21 +57,10 @@
                 <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
                 <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
                 <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-                <result column="meterNumber" property="meterNumber" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
             </association>
         </association>
     </resultMap>
 
-    <sql id="getRightCondition">
-        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
-            <if test=" params.operatorRgnType == 'rgn' ">
-                and position( LEFT(ce.centorNo,1) in #{params.rgnStr})>0
-            </if>
-            <if test=" params.operatorRgnType == 'area' ">
-                and left(ce.centorNo,5) in (#{params.areaNo})
-            </if>
-        </if>
-    </sql>
     <!--A区集中器-->
    <select id="selectAllCentorzAndCount" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
         SELECT  c.id AS id
@@ -98,7 +84,7 @@
         FROM ha_centor c,ha_area a
         WHERE Left(c.description,3)='KT4'
         AND Left(c.centorNO, 5)=a.areaNO
-       <include refid="getRightCondition"></include>
+       and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -129,7 +115,7 @@
         , m.meterNumber AS meterNumber
         , m.lf_number as lfNumber
         , m.th_number as thNumber
-        , m.s_number as sNumber
+        , m.s_number as snumber
         , m.state as state
         , m.th_r_time as thRTime
          FROM  ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid
@@ -197,7 +183,7 @@
         ,c.endTime AS endTime
         FROM ha_centor c,ha_area a
         WHERE (Left(c.description,4)='GPRS' OR Left(c.description,3)='COM' OR Left(c.description,3)='KT3') AND Left(c.centorNO, 5)=a.areaNO
-        <include refid="getRightCondition"></include>
+        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -266,7 +252,7 @@
         <if test=" params.nodeIds == 'rgn' and params.nodeIds != '' ">
             AND position( Left(a.areaNo, 1) in #{nodeIds}) > 0
         </if>
-        <!--<include refid="getRightCondition"></include>-->
+        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         ORDER BY ce.centorNo,ce.addr
     </select>
 

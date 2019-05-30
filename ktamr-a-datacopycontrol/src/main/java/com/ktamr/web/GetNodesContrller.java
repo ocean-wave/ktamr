@@ -96,9 +96,9 @@ public class GetNodesContrller extends BaseController {
     @RequestMapping("/getEquipmentCentorcNodes")
     @ResponseBody
     public String getEquipmentCentorcNodes(@RequestParam( value = "areaType",required = false) String areaType,
-                                           @RequestParam( value = "id",required = false) Integer id){
+                                           @RequestParam( value = "id",required = false) String id){
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部集采器', iconSkin:'icon00', open:true}";
-        List<Map<String,Object>> listCentor = nodesService.selectAllCentorcNodes(ShiroUtils.getRgnAndAreaId());
+        List<Map<String,Object>> listCentor = nodesService.selectAllCentorcNodes(ShiroUtils.getRgnAndAreaId(),id);
         for  (Map<String,Object> haCentor : listCentor){
             jsonStr = jsonStr + ",{ id:'"+haCentor.get("id")+"', pId:'0', LevelType:'centorc', name:'"+haCentor.get("centorid")+""+haCentor.get("addr")+"("+haCentor.get("meteridcount")+")', description:'"+haCentor.get("description")+"', iconSkin:'pIcon04'}";
         }

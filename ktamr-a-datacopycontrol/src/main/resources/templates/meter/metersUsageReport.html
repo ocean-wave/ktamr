@@ -47,6 +47,7 @@
 		</div>
 		<div class="col-xs-2 my-form-col">
 			<input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+			<input class="input-sm form-control" type="text" id="keyWordTwo" size="10" placeholder="请输入完整用户号,表号" style="display:none;">
 		</div>
 		<div class="col-xs-1 my-form-col">
 			<button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
@@ -116,6 +117,8 @@
 				$(".date-range-div").hide();
 				$("#month_type").val('');
 				$("#date_range").val('');
+				$("#keyWord").show();
+				$("#keyWordTwo").hide();
 				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,'/dataselect/dosageRecentlyListJson');
 				GridObj.unloadGrid();
 				GridObj.removeGridResize();
@@ -147,19 +150,17 @@
 				$(".date-range-div").show();
 				$("#month_type").val('');
 				$("#date_range").val('');
-				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,'/dataselect/dosageHistoryListJson');
+				$("#keyWord").hide();
+				$("#keyWordTwo").show();
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,'/dataselect/dosageHistoryListJson');
 				GridObj.unloadGrid();
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {"params[nodeType]":nodeType,"params[nodeIds]":nodeIds};
-				GridObj.jqdefaultGridConfig.colNames = ['itemId','用户编号','用户名称','用户地址','表号','本次读数','上次读数','抄收用量','表状态','本次抄表时间','上次抄表时间'];
+				GridObj.jqdefaultGridConfig.postData = {meterId:-1};
+				GridObj.jqdefaultGridConfig.colNames = ['itemId','本次读数','上次读数','抄收用量','表状态','本次抄表时间','上次抄表时间'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{name: 'itemId',  width: 75, key: true, hidden: true},
-					{name: 'havMeterinfo.userNo', width: 90, formatter:'interger',onSortCol:false },
-					{name: 'havMeterinfo.userName', width: 100 },
-					{name: 'havMeterinfo.userDs', width: 140 },
-					{name: 'havMeterinfo.meterNumber', width: 110, align: 'right' },
 					{name: 'thNumber', width: 70, align: 'right' },
 					{name: 'lfNumber', width: 70, align: 'right' },
 					{name: 'delta', width: 70, align: 'right' },
@@ -193,15 +194,46 @@
 				fullTextSearch("jqGrid", _pdArray);
 			}
 			if(dataType == "historyData"){
+				var keyWordTwo = $("#keyWordTwo").val();
+				var meterId = "";
+				var listTitle = "";
 				if($("#date_range").val()!= ""){
 					date_range = $("#date_range").val().split("~");
 				}
-				_pdArray = {
-					"params[keyWord]": keyWord,
-					"params[startDate]": date_range[0],
-					"params[endDate]": date_range[1]
-				};
-				fullTextSearch("jqGrid", _pdArray);
+				if(!keyWordTwo){
+					layer.msg("请输入关键字", { icon: 5 });
+					return false;
+				}else if(keyWordTwo && isNaN(keyWordTwo)==true && keyWordTwo.length<2){
+					layer.msg("请输入至少2个汉字", { icon: 5 });
+					return false;
+				}else if(keyWordTwo && isNaN(keyWordTwo)==false && keyWordTwo.length<4){
+					layer.msg("请输入至少4位数字", { icon: 5 });
+					return false;
+				}
+				$.ajax({
+					url:'/dataselect/dosageHistoryTitle',
+					datatype: "json",
+					contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+					data:{keyWordTwo:keyWordTwo},
+					success:function(data){
+						if(data!=""){
+							meterId = data.meterId;
+							listTitle = "<font style='font-weight: bold;font-size:14px;'>用户编号:</font>"+data.havMeterinfo.userNo+"&nbsp;&nbsp;&nbsp;<font style='font-weight: bold;font-size:14px;'>用户名称:</font>"+
+									data.havMeterinfo.userName+"&nbsp;&nbsp;&nbsp;<font style='font-weight: bold;font-size:14px;'>用户地址:</font>"+data.havMeterinfo.userDs+"&nbsp;&nbsp;&nbsp;<font style='font-weight: bold;font-size:14px;'>表号:</font>"+
+									data.havMeterinfo.meterNumber;
+						}else{
+							meterId = -1;
+							listTitle = "<font style='font-weight: bold;font-size:14px;'>无此用户号,表号</font>";
+						}
+						_pdArray = {
+							"params[startDate]": date_range[0],
+							"params[endDate]": date_range[1],
+							"meterId":meterId
+						};
+						fullTextSearch("jqGrid", _pdArray);
+						$("#jqGrid").jqGrid('setCaption',listTitle);
+					}
+				});
 			}
 		});
 	});

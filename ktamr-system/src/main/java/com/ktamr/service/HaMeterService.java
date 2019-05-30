@@ -23,6 +23,13 @@ public interface HaMeterService {
     public HaMeter selectMeterAndBuildingById(Integer meterId);
 
     /**
+     *
+     * @param KeyWordTwo
+     * @return
+     */
+    public HaMeter selectMeterAndBuildingByKeyWordTwo(String keyWordTwo);
+
+    /**
      * 查询HaMeter表信息
      * @param params 对象参数
      * @return 返回泛型集合对象

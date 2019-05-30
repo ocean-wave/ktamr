@@ -9,7 +9,7 @@ import java.util.Date;
 public class HaRecords extends BaseEntity {
 
   private Integer itemId;
-  private Integer meterid;
+  private Integer meterId;
   private double rate;
   private String lfNumber;
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -21,6 +21,14 @@ public class HaRecords extends BaseEntity {
   private String state;
   private Integer cmdid;
   private HavMeterinfo havMeterinfo;
+
+  public Integer getMeterId() {
+    return meterId;
+  }
+
+  public void setMeterId(Integer meterId) {
+    this.meterId = meterId;
+  }
 
   public HavMeterinfo getHavMeterinfo() {
     return havMeterinfo;
@@ -36,14 +44,6 @@ public class HaRecords extends BaseEntity {
 
   public void setItemId(Integer itemId) {
     this.itemId = itemId;
-  }
-
-  public Integer getMeterid() {
-    return meterid;
-  }
-
-  public void setMeterid(Integer meterid) {
-    this.meterid = meterid;
   }
 
   public double getRate() {
