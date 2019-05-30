@@ -58,6 +58,7 @@
         delete from ha_operator where operator_code = #{operatorCode}
     </delete>
 
+
     <update id="updateHaOperator">
         update ha_operator
         <trim prefix="set" suffixOverrides="," suffix="where operator_code = #{operatorCode}">
@@ -99,4 +100,14 @@
     <select id="selUpperRgnType" resultType="com.ktamr.domain.HaOperator">
         SELECT operator_rgn_type FROM ha_operator WHERE operator_code=#{operatorCode}
     </select>
+
+    <!--修改密码时验证原密码   -->
+    <select id="CheckPwd" resultType="string">
+        select operator_pwd from ha_operator where operator_code=#{operatorCode}
+    </select>
+
+    <!--修改密码操作-->
+    <update id="ChangePWD">
+        update ha_operator set operator_pwd=#{operatorPwd} where operator_code=#{operatorCode}
+    </update>
 </mapper>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head title="修改密码" th:include="include :: header">
+    <style type="text/css">
+        .layui-form-label {
+            padding: 6px 10px;
+        }
+        .layui-input{
+            height: 32px;
+            line-height: 32px;
+        }
+    </style>
+
+</head>
+<body class="myPage-body">
+<form class="layui-form my-form-class-single" action="">
+    <div class="layui-form-item mylayui-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+            <div class="layui-input-inline my-form-input-single">
+                <input id="operator_code" type="text" lay-verify="required" autocomplete="off"  class="layui-input" readonly th:value="${session.haOperator.getOperatorCode()}">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item mylayui-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">旧&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
+            <div class="layui-input-inline my-form-input-single">
+                <input id="old_pwd" type="password" lay-verify="required" autocomplete="new-password"  class="layui-input" maxlength="32" placeholder="必填">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item mylayui-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">新&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
+            <div class="layui-input-inline my-form-input-single">
+                <input id="new_pwd" type="password" lay-verify="required" autocomplete="off"  class="layui-input" maxlength="32" placeholder="必填">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item mylayui-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-inline my-form-input-single">
+                <input id="sure_pwd" type="password" lay-verify="required|sure_pwd" autocomplete="off"  class="layui-input" maxlength="32" placeholder="必填">
+            </div>
+        </div>
+    </div>
+    <div class="form-inline my-page-btn-single">
+        <button lay-submit type="button" id="sure" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</form>
+
+<div th:include="include :: footer"></div>
+
+<script language="JavaScript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        var g_get_result_url = "/operator_pwd_change_do";
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        form.verify({
+            sure_pwd: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if($("#sure_pwd").val() != $("#new_pwd").val()){
+                    msg = "确认密码不一致";
+                    return msg;
+                }
+            }
+        });
+        function submitInfo(sendData){
+            $.ajax({
+                url: g_get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == ""){
+                        parent.layer.msg("修改成功！", {icon: 1});
+                        parent.location.href = "/logout";
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+
+        $("#close").click(function(){
+            parent.layer.close(index); //再执行关闭
+        });
+        form.on('submit(sure)', function (data) {
+            var data = {
+                operatorCode: $("#operator_code").val(),
+                operatorPwd: $("#old_pwd").val(),
+                new_pwd: $("#new_pwd").val()
+            };
+            submitInfo(data);
+        });
+    });
+</script>
+
+</body>
+</html>

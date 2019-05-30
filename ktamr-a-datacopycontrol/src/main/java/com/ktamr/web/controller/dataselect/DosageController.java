@@ -9,10 +9,7 @@ import com.ktamr.service.HaRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -52,6 +49,13 @@ public class DosageController extends BaseController {
         long enddate = System.currentTimeMillis();
         System.out.println((startdate-enddate)/1000);
         return getDataTable(listHaMeter);
+    }
+
+    @PostMapping("/dosageHistoryTitle")
+    @ResponseBody
+    public HaMeter dosageHistoryTitle(@RequestParam(value = "keyWordTwo", required = false) String keyWordTwo){
+        HaMeter haMeter = haMeterService.selectMeterAndBuildingByKeyWordTwo(keyWordTwo);
+        return haMeter;
     }
 }
 

@@ -149,15 +149,15 @@
         });
 
         var Post_Data = {ListNumber: 28,TotalLocation: "用户编号", SumColName: "本期用量,本期费用,上期余额", areaId: "", startTime:g_startTime, endTime:g_endTime};
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/showMonthReportList");
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 145,"/pay/ybb/showMonthReportList");
         GridObj.jqdefaultGridConfig.caption = "";
         GridObj.jqdefaultGridConfig.multiselect = false;
         GridObj.jqdefaultGridConfig.postData = Post_Data;
         GridObj.jqdefaultGridConfig.colNames = ['用户ID','用户编号','用户名称','用户地址','表号','状态','上期结算','本期结算','本期用量','抄表时间','表类型','收费价格','倍率(%)','本期费用','上期余额','出单时间','结算时间'];
         GridObj.jqdefaultGridConfig.colModel = [
-            { name: 'havMeterinfo.custid',  width: 180, key: false, hidden: true},
+            { name: 'havMeterinfo.custId',  width: 180, key: false, hidden: true},
             { name: 'havMeterinfo.userNo', width: 80 },
-            { name: 'havMeterinfo.userNo', width: 120 },
+            { name: 'havMeterinfo.userName', width: 120 },
             { name: 'havMeterinfo.userDs', width: 140 },
             { name: 'haMeter.meterNumber', width: 100, align: 'right' },
             { name: 'haMeter.state', width: 60, cellattr: MeterStateCellColor },

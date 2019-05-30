@@ -25,4 +25,18 @@ public interface HaOperatorService {
     Integer updateHaOperator(HaOperator haOperator);
 
     Integer deleteHaOperator(HaOperator haOperator);
+
+    /**
+     * 修改密码时验证原密码
+     * @param haOperator
+     * @return
+     */
+    String CheckPwd(HaOperator haOperator);
+
+    /**
+     * 修改密码操作
+     * @param haOperator
+     * @return
+     */
+    Integer ChangePWD(HaOperator haOperator);
 }

@@ -56,7 +56,7 @@
         order by thTime desc
     </select>
 
-    <insert id="insertRecords" useGeneratedKeys="true"  keyProperty="resultParams.itemId" parameterType="com.ktamr.domain.HaMeter">
+    <insert id="insertRecords" parameterType="com.ktamr.domain.HaMeter">
         INSERT INTO ha_records(meterid,rate,lf_number,lf_time,th_number,th_time,delta,state,cmdid)
        SELECT meterid,rate,th_number,th_r_time,#{thNumber},#{thRTime},#{thNumber},#{state},#{params.meterId}
         from ha_meter
@@ -101,10 +101,6 @@
     <select id="selectDosageHistory" resultMap="haRecords" parameterType="com.ktamr.domain.HaRecords">
         select
         t1.itemid AS itemid
-        ,mi.用户号 AS userNo
-        , mi.用户名 AS userName
-        , mi.用户地址 AS userDs
-        , mi.表号 AS meterNumber
         , t1.thNumber
         , t1.lfNumber
         , t1.delta
@@ -132,17 +128,14 @@
         , er1.readtime AS lfTime
         FROM ha_errRecord er1
         ) t1
-        inner join hav_meterinfo mi on mi.meterid = t1.meterid
-        inner join ha_area a on a.areaid=mi.areaid
         where 1=1
-        <if test=" params.keyWord != null and params.keyWord != '' ">
-            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
-            or mi.用户地址 like '%${params.keyWord}%'
-            )
+        <if test=" meterId != null ">
+            and t1.meterid = #{meterId}
         </if>
         <if test=" params.startDate != null and params.startDate != '' ">
             AND t1.thTime BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
         </if>
+
     </select>
 
 </mapper>

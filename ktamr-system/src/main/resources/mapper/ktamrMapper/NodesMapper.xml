@@ -80,6 +80,7 @@
             WHERE (Left(ce.description, 3)='KT3'
             OR ce.description='GPRS'
             OR ce.description='COM')
+            and (left(a.areano,1) = #{id} or a.areano = #{id})
             and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
             GROUP BY ce.id, ce.centorid, ce.centorNo, ce.addr, ce.description
             ORDER BY ce.centorNo,ce.addr
