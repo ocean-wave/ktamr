@@ -16,7 +16,7 @@ public interface HaCollectorService {
      */
     public List<HaCollector> selectCollectorBycentorId(Integer centorId);
 
-    List<HaCollector> HaCollectorList(HaCollector haCollector,Integer page,Integer rowNum);
+    List<HaCollector> HaCollectorList(HaCollector haCollector);
 
     Integer HaCollectorCount(HaCollector haCollector);
 

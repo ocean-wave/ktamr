@@ -261,12 +261,12 @@
                     var cols = new Array('总读数', '本期总用量', '不良表数', '最近抄收时间', '结算日期')
                     GridObj.hideCols(cols);
                 }
-            } else if (listType == "area" && appPage == "management") {
+            } else if (listType == "area" && appPage == "<%=appPage%>") {
                 $(".month-type-div").hide();
                 $(".my-btns").hide();
                 $("#nav2").show();
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114);
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,"/cbuilding/QueryAllBuildingC?areaId="+nodeId);
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 //GridObj.jqdefaultGridConfig.caption = "楼栋列表：";
@@ -274,9 +274,9 @@
                 GridObj.jqdefaultGridConfig.postData = {ListNumber: 3, areaid: nodeId};
                 GridObj.jqdefaultGridConfig.colNames = ['buildingid', '楼栋名称', '说明'];
                 GridObj.jqdefaultGridConfig.colModel = [
-                    {name: 'buildingid', width: 75, key: true, hidden: true, frozen: true},
-                    {name: '楼栋名称', width: 120, frozen: true},
-                    {name: '说明', width: 150}
+                    {name: 'buildingId', width: 75, key: true, hidden: true, frozen: true},
+                    {name: 'name', width: 120, frozen: true},
+                    {name: 'description', width: 150}
                 ];
                 GridObj.drawGrid();
                 GridObj.drawGridPager();
@@ -572,9 +572,9 @@
                         _layerSize = ['455px', '260px'];
                         _queryStr = [
                             "cmdName=新增楼栋资料",
-                            "areaid=" + nodeId
+                            "areaId=" + nodeId
                         ];
-                        _myLayui.showLayer("新增楼栋资料", "../building/building_add.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("新增楼栋资料", "/cbuilding/JumpBuildingAdd", _queryStr, _layerSize);
                     } else if (nodeType == "building" || nodeType == "allMeter") {
                         if (roomids != "" && isMultiIDs(roomids) == true) {
                             roomids = getLastMultiIDs("jqGrid");
@@ -624,9 +624,9 @@
                         _layerSize = ['455px', '260px'];
                         _queryStr = [
                             "cmdName=修改楼栋资料",
-                            "buildingid=" + gridIds
+                            "buildingId=" + gridIds
                         ];
-                        _myLayui.showLayer("修改楼栋资料", "../building/building_update.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("修改楼栋资料", "/cbuilding/JumpBuildingUpdate", _queryStr, _layerSize);
                     } else if (nodeType == "building" || nodeType == "allMeter") {
                         _layerSize = ['550px', '450px'];
                         _queryStr = [
@@ -656,9 +656,9 @@
                         _layerSize = ['450px', '260px'];
                         _queryStr = [
                             "cmdName=删除楼栋资料",
-                            "buildingid=" + gridIds
+                            "buildingId=" + gridIds
                         ];
-                        _myLayui.showLayer("删除楼栋资料", "../building/building_del.asp", _queryStr, _layerSize);
+                        _myLayui.showLayer("删除楼栋资料", "/cbuilding/JumpBuildingDel", _queryStr, _layerSize);
                     } else if (nodeType == "building" || nodeType == "allMeter") {
                         _layerSize = ['650px', '350px'];
                         if (isIDsHaveID(meterids) == true) {

@@ -93,7 +93,6 @@
             and (n.id = #{haRgn.keyWord} or n.shortName like '%${haRgn.keyWord}%' or n.name like '%${haRgn.keyWord}%' or n.zCode like '%${haRgn.keyWord}%')
         </if>
         group by n.id,t.n
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="HaRgnCountC" resultType="Integer">
@@ -101,7 +100,7 @@
     </select>
 
     <select id="updateByIdRngC" resultType="com.ktamr.domain.HaRgn">
-        SELECT id,name,shortName,zCode
+        SELECT id,name,shortName,zcode
         FROM ha_rgn where id = #{haRgn.id}
     </select>
 

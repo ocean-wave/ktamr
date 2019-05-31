@@ -568,7 +568,6 @@ WHERE areaid IN ('${areaId}')
         </if>
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,
         a.DS,a.description,a.reserved,to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n ORDER BY a.areaNo
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="smallAreaCount" resultType="_int">

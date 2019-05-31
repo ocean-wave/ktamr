@@ -74,9 +74,8 @@ public class HaCustomServiceImpl implements HaCustomService {
         return null;
     }
 
-    public List<HaCustom> HaCustomList(HaCustom haCustom, Integer page,
-                                       Integer rowNum) {
-        return haCustomMapper.HaCustomList(haCustom,page,rowNum);
+    public List<HaCustom> HaCustomList(HaCustom haCustom) {
+        return haCustomMapper.HaCustomList(haCustom);
     }
 
     @Override

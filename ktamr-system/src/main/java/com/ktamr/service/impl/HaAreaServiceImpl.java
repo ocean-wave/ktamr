@@ -329,8 +329,8 @@ public class HaAreaServiceImpl implements HaAreaService {
      *显示全部小区
      */
     @Override
-    public List<HaArea> queryAllSmallArea(HaArea haArea, Integer page, Integer rowNum) {
-        return haAreaMapper.queryAllSmallArea(haArea,page,rowNum);
+    public List<HaArea> queryAllSmallArea(HaArea haArea) {
+        return haAreaMapper.queryAllSmallArea(haArea);
     }
 
     /*

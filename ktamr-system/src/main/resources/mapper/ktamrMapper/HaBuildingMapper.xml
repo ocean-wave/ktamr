@@ -5,8 +5,15 @@
 <mapper namespace="com.ktamr.mapper.HaBuildingMapper">
 
     <resultMap id="buildingMap" type="com.ktamr.domain.HaBuilding">
+        <id column="buildingId" property="buildingId"/>
         <result column="cuaddr" property="cuaddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="maddr" property="maddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id column="aareaId" property="areaId"/>
+            <result column="aname" property="name"/>
+        </association>
         <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
             <result column="roomId" property="roomId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
             <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -95,8 +102,18 @@
 
 
 
-    <select id="HaBuildingListC" resultType="HaBuilding">
+    <select id="HaBuildingListC" resultMap="buildingMap">
+        select buildingid as buildingId,name as name,description as description from ha_building where 1=1
+        <if test="haBuilding.areaId!=null">
+            and areaid = #{haBuilding.areaId}
+        </if>
+        <if test="haBuilding.keyWord != null and haBuilding.keyWord != ''">
+            and name like '%${haBuilding.keyWord}%' or description like '%${haBuilding.keyWord}%'
+        </if>
+    </select>
 
+    <select id="HaBuildingCountC" resultType="INTEGER">
+        select count(1) from ha_building
     </select>
 
     <select id="queryHaBuildingC" resultType="com.ktamr.domain.HaBuilding">
@@ -106,26 +123,26 @@
         </if>
     </select>
 
-    <insert id="addHaBuilding">
-        insert into ha_building values (default ,#{areaid},#{name},#{description},#{areano},#{buildingno},#{createtime},#{modifytime})
+    <insert id="addHaBuildingC">
+        insert into ha_building(buildingid,name,description,areaid) values (default ,#{name},#{description},#{areaId})
     </insert>
 
     <delete id="deleteHaBuildingC">
-        delete from ha_building where buildingid = #{buildingid}
+        delete from ha_building where buildingid = #{buildingId}
     </delete>
 
     <update id="updateHaBuildingC">
         update ha_building
-        <trim prefix="set" suffixOverrides="," suffix="where buildingid = #{buildingid}">
-            <if test="areaid != null">areaid = #{areaid},</if>
+        <trim prefix="set" suffixOverrides="," suffix="where buildingid = #{buildingId}">
             <if test="name != null">name = #{name},</if>
             <if test="description != null">description = #{description},</if>
-            <if test="areano != null">areano = #{areano},</if>
-            <if test="buildingno != null">buildingno = #{buildingno},</if>
-            <if test="createtime != null">createtime = #{createtime},</if>
-            <if test="modifytime != null">modifytime = #{modifytime},</if>
         </trim>
     </update>
+
+    <select id="updateByIdHaBuilding" resultMap="buildingMap">
+        SELECT b.buildingid as buildingId,b.name as name,b.description as description,
+        a.areaid as aareaid,a.name as aname FROM ha_building b,ha_area a WHERE b.areaid = a.areaid AND b.buildingid=#{buildingId}
+    </select>
 
     <resultMap id="queryAllBuildingMapC" type="com.ktamr.domain.HaBuilding">
         <id property="buildingId" column="buildingId"/>

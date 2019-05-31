@@ -43,7 +43,6 @@
             or operator_mobile like '%${haOperator.keyWord}%'
             or operator_remark like '%${haOperator.keyWord}%'
         </if>
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="selectHaOperatorCount" resultType="Integer">

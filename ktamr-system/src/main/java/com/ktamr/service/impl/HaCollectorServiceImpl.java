@@ -30,8 +30,8 @@ public class HaCollectorServiceImpl implements HaCollectorService {
         return haCollectorMapper.selectCollectorBycentorId(centorId);
     }
 
-    public List<HaCollector> HaCollectorList(HaCollector haCollector,Integer page,Integer rowNum) {
-        return haCollectorMapper.HaCollectorList(haCollector,page,rowNum);
+    public List<HaCollector> HaCollectorList(HaCollector haCollector) {
+        return haCollectorMapper.HaCollectorList(haCollector);
     }
 
     @Override

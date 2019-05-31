@@ -41,8 +41,7 @@ public interface HaRngMapper {
      * 查询大区表全部信息与小区,集中器,采集器数,表数的数量
      * @return
      */
-    public List<HaRgn> selectAllRngAndCountC(@Param("haRgn") HaRgn haRgn, @Param("page") Integer page,
-                                            @Param("rowNum") Integer rowNum);
+    public List<HaRgn> selectAllRngAndCountC(@Param("haRgn") HaRgn haRgn);
 
     /**
      * 大区下拉框

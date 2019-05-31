@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface HaPricestandardMapper {
 
-    List<HaPricestandard> HaPricestandardList(@Param("haPricestandard") HaPricestandard haPricestandard, @Param("page") Integer page, @Param("rowNum") Integer rowNum);
+    List<HaPricestandard> HaPricestandardList(@Param("haPricestandard") HaPricestandard haPricestandard);
 
     Integer selectHaPricestandardCount(HaPricestandard haPricestandard);
 

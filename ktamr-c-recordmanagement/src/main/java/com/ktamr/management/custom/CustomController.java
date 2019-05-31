@@ -2,6 +2,7 @@ package com.ktamr.management.custom;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.domain.HaCustom;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/custom")
-public class CustomController {
+public class CustomController extends BaseController {
 
     @Resource
     private HaCustomService haCustomService;
@@ -77,32 +78,11 @@ public class CustomController {
 
     @RequestMapping("/custListJson")
     @ResponseBody
-    public Object custlistjson(HaCustom haCustom, HttpServletRequest request) {
-        Integer page,pageRows;
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if(page1==null&&pageRows1==null){//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        }else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2=page;//重新定义变量接收
-        --page2;
-        List<HaCustom> haCustomsList = haCustomService.HaCustomList(haCustom,pageRows ,page2);
-        Integer selectHaCustomCount = haCustomService.selectHaCustomCount(haCustom);
-        Map<String ,Object> map=new HashMap<String, Object>();
-        map.put("page",page);//设置初始的页码 就是第几页
-        map.put("rowNum",pageRows);//一页显示几条数据
-        map.put("records",selectHaCustomCount);//总记录数
-        map.put("total",(selectHaCustomCount-1)/pageRows+1);//总页数的计算
-        map.put("rows",haCustomsList);//存放集合
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
-        if(s!=null){
-            return s;
-        }
-        return null;
+    public Object custlistjson(HaCustom haCustom) {
+        startPage();
+        List<HaCustom> haCustomsList = haCustomService.HaCustomList(haCustom);
+        Map<String, Object> map = getDataTable(haCustomsList);
+        return map;
     }
 
     @RequestMapping(value = "/QueryHaAreaJson",produces = "text/plain;charset=utf-8")

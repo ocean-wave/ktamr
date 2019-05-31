@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface HaPricestandardService {
 
-    List<HaPricestandard> HaPricestandardList(HaPricestandard haPricestandard, Integer page,
-                                              Integer rowNum);
+    List<HaPricestandard> HaPricestandardList(HaPricestandard haPricestandard);
 
     Integer selectHaPricestandardCount(HaPricestandard haPricestandard);
 

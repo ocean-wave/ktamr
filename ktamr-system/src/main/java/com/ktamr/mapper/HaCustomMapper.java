@@ -38,7 +38,7 @@ public interface HaCustomMapper {
     public Integer updateYuCunFeiYongB(HaCustom haCustom);
 
 
-    List<HaCustom> HaCustomList(@Param("haCustom") HaCustom haCustom, @Param("page") Integer page, @Param("rowNum") Integer rowNum);
+    List<HaCustom> HaCustomList(@Param("haCustom") HaCustom haCustom);
 
     HaCustom updateByIdHaCustom(@Param("haCustom") HaCustom haCustom);
 

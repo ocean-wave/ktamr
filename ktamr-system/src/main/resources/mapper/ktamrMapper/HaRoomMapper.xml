@@ -92,7 +92,6 @@
             and (a.registeredNo like '%${haRoom.keyWord}%' or cu.name like '%${haRoom.keyWord}%' or a.areaNo like '%${haRoom.keyWord}%')
         </if>
         ORDER BY a.name||'-'||b.name||'-'||r.name
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="allRoomCountC" resultType="_int">

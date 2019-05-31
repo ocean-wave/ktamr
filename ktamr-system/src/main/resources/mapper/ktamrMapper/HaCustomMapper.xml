@@ -69,7 +69,6 @@
             and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
         </if>
         ORDER BY u.custno,a.name,b.name,r.name
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="selectHaCustomCount" resultType="Integer">

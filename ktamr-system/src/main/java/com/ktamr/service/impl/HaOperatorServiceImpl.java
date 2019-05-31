@@ -30,9 +30,8 @@ public class HaOperatorServiceImpl implements HaOperatorService {
         return haOperatorMapper.selectOperatorAreaByName(operatorName);
     }
 
-    public List<HaOperator> HaOperatorList(HaOperator haOperator, Integer page,
-                                           Integer rowNum) {
-        return haOperatorMapper.HaOperatorList(haOperator,page,rowNum);
+    public List<HaOperator> HaOperatorList(HaOperator haOperator) {
+        return haOperatorMapper.HaOperatorList(haOperator);
     }
 
     @Override

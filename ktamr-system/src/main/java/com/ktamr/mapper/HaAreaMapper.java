@@ -199,8 +199,7 @@ public interface HaAreaMapper {
     /*
      *显示全部小区
      */
-    List<HaArea> queryAllSmallArea(@Param("haArea") HaArea haArea, @Param("page") Integer page,
-                                   @Param("rowNum") Integer rowNum);
+    List<HaArea> queryAllSmallArea(@Param("haArea") HaArea haArea);
 
     /*
      *根据大区id显示小区

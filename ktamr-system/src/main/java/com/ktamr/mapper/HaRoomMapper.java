@@ -32,8 +32,7 @@ public interface HaRoomMapper {
     /*
      *查询房间
      */
-    List<HaRoom> queryAllRoomC(@Param("haRoom") HaRoom haRoom, @Param("page") Integer page,
-                              @Param("rowNum") Integer rowNum);
+    List<HaRoom> queryAllRoomC(@Param("haRoom") HaRoom haRoom);
 
     /*
      *所属楼栋下的房间记录数

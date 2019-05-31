@@ -17,8 +17,7 @@ public interface HaCollectorMapper {
      */
     public List<HaCollector> selectCollectorBycentorId(Integer centorId);
 
-    List<HaCollector> HaCollectorList(@Param("haCollector") HaCollector haCollector,@Param("page") Integer page,
-                                      @Param("rowNum") Integer rowNum);
+    List<HaCollector> HaCollectorList(@Param("haCollector") HaCollector haCollector);
 
     Integer HaCollectorCount(HaCollector haCollector);
 

@@ -55,8 +55,8 @@ public class HaRngServiceImpl implements HaRngService {
      * @return
      */
 
-    public List<HaRgn> selectAllRngAndCountC(HaRgn haRgn, Integer page, Integer rowNum) {
-        return haRngMapper.selectAllRngAndCountC(haRgn,page,rowNum);
+    public List<HaRgn> selectAllRngAndCountC(HaRgn haRgn) {
+        return haRngMapper.selectAllRngAndCountC(haRgn);
     }
 
     /**

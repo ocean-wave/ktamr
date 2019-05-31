@@ -181,7 +181,7 @@ public interface HaAreaService {
     /*
      *显示全部小区
      */
-    List<HaArea> queryAllSmallArea(HaArea haArea,Integer page, Integer rowNum);
+    List<HaArea> queryAllSmallArea(HaArea haArea);
 
     /*
      *根据大区id显示小区

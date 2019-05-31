@@ -40,8 +40,7 @@ public interface HaCustomService {
      */
     public Integer updateYuCunFeiYongB(HaCustom haCustom);
 
-    List<HaCustom> HaCustomList(HaCustom haCustom, Integer page,
-                                Integer rowNum);
+    List<HaCustom> HaCustomList(HaCustom haCustom);
 
     HaCustom updateByIdHaCustom(HaCustom haCustom);
 

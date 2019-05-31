@@ -10,6 +10,8 @@ public interface HaBuildingService {
 
     List<HaBuilding> HaBuildingListC(HaBuilding haBuilding);
 
+    Integer HaBuildingCountC(HaBuilding haBuilding);
+
     /*
      *如果Id不为空查询楼栋
      */
@@ -44,5 +46,7 @@ public interface HaBuildingService {
      *条件查询楼栋
      */
     List<HaBuilding> queryHaBuildingConditionC(Integer areaId);
+
+    HaBuilding updateByIdHaBuilding(Integer buildingId);
 
 }
