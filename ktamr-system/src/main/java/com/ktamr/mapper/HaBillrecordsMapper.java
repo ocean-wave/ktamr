@@ -10,13 +10,9 @@ public interface HaBillrecordsMapper {
     /**
      * 收费记录查询
      * @param haBillrecords
-     * @param page
-     * @param rowNum
      * @return
      */
-    public List<HaBillrecords> ChaXunHaBillrecordsList(@Param("HaBillrecords") HaBillrecords haBillrecords,
-                                                       @Param("page") Integer page,
-                                                       @Param("rowNum") Integer rowNum
+    public List<HaBillrecords> ChaXunHaBillrecordsList(@Param("HaBillrecords") HaBillrecords haBillrecords
     );
 
     /**
@@ -36,21 +32,11 @@ public interface HaBillrecordsMapper {
     /**
      * 查询用户账单列表
      * @param haBillrecords
-     * @param page
-     * @param rowNum
      * @return
      */
-    public List<HaBillrecords> selectYongHuZhangDan(@Param("HaBillrecords") HaBillrecords haBillrecords,
-                                                    @Param("page") Integer page,
-                                                    @Param("rowNum") Integer rowNum
-    );
+    public List<HaBillrecords> selectYongHuZhangDan(@Param("HaBillrecords") HaBillrecords haBillrecords);
 
-    /**
-     * 查询用户账单列表记录数
-     * @param haBillrecords
-     * @return
-     */
-    public Integer selectYongHuZhangDanCount(@Param("HaBillrecords") HaBillrecords haBillrecords);
+
 
     /**
      * 检查是否超过可恢复收费

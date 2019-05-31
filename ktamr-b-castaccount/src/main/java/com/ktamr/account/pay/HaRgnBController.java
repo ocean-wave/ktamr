@@ -105,7 +105,7 @@ public class HaRgnBController {
                 menu33.setId(String.valueOf(haAreas.get(j).getAreaId()));
                 menu33.setpId(String.valueOf(haRgnList.get(i).getId()));
                 menu33.setLevelType("area");
-                menu33.setName(haAreas.get(j).getRegisteredNo()+"-"+haAreas.get(j).getName());
+                menu33.setName(haAreas.get(j).getRegisteredNo()+"-"+haAreas.get(j).getHaName());
                 menu33.setIconSkin("pIcon02");
                 menu33.setIsParent(false);
                 menu3.add(menu33);
