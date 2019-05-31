@@ -157,7 +157,7 @@ public class CHaRgnController {
                     areas.setId(String.valueOf(haAreaList.get(a).getAreaId()));
                     areas.setpId(haRgnList.get(i).getId());
                     areas.setLevelType("area");
-                    areas.setName(haAreaList.get(a).getAreaId() + "-" + haAreaList.get(a).getName());
+                    areas.setName(haAreaList.get(a).getAreaId() + "-" + haAreaList.get(a).getHaName());
                     areas.setIconSkin("pIcon02");
                     areas.setParent(true);
                     area.add(areas);
@@ -231,7 +231,7 @@ public class CHaRgnController {
                     areas.setId(String.valueOf(haAreaList.get(a).getAreaId()));
                     areas.setpId(haRgnList.get(i).getId());
                     areas.setLevelType("area");
-                    areas.setName(haAreaList.get(a).getAreaId() + "-" + haAreaList.get(a).getName());
+                    areas.setName(haAreaList.get(a).getAreaId() + "-" + haAreaList.get(a).getHaName());
                     areas.setIconSkin("pIcon02");
                     areas.setParent(true);
                     area.add(areas);

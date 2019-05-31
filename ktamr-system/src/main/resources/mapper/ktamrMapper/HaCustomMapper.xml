@@ -175,7 +175,7 @@
         <result column="bank" property="bank"/>
         <result column="account" property="account"/>
         <association property="haArea" javaType="HaArea">
-            <result column="haName" property="name"/>
+            <result column="haName" property="haName"/>
         </association>
     </resultMap>
 

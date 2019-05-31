@@ -13,7 +13,7 @@ public class HaArea extends BaseEntity {
     private Integer areaId;
     private String areaNo;
     private String registeredNo;
-    private String name;
+    private String haName;
     private String addr;
     private String ds;
     private String description;
@@ -64,6 +64,13 @@ public class HaArea extends BaseEntity {
     private List<String> idsList2;
     private String  haAreaPercentage;//声明HaArea别名百分比
 
+    public String getHaName() {
+        return haName;
+    }
+
+    public void setHaName(String haName) {
+        this.haName = haName;
+    }
 
     public String getHaAreaPercentage() {
         return haAreaPercentage;
@@ -119,14 +126,6 @@ public class HaArea extends BaseEntity {
 
     public void setAreaId(Integer areaId) {
         this.areaId = areaId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
