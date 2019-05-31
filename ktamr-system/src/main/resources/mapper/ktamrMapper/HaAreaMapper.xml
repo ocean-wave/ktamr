@@ -189,23 +189,23 @@
     <!--映射查询小区表查询语句-->
     <resultMap  id="HaAreaMap"  type="HaArea">
         <id column="areaid" property="areaId" />
-        <result column="小区编号" property="areaNo"/>
-        <result column="小区册号" property="registeredNo"/>
-        <result column="小区名称" property="name"/>
-        <result column="地址" property="addr"/>
-        <result column="抄收月份" property="ds"/>
-        <result column="冻结抄收" property="reserved"/>
-        <result column="结算日期" property="lastsumDay"/>
-        <result column="说明" property="description"/>
+        <result column="areaNo" property="areaNo"/>
+        <result column="registeredNo" property="registeredNo"/>
+        <result column="name" property="name"/>
+        <result column="addr" property="addr"/>
+        <result column="ds" property="ds"/>
+        <result column="reserved" property="reserved"/>
+        <result column="lastsumDay" property="lastsumDay"/>
+        <result column="description" property="description"/>
         <result column="atnNumber" property="atnNumber"/>
         <result column="keyWord" property="keyWord"/>
 
         <association property="haMeter" javaType="HaMeter">
-            <result column="总表数" property="meterId"/>
-            <result column="总读数" property="thNumber"/>
-            <result column="本期总用量" property="snumber"/>
-            <result column="最近抄收时间" property="thRTime"/>
-            <result column="最早装表时间" property="startTime"/>
+            <result column="meterId" property="meterId"/>
+            <result column="thNumber" property="thNumber"/>
+            <result column="snumber" property="snumber"/>
+            <result column="thRTime" property="thRTime"/>
+            <result column="startTime" property="startTime"/>
         </association>
 
     </resultMap>
@@ -219,76 +219,23 @@
 
     <!--查询小区表+分页+动态查询 -->
     <select id="BselectHaAreaList"  resultMap="HaAreaMap">
-        SELECT
-        a.areaid AS areaid, a.areaNo AS 小区编号, a.registeredNo AS 小区册号, a.name AS 小区名称,
-        n.name||'-'||a.addr AS 地址, CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE  '' END AS 抄收月份,
-        COUNT(m.meterid) AS 总表数,
-        SUM(m.TH_NUMBER) AS 总读数,
-        SUM(m.S_NUMBER) AS 本期总用量,
-        t.n  AS atnNumber,
-        a.reserved AS 冻结抄收,
-        to_char(MAX(m.TH_R_TIME),'yyyy-mm-dd hh24:mi:ss') AS 最近抄收时间,
-        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss') AS 结算日期,
-        to_char(MIN(m.starttime),'YYYY-MM-DD') AS 最早装表时间, a.description AS 说明
+        select * from (SELECT
+        a.areaid AS areaid, a.areaNo AS areaNo, a.registeredNo AS registeredNo, a.name AS name,
+        n.name||'-'||a.addr AS addr, CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE '' END AS ds,
+        COUNT(m.meterid) AS meterId,
+        SUM(m.TH_NUMBER) AS thNumber,
+        SUM(m.S_NUMBER) AS snumber,
+        t.n AS atnNumber,
+        a.reserved AS reserved,
+        to_char(MAX(m.TH_R_TIME),'yyyy-mm-dd hh24:mi:ss') AS thRTime,
+        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss') AS lastsumDay,
+        to_char(MIN(m.starttime),'YYYY-MM-DD') AS startTime, a.description AS description
         FROM ((ha_area a LEFT OUTER JOIN ha_meter m ON m.areaid=a.areaid) LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
         LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid FROM hav_meterinfo i
         WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档' AND i.状态!='集中器无返回'
         AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正' AND i.状态!='已更换' AND i.状态!='采集器无返回'
         AND i.状态 NOT LIKE '%用量异常%' AND i.表号 >0 GROUP BY i.areaid) t ON t.areaid=a.areaid
 
-        <trim prefix="where" prefixOverrides="and | or">
-
-            <if test="HaArea.ds != null and HaArea.ds != ''">
-                and ds = #{HaArea.ds}
-            </if>
-
-            <if test="HaArea.idsList2  != null and HaArea.idsList2.size()>0">
-                and  LEFT(a.areaNo,1) IN
-                <foreach collection="HaArea.idsList2" item="item" index="index"
-                         open="(" separator="," close=")">
-                    #{item}
-                </foreach>
-            </if>
-
-            <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
-                and (a.areaNo like '%${HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
-
-            </if>
-        </trim>
-        GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
-        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n
-        limit #{page} OFFSET #{rowNum}
-    </select>
-
-    <!--点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字-->
-    <select id="BselectHaAreaName" resultType="HaArea">
-        SELECT name FROM ha_area
-        <trim prefix="where" prefixOverrides="and | or">
-
-            <if test="areaId != null and areaId != ''">
-                and  areaid=#{areaId}
-            </if>
-        </trim>
-    </select>
-
-    <!--查询小区表,主要想查里面的数据记录数-->
-    <select id="BselectHaAreaCount"  resultMap="HaAreaMap">
-        SELECT
-        a.areaid AS areaid, a.areaNo AS 小区编号, a.registeredNo AS 小区册号, a.name AS 小区名称,
-        n.name||'-'||a.addr AS 地址, CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE  '' END AS 抄收月份,
-        COUNT(m.meterid) AS 总表数,
-        SUM(m.TH_NUMBER) AS 总读数,
-        SUM(m.S_NUMBER) AS 本期总用量,
-        t.n  AS atnNumber,
-        a.reserved AS 冻结抄收,
-        to_char(MAX(m.TH_R_TIME),'yyyy-mm-dd hh24:mi:ss') AS 最近抄收时间,
-        to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss') AS 结算日期,
-        to_char(MIN(m.starttime),'YYYY-MM-DD') AS 最早装表时间, a.description AS 说明
-        FROM ((ha_area a LEFT OUTER JOIN ha_meter m ON m.areaid=a.areaid) LEFT JOIN ha_rgn n ON n.id=Left(a.areaNo, 1))
-        LEFT JOIN (SELECT Count(i.meterid) AS n,i.areaid AS areaid FROM hav_meterinfo i
-        WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档' AND i.状态!='集中器无返回'
-        AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正' AND i.状态!='已更换' AND i.状态!='采集器无返回'
-        AND i.状态 NOT LIKE '%用量异常%' AND i.表号 >0 GROUP BY i.areaid) t ON t.areaid=a.areaid
         <trim prefix="where" prefixOverrides="and | or">
 
             <if test="HaArea.ds != null and HaArea.ds != ''">
@@ -304,15 +251,28 @@
             </if>
 
             <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
-                and (a.areaNo like '%${HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like '%${HaArea.keyWord}%')
+                and (a.areaNo like '%${HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like
+                '%${HaArea.keyWord}%')
 
             </if>
         </trim>
-
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
         to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n
-        ORDER BY a.areaNo
+        ) t1
     </select>
+
+    <!--点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字-->
+    <select id="BselectHaAreaName" resultType="HaArea">
+        SELECT name FROM ha_area
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="areaId != null and areaId != ''">
+                and  areaid=#{areaId}
+            </if>
+        </trim>
+    </select>
+
+
 
 
 

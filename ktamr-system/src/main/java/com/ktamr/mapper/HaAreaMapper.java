@@ -43,21 +43,11 @@ public interface HaAreaMapper {
      * 查询小区表
      *
      * @param haArea
-     * @param page
-     * @param rowNum
      * @return
      */
-    public List<HaArea> BselectHaAreaList(@Param("HaArea") HaArea haArea, @Param("page") Integer page,
-                                          @Param("rowNum") Integer rowNum);
+    public List<HaArea> BselectHaAreaList(@Param("HaArea") HaArea haArea);
 
 
-    /**
-     * 查询小区表总记录数 先返回泛型集合 在获取里面的size
-     *
-     * @param haArea
-     * @return
-     */
-    public List<HaArea> BselectHaAreaCount(@Param("HaArea") HaArea haArea);
 
     /**
      * 查询小区表名字 填充条件查询的下拉框

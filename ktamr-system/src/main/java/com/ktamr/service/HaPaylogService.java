@@ -13,14 +13,8 @@ public interface HaPaylogService {
      * @param haPaylog
      * @return
      */
-    public List<HaPaylog>  selectHaPaylogList(HaPaylog haPaylog, Integer page,
-                                              Integer rowNum);
-    /**
-     * 缴费单查询的总记录数
-     * @param haPaylog
-     * @return
-     */
-    public Integer selectHaPaylogListCount(HaPaylog haPaylog);
+    public List<HaPaylog>  selectHaPaylogList(HaPaylog haPaylog);
+
 
     /**
      * 月报表的查询
@@ -29,15 +23,9 @@ public interface HaPaylogService {
      * @param rowNum
      * @return
      */
-    public List<HaPaylog>  selectMonthReportList(HaPaylog haPaylog, Integer page,
-                                                 Integer rowNum);
+    public List<HaPaylog>  selectMonthReportList(HaPaylog haPaylog);
 
-    /**
-     * 月报表查询的总记录数
-     * @param haPaylog
-     * @return
-     */
-    public Integer selectMonthReportListCount(HaPaylog haPaylog);
+
 
 
     /**

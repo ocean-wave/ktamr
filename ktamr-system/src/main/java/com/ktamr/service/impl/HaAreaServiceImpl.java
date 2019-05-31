@@ -71,13 +71,11 @@ public class HaAreaServiceImpl implements HaAreaService {
     /**
      * 查询小区+分页+条件月份查询
      * @param haArea
-     * @param page
-     * @param rowNum
      * @return
      */
     @Override
-    public List<HaArea> selectHaAreaList(HaArea haArea, Integer page, Integer rowNum) {
-        List<HaArea> haAreaList = haAreaMapper.BselectHaAreaList(haArea, page, rowNum);
+    public List<HaArea> selectHaAreaList(HaArea haArea) {
+        List<HaArea> haAreaList = haAreaMapper.BselectHaAreaList(haArea);
         if(haAreaList!=null){
             return haAreaList;
         }
@@ -85,20 +83,7 @@ public class HaAreaServiceImpl implements HaAreaService {
         return null;
     }
 
-    /**
-     * 查询小区中总记录数
-     * @param haArea
-     * @return
-     */
-    @Override
-    public Integer selectHaAreaCount(HaArea haArea) {
-        List<HaArea> Arealist = haAreaMapper.BselectHaAreaCount(haArea);
-        if(Arealist!=null){
-            int size = Arealist.size();//这波转化一下把里面的size转化为将要返回的总记录数
-            return size;
-        }
-        return null;
-    }
+
 
     /**
      * 查询小区表的名字 用于填充条件查询的下拉框

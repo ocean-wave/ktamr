@@ -41,19 +41,12 @@ public interface HaAreaService {
     /**
      * 查询小区表+ 条件查询月份查询
      * @param haArea
-     * @param page
-     * @param rowNum
-     * @return
-     */
-    public List<HaArea> selectHaAreaList(HaArea haArea, Integer page,
-                                         Integer rowNum);
-
-    /**
-     * 查询小区表的总记录数
      * @param haArea
      * @return
      */
-    public Integer selectHaAreaCount(HaArea haArea);
+    public List<HaArea> selectHaAreaList(HaArea haArea);
+
+;
 
     /**
      * 查询小区表名字 填充条件查询的下拉框
