@@ -337,7 +337,7 @@
         <id column="areaid" property="areaId" />
         <result column="registeredNo" property="registeredNo"/>
         <result column="DS" property="ds"/>
-        <result column="aname" property="name"/>
+        <result column="aname" property="haName"/>
         <association property="haBuilding" javaType="HaBuilding">
             <result column="bname" property="name"/>
 

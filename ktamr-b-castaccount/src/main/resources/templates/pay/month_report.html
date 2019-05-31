@@ -7,7 +7,7 @@
         <div class="col-xs-2 my-form-col area-div">
             <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区">
                 <option th:each="HaArea : ${areaListName}"
-                        th:value="${HaArea.areaId}" th:text="${HaArea.areaId}+':'+${HaArea.name}">Credit card</option>
+                        th:value="${HaArea.areaId}" th:text="${HaArea.areaId}+':'+${HaArea.haName}">Credit card</option>
 
 
             </select>
