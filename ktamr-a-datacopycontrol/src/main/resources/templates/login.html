@@ -64,10 +64,10 @@
     $("#canvas").on('click', function () {
         draw(show_num);
     });
-    function randomColor() {//得到随机的颜色值
-        var r = Math.floor(Math.random() * 256);
-        var g = Math.floor(Math.random() * 256);
-        var b = Math.floor(Math.random() * 256);
+    function randomColor() {//得到随机的颜色值==>把颜色设置为黑色，看的清楚
+        var r = Math.floor(0);
+        var g = Math.floor(0);
+        var b = Math.floor(0);
         return "rgb(" + r + "," + g + "," + b + ")";
     }
     function draw(show_num) {
