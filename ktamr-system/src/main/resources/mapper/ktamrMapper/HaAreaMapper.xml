@@ -91,7 +91,7 @@
     <resultMap  id="AQueryHaAreabystatusMap"  type="HaArea">
             <id column="areaid" property="areaId" />
             <result column="编号" property="areaNo"/>
-            <result column="名称" property="name"/>
+            <result column="名称" property="haName"/>
             <result column="地址" property="addr"/>
             <result column="抄收月份" property="ds"/>
             <result column="状态表数量" property="atnNumber"/>
@@ -259,6 +259,8 @@
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
         to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n
         ) t1
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
     <!--点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字-->
