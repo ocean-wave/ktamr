@@ -8,17 +8,7 @@
 	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
 		<div class="col-xs-2 my-form-col">
 			<select id='showListType' class="selectpicker form-control" data-style="btn-default btn-sm" title="选择客户类型">
-
-				<option th:if=" ${session.operatorCompanyId == 'sys_zjss'} " value='sys_zjss' th:text="镇江水司" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_tzss'} " value='sys_tzss' th:text="泰州水司" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_ntrq'} " value='sys_ntrq' th:text="南通燃气" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_hsss'} " value='sys_hsss' th:text="鹤山水司" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_pkss'} " value='sys_pkss' th:text="浦口水司" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_rass'} " value='sys_rass' th:text="融安水司" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_jrss'} " value='sys_jrss' th:text="句容水司" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_hncc'} " value='sys_hncc' th:text="湖南成聪" selected></option>
-				<option th:if=" ${session.operatorCompanyId == 'sys_nyss'} " value='sys_nyss' th:text="宁远水司" selected></option>
-				<option th:if=" ${session.operatorCompanyId == null || session.operatorCompanyId == ''}" value="" th:text="默认格式" selected></option>
+				<option  th:each="entries,stat:${operatorCompnayList}" th:value="${entries['operatorCompanyId']}" th:text="${entries['operatorCompany']}"  th:selected="${stat.index eq 0}"></option>
 			</select>
 		</div>
 		<div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
@@ -264,7 +254,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterId','用户编号','抄收读数','抄表日期'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterId',  width: 75, key: true, hidden: true},
@@ -284,7 +274,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterId','用户编号','上次抄表读数','本次抄表读数','抄见水量','抄表日期'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterId',  width: 75, key: true, hidden: true},
@@ -304,7 +294,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterId','用户编号','用户名称','表号','表底数','账户余额'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterId',  width: 75, key: true, hidden: true},
@@ -324,7 +314,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterId','表号','用户编号','抄收时间','读数'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterId',  width: 75, key: true, hidden: true},
@@ -343,7 +333,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['id','用户编号','水表编号','抄表时间','上期度数','本期度数','追加水量'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'id',  width: 75, key: true, hidden: true},
@@ -366,7 +356,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['id','用户编号','用户名称','用户地址','手机号码','表号','线路号','小区ID','抄表员ID','上月抄表读数','本月抄表读数','用水量','水费单价','抄表日期'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'id',  width: 75, key: true, hidden: true},
@@ -394,7 +384,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterid','用户编号','名称','抄表年月','旧表本次抄表指数','新表基数','新表读数','是否换表','抄表时间','更新时间','抄表员','计费标记'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterid',  width: 75, key: true, hidden: true},
@@ -420,7 +410,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterid','序号','业主编号','业主名称','地址','表类型','表号','读数','抄收时间'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterid',  width: 75, key: true, hidden: true},
@@ -443,7 +433,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterid','安装地址','用户编号','表具编号','上级设备','今日止度','表具口径','表具状态','抄读方式','状态代码'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterid',  width: 75, key: true, hidden: true},
@@ -467,7 +457,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterid','客户号','户主姓名','用户地址','上次表数','本次表数','抄表时间','抄表员号'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterid',  width: 75, key: true, hidden: true},
@@ -489,7 +479,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterid','用户编号','抄表月份','抄表时间','本次采集读数','抄见类别','同步时间','厂家编码'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterid',  width: 75, key: true, hidden: true},
@@ -545,21 +535,11 @@
 				,data: pData
 				,async: false
 				,success: function(data){
-					var re = data.split(",");
-					layer.close(loadLayerIndex);
-					if(re[0] == "true"){
-						//文本文件下载
-						var eleLink = document.createElement('a');
-						eleLink.href=re[1];//文件链接
-						eleLink.download = re[1].substr(re[1].lastIndexOf('/')+1);//下载文件名
-						eleLink.style.display = 'none';
-						document.body.appendChild(eleLink);
-						eleLink.click();
-						document.body.removeChild(eleLink);
+					if(data.code == "0"){
+						window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
 					}else{
 						layer.msg(data, { icon: 5 });
 					}
-
 				}
 			});
 		}
@@ -575,10 +555,13 @@
 			if(btnTitle == "查询")
 				return;
 			if(btnTitle == "DBF文件" || btnTitle == "TXT文件"){
+
+				postData = "";
 				if(nodeIds == ""){
 					layer.msg("请选择区域", { icon: 5 });
 					return false;
 				}
+
 				if(showListType == "sys_tzss"){
 					url = "TaiZhou/exportToTXT.asp";
 					if(!$("#queryMonth").val()){
@@ -599,12 +582,23 @@
 						"nodeIds": nodeIds
 					}
 				}else if(showListType == "sys_rass"){
-					url = "RongAn/exportToTXT.asp";
+					url = "/thirdpartydata/exportToTXT";
 					postData = {
 						"nodeType": nodeType,
 						"nodeIds": nodeIds
 					}
 				}
+				var colNames = $("#jqGrid").jqGrid("getGridParam", "colNames");
+				var colModel = $("#jqGrid").jqGrid("getGridParam", "colModel");
+				var name = new Array();
+				var reg=/[\u4E00-\u9FA5]/;
+				for(var i = 0;i<colNames.length;i++){
+					if(colNames != null && reg.exec(colNames[i])){
+						name.push(colModel[i].name)
+					}
+				}
+				postData["name"]=name;
+				postData["params[showListType]"]=showListType;
 				exportToFile(url, postData);
 
 				return false;

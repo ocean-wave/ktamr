@@ -21,6 +21,12 @@ public class ExceStr {
         return filename;
     }
 
+    public static String encodingFileTxTname(String filename)
+    {
+        filename = UUID.randomUUID().toString() + filename+".txt";
+        return filename;
+    }
+
     /**
      * 获取下载路径
      *

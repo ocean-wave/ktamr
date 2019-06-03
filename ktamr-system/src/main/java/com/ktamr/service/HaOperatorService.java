@@ -11,6 +11,8 @@ public interface HaOperatorService {
 
     public String selectOperatorAreaByName(String operatorName);
 
+    public List<HaOperator> selectOperatorCompany(String operatorName);
+
     List<HaOperator> HaOperatorList(HaOperator haOperator, Integer page,
                                     Integer rowNum);
 

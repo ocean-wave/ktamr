@@ -4,6 +4,7 @@ import com.ktamr.domain.HaOperator;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HaOperatorMapper {
 
@@ -12,6 +13,8 @@ public interface HaOperatorMapper {
     public String selectOperatorRgnByName(String operatorName);
 
     public String selectOperatorAreaByName(String operatorName);
+
+    public List<HaOperator> selectOperatorCompany(String operatorName);
 
     List<HaOperator> HaOperatorList(@Param("haOperator") HaOperator haOperator, @Param("page") Integer page, @Param("rowNum") Integer rowNum);
 

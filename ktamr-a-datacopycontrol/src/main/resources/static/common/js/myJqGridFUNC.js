@@ -594,6 +594,7 @@ function exportToExcel(url,GridId)
 		data:pdArray,
 		success:function(result){
 			if (result.code == web_status.SUCCESS) {
+				var url = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
 				window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
 			}else{
 				$.ktamr.alert(result.msg,modal_status.FAIL);

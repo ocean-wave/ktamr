@@ -28,6 +28,7 @@ public class HaOperator extends BaseEntity {
     private String rgnStr;
     private String areaNo;
     private String rgnAndAreaId;
+    private String operatorCompanyId;
     private String keyWord;
 
     public String getRgnStr() {
@@ -164,5 +165,13 @@ public class HaOperator extends BaseEntity {
 
     public void setRgnAndAreaId(String rgnAndAreaId) {
         this.rgnAndAreaId = rgnAndAreaId;
+    }
+
+    public String getOperatorCompanyId() {
+        return operatorCompanyId;
+    }
+
+    public void setOperatorCompanyId(String operatorCompanyId) {
+        this.operatorCompanyId = operatorCompanyId;
     }
 }
