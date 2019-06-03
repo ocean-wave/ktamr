@@ -113,6 +113,12 @@ public class DevicesController extends BaseController {
         return "devices/loadCentorCollector";
     }
 
+    //跳转导入
+    @RequestMapping("/JumpDeviceUpLoad")
+    public String jumpDeviceUpLoad(){
+        return "devices/device_upload";
+    }
+
     @RequestMapping("/JumpBoundMeter")
     public String jumpBoundMeter(Integer areaId, String cmdName, Integer deviceId, Integer collectorId, Integer readLineId, Model model) {
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
