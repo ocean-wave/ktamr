@@ -91,6 +91,8 @@
         <if test="haRoom.keyWord !=null and haRoom.keyWord !=''">
             and (a.registeredNo like '%${haRoom.keyWord}%' or cu.name like '%${haRoom.keyWord}%' or a.areaNo like '%${haRoom.keyWord}%')
         </if>
+        <!--多条件查询-->
+        ${haRoom.multipleConditions}
         ORDER BY a.name||'-'||b.name||'-'||r.name
     </select>
 

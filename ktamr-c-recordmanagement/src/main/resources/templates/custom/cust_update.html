@@ -235,7 +235,9 @@
                         var option = $("<option>").val("").text("");
                         $("#building").append(option);
                         for (var i = 0; i < data.length; i++) {
-                            $("#building").append("<option th:selected=\"${haBuilding.buildingId eq data[i].buildingId}\" value='" + data[i].buildingId + "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
+                            $("#building").append("<option value='" + data[i].buildingId + "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
+                            $("#building").append("<option value='" + data[i].buildingId + "'th:selected='"+"${custom.haBuilding.buildingId eq data[i].buildingId}"+ "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
+
                         }
                         //appendSelectOption("building", data.areaId, "");
                         $("#room").empty();

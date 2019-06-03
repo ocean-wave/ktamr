@@ -43,6 +43,8 @@
             or operator_mobile like '%${haOperator.keyWord}%'
             or operator_remark like '%${haOperator.keyWord}%'
         </if>
+        <!--多条件查询-->
+        ${haOperator.multipleConditions}
     </select>
 
     <select id="selectHaOperatorCount" resultType="Integer">

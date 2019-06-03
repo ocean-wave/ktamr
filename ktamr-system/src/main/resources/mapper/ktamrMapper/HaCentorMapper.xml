@@ -284,6 +284,8 @@
                 AND POSITION(#{haCentor.nodeIds} in Left(a.areaNo, 1))>0
             </if>
         </if>
+        <!--多条件查询-->
+        ${haCentor.multipleConditions}
         ORDER BY ce.centorNo,ce.addr
     </select>
 

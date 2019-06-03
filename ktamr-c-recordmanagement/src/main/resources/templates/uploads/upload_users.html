@@ -18,6 +18,8 @@
                 <label>选择小区：</label>
                 <div class="form-group">
                     <select id="areas" class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-style="btn-default btn-sm" data-size="5">
+                        <option th:each="haAreas : ${haAreasList}"
+                                th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.haName}"></option>
                     </select>
                 </div>
                 <button type="button" id="templateExport" class="btn btn-default btn-sm btnMargin">导出</button>
@@ -245,21 +247,6 @@
             return false;
         });
     });
-
-    var areas = $("#areas");
-    $.ajax({
-        type: "GET",
-        url: "/area/QueryAllHaArea",
-        dataType: "json",
-        success: function (data) {
-            if (data != null) {
-                for (var i = 0; i < data.length; i++) {
-                    areas.append('<option value="' + data[i].areano + '">'+ data[i].areaNo+":"+ data[i].name + '</option>')
-                }
-            }
-        }
-    });
 </script>
-
 </body>
 </html>

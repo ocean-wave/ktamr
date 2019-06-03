@@ -528,6 +528,8 @@ WHERE areaid IN ('${areaId}')
         <if test="haArea.monthType != null and haArea.monthType != '' ">
             and a.DS = #{haArea.monthType}
         </if>
+        <!--多条件查询-->
+        ${haArea.multipleConditions}
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,
         a.DS,a.description,a.reserved,to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n ORDER BY a.areaNo
     </select>
@@ -558,6 +560,6 @@ WHERE areaid IN ('${areaId}')
 
     <!--选择区域类型为小区，选择小区下区域-->
     <select id="queryAreaByArea" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
-        select areaNo,areaNo,name from ha_area a ORDER BY areaNo
+        select areaNo,areaNo,name as haName from ha_area a ORDER BY areaNo
     </select>
 </mapper>

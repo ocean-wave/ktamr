@@ -92,6 +92,8 @@
         <if test="haRgn.keyWord != null and haRgn.keyWord != ''">
             and (n.id = #{haRgn.keyWord} or n.shortName like '%${haRgn.keyWord}%' or n.name like '%${haRgn.keyWord}%' or n.zCode like '%${haRgn.keyWord}%')
         </if>
+        <!--多条件查询-->
+        ${haRgn.multipleConditions}
         group by n.id,t.n
     </select>
 

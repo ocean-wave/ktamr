@@ -69,6 +69,8 @@
         <if test="haPricestandard.keyWord != null and haPricestandard.keyWord != ''">
             and ps.name like '%${haPricestandard.keyWord}%' or ps.chargingMethods like '%${haPricestandard.keyWord}%'
         </if>
+        <!--多条件查询-->
+        ${haPricestandard.multipleConditions}
         GROUP BY ps.pricestand_id,ps.name,ps.metertypeid,mt.name,ps.chargingMethods,ps.usagePoint1,
         ps.usagePoint2,ps.price1,ps.price2,ps.price3,ps.A1,ps.s_days,ps.s_min,
         ps.s_max,to_char(ps.starttime, 'yyyy-mm-dd'),to_char(ps.endtime, 'yyyy-mm-dd'),round(CAST(ps.a1 AS NUMERIC),2)
