@@ -35,7 +35,7 @@ public interface HaBuildingService {
     /*
      *查询楼栋
      */
-    List<HaBuilding> queryAllBuildingC(Integer page,Integer rowNum);
+    List<HaBuilding> queryAllBuildingC();
 
     /*
      *小区下所属楼栋记录数

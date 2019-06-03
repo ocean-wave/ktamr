@@ -47,8 +47,7 @@ public interface HaBuildingMapper {
     /*
      *查询楼栋
      */
-    List<HaBuilding> queryAllBuildingC(@Param("page") Integer page,
-                                      @Param("rowNum") Integer rowNum);
+    List<HaBuilding> queryAllBuildingC();
 
     /*
      *小区下所属楼栋记录数

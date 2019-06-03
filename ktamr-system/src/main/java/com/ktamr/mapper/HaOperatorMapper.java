@@ -16,7 +16,11 @@ public interface HaOperatorMapper {
 
     public List<HaOperator> selectOperatorCompany(String operatorName);
 
-    List<HaOperator> HaOperatorList(@Param("haOperator") HaOperator haOperator, @Param("page") Integer page, @Param("rowNum") Integer rowNum);
+    List<HaOperator> HaOperatorList(@Param("haOperator") HaOperator haOperator);
+
+    HaOperator updateByIdHaOperator(@Param("operatorCode") String operatorCode);
+
+    HaOperator selUpperRgnType(@Param("operatorCode") String operatorCode);
 
     Integer selectHaOperatorCount(HaOperator haOperator);
 

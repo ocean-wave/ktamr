@@ -45,8 +45,8 @@ public class HaBuildingServiceImpl implements HaBuildingService {
     }
 
     @Override
-    public List<HaBuilding> queryAllBuildingC(Integer page, Integer rowNum) {
-        return haBuildingMapper.queryAllBuildingC(page,rowNum);
+    public List<HaBuilding> queryAllBuildingC() {
+        return haBuildingMapper.queryAllBuildingC();
     }
 
     @Override

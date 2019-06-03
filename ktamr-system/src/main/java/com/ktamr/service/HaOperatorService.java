@@ -13,8 +13,11 @@ public interface HaOperatorService {
 
     public List<HaOperator> selectOperatorCompany(String operatorName);
 
-    List<HaOperator> HaOperatorList(HaOperator haOperator, Integer page,
-                                    Integer rowNum);
+    List<HaOperator> HaOperatorList(HaOperator haOperator);
+
+    HaOperator updateByIdHaOperator(String operatorCode);
+
+    HaOperator selUpperRgnType(String operatorCode);
 
     Integer selectHaOperatorCount(HaOperator haOperator);
 

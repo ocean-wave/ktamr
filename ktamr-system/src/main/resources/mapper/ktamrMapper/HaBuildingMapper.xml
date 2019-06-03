@@ -183,7 +183,6 @@
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON a.areaid=b.areaid WHERE r.roomid>0
         ORDER BY a.name||'-'||b.name||'-'||r.name
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="allBuildingCountC" resultType="_int">
