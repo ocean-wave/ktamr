@@ -30,18 +30,14 @@ public class HaOperatorServiceImpl implements HaOperatorService {
         return haOperatorMapper.selectOperatorAreaByName(operatorName);
     }
 
-    public List<HaOperator> HaOperatorList(HaOperator haOperator) {
-        return haOperatorMapper.HaOperatorList(haOperator);
+    @Override
+    public List<HaOperator> selectOperatorCompany(String operatorName) {
+        return haOperatorMapper.selectOperatorCompany(operatorName);
     }
 
-    @Override
-    public HaOperator updateByIdHaOperator(String operatorCode) {
-        return haOperatorMapper.updateByIdHaOperator(operatorCode);
-    }
-
-    @Override
-    public HaOperator selUpperRgnType(String operatorCode) {
-        return haOperatorMapper.selUpperRgnType(operatorCode);
+    public List<HaOperator> HaOperatorList(HaOperator haOperator, Integer page,
+                                           Integer rowNum) {
+        return haOperatorMapper.HaOperatorList(haOperator,page,rowNum);
     }
 
     @Override

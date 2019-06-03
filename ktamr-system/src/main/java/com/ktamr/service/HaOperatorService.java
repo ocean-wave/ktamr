@@ -11,11 +11,10 @@ public interface HaOperatorService {
 
     public String selectOperatorAreaByName(String operatorName);
 
-    List<HaOperator> HaOperatorList(HaOperator haOperator);
+    public List<HaOperator> selectOperatorCompany(String operatorName);
 
-    HaOperator updateByIdHaOperator(String operatorCode);
-
-    HaOperator selUpperRgnType(String operatorCode);
+    List<HaOperator> HaOperatorList(HaOperator haOperator, Integer page,
+                                    Integer rowNum);
 
     Integer selectHaOperatorCount(HaOperator haOperator);
 

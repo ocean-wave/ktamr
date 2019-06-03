@@ -216,13 +216,13 @@
     </select>
 
     <select id="selectThirdParty" resultMap="haMeterMap" parameterType="com.ktamr.domain.HaMeter">
-        <if test=" params.showListType == 'sys_zjss' or params.showListType == '' ">
+        <if test=" params.showListType == 'sys_zjss'.toString() ">
             SELECT
             mi.meterid AS meterId
             , mi.用户号 AS userNo
-            , trim(to_char(mi.表号, '9999999999999999')) AS meterNumber
+            , mi.表号 AS meterNumber
             , mi.用户地址 AS userDs
-            , trim(to_char(mi.最近度数, '9999999999999999')) AS thNumber
+            , mi.最近度数 AS thNumber
             , mi.抄表时间 AS thRTime
             FROM hav_meterinfo mi
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
@@ -233,13 +233,13 @@
                   or mi.抄表时间 like '%${params.keyWord}%')
             </if>
         </if>
-        <if test=" params.showListType == 'sys_ntrq'">
+        <if test=" params.showListType == 'sys_ntrq'.toString() ">
             SELECT mi.meterid AS meterId
             , mi.用户号 AS userNo
             , mi.表地址 AS addr
             , mi.用户名 AS userName
             , mi.用户地址 AS userDs
-            , trim(to_char(mi.最近度数, '9999999999999999')) AS thNumber
+            , mi.最近度数 AS thNumber
             , mi.抄表时间 AS thRTime
             ,mi.状态 AS state
             FROM hav_meterinfo mi
@@ -253,77 +253,77 @@
                 or mi.状态 = #{params.keyWord})
             </if>
         </if>
-        <if test=" params.showListType == 'sys_hsss'">
+        <if test=" params.showListType == 'sys_hsss'.toString() ">
             SELECT mi.meterid AS meterId
             , mi.用户号 AS userNo
             , mi.用户名 AS userName
-            , trim(to_char(mi.表号, '9999999999999999')) AS meterNumber
+            , mi.表号 AS meterNumber
             , mi.小区名||'-'||b.name AS userDs
             , r.name AS rname
-            , trim(to_char(mi.最近度数, '9999999999999999')) AS thNumber
+            , mi.最近度数 AS thNumber
             , mi.抄表时间 AS thRTime
             FROM ((hav_meterinfo mi LEFT JOIN ha_area a ON mi.areaid=a.areaid)
             LEFT JOIN ha_building b ON mi.buildingid=b.buildingid)
             LEFT JOIN ha_room r ON mi.roomid=r.roomid
             WHERE mi.meterid IS NOT NULL
         </if>
-        <if test=" params.showListType == 'sys_tzss'">
+        <if test=" params.showListType == 'sys_tzss'.toString() ">
             SELECT f.meterid AS meterId
             , mi.用户号 AS userNo
             , CASE WHEN length(mi.用户名)>0 THEN mi.用户名 ELSE '*' END AS userName
-            , trim(to_char(f.tf_number, '9999999999999999')) AS ftfNumber
+            , f.tf_number AS ftfNumber
             , f.th_time AS fthTime
-            , trim(to_char(f.delta, '9999999999999999')) AS fdelta
+            , f.delta AS fdelta
             , '0' AS zjsl
             , mi.状态 AS state
-            , trim(to_char(f.lf_number, '9999999999999999')) AS flfNumber
+            , f.lf_number AS flfNumber
             FROM ha_area a, hav_meterinfo mi, ha_freeze f, ha_paylog pl
             WHERE mi.meterid=f.meterid AND f.billId=pl.billId AND pl.state='完成' AND mi.areaid=a.areaid
             <if test=" params.queryMonth != null and params.queryMonth !='' ">
               AND to_char(f.RTime, 'yyyy-mm')=#{params.queryMonth}
             </if>
         </if>
-        <if test=" params.showListType == 'sys_pkss'">
+        <if test=" params.showListType == 'sys_pkss'.toString() ">
             SELECT mi.meterid AS meterId
             , mi.用户号 AS userNo
             , to_char(to_date(mi.抄表时间,'yyyy-MM-dd'),'yyyyMM') AS sfny
             , null AS sycjs
-            , trim(to_char(mi.最近度数, '9999999999999999')) AS thNumber
+            , mi.最近度数 AS thNumber
             , mi.抄表时间 AS thRTime
             , null AS ysl
-            , trim(to_char(mi.表号, '9999999999999999')) AS meterNumber
+            , mi.表号 AS meterNumber
             , 0 AS csdrbj
             FROM hav_meterinfo mi
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             WHERE mi.meterid IS NOT NULL
         </if>
-        <if test=" params.showListType == 'sys_rass'">
+        <if test=" params.showListType == 'sys_rass'.toString() ">
             SELECT mi.meterid AS meterId
             , mi.用户号 AS userNo
-            , trim(to_char(mi.最近度数, '9999999999999999')) AS thNumber
+            , mi.最近度数 AS thNumber
             , to_char(to_date(mi.抄表时间,'yyyy-MM-dd'), 'YYYYMMDD') AS cbrq
             FROM hav_meterinfo mi
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             WHERE mi.meterid IS NOT NULL
         </if>
-        <if test=" params.showListType == 'sys_jrss'">
+        <if test=" params.showListType == 'sys_jrss'.toString() ">
             SELECT mi.meterid AS meterId
             , mi.用户号 AS userNo
             , '' AS amtabnum
-            , trim(to_char(mi.最近度数, '9999999999999999')) AS thNumber
+            , mi.最近度数 AS thNumber
             , '' AS watermete
             , to_char(to_date(mi.抄表时间,'yyyy-MM-dd'), 'YYYY/MM/DD') AS cbtdate
             FROM hav_meterinfo mi
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             WHERE mi.meterid IS NOT NULL
         </if>
-        <if test=" params.showListType == 'sys_hncc'">
+        <if test=" params.showListType == 'sys_hncc'.toString() ">
             SELECT mi.meterid AS meterId
             , mi.用户号 AS userNo
             , mi.用户名 AS userName
-            , trim(to_char(mi.表号, '9999999999999999')) AS meterNumber
-            , trim(to_char(m.lf_number, '9999999999999999')) AS lfNumber
-            , trim(to_char(cu.balance, '9999999999999999')) AS cuBalance
+            , mi.表号 AS meterNumber
+            , m.lf_number AS lfNumber
+            , cu.balance AS cuBalance
             FROM hav_meterinfo mi
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             LEFT JOIN ha_room r ON mi.roomid=r.roomid
@@ -331,12 +331,12 @@
             LEFT JOIN ha_custom cu ON cu.custid=r.custid
             WHERE mi.meterid IS NOT NULL
         </if>
-        <if test=" params.showListType == 'sys_nyss'">
+        <if test=" params.showListType == 'sys_nyss'.toString() ">
             SELECT mi.meterid AS meterId
-            , trim(to_char(mi.表号, '9999999999999999')) AS meterNumber
+            , mi.表号 AS meterNumber
             , mi.用户号 AS userNo
             , mi.抄表时间 AS thRTime
-            , trim(to_char(mi.最近度数, '9999999999999999')) AS thNumber
+            , mi.最近度数 AS thNumber
             FROM hav_meterinfo mi
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             WHERE mi.meterid IS NOT NULL
