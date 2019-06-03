@@ -23,7 +23,7 @@ public class ExceStr {
 
     public static String encodingFileTxTname(String filename)
     {
-        filename = UUID.randomUUID().toString() + filename+".txt";
+        filename = UUID.randomUUID().toString() + "_" + filename+".txt";
         return filename;
     }
 

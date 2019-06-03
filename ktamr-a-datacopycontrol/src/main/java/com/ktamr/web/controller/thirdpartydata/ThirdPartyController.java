@@ -10,18 +10,12 @@ import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HaOperator;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaOperatorService;
-import com.sun.deploy.net.HttpResponse;
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +52,17 @@ public class ThirdPartyController extends BaseController {
     @ResponseBody
     public AjaxResult exportToTXT(HaMeter haMeter,@RequestParam( value = "name[]") String[] name){
         List<HaMeter> listMeter = haMeterService.selectThirdParty(haMeter);
-        String fileName = ExceStr.encodingFileTxTname("融安水司数据报表");
+        String fileName = "";
+        if(haMeter.getParams().get("showListType").equals("sys_rass")){
+            fileName = "融安水司";
+        }else if(haMeter.getParams().get("showListType").equals("sys_tzss")){
+            fileName = "泰州水司";
+        }else if(haMeter.getParams().get("showListType").equals("sys_scsy")){
+            fileName = "三川邵阳";
+        }else if(haMeter.getParams().get("showListType").equals("sys_scjdz")){
+            fileName = "三川景德镇";
+        }
+        fileName = ExceStr.encodingFileTxTname(fileName);
         ExportTextUtil exportTextUtil = new ExportTextUtil();
         try {
             exportTextUtil.writeToTxt(fileName,listMeter,name);

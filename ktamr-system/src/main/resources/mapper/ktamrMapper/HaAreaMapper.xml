@@ -8,7 +8,7 @@
         <id column="areaId" property="areaId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="areaNo" property="areaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="registeredNo" property="registeredNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="name" property="haName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="cname" property="cname" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="ds" property="ds" javaType="java.lang.String" jdbcType="VARCHAR"></result>

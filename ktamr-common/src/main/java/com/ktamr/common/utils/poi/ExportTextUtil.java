@@ -1,10 +1,11 @@
 package com.ktamr.common.utils.poi;
 
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.StringUtils;
-import com.ktamr.common.utils.file.FileUtils;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 
 public class ExportTextUtil {
@@ -20,10 +21,15 @@ public class ExportTextUtil {
                     String[] sc = name[i].split("\\.");
                     try {
                         Object value = getTargetValue(obj,sc);
-                        if(i==name.length-1){
-                            sb.append(value);
+                        if(value instanceof Date) {
+                            sb.append(DateUtils.dateTimeTwo((Date)value));
+                        }else if(value instanceof Double) {
+                            sb.append(Integer.parseInt(new java.text.DecimalFormat("0").format(value) ));
                         }else {
-                            sb.append(value + "|");
+                            sb.append(value);
+                        }
+                        if(i!=name.length-1){
+                            sb.append("|");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

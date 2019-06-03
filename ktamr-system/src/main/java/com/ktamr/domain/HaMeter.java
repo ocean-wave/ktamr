@@ -76,9 +76,12 @@ public class HaMeter extends BaseEntity {
     private String ysl;
     private String csdrbj;
     private String cbrq;
+    private String sjsb;
+    private String sbbh;
     private String amtabnum;
     private String watermete;
     private String cbtdate;
+    private String waterMete;
 
     public HaCustom getHaCustom() {
         return haCustom;
@@ -542,5 +545,29 @@ public class HaMeter extends BaseEntity {
 
     public void setCbtdate(String cbtdate) {
         this.cbtdate = cbtdate;
+    }
+
+    public String getWaterMete() {
+        return waterMete;
+    }
+
+    public void setWaterMete(String waterMete) {
+        this.waterMete = waterMete;
+    }
+
+    public String getSjsb() {
+        return sjsb;
+    }
+
+    public void setSjsb(String sjsb) {
+        this.sjsb = sjsb;
+    }
+
+    public String getSbbh() {
+        return sbbh;
+    }
+
+    public void setSbbh(String sbbh) {
+        this.sbbh = sbbh;
     }
 }

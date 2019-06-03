@@ -24,7 +24,7 @@ public interface HaMeterService {
 
     /**
      *
-     * @param KeyWordTwo
+     * @param
      * @return
      */
     public HaMeter selectMeterAndBuildingByKeyWordTwo(String keyWordTwo);

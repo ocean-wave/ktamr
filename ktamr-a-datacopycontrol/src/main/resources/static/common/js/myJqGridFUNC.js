@@ -604,6 +604,33 @@ function exportToExcel(url,GridId)
 	});
 }
 
+function exportToTxt(pUrl, pData){
+	var colNames = $("#jqGrid").jqGrid("getGridParam", "colNames");
+	var colModel = $("#jqGrid").jqGrid("getGridParam", "colModel");
+	var name = new Array();
+	var reg=/[\u4E00-\u9FA5]/;
+	for(var i = 0;i<colNames.length;i++){
+		if(colNames != null && reg.exec(colNames[i])){
+			name.push(colModel[i].name)
+		}
+	}
+	pData["name"]=name;
+	$.ktamr.loading("正在导出数据，请稍后...");
+	$.ajax({
+		url: pUrl
+		,type: "POST"
+		,data: pData
+		,success: function(data){
+			if(data.code == "0"){
+				window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
+			}else{
+				$.ktamr.alert(result.msg,modal_status.FAIL);
+			}
+			$.ktamr.closeloading();
+		}
+	});
+}
+
 (function ($) {
 	$.extend({
 		ktamr: {

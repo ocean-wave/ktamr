@@ -20,19 +20,19 @@ public class HavMeterinfo extends BaseEntity {
     private String addr;
     private Integer custId;
     private Integer pricestandId;
-    private String userNo;//�û���
-    private Long meterNumber;//���
-    private String maddr;//���ַ
-    private String userName;//�û���
-    private String areaName;//С����
-    private String userDs;//�û���ַ
-    private double thNumber;//�������
-    private double lfNumber;//���ڶ���
-    private double sNumber;//��������
+    private String userNo;
+    private Long meterNumber;
+    private String maddr;
+    private String userName;
+    private String areaName;
+    private String userDs;
+    private double thNumber;
+    private double lfNumber;
+    private double sNumber;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date thRTime;//����ʱ��
-    private String lfTime;//���ڳ���ʱ��
-    private String state;//״̬
+    private Date thRTime;
+    private String lfTime;
+    private String state;
 
     private HaRecords haRecords;
 
