@@ -29,8 +29,8 @@ public class SqlCondition {
         if (str != null) {
             try {
                 SqlCondition sqlCondition = objectMapper.readValue(str, SqlCondition.class);
+                sql = sql + " where ";
                 for (int i = 0;i<sqlCondition.rules.size();i++) {
-                        sql = sql + " where ";
                         String field = sqlCondition.rules.get(i).get("field");
                         String op = sqlCondition.rules.get(i).get("op");
                         String data = sqlCondition.rules.get(i).get("data");
