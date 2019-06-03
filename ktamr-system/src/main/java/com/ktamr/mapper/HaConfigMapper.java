@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface HaConfigMapper {
 
-    List<HaConfig> queryHaConfig(@Param("haConfig") HaConfig haConfig, @Param("page") Integer page,
-                                 @Param("rowNum") Integer rowNum);
+    List<HaConfig> queryHaConfig(@Param("haConfig") HaConfig haConfig);
 
     Integer haConfigCount(HaConfig haConfig);
 

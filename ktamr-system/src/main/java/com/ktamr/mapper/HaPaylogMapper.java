@@ -14,32 +14,17 @@ public interface HaPaylogMapper {
      * @param haPaylog
      * @return
      */
-    public List<HaPaylog>  selectHaPaylogList(@Param("HaPaylog") HaPaylog haPaylog, @Param("page") Integer page,
-                                              @Param("rowNum") Integer rowNum);
+    public List<HaPaylog>  selectHaPaylogList(@Param("HaPaylog") HaPaylog haPaylog);
 
-    /**
-     * 缴费单查询的总记录数
-     * @param haPaylog
-     * @return
-     */
-    public Integer selectHaPaylogListCount(@Param("HaPaylog") HaPaylog haPaylog);
+
 
     /**
      * 对月报表的查询
      * @param haPaylog
-     * @param page
-     * @param rowNum
      * @return
      */
-    public List<HaPaylog>  selectMonthReportList(@Param("HaPaylog") HaPaylog haPaylog, @Param("page") Integer page,
-                                                 @Param("rowNum") Integer rowNum);
+    public List<HaPaylog>  selectMonthReportList(@Param("HaPaylog") HaPaylog haPaylog);
 
-    /**
-     * 查询月报表查询的总记录数
-     * @param haPaylog
-     * @return
-     */
-    public Integer selectMonthReportListCount(@Param("HaPaylog") HaPaylog haPaylog);
 
 
     /**

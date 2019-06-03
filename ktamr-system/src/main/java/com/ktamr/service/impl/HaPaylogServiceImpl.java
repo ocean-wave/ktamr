@@ -20,13 +20,11 @@ public class HaPaylogServiceImpl implements HaPaylogService {
     /**
      * 缴费单查询列表
      * @param haPaylog
-     * @param page
-     * @param rowNum
      * @return
      */
     @Override
-    public List<HaPaylog> selectHaPaylogList(HaPaylog haPaylog, Integer page, Integer rowNum) {
-        List<HaPaylog> haPaylogList = haPaylogMapper.selectHaPaylogList(haPaylog, page, rowNum);
+    public List<HaPaylog> selectHaPaylogList(HaPaylog haPaylog) {
+        List<HaPaylog> haPaylogList = haPaylogMapper.selectHaPaylogList(haPaylog);
         if(haPaylogList!=null){
             return  haPaylogList;
         }
@@ -34,49 +32,23 @@ public class HaPaylogServiceImpl implements HaPaylogService {
         return null;
     }
 
-    /**
-     * 缴费单查询总记录数
-     * @param haPaylog
-     * @return
-     */
-    @Override
-    public Integer selectHaPaylogListCount(HaPaylog haPaylog) {
-        Integer paylogListCount = haPaylogMapper.selectHaPaylogListCount(haPaylog);
-        if(paylogListCount!=null){
-            return paylogListCount;
-        }
-        return null;
-    }
+
 
     /**
      * 月报表的查询
      * @param haPaylog
-     * @param page
-     * @param rowNum
      * @return
      */
     @Override
-    public List<HaPaylog> selectMonthReportList(HaPaylog haPaylog, Integer page, Integer rowNum) {
-        List<HaPaylog> haPaylogList = haPaylogMapper.selectMonthReportList(haPaylog, page, rowNum);
+    public List<HaPaylog> selectMonthReportList(HaPaylog haPaylog) {
+        List<HaPaylog> haPaylogList = haPaylogMapper.selectMonthReportList(haPaylog);
         if(haPaylogList!=null){
             return haPaylogList;
         }
         return null;
     }
 
-    /**
-     * 月报表总记录数的查询
-     * @param haPaylog
-     * @return
-     */
-    @Override
-    public Integer selectMonthReportListCount(HaPaylog haPaylog) {
-        Integer reportListCount = haPaylogMapper.selectMonthReportListCount(haPaylog);
-        if(reportListCount!=null){
-            return reportListCount;
-        }
-        return null;
-    }
+
 
     /**
      * 点击打印缴费单时进行查询1

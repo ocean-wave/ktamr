@@ -16,7 +16,6 @@
             or uid like '%${haConfig.keyWord}%'
         </if>
         ORDER BY pos
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="haConfigCount" resultType="Integer">

@@ -43,7 +43,6 @@
             or operator_mobile like '%${haOperator.keyWord}%'
             or operator_remark like '%${haOperator.keyWord}%'
         </if>
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="selectHaOperatorCount" resultType="Integer">
@@ -57,6 +56,49 @@
     <delete id="deleteHaOperator">
         delete from ha_operator where operator_code = #{operatorCode}
     </delete>
+
+
+    <update id="updateHaOperator">
+        update ha_operator
+        <trim prefix="set" suffixOverrides="," suffix="where operator_code = #{operatorCode}">
+            <if test="operatorCode != null">operator_code = #{operatorCode},</if>
+            <if test="operatorName != null">operator_name = #{operatorName},</if>
+            <if test="operatorPwd != null">operator_pwd = #{operatorPwd},</if>
+            <if test="operatorSex != null">operator_sex = #{operatorSex},</if>
+            <if test="operatorMobile != null">operator_mobile = #{operatorMobile},</if>
+            <if test="operatorRemark != null">operator_remark = #{operatorRemark},</if>
+            <if test="operatorUpper != null">operator_upper = #{operatorUpper},</if>
+            <if test="operatorLevel != null">operator_level = #{operatorLevel},</if>
+            <if test="operatorRgnType != null">operator_rgn_type = #{operatorRgnType},</if>
+            <if test="operatorState != null">operator_state = #{operatorState},</if>
+            <if test="operatorCompany != null">operator_company = #{operatorCompany},</if>
+        </trim>
+    </update>
+
+    <select id="updateByIdHaOperator" resultMap="HaOperatorMap">
+        select operator_code AS operatorCode,
+        operator_name AS operatorName,
+        CASE WHEN operator_sex='M' THEN '男'
+        WHEN operator_sex='F' THEN '女'
+        WHEN operator_sex='N' THEN '未知' end as operatorSex,
+        CASE WHEN operator_state='Y' THEN '启用'
+        WHEN operator_state='N' THEN '禁用' end as operatorState,
+        CASE WHEN operator_level='admin' THEN '系统管理员'
+        WHEN operator_level='normal' THEN '普通管理员'
+        WHEN operator_level='readMan' THEN '抄收员'
+        WHEN operator_level='viewMan' THEN '查阅员' end as operatorLevel,
+        CASE WHEN operator_rgn_type='all' THEN '全部区域'
+        WHEN operator_rgn_type='rgn' THEN '大区'
+        WHEN operator_rgn_type='area' THEN '小区' end as operatorRgnType,operator_upper as operatorUpper,
+        operator_pwd as operatorPwd,operator_company as operatorCompany,
+        operator_mobile as operatorMobile, operator_remark as operatorRemark,
+        to_char(operator_creattime, 'yyyy-mm-dd hh24:mi:ss') as operatorCreatTime from ha_operator
+        where operator_code = #{operatorCode}
+    </select>
+
+    <select id="selUpperRgnType" resultType="com.ktamr.domain.HaOperator">
+        SELECT operator_rgn_type FROM ha_operator WHERE operator_code=#{operatorCode}
+    </select>
 
     <!--修改密码时验证原密码   -->
     <select id="CheckPwd" resultType="string">

@@ -92,7 +92,6 @@
             and (a.registeredNo like '%${haRoom.keyWord}%' or cu.name like '%${haRoom.keyWord}%' or a.areaNo like '%${haRoom.keyWord}%')
         </if>
         ORDER BY a.name||'-'||b.name||'-'||r.name
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="allRoomCountC" resultType="_int">
@@ -100,7 +99,7 @@
     </select>
 
     <insert id="addHaRoomC">
-        insert into ha_room values(default ,#{name},#{description},#{buildingId})
+        insert into ha_room(roomid,name,description,buildingid) values(default ,#{name},#{description},#{buildingId})
     </insert>
 
 </mapper>

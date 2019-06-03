@@ -4,6 +4,7 @@ package com.ktamr.account.pay;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaMonthbtime;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
-public class HaBillrecordsController {
+public class HaBillrecordsController extends BaseController {
 
     @Resource
     private HaBillrecordsService haBillrecordsService;
@@ -47,15 +48,11 @@ public class HaBillrecordsController {
      */
     @RequestMapping("/pay/sfjl/showBillRecordsList")
     @ResponseBody
-    public  Object  showBillRecordsList(HaBillrecords haBillrecords, HttpServletRequest request, PageUtil pageUtil
-    ){
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-        List<HaBillrecords> haAreaList =haBillrecordsService.queryHaBillrecordsList(haBillrecords,integers[0] ,integers[1] );
-        Integer selectHaAreaCount = haBillrecordsService.ChaXunHaBillrecordsCount(haBillrecords);
-        Map map = pageUtil.map(haAreaList, selectHaAreaCount);
-       if(map!=null){
+    public  Object  showBillRecordsList(HaBillrecords haBillrecords){
+        startPage();
+        List<HaBillrecords> haAreaList =haBillrecordsService.ChaXunHaBillrecordsList(haBillrecords );
+        Map<String, Object> map = getDataTable(haAreaList);//获取收费记录查询
+        if(map!=null){
            return map;
        }
         return null;
@@ -72,7 +69,7 @@ public class HaBillrecordsController {
     public AjaxResult ybbexport(HaBillrecords haBillrecords, ExcelUtilTwo excelUtilTwo)
     {
         //这里保证查询的是全部的数据
-        List<HaBillrecords> haAreaList =haBillrecordsService.queryHaBillrecordsList(haBillrecords,9999999,0 );
+        List<HaBillrecords> haAreaList =haBillrecordsService.ChaXunHaBillrecordsList(haBillrecords );
         if (haAreaList!=null){
             return excelUtilTwo.init(haAreaList, "月报表数据");
         }
@@ -81,15 +78,11 @@ public class HaBillrecordsController {
     /**
      * 查询用户账单列表
      * @param haBillrecords
-     * @param request
-     * @param pageUtil
      * @return ajax
      */
     @RequestMapping("/selectYongHuZhangDan")
     @ResponseBody
-     public String queryHaCustomList(HaBillrecords haBillrecords , HttpServletRequest request, PageUtil pageUtil
-    , String startDate, String endDate
-
+     public Object queryHaCustomList(HaBillrecords haBillrecords, String startDate, String endDate
     ) {
         if(startDate!=null&&startDate!="" &&endDate!=null&&endDate!=""){
             Date start = Tool.RiQiZhuanHua(startDate);
@@ -97,29 +90,21 @@ public class HaBillrecordsController {
             haBillrecords.setKaiShi(start);
             haBillrecords.setJieShu(end);
         }
-         //接收一波
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        //通过方法返回一波
-        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-        List<HaBillrecords> haBillrecordsList = haBillrecordsService.selectYongHuZhangDan(haBillrecords, integers[0], integers[1]);
-
-        Integer selectYongHuZhangDanCount = haBillrecordsService.selectYongHuZhangDanCount(haBillrecords);
-        Map map = pageUtil.map(haBillrecordsList, selectYongHuZhangDanCount);
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
-        if (s != null) {
-            return s;
+        startPage();
+        List<HaBillrecords> haBillrecordsList = haBillrecordsService.selectYongHuZhangDan(haBillrecords);
+        Map<String, Object> map = getDataTable(haBillrecordsList);
+        if (map != null) {
+            return map;
         }
         return null;
     }
 
     /**
      * 打开导入余额页面
-     * @param haBillrecords
      * @return
      */
     @RequestMapping("/cust_balance_import")
-    public String cust_balance_import(HaBillrecords haBillrecords){
+    public String cust_balance_import(){
         return "pay/cust_balance_import.html";
     }
 
@@ -135,10 +120,8 @@ public class HaBillrecordsController {
         List<HaMonthbtime> haMonthbtimeList = haMonthbtimeService.BselectTime(haMonthbtime);//获取开始结束时间
         if(haMonthbtimeList!=null){
             List<String> list = new ArrayList<String>();//创建集合对象；
-
             for (int i=0;i<haMonthbtimeList.size();i++){
                 //对其进行赋值
-
                 String std= DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss",haMonthbtimeList.get(i).getStartTime())+'~'+DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss",haMonthbtimeList.get(i).getEndTime())+';';
                 list.add(std);
             }

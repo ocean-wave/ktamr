@@ -18,8 +18,7 @@ public interface HaGprsdtuMapper {
     public List<HaGprsdtu> selectAllGprsdtuAndCount(HaGprsdtu parms);
 
 
-    List<HaGprsdtu> HaGprsdtuList(@Param("haGprsdtu") HaGprsdtu haGprsdtu,@Param("page") Integer page,
-                                  @Param("rowNum") Integer rowNum);
+    List<HaGprsdtu> HaGprsdtuList(@Param("haGprsdtu") HaGprsdtu haGprsdtu);
 
     HaGprsdtu updateByIdHaGprsdtu(@Param("haGprsdtu")HaGprsdtu haGprsdtu);
 

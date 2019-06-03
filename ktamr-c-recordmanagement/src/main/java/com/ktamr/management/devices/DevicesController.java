@@ -1,5 +1,6 @@
 package com.ktamr.management.devices;
 
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HaCollector;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/devices")
-public class DevicesController {
+public class DevicesController extends BaseController {
 
     @Resource
     private HaCentorService haCentorService;
@@ -148,81 +149,30 @@ public class DevicesController {
 
     @RequestMapping("/QueryHaMeter")
     @ResponseBody
-    public Object queryHaMeter(Integer areaId, Integer collectorId, HaMeter haMeter, HttpServletRequest request) {
-        Integer page, pageRows;
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if (page1 == null && pageRows1 == null) {//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        } else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2 = page;//重新定义变量接收
-        --page2;
-        List<HaMeter> haMeters = haMeterService.queryHaMeter(areaId, collectorId, pageRows, page2);
-        Integer haMeterCount = haMeterService.HaMeterCount(haMeter);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);//设置初始的页码 就是第几页
-        map.put("rowNum", pageRows);//一页显示几条数据
-        map.put("records", haMeterCount);//总记录数
-        map.put("total", (haMeterCount - 1) / pageRows + 1);//总页数的计算
-        map.put("rows", haMeters);//存放集合
+    public Object queryHaMeter(Integer areaId, Integer collectorId) {
+        startPage();
+        List<HaMeter> haMeters = haMeterService.queryHaMeter(areaId, collectorId);
+        Map<String, Object> map = getDataTable(haMeters);
         return map;
     }
 
     //采集器选择表，端口选择表 表列表显示
     @RequestMapping("/HaMeterList")
     @ResponseBody
-    public Object HaMeterList(HaMeter haMeter, HttpServletRequest request) {
-        Integer page, pageRows;
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if (page1 == null && pageRows1 == null) {//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        } else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2 = page;//重新定义变量接收
-        --page2;
-        List<HaMeter> haMeters = haMeterService.HaMeterList(haMeter, pageRows, page2);
-        Integer haMeterCount = haMeterService.HaMeterCount(haMeter);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);//设置初始的页码 就是第几页
-        map.put("rowNum", pageRows);//一页显示几条数据
-        map.put("records", haMeterCount);//总记录数
-        map.put("total", (haMeterCount - 1) / pageRows + 1);//总页数的计算
-        map.put("rows", haMeters);//存放集合
+    public Object HaMeterList(HaMeter haMeter) {
+        startPage();
+        List<HaMeter> haMeters = haMeterService.HaMeterList(haMeter);
+        Map<String, Object> map = getDataTable(haMeters);
         return map;
     }
 
     //表选择采集器，表选择端口，表选择线路页面 采集器列表显示
     @RequestMapping("/HaCollectorList")
     @ResponseBody
-    public Object HaCollectorList(HaCollector haCollector, HttpServletRequest request) {
-        Integer page, pageRows;
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        if (page1 == null && pageRows1 == null) {//为了防止异常给它初始化一波
-            page = 100;
-            pageRows = 100;
-        } else {//如果有那就获取一波
-            page = Integer.parseInt(page1); // 取得当前页数
-            pageRows = Integer.parseInt(pageRows1); // 取得每页显示行数
-        }
-        int page2 = page;//重新定义变量接收
-        --page2;
-        List<HaCollector> haCollectors = haCollectorService.HaCollectorList(haCollector, pageRows, page2);
-        Integer haCollectorCount = haCollectorService.HaCollectorCount(haCollector);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);//设置初始的页码 就是第几页
-        map.put("rowNum", pageRows);//一页显示几条数据
-        map.put("records", haCollectorCount);//总记录数
-        map.put("total", (haCollectorCount - 1) / pageRows + 1);//总页数的计算
-        map.put("rows", haCollectors);//存放集合
+    public Object HaCollectorList(HaCollector haCollector) {
+        startPage();
+        List<HaCollector> haCollectors = haCollectorService.HaCollectorList(haCollector);
+        Map<String, Object> map = getDataTable(haCollectors);
         return map;
     }
 

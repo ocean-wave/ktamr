@@ -14,7 +14,6 @@ public class HaBuildingServiceImpl implements HaBuildingService {
     @Autowired
     private HaBuildingMapper haBuildingMapper;
 
-
     @Override
     public List<HaBuilding> selectAllBuildingAndCount(HaBuilding parms) {
         return haBuildingMapper.selectAllBuildingAndCount(parms);
@@ -22,6 +21,12 @@ public class HaBuildingServiceImpl implements HaBuildingService {
     public List<HaBuilding> HaBuildingListC(HaBuilding haBuilding) {
         return haBuildingMapper.HaBuildingListC(haBuilding);
     }
+
+    @Override
+    public Integer HaBuildingCountC(HaBuilding haBuilding) {
+        return haBuildingMapper.HaBuildingCountC(haBuilding);
+    }
+
     @Override
     public List<HaBuilding> queryHaBuildingC(Integer areaId) {
         return haBuildingMapper.queryHaBuildingC(areaId);
@@ -52,6 +57,11 @@ public class HaBuildingServiceImpl implements HaBuildingService {
     @Override
     public List<HaBuilding> queryHaBuildingConditionC(Integer areaId) {
         return haBuildingMapper.queryHaBuildingConditionC(areaId);
+    }
+
+    @Override
+    public HaBuilding updateByIdHaBuilding(Integer buildingId) {
+        return haBuildingMapper.updateByIdHaBuilding(buildingId);
     }
 
 }

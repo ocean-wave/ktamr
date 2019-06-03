@@ -15,8 +15,8 @@ public class HaConfigServiceImpl implements HaConfigService {
     private HaConfigMapper haConfigMapper;
 
     @Override
-    public List<HaConfig> queryHaConfig(HaConfig haConfig, Integer page, Integer rowNum) {
-        return haConfigMapper.queryHaConfig(haConfig,page,rowNum);
+    public List<HaConfig> queryHaConfig(HaConfig haConfig) {
+        return haConfigMapper.queryHaConfig(haConfig);
     }
 
     @Override

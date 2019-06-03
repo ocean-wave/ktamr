@@ -1,6 +1,7 @@
 package com.ktamr.account.area;
 
 
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaRgn;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
-public class HaAreaController {
+public class HaAreaController extends BaseController {
 
 
     @Resource
@@ -31,7 +32,7 @@ public class HaAreaController {
      * @return
      */
     @RequestMapping("/area/area_list.html")
-    public String showArea_list(HaArea haArea, Model model){
+    public String showArea_list( Model model){
 
        // List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         List<HaRgn> haRgns = haRngService.selectBigNameB();
@@ -45,14 +46,13 @@ public class HaAreaController {
      *
      * 分页查询+条件查询
      * @param haArea
-     * @param request
      * @return
      */
     @RequestMapping("/area/showList")
     @ResponseBody
-    public Map<String ,Object> showList(HaArea haArea, HttpServletRequest request,
-     String aareaid, PageUtil pageUtil
+    public Map<String ,Object> showList(HaArea haArea, String aareaid
     ){
+        startPage();
         String s1 = aareaid;//获取areaid  小区名字
         if(s1!=null && s1!=""){//判断小区名字如果没有赋值的话就不用查询
             String[] split = s1.split(",");
@@ -61,23 +61,14 @@ public class HaAreaController {
                 idsList.add(split[i]);
             }
             haArea.setIdsList2(idsList);
+        }
+        List<HaArea> haAreaList = haAreaService.selectHaAreaList(haArea);
+        return getDataTable(haAreaList);
 
-        }
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-        List<HaArea> haAreaList = haAreaService.selectHaAreaList(haArea, integers[0] ,integers[1] );
-        Integer selectHaAreaCount = haAreaService.selectHaAreaCount(haArea);
-        Map map = pageUtil.map(haAreaList, selectHaAreaCount);
-        if(map!=null){
-            return map;
-        }else {
-            return null;
-        }
     }
 
     /**
-     * 导出小区表东西
+     * 导出小区表信息
      * @param haArea
      * @param excelUtilTwo
      * @return
@@ -87,7 +78,7 @@ public class HaAreaController {
     public AjaxResult export(HaArea haArea, ExcelUtilTwo excelUtilTwo)
     {
         //这里保证查询的是全部的数据
-        List<HaArea> list = haAreaService.selectHaAreaList(haArea, 99999,0);
+        List<HaArea> list = haAreaService.selectHaAreaList(haArea);
         if (list!=null){
            return excelUtilTwo.init(list, "小区表数据");
         }

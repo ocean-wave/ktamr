@@ -72,7 +72,6 @@
         </if>
         GROUP BY d.uid,d.telnubmer,d.addr,d.state,d.dscrp,d.oplasttime,d.idle
         ORDER BY d.uid,d.addr
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="updateByIdHaGprsdtu" resultMap="HaGprsdtuMap">

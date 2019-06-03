@@ -6,7 +6,7 @@
     <style type="text/css">
         .layui-form-label {
             padding: 6px 10px;
-            width: 80 px;
+            width: 80px;
         }
 
         .layui-input {
@@ -248,7 +248,7 @@
                 , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
                 , async: false //同步请求
                 , success: function (data) {
-                    if (data == "") {
+                    if (data == "true") {
                         layer.msg("新增成功！", {icon: 1});
                     } else {
                         layer.msg(data, {icon: 5});
@@ -283,6 +283,8 @@
                         for (var i = 0; i < data.length; i++) {
                             $("#operator_rgn").append("<option value='" + data[i].areaNo + "'>" + data[i].areaNo + ':' + data[i].name + "</option>");
                         }
+                    }else if($("#operator_rgn_type").val()=="all" || $("#operator_rgn_type").val()==""){
+                        $("#operator_rgn").append(null);
                     }
                     form.render('select');//刷新表单元素
                     layui.selMeltiple($);

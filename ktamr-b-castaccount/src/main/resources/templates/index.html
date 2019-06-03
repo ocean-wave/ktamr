@@ -2,167 +2,167 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <title>KTAMR · 自动抄表管理系统</title>
 
 
-	<link  href="../static/common/css/global.css?v=2.8.2" th:href="@{/common/css/global.css?v=2.8.2}" rel="stylesheet" />
-	<link  href="../static/plugins/layui-v2.2.45/css/layui.css" th:href="@{/plugins/layui-v2.2.45/css/layui.css}" rel="stylesheet" />
-	<link  href="../static/plugins/bootstrap-v3.3.7/css/bootstrap.min.css" th:href="@{/plugins/bootstrap-v3.3.7/css/bootstrap.min.css}" rel="stylesheet" />
-	<link  href="../static/plugins/bootstrap-select/css/bootstrap-select.css" th:href="@{/plugins/bootstrap-select/css/bootstrap-select.css}" rel="stylesheet" />
-	<link  href="../static/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css" th:href="@{/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css}" rel="stylesheet" />
-	<link  href="../static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" th:href="@{/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" />
-	<link  href="../static/plugins/daterangepicker/daterangepicker-bs3.css" th:href="@{/plugins/daterangepicker/daterangepicker-bs3.css}" rel="stylesheet" />
-	<link  href="../static/plugins/jqGrid-v5.2.1/css/ui.jqgrid-bootstrap.css" th:href="@{/plugins/jqGrid-v5.2.1/css/ui.jqgrid-bootstrap.css}" rel="stylesheet" />
-	<link  href="../static/plugins/ui-choose/css/ui-choose.css" th:href="@{/plugins/ui-choose/css/ui-choose.css}" rel="stylesheet" />
-	<link  href="../static/plugins/font-awesome/css/font-awesome.min.css" th:href="@{/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
-	<link  href="../static/plugins/zTree_v3/css/metroStyle/metroStyle.css" th:href="@{/plugins/zTree_v3/css/metroStyle/metroStyle.css}" rel="stylesheet" />
+    <link  href="../static/common/css/global.css?v=2.8.2" th:href="@{/common/css/global.css?v=2.8.2}" rel="stylesheet" />
+    <link  href="../static/plugins/layui-v2.2.45/css/layui.css" th:href="@{/plugins/layui-v2.2.45/css/layui.css}" rel="stylesheet" />
+    <link  href="../static/plugins/bootstrap-v3.3.7/css/bootstrap.min.css" th:href="@{/plugins/bootstrap-v3.3.7/css/bootstrap.min.css}" rel="stylesheet" />
+    <link  href="../static/plugins/bootstrap-select/css/bootstrap-select.css" th:href="@{/plugins/bootstrap-select/css/bootstrap-select.css}" rel="stylesheet" />
+    <link  href="../static/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css" th:href="@{/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css}" rel="stylesheet" />
+    <link  href="../static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" th:href="@{/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" />
+    <link  href="../static/plugins/daterangepicker/daterangepicker-bs3.css" th:href="@{/plugins/daterangepicker/daterangepicker-bs3.css}" rel="stylesheet" />
+    <link  href="../static/plugins/jqGrid-v5.2.1/css/ui.jqgrid-bootstrap.css" th:href="@{/plugins/jqGrid-v5.2.1/css/ui.jqgrid-bootstrap.css}" rel="stylesheet" />
+    <link  href="../static/plugins/ui-choose/css/ui-choose.css" th:href="@{/plugins/ui-choose/css/ui-choose.css}" rel="stylesheet" />
+    <link  href="../static/plugins/font-awesome/css/font-awesome.min.css" th:href="@{/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+    <link  href="../static/plugins/zTree_v3/css/metroStyle/metroStyle.css" th:href="@{/plugins/zTree_v3/css/metroStyle/metroStyle.css}" rel="stylesheet" />
 
-	<link  href="../static/common/css/index.css" th:href="@{/common/css/index.css}"  rel="stylesheet" />
+    <link  href="../static/common/css/index.css" th:href="@{/common/css/index.css}"  rel="stylesheet" />
     <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
 </head>
 <body class="site-mobile" style="overflow:hidden">
-		<!-- 顶部开始 -->
-		<div class="index-top">
-			<div class="logo">
-				<a href="index.html">2333</a>
-			</div>
-			<div class="left_open index-top-switch1">
-				<i class="fa fa-bars" aria-hidden="true"></i>
-			</div>
-			<div class="left_open index-top-switch2">
-				<i class="fa fa-bars" aria-hidden="true"></i>
-			</div>
-			<!-- 顶级菜单 -->
-			<ul class="layui-nav left top-menu-mobile" lay-filter="mobile-left-nav" >
-				<li class="layui-nav-item" data-menu="FirstMenu">
-					<a href="javascript:;"><i class="seraph icon-caidan"></i>
-						<cite>KTAMR菜单</cite>
-						<span class="layui-nav-more"></span>
-					</a>
-					<dl class="layui-nav-child">
-						<dd class="layui-this" data-menu="ReadMeter">
-							<a href="javascript:;"><i class="fa fa-bar-chart" aria-hidden="true"></i><cite>数据抄收</cite></a>
-						</dd>
-						<dd data-menu="FeeCalculate">
-							<a href="javascript:;"><i class="fa fa-jpy" aria-hidden="true"></i><cite style="padding-left:8px;">费用结算</cite></a>
-						</dd>
-						<dd data-menu="InfoManagement">
-							<a href="javascript:;"><i class="fa fa-cogs" aria-hidden="true"></i><cite>档案管理</cite></a>
-						</dd>
-					</dl>
-				</li>
-			</ul>
-			<ul class="layui-nav left top-menu-pc" lay-filter="pc-left-nav" >
-				<li class="layui-nav-item layui-this" data-menu="ReadMeter">
-					<a href="javascript:;"><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> <cite>数据抄收</cite></a>
-				</li>
-				<li class="layui-nav-item" data-menu="FeeCalculate">
-					<a href="javascript:;"><i class="fa fa-jpy fa-fw" aria-hidden="true"></i> <cite>费用结算</cite></a>
-				</li>
-				<li class="layui-nav-item" data-menu="InfoManagement">
-					<a href="javascript:;"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i> <cite>档案管理</cite></a>
-				</li>
-			</ul>
-			<!-- 顶部右侧菜单 -->
-			<ul class="layui-nav right">
-				<li class="layui-nav-item locksys" >
-					<a href="javascript:;"><i class="fa fa-lock" aria-hidden="true"></i><cite> 锁屏</cite></a>
-				</li>
-				<li class="layui-nav-item" id="userInfo">
-					<a href="javascript:;" ><img src="../static/images/head_portrait_man.png" class="layui-nav-img userPortrait"  th:src="@{/images/head_portrait_man.png}"  width="35" height="35" /><cite class="userName" >333</cite></a>
-					<dl class="layui-nav-child">
-						<dd>
-							<a href="javascript:;" class="passwordChange"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><cite>修改密码</cite></a>
-						</dd>
-						<dd >
-							<a href="javascript:;" class="noticeShow"><i class="fa fa-commenting-o" aria-hidden="true"></i><cite>系统公告</cite><span class="layui-badge-dot"></span></a>
-						</dd>
-						<dd >
-							<a href="javascript:;" class="functionSetting"><i class="fa fa-heart-o" aria-hidden="true"></i><cite>个性设置</cite><span class="layui-badge-dot"></span></a>
-						</dd>
-						<dd><a href="javascript:;" class="loginOut"><i class="fa fa-sign-out" aria-hidden="true"></i><cite>退出</cite></a></dd>
-					</dl>
-				</li>
-			</ul>
-		</div>
-		<!-- 顶部结束 -->
-		<!-- 中部开始 -->
-		<div id="main" class="index-main main">
-			<!--用于在iframe外触发mousemove事件-->
-			<div class="index-main-hide-div"></div>
-			<!-- 左侧菜单开始 -->
-			<div class="left-nav">
-				<div id="side-nav">
-					<ul id="nav">
-					
-					</ul>
-				</div>
-			</div>
-			<!-- <div class="x-slide_left"></div> -->
-			<!-- 左侧菜单结束 -->
-			<!-- 右侧主体开始 -->
-			<div class="page-content">
-				<div class="layui-tab tab" lay-filter="wenav_tab" id="WeTabTip" lay-allowclose="true">
-					<ul class="layui-tab-title" id="tabName">
-						<li lay-id="0" class="layui-this">首页</li>
-					</ul>
-					<div class="layui-tab-content">
-						<div class="layui-tab-item layui-show">
-							<iframe tab-id="0"  frameborder="0" scrolling="yes" class="weIframe"></iframe>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 右侧主体结束 -->
-		</div>
-		<!-- 中部结束 -->
-		<!-- 底部开始 -->
-		<div class="footer hide">
-			<div class="copyright">Copyright ©2018 ktamr All Rights Reserved</div>
-		</div>
-		<!-- 底部结束 -->
-		<!-- 手机屏幕弹出菜单遮罩 -->
-		<div class="site-mobile-shade layui-hide"></div>
-		<!--Tab菜单右键弹出菜单-->
-		<ul class="rightMenu" id="rightMenu">
-			<li data-type="fresh">刷新</li>
-			<li data-type="current">关闭当前</li>
-			<li data-type="other">关闭其它</li>
-			<li data-type="all">关闭所有</li>
-		</ul>
+<!-- 顶部开始 -->
+<div class="index-top">
+    <div class="logo">
+        <a href="index.html">2333</a>
+    </div>
+    <div class="left_open index-top-switch1">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </div>
+    <div class="left_open index-top-switch2">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </div>
+    <!-- 顶级菜单 -->
+    <ul class="layui-nav left top-menu-mobile" lay-filter="mobile-left-nav" >
+        <li class="layui-nav-item" data-menu="FirstMenu">
+            <a href="javascript:;"><i class="seraph icon-caidan"></i>
+                <cite>KTAMR菜单</cite>
+                <span class="layui-nav-more"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd class="layui-this" data-menu="ReadMeter">
+                    <a href="javascript:;"><i class="fa fa-bar-chart" aria-hidden="true"></i><cite>数据抄收</cite></a>
+                </dd>
+                <dd data-menu="FeeCalculate">
+                    <a href="javascript:;"><i class="fa fa-jpy" aria-hidden="true"></i><cite style="padding-left:8px;">费用结算</cite></a>
+                </dd>
+                <dd data-menu="InfoManagement">
+                    <a href="javascript:;"><i class="fa fa-cogs" aria-hidden="true"></i><cite>档案管理</cite></a>
+                </dd>
+            </dl>
+        </li>
+    </ul>
+    <ul class="layui-nav left top-menu-pc" lay-filter="pc-left-nav" >
+        <li class="layui-nav-item layui-this" data-menu="ReadMeter">
+            <a href="javascript:;"><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> <cite>数据抄收</cite></a>
+        </li>
+        <li class="layui-nav-item" data-menu="FeeCalculate">
+            <a href="javascript:;"><i class="fa fa-jpy fa-fw" aria-hidden="true"></i> <cite>费用结算</cite></a>
+        </li>
+        <li class="layui-nav-item" data-menu="InfoManagement">
+            <a href="javascript:;"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i> <cite>档案管理</cite></a>
+        </li>
+    </ul>
+    <!-- 顶部右侧菜单 -->
+    <ul class="layui-nav right">
+        <li class="layui-nav-item locksys" >
+            <a href="javascript:;"><i class="fa fa-lock" aria-hidden="true"></i><cite> 锁屏</cite></a>
+        </li>
+        <li class="layui-nav-item" id="userInfo">
+            <a href="javascript:;" ><img src="../static/images/head_portrait_man.png" class="layui-nav-img userPortrait"  th:src="@{/images/head_portrait_man.png}"  width="35" height="35" /><cite class="userName" >333</cite></a>
+            <dl class="layui-nav-child">
+                <dd>
+                    <a href="javascript:;" class="passwordChange"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><cite>修改密码</cite></a>
+                </dd>
+                <dd >
+                    <a href="javascript:;" class="noticeShow"><i class="fa fa-commenting-o" aria-hidden="true"></i><cite>系统公告</cite><span class="layui-badge-dot"></span></a>
+                </dd>
+                <dd >
+                    <a href="javascript:;" class="functionSetting"><i class="fa fa-heart-o" aria-hidden="true"></i><cite>个性设置</cite><span class="layui-badge-dot"></span></a>
+                </dd>
+                <dd><a href="javascript:;" class="loginOut"><i class="fa fa-sign-out" aria-hidden="true"></i><cite>退出</cite></a></dd>
+            </dl>
+        </li>
+    </ul>
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<div id="main" class="index-main main">
+    <!--用于在iframe外触发mousemove事件-->
+    <div class="index-main-hide-div"></div>
+    <!-- 左侧菜单开始 -->
+    <div class="left-nav">
+        <div id="side-nav">
+            <ul id="nav">
+
+            </ul>
+        </div>
+    </div>
+    <!-- <div class="x-slide_left"></div> -->
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="layui-tab tab" lay-filter="wenav_tab" id="WeTabTip" lay-allowclose="true">
+            <ul class="layui-tab-title" id="tabName">
+                <li lay-id="0" class="layui-this">首页</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <iframe tab-id="0"  frameborder="0" scrolling="yes" class="weIframe"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 右侧主体结束 -->
+</div>
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer hide">
+    <div class="copyright">Copyright ©2018 ktamr All Rights Reserved</div>
+</div>
+<!-- 底部结束 -->
+<!-- 手机屏幕弹出菜单遮罩 -->
+<div class="site-mobile-shade layui-hide"></div>
+<!--Tab菜单右键弹出菜单-->
+<ul class="rightMenu" id="rightMenu">
+    <li data-type="fresh">刷新</li>
+    <li data-type="current">关闭当前</li>
+    <li data-type="other">关闭其它</li>
+    <li data-type="all">关闭所有</li>
+</ul>
 
 </body>
 <!-- 左侧菜单列表模板引擎-->
 <script id="nav-tpl" type="text/html" data-params='{"url":"common/json/menu.json","listid":"nav","icon":"true"}'>
 
-	{{# layui.each(d.list, function(index, menu){ }}
-	<li>
-		{{# if(menu.sub && menu.sub.length>0){ }}
-		<a href="javascript:;"  data-url="{{menu.url}}" data-title="{{menu.name}}" data-id="{{menu.id}}">
-			<i class="{{menu.iconfont}}"></i>
-			<span>{{menu.name}}</span>
-			<i class="fa fa-angle-left nav_right" aria-hidden="true"></i>
-		</a>
-		<ul class="sub-menu">
-			{{# layui.each(menu.sub, function(index, subMenu){ }}
-			<li>
-				<a href="javascript:;" data-url="{{subMenu.url}}" data-title="{{subMenu.name}}" data-id="{{subMenu.id}}">
-					<i class="{{subMenu.iconfont}}"></i>
-					<span>{{subMenu.name}}</span>
-				</a>
-			</li>
-			{{# }); }}
-		</ul>
-		{{# }else{ }}
-		<a href="javascript:;"  data-url="{{menu.url}}" data-title="{{menu.name}}" data-id="{{menu.id}}">
-			<i class="{{menu.iconfont}}"></i>
-			<span>{{menu.name}}</span>
-		</a>
-		{{# } }}
-	</li>
-	{{# }); }}
+    {{# layui.each(d.list, function(index, menu){ }}
+    <li>
+        {{# if(menu.sub && menu.sub.length>0){ }}
+        <a href="javascript:;"  data-url="{{menu.url}}" data-title="{{menu.name}}" data-id="{{menu.id}}">
+            <i class="{{menu.iconfont}}"></i>
+            <span>{{menu.name}}</span>
+            <i class="fa fa-angle-left nav_right" aria-hidden="true"></i>
+        </a>
+        <ul class="sub-menu">
+            {{# layui.each(menu.sub, function(index, subMenu){ }}
+            <li>
+                <a href="javascript:;" data-url="{{subMenu.url}}" data-title="{{subMenu.name}}" data-id="{{subMenu.id}}">
+                    <i class="{{subMenu.iconfont}}"></i>
+                    <span>{{subMenu.name}}</span>
+                </a>
+            </li>
+            {{# }); }}
+        </ul>
+        {{# }else{ }}
+        <a href="javascript:;"  data-url="{{menu.url}}" data-title="{{menu.name}}" data-id="{{menu.id}}">
+            <i class="{{menu.iconfont}}"></i>
+            <span>{{menu.name}}</span>
+        </a>
+        {{# } }}
+    </li>
+    {{# }); }}
 </script>
 
 <script type="text/javascript" src="../static/plugins/jquery/jquery-1.11.0.min.js" th:src="@{/plugins/jquery/jquery-1.11.0.min.js}"></script>
@@ -191,19 +191,19 @@
 <script type="text/javascript" src="../static/common/js/myZtreeFunc.js?v=2.8.2" th:src="@{/common/js/myZtreeFunc.js?v=2.8.2}"></script>
 
 <script language="JavaScript">
-	layui.config({
-		base: 'common/js/'
-		,version: '2.8.2'
-	}).use('index');
+    layui.config({
+        base: 'common/js/'
+        ,version: '2.8.2'
+    }).use('index');
 </script>
 
 <script>
-	function horizontalScreen(){
+    function horizontalScreen(){
 
-	}
-	horizontalScreen();
-	$(window).resize(function(){
-		horizontalScreen();
-	});
+    }
+    horizontalScreen();
+    $(window).resize(function(){
+        horizontalScreen();
+    });
 </script>
 </html>

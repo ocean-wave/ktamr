@@ -6,7 +6,7 @@
     <style type="text/css">
         .layui-form-label {
             padding: 6px 10px;
-        //width: 80px;
+            width: 80px;
         }
         .layui-input{
             height: 32px;
@@ -23,17 +23,18 @@
 </head>
 <body class="myPage-body">
 <form class="layui-form my-form-class" action="">
+    <input type="hidden" id="operatorCode" name="operatorCode" th:value="${operatorCode}">
     <div class="layui-form-item">
         <div class="layui-block">
             <label class="layui-form-label">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="operator_code" lay-verify="required" autocomplete="off" placeholder="唯一,必填" class="layui-input" maxlength="32" readonly="readonly" value="">
+                <input id="operator_code" lay-verify="required" autocomplete="off" placeholder="唯一,必填" class="layui-input" maxlength="32" readonly="readonly" th:value="${haOperator.operatorCode}">
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="operator_name" lay-verify="required|operator_name" autocomplete="off" placeholder="必填" class="layui-input" maxlength="32" value="">
+                <input id="operator_name" lay-verify="required|operator_name" autocomplete="off" placeholder="必填" class="layui-input" maxlength="32" th:value="${haOperator.operatorName}">
             </div>
         </div>
     </div>
@@ -41,18 +42,18 @@
         <div class="layui-block">
             <label class="layui-form-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="operator_sex" lay-filter="" lay-verify="required">
+                <select id="operator_sex" lay-filter="" lay-verify="required" th:value="${haOperator.operatorSex}">
                     <option value=""></option>
-                    <option value="M">男</option>
-                    <option value="F">女</option>
-                    <option value="N">未知</option>
+                    <option th:selected="${haOperator.operatorSex=='男'}" value="M">男</option>
+                    <option th:selected="${haOperator.operatorSex=='女'}" value="F">女</option>
+                    <option th:selected="${haOperator.operatorSex=='未知'}" value="N">未知</option>
                 </select>
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">手机号码</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="operator_mobile" lay-verify="operator_mobile" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" value="">
+                <input id="operator_mobile" lay-verify="operator_mobile" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" th:value="${haOperator.operatorMobile}">
             </div>
         </div>
     </div>
@@ -60,7 +61,7 @@
         <div class="layui-block">
             <label class="layui-form-label">密码设置</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="operator_pwd" lay-verify="" type="password" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32">
+                <input id="operator_pwd" lay-verify="" type="password" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" th:value="${haOperator.operatorPwd}">
             </div>
         </div>
         <div class="layui-block">
@@ -74,26 +75,37 @@
         <div class="layui-block">
             <label class="layui-form-label">账户状态</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="operator_state" lay-filter="required" lay-verify="required" lay-search>
-                    <option value="Y">启用</option>
-                    <option value="N">禁用</option>
-                    <option value="Y" selected="">启用</option>
-                    <option value="N" selected="">禁用</option>
+                <select id="operator_state" lay-filter="required" lay-verify="required" lay-search th:value="${haOperator.operatorState}">
+                    <div th:if="${session.haOperator.getOperatorCode()!=haOperator.operatorCode and session.haOperator.getOperatorLevelCode()<=1}">
+                        <option th:selected="${haOperator.operatorState=='Y'}" value="Y">启用</option>
+                        <option th:selected="${haOperator.operatorState=='N'}" value="N">禁用</option>
+                    </div>
+                    <div th:if="${session.haOperator.getOperatorCode()==haOperator.operatorCode and session.haOperator.getOperatorLevelCode()>1}">
+                        <option th:selected="${haOperator.operatorState=='Y'}" value="Y" selected="">启用</option>
+                        <option th:selected="${haOperator.operatorState=='N'}" value="N" selected="">禁用</option>
+                    </div>
                 </select>
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">账户权限</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="operator_level" lay-filter="operator_level" lay-verify="required"  lay-search>
-                    <option value="admin">系统管理员</option>
-                    <option value="normal">普通管理员</option>
-                    <option value="readMan">抄收员</option>
-                    <option value="viewMan">查阅员</option>
-                    <option value="admin" selected="">系统管理员</option>
-                    <option value="normal" selected="">普通管理员</option>
-                    <option value="readMan" selected="">抄收员</option>
-                    <option value="viewMan" selected="">查阅员</option>
+                <select id="operator_level" lay-filter="operator_level" lay-verify="required"  lay-search th:value="${haOperator.operatorLevel}">
+                    <option value=""></option>
+                    <div th:if="${session.haOperator.getOperatorCode()!=haOperator.operatorCode and session.haOperator.getOperatorLevelCode()<=0 and (haOperator.operatorLevel=='admin' or haOperator.operatorLevel=='normal')}">
+                        <option th:selected="${haOperator.operatorLevel=='系统管理员'}" value="admin">系统管理员</option>
+                        <option th:selected="${haOperator.operatorLevel=='普通管理员'}" value="normal">普通管理员</option>
+                    </div>
+                    <div th:if="${session.haOperator.getOperatorLevelCode()<=1 and (haOperator.operatorLevel=='readMan' or haOperator.operatorLevel=='viewMan')}">
+                        <option th:selected="${haOperator.operatorLevel=='抄收员'}" value="readMan">抄收员</option>
+                        <option th:selected="${haOperator.operatorLevel=='查阅员'}" value="viewMan">查阅员</option>
+                    </div>
+                    <div th:if="else">
+                    <option th:selected="${haOperator.operatorLevel=='系统管理员'}" value="admin">系统管理员</option>
+                    <option th:selected="${haOperator.operatorLevel=='普通管理员'}" value="normal">普通管理员</option>
+                    <option th:selected="${haOperator.operatorLevel=='抄收员'}" value="readMan">抄收员</option>
+                    <option th:selected="${haOperator.operatorLevel=='查阅员'}" value="viewMan">查阅员</option>
+                    </div>
                 </select>
             </div>
         </div>
@@ -102,16 +114,23 @@
         <div class="layui-block">
             <label class="layui-form-label">区域类型</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="operator_rgn_type" lay-filter="operator_rgn_type" lay-verify="required">
-                    <option value="all">全部区域</option>
-                    <option value="rgn">大区</option>
-                    <option value="area">小区</option>
-                    <option value="all">全部区域</option>
-                    <option value="rgn">大区</option>
-                    <option value="area">小区</option>
-                    <option value="all" selected="">全部区域</option>
-                    <option value="rgn" selected="">大区</option>
-                    <option value="area" selected="">小区</option>
+                <select id="operator_rgn_type" lay-filter="operator_rgn_type" lay-verify="required" th:value="${haOperator.operatorRgnType}">
+                    <option value=""></option>
+                    <div th:if="${session.haOperator.getOperatorLevelCode()<=0 and (haOperator.operatorLevel=='admin' or haOperator.operatorLevel=='normal')}">
+                        <option th:selected="${haOperator.operatorRgnType=='全部区域'}" value="all">全部区域</option>
+                        <option th:selected="${haOperator.operatorRgnType=='大区'}" value="rgn" >大区</option>
+                        <option th:selected="${haOperator.operatorRgnType=='小区'}" value="area">小区</option>
+                    </div>
+                    <div th:if="${session.haOperator.getOperatorLevelCode()<=1 and (haOperator.operatorLevel=='readMan' or haOperator.operatorLevel=='viewMan')}">
+                        <option th:selected="${selUpperRgnType=='全部区域'}" value="all">全部区域</option>
+                        <option th:selected="${selUpperRgnType=='大区' or selUpperRgnType=='rgn'}" value="rgn" >大区</option>
+                        <option th:selected="${selUpperRgnType=='小区'}" value="area">小区</option>
+                    </div>
+                    <div>
+                        <option th:selected="${haOperator.operatorRgnType=='全部区域'}" value="all">全部区域</option>
+                        <option th:selected="${haOperator.operatorRgnType=='大区'}" value="rgn" >大区</option>
+                        <option th:selected="${haOperator.operatorRgnType=='小区'}" value="area">小区</option>
+                    </div>
                 </select>
             </div>
         </div>
@@ -128,30 +147,43 @@
         <div class="layui-block">
             <label class="layui-form-label">公司名称</label>
             <div class="layui-input-inline mySelect" style="width:170px;">
-                <select id="operator_company" lay-verify="required" lay-search>
-                    <option value=""></option>
-                    <option value="骏普科技">骏普科技</option>
-                    <option value="镇江水司">镇江水司</option>
-                    <option value="泰州水司">泰州水司</option>
-                    <option value="南通燃气">南通燃气</option>
-                    <option value="玉溪水司">玉溪水司</option>
-                    <option value="保定水司">保定水司</option>
-                    <option value="盐城水司">盐城水司</option>
-                    <option value="鹤山水司">鹤山水司</option>
-                    <option value="上海真诺">上海真诺</option>
-                    <option value="中科君达">中科君达</option>
-                    <option value="浦口水司">浦口水司</option>
-                    <option value="融安水司">融安水司</option>
-                    <option value="句容水司">句容水司</option>
-                    <option value="湖南成聪">湖南成聪</option>
-                    <option value="宁远水司">宁远水司</option>
+                <select id="operator_company" lay-verify="required" lay-search th:value="${haOperator.operatorCompany}">
+                    <option value="骏普科技" th:selected="${haOperator.operatorCompany=='骏普科技'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='骏普科技')}" selected="">骏普科技(默认)</option>
+                    <option value="镇江水司" th:selected="${haOperator.operatorCompany=='镇江水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='镇江水司')}">镇江水司</option>
+                    <option value="泰州水司" th:selected="${haOperator.operatorCompany=='泰州水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='泰州水司')}">泰州水司</option>
+                    <option value="南通燃气" th:selected="${haOperator.operatorCompany=='南通燃气'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='南通燃气')}">南通燃气</option>
+                    <option value="玉溪水司" th:selected="${haOperator.operatorCompany=='玉溪水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='玉溪水司')}">玉溪水司</option>
+                    <option value="保定水司" th:selected="${haOperator.operatorCompany=='保定水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='保定水司')}">保定水司</option>
+                    <option value="盐城水司" th:selected="${haOperator.operatorCompany=='盐城水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='盐城水司')}">盐城水司</option>
+                    <option value="鹤山水司" th:selected="${haOperator.operatorCompany=='鹤山水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='鹤山水司')}">鹤山水司</option>
+                    <option value="上海真诺" th:selected="${haOperator.operatorCompany=='上海真诺'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='上海真诺')}">上海真诺</option>
+                    <option value="中科君达" th:selected="${haOperator.operatorCompany=='中科君达'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='中科君达')}">中科君达</option>
+                    <option value="浦口水司" th:selected="${haOperator.operatorCompany=='浦口水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='浦口水司')}">浦口水司</option>
+                    <option value="融安水司" th:selected="${haOperator.operatorCompany=='融安水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='融安水司')}">融安水司</option>
+                    <option value="句容水司" th:selected="${haOperator.operatorCompany=='句容水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='句容水司')}">句容水司</option>
+                    <option value="湖南成聪" th:selected="${haOperator.operatorCompany=='湖南成聪'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='湖南成聪')}">湖南成聪</option>
+                    <option value="宁远水司" th:selected="${haOperator.operatorCompany=='宁远水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='宁远水司')}">宁远水司</option>
+                    <option value="安徽全椒" th:selected="${haOperator.operatorCompany=='安徽全椒'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='安徽全椒')}">安徽全椒</option>
+                    <option value="河池水司" th:selected="${haOperator.operatorCompany=='河池水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='河池水司')}">河池水司</option>
+                    <option value="武汉易维" th:selected="${haOperator.operatorCompany=='武汉易维'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='武汉易维')}">武汉易维</option>
+                    <option value="郁南水务" th:selected="${haOperator.operatorCompany=='郁南水务'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='郁南水务')}">郁南水务</option>
+                    <option value="巴南水司" th:selected="${haOperator.operatorCompany=='巴南水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='巴南水司')}">巴南水司</option>
+                    <option value="大竹水司" th:selected="${haOperator.operatorCompany=='大竹水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='大竹水司')}">大竹水司</option>
+                    <option value="新田水司" th:selected="${haOperator.operatorCompany=='新田水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='新田水司')}">新田水司</option>
+                    <option value="获嘉水司" th:selected="${haOperator.operatorCompany=='获嘉水司'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='获嘉水司')}">获嘉水司</option>
+                    <option value="三川邵阳" th:selected="${haOperator.operatorCompany=='三川邵阳'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='三川邵阳')}">三川邵阳</option>
+                    <option value="三川景德镇" th:selected="${haOperator.operatorCompany=='三川景德镇'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='三川景德镇')}">三川景德镇</option>
+                    <option value="东莞相思鸟" th:selected="${haOperator.operatorCompany=='东莞相思鸟'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='东莞相思鸟')}">东莞相思鸟</option>
+                    <option value="华龙仪表" th:selected="${haOperator.operatorCompany=='华龙仪表'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='华龙仪表')}">华龙仪表</option>
+                    <option value="佛山威星" th:selected="${haOperator.operatorCompany=='佛山威星'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='佛山威星')}">佛山威星</option>
+                    <option value="广东韶关" th:selected="${haOperator.operatorCompany=='广东韶关'}" th:if="${session.haOperator.getOperatorLevelCode()==0 or (session.haOperator.getOperatorLevelCode()>0 and session.haOperator.getOperatorCompany()=='广东韶关')}">广东韶关</option>
                 </select>
             </div>
         </div>
         <div class="layui-block">
             <label class="layui-form-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="operator_remark" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" value="">
+                <input id="operator_remark" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input" maxlength="32" th:value="${haOperator.operatorRemark}">
             </div>
         </div>
     </div>
@@ -159,6 +191,8 @@
         <button lay-submit type="button" id="sure" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
         <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
     </div>
+    <input type="hidden" id="gOperatorLevel" th:value="${session.haOperator.getOperatorLevel()}">
+    <input type="hidden" id="gOperatorCode" th:value="${session.haOperator.getOperatorCode()}">
 </form>
 <div th:include="include :: footer"></div>
 <script language="JavaScript">
@@ -167,9 +201,9 @@
             ,layer = layui.layer,
             $ = layui.jquery;;
         layui.selMeltiple($);
-        var get_result_url = "./operator_update_do.asp";
-        var g_operator_level = "<%=thisOperatorLevel%>";
-        var g_operator_code = "<%=thisOperatorCode%>";
+        var get_result_url = "/operator/UpdateHaOperator";
+        var g_operator_level = $("#gOperatorLevel").val();
+        var g_operator_code = $("#gOperatorCode").val();
         var g_sel_operator_upper = "<%=operator.m_upper%>";
         var g_sel_upper_rgn_type = "<%=selUpperRgnType%>";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
@@ -204,7 +238,7 @@
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:false //同步请求
                 ,success: function(data){
-                    if(data == ""){
+                    if(data == "true"){
                         parent.layer.msg("修改成功！", {icon: 1});
                         parent.$("#jqGrid").trigger("reloadGrid");
                         parent.layer.close(index); //再执行关闭
@@ -214,21 +248,35 @@
                 }
             });
         }
-        form.on('select(operator_rgn_type)', function(data){
+        form.on('select(operator_rgn_type)', function (data) {
             var elemObj = $(data.elem);
             $.ajax({
-                url: "../common/load_select_option.asp"
-                ,data: {
+                url: "/operator/LoadSelectOption"
+                , data: {
                     selectType: $("#operator_rgn_type").val(),
-                    op: "update",
-                    upper_operator_code: g_sel_operator_upper,
-                    upper_rgn_type: g_sel_upper_rgn_type
+                    op: "add"
                 }
-                ,type: "POST"
-                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
-                ,async:true //异步请求
-                ,success: function(data){
-                    appendSelectOption("operator_rgn", data, "");
+                , type: "POST"
+                , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                , async: true //异步请求
+                , success: function (data) {
+                    if($("#operator_rgn_type").val()=="rgn"){
+                        $("#operator_rgn").empty();
+                        var option = $("<option>").val("").text("");
+                        $("#operator_rgn").append(option);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#operator_rgn").append("<option value='" + data[i].id + "'>"+ data[i].name + "</option>");
+                        }
+                    }else if($("#operator_rgn_type").val()=="area"){
+                        $("#operator_rgn").empty();
+                        var option = $("<option>").val("").text("");
+                        $("#operator_rgn").append(option);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#operator_rgn").append("<option value='" + data[i].areaNo + "'>" + data[i].areaNo + ':' + data[i].name + "</option>");
+                        }
+                    }else if($("#operator_rgn_type").val()=="all" || $("#operator_rgn_type").val()==""){
+                        $("#operator_rgn").append(null);
+                    }
                     form.render('select');//刷新表单元素
                     layui.selMeltiple($);
                 }
@@ -241,18 +289,18 @@
             if($("#operator_level").val() == 'admin')
                 g_operator_code = '';
             var data = {
-                operator_code: $("#operator_code").val(),
-                operator_name: $("#operator_name").val(),
-                operator_sex: $("#operator_sex").val(),
-                operator_mobile: $("#operator_mobile").val(),
-                operator_state: $("#operator_state").val(),
-                operator_upper: g_operator_code,
-                operator_level: $("#operator_level").val(),
-                operator_rgn_type: $("#operator_rgn_type").val(),
+                operatorCode: $("#operatorCode").val(),
+                operatorName: $("#operator_name").val(),
+                operatorSex: $("#operator_sex").val(),
+                operatorMobile: $("#operator_mobile").val(),
+                operatorState: $("#operator_state").val(),
+                operatorUpper: g_operator_code,
+                operatorLevel: $("#operator_level").val(),
+                operatorRgnType: $("#operator_rgn_type").val(),
                 operator_rgn: $("#operator_rgn").parent().find("input.txtSel").val(),
-                operator_pwd: $("#operator_pwd").val(),
-                operator_company: $("#operator_company").val(),
-                operator_remark: $("#operator_remark").val()
+                operatorPwd: $("#operator_pwd").val(),
+                operatorCompany: $("#operator_company").val(),
+                operatorRemark: $("#operator_remark").val()
             };
             //console.log($("#operator_rgn").parent().find("input.txtSel").val());
             submitInfo(data);

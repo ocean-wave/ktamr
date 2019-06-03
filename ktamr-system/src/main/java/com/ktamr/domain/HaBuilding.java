@@ -26,6 +26,8 @@ public class HaBuilding extends BaseEntity {
 
     private String cuaddr;
     private String maddr;
+    private String keyWord;
+    private HaArea haArea;
 
     public String getCuaddr() {
         return cuaddr;
@@ -125,5 +127,21 @@ public class HaBuilding extends BaseEntity {
 
     public void setHaRoom(HaRoom haRoom) {
         this.haRoom = haRoom;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
+
+    public HaArea getHaArea() {
+        return haArea;
+    }
+
+    public void setHaArea(HaArea haArea) {
+        this.haArea = haArea;
     }
 }

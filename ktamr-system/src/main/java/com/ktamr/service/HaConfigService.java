@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface HaConfigService {
 
-    List<HaConfig> queryHaConfig(HaConfig haConfig, Integer page,
-                                 Integer rowNum);
+    List<HaConfig> queryHaConfig(HaConfig haConfig);
 
     Integer haConfigCount(HaConfig haConfig);
 

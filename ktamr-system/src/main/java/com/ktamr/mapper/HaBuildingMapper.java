@@ -19,12 +19,15 @@ public interface HaBuildingMapper {
     public List<HaBuilding> selectAllBuildingAndCount(HaBuilding parms);
 
 
-    List<HaBuilding> HaBuildingListC(HaBuilding haBuilding);
+    List<HaBuilding> HaBuildingListC(@Param("haBuilding") HaBuilding haBuilding);
+
+    Integer HaBuildingCountC(HaBuilding haBuilding);
 
     /*
      *如果Id不为空查询楼栋
      */
     List<HaBuilding> queryHaBuildingC(@Param("areaId") Integer areaId);
+
 
     /*
      *新增楼栋
@@ -56,5 +59,7 @@ public interface HaBuildingMapper {
      *条件查询楼栋
      */
     List<HaBuilding> queryHaBuildingConditionC(@Param("areaId") Integer areaId);
+
+    HaBuilding updateByIdHaBuilding(@Param("buildingId") Integer buildingId);
 
 }

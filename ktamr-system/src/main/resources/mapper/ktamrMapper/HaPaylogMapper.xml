@@ -6,49 +6,48 @@
      <!--映射缴费单的sql-->
      <resultMap id="HaPaylogMap" type="HaPaylog">
     <!--p-->
-    <result column="pbillid" property="billId" />
-    <result column="pstate" property="state"/>
-    <result column="pplantime" property="planTime"/>
-    <result column="psum" property="sum"/>
-    <result column="plastarrear" property="lastarrear"/>
-    <result column="pmbtime" property="mbtime"/>
+    <result column="billid" property="billId" />
+    <result column="state" property="state"/>
+    <result column="plantime" property="planTime"/>
+    <result column="sum" property="sum"/>
+    <result column="lastarrear" property="lastarrear"/>
+    <result column="mbtime" property="mbtime"/>
     <!-- f-->
     <association property="haFreeze" javaType="HaFreeze">
-        <result column="fdelta" property="delta"/>
+        <result column="delta" property="delta"/>
 
     </association>
     <!--mi-->
     <association property="havMeterinfo" javaType="HavMeterinfo">
-        <result column="用户编号" property="userNo"/>
-        <result column="用户名称" property="userName"/>
-        <result column="用户地址" property="userDs"/>
+        <result column="userNo" property="userNo"/>
+        <result column="userName" property="userName"/>
+        <result column="userDs" property="userDs"/>
     </association>
     <!--ps-->
     <association property="haPricestandard" javaType="HaPricestandard">
-        <result column="psname" property="name"/>
+        <result column="name" property="name"/>
 
     </association>
 </resultMap>
      <!--查询缴费单列表-->
      <select id="selectHaPaylogList" resultMap="HaPaylogMap">
-
-     SELECT p.billid as pbillid
-		, mi.用户号 as 用户编号
-		, mi.用户名 as 用户名称
-		, mi.用户地址 as 用户地址
+        select * from (
+     SELECT p.billid as billid
+		, mi.用户号 as userNo
+		, mi.用户名 as userName
+		, mi.用户地址 as userDs
 		, p.state as pstate
-		, to_char(p.plantime, 'YYYY-MM-DD hh24:mm:ss') as pplantime
-		, ps.name AS psname
-		, f.delta AS fdelta
-		, p.sum as psum
+		, to_char(p.plantime, 'YYYY-MM-DD hh24:mm:ss') as plantime
+		, ps.name AS name
+		, f.delta AS delta
+		, p.sum as sum
 
-		, COALESCE(p.lastarrear, 0) as plastarrear
-		, to_char(p.mbtime, 'YYYY-MM-DD hh24:mm:ss') as pmbtime
+		, COALESCE(p.lastarrear, 0) as lastarrear
+		, to_char(p.mbtime, 'YYYY-MM-DD hh24:mm:ss') as mbtime
 		 FROM ((ha_paylog p LEFT JOIN ha_freeze f ON p.billid=f.billid)
 		 LEFT JOIN hav_meterinfo mi ON f.meterid=mi.meterid)
 		 LEFT JOIN ha_priceStandard ps ON f.pricestand_id=ps.pricestand_id
                                  WHERE p.billid is not null
-
     <if test="HaPaylog.state != null and HaPaylog.state != ''">
         and state = #{HaPaylog.state}
     </if>
@@ -60,118 +59,76 @@
              </foreach>
          </if>
     <if test="HaPaylog.haPricestandard!=null">
-
-
         <if test="HaPaylog.haPricestandard.starttime != null  and HaPaylog.haPricestandard.endtime != null ">
             and to_char(mbtime,'YYYY-mm-dd hh24:mm:ss') between
             #{HaPaylog.haPricestandard.startTime,jdbcType=CHAR}
             and
-
             #{HaPaylog.haPricestandard.endTime,jdbcType=CHAR}
         </if>
     </if>
          <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
              and (p.billid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
-
          </if>
-        limit #{page} OFFSET #{rowNum}
+         ) t
 </select>
 
-     <!--查询缴费单的记录数-->
-     <select id="selectHaPaylogListCount" resultType="Integer">
-        SELECT  count(1)
-        FROM ((ha_paylog p LEFT JOIN ha_freeze f ON p.billid=f.billid)
-		 LEFT JOIN hav_meterinfo mi ON f.meterid=mi.meterid)
-		 LEFT JOIN ha_priceStandard ps ON f.pricestand_id=ps.pricestand_id
-                                 WHERE p.billid is not null
-
-        <if test="HaPaylog.state != null and HaPaylog.state != ''">
-            and state = #{HaPaylog.state}
-        </if>
-         <if test="HaPaylog.idsList  != null and HaPaylog.idsList.size()>0">
-             and mi.areaid in
-             <foreach collection="HaPaylog.idsList" item="item" index="index"
-                      open="(" separator="," close=")">
-                 #{item}
-             </foreach>
-         </if>
-        <if test="HaPaylog.haPricestandard!=null">
-            <if test="HaPaylog.haPricestandard.starttime != null  and HaPaylog.haPricestandard.endtime != null ">
-                and to_char(mbtime,'YYYY-mm-dd hh24:mm:ss') between
-                #{HaPaylog.haPricestandard.startTime,jdbcType=CHAR}
-                and
-
-               #{HaPaylog.haPricestandard.endTime,jdbcType=CHAR}
-            </if>
-        </if>
-         <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
-             and (p.billid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
-
-         </if>
-    </select>
 
     <!--查询月报表列表的映射-->
     <resultMap id="HaPaylogMap2" type="HaPaylog">
         <!--ha_paylog(pl)-->
-        <result column="plsum" property="sum" />
-        <result column="pllastarrear" property="lastarrear"/>
-        <result column="plplanTime" property="planTime"/>
-        <result column="plmbTime" property="mbtime"/>
+        <result column="sum" property="sum" />
+        <result column="lastarrear" property="lastarrear"/>
+        <result column="planTime" property="planTime"/>
+        <result column="mbTime" property="mbtime"/>
         <!-- ha_freeze(f)-->
         <association property="haFreeze" javaType="HaFreeze">
             <result column="itemid" property="itemId"/>
-            <result column="flf_number" property="lfNumber"/>
-            <result column="ftf_number" property="tfNumber"/>
-            <result column="fth_time" property="thTime"/>
-            <result column="fdelta" property="delta"/>
-
+            <result column="lf_number" property="lfNumber"/>
+            <result column="tf_number" property="tfNumber"/>
+            <result column="th_time" property="thTime"/>
+            <result column="delta" property="delta"/>
         </association>
         <!--ha_meter(m)-->
         <association property="haMeter" javaType="HaMeter">
-            <result column="mmeterNumber" property="meterNumber"/>
-            <result column="mstate" property="state"/>
-            <result column="mrate" property="rate"/>
-
-
+            <result column="meterNumber" property="meterNumber"/>
+            <result column="state" property="state"/>
+            <result column="rate" property="rate"/>
         </association>
         <!--hav_meterinfo(mi)-->
         <association property="havMeterinfo" javaType="HavMeterinfo">
-            <result column="用户名称" property="userName"/>
-            <result column="用户地址" property="userDs"/>
-            <result column="用户编号" property="userNo"/>
-            <result column="micustid" property="custId"/>
-
+            <result column="userName" property="userName"/>
+            <result column="userDs" property="userDs"/>
+            <result column="userNo" property="userNo"/>
         </association>
         <!--ha_pricestandard(ps)-->
         <association property="haPricestandard" javaType="HaPricestandard">
-            <result column="psname" property="name"/>
+            <result column="name" property="name"/>
            </association>
         <!--ha_meterType(mt)-->
         <association property="haMetertype" javaType="HaMetertype">
-            <result column="mtname" property="name"/>
+            <result column="name" property="name"/>
         </association>
     </resultMap>
     <!--查询月报表列表-->
     <select id="selectMonthReportList" resultMap="HaPaylogMap2">
-
+        select * from (
        SELECT f.itemid AS itemid,
-
-        mi.用户号 AS 用户编号,
-		mi.用户名 AS 用户名称,
-		mi.用户地址 AS 用户地址,
-		m.meterNumber AS mmeterNumber,
-		m.state AS mstate,
-		f.lf_number AS flf_number,
-		f.tf_number AS ftf_number,
-		f.delta AS fdelta,
-		to_char(f.th_time, 'YYYY-MM-DD hh:mm:ss') AS fth_time,
-		mt.name AS mtname,
-		ps.name AS psname,
-		m.rate AS mrate,
-		pl.sum AS plsum,
-		pl.lastarrear AS pllastarrear,
-		to_char(pl.planTime, 'YYYY-MM-DD hh:mm:ss') AS plplanTime,
-		to_char(pl.mbTime, 'YYYY-MM-DD hh:mm:ss') AS plmbTime
+        mi.用户号 AS userNo,
+		mi.用户名 AS userName,
+		mi.用户地址 AS userDs,
+		m.meterNumber AS meterNumber,
+		m.state AS state,
+		f.lf_number AS lf_number,
+		f.tf_number AS tf_number,
+		f.delta AS delta,
+		to_char(f.th_time, 'YYYY-MM-DD hh:mm:ss') AS th_time,
+		mt.name AS name,
+		ps.name AS name,
+		m.rate AS rate,
+		pl.sum AS sum,
+		pl.lastarrear AS lastarrear,
+		to_char(pl.planTime, 'YYYY-MM-DD hh:mm:ss') AS planTime,
+		to_char(pl.mbTime, 'YYYY-MM-DD hh:mm:ss') AS mbTime
 	    FROM ha_paylog pl,ha_freeze f,ha_meter m,hav_meterinfo mi,ha_pricestandard ps,ha_meterType mt,
 		( SELECT f.meterid,MAX(f.itemid) AS itemid
 		FROM ha_freeze f
@@ -194,29 +151,7 @@
 		AND ps.meterTypeId = mt.meterTypeId
 
         ORDER BY mi.用户号, mi.用户地址
-        limit #{page} OFFSET #{rowNum}
-    </select>
-    <!--查询月报表列表的总记录数-->
-    <select id="selectMonthReportListCount" resultType="Integer">
-        SELECT  count(1)
-        FROM ha_paylog pl,ha_freeze f,ha_meter m,hav_meterinfo mi,ha_pricestandard ps,ha_meterType mt,
-        ( SELECT f.meterid,MAX(f.itemid) AS itemid
-        FROM ha_freeze f
-        <trim prefix="where" prefixOverrides="and | or">
-            <if test="HaPaylog.KaiShiTime != null  and HaPaylog.JieShuTime != null ">
-                and to_char(f.RTime, 'YYYY-MM-DD hh:mm:ss') between '${HaPaylog.KaiShiTime}' and '${HaPaylog.JieShuTime}'
-            </if>
-        </trim>
-        GROUP BY f.meterid
         ) t
-        WHERE pl.billid = f.billid AND f.itemid=t.itemid AND m.meterid = f.meterid
-        AND f.meterid=mi.meterid AND f.pricestand_id = ps.pricestand_id
-        <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
-            and (mi.custid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
-
-        </if>
-
-        AND ps.meterTypeId = mt.meterTypeId
     </select>
 
     <!-- 点击打印缴费单时进行查询的map映射   -->

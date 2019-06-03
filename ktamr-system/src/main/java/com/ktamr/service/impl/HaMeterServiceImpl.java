@@ -124,13 +124,13 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.selectMeterByCollectorId(collectorId);
     }
 
-    public List<HaMeter> HaMeterList(HaMeter haMeter,Integer page,Integer rowNum) {
-        return haMeterMapper.HaMeterList(haMeter,page,rowNum);
+    public List<HaMeter> HaMeterList(HaMeter haMeter) {
+        return haMeterMapper.HaMeterList(haMeter);
     }
 
     @Override
-    public List<HaMeter> queryHaMeter(Integer centorId, Integer collectorId, Integer page, Integer rowNum) {
-        return haMeterMapper.queryHaMeter(centorId,collectorId,page,rowNum);
+    public List<HaMeter> queryHaMeter(Integer centorId, Integer collectorId) {
+        return haMeterMapper.queryHaMeter(centorId,collectorId);
     }
 
 

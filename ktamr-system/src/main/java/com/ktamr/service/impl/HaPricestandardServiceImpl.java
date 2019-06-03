@@ -14,9 +14,8 @@ public class HaPricestandardServiceImpl implements HaPricestandardService {
     @Resource
     private HaPricestandardMapper haPricestandardMapper;
 
-    public List<HaPricestandard> HaPricestandardList(HaPricestandard haPricestandard, Integer page,
-                                                     Integer rowNum) {
-        return haPricestandardMapper.HaPricestandardList(haPricestandard,page,rowNum);
+    public List<HaPricestandard> HaPricestandardList(HaPricestandard haPricestandard) {
+        return haPricestandardMapper.HaPricestandardList(haPricestandard);
     }
 
     @Override

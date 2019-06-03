@@ -479,7 +479,6 @@
 		LEFT JOIN ha_centor ce ON m.centorid=ce.id) LEFT JOIN
 		ha_collector co ON m.collectorid=co.collectorid WHERE m.areaid=#{haMeter.areaId}
 		ORDER BY cu.custno,b.name||'-'||r.name
-		limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="queryHaMeter" resultMap="queryHaMeterMap">
@@ -497,7 +496,6 @@
             AND m.centorid=#{centorId}
         </if>
         order by mi.用户地址
-        limit #{page} OFFSET #{rowNum}
     </select>
 
     <select id="HaMeterCount" resultType="Integer">
@@ -505,8 +503,8 @@
     </select>
 
     <insert id="addHaMeter">
-        insert into ha_meter (meterid, roomid, pricestand_id, rate, isbranch, starttime,centorid, meternumber, collectorid,offset_n)
-        values (default ,#{roomId},#{pricestandId},#{rate},#{isBranch},#{startTime},#{centorId},#{meterNumber},#{collectorId},#{offsetN})
+        insert into ha_meter (meterid, roomid, pricestand_id, rate, isbranch, starttime,centorid, meternumber, collectorid,p_number,offset_n)
+        values (default ,#{roomId},#{pricestandId},#{rate},#{isBranch},#{startTime},#{centorId},#{meterNumber},#{collectorId},#{pnumber},#{offsetN})
     </insert>
 
     <!--采集器选择表,端口选择表-->

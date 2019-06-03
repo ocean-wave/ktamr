@@ -13,15 +13,8 @@ public interface HaCustomMapper {
      * @param haCustom
      * @return
      */
-    public List<HaCustom> queryHaCustomListB(@Param("HaCustom") HaCustom haCustom, @Param("page") Integer page,
-                                            @Param("rowNum") Integer rowNum);
+    public List<HaCustom> queryHaCustomListB(@Param("HaCustom") HaCustom haCustom);
 
-    /**
-     * 查询用户账号列表的总记录数
-     * @param haCustom
-     * @return
-     */
-    public Integer queryHaCustomListCountB(@Param("HaCustom") HaCustom haCustom);
 
     /**
      * 查询预存费用
@@ -38,7 +31,7 @@ public interface HaCustomMapper {
     public Integer updateYuCunFeiYongB(HaCustom haCustom);
 
 
-    List<HaCustom> HaCustomList(@Param("haCustom") HaCustom haCustom, @Param("page") Integer page, @Param("rowNum") Integer rowNum);
+    List<HaCustom> HaCustomList(@Param("haCustom") HaCustom haCustom);
 
     HaCustom updateByIdHaCustom(@Param("haCustom") HaCustom haCustom);
 

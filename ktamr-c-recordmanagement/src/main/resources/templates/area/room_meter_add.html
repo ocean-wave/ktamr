@@ -161,10 +161,11 @@
             ,layer = layui.layer;
 
         var load_option_url = "/room/LoadDeviceOption";
-        var op_url = "";
+        var op_url = "/room/RoomMeterAdd";
         var g_roomId = $("#roomId").val();
         var g_buildingId = $("#buildingId").val();
         var g_deviceType = "centor";
+
         $('#setupTime').datetimepicker({
             language: 'zh-CN',//显示中文
             format: 'yyyy-mm-dd hh:ii:ss',//显示格式
@@ -173,6 +174,7 @@
             autoclose: true,//选中自动关闭
             todayBtn: true//显示今日按钮
         });
+
         function pageInit(){
             if(g_roomId != ""){
                 $("#roomName").attr("readonly", "readonly");
@@ -210,7 +212,6 @@
                 }
                 ,dataType: "json"
                 ,type: "POST"
-                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
                     $("#centor").empty();
@@ -241,10 +242,11 @@
                 }
                 ,dataType:"json"
                 ,type: "POST"
-                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
                     // appendSelectOption("collector", data, "");
+                    $("#collector").empty();
+                    $("#collector").append($("<option>").val("").text(""));
                     for (var i = 0; i < data.length; i++) {
                         $("#collector").append("<option value='" + data[i].collectorId + "'>" + data[i].nconf + ':' + data[i].addr + "</option>");
                     }
@@ -352,7 +354,7 @@
                 rate: $("#rate").val(), //倍率
                 startTime: $("#setupTime").val(), //安装时间
                 isBranch: $("#isBranch").val(), //总分表
-                primalNumber: $("#primalNumber").val(), //表底数
+                pnumber: $("#primalNumber").val(), //表底数
                 offsetN: $("#offsetNumber").val() //调节数
             };
 

@@ -4,6 +4,7 @@ package com.ktamr.account.pay;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaFreeze;
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-public class HaPaylogController {
+public class HaPaylogController  extends BaseController {
 
     @Resource
     private HaPaylogService haPaylogService;
@@ -61,7 +62,7 @@ public class HaPaylogController {
     public AjaxResult export(HaPaylog haPaylog, ExcelUtilTwo excelUtilTwo)
     {
         //这里保证查询的是全部的数据
-        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog, 9999999,0);
+        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog);
         if (haPaylogList!=null){
             return excelUtilTwo.init(haPaylogList, "缴费单数据");
         }
@@ -70,14 +71,11 @@ public class HaPaylogController {
     /**
      * 缴费单页面查询+分页
      * @param haPaylog
-     * @param request
-     * @param pageSize
      * @return
      */
     @RequestMapping(value ="/pay/showHaPaylogList")
     @ResponseBody
-    public Object showHaPaylogList(HaPaylog haPaylog, HttpServletRequest request, @RequestParam("page") int pageSize
-    , @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh, PageUtil pageUtil
+    public Object showHaPaylogList(HaPaylog haPaylog, @RequestParam("startTime") Object startTime, @RequestParam("endTime")Object endTime, String hhh
     ){
     if(hhh!=null&& hhh!=""){
         boolean b = hhh.contains(",");
@@ -109,12 +107,9 @@ public class HaPaylogController {
             e.printStackTrace();
         }
         }
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog, integers[0] ,integers[1]);
-        Integer paylogListCount = haPaylogService.selectHaPaylogListCount(haPaylog);
-        Map map = pageUtil.map(haPaylogList, paylogListCount);
+        startPage();
+        List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog);
+        Map<String, Object> map = getDataTable(haPaylogList);//获取缴费单页面总记录数
         if(map!=null){
             return map;
         }
@@ -150,7 +145,7 @@ public class HaPaylogController {
     public AjaxResult ybbexport(HaPaylog haPaylog, ExcelUtilTwo excelUtilTwo)
     {
         //这里保证查询的是全部的数据
-        List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog, 9999999,0);
+        List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog);
         if (haPaylogList!=null){
             return excelUtilTwo.init(haPaylogList, "月报表数据");
         }
@@ -160,22 +155,19 @@ public class HaPaylogController {
     /**
      * 月报表的查询
      * @param haPaylog
-     * @param request
      * @return
      */
     @RequestMapping(value ="/pay/ybb/showMonthReportList")
     @ResponseBody
-    public String showHaMonthReportList(HaPaylog haPaylog, HttpServletRequest request
-    , PageUtil pageUtil){
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
-        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-        List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog, integers[0] ,integers[1]);
-        Integer monthReportListCount = haPaylogService.selectMonthReportListCount(haPaylog);
-        Map map = pageUtil.map(haPaylogList, monthReportListCount);
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
-        if(s!=null){
-            return s;
+    public Object showHaMonthReportList(HaPaylog haPaylog){
+
+        startPage();
+        List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog);
+
+        Map<String, Object> map = getDataTable(haPaylogList);//获取月报表总记录数
+
+        if(map!=null){
+            return map;
         }
         return null;
     }
@@ -189,7 +181,6 @@ public class HaPaylogController {
         if(b==true){
             //拆分字符根绝逗号
             String[] split = haPaylog.getBillId().split(",");
-
             List<String> xhlist=new ArrayList<>();
             //进行循环添加
             for (int i =0;i<split.length;i++){
@@ -197,7 +188,6 @@ public class HaPaylogController {
             }
             haPaylog.setBillIdsList(xhlist);
             haPaylog.setBillId(null);
-
         }
         //查询上面的table
         List<HaPaylog> haPaylogList = haPaylogService.BselectPritJiaoFeiDan1(haPaylog);
@@ -206,11 +196,9 @@ public class HaPaylogController {
         for (int i=0;i<haPaylogList.size();i++){
             haFreeze.setBillId(haPaylogList.get(i).getBillId());
             bselectPritJiaoFeiDan2 = haFreezeService.BselectPritJiaoFeiDan2(haFreeze);
-
                 //对其进行循环录入
             haPaylogList.get(i).setHaFreeze(bselectPritJiaoFeiDan2);
         }
-
         if(haPaylogList!=null&&bselectPritJiaoFeiDan2!=null){
             model.addAttribute("haPaylogList",haPaylogList);
             model.addAttribute("bselectPritJiaoFeiDan2",bselectPritJiaoFeiDan2);

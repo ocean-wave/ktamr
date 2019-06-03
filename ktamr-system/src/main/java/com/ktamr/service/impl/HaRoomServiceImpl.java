@@ -52,8 +52,8 @@ public class HaRoomServiceImpl implements HaRoomService {
      *查询房间
      */
     @Override
-    public List<HaRoom> queryAllRoomC(HaRoom haRoom, Integer page, Integer rowNum) {
-        return haRoomMapper.queryAllRoomC(haRoom, page, rowNum);
+    public List<HaRoom> queryAllRoomC(HaRoom haRoom) {
+        return haRoomMapper.queryAllRoomC(haRoom);
     }
 
     /*

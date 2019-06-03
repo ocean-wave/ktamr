@@ -20,8 +20,8 @@ public class HaBillrecordsServiceImpl implements HaBillrecordsService {
      * @return
      */
     @Override
-    public List<HaBillrecords> queryHaBillrecordsList(HaBillrecords haBillrecords,Integer page, Integer rowNum) {
-        List<HaBillrecords> haBillrecordsList = haBillrecordsMapper.ChaXunHaBillrecordsList(haBillrecords, page, rowNum);
+    public List<HaBillrecords> ChaXunHaBillrecordsList(HaBillrecords haBillrecords) {
+        List<HaBillrecords> haBillrecordsList = haBillrecordsMapper.ChaXunHaBillrecordsList(haBillrecords);
         if(haBillrecordsList!=null){
             return  haBillrecordsList;
         }
@@ -63,27 +63,14 @@ public class HaBillrecordsServiceImpl implements HaBillrecordsService {
      * @return
      */
     @Override
-    public List<HaBillrecords> selectYongHuZhangDan(HaBillrecords haBillrecords,Integer page, Integer rowNum) {
-        List<HaBillrecords> haBillrecordsList = haBillrecordsMapper.selectYongHuZhangDan(haBillrecords,page,  rowNum);
+    public List<HaBillrecords> selectYongHuZhangDan(HaBillrecords haBillrecords) {
+        List<HaBillrecords> haBillrecordsList = haBillrecordsMapper.selectYongHuZhangDan(haBillrecords);
         if(haBillrecordsList!=null){
             return haBillrecordsList;
         }
         return null;
     }
 
-    /**
-     * 查询用户账单列表记录数
-     * @param haBillrecords
-     * @return
-     */
-    @Override
-    public Integer selectYongHuZhangDanCount(HaBillrecords haBillrecords) {
-        Integer selectYongHuZhangDanCount = haBillrecordsMapper.selectYongHuZhangDanCount(haBillrecords);
-        if(selectYongHuZhangDanCount!=null){
-            return selectYongHuZhangDanCount;
-        }
-        return null;
-    }
 
     /**
      * 检查是否超过可恢复收费

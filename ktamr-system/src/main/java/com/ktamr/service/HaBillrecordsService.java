@@ -10,13 +10,9 @@ public interface HaBillrecordsService {
     /**
      * 收费记录查询
      * @param haBillrecords
-     * @param page
-     * @param rowNum
      * @return
      */
-    public List<HaBillrecords> queryHaBillrecordsList(HaBillrecords haBillrecords,
-                                                      Integer page,
-                                                      Integer rowNum);
+    public List<HaBillrecords> ChaXunHaBillrecordsList(HaBillrecords haBillrecords);
 
     /**
      * 收费记录查询总记录数
@@ -36,21 +32,11 @@ public interface HaBillrecordsService {
     /**
      * 查询用户账单列表
      * @param haBillrecords
-     * @param page
-     * @param rowNum
      * @return
      */
-    public List<HaBillrecords> selectYongHuZhangDan(HaBillrecords haBillrecords,
-                                                    Integer page,
-                                                    Integer rowNum
-    );
+    public List<HaBillrecords> selectYongHuZhangDan(HaBillrecords haBillrecords);
 
-    /**
-     * 查询用户账单列表记录数
-     * @param haBillrecords
-     * @return
-     */
-    public Integer selectYongHuZhangDanCount(HaBillrecords haBillrecords);
+
 
     /**
      * 检查是否超过可恢复收费

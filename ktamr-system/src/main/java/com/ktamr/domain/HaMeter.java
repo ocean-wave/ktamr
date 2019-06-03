@@ -22,6 +22,7 @@ public class HaMeter extends BaseEntity {
     private Integer rate;
     private Integer isBranch;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
     private Date lastTime;
     private double snumber;

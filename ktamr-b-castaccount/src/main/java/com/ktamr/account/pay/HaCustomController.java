@@ -4,6 +4,7 @@ package com.ktamr.account.pay;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.poi.ExcelUtilTwo;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaCustom;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class HaCustomController {
+public class HaCustomController extends BaseController {
 
     @Resource
     private HaCustomService haCustomService;
@@ -42,23 +43,17 @@ public class HaCustomController {
     /**
      * 查询用户账户列表
      * @param haCustom
-     * @param request
      * @return
      */
     @RequestMapping("/pay/yhzh/queryHaCustomList")
     @ResponseBody
-    public String queryHaCustomList(HaCustom haCustom , HttpServletRequest request, PageUtil pageUtil){
-        //接收一波
-        String page1 = request.getParameter("page");//获取需要多少行
-        String pageRows1 = request.getParameter("rows");//获取查询的起点位置
+    public Object queryHaCustomList(HaCustom haCustom ){
+        startPage();
         //通过方法返回一波
-        Integer[] integers = pageUtil.pageAndPageRow(page1, pageRows1);
-        List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom, integers[0], integers[1]);
-        Integer haCustomListCount = haCustomService.queryHaCustomListCountB(haCustom);
-        Map map = pageUtil.map(haCustomList, haCustomListCount);
-        String s = JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect);
-        if(s!=null){
-            return s;
+        List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom);
+        Map<String, Object> map = getDataTable(haCustomList);//获取用户账户列表记录
+        if(map!=null){
+            return map;
         }
         return null;
     }
@@ -74,7 +69,7 @@ public class HaCustomController {
     public AjaxResult ybbexport(HaCustom haCustom, ExcelUtilTwo excelUtilTwo)
     {
         //这里保证查询的是全部的数据
-        List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom, 9999999,0);
+        List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom);
         if (haCustomList!=null){
             return excelUtilTwo.init(haCustomList, "月报表数据");
         }
@@ -103,30 +98,20 @@ public class HaCustomController {
     @RequestMapping("/cust_bill_operation_do")
     @ResponseBody
     public String cust_bill_operation_do(HaCustom haCustom, HaBillrecords haBillrecords){
-
-
-
-        if(haBillrecords.getOptType().equals("恢复收费")){
+          if(haBillrecords.getOptType().equals("恢复收费")){
             String s = haBillrecordsService.selectShiFou(haBillrecords);
             if(s.equals("true")){
             return "超过可恢复收费";
             }
         }
-
-
-
-        //先更新一波
+      //先更新一波
         Integer updateYuCunFeiYong = haCustomService.updateYuCunFeiYongB(haCustom);
-
         //再添加一波
         Integer insertHaBillrecords = haBillrecordsService.insertHaBillrecords(haBillrecords);
-
         //如果两数返回值是1+1=2的情况下就返回true即返回成功
         if(updateYuCunFeiYong+insertHaBillrecords==2){
             return "true";
         }
-
-
         return  "操作失败";
     }
 

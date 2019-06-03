@@ -32,7 +32,7 @@ public interface HaRoomService {
     /*
      *查询房间
      */
-    List<HaRoom> queryAllRoomC(HaRoom haRoom,Integer page,Integer rowNum);
+    List<HaRoom> queryAllRoomC(HaRoom haRoom);
 
     /*
      *所属楼栋下的房间记录数

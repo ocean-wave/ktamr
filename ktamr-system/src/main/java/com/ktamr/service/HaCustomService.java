@@ -10,20 +10,11 @@ public interface HaCustomService {
     /**
      * 查询用户账号列表
      * @param haCustom
-     * @param page
-     * @param rowNum
      * @return
      */
-    public List<HaCustom> queryHaCustomListB(HaCustom haCustom, Integer page,
-                                            Integer rowNum
+    public List<HaCustom> queryHaCustomListB(HaCustom haCustom
     );
 
-    /**
-     * 查询用户账号列表的总记录数
-     * @param haCustom
-     * @return
-     */
-    public Integer queryHaCustomListCountB(HaCustom haCustom);
 
 
     /**
@@ -40,8 +31,7 @@ public interface HaCustomService {
      */
     public Integer updateYuCunFeiYongB(HaCustom haCustom);
 
-    List<HaCustom> HaCustomList(HaCustom haCustom, Integer page,
-                                Integer rowNum);
+    List<HaCustom> HaCustomList(HaCustom haCustom);
 
     HaCustom updateByIdHaCustom(HaCustom haCustom);
 
