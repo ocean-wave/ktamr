@@ -38,7 +38,7 @@
 
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <id property="areaId" column="areaId"/>
-            <result property="name" column="aname"/>
+            <result property="haName" column="haName"/>
         </association>
     </resultMap>
 
@@ -48,7 +48,7 @@
         u.name as name,
         u.sex as sex,
         CASE WHEN a.name != ''
-        THEN a.name ELSE '无对象' END as aname,
+        THEN a.name ELSE '无对象' END as haName,
         CASE WHEN b.name != ''
         THEN b.name ELSE '无对象' END  as bname,
         CASE WHEN r.name != ''
@@ -87,7 +87,7 @@
         b.buildingid as buildingId,
         r.roomid as roomId,
         CASE WHEN a.name != ''
-        THEN a.name ELSE '无对象' END as aname,
+        THEN a.name ELSE '无对象' END as haName,
         CASE WHEN b.name != ''
         THEN b.name ELSE '无对象' END  as bname,
         CASE WHEN r.name != ''
@@ -112,7 +112,7 @@
         u.name as name,
         u.sex as sex,
         CASE WHEN a.name != ''
-        THEN a.name ELSE '[无对象]' END as aname,
+        THEN a.name ELSE '[无对象]' END as haName,
         CASE WHEN b.name != ''
         THEN b.name ELSE '[无对象]' END  as bname,
         CASE WHEN r.name != ''

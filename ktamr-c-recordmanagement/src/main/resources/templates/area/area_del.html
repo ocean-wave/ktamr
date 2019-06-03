@@ -22,7 +22,7 @@
         <tbody>
         <tr th:each="areas:${area}">
             <td th:text="${areas.areaNo}"></td>
-            <td th:text="${areas.name}"></td>
+            <td th:text="${areas.haName}"></td>
             <td th:text="${areas.addr}"></td>
             <td th:if="${areas.ds}=='S'">双月</td>
             <td th:if="${areas.ds}=='D'">单月</td>

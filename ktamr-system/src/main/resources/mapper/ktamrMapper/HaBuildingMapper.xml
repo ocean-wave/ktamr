@@ -12,7 +12,7 @@
         <result column="description" property="description"/>
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <id column="aareaId" property="areaId"/>
-            <result column="aname" property="name"/>
+            <result column="haName" property="haName"/>
         </association>
         <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
             <result column="roomId" property="roomId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
@@ -141,7 +141,7 @@
 
     <select id="updateByIdHaBuilding" resultMap="buildingMap">
         SELECT b.buildingid as buildingId,b.name as name,b.description as description,
-        a.areaid as aareaid,a.name as aname FROM ha_building b,ha_area a WHERE b.areaid = a.areaid AND b.buildingid=#{buildingId}
+        a.areaid as aareaid,a.name as haName FROM ha_building b,ha_area a WHERE b.areaid = a.areaid AND b.buildingid=#{buildingId}
     </select>
 
     <resultMap id="queryAllBuildingMapC" type="com.ktamr.domain.HaBuilding">

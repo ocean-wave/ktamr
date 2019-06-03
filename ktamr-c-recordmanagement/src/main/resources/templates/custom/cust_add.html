@@ -57,7 +57,7 @@
                 <select id="area" lay-filter="area" lay-verify="required" lay-search>
                     <option value="-1">请选择</option>
                     <option th:each="haAreas : ${haArea}"
-                            th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
+                            th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.haName}"></option>
                 </select>
             </div>
         </div>

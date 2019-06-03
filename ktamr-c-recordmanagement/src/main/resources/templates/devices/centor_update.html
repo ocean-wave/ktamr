@@ -31,7 +31,7 @@
                 <select name="area" lay-filter="area" lay-verify="required" th:value="${uCentor.areaId}">
                     <option value=""></option>
                     <option th:selected="${uCentor.areaId eq haAreas.areaId}" th:each="haAreas : ${haArea}"
-                            th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
+                            th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.haName}"></option>
                 </select>
             </div>
         </div>

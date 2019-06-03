@@ -281,7 +281,7 @@
                         var option = $("<option>").val("").text("");
                         $("#operator_rgn").append(option);
                         for (var i = 0; i < data.length; i++) {
-                            $("#operator_rgn").append("<option value='" + data[i].areaNo + "'>" + data[i].areaNo + ':' + data[i].name + "</option>");
+                            $("#operator_rgn").append("<option value='" + data[i].areaNo + "'>" + data[i].areaNo + ':' + data[i].haName + "</option>");
                         }
                     }else if($("#operator_rgn_type").val()=="all" || $("#operator_rgn_type").val()==""){
                         $("#operator_rgn").append(null);

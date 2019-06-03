@@ -47,7 +47,7 @@
         <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="name" column="name" />
         <result property="shortName" column="shortName" />
-        <result property="zCode" column="zCode" />
+        <result property="zcode" column="zcode" />
         <result property="createTime" column="createTime" />
         <result property="createTime" column="modifyTime" />
         <result property="badMeter" column="badMeter"/>
@@ -77,7 +77,7 @@
     </resultMap>
 
     <select id="selectAllRngAndCountC" resultType="com.ktamr.domain.HaRgn">
-        SELECT n.id AS id, n.name AS name, n.shortName AS shortName, n.zcode AS zCode,
+        SELECT n.id AS id, n.name AS name, n.shortName AS shortName, n.zcode AS zcode,
         (SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount,
         (SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount,
         (SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount,
@@ -105,7 +105,7 @@
     </select>
 
     <insert id="addHaRgnC">
-        insert into ha_rgn(id,name,shortname,zcode,createtime,modifytime) values (#{id},#{name},#{shortName},#{zCode},#{createTime},#{modifyTime})
+        insert into ha_rgn(id,name,shortname,zcode,createtime,modifytime) values (#{id},#{name},#{shortName},#{zcode},#{createTime},#{modifyTime})
     </insert>
 
     <delete id="deleteHaRgnC">
@@ -117,7 +117,7 @@
         <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
             <if test="name != null">name = #{name},</if>
             <if test="shortName != null">shortname = #{shortName},</if>
-            <if test="zCode != null">zcode = #{zCode},</if>
+            <if test="zcode != null">zcode = #{zcode},</if>
             <if test="createTime != null">createtime = #{createTime},</if>
             <if test="modifyTime != null">modifytime = #{modifyTime},</if>
         </trim>
@@ -169,7 +169,7 @@
       SELECT n.id AS rgnid
         , n.name AS name
         , n.shortName AS shortName
-        , n.zcode AS zCode
+        , n.zcode AS zcode
         ,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount
         ,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount
         ,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount

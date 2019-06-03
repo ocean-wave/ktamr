@@ -38,7 +38,7 @@
         <div class="layui-block">
             <label class="layui-form-label">行政区号</label>
             <div class="layui-input-inline my-form-input-single">
-                <input id="zCode" name="zCode" lay-verify="rgnNo" autocomplete="off" placeholder="选填" class="layui-input" th:value="${rgn.zCode}">
+                <input id="zcode" name="zcode" lay-verify="rgnNo" autocomplete="off" placeholder="选填" class="layui-input" th:value="${rgn.zcode}">
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
                 id: $("#rgnId").val(),
                 name: $("#name").val(),
                 shortName: $("#shortName").val(),
-                zCode: $("#zCode").val()
+                zcode: $("#zcode").val()
             };
             submitInfo(data);
         });

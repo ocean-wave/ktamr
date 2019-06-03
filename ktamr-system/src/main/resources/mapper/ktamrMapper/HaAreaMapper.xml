@@ -417,11 +417,11 @@ WHERE areaid IN ('${areaId}')
 
 
     <select id="queryAllHaAreaC" resultType="com.ktamr.domain.HaArea">
-        select areaid,areano,name from ha_area
+        select areaid,areano,name as haName from ha_area
     </select>
 
     <insert id="addHaAreaC">
-       INSERT INTO ha_area(areaNo,name,description,addr,shortName,DS,registeredNo) VALUES(#{rgn}||#{areaNo},#{name},#{description},#{addr},#{shortName},#{ds},#{registeredNo})
+       INSERT INTO ha_area(areaNo,name,description,addr,shortName,DS,registeredNo) VALUES(#{rgn}||#{areaNo},#{haName},#{description},#{addr},#{shortName},#{ds},#{registeredNo})
     </insert>
 
     <select id="updateByIdHaAreaC" resultType="com.ktamr.domain.HaArea">
@@ -436,7 +436,7 @@ WHERE areaid IN ('${areaId}')
         update ha_area
         <trim prefix="set" suffixOverrides="," suffix="where areaid = #{haArea.areaId}">
             <if test="haArea.areaNo != null">areano = #{haArea.rgn}||#{haArea.areaNo},</if>
-            <if test="haArea.name != null">name = #{haArea.name},</if>
+            <if test="haArea.haName != null">name = #{haArea.haName},</if>
             <if test="haArea.description != null">description = #{haArea.description},</if>
             <if test="haArea.addr != null">addr = #{haArea.addr},</if>
             <if test="haArea.shortName != null">shortname = #{haArea.shortName},</if>
@@ -452,7 +452,7 @@ WHERE areaid IN ('${areaId}')
 
     <resultMap id="queryAllSmallAreaMap" type="com.ktamr.domain.HaArea">
         <id property="areaId" column="areaId"/>
-        <result property="name" column="name"/>
+        <result property="haName" column="haName"/>
         <result property="description" column="description"/>
         <result property="lastCheckTime" column="lastCheckTime"/>
         <result property="state" column="state"/>
@@ -492,7 +492,7 @@ WHERE areaid IN ('${areaId}')
 
     <select id="queryAllSmallArea" resultMap="queryAllSmallAreaMap">
         SELECT
-        a.areaid AS areaId, Right(a.areaNo, 4) AS areaNo, trim(a.registeredNo) AS registeredNo, a.name AS name,
+        a.areaid AS areaId, Right(a.areaNo, 4) AS areaNo, trim(a.registeredNo) AS registeredNo, a.name AS haName,
         trim(n.name||'-'||a.addr) AS addr,
         case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds,
         COUNT(m.meterid) AS haMeterCount,
@@ -520,8 +520,8 @@ WHERE areaid IN ('${areaId}')
         <if test="haArea.rgnIds!=null and haArea.rgnIds != '' and haArea.rgnIds != '-2'">
             and left(a.areaNo,1) = #{haArea.rgnIds}
         </if>
-        <if test="haArea.name !=null and haArea.name !=''">
-            and (a.registeredNo like '%${haArea.name}%' or a.name like '%${haArea.name}%' or a.areaNo like '%${haArea.name}%')
+        <if test="haArea.keyWord !=null and haArea.keyWord !=''">
+            and (a.registeredNo like '%${haArea.keyWord}%' or a.name like '%${haArea.keyWord}%' or a.areaNo like '%${haArea.keyWord}%')
         </if>
         <if test="haArea.monthType != null and haArea.monthType != '' ">
             and a.DS = #{haArea.monthType}
@@ -543,7 +543,7 @@ WHERE areaid IN ('${areaId}')
         CASE WHEN  length(a.registeredNo)=0  OR registeredNo IS NULL
         THEN Right(a.areaNo, 4) ELSE a.registeredNo END,
         CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S'
-        THEN '[单月]' ELSE '' END, a.name, COUNT(b.name)
+        THEN '[单月]' ELSE '' END, a.name as haName, COUNT(b.name)
         FROM ha_area a LEFT JOIN ha_building b ON b.areaid=a.areaid
         WHERE Left(a.areaNo, 1)=#{areaNo} --根据大区id显示小区 不写显示全部
         GROUP BY a.areaid,

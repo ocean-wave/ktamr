@@ -30,7 +30,7 @@
         <result column="xhqd" property="xhqd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="dcdy" property="dcdy" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
-            <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="haName" property="haName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <id column="collectorId" property="collectorId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
@@ -264,7 +264,7 @@
         ce.state AS state,
         ce.centorid AS centorId,
         ce.description AS description,
-        a.name AS name
+        a.name AS haName
         FROM ha_centor ce LEFT JOIN ha_area a ON Left(ce.centorNo, 5)= a.areaNo
         where 1=1
         <if test="haCentor.deviceType == 'centor' ">

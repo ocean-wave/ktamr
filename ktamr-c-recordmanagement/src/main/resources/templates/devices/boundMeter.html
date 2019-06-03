@@ -30,7 +30,7 @@
                 <select id="area" name="area" lay-filter="area" lay-verify="required" lay-search th:value="${gAreaId}">
                     <option value="">请输入关键字并选择</option>
                     <option th:selected="${gAreaId eq haAreas.areaId}" th:each="haAreas : ${haArea}"
-                            th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.name}"></option>
+                            th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.haName}"></option>
                 </select>
             </div>
         </div>
