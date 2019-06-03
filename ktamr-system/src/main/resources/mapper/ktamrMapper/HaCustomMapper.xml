@@ -68,6 +68,8 @@
         <if test="haCustom.keyWord!=null and haCustom.keyWord !=''">
             and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
         </if>
+        <!--多条件查询-->
+        ${haCustom.multipleConditions}
         ORDER BY u.custno,a.name,b.name,r.name
     </select>
 

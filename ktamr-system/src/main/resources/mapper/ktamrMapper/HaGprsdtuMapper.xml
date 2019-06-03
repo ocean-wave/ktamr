@@ -70,6 +70,8 @@
             and (d.uid = #{haGprsdtu.keyWord} or d.telnubmer like '%${haGprsdtu.keyWord}%' or d.addr like '%${haGprsdtu.keyWord}%' or d.state = #{haGprsdtu.keyWord}
             or d.dscrp like '%${haGprsdtu.keyWord}%' or to_char(d.oplasttime, 'yyyy-mm-dd') like '%${haGprsdtu.keyWord}%')
         </if>
+        <!--多条件查询-->
+        ${haGprsdtu.multipleConditions}
         GROUP BY d.uid,d.telnubmer,d.addr,d.state,d.dscrp,d.oplasttime,d.idle
         ORDER BY d.uid,d.addr
     </select>

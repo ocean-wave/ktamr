@@ -528,6 +528,8 @@ WHERE areaid IN ('${areaId}')
         <if test="haArea.monthType != null and haArea.monthType != '' ">
             and a.DS = #{haArea.monthType}
         </if>
+        <!--多条件查询-->
+        ${haArea.multipleConditions}
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,
         a.DS,a.description,a.reserved,to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n ORDER BY a.areaNo
     </select>
