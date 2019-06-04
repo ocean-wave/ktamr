@@ -21,6 +21,377 @@
         </association>
     </resultMap>
 
+    <resultMap id="havMeterinfoMapTwo" type="com.ktamr.domain.HavMeterinfo">
+        <result column="meterId" property="meterId" javaType="java.lang.Integer"></result>
+        <result column="waterMete" property="waterMete" javaType="java.lang.Integer"></result>
+        <result column="deviceId" property="deviceId" javaType="java.lang.Integer"></result>
+        <result column="userNo" property="userNo" javaType="java.lang.String"></result>
+        <result column="userName" property="userName" javaType="java.lang.String"></result>
+        <result column="areaName" property="areaName" javaType="java.lang.String"></result>
+        <result column="userDs" property="userDs" javaType="java.lang.String"></result>
+        <result column="state" property="state" javaType="java.lang.String"></result>
+        <result column="addr" property="addr" javaType="java.lang.String"></result>
+        <result column="centorNo" property="centorNo" javaType="java.lang.String"></result>
+        <result column="defaultOne" property="defaultOne" javaType="java.lang.String"></result>
+        <result column="defaultTwo" property="defaultTwo" javaType="java.lang.String"></result>
+        <result column="defaultThree" property="defaultThree" javaType="java.lang.String"></result>
+        <result column="defaultFour" property="defaultFour" javaType="java.lang.String"></result>
+        <result column="defaultFive" property="defaultFive" javaType="java.lang.String"></result>
+        <result column="emptyStr" property="emptyStr" javaType="java.lang.String"></result>
+        <result column="topEquipment" property="topEquipment" javaType="java.lang.String"></result>
+        <result column="meterNumber" property="meterNumber" javaType="java.lang.Long"></result>
+        <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
+        <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
+        <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
+        <result column="snumber" property="snumber" javaType="java.lang.Double"></result>
+
+        <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
+            <result column="name" property="name" javaType="java.lang.String"></result>
+        </association>
+        <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
+            <result column="balance" property="balance" javaType="java.lang.Integer"></result>
+        </association>
+        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+            <result column="fmonn" property="fmonn" javaType="java.lang.Double"></result>
+        </association>
+        <association property="haPricestandard" javaType="com.ktamr.domain.HaPricestandard">
+            <result column="price1" property="price1" javaType="java.lang.Double"></result>
+        </association>
+        <association property="haBuilding" javaType="com.ktamr.domain.HaBuilding">
+            <result column="bname" property="name" javaType="java.lang.String"></result>
+        </association>
+
+        <association property="haFreeze" javaType="com.ktamr.domain.HaFreeze">
+            <result column="tfNumber" property="tfNumber" javaType="java.lang.String"></result>
+            <result column="thTime" property="thTime" javaType="java.util.Date"></result>
+            <result column="delta" property="delta" javaType="java.lang.String"></result>
+            <result column="lfNumber" property="lfNumber" javaType="java.lang.String"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectThirdParty" resultMap="havMeterinfoMapTwo">
+        <if test='params.showListType == "sys_zjss"'>
+            SELECT
+            mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.表号 AS meterNumber
+            , mi.用户地址 AS userDs
+            , mi.最近度数 AS thNumber
+            , mi.抄表时间 AS thRTime
+            FROM hav_meterinfo mi
+            WHERE  mi.meterid IS NOT NULL
+            <if test=" params.keyWord != null and params.keyWord != '' ">
+                and ( mi.用户号 like '%${params.keyWord}%' or to_char(mi.表号, 'fm9999999999999999') like '%${params.keyWord}%'
+                or mi.用户地址 like '%${params.keyWord}%' or to_char(mi.最近度数, 'fm9999999999999999') like '%${params.keyWord}%'
+                or mi.抄表时间 like '%${params.keyWord}%')
+            </if>
+        </if>
+        <if test='params.showListType == "sys_ntrq" or params.showListType == "sys_dgxsn"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.表地址 AS addr
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            , mi.最近度数 AS thNumber
+            , mi.抄表时间 AS thRTime
+            ,mi.状态 AS state
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+            <if test=" params.keyWord != null and params.keyWord != '' ">
+                and ( mi.用户号 like '%${params.keyWord}%' or mi.表地址 like '%${params.keyWord}%'
+                or mi.用户名 like '%${params.keyWord}%' or mi.用户地址 like '%${params.keyWord}%'
+                or to_char(mi.最近度数, 'fm9999999999999999') like '%${params.keyWord}%'
+                or mi.抄表时间 like '%${params.keyWord}%')
+                or mi.状态 = #{params.keyWord})
+            </if>
+        </if>
+        <if test='params.showListType == "sys_hsss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.表号 AS meterNumber
+            , mi.小区名||'-'||b.name AS userDs
+            , r.name AS name
+            , mi.最近度数 AS thNumber
+            , mi.抄表时间 AS thRTime
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_building b ON mi.buildingid=b.buildingid
+            LEFT JOIN ha_room r ON mi.roomid=r.roomid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_tzss"'>
+            SELECT f.meterid AS meterId
+            , mi.用户号 AS userNo
+            , CASE WHEN length(mi.用户名)>0 THEN mi.用户名 ELSE '*' END AS userName
+            , f.tf_number AS tfNumber
+            , f.th_time AS thTime
+            , f.delta AS delta
+            , '0' AS defaultOne
+            , mi.状态 AS state
+            , f.lf_number AS lfNumber
+            FROM hav_meterinfo mi, ha_freeze f, ha_paylog pl
+            WHERE mi.meterid=f.meterid AND f.billId=pl.billId AND pl.state='完成'
+            <if test=" params.queryMonth != null and params.queryMonth !='' ">
+                AND to_char(f.RTime, 'yyyy-mm')=#{params.queryMonth}
+            </if>
+        </if>
+        <if test='params.showListType == "sys_pkss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.抄表时间 AS thRTime
+            , '' AS emptyStr
+            , mi.最近度数 AS thNumber
+            , mi.抄表时间 AS thRTime
+            , '' AS emptyStrTwo
+            , mi.表号 AS meterNumber
+            , '0' AS defaultOne
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_rass"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.最近度数 AS thNumber
+            , mi.抄表时间 AS thRTime
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_jrss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , '' AS emptyStr
+            , mi.最近度数 AS thNumber
+            , '' AS emptyStrTwo
+            , mi.抄表时间 AS thRTime
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_hncc"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.表号 AS meterNumber
+            , mi.lf_number AS lfNumber
+            , cu.balance AS balance
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_room r ON mi.roomid=r.roomid
+            LEFT JOIN ha_custom cu ON cu.custid=r.custid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_nyss"'>
+            SELECT mi.meterid AS meterId
+            , mi.表号 AS meterNumber
+            , mi.用户号 AS userNo
+            , mi.抄表时间 AS thRTime
+            , mi.最近度数 AS thNumber
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_hcss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.表号 AS meterNumber
+            , mi.抄表时间 AS thRTime
+            , mi.上期度数 AS lfNumber
+            , mi.最近度数 AS thNumber
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_ahqj"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            , '' AS emptyStr
+            , mi.表号 AS meterNumber
+            ,'' AS emptyStrTwo
+            ,'' AS emptyStrThree
+            ,'27' AS defaultTwo
+            ,(CASE WHEN m.fmon_n is NULL THEN 0 ELSE m.fmon_n END) AS fmonn
+            , m.th_number AS thNumber
+            , m.th_number-(CASE WHEN m.fmon_n is NULL THEN 0 ELSE m.fmon_n END) AS waterMete
+            , ps.price1 AS price1
+            ,mi.抄表时间 AS thRTime
+            FROM ha_meter m
+            LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid
+            LEFT JOIN ha_pricestandard ps ON mi.pricestand_id=ps.pricestand_id
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_whyw"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , current_date::varchar AS defaultThree
+            , mi.最近度数 AS thNumber
+            , '0' AS defaultOne
+            ,mi.抄表时间 AS thRTime
+            , to_char(Now(),'yyyy-MM-dd hh24:mm:ss') AS defaultFour
+            , #{params.operatorCode} AS defaultTwo
+            , '' AS emptyStr
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_ynsw"'>
+            SELECT mi.meterid AS meterId
+            ,'' AS emptyStr
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            ,'水表' AS defaultFive
+            , mi.表号 AS meterNumber
+            , mi.最近度数 AS thNumber
+            ,mi.抄表时间 AS thRTime
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_bnss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.用户地址 AS userDs
+            , mi.表号 AS meterNumber
+            , CASE WHEN Left(c.description, 5)='KT410' THEN c.centorno ELSE c.centorid::varchar END AS topEquipment
+            , mi.最近度数 AS thNumber
+            , '15' AS defaultOne
+            , mi.状态 AS state
+            ,'正常抄读' AS defaultTwo
+            ,'00' AS defaultThree
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_centor c ON mi.centorid=c.id
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_dzss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            , m.fmon_n AS fmonn
+            , mi.最近度数 AS thNumber
+            ,mi.抄表时间 AS thRTime
+            ,'1' AS defaultOne
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_meter m ON m.meterid=mi.meterid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_xtss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            ,to_char(current_date,'yyyy.mm') AS defaultOne
+            ,mi.抄表时间 AS thRTime
+            , mi.最近度数 AS thNumber
+            ,'0' AS defaultTwo
+            ,'' AS emptyStr
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_meter m ON m.meterid=mi.meterid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_hjss"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , CASE WHEN length(mi.表号::text) &lt; 12 THEN ('10'||Right('000000000'||mi.表号::varchar, 10))::bigint ELSE mi.表号 END AS meterNumber
+            ,'1' AS defaultOne
+            , mi.最近度数 AS thNumber
+            ,mi.抄表时间 AS thRTime
+            ,'' AS emptyStr
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_meter m ON m.meterid=mi.meterid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_scsy"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.表号 AS meterNumber
+            ,mi.抄表时间 AS thRTime
+            , mi.最近度数 AS thNumber
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_meter m ON m.meterid=mi.meterid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_scjdz"'>
+            SELECT mi.meterid AS meterId
+            , mi.表号 AS meterNumber
+            , mi.最近度数 AS thNumber
+            ,mi.抄表时间 AS thRTime
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            ,'' AS emptyStr
+            , '1'||Right('0000000'||mi.用户号, 7) AS defaultOne
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_meter m ON m.meterid=mi.meterid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_hlyb"'>
+            SELECT mi.meterid AS meterId
+            , mi.用户号 AS userNo
+            , mi.最近度数 AS thNumber
+            ,mi.抄表时间 AS thRTime
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            , mi.表号 AS meterNumber
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_meter m ON m.meterid=mi.meterid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_fswx"'>
+            SELECT mi.meterid AS meterId
+            , mi.表号 AS meterNumber
+            , mi.deviceid AS deviceId
+            , mi.最近度数 AS thNumber
+            ,mi.抄表时间 AS thRTime
+            ,mi.状态 AS state
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_meter m ON m.meterid=mi.meterid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_gdsg"'>
+            SELECT mi.meterId
+            , mi.小区名 AS areaName
+            ,b.name AS bname
+            ,r.name AS name
+            ,mi.用户名 AS userName
+            ,mi.用户号 AS userNo
+            ,mi.centorno AS centorNo
+            ,mi.状态 AS state
+            ,mi.抄表时间 AS thRTime
+            ,'' AS defaultOne
+            FROM hav_meterinfo mi
+            LEFT JOIN ha_building b on mi.buildingid = b.buildingid
+            LEFT JOIN ha_room r on mi.roomid = r.roomid
+            LEFT JOIN ha_area a on mi.areaid = a.areaid
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_lclxgss"'>
+            SELECT mi.meterId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            ,mi.用户地址 AS userDs
+            , mi.本期用量 AS thNumberTwo
+            ,mi.最近度数 AS thNumber
+            ,to_char((case when mi.状态 = '建档' then 0 when is_meter_err_state(mi.状态) then 7 when position(mi.状态 in '正常,正确,集中器无返回,关阀,修改,已更正,已更换,采集器无返回') > 0  then 26 else null end),'fm99999999') AS state
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        <if test='params.showListType == "sys_ahlass"'>
+            SELECT mi.meterId
+            , mi.用户号 AS userNo
+            ,mi.最近度数 AS thNumber
+            ,mi.抄表时间 AS thRTime
+            FROM hav_meterinfo mi
+            WHERE mi.meterid IS NOT NULL
+        </if>
+        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER ))
+        </if>
+        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            and Left(mi.areaNo, 1) = #{params.nodeIds}
+            <if test=" params.monthType != null and params.monthType != '' ">
+                AND mi.ds=#{params.monthType}
+            </if>
+        </if>
+        ORDER BY mi.用户号
+    </select>
+
     <select id="selectReadResult" resultMap="havMeterinfoMap" parameterType="java.util.Map">
         SELECT
         t1.itemId AS itemId
@@ -36,34 +407,34 @@
         , t1.lfTime
         FROM hav_meterinfo mi
         LEFT JOIN (
-            SELECT rc1.itemid AS itemId
-            , rc1.meterid AS meterId
-            , rc1.th_number AS thNumber
-            , rc1.lf_number AS lfNumber
-            , rc1.delta AS delta
-            , rc1.state AS state
-            , rc1.th_time AS thTime
-            ,rc1.lf_time AS lfTime
-            FROM ha_records rc1
-            WHERE rc1.cmdid IN <foreach item="id" index="index" collection="cmdids"
-                                        open="(" separator="," close=")">
-                                ${id}
-                            </foreach>
-            UNION ALL
-            SELECT er1.itemid AS itemId
-            , er1.meterid AS meterId
-            , er1.n AS thNumber
-            , 0 AS lfNumber
-            , 0 AS delta
-            , er1.state AS state
-            , er1.readtime AS thTime
-            , null AS lfTime
-            FROM ha_errRecord er1
-            WHERE er1.cmdid IN <foreach item="id" index="index" collection="cmdids"
-                                        open="(" separator="," close=")">
-                                ${id}
-                            </foreach>)
-            t1 ON t1.meterId=mi.meterid
+        SELECT rc1.itemid AS itemId
+        , rc1.meterid AS meterId
+        , rc1.th_number AS thNumber
+        , rc1.lf_number AS lfNumber
+        , rc1.delta AS delta
+        , rc1.state AS state
+        , rc1.th_time AS thTime
+        ,rc1.lf_time AS lfTime
+        FROM ha_records rc1
+        WHERE rc1.cmdid IN <foreach item="id" index="index" collection="cmdids"
+                                    open="(" separator="," close=")">
+        ${id}
+    </foreach>
+        UNION ALL
+        SELECT er1.itemid AS itemId
+        , er1.meterid AS meterId
+        , er1.n AS thNumber
+        , 0 AS lfNumber
+        , 0 AS delta
+        , er1.state AS state
+        , er1.readtime AS thTime
+        , null AS lfTime
+        FROM ha_errRecord er1
+        WHERE er1.cmdid IN <foreach item="id" index="index" collection="cmdids"
+                                    open="(" separator="," close=")">
+        ${id}
+    </foreach>)
+        t1 ON t1.meterId=mi.meterid
         where 1=1
         <if test=" cmdName == '抄收区域' ">
             and mi.areaid IN (
@@ -72,11 +443,10 @@
         </if>
         <if test=" cmdName == '抄收小区' ">
             and mi.areaid IN  <foreach item="id" index="index" collection="ids"
-                                  open="(" separator="," close=")">
-                          ${id}
-                    </foreach>
+                                       open="(" separator="," close=")">
+            ${id}
+        </foreach>
         </if>
         ORDER BY mi.用户地址,mi.用户号
     </select>
-
 </mapper>

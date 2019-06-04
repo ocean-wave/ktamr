@@ -1,5 +1,6 @@
 package com.ktamr.service.impl;
 
+import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.mapper.HavMeterinfoMapper;
 import com.ktamr.service.HavMeterinfoService;
@@ -49,5 +50,10 @@ public class HavMeterinfoServiceImpl implements HavMeterinfoService {
             map.put("ids", parms.getParams().get("ids").toString());
         }
         return havMeterinfoMapper.selectReadResult(map);
+    }
+
+    @Override
+    public List<HavMeterinfo> selectThirdParty(HavMeterinfo havMeterinfo) {
+        return havMeterinfoMapper.selectThirdParty(havMeterinfo);
     }
 }

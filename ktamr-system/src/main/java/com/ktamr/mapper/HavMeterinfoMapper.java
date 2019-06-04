@@ -1,5 +1,6 @@
 package com.ktamr.mapper;
 
+import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HavMeterinfo;
 
 import java.util.List;
@@ -11,5 +12,7 @@ import java.util.Map;
 public interface HavMeterinfoMapper {
 
     public List<HavMeterinfo> selectReadResult(Map<String,Object> parms);
+
+    public List<HavMeterinfo> selectThirdParty(HavMeterinfo havMeterinfo);
 
 }

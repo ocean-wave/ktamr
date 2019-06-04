@@ -43,8 +43,6 @@ public interface HaMeterService {
      */
     public List<HaMeter> selectNotok(HaMeter params);
 
-    public List<HaMeter> selectThirdParty(HaMeter haMeter);
-
     public List<HaMeter> selectRecordByHand(HaMeter haMeter);
 
     public Integer updateMeter(HaMeter haMeter);

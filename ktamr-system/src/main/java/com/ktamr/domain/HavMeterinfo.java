@@ -28,13 +28,76 @@ public class HavMeterinfo extends BaseEntity {
     private String userDs;
     private double thNumber;
     private double lfNumber;
-    private double sNumber;
+    private double snumber;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date thRTime;
     private String lfTime;
     private String state;
 
     private HaRecords haRecords;
+    private HaRoom haRoom;
+    private HaFreeze haFreeze;
+    private HaCustom haCustom;
+    private HaMeter haMeter;
+    private HaPricestandard haPricestandard;
+    private HaBuilding haBuilding;
+
+    private String defaultOne;
+    private String defaultTwo;
+    private String defaultThree;
+    private String defaultFour;
+    private String defaultFive;
+    private String emptyStr;
+    private Integer waterMete;
+    private String topEquipment;
+
+    public HaBuilding getHaBuilding() {
+        return haBuilding;
+    }
+
+    public void setHaBuilding(HaBuilding haBuilding) {
+        this.haBuilding = haBuilding;
+    }
+
+    public HaMeter getHaMeter() {
+        return haMeter;
+    }
+
+    public void setHaMeter(HaMeter haMeter) {
+        this.haMeter = haMeter;
+    }
+
+    public HaPricestandard getHaPricestandard() {
+        return haPricestandard;
+    }
+
+    public void setHaPricestandard(HaPricestandard haPricestandard) {
+        this.haPricestandard = haPricestandard;
+    }
+
+    public HaCustom getHaCustom() {
+        return haCustom;
+    }
+
+    public void setHaCustom(HaCustom haCustom) {
+        this.haCustom = haCustom;
+    }
+
+    public HaFreeze getHaFreeze() {
+        return haFreeze;
+    }
+
+    public void setHaFreeze(HaFreeze haFreeze) {
+        this.haFreeze = haFreeze;
+    }
+
+    public HaRoom getHaRoom() {
+        return haRoom;
+    }
+
+    public void setHaRoom(HaRoom haRoom) {
+        this.haRoom = haRoom;
+    }
 
     public HaRecords getHaRecords() {
         return haRecords;
@@ -212,14 +275,6 @@ public class HavMeterinfo extends BaseEntity {
         this.lfNumber = lfNumber;
     }
 
-    public double getsNumber() {
-        return sNumber;
-    }
-
-    public void setsNumber(double sNumber) {
-        this.sNumber = sNumber;
-    }
-
     public String getLfTime() {
         return lfTime;
     }
@@ -234,5 +289,77 @@ public class HavMeterinfo extends BaseEntity {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public double getSnumber() {
+        return snumber;
+    }
+
+    public void setSnumber(double snumber) {
+        this.snumber = snumber;
+    }
+
+    public String getDefaultOne() {
+        return defaultOne;
+    }
+
+    public void setDefaultOne(String defaultOne) {
+        this.defaultOne = defaultOne;
+    }
+
+    public String getEmptyStr() {
+        return emptyStr;
+    }
+
+    public void setEmptyStr(String emptyStr) {
+        this.emptyStr = emptyStr;
+    }
+
+    public Integer getWaterMete() {
+        return waterMete;
+    }
+
+    public void setWaterMete(Integer waterMete) {
+        this.waterMete = waterMete;
+    }
+
+    public String getTopEquipment() {
+        return topEquipment;
+    }
+
+    public void setTopEquipment(String topEquipment) {
+        this.topEquipment = topEquipment;
+    }
+
+    public String getDefaultTwo() {
+        return defaultTwo;
+    }
+
+    public void setDefaultTwo(String defaultTwo) {
+        this.defaultTwo = defaultTwo;
+    }
+
+    public String getDefaultThree() {
+        return defaultThree;
+    }
+
+    public void setDefaultThree(String defaultThree) {
+        this.defaultThree = defaultThree;
+    }
+
+    public String getDefaultFour() {
+        return defaultFour;
+    }
+
+    public void setDefaultFour(String defaultFour) {
+        this.defaultFour = defaultFour;
+    }
+
+    public String getDefaultFive() {
+        return defaultFive;
+    }
+
+    public void setDefaultFive(String defaultFive) {
+        this.defaultFive = defaultFive;
     }
 }

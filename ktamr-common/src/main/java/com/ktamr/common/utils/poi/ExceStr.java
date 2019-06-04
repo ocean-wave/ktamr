@@ -1,6 +1,7 @@
 package com.ktamr.common.utils.poi;
 
 import com.ktamr.common.config.Global;
+import com.ktamr.common.utils.DateUtils;
 
 import java.io.File;
 import java.util.UUID;
@@ -25,6 +26,11 @@ public class ExceStr {
     {
         filename = UUID.randomUUID().toString() + "_" + filename+".txt";
         return filename;
+    }
+
+    public static String getFileName()
+    {
+        return UUID.randomUUID().toString() + "_" + "kt-table"+ DateUtils.dateTimeNow()+".txt";
     }
 
     /**

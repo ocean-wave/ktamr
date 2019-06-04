@@ -90,11 +90,6 @@ public class HaMeterServiceImpl implements HaMeterService {
     }
 
     @Override
-    public List<HaMeter> selectThirdParty(HaMeter haMeter) {
-        return haMeterMapper.selectThirdParty(haMeter);
-    }
-
-    @Override
     public List<HaMeter> selectRecordByHand(HaMeter haMeter) {
         return haMeterMapper.selectRecordByHand(haMeter);
     }
