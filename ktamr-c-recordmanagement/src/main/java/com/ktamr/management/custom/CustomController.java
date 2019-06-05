@@ -114,8 +114,17 @@ public class CustomController extends BaseController {
 
     @RequestMapping("/AddHaCustom")
     @ResponseBody
-    public Object addHaCustom(HaCustom haCustom){
+    public Object addHaCustom(HaCustom haCustom,Integer areaId,Integer buildingId,Integer roomId){
         haCustom.setBalance(0);
+        HaArea haArea = new HaArea();
+        haArea.setAreaId(areaId);
+        HaBuilding haBuilding = new HaBuilding();
+        haBuilding.setBuildingId(buildingId);
+        HaRoom haRoom = new HaRoom();
+        haRoom.setRoomId(roomId);
+        haCustom.setHaArea(haArea);
+        haCustom.setHaBuilding(haBuilding);
+        haCustom.setHaRoom(haRoom);
         haCustom.setCreateTime(new Date());
         haCustom.setModifyTime(new Date());
         Integer custom = haCustomService.addHaCustom(haCustom);

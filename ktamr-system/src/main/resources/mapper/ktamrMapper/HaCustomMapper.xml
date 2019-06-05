@@ -44,6 +44,9 @@
 
     <select id="HaCustomList" resultMap="HaCustomMap">
         SELECT u.custid as custId,
+        a.areaid as areaId,
+        b.buildingid as buildingId,
+        r.roomid as roomId,
         u.custno as custNo,
         u.name as name,
         u.sex as sex,
