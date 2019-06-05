@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 @Controller
 public class indexContrller {
@@ -58,17 +57,5 @@ public class indexContrller {
 
         }
         return "原密码错误";
-    }
-
-    /**
-     * 用户点退出的时候
-     * @param session
-     * @return
-     */
-    @RequestMapping("/logout")
-    public String  logout(HttpSession  session){
-        session.invalidate();    // 获取session信息，使session信息失效，直接返回登录界面，并连接跳转。
-
-        return "redirect:/login";//返回登录界面
     }
 }
