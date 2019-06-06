@@ -1,4 +1,4 @@
-package com.ktamr.common.utils.poi;
+package com.ktamr.common.utils.export;
 
 import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.StringUtils;
@@ -13,7 +13,7 @@ public class ExportTextUtil {
         OutputStream out = null;
         PrintWriter pw = null;
         try {
-            out = new FileOutputStream(ExceStr.getAbsoluteFile(fileName));
+            out = new FileOutputStream(ExportStr.getAbsoluteFile(fileName));
             pw = new PrintWriter(out);
             StringBuffer sb = new StringBuffer();
             for (Object obj : list) {

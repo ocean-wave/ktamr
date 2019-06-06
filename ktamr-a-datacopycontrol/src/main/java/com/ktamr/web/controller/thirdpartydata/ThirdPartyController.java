@@ -4,8 +4,8 @@ import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.ServletUtils;
-import com.ktamr.common.utils.poi.ExceStr;
-import com.ktamr.common.utils.poi.ExportTextUtil;
+import com.ktamr.common.utils.export.ExportStr;
+import com.ktamr.common.utils.export.ExportTextUtil;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HavMeterinfoService;
@@ -30,7 +30,6 @@ public class ThirdPartyController extends BaseController {
     @Autowired
     private HaOperatorService haOperatorService;
 
-
     @GetMapping("/party")
     public String party(ModelMap mmap){
         String id = (String) ServletUtils.getSession().getAttribute("operatorCode");
@@ -46,12 +45,11 @@ public class ThirdPartyController extends BaseController {
         return getDataTable(listMeterinfo);
     }
 
-
     @PostMapping("/exportToTXT")
     @ResponseBody
     public AjaxResult exportToTXT(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
         List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
-        String fileName = ExceStr.getFileName();
+        String fileName = ExportStr.getFileName();
         ExportTextUtil exportTextUtil = new ExportTextUtil();
         try {
             exportTextUtil.writeToTxt(fileName,listMeterinfo,name);
@@ -61,8 +59,6 @@ public class ThirdPartyController extends BaseController {
             return AjaxResult.error(e.getMessage());
         }
     }
-
-
 
     private String getFileName(String showListType){
         String fileName = "kt-table"+ DateUtils.dateTimeNow();

@@ -1,4 +1,4 @@
-package com.ktamr.common.utils.poi;
+package com.ktamr.common.utils.export;
 
 import com.ktamr.common.config.Global;
 import com.ktamr.common.utils.DateUtils;
@@ -7,11 +7,11 @@ import java.io.File;
 import java.util.UUID;
 
 /**
- * Excel String类
+ * 导出 String类
  *
  * @author ktamr
  */
-public class ExceStr {
+public class ExportStr {
 
     /**
      * 编码文件名

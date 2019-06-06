@@ -45,7 +45,7 @@
 	this.excelButtonConfig = {
 		caption: "Excel",
 		buttonicon: "ui-icon-arrowthickstop-1-s",
-		onClickButton: function(){exportToExcel(url,GridId);},
+		onClickButton: function(){ $.ktamr.exportToExcel(url,GridId);},
 		position: "first",
 		title: "导出Excel",
 		cursor: "pointer",
@@ -138,7 +138,6 @@ function setGridsSize(op) {
 		  $(this).setGridHeight(gridHeight);
 		}
 	});
-
 }
 function resizeGrids(op) {
 	var formId = "jqgridForm";
@@ -546,94 +545,103 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 	return styleStr;
 }
 
-function exportToExcel(url,GridId)
-{
-	var grid = $("#"+GridId);
-	$.ktamr.loading("正在导出数据，请稍后...");
-	url = url.substring(0,url.lastIndexOf("/"));
-	var reg=/[\u4E00-\u9FA5]/;
-	var pdArray =grid.jqGrid("getGridParam", "postData");
-	var colModel = grid.jqGrid("getGridParam", "colModel");
-	var colNames = grid.jqGrid("getGridParam", "colNames");
-	var excelLabel = new Array();
-	var excelName = new Array();
-	var excelWidth = new Array();
-	var excelDataFormat = new Array();
-	var excelAlign = new Array();
-	for(var i = 0;i<colModel.length;i++){
-		if(!colModel[i].hidden) {
-			if (colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
-				excelLabel.push(colNames[i]);
-				excelWidth.push(colModel[i].width)
-				excelName.push(colModel[i].name);
-			}
-			if (colNames == null && reg.exec(colModel[i].label) && !reg.exec(colModel[i].name) && colNames[i] != "操作" && colNames[i] != "操作结果") {
-				excelLabel.push(colModel[i].label);
-				excelWidth.push(colModel[i].width);
-				excelName.push(colModel[i].name);
-			}
-			if (colModel[i].align != undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
-				excelAlign.push(colModel[i].align);
-			} else if (colModel[i].align == undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
-				excelAlign.push("left");
-			}
-			if (colModel[i].dataFormat != undefined) {
-				excelDataFormat.push(colModel[i].dataFormat);
-			}
-		}
-	}
-	pdArray['excelLabel'] = excelLabel;
-	pdArray['excelWidth'] = excelWidth;
-	pdArray['excelName'] = excelName;
-	pdArray['excelDataFormat'] = excelDataFormat;
-	pdArray['excelAlign'] = excelAlign;
-	$.ajax({
-		url:url+"/export",
-		type: "POST",
-		traditional :true,
-		data:pdArray,
-		success:function(result){
-			if (result.code == web_status.SUCCESS) {
-				var url = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
-				window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
-			}else{
-				$.ktamr.alert(result.msg,modal_status.FAIL);
-			}
-			$.ktamr.closeloading();
-		}
-	});
-}
-
-function exportToTxt(pUrl, pData){
-	var colNames = $("#jqGrid").jqGrid("getGridParam", "colNames");
-	var colModel = $("#jqGrid").jqGrid("getGridParam", "colModel");
-	var name = new Array();
-	var reg=/[\u4E00-\u9FA5]/;
-	for(var i = 0;i<colNames.length;i++){
-		if(colNames != null && reg.exec(colNames[i])){
-			name.push(colModel[i].name)
-		}
-	}
-	pData["name"]=name;
-	$.ktamr.loading("正在导出数据，请稍后...");
-	$.ajax({
-		url: pUrl
-		,type: "POST"
-		,data: pData
-		,success: function(data){
-			if(data.code == "0"){
-				window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
-			}else{
-				$.ktamr.alert(result.msg,modal_status.FAIL);
-			}
-			$.ktamr.closeloading();
-		}
-	});
-}
-
 (function ($) {
 	$.extend({
 		ktamr: {
+			exportToExcel: function(url,GridId){
+				var grid = $("#"+GridId);
+				$.ktamr.loading("正在导出数据，请稍后...");
+				url = url.substring(0,url.lastIndexOf("/"));
+				var reg=/[\u4E00-\u9FA5]/;
+				var pdArray =grid.jqGrid("getGridParam", "postData");
+				var colModel = grid.jqGrid("getGridParam", "colModel");
+				var colNames = grid.jqGrid("getGridParam", "colNames");
+				var excelLabel = new Array();
+				var excelName = new Array();
+				var excelWidth = new Array();
+				var excelDataFormat = new Array();
+				var excelAlign = new Array();
+				for(var i = 0;i<colModel.length;i++){
+					if(!colModel[i].hidden) {
+						if (colNames != null && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+							excelLabel.push(colNames[i]);
+							excelWidth.push(colModel[i].width)
+							excelName.push(colModel[i].name);
+						}
+						if (colNames == null && reg.exec(colModel[i].label) && !reg.exec(colModel[i].name) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+							excelLabel.push(colModel[i].label);
+							excelWidth.push(colModel[i].width);
+							excelName.push(colModel[i].name);
+						}
+						if (colModel[i].align != undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+							excelAlign.push(colModel[i].align);
+						} else if (colModel[i].align == undefined && reg.exec(colNames[i]) && colNames[i] != "操作" && colNames[i] != "操作结果") {
+							excelAlign.push("left");
+						}
+						if (colModel[i].dataFormat != undefined) {
+							excelDataFormat.push(colModel[i].dataFormat);
+						}
+					}
+				}
+				pdArray['excelLabel'] = excelLabel;
+				pdArray['excelWidth'] = excelWidth;
+				pdArray['excelName'] = excelName;
+				pdArray['excelDataFormat'] = excelDataFormat;
+				pdArray['excelAlign'] = excelAlign;
+				$.ajax({
+					url:url+"/export",
+					type: "POST",
+					traditional :true,
+					data:pdArray,
+					success:function(result){
+						if (result.code == web_status.SUCCESS) {
+							var url = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+							window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+						}else{
+							$.ktamr.alert(result.msg,modal_status.FAIL);
+						}
+						$.ktamr.closeloading();
+					}
+				});
+			},
+			exportToTxt: function(pUrl, pData){
+				var grid = $("#jqGrid");
+				var colNames = grid.jqGrid("getGridParam", "colNames");
+				var colModel = grid.jqGrid("getGridParam", "colModel");
+				var name = new Array();
+				var reg=/[\u4E00-\u9FA5]/;
+				for(var i = 0;i<colNames.length;i++){
+					if(colNames != null && reg.exec(colNames[i])){
+						name.push(colModel[i].name)
+					}
+				}
+				pData["name"]=name;
+				$.ktamr.loading("正在导出数据，请稍后...");
+				$.ajax({
+					url: pUrl
+					,type: "POST"
+					,data: pData
+					,success: function(data){
+						if(data.code == "0"){
+							window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
+						}else{
+							$.ktamr.alert(result.msg,modal_status.FAIL);
+						}
+						$.ktamr.closeloading();
+					}
+				});
+			},
+			exportToDbf: function(pUrl, pData){
+				$.ktamr.loading("正在导出数据，请稍后...");
+				$.post(pUrl,pData,function(data){
+					if(data.code == "0"){
+						window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
+					}else{
+						$.ktamr.alert(result.msg,modal_status.FAIL);
+					}
+					$.ktamr.closeloading();
+				});
+			},
 			loading: function (message) {
 				$.blockUI({message: '<div class="loaderbox"><div class="loading-activity"></div> ' + message + '</div>'});
 			},

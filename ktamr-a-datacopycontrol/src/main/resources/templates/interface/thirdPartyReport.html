@@ -716,18 +716,12 @@
 			var btnTitle = $(this).data("title");
 			var showListType = $("#showListType").val();
 			var url="";
-			var data={};
+			var postData = {};
 			var nodeType=$("#nodeType").val();
 			var nodeIds=$("#nodeIds").val();
 			if(btnTitle == "查询")
 				return;
-			if(btnTitle == "DBF文件") {
-				url = "/thirdpartydata/exportToDBF";
-
-			}else if(btnTitle == "TXT文件"){
-				url = "/thirdpartydata/exportToTXT";
-				var fileName = "";
-				postData = {};
+			if(tnTitle == "DBF文件" || btnTitle == "TXT文件"){
 				if(nodeIds == ""){
 					layer.msg("请选择区域", { icon: 5 });
 					return false;
@@ -737,6 +731,14 @@
 						layer.msg("请选择月份", { icon: 5 });
 						return false;
 					}
+				}
+			}
+			if(btnTitle == "DBF文件"){
+				url = "/thirdpartydata/exportToDbf";
+
+			}else if(btnTitle == "TXT文件"){
+				url = "/thirdpartydata/exportToTXT";
+				if(showListType == "sys_tzss"){
 					postData = {
 						"params[monthType]": $("#monthTypeId").val(),
 						"params[queryMonth]": $("#queryMonth").val()
@@ -745,15 +747,12 @@
 				postData["params[showListType]"]=showListType;
 				postData["params[nodeType]"]=nodeType;
 				postData["params[nodeIds]"]=nodeIds;
-				exportToTxt(url, postData);
-				return false;
+				$.ktamr.exportToTxt(url, postData);
 			}else if(btnTitle == "EXCEL文件"){
 
-			}
-			else if(btnTitle == "数据上传" && showListType == "sys_jrss"){
+			}else if(btnTitle == "数据上传" && showListType == "sys_jrss"){
 				var _layerSize = ['500px', '320px'];
 				_myLayui.showLayer("用户抄表数据导入导出","./JuRong/users_upload.asp", "", _layerSize);
-				return false;
 			}
 		});
 	});

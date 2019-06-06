@@ -1,4 +1,4 @@
-package com.ktamr.common.utils.poi;
+package com.ktamr.common.utils.export;
 
 import com.ktamr.common.exception.BusinessException;
 import com.ktamr.common.core.domain.AjaxResult;
@@ -144,9 +144,9 @@ public class ExcelUtilTwo {
 
     private AjaxResult wbWrite(){
         OutputStream out = null;
-        String filename = ExceStr.encodingFilename(this.sheetName);
+        String filename = ExportStr.encodingFilename(this.sheetName);
         try {
-            out = new FileOutputStream(ExceStr.getAbsoluteFile(filename));
+            out = new FileOutputStream(ExportStr.getAbsoluteFile(filename));
             wb.write(out);
             return AjaxResult.success(filename);
         } catch (Exception e) {
