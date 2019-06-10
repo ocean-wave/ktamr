@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
-public class ExportTextUtil {
+public class ExportTxtUtil {
     public void writeToTxt(String fileName, List<?> list,String[] name) throws IOException {//设置响应的字符集
         OutputStream out = null;
         PrintWriter pw = null;

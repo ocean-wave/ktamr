@@ -63,9 +63,7 @@ myJqGrid.prototype.unloadGrid = function(){
 }
 
 myJqGrid.prototype.drawGrid = function(){
-
 	$("#"+this.GridId).jqGrid(this.jqdefaultGridConfig);
-
 }
 myJqGrid.prototype.drawGridPager = function(){
 

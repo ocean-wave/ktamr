@@ -33,6 +33,20 @@ public class ExportStr {
         return UUID.randomUUID().toString() + "_" + "kt-table"+ DateUtils.dateTimeNow()+".txt";
     }
 
+    private String getFileName(String showListType){
+        String fileName = "kt-table"+ DateUtils.dateTimeNow();
+        if(showListType.equals("sys_rass")){
+            fileName = "融安水司";
+        }else if(showListType.equals("sys_tzss")){
+            fileName = "泰州水司";
+        }else if(showListType.equals("sys_scsy")){
+            fileName = "三川邵阳";
+        }else if(showListType.equals("sys_scjdz")){
+            fileName = "三川景德镇";
+        }
+        return fileName;
+    }
+
     /**
      * 获取下载路径
      *
