@@ -129,7 +129,7 @@ WHERE (SELECT Count(*) FROM ha_monthBTime WHERE areaid=#{areaId})=0 limit 1
 					   LEFT JOIN ha_metertype mt ON p.metertypeid = mt.metertypeid
 		<trim prefix="where" prefixOverrides="and | or">
 		<if test="billId != null and billId != ''">
-			and POSITION('${billId}' IN billid)>0
+			and  billid='${billId}'
 		</if>
 		<if test="billIdsList  != null and billIdsList.size()>0">
 			and billid in

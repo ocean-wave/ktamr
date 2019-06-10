@@ -6,7 +6,7 @@
 #服务配置
 server:
   #访问端口号80
-  port: 8880
+  port: 8888
   servlet:
     #配置项目的访问路径(默认是:/)
     context-path: /
@@ -23,6 +23,8 @@ spring:
   profiles:
     #配置druid路径
     active: druid
+    #配置8884另一个数据库
+    #active: other
     #配置thymeleaf前端模板
   thymeleaf:
     cache: false
