@@ -25,37 +25,40 @@ public class HaAreaController extends BaseController {
     private HaAreaService haAreaService;
     @Resource
     private HaRngService haRngService;
+
     /**
      * 打开小区结算的页面+并进行小区名字的赋值
+     *
      * @return
      */
     @RequestMapping("/area/area_list.html")
-    public String showArea_list( Model model){
+    public String showArea_list(Model model) {
 
-       // List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
+        // List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
         List<HaRgn> haRgns = haRngService.selectBigNameB();
-        if(haRgns!=null){
-            model.addAttribute("haRgnsListName",haRgns);
+        if (haRgns != null) {
+            model.addAttribute("haRgnsListName", haRgns);
             return "area/area_list.html";
         }
-        return  null;
+        return null;
     }
-     /**
-     *
+
+    /**
      * 分页查询+条件查询
+     *
      * @param haArea
      * @return
      */
     @RequestMapping("/area/showList")
     @ResponseBody
-    public Map<String ,Object> showList(HaArea haArea, String aareaid
-    ){
+    public Map<String, Object> showList(HaArea haArea, String aareaid
+    ) {
         startPage();
         String s1 = aareaid;//获取areaid  小区名字
-        if(s1!=null && s1!=""){//判断小区名字如果没有赋值的话就不用查询
+        if (s1 != null && s1 != "") {//判断小区名字如果没有赋值的话就不用查询
             String[] split = s1.split(",");
             List<String> idsList = new ArrayList<String>();
-            for(int i=0;i<split.length;i++){
+            for (int i = 0; i < split.length; i++) {
                 idsList.add(split[i]);
             }
             haArea.setIdsList2(idsList);
@@ -67,51 +70,52 @@ public class HaAreaController extends BaseController {
 
     /**
      * 导出小区表信息
+     *
      * @param haArea
      * @param excelUtilTwo
      * @return
      */
     @PostMapping("/area/export")
     @ResponseBody
-    public AjaxResult export(HaArea haArea, ExcelUtilTwo excelUtilTwo)
-    {
+    public AjaxResult export(HaArea haArea, ExcelUtilTwo excelUtilTwo) {
         //这里保证查询的是全部的数据
         List<HaArea> list = haAreaService.selectHaAreaList(haArea);
-        if (list!=null){
-           return excelUtilTwo.init(list, "小区表数据");
+        if (list != null) {
+            return excelUtilTwo.init(list, "小区表数据");
         }
         return null;
     }
 
     /**
      * 冻结小区
+     *
      * @param haArea
      * @return
      */
     @RequestMapping("/RowEditing")
     @ResponseBody
-    public String RowRditing(HaArea haArea,String OpNumber){
-        String switchAreaFreezeRead="false";
+    public String RowRditing(HaArea haArea, String OpNumber) {
+        String switchAreaFreezeRead = "false";
 
-        switch(OpNumber) {
+        switch (OpNumber) {
             case "1":
                 break;
             case "2":
                 break;
             case "3":
                 //更改值，在查询的时候搞一波
-                if(haArea.getReserved().equals("true")){
+                if (haArea.getReserved().equals("true")) {
                     haArea.setReserved("Y");
-                }else {
+                } else {
                     haArea.setReserved("N");
                 }
                 //返回相应的记录数
                 Integer selectCountareaid = haAreaService.selectCountareaid(haArea);
-                if(selectCountareaid>0){
+                if (selectCountareaid > 0) {
                     //更新状态一波
                     Integer updateHaArea = haAreaService.updateHaArea(haArea);
-                    if(updateHaArea>0){
-                        switchAreaFreezeRead="true";
+                    if (updateHaArea > 0) {
+                        switchAreaFreezeRead = "true";
                     }
                 }
                 break;
@@ -129,39 +133,39 @@ public class HaAreaController extends BaseController {
      * @return
      */
     @RequestMapping("/area_mng")
-    public String area_mng(HaArea haArea,Model model,String ids){
+    public String area_mng(HaArea haArea, Model model, String ids) {
 
-        int QuanJu=0;
-        switch (haArea.getCmdName()){
+        int QuanJu = 0;
+        switch (haArea.getCmdName()) {
             case "结算上传":
                 String s1 = ids;//ids  小区名字
-                if(s1!=null && s1!=""){//判断小区名字如果没有赋值的话就不用查询
+                if (s1 != null && s1 != "") {//判断小区名字如果没有赋值的话就不用查询
                     String[] split = s1.split(",");
                     List<Integer> idsList = new ArrayList<Integer>();
-                    for(int i=0;i<split.length;i++){
+                    for (int i = 0; i < split.length; i++) {
                         idsList.add(Integer.valueOf(split[i]));
                     }
                     haArea.setIdsList(idsList);
                 }
                 //把第一个选中的赋值一波
                 haArea.setAreaId(haArea.getIdsList().get(0));
-                model.addAttribute("areaids",haArea.getAreaId());
-                model.addAttribute("cmdName",haArea.getCmdName());
+                model.addAttribute("areaids", haArea.getAreaId());
+                model.addAttribute("cmdName", haArea.getCmdName());
                 //点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字
                 HaArea selectHaAreaName = haAreaService.selectHaAreaName(haArea);
-                if(selectHaAreaName!=null){
-                    model.addAttribute("selectHaAreaName",selectHaAreaName);
-                    model.addAttribute("sumDate",new Date());
-                   QuanJu=1;
+                if (selectHaAreaName != null) {
+                    model.addAttribute("selectHaAreaName", selectHaAreaName);
+                    model.addAttribute("sumDate", new Date());
+                    QuanJu = 1;
                 }
 
                 break;
             case "2":
                 break;
-                default:
+            default:
         }
 
-        if(QuanJu>0){
+        if (QuanJu > 0) {
             return "area/area_mng.html";
         }
         return null;
@@ -169,10 +173,11 @@ public class HaAreaController extends BaseController {
 
     /**
      * 点击结算上传 没有选中小区编号
+     *
      * @return
      */
     @RequestMapping("/interface/interface_data_upload")
-    public String interface_data_upload(){
+    public String interface_data_upload() {
         return "area/interface_data_upload.html";
     }
 

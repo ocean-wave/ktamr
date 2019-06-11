@@ -721,7 +721,7 @@
 			var nodeIds=$("#nodeIds").val();
 			if(btnTitle == "查询")
 				return;
-			if(tnTitle == "DBF文件" || btnTitle == "TXT文件"){
+			if(btnTitle == "DBF文件" || btnTitle == "TXT文件"){
 				if(nodeIds == ""){
 					layer.msg("请选择区域", { icon: 5 });
 					return false;
@@ -733,26 +733,65 @@
 					}
 				}
 			}
-			if(btnTitle == "DBF文件"){
-				url = "/thirdpartydata/exportToDbf";
-
-			}else if(btnTitle == "TXT文件"){
-				url = "/thirdpartydata/exportToTXT";
+			if(btnTitle != "数据上传" && btnTitle != "接口数据上传") {
+				postData["params[showListType]"] = showListType;
+				postData["params[nodeType]"] = nodeType;
+				postData["params[nodeIds]"] = nodeIds;
 				if(showListType == "sys_tzss"){
 					postData = {
 						"params[monthType]": $("#monthTypeId").val(),
 						"params[queryMonth]": $("#queryMonth").val()
 					}
 				}
-				postData["params[showListType]"]=showListType;
-				postData["params[nodeType]"]=nodeType;
-				postData["params[nodeIds]"]=nodeIds;
-				$.ktamr.exportToTxt(url, postData);
+			}
+			if(btnTitle == "DBF文件"){
+				url = "/thirdpartydata/exportToDbf";
+				var dbfLabel = new Array();
+				var dbfWidth = new Array();
+				if(showListType == "sys_zjss"){
+					dbfLabel = ["USERNO","METERNO","DIZHI","READNUM","READDATE"];
+					dbfWidth = [20,20,20,20,20];
+				}
+				postData["dbfLabel"] = dbfLabel;
+				postData["dbfWidth"] = dbfWidth;
+				$.ktamr.exportTxtDbf(url, postData);
+			}else if(btnTitle == "TXT文件"){
+				url = "/thirdpartydata/exportToTxt";
+				$.ktamr.exportTxtDbf(url, postData);
 			}else if(btnTitle == "EXCEL文件"){
 
-			}else if(btnTitle == "数据上传" && showListType == "sys_jrss"){
-				var _layerSize = ['500px', '320px'];
-				_myLayui.showLayer("用户抄表数据导入导出","./JuRong/users_upload.asp", "", _layerSize);
+			}else if(btnTitle == "数据上传"){
+				if(showListType == "sys_jrss" || showListType == "sys_ahqj"){
+					var _layerSize = ['500px', '320px'];
+					_myLayui.showLayer("用户抄表数据导入导出","./JuRong/users_upload.asp", "", _layerSize);
+				}else if(showListType == "sys_dzss"){
+					var _layerSize = ['500px', '320px'];
+					_myLayui.showLayer("用户抄表数据导入导出","./DaZhu/users_upload.asp", "", _layerSize);
+				}
+			}else if(btnTitle == "接口数据上传"){
+				if(operatorLevel == "admin"){
+					var _layerSize = ['300px', '220px'];
+					_myLayui.showLayer("上传接口数据","./interface_data_upload.asp", "", _layerSize);
+					return false;
+				}else{
+					$.ajax({
+						url: get_cmdid_url
+						,data: {
+							centorid: 0
+							,cmd: "接口数据上传:"+operatorName
+						}
+						,type: "POST"
+						,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+						,async:true //异步请求
+						,success: function(data){
+							if(data=="ok"){
+								parent.layer.msg("执行成功！", {icon: 1});
+							}else{
+								layer.msg(data, {icon: 5});
+							}
+						}
+					});
+				}
 			}
 		});
 	});

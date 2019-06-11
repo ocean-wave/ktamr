@@ -2,10 +2,10 @@ package com.ktamr.web.controller.thirdpartydata;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
-import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.export.ExportDbfUtil;
 import com.ktamr.common.utils.export.ExportStr;
-import com.ktamr.common.utils.export.ExportTextUtil;
+import com.ktamr.common.utils.export.ExportTxtUtil;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HavMeterinfoService;
@@ -45,12 +45,12 @@ public class ThirdPartyController extends BaseController {
         return getDataTable(listMeterinfo);
     }
 
-    @PostMapping("/exportToTXT")
+    @PostMapping("/exportToTxt")
     @ResponseBody
-    public AjaxResult exportToTXT(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
+    public AjaxResult exportToTxt(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
         List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
-        String fileName = ExportStr.getFileName();
-        ExportTextUtil exportTextUtil = new ExportTextUtil();
+        String fileName = ExportStr.encodingFileTxtname();
+        ExportTxtUtil exportTextUtil = new ExportTxtUtil();
         try {
             exportTextUtil.writeToTxt(fileName,listMeterinfo,name);
             return AjaxResult.success(fileName);
@@ -60,17 +60,21 @@ public class ThirdPartyController extends BaseController {
         }
     }
 
-    private String getFileName(String showListType){
-        String fileName = "kt-table"+ DateUtils.dateTimeNow();
-        if(showListType.equals("sys_rass")){
-            fileName = "融安水司";
-        }else if(showListType.equals("sys_tzss")){
-            fileName = "泰州水司";
-        }else if(showListType.equals("sys_scsy")){
-            fileName = "三川邵阳";
-        }else if(showListType.equals("sys_scjdz")){
-            fileName = "三川景德镇";
+    @PostMapping("/exportToDbf")
+    @ResponseBody
+    public AjaxResult exportToDbf(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name
+                                                            ,@RequestParam( value = "dbfLabel[]") String[] dbfLabel
+                                                            ,@RequestParam( value = "dbfWidth[]") Integer[] dbfWidth){
+        List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
+        ExportDbfUtil exportDbfUtil = new ExportDbfUtil();
+        exportDbfUtil.setDbfLabel(dbfLabel);
+        exportDbfUtil.setDbfWidth(dbfWidth);
+        exportDbfUtil.setDbfName(name);
+        try {
+            return exportDbfUtil.init(listMeterinfo);
+        } catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error(e.getMessage());
         }
-        return fileName;
     }
 }

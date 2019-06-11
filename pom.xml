@@ -30,7 +30,7 @@
         <shiro.version>1.4.0</shiro.version>
         <commons.beanutils.version>1.9.3</commons.beanutils.version>
         <fastjson.version>1.2.7</fastjson.version>
-        <javadbf.version>1.9.2</javadbf.version>
+        <javadbf.version>1.9.4</javadbf.version>
     </properties>
 
     <dependencyManagement>

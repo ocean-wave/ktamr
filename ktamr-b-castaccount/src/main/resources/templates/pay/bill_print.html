@@ -2,12 +2,18 @@
 <html lang="en">
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head title="打印缴费单" th:include="include :: header">
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
 </head>
-<body>
-<body style="text-align:center;margin-top:20px;">
 
-<div  th:each="HaPaylog  : ${haPaylogList}" >
-<table  border="0" width="640" align="center">
+<body  style="text-align:center;margin-top:20px;margin-left: 20%">
+
+
+    <div   th:each="HaPaylog  : ${haPaylogList}" >
+    <table  border="0" width="640" align="center">
     <tr>
         <td colspan=2 height=24><b th:text="'缴费单[' + ${HaPaylog.billId} + ']' "></b></td>
     </tr>
@@ -62,7 +68,7 @@
     </tr>
 </table>
 </div>
-    <p><p>
+
 
 <table style="border:0px; width:640px;" align="center">
     <tr>
@@ -74,5 +80,6 @@
 </table>
 
 <div th:include="include :: footer"></div>
+
 </body>
 </html>

@@ -191,7 +191,7 @@
         <id column="areaid" property="areaId" />
         <result column="areaNo" property="areaNo"/>
         <result column="registeredNo" property="registeredNo"/>
-        <result column="name" property="name"/>
+        <result column="haName" property="haName"/>
         <result column="addr" property="addr"/>
         <result column="ds" property="ds"/>
         <result column="reserved" property="reserved"/>
@@ -214,13 +214,13 @@
 
     <!--查询小区表的名字 填充条件查询的下拉框的值-->
     <select id="BselectHareaNameList" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
-        select areaid, name from ha_area
+        select areaid, name as haName from ha_area
     </select>
 
     <!--查询小区表+分页+动态查询 -->
     <select id="BselectHaAreaList"  resultMap="HaAreaMap">
         select * from (SELECT
-        a.areaid AS areaid, a.areaNo AS areaNo, a.registeredNo AS registeredNo, a.name AS name,
+        a.areaid AS areaid, a.areaNo AS areaNo, a.registeredNo AS registeredNo, a.name AS haName,
         n.name||'-'||a.addr AS addr, CASE WHEN a.DS='D' THEN '[双月]' WHEN a.DS='S' THEN '[单月]' ELSE '' END AS ds,
         COUNT(m.meterid) AS meterId,
         SUM(m.TH_NUMBER) AS thNumber,
@@ -258,9 +258,9 @@
         </trim>
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
         to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n
-        ) t1
+        ) t
         <!--多条件查询-->
-        ${multipleConditions}
+        ${HaArea.multipleConditions}
     </select>
 
     <!--点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字-->

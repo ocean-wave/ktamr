@@ -70,6 +70,8 @@
              and (p.billid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
          </if>
          ) t
+         <!--多条件查询-->
+         ${HaPaylog.multipleConditions}
 </select>
 
 
@@ -145,13 +147,15 @@
             and mi.areaid in ('${HaPaylog.areaId}')
         </if>
         <if test="HaPaylog.keyWord!=null and HaPaylog.keyWord!=''">
-            and (mi.custid = '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
+            and (mi.custid like '${HaPaylog.keyWord}' or mi.用户号 like '%${HaPaylog.keyWord}%' or mi.用户名 like '%${HaPaylog.keyWord}%')
 
         </if>
 		AND ps.meterTypeId = mt.meterTypeId
 
         ORDER BY mi.用户号, mi.用户地址
         ) t
+        <!--多条件查询-->
+        ${HaPaylog.multipleConditions}
     </select>
 
     <!-- 点击打印缴费单时进行查询的map映射   -->
