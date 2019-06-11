@@ -22,16 +22,16 @@ public class ExportStr {
         return filename;
     }
 
-    public static String encodingFileTxTname(String filename)
+    public static String encodingFileTxtname()
     {
-        filename = UUID.randomUUID().toString() + "_" + filename+".txt";
-        return filename;
+        return UUID.randomUUID().toString() + "_"+ "kt-table"+ DateUtils.dateTimeNow()+".txt";
     }
 
-    public static String getFileName()
+    public static String encodingFileDbfname()
     {
-        return UUID.randomUUID().toString() + "_" + "kt-table"+ DateUtils.dateTimeNow()+".txt";
+        return UUID.randomUUID().toString() + "_"+ "kt-table"+ DateUtils.dateTimeNow()+".dbf";
     }
+
 
     private String getFileName(String showListType){
         String fileName = "kt-table"+ DateUtils.dateTimeNow();

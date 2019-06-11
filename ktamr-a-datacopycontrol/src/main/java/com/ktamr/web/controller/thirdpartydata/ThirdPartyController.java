@@ -3,6 +3,7 @@ package com.ktamr.web.controller.thirdpartydata;
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.export.ExportDbfUtil;
 import com.ktamr.common.utils.export.ExportStr;
 import com.ktamr.common.utils.export.ExportTxtUtil;
 import com.ktamr.domain.HavMeterinfo;
@@ -48,7 +49,7 @@ public class ThirdPartyController extends BaseController {
     @ResponseBody
     public AjaxResult exportToTxt(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
         List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
-        String fileName = ExportStr.getFileName();
+        String fileName = ExportStr.encodingFileTxtname();
         ExportTxtUtil exportTextUtil = new ExportTxtUtil();
         try {
             exportTextUtil.writeToTxt(fileName,listMeterinfo,name);
@@ -61,13 +62,16 @@ public class ThirdPartyController extends BaseController {
 
     @PostMapping("/exportToDbf")
     @ResponseBody
-    public AjaxResult exportToDbf(HavMeterinfo havMeterinfo){
+    public AjaxResult exportToDbf(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name
+                                                            ,@RequestParam( value = "dbfLabel[]") String[] dbfLabel
+                                                            ,@RequestParam( value = "dbfWidth[]") Integer[] dbfWidth){
         List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
-        String fileName = ExportStr.getFileName();
-        ExportTxtUtil exportTextUtil = new ExportTxtUtil();
+        ExportDbfUtil exportDbfUtil = new ExportDbfUtil();
+        exportDbfUtil.setDbfLabel(dbfLabel);
+        exportDbfUtil.setDbfWidth(dbfWidth);
+        exportDbfUtil.setDbfName(name);
         try {
-
-            return AjaxResult.success(fileName);
+            return exportDbfUtil.init(listMeterinfo);
         } catch (Exception e){
             e.printStackTrace();
             return AjaxResult.error(e.getMessage());

@@ -721,7 +721,7 @@
 			var nodeIds=$("#nodeIds").val();
 			if(btnTitle == "查询")
 				return;
-			if(tnTitle == "DBF文件" || btnTitle == "TXT文件"){
+			if(btnTitle == "DBF文件" || btnTitle == "TXT文件"){
 				if(nodeIds == ""){
 					layer.msg("请选择区域", { icon: 5 });
 					return false;
@@ -733,21 +733,31 @@
 					}
 				}
 			}
-			postData["params[showListType]"]=showListType;
-			postData["params[nodeType]"]=nodeType;
-			postData["params[nodeIds]"]=nodeIds;
-			if(btnTitle == "DBF文件"){
-				url = "/thirdpartydata/exportToDbf";
-
-			}else if(btnTitle == "TXT文件"){
-				url = "/thirdpartydata/exportToTxt";
+			if(btnTitle != "数据上传" && btnTitle != "接口数据上传") {
+				postData["params[showListType]"] = showListType;
+				postData["params[nodeType]"] = nodeType;
+				postData["params[nodeIds]"] = nodeIds;
 				if(showListType == "sys_tzss"){
 					postData = {
 						"params[monthType]": $("#monthTypeId").val(),
 						"params[queryMonth]": $("#queryMonth").val()
 					}
 				}
-				$.ktamr.exportToTxt(url, postData);
+			}
+			if(btnTitle == "DBF文件"){
+				url = "/thirdpartydata/exportToDbf";
+				var dbfLabel = new Array();
+				var dbfWidth = new Array();
+				if(showListType == "sys_zjss"){
+					dbfLabel = ["USERNO","METERNO","DIZHI","READNUM","READDATE"];
+					dbfWidth = [20,20,20,20,20];
+				}
+				postData["dbfLabel"] = dbfLabel;
+				postData["dbfWidth"] = dbfWidth;
+				$.ktamr.exportTxtDbf(url, postData);
+			}else if(btnTitle == "TXT文件"){
+				url = "/thirdpartydata/exportToTxt";
+				$.ktamr.exportTxtDbf(url, postData);
 			}else if(btnTitle == "EXCEL文件"){
 
 			}else if(btnTitle == "数据上传"){

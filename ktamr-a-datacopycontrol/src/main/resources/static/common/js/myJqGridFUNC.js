@@ -602,7 +602,7 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 					}
 				});
 			},
-			exportToTxt: function(pUrl, pData){
+			exportTxtDbf: function(pUrl, pData){
 				var grid = $("#jqGrid");
 				var colNames = grid.jqGrid("getGridParam", "colNames");
 				var colModel = grid.jqGrid("getGridParam", "colModel");
@@ -610,34 +610,18 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 				var reg=/[\u4E00-\u9FA5]/;
 				for(var i = 0;i<colNames.length;i++){
 					if(colNames != null && reg.exec(colNames[i])){
-						name.push(colModel[i].name)
+						name.push(colModel[i].name);
 					}
 				}
 				pData["name"]=name;
 				$.ktamr.loading("正在导出数据，请稍后...");
-				$.ajax({
-					url: pUrl
-					,type: "POST"
-					,data: pData
-					,success: function(data){
+				$.post(pUrl,pData,function(data){
 						if(data.code == "0"){
 							window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
 						}else{
 							$.ktamr.alert(result.msg,modal_status.FAIL);
 						}
 						$.ktamr.closeloading();
-					}
-				});
-			},
-			exportToDbf: function(pUrl, pData){
-				$.ktamr.loading("正在导出数据，请稍后...");
-				$.post(pUrl,pData,function(data){
-					if(data.code == "0"){
-						window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
-					}else{
-						$.ktamr.alert(result.msg,modal_status.FAIL);
-					}
-					$.ktamr.closeloading();
 				});
 			},
 			loading: function (message) {
