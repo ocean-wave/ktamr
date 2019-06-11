@@ -23,4 +23,6 @@ public interface HaPricestandardMapper {
     //收费类型下拉框
     List<HaPricestandard> PriceStandardGenOptionSelected();
 
+    HaPricestandard queryPName(@Param("pricestandardId") Integer pricestandardId);
+
 }

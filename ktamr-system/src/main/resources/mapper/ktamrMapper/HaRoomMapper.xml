@@ -13,6 +13,7 @@
         <result property="roomCount" column="roomCount"/>
         <result property="uname" column="uname"/>
         <result property="areaid" column="areaid"/>
+        <result property="roommeterId" column="roommeterId"/>
 
         <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
             <id property="custId" column="custId"/>
@@ -54,6 +55,7 @@
 
         <association property="haBuilding" javaType="com.ktamr.domain.HaBuilding">
             <id property="buildingId" column="buildingId"/>
+            <result property="name" column="bname"/>
         </association>
     </resultMap>
 
@@ -66,7 +68,7 @@
 
     <select id="queryAllRoomC" resultMap="queryAllRoomMap">
         SELECT trim(to_char(r.roomid, '99999999'))||'_'||
-        trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterid,
+        trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterId,
         cu.custno AS custNo, cu.name as cname,  a.name||'-'||b.name||'-'||r.name  AS uname, r.description AS description
         , m.meterNumber AS meterNumber, m.th_number as thNumber, m.lf_number as lfNumber,
         m.s_number as sNumber, m.state as state, to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') as thRTime,
@@ -104,4 +106,11 @@
         insert into ha_room(roomid,name,description,buildingid) values(default ,#{name},#{description},#{buildingId})
     </insert>
 
+    <delete id="deleteHaRoomC">
+        delete from ha_room where roomid=#{roomId}
+    </delete>
+
+    <select id="delByIdHaRoom" resultMap="queryAllRoomMap">
+        select ha_room.name as name,ha_room.description as description,ha_room.buildingid as buildingId,ha_building.name as bname,custid as custId from ha_room,ha_building where ha_room.buildingid = ha_building.buildingid and roomid=#{haRoom.roomId}
+    </select>
 </mapper>

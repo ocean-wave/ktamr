@@ -20,4 +20,6 @@ public interface HaMonFreezeService {
      * @return 返回泛型集合
      */
     public List<HaMonfreeze> selectAllMonfreeze(Map<String,Object> parms);
+
+    Integer delHaMonFreeze(Integer meterId);
 }

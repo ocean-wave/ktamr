@@ -181,6 +181,16 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.deleteHaMeter(haMeter);
     }
 
+    @Override
+    public HaMeter delByIdHaMeter(HaMeter haMeter) {
+        return haMeterMapper.delByIdHaMeter(haMeter);
+    }
+
+    @Override
+    public Integer meterCountNum(Integer roomId) {
+        return haMeterMapper.meterCountNum(roomId);
+    }
+
     /**
      * 主页统计表==》表列表
      * @param haMeter

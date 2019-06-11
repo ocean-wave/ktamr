@@ -27,7 +27,7 @@ public interface HaRoomService {
     /*
      *删除房间
      */
-    Integer deleteHaRoomC(HaRoom haRoom);
+    Integer deleteHaRoomC(Integer roomId);
 
     /*
      *查询房间
@@ -38,4 +38,6 @@ public interface HaRoomService {
      *所属楼栋下的房间记录数
      */
     Integer allRoomCountC(HaRoom haRoom);
+
+    HaRoom delByIdHaRoom(HaRoom haRoom);
 }

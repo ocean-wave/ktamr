@@ -20,4 +20,6 @@ public interface HaPricestandardService {
 
     //收费类型下拉框
     List<HaPricestandard> PriceStandardGenOptionSelected();
+
+    HaPricestandard queryPName(Integer pricestandardId);
 }

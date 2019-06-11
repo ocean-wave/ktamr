@@ -94,7 +94,12 @@ public interface HaMeterMapper {
     //空关联成功记录数
     Integer HaMeterNullCount(@Param("meterIds") Integer meterIds);
 
-    Integer deleteHaMeter(HaMeter haMeter);
+    Integer deleteHaMeter(@Param("haMeter") HaMeter haMeter);
+
+    HaMeter delByIdHaMeter(@Param("haMeter") HaMeter haMeter);
+
+    //安装表数量
+    Integer meterCountNum(@Param("roomId") Integer roomId);
 
     /**
      * 主页统计表==》表列表

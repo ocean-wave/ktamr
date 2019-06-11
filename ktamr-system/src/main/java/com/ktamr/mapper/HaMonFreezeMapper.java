@@ -2,6 +2,7 @@ package com.ktamr.mapper;
 
 import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HaMonfreeze;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -23,4 +24,6 @@ public interface HaMonFreezeMapper {
      * @return 返回泛型集合
      */
     public List<HaMonfreeze> selectAllMonfreeze(Map<String,Object> parms);
+
+    Integer delHaMonFreeze(@Param("meterId") Integer meterId);
 }

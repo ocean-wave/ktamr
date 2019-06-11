@@ -44,8 +44,8 @@ public class HaRoomServiceImpl implements HaRoomService {
     /*
      *删除房间
      */
-    public Integer deleteHaRoomC(HaRoom haRoom) {
-        return haRoomMapper.deleteHaRoomC(haRoom);
+    public Integer deleteHaRoomC(Integer roomId) {
+        return haRoomMapper.deleteHaRoomC(roomId);
     }
 
     /*
@@ -62,5 +62,10 @@ public class HaRoomServiceImpl implements HaRoomService {
     @Override
     public Integer allRoomCountC(HaRoom haRoom) {
         return haRoomMapper.allRoomCountC(haRoom);
+    }
+
+    @Override
+    public HaRoom delByIdHaRoom(HaRoom haRoom) {
+        return haRoomMapper.delByIdHaRoom(haRoom);
     }
 }

@@ -44,4 +44,9 @@ public class HaPricestandardServiceImpl implements HaPricestandardService {
     public List<HaPricestandard> PriceStandardGenOptionSelected() {
         return haPricestandardMapper.PriceStandardGenOptionSelected();
     }
+
+    @Override
+    public HaPricestandard queryPName(Integer pricestandardId) {
+        return haPricestandardMapper.queryPName(pricestandardId);
+    }
 }

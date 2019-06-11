@@ -50,4 +50,9 @@ public class HaDayFreezeServiceImpl implements HaDayFreezeService {
     public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params) {
         return haDayFreezeMapper.selectAllDayfreeze(params);
     }
+
+    @Override
+    public Integer delHaDayFreeze(Integer meterId) {
+        return haDayFreezeMapper.delHaDayFreeze(meterId);
+    }
 }

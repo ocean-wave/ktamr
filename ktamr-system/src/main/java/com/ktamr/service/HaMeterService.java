@@ -94,6 +94,11 @@ public interface HaMeterService {
 
     Integer deleteHaMeter(HaMeter haMeter);
 
+    HaMeter delByIdHaMeter(HaMeter haMeter);
+
+    //安装表数量
+    Integer meterCountNum(Integer roomId);
+
     /**
      * 主页统计表==》表列表
      * @param haMeter

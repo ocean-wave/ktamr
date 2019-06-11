@@ -35,4 +35,9 @@ public class HaMonFreezeServiceImpl implements HaMonFreezeService {
     public List<HaMonfreeze> selectAllMonfreeze(Map<String, Object> parms) {
         return haMonFreezeMapper.selectAllMonfreeze(parms);
     }
+
+    @Override
+    public Integer delHaMonFreeze(Integer meterId) {
+        return haMonFreezeMapper.delHaMonFreeze(meterId);
+    }
 }

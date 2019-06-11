@@ -165,6 +165,10 @@
         select id, name from ha_rgn ORDER BY id
     </select>
 
+    <!--判断大区名称是否重复-->
+    <select id="checkRgnName" resultType="com.ktamr.domain.HaRgn">
+        SELECT Count(*) FROM ha_rgn WHERE name=#{haRgn.name}
+    </select>
 
     <!--查询大区表全部信息与小区,集中器,采集器数,表数的数量  B    -->
     <select id="selectAllRngAndCountB" resultType="com.ktamr.domain.HaRgn" >
