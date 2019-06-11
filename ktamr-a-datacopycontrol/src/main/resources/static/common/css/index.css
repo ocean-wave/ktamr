@@ -355,7 +355,7 @@ body {
   /*竖屏样式*/
   html {
     transform:rotate(90deg);
-    -ms-transform:rotate(90deg); 
+    -ms-transform:rotate(90deg);
     -webkit-transform:rotate(90deg);
     transform-origin:center center;
     -ms-transform-origin:center center;

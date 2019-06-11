@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head >
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -22,7 +22,7 @@
 	<link  href="../static/common/css/index.css" th:href="@{/common/css/index.css}"  rel="stylesheet" />
     <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
 </head>
-<body class="site-mobile" style="overflow:hidden">
+<body id="numberSB" class="site-mobile;layui-bg-orange" style="overflow:hidden">
 		<!-- 顶部开始 -->
 		<div class="index-top">
 			<div class="logo">
@@ -67,6 +67,11 @@
 			</ul>
 			<!-- 顶部右侧菜单 -->
 			<ul class="layui-nav right">
+				<li class="layui-nav-item layui-hide-xs" lay-unselect>
+					<a href="javascript:;" layadmin-event="theme">
+						<i class="layui-icon layui-icon-theme"></i>
+					</a>
+				</li>
 				<li class="layui-nav-item locksys" >
 					<a href="javascript:;"><i class="fa fa-lock" aria-hidden="true"></i><cite> 锁屏</cite></a>
 				</li>

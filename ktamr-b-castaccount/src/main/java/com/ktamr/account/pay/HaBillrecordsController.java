@@ -30,57 +30,61 @@ public class HaBillrecordsController extends BaseController {
 
     /**
      * 打开收费记录查询页面
+     *
      * @return
      */
     @RequestMapping("pay/cust_recharge_list.html")
-    public String showCust_recharge_list(){
+    public String showCust_recharge_list() {
         return "pay/cust_recharge_list.html";
     }
 
     /**
      * 对其收费记录查询Json数据
+     *
      * @param haBillrecords
      * @return
      */
     @RequestMapping("/pay/sfjl/showBillRecordsList")
     @ResponseBody
-    public  Object  showBillRecordsList(HaBillrecords haBillrecords){
+    public Object showBillRecordsList(HaBillrecords haBillrecords) {
         startPage();
-        List<HaBillrecords> haAreaList =haBillrecordsService.ChaXunHaBillrecordsList(haBillrecords );
+        List<HaBillrecords> haAreaList = haBillrecordsService.ChaXunHaBillrecordsList(haBillrecords);
         Map<String, Object> map = getDataTable(haAreaList);//获取收费记录查询
-        if(map!=null){
-           return map;
-       }
+        if (map != null) {
+            return map;
+        }
         return null;
     }
 
     /**
      * 收费记录导出
+     *
      * @param haBillrecords
      * @param excelUtilTwo
      * @return
      */
     @PostMapping("/pay/sfjl/export")
     @ResponseBody
-    public AjaxResult ybbexport(HaBillrecords haBillrecords, ExcelUtilTwo excelUtilTwo)
-    {
+    public AjaxResult ybbexport(HaBillrecords haBillrecords, ExcelUtilTwo excelUtilTwo) {
         //这里保证查询的是全部的数据
-        List<HaBillrecords> haAreaList =haBillrecordsService.ChaXunHaBillrecordsList(haBillrecords );
-        if (haAreaList!=null){
+        List<HaBillrecords> haAreaList = haBillrecordsService.ChaXunHaBillrecordsList(haBillrecords);
+        if (haAreaList != null) {
             return excelUtilTwo.init(haAreaList, "月报表数据");
         }
         return null;
     }
+
     /**
      * 查询用户账单列表
+     *
      * @param haBillrecords
      * @return ajax
      */
     @RequestMapping("/selectYongHuZhangDan")
     @ResponseBody
-     public Object queryHaCustomList(HaBillrecords haBillrecords, String startDate, String endDate
+    public Object queryHaCustomList(HaBillrecords haBillrecords, String startDate, String endDate
     ) {
-        if(startDate!=null&&startDate!="" &&endDate!=null&&endDate!=""){
+        if (startDate != null && startDate != "" && endDate != null && endDate != "") {
             Date start = Tool.RiQiZhuanHua(startDate);
             Date end = Tool.RiQiZhuanHua(endDate);
             haBillrecords.setKaiShi(start);
@@ -97,33 +101,35 @@ public class HaBillrecordsController extends BaseController {
 
     /**
      * 打开导入余额页面
+     *
      * @return
      */
     @RequestMapping("/cust_balance_import")
-    public String cust_balance_import(){
+    public String cust_balance_import() {
         return "pay/cust_balance_import.html";
     }
 
 
     /**
      * 填充结算周期下拉框
+     *
      * @param haMonthbtime
      * @return
      */
     @RequestMapping("/load_monthBTime")
     @ResponseBody
-    public List<String> load_monthBTime(HaMonthbtime haMonthbtime){
+    public List<String> load_monthBTime(HaMonthbtime haMonthbtime) {
         List<HaMonthbtime> haMonthbtimeList = haMonthbtimeService.BselectTime(haMonthbtime);//获取开始结束时间
-        if(haMonthbtimeList!=null){
+        if (haMonthbtimeList != null) {
             List<String> list = new ArrayList<String>();//创建集合对象；
-            for (int i=0;i<haMonthbtimeList.size();i++){
+            for (int i = 0; i < haMonthbtimeList.size(); i++) {
                 //对其进行赋值
-                String std= DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss",haMonthbtimeList.get(i).getStartTime())+'~'+DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss",haMonthbtimeList.get(i).getEndTime())+';';
+                String std = DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss", haMonthbtimeList.get(i).getStartTime()) + '~' + DateUtils.parseDateToStr("yyyy-MM-dd HH:mm:ss", haMonthbtimeList.get(i).getEndTime()) + ';';
                 list.add(std);
             }
             return list;
         }
 
-        return  null;
+        return null;
     }
 }

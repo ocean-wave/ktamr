@@ -5,13 +5,15 @@
 <div class="container myContainer">
     <div class="row" style="margin:0;padding:5px 0px 2px 0px;">
         <div class="col-xs-2 my-form-col">
-            <select id='query_type' class="selectpicker form-control" data-style="btn-default btn-sm" data-size="5" title="请选择查询类型">
+            <select id='query_type' class="selectpicker form-control" data-style="btn-default btn-sm" data-size="5"
+                    title="请选择查询类型">
                 <option value='小区' selected>小区</option>
                 <option value='用户'>用户</option>
             </select>
         </div>
         <div class="col-xs-2 my-form-col">
-            <select id='state_type' class="selectpicker form-control" data-style="btn-default btn-sm" data-size="5" title="请选择账单类型">
+            <select id='state_type' class="selectpicker form-control" data-style="btn-default btn-sm" data-size="5"
+                    title="请选择账单类型">
                 <option value='' selected>全部</option>
                 <option value='出单'>出单</option>
                 <option value='完成'>完成</option>
@@ -22,26 +24,34 @@
     <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
 
         <div class="col-xs-2 my-form-col areas-col">
-            <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区">
+            <select id="areas" class="selectpicker form-control" data-live-search="true"
+                    data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm"
+                    data-size="5" title="请选择小区">
                 <option th:each="HaArea : ${areaListName}"
-                        th:value="${HaArea.areaId}" th:text="${HaArea.areaId}+':'+${HaArea.haName}">Credit card</option>
+                        th:value="${HaArea.areaId}" th:text="${HaArea.areaId}+':'+${HaArea.haName}">Credit card
+                </option>
 
 
             </select>
         </div>
         <div class="col-xs-2 my-form-col monthBTime-col">
-            <select id="monthBTime" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择结算周期">
+            <select id="monthBTime" class="selectpicker form-control" data-live-search="true"
+                    data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm"
+                    data-size="5" title="请选择结算周期">
 
             </select>
         </div>
         <div class="col-xs-2 my-form-col date-range-col" style="display:none;">
-            <input  id="date_range" class="input-sm form-control" type="text" value='' readonly="readonly" placeholder="选择查询日期范围"/>
+            <input id="date_range" class="input-sm form-control" type="text" value='' readonly="readonly"
+                   placeholder="选择查询日期范围"/>
         </div>
         <div class="col-xs-2 my-form-col">
             <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
         </div>
         <div class="col-xs-2 my-form-col">
-            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal layui-btn-sm search"><span
+                    class="glyphicon glyphicon-search"></span> 查询
+            </button>
         </div>
         <div class="pull-right" style="display:block;">
             <button data-modal="" data-title="打印缴费单" class="layui-btn-primary layui-btn-sm">打印缴费单</button>
@@ -59,114 +69,125 @@
 <div th:include="include :: footer"></div>
 <script language="JavaScript">
     layui.config({
-        base : '/common/js/',
+        base: '/common/js/',
         version: '2.8.2'
     }).extend({
         myLayui: 'myLayui'
     });
-    layui.use(['layer', 'form', 'myLayui'], function(){
+    layui.use(['layer', 'form', 'myLayui'], function () {
         var layer = layui.layer,
             myLayui = layui.myLayui,
             form = layui.form;
         var g_startTime = "", g_endTime = "";
-        $("#query_type").change(function(){
+        $("#query_type").change(function () {
             var type_name = $(this).val();
             console.log(type_name);
-            if(type_name == "小区"){
+            if (type_name == "小区") {
                 $(".date-range-col").hide();
                 $(".areas-col").show();
                 $(".monthBTime-col").show();
-            }else if(type_name == "用户"){
+            } else if (type_name == "用户") {
                 $(".areas-col").hide();
                 $(".monthBTime-col").hide();
                 $(".date-range-col").show();
             }
         });
-        $('#date_range').click(function(){
+        $('#date_range').click(function () {
             var options = {};
             options.startDate = '';
             options.endDate = '';
             options.format_start = "YYYY-MM-DD";
             options.format_end = "YYYY-MM-DD";
-            options.align="right";
-            options.cb_add = function(p_value){};
+            options.align = "right";
+            options.cb_add = function (p_value) {
+            };
             myData.DataRangePicker(this, "DateRange", options);
         });
-        function queryBillList(){//havMeterinfo
+
+        function queryBillList() {//havMeterinfo
             var dateArray = "",
                 _areaid = $("#areas").val(),
                 _state = $("#state_type").val(),
                 _daterange = $("#monthBTime").val(),
-                _startTime = "2019-03-29"+" 00:00:00",
-                _endTime = "2019-03-29"+" 23:59:59";
+                _startTime = "2019-03-29" + " 00:00:00",
+                _endTime = "2019-03-29" + " 23:59:59";
             dateArray = _daterange.split("~");
-            if(_daterange!="" && dateArray[0] != ""){
+            if (_daterange != "" && dateArray[0] != "") {
                 _startTime = dateArray[0];
                 g_startTime = _startTime;
             }
-            if(_daterange!="" && dateArray[1] != ""){
+            if (_daterange != "" && dateArray[1] != "") {
                 _endTime = dateArray[1];
                 g_endTime = _endTime;
             }
-            $("#jqGrid").jqGrid('setGridParam',{
+            $("#jqGrid").jqGrid('setGridParam', {
                 mtype: 'POST',
-                postData:{
-                    startTime:_startTime,endTime:_endTime
-                    }
+                postData: {
+                    startTime: _startTime, endTime: _endTime
+                }
             }).trigger("reloadGrid");
         }
 
-        function loadMonthBTimeOption(_areaid , ID){
+        function loadMonthBTimeOption(_areaid, ID) {
             var _url = "/load_monthBTime";
             $.ajax({
                 url: _url
-                ,data: {
+                , data: {
                     areaId: _areaid
                 }
-                ,type: "POST"
-                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
-                ,async:true //异步请求
-                ,success: function(data){
+                , type: "POST"
+                , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                , async: true //异步请求
+                , success: function (data) {
                     //appendSelectOption(ID, data, "");
 
                     var str = "";
                     //var array = data.split(';');
 
-                    for(var i = 0;i<data.length;i++){
+                    for (var i = 0; i < data.length; i++) {
 
-                        str+="<option value='"+data[i].replace(/[;]/g,"")+"'>"+data[i].replace(/[;]/g,"")+"</option>";
+                        str += "<option value='" + data[i].replace(/[;]/g, "") + "'>" + data[i].replace(/[;]/g, "") + "</option>";
                     }
-                    $("#"+ID).html(str);
-                    $(".selectpicker" ).selectpicker('refresh');
+                    $("#" + ID).html(str);
+                    $(".selectpicker").selectpicker('refresh');
                 }
             });
         }
-        $('#areas').change(function(){
+
+        $('#areas').change(function () {
             var areaid = $("#areas").val();
             loadMonthBTimeOption(areaid, "monthBTime");
         });
-        $('#monthBTime').change(function(){
+        $('#monthBTime').change(function () {
             queryBillList();
         });
 
-        var Post_Data = {ListNumber: 26, TotalLocation: "缴费单号", SumColName: "本期用量,本期费用,上期余额", areaid:"", billState:"", startTime:"", endTime:""};
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182,"/pay/showHaPaylogList");
+        var Post_Data = {
+            ListNumber: 26,
+            TotalLocation: "缴费单号",
+            SumColName: "本期用量,本期费用,上期余额",
+            areaid: "",
+            billState: "",
+            startTime: "",
+            endTime: ""
+        };
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182, "/pay/showHaPaylogList");
         GridObj.jqdefaultGridConfig.caption = "";
         GridObj.jqdefaultGridConfig.multiselect = true;
         GridObj.jqdefaultGridConfig.postData = Post_Data;
-        GridObj.jqdefaultGridConfig.colNames = ['缴费单号','用户编号','用户名称','用户地址','状态','出单时间','收费价格','本期用量','本期费用','上期余额','月结时间'];
+        GridObj.jqdefaultGridConfig.colNames = ['缴费单号', '用户编号', '用户名称', '用户地址', '状态', '出单时间', '收费价格', '本期用量', '本期费用', '上期余额', '月结时间'];
         GridObj.jqdefaultGridConfig.colModel = [
-            { name: 'billId',  width: 180, key: true, hidden: false},
-            { name: 'havMeterinfo.userNo', width: 80 },
-            { name: 'havMeterinfo.userName', width: 100 },
-            { name: 'havMeterinfo.userDs', width: 180 },
-            { name: 'state', width: 60, cellattr: BillStateCellColor },
-            { name: 'planTime', width: 150 },
-            { name: 'haPricestandard.name', width: 120 },
-            { name: 'haFreeze.delta', width: 80, align: 'right'},
-            { name: 'sum', width: 80, align: 'right'},
-            { name: 'lastarrear', width: 80, align: 'right', cellattr: arrearageCellColor},
-            { name: 'mbtime', width: 150 }
+            {name: 'billId', width: 180, key: true, hidden: false},
+            {name: 'havMeterinfo.userNo', width: 80},
+            {name: 'havMeterinfo.userName', width: 100},
+            {name: 'havMeterinfo.userDs', width: 180},
+            {name: 'state', width: 60, cellattr: BillStateCellColor},
+            {name: 'planTime', width: 150},
+            {name: 'haPricestandard.name', width: 120},
+            {name: 'haFreeze.delta', width: 80, align: 'right'},
+            {name: 'sum', width: 80, align: 'right'},
+            {name: 'lastarrear', width: 80, align: 'right', cellattr: arrearageCellColor},
+            {name: 'mbtime', width: 150}
         ];
         GridObj.jqdefaultGridConfig.footerrow = true;
         GridObj.jqdefaultGridConfig.userDataOnFooter = true;
@@ -177,46 +198,46 @@
         GridObj = null;
 
         var _myLayui = new myLayui;
-        $(".layui-btn-primary").click(function(){
+        $(".layui-btn-primary").click(function () {
             var btnTitle = $(this).data("title");
             var jqGridRowsID = getSelectedRows("jqGrid");
             var b_isMultiIDs, billIds = jqGridRowsID;
             b_isMultiIDs = isMultiIDs(billIds);
-            if (billIds == "" && btnTitle != "打印缴费单"){
+            if (billIds == "" && btnTitle != "打印缴费单") {
                 layer.msg("请选择操作行！", {icon: 5});
                 return false;
             }
-            switch(btnTitle){
+            switch (btnTitle) {
                 case "打印缴费单":
                     //window.open("bill_print.asp?billid=","","width=680,resizable=yes,menubar=yes,scrollbars=yes");
-                    url = "/bill_print?billId="+billIds+"&areaId="+$("#areas").val()+"&startTime="+g_startTime+"&endTime="+g_endTime;
+                    url = "/bill_print?billId=" + billIds + "&areaId=" + $("#areas").val() + "&startTime=" + g_startTime + "&endTime=" + g_endTime;
                     layer.open({
                         type: 2 //iframe
-                        ,title: '缴费单'
-                        ,area: ['1000px', '500px']
-                        ,shade: 0
-                        ,maxmin: true
-                        ,content: url
+                        , title: '缴费单'
+                        , area: ['1000px', '500px']
+                        , shade: 0
+                        , maxmin: true
+                        , content: url
                     });
-                    break ;
+                    break;
                 default:
                     break;
             }
         });
 
-        $(document).keydown(function(event){
-            if(event.keyCode==13){
+        $(document).keydown(function (event) {
+            if (event.keyCode == 13) {
                 $(".search").click();
             }
         });
 //postData:{havMeterinfo:{areaid :_areaid},
 // state: _state, haPricestandard:{startTime:_startTime, endTime:_endTime}}
 
-        $(".search").click(function(){//havMeterinfo
-            var  _pdArray = "";
+        $(".search").click(function () {//havMeterinfo
+            var _pdArray = "";
             var date_range = ['', ''];
-            var _hhh="";
-            if($("#areas").val()!=null && $("#areas").val() != ""){
+            var _hhh = "";
+            if ($("#areas").val() != null && $("#areas").val() != "") {
                 _hhh = $('#areas option:selected').val();
             }
             _pdArray = {
@@ -225,21 +246,16 @@
                 "selectAreaId": _hhh, //传选中的小区id
             };
 
-            if($("#query_type").val() == "用户" ){
+            if ($("#query_type").val() == "用户") {
                 date_range = $("#date_range").val().split("~");
-                _pdArray["startTime"] = date_range[0]+" 00:00:00";
-                _pdArray["endTime"] = date_range[1]+" 23:59:59";
+                _pdArray["startTime"] = date_range[0] + " 00:00:00";
+                _pdArray["endTime"] = date_range[1] + " 23:59:59";
                 console.log(_pdArray);
             }
 
             fullTextSearch("jqGrid", _pdArray);
         });
     });
-
-
-
-
-
 
 
 </script>
