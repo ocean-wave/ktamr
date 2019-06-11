@@ -29,26 +29,28 @@ public class HaCustomController extends BaseController {
 
     /**
      * 打开用户账户页面
+     *
      * @return
      */
     @RequestMapping("pay/cust_balance_list.html")
-    public String showCust_balance_list(){
+    public String showCust_balance_list() {
         return "pay/cust_balance_list.html";
     }
 
     /**
      * 查询用户账户列表
+     *
      * @param haCustom
      * @return
      */
     @RequestMapping("/pay/yhzh/queryHaCustomList")
     @ResponseBody
-    public Object queryHaCustomList(HaCustom haCustom ){
+    public Object queryHaCustomList(HaCustom haCustom) {
         startPage();
         //通过方法返回一波
         List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom);
         Map<String, Object> map = getDataTable(haCustomList);//获取用户账户列表记录
-        if(map!=null){
+        if (map != null) {
             return map;
         }
         return null;
@@ -56,17 +58,17 @@ public class HaCustomController extends BaseController {
 
     /**
      * 收费记录导出
+     *
      * @param haCustom
      * @param excelUtilTwo
      * @return
      */
     @PostMapping("/pay/yhzh/export")
     @ResponseBody
-    public AjaxResult ybbexport(HaCustom haCustom, ExcelUtilTwo excelUtilTwo)
-    {
+    public AjaxResult ybbexport(HaCustom haCustom, ExcelUtilTwo excelUtilTwo) {
         //这里保证查询的是全部的数据
         List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom);
-        if (haCustomList!=null){
+        if (haCustomList != null) {
             return excelUtilTwo.init(haCustomList, "月报表数据");
         }
         return null;
@@ -74,14 +76,15 @@ public class HaCustomController extends BaseController {
 
     /**
      * 此方法用于查询用户账户中的预存费用,并打开费用查询页面
+     *
      * @param haCustom
      * @return
      */
     @RequestMapping("/opencust_bill_operation")
-    public String testYuCunFeiYong(HaCustom haCustom, Model model){
+    public String testYuCunFeiYong(HaCustom haCustom, Model model) {
         HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYongB(haCustom);
-        if(yuCunFeiYong!=null){
-            model.addAttribute("HaCustomYuCunHuaFei",yuCunFeiYong);//存放数据
+        if (yuCunFeiYong != null) {
+            model.addAttribute("HaCustomYuCunHuaFei", yuCunFeiYong);//存放数据
             return "pay/cust_bill_operation.html";
         }
         return null;
@@ -89,43 +92,45 @@ public class HaCustomController extends BaseController {
 
     /**
      * 预存费用的实现
+     *
      * @return 根据返回值 返回Layer输出的东东
      */
     @RequestMapping("/cust_bill_operation_do")
     @ResponseBody
-    public String cust_bill_operation_do(HaCustom haCustom, HaBillrecords haBillrecords){
-          if(haBillrecords.getOptType().equals("恢复收费")){
+    public String cust_bill_operation_do(HaCustom haCustom, HaBillrecords haBillrecords) {
+        if (haBillrecords.getOptType().equals("恢复收费")) {
             String s = haBillrecordsService.selectShiFou(haBillrecords);
-            if(s.equals("true")){
-            return "超过可恢复收费";
+            if (s.equals("true")) {
+                return "超过可恢复收费";
             }
         }
-      //先更新一波
+        //先更新一波
         Integer updateYuCunFeiYong = haCustomService.updateYuCunFeiYongB(haCustom);
         //再添加一波
         Integer insertHaBillrecords = haBillrecordsService.insertHaBillrecords(haBillrecords);
         //如果两数返回值是1+1=2的情况下就返回true即返回成功
-        if(updateYuCunFeiYong+insertHaBillrecords==2){
+        if (updateYuCunFeiYong + insertHaBillrecords == 2) {
             return "true";
         }
-        return  "操作失败";
+        return "操作失败";
     }
 
     /**
      * 打开用户账户列表 并存值
+     *
      * @param haCustom
      * @param model
      * @return
      */
     @RequestMapping("/cust_bill_list2")
-    public String cust_bill_list2(HaCustom haCustom,Model model){
+    public String cust_bill_list2(HaCustom haCustom, Model model) {
 
         HaCustom yuCunFeiYong = haCustomService.selectYuCunFeiYongB(haCustom);
-        if(yuCunFeiYong!=null){
-            model.addAttribute("HaCustomYuCunHuaFei",yuCunFeiYong);//存放数据
+        if (yuCunFeiYong != null) {
+            model.addAttribute("HaCustomYuCunHuaFei", yuCunFeiYong);//存放数据
             return "pay/cust_bill_list2.html";
         }
-        return  null;
+        return null;
     }
 
 

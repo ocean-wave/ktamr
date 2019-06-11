@@ -96,6 +96,7 @@
         }
 
         function copyToTxt(){
+            var postData = {};
             var url, fileUrl;
             var _areaid = $("#areas").val();
             if(_areaid == ""){
@@ -106,13 +107,17 @@
                 layer.msg("请选择结算时间区间", { icon: 5 });
                 return false;
             }
-            url = "derived_readinfo_to_txt.asp";
-            $.ajax({
+            url = "/derived_readinfo_to_txt";
+            postData["areaId"] = _areaid;
+            postData["KaiShiTime"] = g_startTime;
+            postData["JieShuTime"] = g_endTime;
+            $.ktamr.exportTxtDbf(url, postData);
+           /* $.ajax({
                 url: url
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,data: {
-                    areaid: _areaid
+                    areaId: _areaid
                     ,KaiShiTime: g_startTime
                     ,JieShuTime: g_endTime
                 }
@@ -127,7 +132,7 @@
                     eleLink.click();
                     document.body.removeChild(eleLink);
                 }
-            });
+            });*/
         }
         function printMonthReport(){
             var url ;
