@@ -64,6 +64,7 @@ public class ExportDbfUtil {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
         dbfFields = new DBFField[dbfLabel.length];
         dbfWriter = new DBFWriter(out, Charset.forName("gbk"));
         for(int i = 0;i<dbfLabel.length;i++){
