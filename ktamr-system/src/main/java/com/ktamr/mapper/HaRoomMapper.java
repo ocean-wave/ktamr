@@ -40,4 +40,7 @@ public interface HaRoomMapper {
     Integer allRoomCountC(HaRoom haRoom);
 
     HaRoom delByIdHaRoom(@Param("haRoom") HaRoom haRoom);
+
+    //拿到最后一个id
+    HaRoom getLastId();
 }

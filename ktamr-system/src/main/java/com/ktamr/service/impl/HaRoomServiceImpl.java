@@ -68,4 +68,9 @@ public class HaRoomServiceImpl implements HaRoomService {
     public HaRoom delByIdHaRoom(HaRoom haRoom) {
         return haRoomMapper.delByIdHaRoom(haRoom);
     }
+
+    @Override
+    public HaRoom getLastId() {
+        return haRoomMapper.getLastId();
+    }
 }

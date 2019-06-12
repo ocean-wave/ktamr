@@ -40,4 +40,7 @@ public interface HaRoomService {
     Integer allRoomCountC(HaRoom haRoom);
 
     HaRoom delByIdHaRoom(HaRoom haRoom);
+
+    //拿到最后一个id
+    HaRoom getLastId();
 }

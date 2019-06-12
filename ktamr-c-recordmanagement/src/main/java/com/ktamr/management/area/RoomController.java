@@ -40,13 +40,11 @@ public class RoomController extends BaseController {
     private HaMonFreezeService haMonFreezeService;
 
     @RequestMapping("/JumpRoomMeterAdd")
-    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Integer roomId, Integer meterId, Model model) {
+    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Model model) {
         List<HaPricestandard> haPricestandardList = haPricestandardService.PriceStandardGenOptionSelected();
         model.addAttribute("haPricestandardList", haPricestandardList);
         model.addAttribute("cmdName", cmdName);
         model.addAttribute("buildingId", buildingId);
-        model.addAttribute("roomId", roomId);
-        model.addAttribute("meterId", meterId);
         return "area/room_meter_add";
     }
 
@@ -117,8 +115,10 @@ public class RoomController extends BaseController {
     @ResponseBody
     public Object roomMeterAdd(HaRoom haRoom, HaMeter haMeter) {
         Integer addHaRoomC = haRoomService.addHaRoomC(haRoom);
-        Integer addHaMeter = haMeterService.addHaMeter(haMeter);
-        if (addHaRoomC == 1 && addHaMeter == 1) {
+        if (addHaRoomC == 1) {
+            HaRoom lastId = haRoomService.getLastId();
+            haMeter.setRoomId(lastId.getRoomId());
+            Integer addHaMeter = haMeterService.addHaMeter(haMeter);
             return "true";
         }
         return "false";
@@ -129,9 +129,9 @@ public class RoomController extends BaseController {
     public Object roomMeterDel(Integer meterId,HaMeter haMeter){
         haMeter.setMeterId(meterId);
         Integer meter = haMeterService.deleteHaMeter(haMeter);
-        Integer dayFreeze = haDayFreezeService.delHaDayFreeze(meterId);
-        Integer monFreeze = haMonFreezeService.delHaMonFreeze(meterId);
-        if(meter==1 && dayFreeze==1 && monFreeze==1){
+//        Integer dayFreeze = haDayFreezeService.delHaDayFreeze(meterId);
+//        Integer monFreeze = haMonFreezeService.delHaMonFreeze(meterId);
+        if(meter==1){
             return "true";
         }
         return "false";
