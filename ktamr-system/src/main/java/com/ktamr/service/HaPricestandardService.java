@@ -22,4 +22,6 @@ public interface HaPricestandardService {
     List<HaPricestandard> PriceStandardGenOptionSelected();
 
     HaPricestandard queryPName(Integer pricestandardId);
+
+    List<HaPricestandard> queryPriceStandardList();
 }

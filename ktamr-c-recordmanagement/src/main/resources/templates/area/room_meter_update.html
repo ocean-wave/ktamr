@@ -37,19 +37,23 @@
 </head>
 <body class="myPage-body">
 <div class="layui-form my-form-class">
+    <input type="hidden" id="meterId" name="meterId" th:value="${meterId}">
+    <input type="hidden" id="roomId" name="roomId" th:value="${roomId}">
+    <input type="hidden" id="byHaRoomAreaId" name="byHaRoomAreaId" th:value="${byHaRoomAreaId.areaid}">
+    <input type="hidden" id="byHaRoomBuildingId" name="byHaRoomBuildingId" th:value="${byHaRoomBuildingId}">
     <fieldset class="layui-elem-field layui-box">
         <legend>修改房间资料</legend>
         <div class="layui-form-item my-form-item">
             <div class="layui-block" >
                 <label class="layui-form-label">房间名称</label>
                 <div class="layui-input-inline" style="width:110px;">
-                    <input id="roomName" name="roomName"  lay-verify="required|roomName" autocomplete="off" placeholder="" class="layui-input" maxlength="32">
+                    <input id="roomName" name="roomName"  lay-verify="required|roomName" autocomplete="off" placeholder="" class="layui-input" maxlength="32" th:value="${room.name}">
                 </div>
             </div>
             <div class="layui-block">
                 <label class="layui-form-label">房间备注</label>
                 <div class="layui-input-inline">
-                    <input id="roomRemark" lay-verify="roomRemark" autocomplete="off" placeholder="" class="layui-input" maxlength="20">
+                    <input id="roomRemark" lay-verify="roomRemark" autocomplete="off" placeholder="" class="layui-input" maxlength="20" th:value="${room.description}">
                 </div>
             </div>
         </div>
@@ -73,16 +77,16 @@
                 <div class="layui-block">
                     <label class="layui-form-label">表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="meterNumber" name="meterNumber" lay-verify="meterNumber" autocomplete="off" placeholder="数字,1~14位" maxlength="16" class="layui-input" onkeyup="generalMask(this)">
+                        <input id="meterNumber" name="meterNumber" lay-verify="meterNumber" autocomplete="off" placeholder="数字,1~14位" maxlength="16" class="layui-input" onkeyup="generalMask(this)" th:value="${meter.meterNumber}">
                     </div>
                 </div>
                 <div class="layui-block">
                     <label class="layui-form-label">抄收设备</label>
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select name="deviceType" lay-filter="deviceType">
-                            <option value="centor">集中器</option>
-                            <option value="ccentor">集采器</option>
-                            <option value="handDevice">手抄器</option>
+                            <option th:selected="${centor.description=='centor'}" value="centor">集中器</option>
+                            <option th:selected="${centor.description=='ccentor'}" value="ccentor">集采器</option>
+                            <option th:selected="${centor.description=='handDevice'}" value="handDevice">手抄器</option>
                         </select>
                     </div>
                 </div>
@@ -113,14 +117,15 @@
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select id="priceStand" lay-verify="priceStand">
                             <option value=""></option>
-                            <% PriceStandard_GenOptionSelected dbconn, pricestand_id%>
+                            <option th:selected="${haPricestandards.pricestandId eq pricestandards.pricestandId}" th:each="pricestandards : ${pricestandard}"
+                                    th:value="${pricestandards.pricestandId}" th:text="${pricestandards.name}"></option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-block">
                     <label class="layui-form-label">倍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="rate" lay-verify="rate" autocomplete="off" placeholder="数字" class="layui-input">
+                        <input id="rate" lay-verify="rate" autocomplete="off" placeholder="数字" class="layui-input" th:value="${meter.rate}">
                     </div>
                 </div>
             </div>
@@ -129,15 +134,15 @@
                 <div class="layui-block">
                     <label class="layui-form-label">安装时间</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="setupTime" name="setupTime" lay-verify="setupTime" autocomplete="off" placeholder="时间" class="layui-input" readonly="readonly">
+                        <input id="setupTime" name="setupTime" lay-verify="setupTime" autocomplete="off" placeholder="时间" class="layui-input" readonly="readonly" th:value="${#dates.format(meter.startTime, 'yyyy-MM-dd HH:mm:ss')}">
                     </div>
                 </div>
                 <div class="layui-block">
                     <label class="layui-form-label">总&nbsp;&nbsp;分&nbsp;表</label>
                     <div class="layui-input-inline mySelect" style="width:150px;">
-                        <select id="isBranch" lay-verify="isBranch">
-                            <option value="1">分表</option>
-                            <option value="0">总表</option>
+                        <select id="isBranch" lay-verify="isBranch" th:value="${meter.isBranch}">
+                            <option th:selected="${meter.isBranch==1}" value="1">分表</option>
+                            <option th:selected="${meter.isBranch==0}" value="0">总表</option>
                         </select>
                     </div>
                 </div>
@@ -147,13 +152,13 @@
                 <div class="layui-block">
                     <label class="layui-form-label">表&nbsp;&nbsp;底&nbsp;数</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="primalNumber" name="primalNumber" lay-verify="primalNumber" autocomplete="off" placeholder="数字" maxlength="12" class="layui-input my-layui-input" onkeyup="generalMask(this)" value="">
+                        <input id="primalNumber" name="primalNumber" lay-verify="primalNumber" autocomplete="off" placeholder="数字" maxlength="12" class="layui-input my-layui-input" onkeyup="generalMask(this)" th:value="${meter.pnumber}">
                     </div>
                 </div>
                 <div class="layui-block">
                     <label class="layui-form-label">调&nbsp;&nbsp;节&nbsp;数</label>
                     <div class="layui-input-inline" style="width:150px;">
-                        <input id="offsetNumber" name="offsetNumber" lay-verify="num" autocomplete="off" placeholder="选填,数字" maxlength="12" class="layui-input">
+                        <input id="offsetNumber" name="offsetNumber" lay-verify="num" autocomplete="off" placeholder="选填,数字" maxlength="12" class="layui-input" th:value="${meter.offsetN}">
                     </div>
                 </div>
             </div>
@@ -174,9 +179,8 @@
                     <div class="col-xs-3 my-form-col">
                         <select id="areas" class="selectpicker form-control" data-live-search="true" data-live-search-placeholder="搜索" data-actions-box="true" data-style="btn-default btn-sm" data-size="5" title="请选择小区" lay-ignore>
                             <option value="">未选择</option>
-                            <%
-                            AreaByWhere dbconn, GetRightCondition("areaNo", "area", ""), "id", areaId
-                            %>
+                            <option th:selected="${byHaRoomAreaId.areaid eq haAreas.areaId}" th:each="haAreas : ${haArea}"
+                                    th:value="${haAreas.areaId}" th:text="${haAreas.areaNo}+':'+${haAreas.haName}"></option>
                         </select>
                     </div>
                     <div class="col-xs-3 my-form-col">
@@ -211,11 +215,11 @@
 
         var load_option_url = "../devices/load_device_option.asp";
         var op_url = "room_meter_update_do.asp";
-        var g_areaId = "<%=areaId%>";
-        var g_buildingId = "<%=buildingId%>";
-        var g_roomId = "<%=roomId%>";
+        var g_areaId = $("#byHaRoomAreaId").val();
+        var g_buildingId = $("#byHaRoomBuildingId").val();
+        var g_roomId = $("#roomId").val();
         var g_roomName = "<%=roomName%>";
-        var g_meterId = "<%=meterId%>";
+        var g_meterId = $("#meterId").val();
         var g_meterNumber = "<%=meterNumber%>";
         var g_deviceType = "<%=deviceType%>";
         var g_opType = "updateMeter";
@@ -251,16 +255,16 @@
         pageInit();
 
         var Post_Data = {ListNumber: 38, areaId: g_areaId};
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 230);
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 230,"/room/ChangeForm");
         GridObj.jqdefaultGridConfig.caption = "";
         GridObj.jqdefaultGridConfig.postData = Post_Data;
         GridObj.jqdefaultGridConfig.colNames = ['meterid','用户编号','用户名称','用户地址','表号'];
         GridObj.jqdefaultGridConfig.colModel = [
-            { name: 'meterid',  width: 75, key: true, hidden: true},
-            { name: '用户编号', width: 120 },
-            { name: '用户名称', width: 120 },
-            { name: '用户地址', width: 120 },
-            { name: '表号', width: 120 }
+            { name: 'meterId',  width: 75, key: true, hidden: true},
+            { name: 'userNo', width: 120 },
+            { name: 'userName', width: 120 },
+            { name: 'userDs', width: 120 },
+            { name: 'meterNumber', width: 120 }
         ];
         GridObj.jqdefaultGridConfig.scroll = true;
         GridObj.drawGrid();
@@ -435,6 +439,22 @@
             };
             fullTextSearch("jqGrid", _pdArray);
         });
+
+        var centor = $("#centor");
+        $.ajax({
+            type: "GET",
+            url: "/room/DeviceByWhere",
+            dataType: "json",
+            data:{deviceType:$("#deviceType").val()},
+            success: function (data) {
+                if (data != null) {
+                    for (var i = 0; i < data.length; i++) {
+                        centor.append('<option value="' + data[i].id + '">'+ data[i].centorNo+":"+ data[i].addr + '</option>')
+                    }
+                }
+            }
+        });
+
         function submitInfo(sendData){
             $.ajax({
                 url: op_url

@@ -352,5 +352,4 @@ public class HaAreaServiceImpl implements HaAreaService {
         return haAreaMapper.delRgnAreaCount(id);
     }
 
-
 }

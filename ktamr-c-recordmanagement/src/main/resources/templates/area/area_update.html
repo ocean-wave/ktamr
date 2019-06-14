@@ -46,7 +46,7 @@
         <div class="layui-block">
             <label class="layui-form-label">小区名称</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="name" name="name" lay-verify="required|areaName" autocomplete="off" placeholder="必填" class="layui-input"  th:value="${area.name}">
+                <input id="haName" name="haName" lay-verify="required|areaName" autocomplete="off" placeholder="必填" class="layui-input"  th:value="${area.haName}">
             </div>
         </div>
     </div>
@@ -149,7 +149,7 @@
                 rgn: $("#rgn").val(),
                 registeredNo: $("#registeredNo").val(),
                 areaNo: padNumber($("#areaNo").val(), 4),
-                haName: $("#name").val(),
+                haName: $("#haName").val(),
                 shortName: $("#shortName").val(),
                 ds: $("#ds").val(),
                 addr: $("#addr").val(),

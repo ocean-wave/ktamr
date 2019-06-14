@@ -6,7 +6,7 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:postgresql://127.0.0.1:5432/YIMADB
+        url: jdbc:postgresql://localhost:5432/YIMADB
         username: ymdb
         password: 111111
       # 初始连接数

@@ -43,4 +43,8 @@ public interface HaRoomService {
 
     //拿到最后一个id
     HaRoom getLastId();
+
+    HaRoom getByHaRoomAreaId(Integer roomId);
+
+    HaRoom getByHaRoomBuildingId(Integer roomId);
 }

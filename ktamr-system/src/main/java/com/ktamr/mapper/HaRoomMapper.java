@@ -43,4 +43,8 @@ public interface HaRoomMapper {
 
     //拿到最后一个id
     HaRoom getLastId();
+
+    HaRoom getByHaRoomAreaId(@Param("roomId") Integer roomId);
+
+    HaRoom getByHaRoomBuildingId(@Param("roomId") Integer roomId);
 }

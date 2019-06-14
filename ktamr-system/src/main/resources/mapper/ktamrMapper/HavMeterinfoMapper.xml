@@ -23,6 +23,7 @@
 
     <resultMap id="havMeterinfoMapTwo" type="com.ktamr.domain.HavMeterinfo">
         <result column="meterId" property="meterId" javaType="java.lang.Integer"></result>
+        <result column="areaId" property="areaId"/>
         <result column="waterMete" property="waterMete" javaType="java.lang.Integer"></result>
         <result column="deviceId" property="deviceId" javaType="java.lang.Integer"></result>
         <result column="userNo" property="userNo" javaType="java.lang.String"></result>
@@ -448,5 +449,16 @@
         </foreach>
         </if>
         ORDER BY mi.用户地址,mi.用户号
+    </select>
+    
+    <select id="changeFormByAreaId" resultMap="havMeterinfoMapTwo">
+        SELECT meterid as meterId, areaid as areaId,用户号 as userNo,用户名 as userName,用户地址 as userDs,表号 as meterNumber
+        FROM hav_meterinfo m where 1=1
+        <if test="areaId!=null and areaId!=''">
+            and m.areaid = #{areaId}
+        </if>
+        <if test="keyWord!=null and keyWord!= ''">
+            and m.用户号 like '%${keyWord}%' or m.用户名 like '%${keyWord}%' or m.用户地址 like '%${keyWord}%'
+        </if>
     </select>
 </mapper>

@@ -39,6 +39,12 @@ public class RoomController extends BaseController {
     @Resource
     private HaMonFreezeService haMonFreezeService;
 
+    @Resource
+    private HavMeterinfoService havMeterinfoService;
+
+    @Resource
+    private HaAreaService haAreaService;
+
     @RequestMapping("/JumpRoomMeterAdd")
     public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Model model) {
         List<HaPricestandard> haPricestandardList = haPricestandardService.PriceStandardGenOptionSelected();
@@ -65,7 +71,29 @@ public class RoomController extends BaseController {
     }
 
     @RequestMapping("/JumpRoomMeterUpdate")
-    public String JumpRoomMeterUpdate() {
+    public String JumpRoomMeterUpdate(Integer roomId,Integer meterId,Model model) {
+        HaRoom haRoom = new HaRoom();
+        haRoom.setRoomId(roomId);
+        HaRoom room = haRoomService.delByIdHaRoom(haRoom);
+        HaMeter haMeter = new HaMeter();
+        haMeter.setMeterId(meterId);
+        HaMeter meter = haMeterService.delByIdHaMeter(haMeter);
+        HaPricestandard haPricestandards = haPricestandardService.queryPName(meter.getPricestandId());
+        List<HaPricestandard> pricestandards = haPricestandardService.queryPriceStandardList();
+        HaRoom byHaRoomAreaId = haRoomService.getByHaRoomAreaId(roomId);
+        HaRoom byHaRoomBuildingId = haRoomService.getByHaRoomBuildingId(roomId);
+        List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        HaCentor centor = haCentorService.updateByDeviceType(meter.getCentorId());
+        model.addAttribute("room",room);
+        model.addAttribute("meter",meter);
+        model.addAttribute("haPricestandards",haPricestandards);
+        model.addAttribute("meterId",meterId);
+        model.addAttribute("roomId",roomId);
+        model.addAttribute("pricestandard",pricestandards);
+        model.addAttribute("byHaRoomAreaId",byHaRoomAreaId);
+        model.addAttribute("byHaRoomBuildingId",byHaRoomBuildingId);
+        model.addAttribute("haArea",haArea);
+        model.addAttribute("centor",centor);
         return "area/room_meter_update";
     }
 
@@ -145,6 +173,22 @@ public class RoomController extends BaseController {
             return "true";
         }
         return "false";
+    }
+
+    @RequestMapping("/ChangeForm")
+    @ResponseBody
+    public Object changeForm(HavMeterinfo havMeterinfo) {
+        startPage();
+        List<HavMeterinfo> havMeterinfos = havMeterinfoService.changeFormByAreaId(havMeterinfo);
+        Map<String, Object> map = getDataTable(havMeterinfos);
+        return map;
+    }
+
+    @RequestMapping("/DeviceByWhere")
+    @ResponseBody
+    public Object DeviceByWhere(String deviceType){
+        List<HaCentor> haCentors = haCentorService.DeviceByWhere(deviceType);
+        return haCentors;
     }
 
 }

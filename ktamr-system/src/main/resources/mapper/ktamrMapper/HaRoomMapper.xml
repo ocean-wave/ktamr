@@ -21,6 +21,10 @@
             <result property="name" column="cname"/>
         </association>
 
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaId" column="areaId"/>
+        </association>
+
         <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
             <id property="meterId" column="meterId"/>
             <result property="meterNumber" column="meterNumber"/>
@@ -117,5 +121,22 @@
 
     <select id="getLastId" resultType="com.ktamr.domain.HaRoom">
         select roomid from ha_room order by roomid desc limit 1
+    </select>
+
+    <update id="updateHaRoomC">
+        update ha_room
+        <trim prefix="set" suffixOverrides="," suffix="where roomid = #{roomId}">
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="buildingId != null">buildingid = #{buildingId},</if>
+        </trim>
+    </update>
+
+    <select id="getByHaRoomAreaId" resultMap="queryAllRoomMap">
+        SELECT a.areaid as areaid FROM ha_room r, ha_building b, ha_area a WHERE a.areaid=b.areaid AND b.buildingid=r.buildingid AND r.roomid=#{roomId}
+    </select>
+
+    <select id="getByHaRoomBuildingId" resultType="com.ktamr.domain.HaRoom">
+        SELECT buildingid FROM ha_room WHERE roomid=#{roomId}
     </select>
 </mapper>

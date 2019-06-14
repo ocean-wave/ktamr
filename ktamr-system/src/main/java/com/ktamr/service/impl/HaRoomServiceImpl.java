@@ -73,4 +73,14 @@ public class HaRoomServiceImpl implements HaRoomService {
     public HaRoom getLastId() {
         return haRoomMapper.getLastId();
     }
+
+    @Override
+    public HaRoom getByHaRoomAreaId(Integer roomId) {
+        return haRoomMapper.getByHaRoomAreaId(roomId);
+    }
+
+    @Override
+    public HaRoom getByHaRoomBuildingId(Integer roomId) {
+        return haRoomMapper.getByHaRoomBuildingId(roomId);
+    }
 }

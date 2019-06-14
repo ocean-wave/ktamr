@@ -14,6 +14,7 @@ public class HaArea extends BaseEntity {
     private String areaNo;
     private String registeredNo;
     private String haName;
+    private String name;
     private String addr;
     private String ds;
     private String description;
@@ -370,5 +371,13 @@ public class HaArea extends BaseEntity {
 
     public void setCname(String cname) {
         this.cname = cname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

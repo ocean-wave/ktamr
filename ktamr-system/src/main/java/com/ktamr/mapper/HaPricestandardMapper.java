@@ -25,4 +25,6 @@ public interface HaPricestandardMapper {
 
     HaPricestandard queryPName(@Param("pricestandardId") Integer pricestandardId);
 
+    List<HaPricestandard> queryPriceStandardList();
+
 }

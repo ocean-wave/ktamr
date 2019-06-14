@@ -438,4 +438,22 @@
         SELECT COUNT(meterid) FROM ha_meter WHERE roomid=#{roomId}
     </select>
 
+    <update id="updateHaMeter">
+        update ha_meter
+        <trim prefix="set" suffixOverrides="," suffix="where meterid = #{meterId}">
+            <if test="addr != null">addr = #{addr},</if>
+            <if test="centorId != null">centorid = #{centorId},</if>
+            <if test="meterNumber != null">meternumber = #{meterNumber},</if>
+            <if test="rate != null">rate = #{rate},</if>
+            <if test="startTime != null">starttime = #{startTime},</if>
+            <if test="lastTime != null">lasttime = #{lastTime},</if>
+            <if test="isBranch != null">isbranch = #{isBranch},</if>
+            <if test="roomId != null">roomid = #{roomId}</if>
+            <if test="pricestandId != null">pricestand_id = #{pricestandId}</if>
+            <if test="collectorId !=null">collectorid = #{collectorId}</if>
+            <if test="gnumber !=null">g_number = #{gnumber}</if>
+            <if test="offsetN !=null">offset_n = #{offsetN}</if>
+            <if test="meterSequence !=null">meter_sequence = #{meterSequence}</if>
+        </trim>
+    </update>
 </mapper>

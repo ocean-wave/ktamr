@@ -427,7 +427,7 @@ WHERE areaid IN ('${areaId}')
     </insert>
 
     <select id="updateByIdHaAreaC" resultType="com.ktamr.domain.HaArea">
-        select areaid,areano,name,shortname,addr,trim(ds),description,registeredno from ha_area where areaid = #{areaId}
+        select areaid,areano,name as haName,shortname,addr,trim(ds) as ds,description,registeredno from ha_area where areaid = #{areaId}
     </select>
 
     <delete id="deleteHaAreaC">
@@ -435,10 +435,10 @@ WHERE areaid IN ('${areaId}')
     </delete>
 
     <update id="updateHaAreaC">
-        update ha_area
+        update ha_area a
         <trim prefix="set" suffixOverrides="," suffix="where areaid = #{haArea.areaId}">
             <if test="haArea.areaNo != null">areano = #{haArea.rgn}||#{haArea.areaNo},</if>
-            <if test="haArea.haName != null">name = #{haArea.haName},</if>
+            <if test="haArea.haName != null">name  = #{haArea.haName},</if>
             <if test="haArea.description != null">description = #{haArea.description},</if>
             <if test="haArea.addr != null">addr = #{haArea.addr},</if>
             <if test="haArea.shortName != null">shortname = #{haArea.shortName},</if>

@@ -14,4 +14,6 @@ public interface HavMeterinfoService {
 
     public List<HavMeterinfo> selectThirdParty(HavMeterinfo havMeterinfo);
 
+    List<HavMeterinfo> changeFormByAreaId(HavMeterinfo havMeterinfo);
+
 }

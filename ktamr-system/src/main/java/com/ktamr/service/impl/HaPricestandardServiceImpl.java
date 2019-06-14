@@ -49,4 +49,9 @@ public class HaPricestandardServiceImpl implements HaPricestandardService {
     public HaPricestandard queryPName(Integer pricestandardId) {
         return haPricestandardMapper.queryPName(pricestandardId);
     }
+
+    @Override
+    public List<HaPricestandard> queryPriceStandardList() {
+        return haPricestandardMapper.queryPriceStandardList();
+    }
 }
