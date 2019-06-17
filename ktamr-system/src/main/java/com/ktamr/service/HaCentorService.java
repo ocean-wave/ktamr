@@ -72,4 +72,19 @@ public interface HaCentorService {
     //修改时集中器传值
     List<HaCentor> DeviceByWhere(String deviceType);
 
+    //查询集中器超收，根据登录用户id查询
+    public Integer centor_count( String  operator_codeSession);
+
+    //查询集采器超收，根据登录用户id查询
+    public Integer collector_count( String operator_codeSession);
+
+    //查询手抄器超收，根据登录用户id查询 1线路列表
+    public Integer pad_count1( String operator_codeSession);
+
+    //查询手抄器抄收，根据登录用户id查询 2表列表
+    public Integer pad_count2( String operator_codeSession);
+
+    //查询DTU，根据登录用户id查询
+    public Integer DTU_count( String operator_codeSession);
+
 }

@@ -78,6 +78,9 @@ public class HaCentor extends BaseEntity {
     //表名
     private String cmdName;
 
+    //登录绘画的账号
+    private String operator_codeSession;
+
     public Integer getZbs() {
         return zbs;
     }
@@ -416,5 +419,13 @@ public class HaCentor extends BaseEntity {
 
     public void setCentorAreaNo(String centorAreaNo) {
         this.centorAreaNo = centorAreaNo;
+    }
+
+    public String getOperator_codeSession() {
+        return operator_codeSession;
+    }
+
+    public void setOperator_codeSession(String operator_codeSession) {
+        this.operator_codeSession = operator_codeSession;
     }
 }
