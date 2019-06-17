@@ -14,6 +14,24 @@
         }
         .mySelect dl{max-height: 170px;}
     </style>
+    <script>
+        function checkRgnName(){
+            $.ajax({
+                type: "POST",
+                url: "/area/CheckRgnName",
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                data: {name: $("#name").val()},
+                dataType: "json",
+                success: function (data) {
+                    if (data == "true") {
+                        layer.msg('大区编号重复', {icon: 5});
+                    } else {
+                        return false;
+                    }
+                }
+            });
+        }
+    </script>
 </head>
 <body class="myPage-body">
 <form id="rgnaddform" class="layui-form my-form-class-single" onsubmit="">
@@ -21,7 +39,7 @@
         <div class="layui-block">
             <label class="layui-form-label">大区名称</label>
             <div class="layui-input-inline my-form-input-single">
-                <input id="name" name="name" lay-verify="required|rgnName" autocomplete="off" placeholder="必填" class="layui-input">
+                <input id="name" name="name" lay-verify="required|rgnName" autocomplete="off" placeholder="必填" class="layui-input" onblur="checkRgnName()">
             </div>
         </div>
     </div>
@@ -57,15 +75,25 @@
         var form = layui.form
             ,layer = layui.layer;
         var get_result_url = "/area/AddRgn";
+        var name = null;
 
-        // form.verify({
-        //     rgnName: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         queryData = {rgnName: $("#rgnName").val()};
-        //         if(isDataRepeat(queryData) == true){
-        //             return '大区名称重复';
+        // name.blur("blur",function(){
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/area/CheckRgnName",
+        //         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+        //         data: {name: $("#name").val()},
+        //         dataType: "json",
+        //         success: function (data) {
+        //             if (data == "true") {
+        //                 layer.msg('大区编号重复', {icon: 5});
+        //             } else {
+        //                 return false;
+        //             }
         //         }
-        //     }
-        // });
+        //     });
+        // }).focus();
+
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url

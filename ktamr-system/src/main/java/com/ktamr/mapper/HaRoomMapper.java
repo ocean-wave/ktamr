@@ -27,7 +27,7 @@ public interface HaRoomMapper {
     /*
      *删除房间
      */
-    Integer deleteHaRoomC(HaRoom haRoom);
+    Integer deleteHaRoomC(@Param("roomId") Integer roomId);
 
     /*
      *查询房间
@@ -38,4 +38,13 @@ public interface HaRoomMapper {
      *所属楼栋下的房间记录数
      */
     Integer allRoomCountC(HaRoom haRoom);
+
+    HaRoom delByIdHaRoom(@Param("haRoom") HaRoom haRoom);
+
+    //拿到最后一个id
+    HaRoom getLastId();
+
+    HaRoom getByHaRoomAreaId(@Param("roomId") Integer roomId);
+
+    HaRoom getByHaRoomBuildingId(@Param("roomId") Integer roomId);
 }

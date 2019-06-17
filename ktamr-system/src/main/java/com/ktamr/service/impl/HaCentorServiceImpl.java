@@ -115,4 +115,14 @@ public class HaCentorServiceImpl implements HaCentorService {
     public List<HaCentor> deviceTypehandDevice() {
         return haCentorMapper.deviceTypehandDevice();
     }
+
+    @Override
+    public HaCentor updateByDeviceType(Integer id) {
+        return haCentorMapper.updateByDeviceType(id);
+    }
+
+    @Override
+    public List<HaCentor> DeviceByWhere(String deviceType) {
+        return haCentorMapper.DeviceByWhere(deviceType);
+    }
 }

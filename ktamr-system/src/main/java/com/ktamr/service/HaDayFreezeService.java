@@ -27,4 +27,6 @@ public interface HaDayFreezeService {
      * @return 返回泛型集合
      */
     public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params);
+
+    Integer delHaDayFreeze(Integer meterId);
 }

@@ -147,4 +147,12 @@
     <select id="PriceStandardGenOptionSelected" resultMap="HaPricestandardMap">
         select pricestand_id as pricestandId,name from ha_pricestandard where endtime is null or endtime>now() order by pricestand_id
     </select>
+
+    <select id="queryPName" resultType="com.ktamr.domain.HaPricestandard">
+        select pricestand_id as pricestandId,name from ha_pricestandard where pricestand_id=#{pricestandardId}
+    </select>
+
+    <select id="queryPriceStandardList" resultMap="HaPricestandardMap">
+        select  pricestand_id as pricestandId,name from ha_pricestandard
+    </select>
 </mapper>

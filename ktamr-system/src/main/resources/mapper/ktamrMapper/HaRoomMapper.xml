@@ -13,6 +13,7 @@
         <result property="roomCount" column="roomCount"/>
         <result property="uname" column="uname"/>
         <result property="areaid" column="areaid"/>
+        <result property="roommeterId" column="roommeterId"/>
 
         <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
             <id property="custId" column="custId"/>
@@ -20,12 +21,16 @@
             <result property="name" column="cname"/>
         </association>
 
+        <association property="haArea" javaType="com.ktamr.domain.HaArea">
+            <id property="areaId" column="areaId"/>
+        </association>
+
         <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
             <id property="meterId" column="meterId"/>
             <result property="meterNumber" column="meterNumber"/>
             <result property="thNumber" column="thNumber"/>
             <result property="lfNumber" column="lfNumber"/>
-            <result property="snumber" column="sNumber"/>
+            <result property="snumber" column="snumber"/>
             <result property="state" column="state"/>
             <result property="thRTime" column="thRTime"/>
             <result property="gnumber" column="gNumber"/>
@@ -54,6 +59,7 @@
 
         <association property="haBuilding" javaType="com.ktamr.domain.HaBuilding">
             <id property="buildingId" column="buildingId"/>
+            <result property="name" column="bname"/>
         </association>
     </resultMap>
 
@@ -66,10 +72,11 @@
 
     <select id="queryAllRoomC" resultMap="queryAllRoomMap">
         SELECT trim(to_char(r.roomid, '99999999'))||'_'||
-        trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterid,
+        trim(CASE WHEN m.meterid IS NULL THEN '' ELSE trim(to_char(m.meterid, '99999999')) END)  AS roommeterId,
+        r.roomid as roomId,b.buildingid as buildingId,cu.custid as custId,c.centorid as centorId,
         cu.custno AS custNo, cu.name as cname,  a.name||'-'||b.name||'-'||r.name  AS uname, r.description AS description
         , m.meterNumber AS meterNumber, m.th_number as thNumber, m.lf_number as lfNumber,
-        m.s_number as sNumber, m.state as state, to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') as thRTime,
+        m.s_number as snumber, m.state as state, to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') as thRTime,
         p.name as pname, CASE WHEN c.addr != '' then c.addr  ELSE '[无对象]' END  AS addr,
         c.id AS id, CASE WHEN co.addr != '' THEN co.addr||'('||to_hex(co.nconf)||')'ELSE  '[无对象]' END  AS caddr,
         m.g_number AS gNumber, m.offset_n AS offsetN, m.vendor_id AS vendorId,
@@ -104,4 +111,32 @@
         insert into ha_room(roomid,name,description,buildingid) values(default ,#{name},#{description},#{buildingId})
     </insert>
 
+    <delete id="deleteHaRoomC">
+        delete from ha_room where roomid=#{roomId}
+    </delete>
+
+    <select id="delByIdHaRoom" resultMap="queryAllRoomMap">
+        select ha_room.name as name,ha_room.description as description,ha_room.buildingid as buildingId,ha_building.name as bname,custid as custId from ha_room,ha_building where ha_room.buildingid = ha_building.buildingid and roomid=#{haRoom.roomId}
+    </select>
+
+    <select id="getLastId" resultType="com.ktamr.domain.HaRoom">
+        select roomid from ha_room order by roomid desc limit 1
+    </select>
+
+    <update id="updateHaRoomC">
+        update ha_room
+        <trim prefix="set" suffixOverrides="," suffix="where roomid = #{roomId}">
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="buildingId != null">buildingid = #{buildingId},</if>
+        </trim>
+    </update>
+
+    <select id="getByHaRoomAreaId" resultMap="queryAllRoomMap">
+        SELECT a.areaid as areaid FROM ha_room r, ha_building b, ha_area a WHERE a.areaid=b.areaid AND b.buildingid=r.buildingid AND r.roomid=#{roomId}
+    </select>
+
+    <select id="getByHaRoomBuildingId" resultType="com.ktamr.domain.HaRoom">
+        SELECT buildingid FROM ha_room WHERE roomid=#{roomId}
+    </select>
 </mapper>

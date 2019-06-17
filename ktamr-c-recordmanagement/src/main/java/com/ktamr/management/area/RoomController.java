@@ -33,25 +33,80 @@ public class RoomController extends BaseController {
     @Resource
     private HaMeterService haMeterService;
 
+    @Resource
+    private HaDayFreezeService haDayFreezeService;
+
+    @Resource
+    private HaMonFreezeService haMonFreezeService;
+
+    @Resource
+    private HavMeterinfoService havMeterinfoService;
+
+    @Resource
+    private HaAreaService haAreaService;
+
     @RequestMapping("/JumpRoomMeterAdd")
-    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Integer roomId, Integer meterId, Model model) {
+    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Model model) {
         List<HaPricestandard> haPricestandardList = haPricestandardService.PriceStandardGenOptionSelected();
         model.addAttribute("haPricestandardList", haPricestandardList);
         model.addAttribute("cmdName", cmdName);
         model.addAttribute("buildingId", buildingId);
-        model.addAttribute("roomId", roomId);
-        model.addAttribute("meterId", meterId);
         return "area/room_meter_add";
     }
 
     @RequestMapping("/JumpRoomMeterDel")
-    public String JumpRoomMeterDel() {
+    public String JumpRoomMeterDel(Integer meterId,Integer roomId,Model model) {
+        HaRoom haRoom = new HaRoom();
+        haRoom.setRoomId(roomId);
+        HaRoom room = haRoomService.delByIdHaRoom(haRoom);
+        HaMeter haMeter = new HaMeter();
+        haMeter.setMeterId(meterId);
+        HaMeter meter = haMeterService.delByIdHaMeter(haMeter);
+        HaPricestandard haPricestandards = haPricestandardService.queryPName(meter.getPricestandId());
+        model.addAttribute("room",room);
+        model.addAttribute("meter",meter);
+        model.addAttribute("haPricestandards",haPricestandards);
+        model.addAttribute("meterId",meterId);
         return "area/room_meter_del";
     }
 
     @RequestMapping("/JumpRoomMeterUpdate")
-    public String JumpRoomMeterUpdate() {
+    public String JumpRoomMeterUpdate(Integer roomId,Integer meterId,Model model) {
+        HaRoom haRoom = new HaRoom();
+        haRoom.setRoomId(roomId);
+        HaRoom room = haRoomService.delByIdHaRoom(haRoom);
+        HaMeter haMeter = new HaMeter();
+        haMeter.setMeterId(meterId);
+        HaMeter meter = haMeterService.delByIdHaMeter(haMeter);
+        HaPricestandard haPricestandards = haPricestandardService.queryPName(meter.getPricestandId());
+        List<HaPricestandard> pricestandards = haPricestandardService.queryPriceStandardList();
+        HaRoom byHaRoomAreaId = haRoomService.getByHaRoomAreaId(roomId);
+        HaRoom byHaRoomBuildingId = haRoomService.getByHaRoomBuildingId(roomId);
+        List<HaArea> haArea = haAreaService.queryAllHaAreaC();
+        HaCentor centor = haCentorService.updateByDeviceType(meter.getCentorId());
+        model.addAttribute("room",room);
+        model.addAttribute("meter",meter);
+        model.addAttribute("haPricestandards",haPricestandards);
+        model.addAttribute("meterId",meterId);
+        model.addAttribute("roomId",roomId);
+        model.addAttribute("pricestandard",pricestandards);
+        model.addAttribute("byHaRoomAreaId",byHaRoomAreaId);
+        model.addAttribute("byHaRoomBuildingId",byHaRoomBuildingId);
+        model.addAttribute("haArea",haArea);
+        model.addAttribute("centor",centor);
         return "area/room_meter_update";
+    }
+
+    @RequestMapping("/JumpRoomDel")
+    public String JumpRoomDel(Integer roomId,Model model){
+        HaRoom haRoom = new HaRoom();
+        haRoom.setRoomId(roomId);
+        HaRoom room = haRoomService.delByIdHaRoom(haRoom);
+        Integer countNum = haMeterService.meterCountNum(roomId);
+        model.addAttribute("room",room);
+        model.addAttribute("roomId",roomId);
+        model.addAttribute("countNum",countNum);
+        return "area/room_del";
     }
 
     @RequestMapping("/QueryAllRoomJson")
@@ -88,11 +143,52 @@ public class RoomController extends BaseController {
     @ResponseBody
     public Object roomMeterAdd(HaRoom haRoom, HaMeter haMeter) {
         Integer addHaRoomC = haRoomService.addHaRoomC(haRoom);
-        Integer addHaMeter = haMeterService.addHaMeter(haMeter);
-        if (addHaRoomC == 1 && addHaMeter == 1) {
+        if (addHaRoomC == 1) {
+            HaRoom lastId = haRoomService.getLastId();
+            haMeter.setRoomId(lastId.getRoomId());
+            Integer addHaMeter = haMeterService.addHaMeter(haMeter);
             return "true";
         }
         return "false";
+    }
+
+    @RequestMapping("/RoomMeterDel")
+    @ResponseBody
+    public Object roomMeterDel(Integer meterId,HaMeter haMeter){
+        haMeter.setMeterId(meterId);
+        Integer meter = haMeterService.deleteHaMeter(haMeter);
+//        Integer dayFreeze = haDayFreezeService.delHaDayFreeze(meterId);
+//        Integer monFreeze = haMonFreezeService.delHaMonFreeze(meterId);
+        if(meter==1){
+            return "true";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/RoomDel")
+    @ResponseBody
+    public Object roomDel(Integer roomId){
+        Integer roomC = haRoomService.deleteHaRoomC(roomId);
+        if(roomC==1){
+            return "true";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/ChangeForm")
+    @ResponseBody
+    public Object changeForm(HavMeterinfo havMeterinfo) {
+        startPage();
+        List<HavMeterinfo> havMeterinfos = havMeterinfoService.changeFormByAreaId(havMeterinfo);
+        Map<String, Object> map = getDataTable(havMeterinfos);
+        return map;
+    }
+
+    @RequestMapping("/DeviceByWhere")
+    @ResponseBody
+    public Object DeviceByWhere(String deviceType){
+        List<HaCentor> haCentors = haCentorService.DeviceByWhere(deviceType);
+        return haCentors;
     }
 
 }

@@ -50,6 +50,7 @@ public class HavMeterinfo extends BaseEntity {
     private String emptyStr;
     private Integer waterMete;
     private String topEquipment;
+    private String keyWord;
 
     public HaBuilding getHaBuilding() {
         return haBuilding;
@@ -362,5 +363,13 @@ public class HavMeterinfo extends BaseEntity {
 
     public void setDefaultFive(String defaultFive) {
         this.defaultFive = defaultFive;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
     }
 }

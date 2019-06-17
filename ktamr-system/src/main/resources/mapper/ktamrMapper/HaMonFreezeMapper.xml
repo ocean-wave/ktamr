@@ -48,4 +48,8 @@
         ${multipleConditions}
         order by fday desc
     </select>
+
+    <delete id="delHaMonFreeze">
+        delete from ha_monfreeze where meterid=#{meterId}
+    </delete>
 </mapper>

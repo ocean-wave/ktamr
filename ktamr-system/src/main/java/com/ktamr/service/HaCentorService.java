@@ -66,4 +66,10 @@ public interface HaCentorService {
     //设备类型为handDevice下拉框
     List<HaCentor> deviceTypehandDevice();
 
+    //查看抄收设备
+    HaCentor updateByDeviceType(Integer id);
+
+    //修改时集中器传值
+    List<HaCentor> DeviceByWhere(String deviceType);
+
 }

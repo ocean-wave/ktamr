@@ -306,27 +306,26 @@
                 GridObj.jqdefaultGridConfig.multiselect = true;
                 GridObj.jqdefaultGridConfig.postData = {ListNumber: 5, areaid: _areaid, buildingId: _buildingid};
                 GridObj.jqdefaultGridConfig.colModel = [
-                    {label: 'roommeterid', name: 'roommeterid', width: 75, key: true, hidden: true, frozen: false},
-
-                    {label: 'centorid', name: 'centorid', width: 50, hidden: true},//作为单表抄收、开阀、关阀命令的参数用
+                    {label: 'roommeterid', name: 'roommeterId', width: 75, key: true, hidden: true, frozen: false},
+                    {label: 'centorid', name: 'haCentor.centorId', width: 50, hidden: true},//作为单表抄收、开阀、关阀命令的参数用
                     {label: '用户编号', name: 'haCustom.custNo', width: 90},
                     {label: '用户名称', name: 'haCustom.name', width: 80},
                     {label: '用户地址', name: 'uname', width: 150},
                     {label: '房间备注', name: 'description', width: 80},
-                    {label: '表号', name: 'haMeter.meternumber', align: 'right', width: 120},
+                    {label: '表号', name: 'haMeter.meterNumber', align: 'right', width: 120},
                     {label: '最近读数', name: 'haMeter.thNumber', align: 'right', width: 75},
-                    {label: '上期结算', name: 'haMeter.IfNumber', align: 'right', width: 75},
-                    {label: '本期用量', name: 'haMeter.sNumber', align: 'right', width: 75},
+                    {label: '上期结算', name: 'haMeter.lfNumber', align: 'right', width: 75},
+                    {label: '本期用量', name: 'haMeter.snumber', align: 'right', width: 75},
                     {label: '表状态', name: 'haMeter.state', width: 100, cellattr: MeterStateCellColor},
                     {label: '最近抄表时间', name: 'haMeter.thRTime', width: 150}
-                    , {label: '收费类型', name: 'haPricestandard.pname', width: 80}
+                    , {label: '收费类型', name: 'haPricestandard.name', width: 80}
                     , {label: '所属集中器', name: 'haCentor.addr', width: 120}
                     , {label: '所属采集器', name: 'haCollector.addr', width: 120}
                     , {label: '表底数', name: 'haMeter.gNumber', width: 80, sortable: false}
-                    , {label: '调节数', name: 'offsetN', width: 80, sortable: false}
+                    , {label: '调节数', name: 'haMeter.offsetN', width: 80, sortable: false}
                     , {label: '厂商ID', name: 'haMeter.vendorId', width: 80, sortable: false}
-                    , {label: '通道号', name: 'meterChannel', width: 80, sortable: false}
-                    , {label: '表序号', name: 'meterSequence', width: 80, sortable: false}
+                    , {label: '通道号', name: 'haMeter.meterChannel', width: 80, sortable: false}
+                    , {label: '表序号', name: 'haMeter.meterSequence', width: 80, sortable: false}
                     , {label: '装表时间', name: 'haMeter.startTime', width: 150, sortable: false}
                 ];
                 GridObj.jqdefaultGridConfig.beforeSelectRow = function (rowid, e) {  //jqgrid 设置点击当前行，不默认勾选checkbox
@@ -542,6 +541,7 @@
                     roomid_meterid_arry = gridIds.split(",");
                     for (var i = 0; i < roomid_meterid_arry.length; i++) {
                         roomid_meterid = roomid_meterid_arry[i].split("_");
+                        console.log(roomid_meterid[1]);
                         if (i == 0) {
                             roomids = roomids + roomid_meterid[0];
                             meterids = meterids + roomid_meterid[1];
@@ -664,17 +664,17 @@
                         if (isIDsHaveID(meterids) == true) {
                             _queryStr = [
                                 "cmdName=删除房间表资料",
-                                "meterid=" + meterids,
-                                "roomid=" + roomids
+                                "meterId=" + meterids,
+                                "roomId=" + roomids
                             ];
                             _myLayui.showLayer("删除房间表资料", "/room/JumpRoomMeterDel", _queryStr, _layerSize);
                         } else {
                             _queryStr = [
                                 "cmdName=删除房间资料",
-                                "meterid=" + meterids,
-                                "roomid=" + roomids
+                                "meterId=" + meterids,
+                                "roomId=" + roomids
                             ];
-                            _myLayui.showLayer("删除房间资料", "../building/room_del.asp", _queryStr, _layerSize);
+                            _myLayui.showLayer("删除房间资料", "/room/JumpRoomDel", _queryStr, _layerSize);
                         }
                     }
                     break;

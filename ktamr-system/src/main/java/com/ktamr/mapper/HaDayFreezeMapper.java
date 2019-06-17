@@ -2,6 +2,7 @@ package com.ktamr.mapper;
 
 import com.ktamr.domain.HaDayfreeze;
 import com.ktamr.domain.HaMeter;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -30,4 +31,6 @@ public interface HaDayFreezeMapper {
      * @return 返回泛型集合
      */
     public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params);
+
+    Integer delHaDayFreeze(@Param("meterId") Integer meterId);
 }

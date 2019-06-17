@@ -21,6 +21,7 @@ public class HaRoom extends BaseEntity {
     private String uname;
     private Integer areaid;
     private String keyWord;
+    private String roommeterId;
 
     public Integer getRoomId() {
         return roomId;
@@ -140,5 +141,13 @@ public class HaRoom extends BaseEntity {
 
     public void setCustId(Integer custId) {
         this.custId = custId;
+    }
+
+    public String getRoommeterId() {
+        return roommeterId;
+    }
+
+    public void setRoommeterId(String roommeterId) {
+        this.roommeterId = roommeterId;
     }
 }

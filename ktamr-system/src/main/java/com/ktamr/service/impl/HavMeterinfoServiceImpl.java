@@ -56,4 +56,9 @@ public class HavMeterinfoServiceImpl implements HavMeterinfoService {
     public List<HavMeterinfo> selectThirdParty(HavMeterinfo havMeterinfo) {
         return havMeterinfoMapper.selectThirdParty(havMeterinfo);
     }
+
+    @Override
+    public List<HavMeterinfo> changeFormByAreaId(HavMeterinfo havMeterinfo) {
+        return havMeterinfoMapper.changeFormByAreaId(havMeterinfo);
+    }
 }

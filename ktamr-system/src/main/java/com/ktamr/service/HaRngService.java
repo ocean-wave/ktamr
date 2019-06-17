@@ -95,4 +95,7 @@ public interface HaRngService {
 
     //选择区域类型为大区，选择大区下区域
     List<HaRgn> queryRgnByRgn();
+
+    //判断大区名称是否重复
+    List<HaRgn> checkRgnName(HaRgn haRgn);
 }
