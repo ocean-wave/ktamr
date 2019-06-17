@@ -1,6 +1,7 @@
 package com.ktamr.common.core.domain;
 
 import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.StringUtils;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -90,10 +91,15 @@ public class BaseEntity implements Serializable{
     }
 
     public String getRgnAndAreaId() {
-        if(rgnAndAreaId == null){
-            rgnAndAreaId = (String) ServletUtils.getSession().getAttribute("rgnAndAreaId");
+        if (params == null) {
+            params = new HashMap<>();
         }
-        return rgnAndAreaId;
+        String str = params.get("rgnAndAreaId")!=null?params.get("rgnAndAreaId").toString():null;
+        if(StringUtils.isEmpty(str)){
+            this.rgnAndAreaId = (String) ServletUtils.getSession().getAttribute("rgnAndAreaId");
+            params.put("rgnAndAreaId",rgnAndAreaId);
+        }
+        return str==null?this.rgnAndAreaId:str;
     }
 
     public void setRgnAndAreaId(String rgnAndAreaId) {
@@ -101,10 +107,15 @@ public class BaseEntity implements Serializable{
     }
 
     public String getMultipleConditions() {
-        if(multipleConditions == null) {
-            multipleConditions = SqlCondition.getMultipleConditions();
+        if (params == null) {
+            params = new HashMap<>();
         }
-        return multipleConditions;
+        String str = params.get("multipleConditions")!=null?params.get("multipleConditions").toString():null;
+        if(StringUtils.isEmpty(str)) {
+            this.multipleConditions = SqlCondition.getMultipleConditions();
+            params.put("multipleConditions",multipleConditions);
+        }
+        return str==null?this.multipleConditions:str;
     }
 
     public void setMultipleConditions(String multipleConditions) {

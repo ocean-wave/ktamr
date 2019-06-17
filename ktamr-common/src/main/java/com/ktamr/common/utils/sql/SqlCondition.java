@@ -2,6 +2,7 @@ package com.ktamr.common.utils.sql;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class SqlCondition {
         String sql = "  ";
         ObjectMapper objectMapper = new ObjectMapper();
         String str = ServletUtils.getRequest().getParameter("filters");
-        if (str != null) {
+        if (!StringUtils.isEmpty(str)) {
             try {
                 SqlCondition sqlCondition = objectMapper.readValue(str, SqlCondition.class);
                 sql = sql + " where ";

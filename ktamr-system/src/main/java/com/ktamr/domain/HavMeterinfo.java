@@ -300,6 +300,7 @@ public class HavMeterinfo extends BaseEntity {
     }
 
     public String getDefaultOne() {
+
         return defaultOne;
     }
 

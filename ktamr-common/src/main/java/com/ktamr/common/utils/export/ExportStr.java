@@ -22,6 +22,11 @@ public class ExportStr {
         return filename;
     }
 
+    public static String encodingFileExcelname()
+    {
+        return UUID.randomUUID().toString() + "_"+ "kt-table"+ DateUtils.dateTimeNow()+".xlsx";
+    }
+
     public static String encodingFileTxtname()
     {
         return UUID.randomUUID().toString() + "_"+ "kt-table"+ DateUtils.dateTimeNow()+".txt";
@@ -30,21 +35,6 @@ public class ExportStr {
     public static String encodingFileDbfname()
     {
         return UUID.randomUUID().toString() + "_"+ "kt-table"+ DateUtils.dateTimeNow()+".dbf";
-    }
-
-
-    private String getFileName(String showListType){
-        String fileName = "kt-table"+ DateUtils.dateTimeNow();
-        if(showListType.equals("sys_rass")){
-            fileName = "融安水司";
-        }else if(showListType.equals("sys_tzss")){
-            fileName = "泰州水司";
-        }else if(showListType.equals("sys_scsy")){
-            fileName = "三川邵阳";
-        }else if(showListType.equals("sys_scjdz")){
-            fileName = "三川景德镇";
-        }
-        return fileName;
     }
 
     /**

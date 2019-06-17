@@ -604,16 +604,16 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 			},
 			exportTxtDbf: function(pUrl, pData){
 				var grid = $("#jqGrid");
-				var colNames = grid.jqGrid("getGridParam", "colNames");
 				var colModel = grid.jqGrid("getGridParam", "colModel");
-				var name = new Array();
-				var reg=/[\u4E00-\u9FA5]/;
+				var nameArray = new Array();
 				for(var i = 0;i<colNames.length;i++){
-					if(colNames != null && reg.exec(colNames[i])){
+					var name = colModel[i].name;
+					var hidden = colModel[i].hidden;
+					if(name != "rn" && name != "cb" && !hidden){
 						name.push(colModel[i].name);
 					}
 				}
-				pData["name"]=name;
+				pData["name"]=nameArray;
 				$.ktamr.loading("正在导出数据，请稍后...");
 				$.post(pUrl,pData,function(data){
 						if(data.code == "0"){

@@ -20,6 +20,7 @@ public class ExportDbfUtil {
     private String[] dbfLabel;
     private String[] dbfName;
     private Integer[] dbfWidth;
+    private String[] formar;
 
     private List<?> list;
 
@@ -42,7 +43,7 @@ public class ExportDbfUtil {
                 try {
                     Object value = getTargetValue(obj,sc);
                     if(value instanceof Date) {
-                        object[i] = DateUtils.dateTimeTwo((Date)value);
+                        object[i] = value;
                     }else if(value instanceof Double) {
                         object[i] = String.valueOf(Integer.parseInt(new java.text.DecimalFormat("0").format(value)));
                     }else {
@@ -69,9 +70,13 @@ public class ExportDbfUtil {
         dbfWriter = new DBFWriter(out, Charset.forName("gbk"));
         for(int i = 0;i<dbfLabel.length;i++){
             dbfFields[i] = new DBFField();
-            dbfFields[i].setType(DBFDataType.CHARACTER);
+            if("CHARACTER".equals(formar[i])){
+                dbfFields[i].setType(DBFDataType.CHARACTER);
+                dbfFields[i].setLength(dbfWidth[i]);
+            }else if("DATE".equals(formar[i])){
+                dbfFields[i].setType(DBFDataType.DATE);
+            }
             dbfFields[i].setName(dbfLabel[i]);
-            dbfFields[i].setLength(dbfWidth[i]);
         }
         dbfWriter.setFields(dbfFields);
     }
@@ -117,5 +122,9 @@ public class ExportDbfUtil {
 
     public void setDbfWidth(Integer[] dbfWidth) {
         this.dbfWidth = dbfWidth;
+    }
+
+    public void setFormar(String[] formar) {
+        this.formar = formar;
     }
 }
