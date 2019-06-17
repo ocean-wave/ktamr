@@ -40,7 +40,7 @@
     <input type="hidden" id="meterId" name="meterId" th:value="${meterId}">
     <input type="hidden" id="roomId" name="roomId" th:value="${roomId}">
     <input type="hidden" id="byHaRoomAreaId" name="byHaRoomAreaId" th:value="${byHaRoomAreaId.areaid}">
-    <input type="hidden" id="byHaRoomBuildingId" name="byHaRoomBuildingId" th:value="${byHaRoomBuildingId}">
+    <input type="hidden" id="byHaRoomBuildingId" name="byHaRoomBuildingId" th:value="${byHaRoomBuildingId.buildingId}">
     <fieldset class="layui-elem-field layui-box">
         <legend>修改房间资料</legend>
         <div class="layui-form-item my-form-item">
@@ -214,7 +214,7 @@
         var _index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
         var load_option_url = "../devices/load_device_option.asp";
-        var op_url = "room_meter_update_do.asp";
+        var op_url = "/room/UpdateRoom";
         var g_areaId = $("#byHaRoomAreaId").val();
         var g_buildingId = $("#byHaRoomBuildingId").val();
         var g_roomId = $("#roomId").val();

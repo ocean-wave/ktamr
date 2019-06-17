@@ -191,4 +191,23 @@ public class RoomController extends BaseController {
         return haCentors;
     }
 
+    @RequestMapping("/UpdateRoom")
+    @ResponseBody
+    public Object updateRoom(String opType,HaRoom haRoom){
+        if(opType.equals("updateMeter")){
+            Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
+            if(haRoomC==1){
+                return "true";
+            }
+            return false;
+        }else if(opType.equals("changeMeter")){
+            Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
+            if(haRoomC==1){
+                return "true";
+            }
+            return false;
+        }
+        return null;
+    }
+
 }

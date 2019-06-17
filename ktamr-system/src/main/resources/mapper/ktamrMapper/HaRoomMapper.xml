@@ -137,6 +137,6 @@
     </select>
 
     <select id="getByHaRoomBuildingId" resultType="com.ktamr.domain.HaRoom">
-        SELECT buildingid FROM ha_room WHERE roomid=#{roomId}
+        SELECT buildingid as buildingId FROM ha_room WHERE roomid=#{roomId}
     </select>
 </mapper>
