@@ -34,4 +34,6 @@ public interface HaCollectorService {
 
     //deviceId不为空查询
     List<HaCollector> collectorByDeviceId(Integer deviceId);
+
+    HaCollector getNconf(Integer collectorId);
 }

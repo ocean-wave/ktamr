@@ -72,6 +72,10 @@ public interface HaCentorService {
     //修改时集中器传值
     List<HaCentor> DeviceByWhere(String deviceType);
 
+    HaCentor centorDevNo(Integer centorId);
+
+    HaCentor centorDevDescription(Integer centorId);
+
     //查询集中器超收，根据登录用户id查询
     public Integer centor_count( String  operator_codeSession);
 

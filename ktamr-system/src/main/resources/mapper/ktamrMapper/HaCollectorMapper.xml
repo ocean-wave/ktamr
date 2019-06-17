@@ -78,4 +78,8 @@
     <select id="collectorByDeviceId" resultMap="collectorMap">
         SELECT collectorid as collectorId,nconf as nconf,addr as addr FROM ha_collector WHERE centorid=#{deviceId}
     </select>
+
+    <select id="getNconf" resultType="com.ktamr.domain.HaCollector">
+        SELECT Hex(nconf) FROM ha_collector WHERE collectorid=#{collectorId}
+    </select>
 </mapper>

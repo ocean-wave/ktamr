@@ -220,7 +220,7 @@
         var g_roomId = $("#roomId").val();
         var g_roomName = "<%=roomName%>";
         var g_meterId = $("#meterId").val();
-        var g_meterNumber = "<%=meterNumber%>";
+        var g_meterNumber = $("#meterNumber").val();
         var g_deviceType = "<%=deviceType%>";
         var g_opType = "updateMeter";
         $('#setupTime').datetimepicker({
@@ -498,7 +498,8 @@
                 setupTime: $("#setupTime").val(),
                 isBranch: $("#isBranch").val(),
                 primalNumber: $("#primalNumber").val(),
-                offsetNumber: $("#offsetNumber").val()
+                offsetNumber: $("#offsetNumber").val(),
+                meterNumber:g_meterNumber
             };
             var data2 = {
                 opType: "changeMeter",

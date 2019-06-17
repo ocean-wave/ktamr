@@ -35,4 +35,6 @@ public interface HaCollectorMapper {
 
     //deviceId不为空查询
     List<HaCollector> collectorByDeviceId(@Param("deviceId") Integer deviceId);
+
+    HaCollector getNconf(@Param("collectorId") Integer collectorId);
 }
