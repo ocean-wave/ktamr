@@ -70,4 +70,9 @@ public class HaCollectorServiceImpl implements HaCollectorService {
     public List<HaCollector> collectorByDeviceId(Integer deviceId) {
         return haCollectorMapper.collectorByDeviceId(deviceId);
     }
+
+    @Override
+    public HaCollector getNconf(Integer collectorId) {
+        return haCollectorMapper.getNconf(collectorId);
+    }
 }

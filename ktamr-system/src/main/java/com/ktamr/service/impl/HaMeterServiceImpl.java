@@ -191,6 +191,26 @@ public class HaMeterServiceImpl implements HaMeterService {
         return haMeterMapper.meterCountNum(roomId);
     }
 
+    @Override
+    public HaMeter orIgNumber(Integer meterId) {
+        return haMeterMapper.orIgNumber(meterId);
+    }
+
+    @Override
+    public HaMeter orImeterNumber(Integer meterId) {
+        return haMeterMapper.orImeterNumber(meterId);
+    }
+
+    @Override
+    public HaMeter mMeterSequence(Integer meterId) {
+        return haMeterMapper.mMeterSequence(meterId);
+    }
+
+    @Override
+    public HaMeter mMeterSequence2(Integer centorId, Integer centorId2) {
+        return haMeterMapper.mMeterSequence2(centorId,centorId2);
+    }
+
     /**
      * 主页统计表==》表列表
      * @param haMeter

@@ -126,6 +126,16 @@ public class HaCentorServiceImpl implements HaCentorService {
         return haCentorMapper.DeviceByWhere(deviceType);
     }
 
+    @Override
+    public HaCentor centorDevNo(Integer centorId) {
+        return haCentorMapper.centorDevNo(centorId);
+    }
+
+    @Override
+    public HaCentor centorDevDescription(Integer centorId) {
+        return haCentorMapper.centorDevDescription(centorId);
+    }
+
     /**
      * 查询集中器超收，根据登录用户id查询
      * @param operator_codeSession

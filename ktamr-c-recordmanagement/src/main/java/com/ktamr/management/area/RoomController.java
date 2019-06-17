@@ -193,10 +193,43 @@ public class RoomController extends BaseController {
 
     @RequestMapping("/UpdateRoom")
     @ResponseBody
-    public Object updateRoom(String opType,HaRoom haRoom){
+    public Object updateRoom(String opType,Integer meterId,Integer centorId,Integer collectorId,Integer meterNumber,HaRoom haRoom,HaMeter haMeter){
+        Object centorDevNo = null;
+        Object mMeterSequences = null;
+        Object nconf=null;
         if(opType.equals("updateMeter")){
             Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
-            if(haRoomC==1){
+            if(centorId==null){
+                centorDevNo.equals("X");
+                centorId=null;
+            }else{
+                centorDevNo = haCentorService.centorDevNo(centorId);
+                HaCentor centorDevDescription = haCentorService.centorDevDescription(centorId);
+                if(centorDevDescription.getDescription().substring(0, 5).equals("KT4EW")){
+                    mMeterSequences = haMeterService.mMeterSequence(meterId);
+                    if(((HaMeter) mMeterSequences).getMeterSequence()==0){
+                        mMeterSequences = haMeterService.mMeterSequence2(centorId,centorId);
+                        if(mMeterSequences.equals("") || mMeterSequences.equals(0)){
+                            mMeterSequences.equals(1);
+                        }else if(((HaMeter) mMeterSequences).getMeterSequence()-0>65535){
+                            mMeterSequences=null;
+                        }
+                    }
+                }
+            }
+            if(collectorId==null || collectorId==-1){
+                nconf.equals("X");
+                collectorId=null;
+            }else{
+                nconf = haCollectorService.getNconf(collectorId);
+            }
+            String addr = centorDevNo.toString()+nconf+meterNumber;
+            HaMeter haMeter1 = new HaMeter();
+            haMeter1.setAddr(addr);
+            haMeter1.setMeterNumber(meterNumber);
+            haMeter1.setMeterId(meterId);
+            Integer meter = haMeterService.updateHaMeter(haMeter);
+            if(haRoomC==1 && meter==1){
                 return "true";
             }
             return false;

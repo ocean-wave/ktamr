@@ -6,7 +6,7 @@
 #服务配置
 server:
   #访问端口号80
-  port: 8880
+  port: 8888
   servlet:
     #配置项目的访问路径(默认是:/)
     context-path: /

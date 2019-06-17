@@ -384,6 +384,14 @@
         ORDER BY centorNo,description
     </select>
 
+    <select id="centorDevNo" resultType="com.ktamr.domain.HaCentor">
+        SELECT ce.centorid FROM ha_centor ce WHERE ce.id=#{centorId}
+    </select>
+
+    <select id="centorDevDescription" resultType="com.ktamr.domain.HaCentor">
+        SELECT ce.description FROM ha_centor ce WHERE ce.id=#{centorId}
+    </select>
+
     <!--  查询集中器超收，根据登录用户id查询  -->
     <select id="centor_count" resultType="Integer">
     SELECT count(1)  FROM (ha_centor c left join ha_area a on Left(c.centorNO, 5)=a.areaNO left join ha_cmd cm on c.id = cm.centorid) left join ha_operator o on cm.uid=o.operator_code WHERE Left(c.description,3)='KT4' and o.operator_code=#{operator_codeSession}

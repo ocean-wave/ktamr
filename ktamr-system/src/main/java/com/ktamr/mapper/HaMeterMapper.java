@@ -101,6 +101,16 @@ public interface HaMeterMapper {
     //安装表数量
     Integer meterCountNum(@Param("roomId") Integer roomId);
 
+    //原表底数
+    HaMeter orIgNumber(@Param("meterId") Integer meterId);
+
+    //原表号
+    HaMeter orImeterNumber(@Param("meterId") Integer meterId);
+
+    HaMeter mMeterSequence(@Param("meterId") Integer meterId);
+
+    HaMeter mMeterSequence2(@Param("centorId") Integer centorId,@Param("centorId2") Integer centorId2);
+
     /**
      * 主页统计表==》表列表
      * @param haMeter
