@@ -8,10 +8,10 @@
 	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
 		<div class="col-xs-2 my-form-col" style="width:162px;">
 			<div class="btn-group" data-toggle="buttons">
-				<label th:if="${collector_count} ==0" class="btn btn-sm btn-default">
+				<label th:if="${session.collector_count} ==0" class="btn btn-sm btn-default">
 					<input type="radio" name="options" data-title="centor" checked >集中器
 				</label>
-				<label th:if="${centor_count} ==0" class="btn btn-sm btn-default">
+				<label th:if="${session.centor_count} ==0" class="btn btn-sm btn-default">
 					<input type="radio" name="options" data-title="ccentor">集采器
 				</label>
 				<label class="btn btn-sm btn-default">
@@ -28,7 +28,7 @@
 		</div>
 		<div class="my-btns pull-right" style="display:block;">
 			<button data-modal="" data-title="再次执行" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-repeat"></span> 再次执行</button>
-			<button th:if=" ${ operatorLevelCode <= 0 } " data-modal="" data-title="删除命令" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-trash"></span> 删除命令</button>
+			<button th:if=" ${operatorLevelCode <= 0 } " data-modal="" data-title="删除命令" class="layui-btn layui-btn-sm"><span class="glyphicon glyphicon-trash"></span> 删除命令</button>
 			<button data-modal="" data-title="查看结果" class="layui-btn layui-btn-primary layui-btn-sm">查看结果</button>
 			<button data-modal="" data-title="系统日志" class="layui-btn layui-btn-primary layui-btn-sm">系统日志</button>
 
