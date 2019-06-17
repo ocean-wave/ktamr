@@ -3,9 +3,11 @@ package com.ktamr.web.controller.thirdpartydata;
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.export.ExcelUtilTwo;
 import com.ktamr.common.utils.export.ExportDbfUtil;
 import com.ktamr.common.utils.export.ExportStr;
 import com.ktamr.common.utils.export.ExportTxtUtil;
+import com.ktamr.domain.HaRgn;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HavMeterinfoService;
@@ -62,13 +64,21 @@ public class ThirdPartyController extends BaseController {
 
     @PostMapping("/exportToDbf")
     @ResponseBody
-    public AjaxResult exportToDbf(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name
-                                                            ,@RequestParam( value = "dbfLabel[]") String[] dbfLabel
-                                                            ,@RequestParam( value = "dbfWidth[]") Integer[] dbfWidth){
+    public AjaxResult exportToDbf(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
         List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
+        String showListType = havMeterinfo.getParams().get("showListType").toString();
+        String[] dbfLabel = new String[]{};
+        Integer[] dbfWidth = new Integer[]{};
+        String[] format = new String[]{};
+        if("sys_zjss".equals(showListType)){
+            dbfLabel = new String[]{"USERNO","METERNO","DIZHI","READNUM","READDATE"};
+            dbfWidth = new Integer[]{20,20,20,20,8};
+            format = new String[]{"CHARACTER","CHARACTER","CHARACTER","CHARACTER","DATE"};
+        }
         ExportDbfUtil exportDbfUtil = new ExportDbfUtil();
         exportDbfUtil.setDbfLabel(dbfLabel);
         exportDbfUtil.setDbfWidth(dbfWidth);
+        exportDbfUtil.setFormar(format);
         exportDbfUtil.setDbfName(name);
         try {
             return exportDbfUtil.init(listMeterinfo);
@@ -76,5 +86,13 @@ public class ThirdPartyController extends BaseController {
             e.printStackTrace();
             return AjaxResult.error(e.getMessage());
         }
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HavMeterinfo havMeterinfo, ExcelUtilTwo excelUtilTwo)
+    {
+        List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(havMeterinfo);
+        return excelUtilTwo.init(list, "");
     }
 }

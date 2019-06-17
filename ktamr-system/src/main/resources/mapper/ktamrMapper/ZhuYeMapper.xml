@@ -46,7 +46,6 @@
     </select>
 
     <!--  《表状态统计begin》  -->
-
     <!--1、正常表计数    -->
     <select id="meterStateCount03" resultType="Integer">
     SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR m.state='关阀')
@@ -100,6 +99,5 @@
     <select id="meterStateCountCaiJiQi2" resultType="Integer">
     SELECT Count(co.collectorid) AS 总数 FROM ha_centor ce,ha_collector co WHERE ce.id=co.centorid AND co.state='EE'
     </select>
-
     <!--  《表状态统计end》  -->
 </mapper>

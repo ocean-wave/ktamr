@@ -383,4 +383,40 @@
         </if>
         ORDER BY centorNo,description
     </select>
+
+    <!--  查询集中器超收，根据登录用户id查询  -->
+    <select id="centor_count" resultType="Integer">
+    SELECT count(1)  FROM (ha_centor c left join ha_area a on Left(c.centorNO, 5)=a.areaNO left join ha_cmd cm on c.id = cm.centorid) left join ha_operator o on cm.uid=o.operator_code WHERE Left(c.description,3)='KT4' and o.operator_code=#{operator_codeSession}
+    </select>
+
+    <!--  查询集采器超收，根据登录用户id查询  -->
+    <select id="collector_count" resultType="Integer">
+    SELECT count(1) FROM ha_centor c left join ha_cmd cm on c.id = cm.centorid left join ha_operator o on cm.uid=o.operator_code
+LEFT OUTER JOIN ha_meter m ON c.id=m.centorId LEFT JOIN ha_area a ON c.areaid=a.areaid
+WHERE (Left(c.description,4)='GPRS' OR Left(c.description,3)='COM' OR Left(c.description,3)='KT3')  and o.operator_code=#{operator_codeSession}
+    </select>
+
+    <!--  查询手抄器超收，根据登录用户id查询 1线路列表  -->
+    <select id="pad_count1" resultType="Integer">
+SELECT count(1) FROM (ha_centor c left join ha_area a on Left(c.centorNO, 5)=a.areaNO
+left join ha_cmd cm on c.id = cm.centorid) left join ha_operator o on cm.uid=o.operator_code
+WHERE Left(c.description,4)='HAND' AND Left(c.centorNO, 5)=a.areaNO and o.operator_code=#{operator_codeSession}
+    </select>
+
+    <!-- 查询手抄器抄收，根据登录用户id查询 2表列表   -->
+    <select id="pad_count2" resultType="Integer">
+SELECT count(1) FROM (ha_meter m LEFT JOIN hav_meterinfo mi ON m.meterid=mi.meterid
+	  LEFT JOIN ha_centor ce ON ce.id=m.centorid
+	  LEFT JOIN ha_collector co ON co.collectorid=m.collectorid
+	left join ha_cmd cm on ce.id = cm.centorid) left join ha_operator o on cm.uid=o.operator_code
+	where  o.operator_code=#{operator_codeSession}
+    </select>
+
+    <!-- 查询DTU，根据登录用户id查询   -->
+    <select id="DTU_count" resultType="Integer">
+SELECT count(1) FROM ((ha_gprsDTU d LEFT OUTER JOIN ha_centor c ON d.uid=c.telnumber)
+LEFT JOIN ha_area a ON Left(c.centorNo, 5)=a.areaNo
+left join ha_cmd cm on c.id = cm.centorid) left join ha_operator o on cm.uid=o.operator_code
+WHERE length(d.uid)>0 and o.operator_code=#{operator_codeSession}
+    </select>
 </mapper>

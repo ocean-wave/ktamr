@@ -8,10 +8,10 @@
 	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
 		<div class="col-xs-2 my-form-col" style="width:162px;">
 			<div class="btn-group" data-toggle="buttons">
-				<label class="btn btn-sm btn-default">
+				<label th:if="${collector_count} ==0" class="btn btn-sm btn-default">
 					<input type="radio" name="options" data-title="centor" checked >集中器
 				</label>
-				<label class="btn btn-sm btn-default">
+				<label th:if="${centor_count} ==0" class="btn btn-sm btn-default">
 					<input type="radio" name="options" data-title="ccentor">集采器
 				</label>
 				<label class="btn btn-sm btn-default">

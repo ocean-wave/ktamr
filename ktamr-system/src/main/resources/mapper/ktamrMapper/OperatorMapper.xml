@@ -67,8 +67,10 @@
 			when operator_company =  '华龙仪表' then 'sys_hlyb'
 			when operator_company =  '佛山威星' then 'sys_fswx'
 			when operator_company =  '广东韶关' then 'sys_gdsg'
-			 when operator_company =  '福达' then 'sys_lclxgss'
-			 when operator_company =  '安徽来安水司' then 'sys_ahlass' end AS operatorCompanyId
+			when operator_company =  '福达' then 'sys_lclxgss'
+			when operator_company =  '安徽来安水司' then 'sys_ahlass'
+			when operator_company =  '吉林桦甸' then 'sys_jlhd'
+			when operator_company =  '湖南新邵' then 'sys_hnxs' end AS operatorCompanyId
                 from ha_operator
             ) t
             where (operator_code = #{id} or #{id} = 'ha') and operatorCompanyId is not null

@@ -84,6 +84,8 @@ public class ExcelUtilTwo {
                         }else {
                             cell.setCellValue(DateUtils.dateTimeTwo((Date) value));
                         }
+                    }else if(value instanceof Double) {
+                        cell.setCellValue(String.valueOf(Integer.parseInt(new java.text.DecimalFormat("0").format(value))));
                     }else{
                         cell.setCellStyle(cellStyles[i]);
                         cell.setCellType(CellType.STRING);
@@ -144,7 +146,7 @@ public class ExcelUtilTwo {
 
     private AjaxResult wbWrite(){
         OutputStream out = null;
-        String filename = ExportStr.encodingFilename(this.sheetName);
+        String filename = ExportStr.encodingFileExcelname();
         try {
             out = new FileOutputStream(ExportStr.getAbsoluteFile(filename));
             wb.write(out);

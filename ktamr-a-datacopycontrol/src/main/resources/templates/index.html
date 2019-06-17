@@ -138,6 +138,7 @@
 			<li data-type="all">关闭所有</li>
 		</ul>
 
+		<input id="xka" type="text" value="<%=Session("DTU_count")%>">
 </body>
 <!-- 左侧菜单列表模板引擎-->
 <script id="nav-tpl" type="text/html" data-params='{"url":"common/json/menu.json","listid":"nav","icon":"true"}'>
@@ -203,7 +204,43 @@
 </script>
 
 <script>
+
+	//每一个都加上一个监听点击事件
+	var list = document.getElementById('nav');
+	list.addEventListener('click', function (event) {
+		var attrName=$("#nav li:eq(3) a").attr("data-title");
+		if(attrName=="设备抄控"){
+			showOrHide();
+		}
+	}, false);
+
+	//设备超控里面的节点是否隐藏或者显示
+	function showOrHide(){
+		//会话获取判断
+		var centor_count="${sessionScope.centor_count}";
+		var collector_count="${sessionScope.collector_count}";
+		var pad_count1="${sessionScope.pad_count1}";
+		var pad_count2="${sessionScope.pad_count2}";
+		var DTU_count="${sessionScope.DTU_count}";
+		if(centor_count==0){
+			$(".sub-menu li:eq(1)").hide();
+		}
+		if(collector_count==0){
+			$(".sub-menu li:eq(2)").hide();
+		}
+		if(pad_count1==0  ){
+			$(".sub-menu li:eq(3)").hide();
+		}
+		if( pad_count2==0){
+			$(".sub-menu li:eq(3)").hide();
+		}
+		if(DTU_count==0){
+			$(".sub-menu li:eq(4)").hide();
+		}
+	}
+
 	function horizontalScreen(){
+		$(".sub-menu li")[1].hidden
 		var width = document.documentElement.clientWidth;
 		var height =  document.documentElement.clientHeight;
 		//console.log("width,height:",width, height);

@@ -9,7 +9,7 @@
             <select id="rgns" class="selectpicker form-control" multiple data-live-search="true"
                     data-live-search-placeholder="Search" data-actions-box="true" data-style="btn-default btn-sm"
                     data-size="5">
-
+                <!--开始循环小区名称-->
                 <option th:each="HaRgn : ${haRgnsListName}"
                         th:value="${HaRgn.id}" th:text="${HaRgn.name}">Credit card
                 </option>
@@ -103,9 +103,7 @@
             form.render('checkbox');
 
         };
-
         GridObj.drawGrid();
-
         GridObj.drawGridPager();
         GridObj.setGridSize();
         GridObj.gridResize();

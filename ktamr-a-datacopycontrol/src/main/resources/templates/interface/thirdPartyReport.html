@@ -683,6 +683,45 @@
 				GridObj.drawGridPager();
 				GridObj.setGridSize();
 				GridObj.gridResize();
+			}else if(showListType == "sys_jlhd"){
+				companyChange(showListType);
+				GridObj.unloadGrid();
+				GridObj.removeGridResize();
+				GridObj.jqdefaultGridConfig.caption = "";
+				GridObj.jqdefaultGridConfig.multiselect = false;
+				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.colNames = ['meterId','USERID','CURDATA','READDATE','SUCCFLAG'];
+				GridObj.jqdefaultGridConfig.colModel = [
+					{ name: 'meterId',  width: 75, key: true, hidden: true},
+					{ name: 'userNo',  width: 100},
+					{ name: 'thNumber', width: 100 },
+					{ name: 'thRTime', width: 180},
+					{ name: 'defaultOne', width: 100 },
+				];
+				GridObj.drawGrid();
+				GridObj.drawGridPager();
+				GridObj.setGridSize();
+				GridObj.gridResize();
+			}else if(showListType == "sys_hnxs"){
+				companyChange(showListType);
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115);
+				GridObj.unloadGrid();
+				GridObj.removeGridResize();
+				GridObj.jqdefaultGridConfig.caption = "";
+				GridObj.jqdefaultGridConfig.multiselect = false;
+				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.colNames = ['meterId','户号','钢印号','本期抄表日','本期读数'];
+				GridObj.jqdefaultGridConfig.colModel = [
+					{ name: 'meterId',  width: 75, key: true, hidden: true},
+					{ name: 'userNo',  width: 100},
+					{ name: 'meterNumber', width: 100 },
+					{ name: 'thRTime', width: 180},
+					{ name: 'thNumber', width: 100 },
+				];
+				GridObj.drawGrid();
+				GridObj.drawGridPager();
+				GridObj.setGridSize();
+				GridObj.gridResize();
 			}
 		}
 
@@ -746,14 +785,6 @@
 			}
 			if(btnTitle == "DBF文件"){
 				url = "/thirdpartydata/exportToDbf";
-				var dbfLabel = new Array();
-				var dbfWidth = new Array();
-				if(showListType == "sys_zjss"){
-					dbfLabel = ["USERNO","METERNO","DIZHI","READNUM","READDATE"];
-					dbfWidth = [20,20,20,20,20];
-				}
-				postData["dbfLabel"] = dbfLabel;
-				postData["dbfWidth"] = dbfWidth;
 				$.ktamr.exportTxtDbf(url, postData);
 			}else if(btnTitle == "TXT文件"){
 				url = "/thirdpartydata/exportToTxt";

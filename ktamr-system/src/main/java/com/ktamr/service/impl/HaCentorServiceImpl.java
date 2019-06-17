@@ -125,4 +125,71 @@ public class HaCentorServiceImpl implements HaCentorService {
     public List<HaCentor> DeviceByWhere(String deviceType) {
         return haCentorMapper.DeviceByWhere(deviceType);
     }
+
+    /**
+     * 查询集中器超收，根据登录用户id查询
+     * @param operator_codeSession
+     * @return
+     */
+    @Override
+    public Integer centor_count(String operator_codeSession) {
+        Integer centor_count = haCentorMapper.centor_count(operator_codeSession);
+        if(centor_count!=null){
+            return  centor_count;
+        }
+        return null;
+    }
+
+    /**
+     * 查询集采器超收，根据登录用户id查询
+     * @param operator_codeSession
+     * @return
+     */
+    @Override
+    public Integer collector_count(String operator_codeSession) {
+        Integer collector_count = haCentorMapper.collector_count(operator_codeSession);
+        if(collector_count!=null){
+            return collector_count;
+        }
+        return null;
+    }
+
+    /**
+     * 查询手抄器超收，根据登录用户id查询 1线路列表
+     * @param operator_codeSession
+     * @return
+     */
+    @Override
+    public Integer pad_count1(String operator_codeSession) {
+        Integer pad_count1 = haCentorMapper.pad_count1(operator_codeSession);
+        return null;
+    }
+
+    /**
+     * 查询手抄器抄收，根据登录用户id查询 2表列表
+     * @param operator_codeSession
+     * @return
+     */
+    @Override
+    public Integer pad_count2(String operator_codeSession) {
+        Integer pad_count2 = haCentorMapper.pad_count2(operator_codeSession);
+        if(pad_count2!=null){
+            return pad_count2;
+        }
+        return null;
+    }
+
+    /**
+     * 查询DTU，根据登录用户id查询
+     * @param operator_codeSession
+     * @return
+     */
+    @Override
+    public Integer DTU_count(String operator_codeSession) {
+        Integer dtu_count = haCentorMapper.DTU_count(operator_codeSession);
+        if(dtu_count!=null){
+            return dtu_count;
+        }
+        return null;
+    }
 }
