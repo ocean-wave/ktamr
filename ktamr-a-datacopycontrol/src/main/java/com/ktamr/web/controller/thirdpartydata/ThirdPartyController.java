@@ -3,11 +3,7 @@ package com.ktamr.web.controller.thirdpartydata;
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.ServletUtils;
-import com.ktamr.common.utils.export.ExcelUtilTwo;
-import com.ktamr.common.utils.export.ExportDbfUtil;
-import com.ktamr.common.utils.export.ExportStr;
-import com.ktamr.common.utils.export.ExportTxtUtil;
-import com.ktamr.domain.HaRgn;
+import com.ktamr.common.utils.export.*;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HavMeterinfoService;
@@ -74,6 +70,14 @@ public class ThirdPartyController extends BaseController {
             dbfLabel = new String[]{"USERNO","METERNO","DIZHI","READNUM","READDATE"};
             dbfWidth = new Integer[]{20,20,20,20,8};
             format = new String[]{"CHARACTER","CHARACTER","CHARACTER","CHARACTER","DATE"};
+        }else if("sys_gdsg".equals(showListType)){
+            dbfLabel = new String[]{"A","B","C","D","E","F","G","H","I","J","K","L","N","M","O","P","Q","R"};
+            dbfWidth = new Integer[]{10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,8,10};
+            format = new String[]{"CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","CHARACTER","DATE","CHARACTER"};
+        }else if("sys_jlhd".equals(showListType)){
+            dbfLabel = new String[]{"USERID","CURDATA","READDATE","SUCCFLAG"};
+            dbfWidth = new Integer[]{10,10,8,10};
+            format = new String[]{"CHARACTER","CHARACTER","DATE","CHARACTER"};
         }
         ExportDbfUtil exportDbfUtil = new ExportDbfUtil();
         exportDbfUtil.setDbfLabel(dbfLabel);
@@ -88,6 +92,32 @@ public class ThirdPartyController extends BaseController {
         }
     }
 
+    /**
+     * 导出自定义Excel
+     * @param havMeterinfo
+     * @return
+     */
+    @PostMapping("/exportCustomExcel")
+    @ResponseBody
+    public AjaxResult exportCustomExcel(HavMeterinfo havMeterinfo)
+    {
+        List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(havMeterinfo);
+        ExportCustomExcel exportCustomExcel = new ExportCustomExcel();
+        String[] excelLabel = new String[]{"","序号","小区","楼栋","单元","门牌","用户名","铅封号","用户编码","设备编码","口径","流量","压力","瞬时流量","阀门状态","表具状态","电压","温度","上传时间","表具时间"};
+        Integer[] excelWidth = new Integer[]{0,100,100,80,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150};
+        String[] excelName = new String[]{"","","areaName","haBuilding.name","haRoom.name","defaultOne","userName","defaultOne","userNo","centorNo","defaultOne","defaultOne","defaultOne","defaultOne","defaultOne","state","defaultOne","defaultOne","thRTime","defaultOne"};
+        exportCustomExcel.setExcelLabel(excelLabel);
+        exportCustomExcel.setExcelWidth(excelWidth);
+        exportCustomExcel.setExcelName(excelName);
+        return exportCustomExcel.init(list,"");
+    }
+
+    /**
+     * 导出页面表格Excel
+     * @param havMeterinfo
+     * @param excelUtilTwo
+     * @return
+     */
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(HavMeterinfo havMeterinfo, ExcelUtilTwo excelUtilTwo)
