@@ -300,10 +300,7 @@ public class HavMeterinfo extends BaseEntity {
         this.snumber = snumber;
     }
 
-    public String getDefaultOne() {
-
-        return defaultOne;
-    }
+    public String getDefaultOne() { return defaultOne; }
 
     public void setDefaultOne(String defaultOne) {
         this.defaultOne = defaultOne;

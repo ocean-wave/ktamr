@@ -355,7 +355,7 @@
             ,mi.centorno AS centorNo
             ,mi.状态 AS state
             ,mi.抄表时间 AS thRTime
-            ,'' AS defaultOne
+            ,'无数据' AS defaultOne
             FROM hav_meterinfo mi
             LEFT JOIN ha_building b on mi.buildingid = b.buildingid
             LEFT JOIN ha_room r on mi.roomid = r.roomid

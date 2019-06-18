@@ -135,12 +135,13 @@
 				$(".btns2").show();
 			}else if(showListType == "sys_rass" || showListType == "sys_scsy" || showListType == "sys_scjdz"){
 				$(".btns2").show();
-
 			}else if(showListType == "sys_jrss" || showListType == "sys_dzss"){
 				$(".btns3").show();
 			}else if(showListType == "sys_gdsg"){
 				$(".btns1").show();
 				$(".btns4").show();
+			}else if(showListType == "sys_jlhd"){
+				$(".btns1").show();
 			}
 		}
 		function showjqGridList(showListType){
@@ -689,7 +690,7 @@
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {ListNumber: g_ListNumber, showListType: showListType};
+				GridObj.jqdefaultGridConfig.postData = {"params[showListType]": showListType};
 				GridObj.jqdefaultGridConfig.colNames = ['meterId','USERID','CURDATA','READDATE','SUCCFLAG'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{ name: 'meterId',  width: 75, key: true, hidden: true},
@@ -790,7 +791,8 @@
 				url = "/thirdpartydata/exportToTxt";
 				$.ktamr.exportTxtDbf(url, postData);
 			}else if(btnTitle == "EXCEL文件"){
-
+				url = "/thirdpartydata/exportCustomExcel";
+				$.ktamr.exportCustomExcel(url, postData);
 			}else if(btnTitle == "数据上传"){
 				if(showListType == "sys_jrss" || showListType == "sys_ahqj"){
 					var _layerSize = ['500px', '320px'];

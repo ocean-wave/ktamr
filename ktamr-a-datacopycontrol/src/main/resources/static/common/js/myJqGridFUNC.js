@@ -606,11 +606,11 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 				var grid = $("#jqGrid");
 				var colModel = grid.jqGrid("getGridParam", "colModel");
 				var nameArray = new Array();
-				for(var i = 0;i<colNames.length;i++){
+				for(var i = 0;i<colModel.length;i++){
 					var name = colModel[i].name;
 					var hidden = colModel[i].hidden;
 					if(name != "rn" && name != "cb" && !hidden){
-						name.push(colModel[i].name);
+						nameArray.push(name);
 					}
 				}
 				pData["name"]=nameArray;
@@ -622,6 +622,17 @@ function CustBillOptCellColor(rowId, val, rawObject, cm, rdata){
 							$.ktamr.alert(result.msg,modal_status.FAIL);
 						}
 						$.ktamr.closeloading();
+				});
+			},
+			exportCustomExcel: function(pUrl, pData){
+				$.ktamr.loading("正在导出数据，请稍后...");
+				$.post(pUrl,pData,function(data){
+					if(data.code == "0"){
+						window.location.href = ctx + "common/download?fileName=" + encodeURI(data.msg)+"&delete="+true;
+					}else{
+						$.ktamr.alert(result.msg,modal_status.FAIL);
+					}
+					$.ktamr.closeloading();
 				});
 			},
 			loading: function (message) {
