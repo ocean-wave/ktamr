@@ -15,9 +15,9 @@ public class HatBalanceimport extends BaseEntity {
   private double meterNumber;
   private double balance;
   private long userId;
-  private String check;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private String state;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date importTime;
 
 
@@ -69,12 +69,12 @@ public class HatBalanceimport extends BaseEntity {
     this.userId = userId;
   }
 
-  public String getCheck() {
-    return check;
+  public String getState() {
+    return state;
   }
 
-  public void setCheck(String check) {
-    this.check = check;
+  public void setState(String state) {
+    this.state = state;
   }
 
   public Date getImportTime() {

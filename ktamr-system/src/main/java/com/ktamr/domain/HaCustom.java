@@ -57,7 +57,16 @@ public class HaCustom extends BaseEntity {
 
     private String userAddress;//用于存放用户地址
     private Double userBalance;//用户存放余额
+    private String filename;
 
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public String getBalanceType() {
         return balanceType;

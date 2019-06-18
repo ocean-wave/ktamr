@@ -27,7 +27,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            <form id="form" name="form" class="fupload" method="post" action="cust_balance_import_todo.asp">
+            <form id="form" name="form" class="fupload" method="post" action="/cust_balance_import_todo" enctype="multipart/form-data">
                 <p><b>1、请选择要导入的文件：（文件格式：*.xls/*.xlsx）</b></p>
                 <label for="jobData" class="control-label hide" style="float:left;padding-left:15px;">任务数据</label>
                 <div class="row" style="padding:5px 15px;">
@@ -36,7 +36,7 @@
                             <button class="btn btn-success btn-sm fileinput-button" type="button">浏览</button>
                             <input type="file" id="userInfo" name="userInfo" onchange="loadFile(this.files[0])" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
                         </div>
-                        <span id="filename" style="vertical-align: middle">未选择文件</span>
+                        <span  id="filename" style="vertical-align: middle">未选择文件</span>
                     </div>
                 </div>
                 <br/>
@@ -61,6 +61,7 @@
 
     function loadFile(file){
         $("#filename").html(file.name);
+
     }
     layui.config({
         base : '/common/js/',
@@ -104,7 +105,6 @@
             event.preventDefault();
             var loadLayerIndex = "";
             var form = $(this);
-
             if(checkSubmitForm()==false)
                 return false;
 
@@ -115,12 +115,15 @@
                     url: form.attr('action'),
                     data: form.serialize()
                     ,beforeSend: function(){
+
                         loadLayerIndex = showLoadLayer()
                     }
                 }).success(function () {
+
                     //成功提交
                     clossLoadLayer(loadLayerIndex);
                 }).fail(function (jqXHR, textStatus, errorThrown) {
+
                     //错误信息
                 });
             }else {
