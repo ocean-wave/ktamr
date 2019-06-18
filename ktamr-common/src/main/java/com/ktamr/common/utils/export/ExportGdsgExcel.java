@@ -1,10 +1,11 @@
 package com.ktamr.common.utils.export;
 
-import com.ktamr.common.exception.BusinessException;
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.exception.BusinessException;
 import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.StringUtils;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +17,12 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 导出Excel工具类
- * @author ktamr
- */
-public class ExcelUtilTwo {
-
-    private static final Logger log = LoggerFactory.getLogger(ExcelUtilTwo.class);
+public class ExportGdsgExcel {
+    private static final Logger log = LoggerFactory.getLogger(ExportExcelUtil.class);
 
     private String[] excelLabel;
     private Integer[] excelWidth;
     private String[] excelName;
-    private String[] excelDataFormat;
-    private String[] excelAlign;
-    private CellStyle[] cellStyles;
 
     private List<?> list;
     private String sheetName;
@@ -43,16 +36,49 @@ public class ExcelUtilTwo {
         sheet = wb.createSheet();
         this.list = list;
         this.sheetName = sheetName;
-        getCellStyle();
+        createTitle();
         createExcelField();
         createExcelData();
         return wbWrite();
     }
 
+    private void createTitle(){
+        for(int i =0;i<2;i++) {
+            row = sheet.createRow(i);
+            cell = null;
+            for (int j = 0;j<excelLabel.length+1;j++){
+                cell = row.createCell(j);
+                sheet.setColumnWidth(i,excelWidth[i]*35);
+                row.setHeight((short)500);
+
+                CellStyle style =  wb.createCellStyle();
+                Font font = wb.createFont();
+                style.setAlignment(HorizontalAlignment.CENTER);
+                style.setVerticalAlignment(VerticalAlignment.CENTER);
+                if(j!=0){
+                    cell.setCellValue("");
+                }else if(i==0) {
+                    font.setBold(true);
+                    font.setFontHeight((short) 300);
+                    style.setFont(font);
+                    cell.setCellValue("韶关市曲江区供水管理处实时数据已抄到统计");
+                }else if(i==1){
+                    cell.setCellValue("实时数据已抄到统计(导出时间:"+DateUtils.getTime()+")");
+                }
+                cell.setCellStyle(style);
+            }
+        }
+        CellRangeAddress region = new CellRangeAddress(0, 0, 0, 19);
+        sheet.addMergedRegion(region);
+        CellRangeAddress region2 = new CellRangeAddress(1, 1, 0, 19);
+        sheet.addMergedRegion(region2);
+    }
+
     private void createExcelField(){
-        row = sheet.createRow(0);
+        row = sheet.createRow(2);
         cell = null;
-        for(int i = 0;i<excelLabel.length;i++){
+        getBeginColumn(row);
+        for(int i = 1;i<=excelLabel.length-1;i++){
             cell = row.createCell(i);
             sheet.setColumnWidth(i,excelWidth[i]*35);
             cell.setCellValue(excelLabel[i]);
@@ -63,31 +89,28 @@ public class ExcelUtilTwo {
         double sheetNo = Math.ceil(this.list.size());
         Object value = null;
         int dataFormatIndex=0;
-        for (int index = 0; index < sheetNo; index++)
+        for (int index = 2; index < sheetNo; index++)
         {
             // 产生一行
             row = sheet.createRow(index+1);
+            getBeginColumn(row);
             Object vo = (Object) list.get(index);
 
-            for(int i = 0;i<excelName.length;i++){
+            for(int i = 1;i<=excelName.length-1;i++){
                 cell = row.createCell(i);
+                if(i==1){
+                    cell.setCellType(CellType.STRING);
+                    cell.setCellValue(String.valueOf(index-1));
+                    continue;
+                }
                 try {
                     String[] sc = excelName[i].split("[.]");
                     value = getTargetValue(vo, sc);
                     if(value instanceof Date){
-                        if (excelDataFormat != null && excelDataFormat.length > 0) {
-                            cell.setCellValue(DateUtils.parseDateToStr(excelDataFormat[dataFormatIndex], (Date) value));
-                            dataFormatIndex++;
-                            if (dataFormatIndex == excelDataFormat.length) {
-                                dataFormatIndex = 0;
-                            }
-                        }else {
-                            cell.setCellValue(DateUtils.dateTimeTwo((Date) value));
-                        }
+                        cell.setCellValue(DateUtils.dateTimeTwo((Date) value));
                     }else if(value instanceof Double) {
                         cell.setCellValue(String.valueOf(Integer.parseInt(new java.text.DecimalFormat("0").format(value))));
                     }else{
-                        cell.setCellStyle(cellStyles[i]);
                         cell.setCellType(CellType.STRING);
                         cell.setCellValue(StringUtils.isNull(value)?"":value.toString());
                     }
@@ -98,23 +121,10 @@ public class ExcelUtilTwo {
         }
     }
 
-    private void getCellStyle(){
-        cellStyles = new CellStyle[excelName.length];
-        for(int i = 0;i<excelName.length;i++) {
-            CellStyle style =  wb.createCellStyle();
-            switch (excelAlign[i]) {
-                case "left":
-                    style.setAlignment(HorizontalAlignment.LEFT);
-                    break;
-                case "right":
-                    style.setAlignment(HorizontalAlignment.RIGHT);
-                    break;
-                case "center":
-                    style.setAlignment(HorizontalAlignment.CENTER);
-                    break;
-            }
-            cellStyles[i] = style;
-        }
+    private void getBeginColumn(Row row){
+        cell = row.createCell(0);
+        sheet.setColumnWidth(0,1500);
+        cell.setCellValue(" ");
     }
 
     private Object getTargetValue(Object o, String[] sc)  throws Exception {
@@ -179,41 +189,12 @@ public class ExcelUtilTwo {
             }
         }
     }
-
-    public String[] getExcelAlign() {
-        return excelAlign;
-    }
-
-    public void setExcelAlign(String[] excelAlign) {
-        this.excelAlign = excelAlign;
-    }
-
-    public String[] getExcelDataFormat() {
-        return excelDataFormat;
-    }
-
-    public void setExcelDataFormat(String[] excelDataFormat) {
-        this.excelDataFormat = excelDataFormat;
-    }
-
-    public Integer[] getExcelWidth() {
-        return excelWidth;
-    }
-
     public void setExcelWidth(Integer[] excelWidth) {
         this.excelWidth = excelWidth;
     }
 
-    public String[] getExcelLabel() {
-        return excelLabel;
-    }
-
     public void setExcelLabel(String[] excelLabel) {
         this.excelLabel = excelLabel;
-    }
-
-    public String[] getExcelName() {
-        return excelName;
     }
 
     public void setExcelName(String[] excelName) {

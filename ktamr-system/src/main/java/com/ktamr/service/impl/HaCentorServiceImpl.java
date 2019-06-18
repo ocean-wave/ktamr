@@ -71,6 +71,11 @@ public class HaCentorServiceImpl implements HaCentorService {
     }
 
     @Override
+    public List<HaCentor> selectNbSurfaceCollector(HaCentor parms) {
+        return haCentorMapper.selectNbSurfaceCollector(parms);
+    }
+
+    @Override
     public List<HaCentor> selectCentor(HaCentor haCentor) {
         return haCentorMapper.selectCentor(haCentor);
     }

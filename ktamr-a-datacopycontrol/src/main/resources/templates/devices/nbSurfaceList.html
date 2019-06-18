@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="集采器抄控" th:include="include :: header"></head>
+
+<body  class="myPage-body">
+<div class="container myContainer">
+    <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
+        <div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
+            <input id="nodeType" type="text" class="input-sm form-control hide" value="">
+            <input id="nodeIds" type="text" class="input-sm form-control hide" value="">
+            <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"  placeholder="---请选择区域---"/>
+            <div id="menuContent" class="menuContent">
+                <div class="ztreeInput">
+                    <div>
+                        <input type="text" class="input-key input-sm form-control" id="zTreeKey" placeholder="请输入节点关键字">
+                    </div>
+                    <div class="ztreeSkip">
+                        <label type="text" id="resultKey" class="form-control ztreeSkipLabel">
+                            <div class="ztreeSkipBtns">
+                                <a id="clickUp" class="glyphicon glyphicon-menu-up ztreeSkipUp"></a>
+                                <a id="clickDown" class="glyphicon glyphicon-menu-down ztreeSkipDown"></a>
+                            </div>
+                            <label id="number" class="ztreeSkipNum"></label>
+                        </label>
+                    </div>
+                </div>
+                <ul id="areaTree" class="ztree"></ul>
+                <div class="clearfloat"></div>
+            </div>
+        </div>
+        <div class="col-xs-2 my-form-col">
+            <input class="input-sm form-control" type="text" id="keyWord" size="10" placeholder="请输入关键字">
+        </div>
+        <div class="col-xs-1 my-form-col">
+            <button data-modal="" data-title="查询" class="layui-btn layui-btn-normal  layui-btn-sm search"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </div>
+
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-sm" data-title="校时">校时</button>
+            <button class="layui-btn layui-btn-sm" data-title="读时钟">读时钟</button>
+            <button class="layui-btn layui-btn-sm" data-title="设心跳维护间隔">设心跳维护间隔</button>
+        </div>
+    </div>
+
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <form class="form-horizontal" id="jqgridForm" role="form">
+                <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                <div id="jqGridPager"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    layui.config({
+        base : '/common/js/',
+        version: [[${version}]]
+    }).extend({
+        myLayui: 'myLayui'
+    });
+    layui.use(['layer', 'form','myLayui'], function(){
+        var layer = layui.layer,
+            form = layui.form;
+        var zOption = {
+            url: "/nodes/getAreaNodes",
+            selectedMulti: true,
+            nodeTypeId: "nodeType",
+            nodeIdsId: "nodeIds",
+            nodeNamesId: "areaSel",
+            postData: {
+                parameterType: "collector"
+            },
+            clickCallBack: ""
+        };
+
+        var tree = new myzTree("areaTree", zOption);
+        tree.dropDownTreeOpen();
+        tree.fuzzySearch("zTreeKey", "clickUp", "clickDown", "number");
+        $("#areaSel").click(function(){
+            tree.showMenu();
+        });
+
+        $('.selectpicker').selectpicker({
+            actionsBox: true //保留全选,全不选按键
+            ,selectAllText: '选择所有'
+            ,deselectAllText: '取消全选'
+            ,liveSearchPlaceholder: '搜索'
+        });
+
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $(".search").click();
+            }
+        });
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,"/equipment/nbSurfaceListJson");
+        GridObj.unloadGrid();
+        GridObj.removeGridResize();
+        GridObj.jqdefaultGridConfig.caption = "";
+        GridObj.jqdefaultGridConfig.multiselect = true;
+        GridObj.jqdefaultGridConfig.postData = {};
+        GridObj.jqdefaultGridConfig.colNames = ['roomMeterId','id','用户编号','用户名称','用户地址','表号','最近读数','上期结算','本期用量','表状态','最近抄表时间','操作','操作结果'];
+        GridObj.jqdefaultGridConfig.colModel = [
+            {name: 'roomMeterId', width: 75, key: true, hidden: true, frozen: false},
+            {name: 'id',  width: 50, hidden: true },
+            {name: 'havMeterinfo.userNo', width: 90, formatter:'interger' },
+            {name: 'havMeterinfo.userName', width: 100 },
+            {name: 'havMeterinfo.userDs', width: 180 },
+            {name: 'havMeterinfo.meterNumber', width: 110, align: 'right' },
+            {name: 'havMeterinfo.thNumber', width: 70, align: 'right' },
+            {name: 'havMeterinfo.lfNumber', width: 70, align: 'right' },
+            {name: 'havMeterinfo.snumber', width: 70, align: 'right' },
+            {name: 'havMeterinfo.state', width: 90, cellattr: MeterStateCellColor },
+            {name: 'havMeterinfo.thRTime', width: 150 },
+            {name: '操作', width: 140, align: 'center', frozen: false
+                ,formatter: function (cellvalue, options, rowObject) {
+                    var btns = '<div class="layui-btn-group">';
+                    btns += '<button type="button" data-id="'+rowObject["roomMeterId"]+'" class="layui-btn layui-btn-xs readMeter">抄收</button>';
+                    btns += '<button type="button" data-id="'+rowObject["roomMeterId"]+'" class="layui-btn layui-btn-xs openMeter">开阀</button>';
+                    btns += '<button type="button" data-id="'+rowObject["roomMeterId"]+'" class="layui-btn layui-btn-xs closeMeter">关阀</button>';
+                    btns += '</div>';
+
+                    return btns;
+                }
+            },
+            {name: '操作结果', width: 90 }
+        ];
+        GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "表状态")};
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+        $(".search").click(function(){
+            var  keyWord = $("#keyWord").val();
+            var  _pdArray = "";
+            var date_range = ['', ''];
+            _pdArray = {
+                "keyWord": keyWord,
+                "dataType": "lastData",
+                "nodeType": $("#nodeType").val(),
+                "nodeIds": $("#nodeIds").val(),
+            };
+            fullTextSearch("jqGrid", _pdArray);
+        });
+
+
+        var get_cmdid_url= "/smallbox/haCmd/cmdAdd";
+        var get_result_url = "/smallbox/haCmd/getCmdAjax";
+        var get_row_data_url ="/clientTrans/rowDataGet";
+        var g_wait_time = 40;//阀门动作时间：水表18秒，燃气表15秒;
+        var gb_is_readMeter = false;//开关阀成功够是否单抄表
+        var meterManage = function(cmdName, gridId, rowIds, index){
+            this.cmdName = cmdName;
+            this.gridId = gridId;
+            this.rowIds = rowIds;
+            this.index = index;
+            this.get_result_timer = this.generate_timer();
+            this.get_row_data = this.read_meter_do();
+        };
+        meterManage.prototype.generate_timer = function(){
+            var _this = this;
+            return $.timer(function(){
+                var selRowId = _this.rowIds[_this.index];
+                $.get(get_result_url,
+                    {cmdid: _this.cmdid},
+                    function(data,status){
+                        if (status == "success"){
+                            var n, state, processing, s;
+                            s = unescape(data);
+                            n = s.indexOf(":");
+                            if (n > 1){
+                                state = s.substr(0,n);
+                                processing = s.substr(n+1);
+                            }else{
+                                processing = s;
+                            }
+                            if ((state == "完成") || (state == "失败")){
+                                if(state == "完成"){
+                                    processing = "<font color='green'>"+_this.cmdName+"成功</font>";
+                                }else{
+                                    processing = "<font color='red'>"+_this.cmdName+"失败</font>";
+                                }
+                                _this.get_result_timer.stop();
+                                $("#"+_this.gridId).setRowData(selRowId,{"操作结果": processing});
+                                $("button[data-id='"+selRowId+"']").removeClass("layui-btn-disabled");
+                                if(_this.cmdName == "单抄"){
+                                    _this.refreshRowData();
+                                    _this.index ++;
+                                    _this.loadCmd();
+                                }else if(_this.cmdName == "开阀补抄" || _this.cmdName == "关阀补抄"){
+                                    _this.refreshRowData();
+                                    _this.cmdName = _this.cmdName.substring(0,2)
+                                    _this.index ++;
+                                    _this.loadCmd();
+                                }else if((state == "完成") && (_this.cmdName == "开阀" || _this.cmdName == "关阀")){
+                                    if(gb_is_readMeter){
+                                        $("button[data-id='"+selRowId+"']").addClass("layui-btn-disabled");
+                                        _this.waitTime = g_wait_time;
+                                        _this.get_row_data.set({ time: 1000, autostart: true});
+                                    }else{
+                                        _this.index ++;
+                                        _this.loadCmd();
+                                    }
+                                }else if((state == "失败") && (_this.cmdName == "开阀" || _this.cmdName == "关阀")){
+                                    _this.index ++;
+                                    _this.loadCmd();
+                                }
+                            }
+                        }
+                    }
+                );
+            });
+        }
+        meterManage.prototype.read_meter_do = function(){
+            var _this = this;
+            return $.timer(function(){
+                var selRowId = _this.rowIds[_this.index];
+                _this.waitTime--;
+                $("#"+_this.gridId).setRowData(selRowId,{"操作结果": "等待<font color='red'>"+_this.waitTime+"</font>秒"});
+                if(_this.waitTime == 0){
+                    _this.get_row_data.stop();
+                    _this.cmdName += "补抄";
+                    _this.loadCmd();
+                }
+            });
+        }
+        meterManage.prototype.loadCmd = function(){
+            var selRowId = this.rowIds[this.index];
+            var cmd = "", _this = this;
+            if(selRowId != "" && selRowId != undefined){
+                $("button[data-id='"+selRowId+"']").addClass("layui-btn-disabled");
+            }else{
+                $(".multiOperation").removeClass("layui-btn-disabled");
+                return false;
+            }
+            var rowData = $("#"+this.gridId).jqGrid('getRowData', selRowId);
+            if(!rowData["表号"]){
+                $("#"+_this.gridId).setRowData(selRowId,{"操作结果": "<font color='red'>无需要操作的表</font>"});
+                $("button[data-id='"+selRowId+"']").removeClass("layui-btn-disabled");
+                _this.index ++;
+                _this.loadCmd();
+                return false;
+            }
+            switch(this.cmdName){
+                case "单抄"://单表抄表:表号
+                    cmd = "单表抄表" +":"+rowData["表号"];
+                    break;
+                case "开阀补抄"://单表抄表:表号
+                case "关阀补抄"://单表抄表:表号
+                    cmd = "单表抄表" +":"+rowData["表号"];
+                    break;
+                case "开阀"://开阀:表号
+                    cmd = "开阀" +":"+rowData["表号"];
+                    break;
+                case "关阀"://关阀:表号
+                    cmd = "关阀" +":"+rowData["表号"];
+                    break;
+                case "校时":
+                    cmd = "校时" +":"+rowData["表号"];
+                    break;
+                case "读时钟":
+                    cmd = "读时钟" +":"+rowData["表号"];
+                    break;
+                default:
+                    cmd = this.cmdName +":0";
+                    break;
+            }
+
+            $.ajax({
+                url: get_cmdid_url
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,data: {
+                    centorid: rowData["centorid"]
+                    ,cmd: cmd
+                }
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(!isNaN(data)){
+                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果":"<img src='../images/loading-0.gif'/>"});
+                        _this.cmdid = data;
+                        _this.centorid = rowData["centorid"];
+                        _this.get_result_timer.set({time: 3*1000, autostart: true});
+                    }else{
+                        $("#"+_this.gridId).setRowData(selRowId,{"操作结果": data});
+                        $("button[data-id='"+selRowId+"']").removeClass("layui-btn-disabled");
+                        _this.index ++;
+                        _this.loadCmd();
+                    }
+                }
+            });
+        }
+        meterManage.prototype.refreshRowData = function(){
+            var idArray = new Array(), _this = this;
+            var selRowId = _this.rowIds[_this.index];
+            idArray = selRowId.split("_");
+            $.ajax({
+                url: get_row_data_url
+                ,data: {
+                    dataList: "readSingleMeter"
+                    ,meterId: idArray[1]
+                }
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data){
+                        var jsonobj=eval('('+data+')');
+                        $("#"+_this.gridId).setRowData(selRowId,{"最近抄表时间": jsonobj["最近抄表时间"],"最近读数":jsonobj["最近读数"], "表状态":jsonobj["表状态"], "本期用量":jsonobj["本期用量"]});
+                    }
+                }
+            });
+        }
+
+        //单表抄收
+        $(document).on('click','.readMeter',function(){
+            var btnObj = $(this), selRowId = "";
+            if(btnObj.hasClass("layui-btn-disabled"))
+                return false;
+            selRowId = btnObj.data("id");
+            var meterObj = new meterManage("单抄", "jqGrid", selRowId.split(","), 0);
+            meterObj.loadCmd();
+        });
+
+
+        //单表开阀
+        $(document).on('click','.openMeter',function(){
+            var btnObj = $(this), selRowId = "";
+            if(btnObj.hasClass("layui-btn-disabled"))
+                return false;
+            selRowId = btnObj.data("id");
+            layer.confirm('确实要执行【开阀】吗？', {icon:3, title:'提示'},
+                function(index, layero){
+                    layer.close(index);
+                    var meterObj = new meterManage("开阀", "jqGrid", selRowId.split(","), 0);
+                    meterObj.loadCmd();
+                });
+        });
+        //单表关阀
+        $(document).on('click','.closeMeter',function(){
+            var btnObj = $(this), selRowId = "";
+            if(btnObj.hasClass("layui-btn-disabled"))
+                return false;
+            selRowId = btnObj.data("id");
+            layer.confirm('确实要执行【关阀】吗？', {icon:3, title:'提示'},
+                function(index, layero){
+                    layer.close(index);
+                    var meterObj = new meterManage("关阀", "jqGrid", selRowId.split(","), 0);
+                    meterObj.loadCmd();
+                });
+        });
+
+        //单表指令
+        $(".layui-btn").click(function(){
+            var meterObj = new meterManage("", "jqGrid", "", 0);
+            if($(this).hasClass("layui-btn-disabled")){
+                return false;
+            }
+            var cmdName = $(this).data("title");
+            var rowIds = getSelectedRows("jqGrid");
+            var flagStr = "false";
+
+            if (cmdName.indexOf("查询")>=0){
+                return false;
+            }
+
+            if(rowIds == ""){
+                layer.msg("请选择操作行！", {icon: 5});
+                return false;
+            }
+            if(cmdName == "校时" || cmdName == "设心跳维护间隔"){
+                flagStr = "true";
+            }
+            myLayui = layui.myLayui;
+            var _myLayui = new myLayui;
+            _layerSize = ['455px', '360px'];
+            _queryStr = [
+                "cmdName="+cmdName
+                ,"ids="+rowIds
+                ,"flagStr="+flagStr
+            ];
+            _myLayui.showLayer(cmdName,"/equipment/nbSurfaceMng", _queryStr, _layerSize);
+        });
+    });
+</script>
+</body></html>

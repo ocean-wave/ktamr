@@ -10,20 +10,12 @@
 			},
 			{
 				"id": "1-1",
-				"url": "",
+				"url": "/area/rgn",
 				"name": "区域抄控",
 				"iconfont": "fa fa-tasks fa-fw",
-				"sub": [
-					{
-						"id": "1-1-1",
-						"url": "/area/rgn",
-						"name": "区域表抄控",
-						"iconfont": "fa fa-angle-right",
-						"isShortMenu": "false",
-						"shortIconfont": "",
-						"sub": []
-					}
-				]
+				"isShortMenu": "false",
+				"shortIconfont": "",
+				"sub": []
 			},
 			{
 				"id": "1-2",
@@ -62,6 +54,15 @@
 						"id": "1-2-4",
 						"url": "/equipment/gprsdtu",
 						"name": "DTU",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-2-5",
+						"url": "/equipment/nbSurfaceList",
+						"name": "NB-单表",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
 						"shortIconfont": "",
@@ -150,20 +151,12 @@
 			},
 			{
 				"id": "1-5",
-				"url": "",
+				"url": "/thirdpartydata/party",
 				"name": "第三方数据",
 				"iconfont": "fa fa-cloud-download fa-fw",
-				"sub": [
-					{
-						"id": "1-5-1",
-						"url": "/thirdpartydata/party",
-						"name": "数据报表",
-						"iconfont": "fa fa-angle-right",
-						"isShortMenu": "false",
-						"shortIconfont": "",
-						"sub": []
-					}
-				]
+				"isShortMenu": "false",
+				"shortIconfont": "",
+				"sub": []
 			},
 			{
 				"id": "1-6",

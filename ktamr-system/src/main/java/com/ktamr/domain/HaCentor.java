@@ -56,6 +56,7 @@ public class HaCentor extends BaseEntity {
     private HaArea haArea;
     private HaCollector haCollector;
     private HaMeter haMeter;
+    private HavMeterinfo havMeterinfo;
 
     private Integer zbs;
     private Integer jdbs;
@@ -67,6 +68,7 @@ public class HaCentor extends BaseEntity {
     private String xhqd;
     private String dcdy;
     private String centorAreaNo;
+    private String roomMeterId;
 
     //存查询时用到的对象
     private String nodeType;
@@ -80,6 +82,14 @@ public class HaCentor extends BaseEntity {
 
     //登录绘画的账号
     private String operator_codeSession;
+
+    public HavMeterinfo getHavMeterinfo() {
+        return havMeterinfo;
+    }
+
+    public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
+        this.havMeterinfo = havMeterinfo;
+    }
 
     public Integer getZbs() {
         return zbs;
@@ -427,5 +437,12 @@ public class HaCentor extends BaseEntity {
 
     public void setOperator_codeSession(String operator_codeSession) {
         this.operator_codeSession = operator_codeSession;
+    }
+    public String getRoomMeterId() {
+        return roomMeterId;
+    }
+
+    public void setRoomMeterId(String roomMeterId) {
+        this.roomMeterId = roomMeterId;
     }
 }

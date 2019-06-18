@@ -1,7 +1,7 @@
 package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
-import com.ktamr.common.utils.export.ExcelUtilTwo;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaRngService;
@@ -50,9 +50,9 @@ public class HaRgnController extends BaseController {
 
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HaRgn haRgn, ExcelUtilTwo excelUtilTwo)
+    public AjaxResult export(HaRgn haRgn, ExportExcelUtil exportExcelUtil)
     {
         List<HaRgn> list = haRngService.selectAllRngAndCount(haRgn);
-        return excelUtilTwo.init(list, "大区表数据");
+        return exportExcelUtil.init(list, "大区表数据");
     }
 }

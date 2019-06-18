@@ -15,13 +15,13 @@ public class NodesServiceImpl implements NodesService {
     private NodesMapper nodesMapper;
 
     @Override
-    public List<Map<String,Object>> selectAllRgnNodes(String rgnAndAreaId) {
-        return nodesMapper.selectAllRgnNodes(rgnAndAreaId);
+    public List<Map<String,Object>> selectAllRgnNodes(Map<String,Object> map) {
+        return nodesMapper.selectAllRgnNodes(map);
     }
 
     @Override
-    public List<Map<String,Object>> selectAllAreaNodes(String id) {
-        return nodesMapper.selectAllAreaNodes(id);
+    public List<Map<String,Object>> selectAllAreaNodes(Map<String,Object> map) {
+        return nodesMapper.selectAllAreaNodes(map);
     }
 
     @Override

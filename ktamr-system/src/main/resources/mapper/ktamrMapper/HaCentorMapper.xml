@@ -8,6 +8,7 @@
         <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
         <result column="centorNo" property="centorNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="centorAreaNo" property="centorAreaNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="roomMeterId" property="roomMeterId" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="centorDs" property="centorDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="centorId" property="centorId" javaType="java.lang.Long"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -37,12 +38,8 @@
             <result column="routers" property="routers" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="nconf" property="snconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="oconf" property="soconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-
-            <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
-                <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
-            </association>
         </association>
-        <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
+        <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
             <id column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
             <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
             <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
@@ -50,14 +47,9 @@
             <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
             <result column="snumber" property="snumber" javaType="java.lang.Double"></result>
             <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
-                <id column="centorId" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
-            </association>
-            <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
-                <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-                <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-                <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            </association>
+            <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
     </resultMap>
 
@@ -226,6 +218,37 @@
         ORDER BY c.centorNo
     </select>
 
+    <!--nb单表-->
+    <select id="selectNbSurfaceCollector" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
+        SELECT
+        mi.roomid::VARCHAR(12)||'_'|| CASE WHEN mi.meterid IS NULL THEN '' ELSE mi.meterid::VARCHAR(12) END  AS roomMeterId
+        ,c.id AS id
+        ,meterid AS meterid
+        , 用户号 AS userNo
+        , Left(用户名,16) AS userName
+        , 用户地址 AS userDs
+        ,表号::VARCHAR(16) AS meterNumber
+        , 最近度数 AS thNumber
+        ,上期度数 AS lfNumber
+        ,本期用量 AS snumber
+        , 状态 AS state
+        ,抄表时间 AS thRTime
+        FROM hav_meterinfo mi
+        inner join ha_centor c on mi.centorid = c.id
+        where c.description='KT3NB VIRTUAL'
+        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
+        </if>
+        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            AND position( Left(mi.areaNo, 1) in #{params.nodeIds})>0
+        </if>
+        <if test=" params.keyWord != null and params.keyWord != '' ">
+            and (c.addr like '%${params.keyWord}%' or c.description like '%${params.keyWord}%' or c.state = #{state}
+            or c.remark  like '%${params.keyWord}%' or to_char(c.setuptime, 'YYYY-MM-DD') like '%${params.keyWord}%')
+        </if>
+    </select>
+
     <!--A区设备抄控管理-->
     <select id="selectCentor" resultMap="haCentorMap" parameterType="com.ktamr.domain.HaCentor">
         SELECT ce.id AS id
@@ -255,8 +278,6 @@
         and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         ORDER BY ce.centorNo,ce.addr
     </select>
-
-
 
     <!--C区-->
     <select id="HaCentorList" resultMap="haCentorMap">

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,14 +20,17 @@ public class GetNodesContrller extends BaseController {
     @Autowired
     private NodesService nodesService;
 
-    @RequestMapping("/getAreaNodes")
+    @RequestMapping("/getNodes")
     @ResponseBody
     public String getAreaNodes(){
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("rgnAndAreaId",ShiroUtils.getRgnAndAreaId());
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allRgn', name:'全部大区', iconSkin:'icon00', open:true},{ id:'-2', pId:0, LevelType:'allArea', name:'全部小区', iconSkin:'icon00', open:true},{ id:'-3', pId:0, LevelType:'allMeter', name:'全部房间表', iconSkin:'icon00', open:true}";
-        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(ShiroUtils.getRgnAndAreaId());
+        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(map);
         for  (Map<String,Object> haRgn : listHaRgn){
             jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:'" + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
-            List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(haRgn.get("id").toString());
+            map.put("id",haRgn.get("id").toString());
+            List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(map);
             for(Map<String,Object> m : listMap ){
                 jsonStr = jsonStr +  "{ id:'" + m.get("areaid").toString() + "', pId:'"+ haRgn.get("id") +"', LevelType:'area', name:'" + m.get("ar") +"-"+m.get("ds")+m.get("aname") + "(" + m.get("bnamecount") +")', iconSkin:'pIcon02', isParent:true, children:[";
                 List<Map<String,Object>> listMap2 = nodesService.selectAllBuildingNodes(Integer.parseInt(m.get("areaid").toString()));
@@ -49,14 +53,20 @@ public class GetNodesContrller extends BaseController {
         return jsonStr;
     }
 
-    @RequestMapping("/getEquipmentNodes")
+    @RequestMapping("/getAreaNodes")
     @ResponseBody
-    public String getEquipmentNodes(){
+    public String getAreaNodes(@RequestParam(value = "parameterType",required = false) String parameterType){
+        Map<String,Object> map = new HashMap<String, Object>();
+        if(parameterType!=null){
+            map.put("parameterType",parameterType);
+        }
+        map.put("rgnAndAreaId",ShiroUtils.getRgnAndAreaId());
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部区域', iconSkin:'icon00',isParent:false}";
-        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(ShiroUtils.getRgnAndAreaId());
+        List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(map);
         for  (Map<String,Object> haRgn : listHaRgn){
             jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:'" + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
-            List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(haRgn.get("id").toString());
+            map.put("id",haRgn.get("id").toString());
+            List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(map);
             for(Map<String,Object> m : listMap ){
                 jsonStr = jsonStr +  "{ id:'" + m.get("areaid").toString() + "', pId:'"+ haRgn.get("id") +"', LevelType:'area', name:'" + m.get("ar") +"-"+m.get("ds")+m.get("aname") + "(" + m.get("bnamecount") +")', iconSkin:'pIcon02'}";
                 int i = 1;

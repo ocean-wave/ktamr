@@ -134,6 +134,13 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         return DateFormatUtils.format(now, "yyyyMMdd");
     }
 
+    public static final String dateTimeTwo()
+    {
+        Date now = new Date();
+        return DateFormatUtils.format(now, "yyMMddHHmmss");
+    }
+
+
     /**
      * 日期型字符串转化为日期 格式
      */

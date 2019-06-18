@@ -3,7 +3,7 @@ package com.ktamr.account.pay;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
-import com.ktamr.common.utils.export.ExcelUtilTwo;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.utils.export.ExportStr;
 import com.ktamr.common.utils.export.ExportTxtUtil;
 import com.ktamr.domain.HaArea;
@@ -53,16 +53,16 @@ public class HaPaylogController extends BaseController {
      * 导出缴费单数据
      *
      * @param haPaylog
-     * @param excelUtilTwo
+     * @param exportExcelUtil
      * @return
      */
     @PostMapping("/pay/export")
     @ResponseBody
-    public AjaxResult export(HaPaylog haPaylog, ExcelUtilTwo excelUtilTwo) {
+    public AjaxResult export(HaPaylog haPaylog, ExportExcelUtil exportExcelUtil) {
         //这里保证查询的是全部的数据
         List<HaPaylog> haPaylogList = haPaylogService.selectHaPaylogList(haPaylog);
         if (haPaylogList != null) {
-            return excelUtilTwo.init(haPaylogList, "缴费单数据");
+            return exportExcelUtil.init(haPaylogList, "缴费单数据");
         }
         return null;
     }
@@ -139,16 +139,16 @@ public class HaPaylogController extends BaseController {
      * 导出月报表
      *
      * @param haPaylog
-     * @param excelUtilTwo
+     * @param exportExcelUtil
      * @return
      */
     @PostMapping("/pay/ybb/export")
     @ResponseBody
-    public AjaxResult ybbexport(HaPaylog haPaylog, ExcelUtilTwo excelUtilTwo) {
+    public AjaxResult ybbexport(HaPaylog haPaylog, ExportExcelUtil exportExcelUtil) {
         //这里保证查询的是全部的数据
         List<HaPaylog> haPaylogList = haPaylogService.selectMonthReportList(haPaylog);
         if (haPaylogList != null) {
-            return excelUtilTwo.init(haPaylogList, "月报表数据");
+            return exportExcelUtil.init(haPaylogList, "月报表数据");
         }
         return null;
     }

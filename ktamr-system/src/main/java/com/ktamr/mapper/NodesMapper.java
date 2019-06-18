@@ -14,9 +14,9 @@ public interface NodesMapper {
      * 查询所有大区节点名称
      * @return
      */
-    public List<Map<String,Object>> selectAllRgnNodes(String rgnAndAreaId);
+    public List<Map<String,Object>> selectAllRgnNodes(Map<String,Object> map);
 
-    public List<Map<String,Object>> selectAllAreaNodes(String id);
+    public List<Map<String,Object>> selectAllAreaNodes(Map<String,Object> map);
 
     public List<Map<String,Object>> selectAllBuildingNodes(Integer id);
 

@@ -4,29 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.NodesMapper">
 
+
+    <sql id="collector">
+         AND a.areaid in ( select b.areaid from ha_building b inner join ha_room hr ON hr.buildingid = b.buildingid inner join ha_meter m ON m.roomid = hr.roomid inner JOIN ha_centor cr ON m.centorid = cr.id where cr.description='KT3NB VIRTUAL' group by b.areaid)
+    </sql>
+
     <select id="selectAllRgnNodes" resultType="java.util.Map">
         SELECT
         n.id
         ,n.name
-        ,(SELECT Count(a.areaid) FROM ha_area a WHERE n.id=Left(a.areaNo,1)) as haAreaCount
+        ,COUNT(a.areaNo) as haAreaCount
         FROM ha_rgn n
+        inner JOIN ha_area a ON n.id=LEFT(a.areaNo,1)
         where 1=1
         and (n.id = left(#{rgnAndAreaId},1) or #{rgnAndAreaId} = '')
+        <if test=' parameterType == "collector" '>
+            <include refid="collector"></include>
+        </if>
+        GROUP BY n.id,n.name ORDER BY n.id
     </select>
 
-    <select id="selectAllAreaNodes" resultType="java.util.Map" parameterType="java.lang.String">
+    <select id="selectAllAreaNodes" resultType="java.util.Map">
         SELECT a.areaid as areaid
         , a.name as aname
         , case when a.DS='S' then '单月' when a.DS='D' then '双月' end AS ds
         , case when a.registeredNo != null or length(a.registeredNo)=0 then Right(a.areaNo, 4) else a.registeredNo end as ar
         , COUNT(b.name) as bnameCount
-        FROM ha_area a LEFT JOIN ha_building b ON b.areaid=a.areaid
+        FROM ha_area a
+        LEFT JOIN ha_building b ON b.areaid=a.areaid
         where Left(a.areaNo, 1)= #{id}
-        GROUP BY a.areaid,a.name,a.areaNo,a.registeredNo
-        , case when a.DS='S' then '单月' when a.DS='D' then '双月' end
-        , case when a.registeredNo != null or length(a.registeredNo)=0 then Right(a.areaNo, 4) else a.registeredNo end
-        ORDER BY case when a.DS='S' then '单月' when a.DS='D' then '双月' end
-        ,case when a.registeredNo != null or length(a.registeredNo)=0 then Right(a.areaNo, 4) else a.registeredNo end
+        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+        <if test=' parameterType == "collector" '>
+            <include refid="collector"></include>
+        </if>
+        GROUP BY a.areaid,aname,a.areaNo,a.registeredNo,ds,ar
+        ORDER BY ds,ar
     </select>
 
     <select id="selectAllBuildingNodes" resultType="java.util.Map" parameterType="java.lang.Integer">

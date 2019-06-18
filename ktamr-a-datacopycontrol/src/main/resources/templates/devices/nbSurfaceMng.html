@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="集采器抄控" th:include="include :: header"></head>
+
+<style type="text/css">
+    .my-row {
+        margin-top:10px;
+        margin-bottom:10px;
+        display:none;
+    }
+    .my-form-class {
+        margin-left: 60px;
+        margin-top: 25px;
+        padding: 0px;
+    }
+    .my-page-btn {
+        margin: 20px 15px;
+        text-align: left;
+        padding-left: 195px;
+    }
+    .my-select{
+        width:85px;
+        border-color: #e6e6e6;
+        display:inline-block;
+        height:38px;
+        line-height: 1.3;
+        border-width:1px;
+        border-style:solid;
+        background-color: #fff;
+        border-width: 1px;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-style: solid;
+        border-top-style: solid;
+        border-right-style: solid;
+        border-left-style: solid;
+    }
+</style>
+<body class="myPage-body" style="padding:0px 10px;">
+<div class="container" style="width:100%;margin:0;">
+
+    <div class="row my-row parms params-div1">
+        <div class="col-md-12">
+            <form class="layui-form layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">当前时间</label>
+                    <div class="layui-input-inline">
+                        <input id="heartBeat" lay-verify="required" placeholder="年月日时分(格式：YYMMDDhhmmss)" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="3" th:value="${nowTimeStr}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row my-row parms params-div2">
+        <div class="col-md-12">
+            <form class=" layui-form-pane my-form-class">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抄收间隔</label>
+                    <div class="layui-input-inline" style="width:95px;">
+                        <input style="width:105px;" id="intervalHH" lay-verify="required" placeholder="小时{0~255}" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="6">
+                    </div>
+                    <select class="my-select" id="intervalMM">
+                        <option value='' >分钟</option>
+                        <option value='5' >5</option>
+                        <option value='10' >10</option>
+                        <option value='15' >15</option>
+                        <option value='20' >20</option>
+                        <option value='25' >25</option>
+                        <option value='30' >30</option>
+                        <option value='35' >35</option>
+                        <option value='40' >40</option>
+                        <option value='45' >45</option>
+                        <option value='50' >50</option>
+                        <option value='55' >55</option>
+                    </select>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">整点时间</label>
+                    <div class="layui-input-inline">
+                        <input id="startDateHH" lay-verify="required" placeholder="小时{0~23}" autocomplete="off" class="layui-input" onkeyup="generalMask(this)" maxlength="3">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row my-row title-div">
+        <div class="col-md-12">
+            <label><span id="title"></span><span id="countShow"></span></label>
+        </div>
+    </div>
+
+    <div class="row my-row result-div">
+        <div class="col-md-12">
+            <div class="well" style="padding:10px 19px;">
+                <div>
+                    <label>执行状态：</label><span id="cmd_state"><img src="../images/loading-0.gif"></img></span>，<label>执行情况：</label><span id="cmd_description"></span>
+                    <a data-toggle="collapse" data-target="#more">详细</a>
+                    <div class="pull-right cmd_list" style="display:none;">
+                        <a>查看抄收结果</a>
+                    </div>
+                </div>
+                <div id="more" class="collapse" style="margin-top:10px;">
+                    <p>
+                        <span id="cmd_description_more"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-inline my-page-btn" style="display:none;">
+        <button type="button" data-title="确定" class="btn btn-default btn-sm" ><img src="../images/tick.png" />确定</button>
+        <button type="button" data-title="关闭" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    layui.use(['form','layer','element'], function(){
+        var element = layui.element,
+            form = layui.form,
+            layer = layui.layer;
+        var g_deviceType = "";
+        var g_cmdName = [[${cmdName}]];
+        var g_ids = [[${ids}]];
+        var g_flagStr = [[${flagStr}]];
+        var g_cmdids = Array();
+
+        function paramsShow(){
+            if(g_flagStr == "true"){
+                $(".my-page-btn").show();
+                if(g_cmdName == "校时"){
+                    $(".params-div1").show();
+                }else if(g_cmdName == "设心跳维护间隔"){
+                    $(".params-div2").show();
+                }
+            }else{
+                $(".title-div").show();
+                $(".result-div").show();
+                devicesObj.cmdName = g_cmdName;
+                devicesObj.loadCmd();
+            }
+        }
+
+        function paramsHide(){
+            $(".my-page-btn").hide();
+            if(g_cmdName == "校时"){
+                $(".params-div1").hide();
+            }else if(g_cmdName == "设心跳维护间隔"){
+                $(".params-div2").hide();
+            }
+
+            return "true";
+        }
+
+        var get_cmdid_url = "/smallbox/haCmd/cmdAdd";
+        var get_result_url = "/smallbox/haCmd/getCmdAjax";
+        var cmdsManage = function(gridId, rowIds, index){
+            this.gridId = gridId;
+            this.rowIds = rowIds;
+            this.index = index;
+            this.get_result_timer = this.generate_timer();
+        }
+        cmdsManage.prototype.generate_timer = function(){
+            var _this = this;
+            return $.timer(function() {
+                $.get(get_result_url,
+                    {cmdid: _this.cmdid},
+                    function(data,status){
+                        if (status == "success"){
+                            var i, state, processing, s, i1, i2, i3, temp_str;
+                            s = data;
+                            i = s.indexOf(":");
+
+                            if (i > 1){
+                                state = s.substr(0,i);
+                                processing = s.substr(i+1);
+                                $("#cmd_state").html(state);
+                                $("#cmd_description").html(processing);
+                            }else{
+                                $("#cmd_description").html(s);
+                            };
+
+                            // alert(data + "\r\nstate: " + state);
+                            i1 = s.indexOf("[");
+                            if(i1 >= 0){
+                                temp_str = s.substr(i1 + 1);
+                                i = temp_str.indexOf("/");
+                                i2 = i1 + i + 1;
+                                var amount = s.substring(i1 + 1, i2) - 0;
+
+                                temp_str = s.substr(i2 + 1);
+                                i = temp_str.indexOf("]");
+                                i3 = i2 + i + 1;
+                                var all  = s.substring(i2 + 1, i3) - 0;
+                                if((typeof amount === 'number') && (typeof all === 'number'))
+                                    _this.setProgressbar(amount, all);
+                            }
+
+                            if ((state == "完成") || (state == "失败")){
+                                _this.get_result_timer.stop();
+                                if (state == "完成"){
+                                    $("#cmd_state").html("<span class='fontGreen'>"+state+"</span>");
+                                    $("#cmd_description_more").append("<span class='fontGreen'>"+_this.title+":"+processing+"</span></br>");
+                                }else{
+                                    $("#cmd_state").html("<span class='fontRed'>"+state+"</span>");
+                                    $("#cmd_description_more").append("<span class='fontRed'>"+_this.title+":"+processing+"</span></br>");
+                                }
+                                _this.index ++;
+                                _this.loadCmd(_this.deviceName, _this.cmd);
+                            }
+                        }
+                    }
+                );
+            });
+        }
+
+        cmdsManage.prototype.setProgressbar = function(amount, all){
+            var _this = this, t_array = new Array();
+            if(amount == "")
+                return ;
+            var iPerc = (amount > 0) ? parseInt(amount/all * 100) : 0;
+            if(amount > 0 && amount >= all){
+                iPerc = 100;
+            }
+            t_array = _this.cmd.split(":");
+            if(t_array[0] == "多表抄收" || t_array[0] == "抄日冻结" || t_array[0] == "抄月冻结"){
+                $("#countShow").text('，进度[抄表数:'+ amount +'/ 总表数:'+ all+"]");
+            }else if(t_array[0].indexOf("刷新")>=0){
+                $("#countShow").text('，进度[刷新设备数:'+ amount +'/ 总设备数:'+ all+"]");
+            }
+            element.progress('meterOp', iPerc+'%');
+        }
+
+        cmdsManage.prototype.loadCmd = function(){
+            var _this = this
+            var selRowId = _this.rowIds[_this.index];
+            var title = "";
+            var cmd = "";
+            if(selRowId == "" || selRowId == undefined){
+                return false;
+            }
+            var rowData = parent.$("#"+_this.gridId).jqGrid('getRowData', selRowId);
+            switch(this.cmdName){
+                case "校时":
+                    cmd = "校时" +":"+rowData['表号']+","+$("#heartBeat").val();
+                    break;
+                case "读时钟":
+                    cmd = "读时钟" +":"+rowData['表号'];
+                    break;
+                case "设心跳维护间隔":
+                    cmd = "设心跳维护间隔" +":"+rowData['表号']+","+$("#intervalHH").val()+","+$("#intervalMM").val()+","+$("#startDateHH").val();
+                    break;
+                default:
+                    cmd = this.cmdName +":0";
+                    break;
+            }
+            $("#title").text("["+cmd+"]");
+            $.ajax({
+                url: get_cmdid_url
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,data: {cmd: cmd, centorid: rowData['centorid']}
+                ,success: function(data){
+                    if (!isNaN(data)){
+                        $("#cmd_state").html("待执行");
+                        $("#cmd_description").html("命令号："+data);
+                        g_cmdids.push(data);
+                        _this.cmdid = data;
+                        _this.title = title;
+                        _this.get_result_timer.set({ time: 1000, autostart: true});
+                        return data;
+                    }else{
+                        if(data.indexOf("class='fontGrey'")>=0){
+                            $("#cmd_state").html("<span class='fontGrey'>成功</span>");
+                            $("#cmd_description_more").append(title+":"+data+"</br>");
+                        }else{
+                            $("#cmd_state").html("<span class='fontRed'>失败</span>");
+                            $("#cmd_description_more").append(title+":"+data+"</br>");
+                        }
+                        $("#cmd_description").html(data);
+                        _this.index ++;
+                        _this.loadCmd(_deviceName, cmd);
+                    }
+                }
+            });
+        }
+
+        $(".cmd_list").click(function(){
+            var url;
+            url = "/meter/meters_read_result_list.asp?cmdids="+g_cmdids.join(",")+"&cmdName="+g_cmdName+"&ids="+g_ids;
+            top.layer.open({
+                type: 2 //iframe
+                ,title: '抄收结果'
+                ,area: ['1000px', '600px']
+                ,shade: 0
+                ,maxmin: true
+                ,content: url
+            });
+        });
+
+        function isCheckout(){
+            var flag = false;
+            var str = "";
+
+            switch(g_cmdName){
+                case "校时":
+                    var heartBeat = $("#heartBeat").val();
+                    if(heartBeat == ""){
+                        str = "[当前时间]:不能为空";
+                    }
+                    break;
+                case "设心跳维护间隔":
+                    var intervalHH = $("#intervalHH").val();
+                    var intervalMM = $("#intervalMM").val();
+                    var startDateHH = $("#startDateHH").val();
+                    if(intervalHH == "" || intervalMM == ""){
+                        str = "[抄收间隔,小时|分钟]:不能为空";
+                    }else if(startDateHH == ""){
+                        str = "[整点时间]:不能为空";
+                    }else{
+                        var c = parseInt(intervalHH);
+                        var s = parseInt(startDateHH);
+                        if(!(c>=0 && c<=255)){
+                            str = "[抄收间隔]:范围{0~255}";
+                        }else if(!(s>=0 && s<=23)){
+                            str = "[整点时间]:范围{0~23}";
+                        }
+                    }
+                    break;
+            }
+            if(str!=""){
+                layer.msg(str,{icon: 5});
+                flag = true;
+            }
+            return flag;
+        }
+
+        var devicesObj = new cmdsManage("jqGrid", g_ids.split(","), 0);
+        paramsShow();
+        $(".btn").click(function(){
+            var btnTitle = $(this).data("title");
+            if(btnTitle == "确定"){
+                if(isCheckout()){
+                    return;
+                }
+                paramsHide();
+                $(".title-div").show();
+                $(".result-div").show();
+                devicesObj.cmdName = g_cmdName;
+                devicesObj.loadCmd();
+            }else{
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            }
+        });
+    });
+</script>
+</body></html>

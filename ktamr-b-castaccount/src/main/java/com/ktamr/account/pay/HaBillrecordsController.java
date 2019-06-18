@@ -3,7 +3,7 @@ package com.ktamr.account.pay;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
-import com.ktamr.common.utils.export.ExcelUtilTwo;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaMonthbtime;
 import com.ktamr.common.utils.DateUtils;
@@ -60,16 +60,16 @@ public class HaBillrecordsController extends BaseController {
      * 收费记录导出
      *
      * @param haBillrecords
-     * @param excelUtilTwo
+     * @param exportExcelUtil
      * @return
      */
     @PostMapping("/pay/sfjl/export")
     @ResponseBody
-    public AjaxResult ybbexport(HaBillrecords haBillrecords, ExcelUtilTwo excelUtilTwo) {
+    public AjaxResult ybbexport(HaBillrecords haBillrecords, ExportExcelUtil exportExcelUtil) {
         //这里保证查询的是全部的数据
         List<HaBillrecords> haAreaList = haBillrecordsService.ChaXunHaBillrecordsList(haBillrecords);
         if (haAreaList != null) {
-            return excelUtilTwo.init(haAreaList, "月报表数据");
+            return exportExcelUtil.init(haAreaList, "月报表数据");
         }
         return null;
     }

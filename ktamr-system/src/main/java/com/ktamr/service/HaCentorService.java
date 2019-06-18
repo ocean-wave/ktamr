@@ -43,6 +43,13 @@ public interface HaCentorService {
      */
     public List<HaCentor> selectAllCentorHandAndCount(HaCentor parms);
 
+    /**
+     * nb单表
+     * @param parms
+     * @return
+     */
+    public List<HaCentor> selectNbSurfaceCollector(HaCentor parms);
+
     public List<HaCentor> selectCentor(HaCentor haCentor);
 
     List<HaCentor> HaCentorList(HaCentor haCentor);

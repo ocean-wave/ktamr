@@ -1,7 +1,7 @@
 package com.ktamr.web.controller.smallbox;
 
 import com.ktamr.common.core.domain.AjaxResult;
-import com.ktamr.common.utils.export.ExcelUtilTwo;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.domain.HaDayfreeze;
@@ -79,7 +79,7 @@ public class MeterUsageContrller extends BaseController {
     @ResponseBody
     public AjaxResult export(HaBuilding haBuilding, @RequestParam(value = "dataType", required = false) String dataType,
                              @RequestParam(value = "meterId", required = false) Integer meterId,
-                             ExcelUtilTwo excelUtilTwo)
+                             ExportExcelUtil exportExcelUtil)
     {
         List<?> list = new ArrayList<>();
         Map<String,Object> params = new HashMap<String,Object>();
@@ -93,6 +93,6 @@ public class MeterUsageContrller extends BaseController {
         }else if(dataType.equals("monFreeze")){
             list = haMonFreezeService.selectAllMonfreeze(params);
         }
-        return excelUtilTwo.init(list,"单表记录数据");
+        return exportExcelUtil.init(list,"单表记录数据");
     }
 }

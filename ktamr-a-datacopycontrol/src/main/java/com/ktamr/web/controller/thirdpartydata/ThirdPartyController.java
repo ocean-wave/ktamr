@@ -102,27 +102,27 @@ public class ThirdPartyController extends BaseController {
     public AjaxResult exportCustomExcel(HavMeterinfo havMeterinfo)
     {
         List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(havMeterinfo);
-        ExportCustomExcel exportCustomExcel = new ExportCustomExcel();
+        ExportGdsgExcel exportGdsgExcel = new ExportGdsgExcel();
         String[] excelLabel = new String[]{"","序号","小区","楼栋","单元","门牌","用户名","铅封号","用户编码","设备编码","口径","流量","压力","瞬时流量","阀门状态","表具状态","电压","温度","上传时间","表具时间"};
         Integer[] excelWidth = new Integer[]{0,100,100,80,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150};
         String[] excelName = new String[]{"","","areaName","haBuilding.name","haRoom.name","defaultOne","userName","defaultOne","userNo","centorNo","defaultOne","defaultOne","defaultOne","defaultOne","defaultOne","state","defaultOne","defaultOne","thRTime","defaultOne"};
-        exportCustomExcel.setExcelLabel(excelLabel);
-        exportCustomExcel.setExcelWidth(excelWidth);
-        exportCustomExcel.setExcelName(excelName);
-        return exportCustomExcel.init(list,"");
+        exportGdsgExcel.setExcelLabel(excelLabel);
+        exportGdsgExcel.setExcelWidth(excelWidth);
+        exportGdsgExcel.setExcelName(excelName);
+        return exportGdsgExcel.init(list,"");
     }
 
     /**
      * 导出页面表格Excel
      * @param havMeterinfo
-     * @param excelUtilTwo
+     * @param exportExcelUtil
      * @return
      */
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HavMeterinfo havMeterinfo, ExcelUtilTwo excelUtilTwo)
+    public AjaxResult export(HavMeterinfo havMeterinfo, ExportExcelUtil exportExcelUtil)
     {
         List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(havMeterinfo);
-        return excelUtilTwo.init(list, "");
+        return exportExcelUtil.init(list, "");
     }
 }

@@ -2,7 +2,7 @@ package com.ktamr.account.area;
 
 
 import com.ktamr.common.core.domain.BaseController;
-import com.ktamr.common.utils.export.ExcelUtilTwo;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.common.core.domain.AjaxResult;
@@ -72,16 +72,16 @@ public class HaAreaController extends BaseController {
      * 导出小区表信息
      *
      * @param haArea
-     * @param excelUtilTwo
+     * @param exportExcelUtil
      * @return
      */
     @PostMapping("/area/export")
     @ResponseBody
-    public AjaxResult export(HaArea haArea, ExcelUtilTwo excelUtilTwo) {
+    public AjaxResult export(HaArea haArea, ExportExcelUtil exportExcelUtil) {
         //这里保证查询的是全部的数据
         List<HaArea> list = haAreaService.selectHaAreaList(haArea);
         if (list != null) {
-            return excelUtilTwo.init(list, "小区表数据");
+            return exportExcelUtil.init(list, "小区表数据");
         }
         return null;
     }

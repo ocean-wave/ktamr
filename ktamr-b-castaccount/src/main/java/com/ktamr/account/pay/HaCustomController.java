@@ -3,7 +3,7 @@ package com.ktamr.account.pay;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
-import com.ktamr.common.utils.export.ExcelUtilTwo;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaCustom;
 import com.ktamr.service.HaBillrecordsService;
@@ -60,16 +60,16 @@ public class HaCustomController extends BaseController {
      * 收费记录导出
      *
      * @param haCustom
-     * @param excelUtilTwo
+     * @param exportExcelUtil
      * @return
      */
     @PostMapping("/pay/yhzh/export")
     @ResponseBody
-    public AjaxResult ybbexport(HaCustom haCustom, ExcelUtilTwo excelUtilTwo) {
+    public AjaxResult ybbexport(HaCustom haCustom, ExportExcelUtil exportExcelUtil) {
         //这里保证查询的是全部的数据
         List<HaCustom> haCustomList = haCustomService.queryHaCustomListB(haCustom);
         if (haCustomList != null) {
-            return excelUtilTwo.init(haCustomList, "月报表数据");
+            return exportExcelUtil.init(haCustomList, "月报表数据");
         }
         return null;
     }
