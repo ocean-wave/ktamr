@@ -10,20 +10,9 @@
       },
       {
         "id": "2-1",
-        "url": "",
+        "url": "/area/area_list.html",
         "name": "结算业务",
-        "iconfont": "fa fa-tasks fa-fw",
-        "sub": [
-          {
-            "id": "2-1-1",
-            "url": "/area/area_list.html",
-            "name": "小区结算",
-            "iconfont": "fa fa-angle-right",
-            "isShortMenu": "false",
-            "shortIconfont": "",
-            "sub": []
-          }
-        ]
+        "iconfont": "fa fa-tasks fa-fw"
       },
       {
         "id": "2-2",
@@ -62,20 +51,9 @@
       },
       {
         "id": "2-3",
-        "url": "",
+        "url": "pay/cust_balance_list.html",
         "name": "账户管理",
-        "iconfont": "fa fa-credit-card fa-fw",
-        "sub": [
-          {
-            "id": "2-3-1",
-            "url": "pay/cust_balance_list.html",
-            "name": "用户账户",
-            "iconfont": "fa fa-angle-right",
-            "isShortMenu": "false",
-            "shortIconfont": "",
-            "sub": []
-          }
-        ]
+        "iconfont": "fa fa-credit-card fa-fw"
       }
     ]
   },

@@ -10,20 +10,9 @@
 			},
 			{
 				"id": "3-1",
-				"url": "",
-				"name": "区域管理",
-				"iconfont": "fa fa-list fa-fw",
-				"sub": [
-					{
-						"id": "3-1-1",
-						"url": "area/area_op_manage",
-						"name": "区域表档案",
-						"iconfont": "fa fa-angle-right",
-						"isShortMenu": "false",
-						"shortIconfont": "",
-						"sub": []
-					}
-				]
+				"url": "area/area_op_manage",
+				"name": "区域表档案",
+				"iconfont": "fa fa-tasks fa-fw"
 			},
 			{
 				"id": "3-2",
@@ -62,20 +51,9 @@
 			},
 			{
 				"id": "3-3",
-				"url": "",
+				"url": "priceStandard/price_list",
 				"name": "价格管理",
-				"iconfont": "fa fa-jpy fa-fw",
-				"sub": [
-					{
-						"id": "3-3-1",
-						"url": "priceStandard/price_list",
-						"name": "价格类型",
-						"iconfont": "fa fa-angle-right",
-						"isShortMenu": "false",
-						"shortIconfont": "",
-						"sub": []
-					}
-				]
+				"iconfont": "fa fa-jpy fa-fw"
 			},
 			{
 				"id": "3-4",

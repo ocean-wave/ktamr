@@ -224,10 +224,9 @@ public class RoomController extends BaseController {
                 nconf = haCollectorService.getNconf(collectorId);
             }
             String addr = centorDevNo.toString()+nconf+meterNumber;
-            HaMeter haMeter1 = new HaMeter();
-            haMeter1.setAddr(addr);
-            haMeter1.setMeterNumber(meterNumber);
-            haMeter1.setMeterId(meterId);
+            haMeter.setAddr(addr);
+            haMeter.setMeterNumber(meterNumber);
+            haMeter.setMeterId(meterId);
             Integer meter = haMeterService.updateHaMeter(haMeter);
             if(haRoomC==1 && meter==1){
                 return "true";
