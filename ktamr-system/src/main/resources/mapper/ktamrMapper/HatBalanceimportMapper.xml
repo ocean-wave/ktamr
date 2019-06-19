@@ -7,7 +7,7 @@
     <!--添加状态为待校验    -->
     <insert id="insertHatBalanceimport" >
         INSERT INTO hat_balanceImport(userCode, userName, meterNumber, balance, state, importTime)
-        values (#{userCode},#{userName},#{meterNumber},#{balance},#{userCode},#{importTime})
+        values (#{userCode},#{userName},#{meterNumber},#{balance},'待校验',#{importTime})
     </insert>
 
     <!--导入用户编号校验1-->
@@ -59,4 +59,19 @@
 		WHERE t.userId is not NULL AND t.state='待校验' AND t.importTime=#{importTime}
     </update>
 
+    <!-- 查询总条目数   -->
+    <select id="selectAllrows" resultType="Integer">
+    SELECT COUNT(*) FROM hat_balanceImport WHERE importTime=#{importTime}
+    </select>
+
+    <!-- 查询待导入数   -->
+    <select id="selectImports" resultType="Integer">
+    SELECT COUNT(*) FROM hat_balanceImport WHERE state='待导入' AND importTime=#{importTime}
+    </select>
+
+    <!-- 查询用户余额确认列表    -->
+    <select id="selectCustBalanceImportList" resultType="HatBalanceimport">
+        SELECT id, state AS state, userCode AS userCode, userName AS userName, meterNumber::varchar(16) AS meterNumber, balance AS balance FROM hat_balanceImport
+     WHERE importTime=#{importTime}
+    </select>
 </mapper>
