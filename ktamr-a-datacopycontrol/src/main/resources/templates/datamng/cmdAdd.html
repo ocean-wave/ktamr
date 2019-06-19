@@ -12,10 +12,10 @@
 				<div class="col-xs-2 my-form-col" style="width:115px;">
 					<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-sm btn-default">
-							<input type="radio" name="options" data-title="centor" checked >集中器
+							<input type="radio" name="options" data-title="ccentor">集采器
 						</label>
 						<label class="btn btn-sm btn-default">
-							<input type="radio" name="options" data-title="ccentor">集采器
+							<input type="radio" name="options" data-title="centor" checked >集中器
 						</label>
 					</div>
 				</div>
@@ -226,7 +226,7 @@
 		var lastSel1="";
 		var Post_Data1 = {"params[deviceType]": "centor", "params[operable]": "true"};
 		var GridObj1 = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 149,'/systemmaintenance/cmdAddJson');
-		GridObj1.jqdefaultGridConfig.caption = "集中器列表(在线)：";
+		GridObj1.jqdefaultGridConfig.caption = "集采器列表：";
 		GridObj1.jqdefaultGridConfig.postData = Post_Data1;
 		GridObj1.jqdefaultGridConfig.scroll = true;
 		GridObj1.jqdefaultGridConfig.colNames = ['id','状态','设备地址','设备名称','连接说明'];

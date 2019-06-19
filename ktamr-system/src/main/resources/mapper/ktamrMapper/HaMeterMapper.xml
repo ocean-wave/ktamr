@@ -41,14 +41,6 @@
             <result column="fdelta" property="delta" javaType="java.lang.String"></result>
             <result column="flfNumber" property="lfNumber" javaType="java.lang.String"></result>
         </association>
-        <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
-            <result column="rname" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            <association property="haCustom" javaType="com.ktamr.domain.HaCustom">
-                <result column="userNo" property="custNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-                <result column="userName" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-                <result column="cuBalance" property="balance" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-            </association>
-        </association>
 
         <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
             <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -226,15 +218,15 @@
         , mi.用户名 AS userName
         , mi.用户地址 AS userDs
         ,m.meterNumber AS meterNumber
-        ,to_char(m.th_number, 'fm99999999999999') AS thNumber
-        ,to_char(m.lf_number, 'fm99999999999999') AS lfNumber
-        ,to_char(m.s_number, 'fm99999999999999') AS sNumber
+        ,m.th_number AS thNumber
+        ,m.lf_number AS lfNumber
+        ,m.s_number AS sNumber
         , m.state AS state
-        ,to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') AS thRTime
-        ,to_char(m.lf_time, 'yyyy-mm-dd hh24:mi:ss') AS lfTime
+        ,m.th_r_time AS thRTime
+        ,m.lf_time AS lfTime
         ,m.th_number AS recentRead
         , m.state AS recentreadstate
-        , to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') AS recentreadtime
+        , m.th_r_time AS recentreadtime
         FROM ha_meter m, hav_meterinfo mi, ha_area a
         WHERE m.meterid=mi.meterid AND a.areaid=mi.areaid
         and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')

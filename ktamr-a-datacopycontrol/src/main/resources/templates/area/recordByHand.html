@@ -94,9 +94,9 @@
 		GridObj.jqdefaultGridConfig.postData = {"params[dataType]": g_dataType,"params[showListType]": g_showListType};
 		GridObj.jqdefaultGridConfig.colModel = [
 			{ label:'表ID', name: 'meterId', width: 75, key: true, hidden: true},
-			{ label:'用户编号', name: 'haRoom.custom.custNo', width: 100 },
-			{ label:'用户名称', name: 'haRoom.custom.name', width: 100 },
-			{ label:'用户地址', name: 'resultParams.userDs', width: 160 },
+			{ label:'用户编号', name: 'havMeterinfo.userNo', width: 100 },
+			{ label:'用户名称', name: 'havMeterinfo.userName', width: 100 },
+			{ label:'用户地址', name: 'havMeterinfo.userDs', width: 160 },
 			{ label:'表号', name: 'meterNumber', align: 'right', width: 110 },
 			{ label:'最近读数', name: 'thNumber', align: 'right' ,width: 80, editable:true,  editrules:{ required:true, number:true, minValue:0} },
 			{ label:'上期结算', name: 'lfNumber', align: 'right' ,width: 80 },

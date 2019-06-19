@@ -42,10 +42,10 @@
         LEFT JOIN hav_meterinfo mi ON r.meterId=mi.meterId
         WHERE r.recordId>0
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
-            AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
+            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
         <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
-            AND position(Left(a.areaNo, 1) IN #{params.nodeIds})>0
+            AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
         </if>
         <if test=" params.dataType == 'meterOriRead' ">
             AND r.newMeterNumber is null
