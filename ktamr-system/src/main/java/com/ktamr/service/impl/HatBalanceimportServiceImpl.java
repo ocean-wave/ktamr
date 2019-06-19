@@ -3,9 +3,11 @@ package com.ktamr.service.impl;
 import com.ktamr.domain.HatBalanceimport;
 import com.ktamr.mapper.HatBalanceimportMapper;
 import com.ktamr.service.HatBalanceimportService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+@Service
 public class HatBalanceimportServiceImpl  implements HatBalanceimportService {
 
     @Resource

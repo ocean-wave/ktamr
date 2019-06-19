@@ -14,14 +14,14 @@
     <update id="UserNumberCheck1">
         UPDATE hat_balanceImport t
         SET state='非法的用户编号'
-        WHERE t.userCode is not NULL AND length(t.userCode)<=0 AND t.state='待校验' AND t.importTime=#{importTime}
+        WHERE t.userCode is not NULL AND length(t.userCode)  <![CDATA[<= ]]>0 AND t.state='待校验' AND t.importTime=#{importTime}
     </update>
 
     <!--导入用户编号校验2-->
     <update id="UserNumberCheck2">
          UPDATE hat_balanceImport t0
          SET state='与表内用户编号重复' FROM hat_balanceImport t1
-         WHERE t1.ID != t0.ID AND t0.userCode is Not Null
+         WHERE t1.ID  <![CDATA[!= ]]> t0.ID AND t0.userCode is Not Null
 		 AND t1.userCode=t0.userCode AND t0.state='待校验' AND t0.importTime=t1.importTime AND t0.importTime=#{importTime}
     </update>
 
@@ -29,14 +29,14 @@
     <update id="TableNumberCheck1">
         UPDATE hat_balanceImport t
         SET state='非法的表号'
-        WHERE t.meterNumber is not Null AND t.meterNumber<=0 AND t.state='待校验' AND t.importTime=#{importTime}
+        WHERE t.meterNumber is not Null AND t.meterNumber  <![CDATA[<= ]]>0 AND t.state='待校验' AND t.importTime=#{importTime}
     </update>
 
     <!--导入档案内表号校验2-->
     <update id="TableNumberCheck2">
          UPDATE hat_balanceImport t0
 		 SET state='与表内表号重复' FROM hat_balanceImport t1
-		 WHERE t1.ID != t0.ID AND t0.userCode is NULL AND t0.meterNumber is not  NULL
+		 WHERE t1.ID <![CDATA[!= ]]> t0.ID AND t0.userCode is NULL AND t0.meterNumber is not  NULL
 		 AND t1.meterNumber=t0.meterNumber AND t0.state='待校验' AND t0.importTime=t1.importTime AND t0.importTime=#{importTime}
     </update>
 
