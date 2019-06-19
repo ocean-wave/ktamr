@@ -4,17 +4,22 @@ package com.ktamr.account.pay;
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.file.ImportService;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaCustom;
 import com.ktamr.service.HaBillrecordsService;
 import com.ktamr.service.HaCustomService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -132,6 +137,9 @@ public class HaCustomController extends BaseController {
         }
         return null;
     }
+
+
+
 
 
 }

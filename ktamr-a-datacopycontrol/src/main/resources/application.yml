@@ -45,6 +45,12 @@ spring:
     restart:
       # 热部署开关
       enabled: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+      enabled: true
+      resolve-lazily: false
 
 #配置mybatis
 mybatis:
@@ -61,6 +67,7 @@ logging:
     com.ktamr: debug
     org.springframework: WARN
     org.spring.springboot.dao: debug
+
 
 # Shiro
 shiro:
