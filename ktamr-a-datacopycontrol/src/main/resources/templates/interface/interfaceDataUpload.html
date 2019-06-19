@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<style type="text/css">
+	.layui-form-label {
+		padding: 6px 10px;
+		width: 100px;
+	}
+	.page-btn{
+		text-align: left;
+		padding-left: 143px;
+	}
+</style>
+<body style="padding:0px 10px;">
+<form class="layui-form my-form-class" action="">
+	<div class="layui-form-item">
+		<div class="layui-block">
+			<label class="layui-form-label">接口名称</label>
+			<div class="layui-input-inline mySelect my-form-input">
+				<select id="inter_name" lay-filter="inter_name" lay-verify="required">
+					<option value="c_kt,宁远">德山接口：宁远</option>
+					<option value="c_kt,绥宁">德山接口：绥宁</option>
+					<option value="c_kt,岳阳">德山接口：岳阳</option>
+					<option value="p_kt,贵州岑巩">武汉易维：贵州岑巩</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="form-inline page-btn">
+	<button lay-submit type="button" id="sure" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+	<button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+	layui.use(['form', 'layer'], function(){
+		var form = layui.form
+				,layer = layui.layer
+				,get_result_url = "/smallbox/haCmd/cmdAdd";
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+		$(":input").dblclick(function(){
+			$(this).removeAttr("readonly");
+		});
+		function submitInfo(postdata){
+			$.ajax({
+				url: get_result_url
+				,data: postdata
+				,type: "POST"
+				,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+				,async:false //同步请求
+				,success: function(data){
+					if(data == "ok"){
+						parent.layer.msg("执行成功！", {icon: 1});
+						//parent.layer.close(index); //再执行关闭
+					}else{
+						layer.msg(data, {icon: 5});
+					}
+				}
+			});
+		}
+		$("#close").click(function(){
+			parent.layer.close(index); //再执行关闭
+		});
+		$("#sure").click(function(){
+			inter = $("#inter_name").val().split(",")
+			var cmd = "";
+			if(inter[0] == "c_kt"){
+				var data = {
+					cmd : '结算上传:'+inter[1]
+				}
+			}else if(inter[0] == "p_kt"){
+				var data = {
+					cmd : '接口数据上传:'+inter[1]
+				}
+			}
+			submitInfo(data);
+		});
+	});
+</script>
+</body>
+</html>

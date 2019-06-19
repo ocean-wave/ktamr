@@ -35,6 +35,16 @@ public class ThirdPartyController extends BaseController {
         return pxePath+"/thirdPartyReport";
     }
 
+    @GetMapping("/usersUpload")
+    public String usersUpload(){
+        return pxePath+"/usersUpload";
+    }
+
+    @GetMapping("/dataUpload")
+    public String dataUpload(){
+        return pxePath+"/interfaceDataUpload";
+    }
+
     @PostMapping("/thirdPartyReportJson")
     @ResponseBody
     public Map<String, Object> interfaceCmdListJson(HavMeterinfo havMeterinfo){

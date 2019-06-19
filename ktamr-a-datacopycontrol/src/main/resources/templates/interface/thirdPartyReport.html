@@ -796,16 +796,18 @@
 			}else if(btnTitle == "数据上传"){
 				if(showListType == "sys_jrss" || showListType == "sys_ahqj"){
 					var _layerSize = ['500px', '320px'];
-					_myLayui.showLayer("用户抄表数据导入导出","./JuRong/users_upload.asp", "", _layerSize);
+					_myLayui.showLayer("用户抄表数据导入导出","/thirdpartydata/usersUpload", "", _layerSize);
 				}else if(showListType == "sys_dzss"){
 					var _layerSize = ['500px', '320px'];
-					_myLayui.showLayer("用户抄表数据导入导出","./DaZhu/users_upload.asp", "", _layerSize);
+					_myLayui.showLayer("用户抄表数据导入导出","/thirdpartydata/usersUpload", "", _layerSize);
 				}
 			}else if(btnTitle == "接口数据上传"){
+				var operatorLevel = [[${session.haOperator.operatorLevel}]];
+				var operatorName = [[${session.haOperator.operatorName}]];
+				var get_cmdid_url = "/smallbox/haCmd/cmdAdd";
 				if(operatorLevel == "admin"){
 					var _layerSize = ['300px', '220px'];
-					_myLayui.showLayer("上传接口数据","./interface_data_upload.asp", "", _layerSize);
-					return false;
+					_myLayui.showLayer("上传接口数据","/thirdpartydata/dataUpload", "", _layerSize);
 				}else{
 					$.ajax({
 						url: get_cmdid_url

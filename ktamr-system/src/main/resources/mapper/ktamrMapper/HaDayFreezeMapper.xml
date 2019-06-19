@@ -22,17 +22,6 @@
         </association>
     </resultMap>
 
-    <sql id="getRightCondition">
-        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
-            <if test=" params.operatorRgnType == 'rgn' ">
-                and position( LEFT(mi.areaNo,1) in #{params.rgnStr})>0
-            </if>
-            <if test=" params.operatorRgnType == 'area' ">
-                and mi.areano in (#{params.areaNo})
-            </if>
-        </if>
-    </sql>
-
     <select id="selectDayFreezeMeterIdCount" resultType="java.lang.Integer"  parameterType="com.ktamr.domain.HaMeter">
         SELECT Count(meterid) FROM ha_dayfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
     </select>
@@ -52,55 +41,57 @@
     </insert>
 
     <select id="selectFreeze" resultMap="haDayfreezeMap" parameterType="com.ktamr.domain.HaDayfreeze">
-        SELECT fz.meterId
-        ,mi.用户号 AS userNo
-        , mi.用户名 AS userName
-        , mi.用户地址 AS userDs
-        , fz.meterNumber AS meterNumber
-        , fz.t_read AS tRead
-        ,fz.l_read AS lRead
-        ,fz.amount AS aMount
-        ,fz.state AS state
-        ,fz.fday AS fday
-        ,fz.readTime AS readTime
-        <if test=" params.dataType == 'lastDayFreeze'.toString() " >
-            FROM ha_dayfreeze fz
-            inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            where fday = (select max(fday) from ha_dayfreeze)
-        </if>
-        <if test=" params.dataType == 'lastMonFreeze'.toString() " >
-            FROM ha_monfreeze fz
-            inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            where fday = (select max(fday) from ha_monfreeze)
-        </if>
-        <if test=" params.dataType == 'dayFreeze'.toString() " >
-            FROM ha_dayfreeze fz
-            inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            WHERE 1=1
-        </if>
-        <if test=" params.dataType == 'monFreeze'.toString() " >
-            FROM ha_monfreeze fz
-            inner join hav_meterinfo mi on mi.meterid = fz.meterid
-            WHERE 1=1
-        </if>
-        <include refid="getRightCondition"></include>
-        <if test=" params.nodeType == 'area'.toString() and params.nodeIds != '' ">
-            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
-        </if>
-        <if test=" params.nodeType == 'rgn'.toString() and params.nodeIds != '' ">
-            AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
-        </if>
-        <if test="  params.startDate != null and params.startDate != ''  ">
-            AND fz.fday BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
-        </if>
-        <if test=" params.dataType == 'monFreeze'.toString() and params.startDate != null and params.endDate != null ">
-            AND fz.readTime BETWEEN #{params.startDate} and #{params.endDate}
-        </if>
-        <if test=" params.keyWord != null and params.keyWord != '' ">
-            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
-            or mi.用户地址 like '%${params.keyWord}%')
-        </if>
-        order by fday desc
+        select * from (SELECT fz.meterId
+            ,mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            , fz.meterNumber AS meterNumber
+            , fz.t_read AS tRead
+            ,fz.l_read AS lRead
+            ,fz.amount AS aMount
+            ,fz.state AS state
+            ,fz.fday AS fday
+            ,fz.readTime AS readTime
+            <if test=' params.dataType == "lastDayFreeze"'>
+                FROM ha_dayfreeze fz
+                inner join hav_meterinfo mi on mi.meterid = fz.meterid
+                where fday = (select max(fday) from ha_dayfreeze fz2 where fz2.meterid=fz.meterid)
+            </if>
+            <if test=' params.dataType == "lastMonFreeze"'>
+                FROM ha_monfreeze fz
+                inner join hav_meterinfo mi on mi.meterid = fz.meterid
+                where fday = (select max(fday) from ha_monfreeze fz2 where fz2.meterid=fz.meterid)
+            </if>
+            <if test=' params.dataType == "dayFreeze"'>
+                FROM ha_dayfreeze fz
+                inner join hav_meterinfo mi on mi.meterid = fz.meterid
+                WHERE 1=1
+            </if>
+            <if test=' params.dataType == "monFreeze"'>
+                FROM ha_monfreeze fz
+                inner join hav_meterinfo mi on mi.meterid = fz.meterid
+                WHERE 1=1
+            </if>
+            <if test=' params.nodeType == "area" and params.nodeIds != "" '>
+                AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
+            </if>
+            <if test=' params.nodeType == "rgn" and params.nodeIds != "" '>
+                AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
+            </if>
+            <if test='  params.startDate != null and params.startDate != ""  '>
+                AND fz.fday BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and
+                to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test=' params.dataType == "monFreeze" and params.startDate != null and params.startDate != "" and params.endDate != null and params.endDate != "" '>
+                AND fz.readTime BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and
+                to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test=" params.keyWord != null and params.keyWord != '' ">
+                and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
+                or mi.用户地址 like '%${params.keyWord}%')
+            </if>
+        ) t
+        ORDER BY userDs,fday
     </select>
 
 

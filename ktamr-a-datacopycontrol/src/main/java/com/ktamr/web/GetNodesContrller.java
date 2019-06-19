@@ -28,11 +28,11 @@ public class GetNodesContrller extends BaseController {
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allRgn', name:'全部大区', iconSkin:'icon00', open:true},{ id:'-2', pId:0, LevelType:'allArea', name:'全部小区', iconSkin:'icon00', open:true},{ id:'-3', pId:0, LevelType:'allMeter', name:'全部房间表', iconSkin:'icon00', open:true}";
         List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(map);
         for  (Map<String,Object> haRgn : listHaRgn){
-            jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:'" + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
+            jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:' "+haRgn.get("id")+"-"  + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
             map.put("id",haRgn.get("id").toString());
             List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(map);
             for(Map<String,Object> m : listMap ){
-                jsonStr = jsonStr +  "{ id:'" + m.get("areaid").toString() + "', pId:'"+ haRgn.get("id") +"', LevelType:'area', name:'" + m.get("ar") +"-"+m.get("ds")+m.get("aname") + "(" + m.get("bnamecount") +")', iconSkin:'pIcon02', isParent:true, children:[";
+                jsonStr = jsonStr +  "{ id:'" + m.get("areaid").toString() + "', pId:'"+ haRgn.get("id") +"', LevelType:'area', name:'" + m.get("ar") +"-"+m.get("aname") + "(" + m.get("bnamecount") +")', iconSkin:'pIcon02', isParent:true, children:[";
                 List<Map<String,Object>> listMap2 = nodesService.selectAllBuildingNodes(Integer.parseInt(m.get("areaid").toString()));
                 int i = 1;
                 for (Map<String,Object> m2:listMap2 ){
@@ -64,11 +64,11 @@ public class GetNodesContrller extends BaseController {
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部区域', iconSkin:'icon00',isParent:false}";
         List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(map);
         for  (Map<String,Object> haRgn : listHaRgn){
-            jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:'" + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
+            jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:' "+haRgn.get("id")+"-" + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
             map.put("id",haRgn.get("id").toString());
             List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(map);
             for(Map<String,Object> m : listMap ){
-                jsonStr = jsonStr +  "{ id:'" + m.get("areaid").toString() + "', pId:'"+ haRgn.get("id") +"', LevelType:'area', name:'" + m.get("ar") +"-"+m.get("ds")+m.get("aname") + "(" + m.get("bnamecount") +")', iconSkin:'pIcon02'}";
+                jsonStr = jsonStr +  "{ id:'" + m.get("areaid").toString() + "', pId:'"+ haRgn.get("id") +"', LevelType:'area', name:'" + m.get("ar") +"-"+m.get("aname") + "(" + m.get("bnamecount") +")', iconSkin:'pIcon02'}";
                 int i = 1;
                 if (i != listMap.size()){
                     jsonStr = jsonStr + ",";

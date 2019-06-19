@@ -86,6 +86,7 @@
 			GridObj.removeGridResize();
 			GridObj.jqdefaultGridConfig.caption = "";
 			GridObj.jqdefaultGridConfig.multiselect = false;
+			GridObj.jqdefaultGridConfig.datatype = "local";
 			GridObj.jqdefaultGridConfig.postData = {"params[dataType]": dataType,"params[nodeType]":nodeType,"params[nodeIds]":nodeIds};
 			GridObj.jqdefaultGridConfig.colNames = ['meterid', '用户编号', '用户名称', '用户地址', '表号', '本次冻结数据', '上次冻结数据', '冻结用量', '表状态', '冻结日', '抄收时间'];
 			GridObj.jqdefaultGridConfig.colModel = [
@@ -129,6 +130,8 @@
 		gridChange();
 		$("#query_type").change(function(){
 			var dataType = $("#query_type").val();
+			var nodeType = $("#nodeType").val();
+			var nodeIds = $("#nodeIds").val();
 			if(dataType=="lastDayFreeze" || dataType=="lastMonFreeze"){
 				$(".area-div").show();
 				$(".date-range-div").hide();
@@ -144,8 +147,9 @@
 			}
 
 			$("#jqGrid").jqGrid('setGridParam',{
-				postData: {"params[dataType]": dataType}
-			}).trigger("reloadGrid");
+				postData: {"params[dataType]": dataType,"params[nodeType]":nodeType,"params[nodeIds]":nodeIds}
+			}).trigger("clearGridData");
+			gridChange();
 		});
 		$(document).keydown(function(event){
 			if(event.keyCode==13){
