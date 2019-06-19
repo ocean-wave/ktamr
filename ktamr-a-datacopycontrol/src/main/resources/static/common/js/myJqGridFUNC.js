@@ -488,6 +488,26 @@ function metersReplaceCellColor(rowId, val, rawObject, cm, rdata){
 	
 	return styleStr;
 }
+//导入档案校验结果单元格字体加颜色
+function importCheckCellColor(rowId, val, rawObject, cm, rdata){
+	var styleStr = "";
+	switch(val){
+		case "新增":
+			styleStr = "style='color:blue;'";
+			break;
+		case "待更换":
+		case "待导入":
+		case "修改":
+			styleStr = "style='color:Green;'";
+			break;
+		default:
+			styleStr = "style='color:red;font-weight:800;'";
+			break;
+	}
+
+
+	return styleStr;
+}
 //导入用户档案校验结果单元格字体加颜色
 function usersInfoCellColor(rowId, val, rawObject, cm, rdata){
 	var styleStr = "";

@@ -2,6 +2,8 @@ package com.ktamr.mapper;
 
 import com.ktamr.domain.HatBalanceimport;
 
+import java.util.List;
+
 public interface HatBalanceimportMapper {
 
     /**
@@ -59,4 +61,25 @@ public interface HatBalanceimportMapper {
      * @return
      */
     public Integer CheckBalance(HatBalanceimport hatBalanceimport);
+
+    /**
+     * 查询总条目数
+     * @param hatBalanceimport
+     * @return
+     */
+    public Integer selectAllrows(HatBalanceimport hatBalanceimport);
+
+    /**
+     * 查询待导入数
+     * @param hatBalanceimport
+     * @return
+     */
+    public Integer selectImports(HatBalanceimport hatBalanceimport);
+
+    /**
+     * 查询用户余额确认列表
+     * @param hatBalanceimport
+     * @return
+     */
+    public List<HatBalanceimport> selectCustBalanceImportList(HatBalanceimport hatBalanceimport);
 }
