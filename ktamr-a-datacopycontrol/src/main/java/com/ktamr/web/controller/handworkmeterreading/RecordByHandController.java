@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -77,5 +78,12 @@ public class RecordByHandController extends BaseController {
     @GetMapping("/metersRecordImport")
     public String metersRecordImport(ModelMap mmap){
         return pxePath+"/metersRecordImport";
+    }
+
+    @RequestMapping("/metersRecordImportTwo")
+    public String metersRecordImportTwo(MultipartFile upfile){
+
+
+        return "";
     }
 }

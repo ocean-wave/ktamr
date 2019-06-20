@@ -21,8 +21,8 @@ public class indexContrller {
 
     @RequestMapping("/index")
     public String index(ModelMap mmap, HttpSession session){
-        mmap.put("webVersion", Global.getWebVersion());
-        mmap.put("version", Global.getVersion());
+        session.setAttribute("webVersion", Global.getWebVersion());
+        session.setAttribute("version", Global.getVersion());
         session.setAttribute("haOperator", ShiroUtils.getHaOperator());
         session.setAttribute("operatorCode", ShiroUtils.getOperatorCode());
         session.setAttribute("rgnAndAreaId", ShiroUtils.getRgnAndAreaId());

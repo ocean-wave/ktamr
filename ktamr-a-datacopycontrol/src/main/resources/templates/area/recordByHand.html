@@ -55,7 +55,7 @@
 <script th:inline="javascript" >
 	layui.config({
 		base : '/common/js/',
-		version: '2.8.2'
+		version: [[${session.version}]]
 	}).extend({
 		myLayui: 'myLayui'
 	});
