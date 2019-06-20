@@ -74,4 +74,14 @@
         SELECT id, state AS state, userCode AS userCode, userName AS userName, meterNumber::varchar(16) AS meterNumber, balance AS balance FROM hat_balanceImport
      WHERE importTime=#{importTime}
     </select>
+
+    <!-- 修改用户余额   -->
+    <update id="modifyUserBalance">
+        UPDATE ha_custom cu SET balance=t.balance FROM hat_balanceImport t WHERE t.userId=cu.custid AND t.state='待导入' AND t.importTime=#{importTime}
+    </update>
+
+    <!--清理临时表    -->
+    <delete id="cleanupTemporaryTables">
+        DELETE FROM hat_balanceImport WHERE importTime=#{importTime}
+    </delete>
 </mapper>

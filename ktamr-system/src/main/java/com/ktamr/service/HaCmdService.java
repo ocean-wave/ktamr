@@ -46,4 +46,11 @@ public interface HaCmdService {
      * @return
      */
     public Integer BinsertHaCmd(HaCmd haCmd);
+
+    /**
+     * 插入一条批量导入余额的命令
+     * @param haCmd
+     * @return
+     */
+    public Integer insertCommand(HaCmd haCmd);
 }

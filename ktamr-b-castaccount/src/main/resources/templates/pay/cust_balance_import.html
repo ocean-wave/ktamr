@@ -142,7 +142,7 @@
                         loadLayerIndex = showLoadLayer()
                     }
                 }).success(function (data) {
-                    alert(loadLayerIndex+"您好，我进入的是成功的方法"+data);
+                 //   alert(loadLayerIndex+"您好，我进入的是成功的方法"+data);
                     //成功提交
                     clossLoadLayer(loadLayerIndex);
                     if(strDateTime2(data)){
@@ -151,7 +151,7 @@
                             "fileName="+$("#filename").text(),
                             "importTime="+data
                         ];
-                        alert("所查询带入的参数是"+queryStr);
+                       // alert("所查询带入的参数是"+queryStr);
                         parent._myLayui.showLayer("用户余额确认列表","/cust_balance_import_list", queryStr, layerSize);
                         parent.layer.close(layerIndex); //再执行关闭
                     }else{
