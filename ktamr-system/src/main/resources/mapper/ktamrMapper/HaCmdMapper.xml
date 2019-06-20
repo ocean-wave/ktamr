@@ -198,4 +198,10 @@
             SELECT nextval('ha_cd_seq'::regclass) as id
         </selectKey>
     </insert>
+
+    <!-- 插入一条批量导入余额的命令   -->
+    <insert id="insertCommand">
+        INSERT INTO ha_cmd(cmd,parms,centorid,uid, createTime,lastBeginTime,lastEndTime,processing,state)
+        VALUES ('导入用户余额文档', #{parms}, 0, #{uid}, Now(), Now(), Now(), #{processing},'完成')
+    </insert>
 </mapper>

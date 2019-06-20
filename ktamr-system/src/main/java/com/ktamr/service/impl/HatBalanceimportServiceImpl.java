@@ -168,4 +168,32 @@ public class HatBalanceimportServiceImpl  implements HatBalanceimportService {
         }
         return null;
     }
+
+    /**
+     * 修改用户余额
+     * @param hatBalanceimport
+     * @return
+     */
+    @Override
+    public Integer modifyUserBalance(HatBalanceimport hatBalanceimport) {
+        Integer modifyUserBalance = hatBalanceimportMapper.modifyUserBalance(hatBalanceimport);
+        if(modifyUserBalance!=null){
+            return modifyUserBalance;
+        }
+        return null;
+    }
+
+    /**
+     * 清理临时表
+     * @param hatBalanceimport
+     * @return
+     */
+    @Override
+    public Integer cleanupTemporaryTables(HatBalanceimport hatBalanceimport) {
+        Integer cleanupTemporaryTables = hatBalanceimportMapper.cleanupTemporaryTables(hatBalanceimport);
+        if(cleanupTemporaryTables!=null){
+            return cleanupTemporaryTables;
+        }
+        return null;
+    }
 }

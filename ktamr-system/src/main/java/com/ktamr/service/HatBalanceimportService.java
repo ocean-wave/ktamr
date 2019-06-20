@@ -82,4 +82,18 @@ public interface HatBalanceimportService {
      * @return
      */
     public List<HatBalanceimport> selectCustBalanceImportList(HatBalanceimport hatBalanceimport);
+
+    /**
+     * 修改用户余额
+     * @param hatBalanceimport
+     * @return
+     */
+    public Integer modifyUserBalance(HatBalanceimport hatBalanceimport);
+
+    /**
+     * 清理临时表
+     * @param hatBalanceimport
+     * @return
+     */
+    public Integer cleanupTemporaryTables(HatBalanceimport hatBalanceimport);
 }

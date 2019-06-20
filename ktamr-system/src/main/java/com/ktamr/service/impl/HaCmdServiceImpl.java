@@ -129,4 +129,18 @@ public class HaCmdServiceImpl implements HaCmdService {
         }
         return null;
     }
+
+    /**
+     * 插入一条批量导入余额的命令
+     * @param haCmd
+     * @return
+     */
+    @Override
+    public Integer insertCommand(HaCmd haCmd) {
+        Integer insertCommand = haCmdMapper.insertCommand(haCmd);
+        if(insertCommand!=null){
+            return insertCommand;
+        }
+        return null;
+    }
 }

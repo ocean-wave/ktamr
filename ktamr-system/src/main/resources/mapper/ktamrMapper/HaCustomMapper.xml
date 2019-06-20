@@ -214,6 +214,9 @@
             <if test="HaCustom.balanceType == 'notArrearage'">
                 AND (u.balance>=0 OR u.balance is null)
             </if>
+            <if test="haCustom.keyWord!=null and haCustom.keyWord !=''">
+                and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
+            </if>
         </trim>
         ) t
     </select>
