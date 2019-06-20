@@ -7,6 +7,7 @@ import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.utils.file.ImportService;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.domain.HaCustom;
+import com.ktamr.domain.HatBalanceimport;
 import com.ktamr.service.HaBillrecordsService;
 import com.ktamr.service.HaCustomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -137,8 +141,6 @@ public class HaCustomController extends BaseController {
         }
         return null;
     }
-
-
 
 
 
