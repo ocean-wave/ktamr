@@ -101,13 +101,11 @@
                 '${HaBillrecords.JieShu}'
             </if>
         </trim>
+        ORDER BY to_char(b.optTime, 'yyyy-mm-dd hh24:mi:ss') DESC
         ) t
-        ORDER BY 操作时间 DESC
+ </select>
 
-
-    </select>
-
-    <!--检查是否超过可恢复收费-->
+    <!--检查是否超过可恢复收费 -->
     <select id="selectShiFou" resultType="string">
         SELECT case when Count(br1.bId)>
       (SELECT Count(br2.bId)
