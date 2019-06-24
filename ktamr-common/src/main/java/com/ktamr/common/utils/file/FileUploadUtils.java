@@ -89,6 +89,25 @@ public class FileUploadUtils
     }
 
     /**
+     * 根据文件格式上传
+     *
+     * @param file 上传的文件
+     * @return 文件名称
+     * @throws IOException
+     */
+    public static final String upload(MultipartFile file,String fileType) throws IOException
+    {
+        try
+        {
+            return upload(defaultBaseDir,file,fileType );
+        }
+        catch (Exception e)
+        {
+            throw new IOException(e.getMessage(), e);
+        }
+    }
+
+    /**
      * 文件上传
      *
      * @param baseDir 相对应用的基目录

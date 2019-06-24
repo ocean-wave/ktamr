@@ -1,5 +1,6 @@
 package com.ktamr.common.config;
 
+import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.StringUtils;
 import com.ktamr.common.utils.YamlUtil;
 import org.slf4j.Logger;
@@ -116,7 +117,7 @@ public class Global
      */
     public static String getProfile()
     {
-        return getConfig("ruoyi.profile");
+        return getConfig("ktamr.profile")+"import\\";
     }
 
     /**
@@ -124,7 +125,7 @@ public class Global
      */
     public static String getAvatarPath()
     {
-        return getConfig("ruoyi.profile") + "avatar/";
+        return getConfig("ktamr.profile") + "avatar\\";
     }
 
     /**
@@ -132,7 +133,7 @@ public class Global
      */
     public static String getDownloadPath()
     {
-        return getConfig("ruoyi.profile") + "download/";
+        return getConfig("ktamr.profile") + "download\\";
     }
 
     /**
@@ -140,6 +141,6 @@ public class Global
      */
     public static String getUploadPath()
     {
-        return getConfig("ruoyi.profile") + "upload/";
+        return getConfig("ktamr.profile") + "upload\\";
     }
 }

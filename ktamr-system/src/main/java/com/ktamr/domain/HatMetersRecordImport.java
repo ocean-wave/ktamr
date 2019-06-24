@@ -7,23 +7,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-public class HatMetersrecordimport extends BaseEntity {
+public class HatMetersRecordImport extends BaseEntity {
 
   private Integer id;
-  private String usercode;
+  private String userCode;
   private String userName;
   private double meterNumber;
   private String state;
   private double readNumber;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date readTime;
   private Integer meterId;
   private Integer hasdayFreeze;
   private Integer hasmonFreeze;
-  private String check;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private String checkResult;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date importTime;
 
 
@@ -35,12 +35,12 @@ public class HatMetersrecordimport extends BaseEntity {
     this.id = id;
   }
 
-  public String getUsercode() {
-    return usercode;
+  public String getUserCode() {
+    return userCode;
   }
 
-  public void setUsercode(String usercode) {
-    this.usercode = usercode;
+  public void setUserCode(String userCode) {
+    this.userCode = userCode;
   }
 
   public String getUserName() {
@@ -107,12 +107,12 @@ public class HatMetersrecordimport extends BaseEntity {
     this.hasmonFreeze = hasmonFreeze;
   }
 
-  public String getCheck() {
-    return check;
+  public String getCheckResult() {
+    return checkResult;
   }
 
-  public void setCheck(String check) {
-    this.check = check;
+  public void setCheckResult(String checkResult) {
+    this.checkResult = checkResult;
   }
 
   public Date getImportTime() {

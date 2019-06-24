@@ -87,8 +87,8 @@
 		var g_dataType = "editLastData";
 		var g_showListType = 1;
 		var nowStr = [[${nowStr}]];
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,'/handworkmeterreading/recordByHandJson');
-		GridObj.jqdefaultGridConfig.editurl = "/handworkmeterreading/RowEditing";
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,'/handwork/recordByHandJson');
+		GridObj.jqdefaultGridConfig.editurl = "/handwork/RowEditing";
 		GridObj.jqdefaultGridConfig.caption = "";
 		GridObj.jqdefaultGridConfig.multiselect = false;
 		GridObj.jqdefaultGridConfig.postData = {"params[dataType]": g_dataType,"params[showListType]": g_showListType};
@@ -201,7 +201,7 @@
 					_queryStr = [
 						"cmdName=批量录入"
 					];
-					_myLayui.showLayer("批量录入","/handworkmeterreading/metersRecordImport", _queryStr, _layerSize);
+					_myLayui.showLayer("批量录入","/handwork/metersRecordImport", _queryStr, _layerSize);
 					break;
 				default:
 					layer.msg("不支持的命令", {icon: 5});

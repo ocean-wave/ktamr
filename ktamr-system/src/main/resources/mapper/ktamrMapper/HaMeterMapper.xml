@@ -92,6 +92,21 @@
         </if>
     </select>
 
+    <update id="updateMeter"  parameterType="com.ktamr.domain.HaMeter">
+        UPDATE ha_meter  SET th_number=#{thNumber},th_r_time=#{thRTime},s_number=#{thNumber}-lf_number,
+        state=#{state},fday=to_date(#{thRTime},'yyyy-mm-dd')-1,fmon=to_date(#{thRTime},'yyyy-mm-dd')-CAST(date_part('day', current_date)  as  INTEGER),
+        fday_n=#{thNumber},fmon_n=#{thNumber}
+        WHERE meterid=#{meterId}
+    </update>
+
+    <update id="updateMeterTwo"  parameterType="com.ktamr.domain.HaMeter">
+        update ha_meter m set
+        s_number=t.readNumber-m.lf_number, state=t.state, th_number=t.readNumber,th_r_time=t.readTime,
+        fday=current_date-1,fmon=current_date-date_part('day',current_date)::integer,
+        fday_n=t.readNumber,fmon_n=t.readNumber
+        FROM hat_metersRecordImport t WHERE m.meterId=t.meterId AND t.check_result='待导入' AND to_char(importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </update>
+
     <select id="selectMeterById" resultType="java.util.Map" parameterType="java.lang.Integer">
         SELECT
           th_number AS thNumber
@@ -241,13 +256,6 @@
         </if>
         ORDER BY mi.用户地址
     </select>
-
-    <update id="updateMeter"  parameterType="com.ktamr.domain.HaMeter">
-        UPDATE ha_meter  SET th_number=#{thNumber},th_r_time=#{thRTime},s_number=#{thNumber}-lf_number,
-        state=#{state},fday=to_date(#{thRTime},'yyyy-mm-dd')-1,fmon=to_date(#{thRTime},'yyyy-mm-dd')-CAST(date_part('day', current_date)  as  INTEGER),
-        fday_n=#{thNumber},fmon_n=#{thNumber}
-        WHERE meterid=#{meterId}
-    </update>
 
     <select id="selectMeterByCentorId" resultMap="haMeterMap">
         SELECT m.meterId AS meterId

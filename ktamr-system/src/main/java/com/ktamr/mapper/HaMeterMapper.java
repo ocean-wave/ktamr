@@ -13,6 +13,10 @@ import java.util.Map;
  */
 public interface HaMeterMapper {
 
+    public Integer updateMeter(HaMeter haMeter);
+
+    public Integer updateMeterTwo(String importTime);
+
     public Map<String,Object> selectMeterById(Integer meterid);
 
     /**
@@ -44,8 +48,6 @@ public interface HaMeterMapper {
     public List<HaMeter> selectNotok(HaMeter params);
 
     public List<HaMeter> selectRecordByHand(HaMeter haMeter);
-
-    public Integer updateMeter(HaMeter haMeter);
 
     /**
      * 根据centorId查询meter表信息

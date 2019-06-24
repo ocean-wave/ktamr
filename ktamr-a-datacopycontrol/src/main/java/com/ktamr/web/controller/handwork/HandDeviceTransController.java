@@ -1,4 +1,4 @@
-package com.ktamr.web.controller.handworkmeterreading;
+package com.ktamr.web.controller.handwork;
 
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaMeterService;
@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/handworkmeterreading")
-public class MeterTableTransController extends BaseController {
+@RequestMapping("/handwork")
+public class HandDeviceTransController extends BaseController {
     private  String pxePath = "area";
 
     @Autowired
     private HaMeterService haMeterService;
 
 
-    @GetMapping("/tableTrans")
+    @GetMapping("/deviceTrans")
     public String deviceTrans(ModelMap mmap){
-        return pxePath+"/meterTableTrans";
+        return pxePath+"/handDeviceTrans";
     }
 }

@@ -12,11 +12,17 @@ import java.util.Map;
  */
 public interface HaDayFreezeMapper {
 
-    public Integer selectDayFreezeMeterIdCount(HaMeter haMeter);
+    public Integer insertDayFreeze(HaMeter haMeter);
+
+    public Integer insertDayFreezeTwo(String importTime);
 
     public Integer updateDayFreeze(HaMeter haMeter);
 
-    public Integer insertDayFreeze(HaMeter haMeter);
+    public Integer updateDayFreezeTwo(String importTime);
+
+    Integer delHaDayFreeze(@Param("meterId") Integer meterId);
+
+    public Integer selectDayFreezeMeterIdCount(HaMeter haMeter);
 
     /**
      * 查询冻结数据
@@ -32,5 +38,4 @@ public interface HaDayFreezeMapper {
      */
     public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params);
 
-    Integer delHaDayFreeze(@Param("meterId") Integer meterId);
 }

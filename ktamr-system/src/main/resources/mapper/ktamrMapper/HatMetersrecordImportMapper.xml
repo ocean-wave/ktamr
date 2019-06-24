@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HatMetersRecordImportMapper">
+
+    <sql id="whereSql">
+        <if test='  parameterType == "importTime"  '>
+            and importTime=#{importTime}
+        </if>
+        <if test='  parameterType == "checkResultAndImportTime"  '>
+            and check_result='待导入' AND importTime=#{importTime}
+        </if>
+    </sql>
+
+    <insert id="insertMetersRecordImport" >
+        INSERT INTO hat_metersRecordImport(userCode, userName, meterNumber, state, readNumber, readTime, check_result, importTime)
+        <foreach item="item" index="index" collection="params" separator="union All">
+            (select cast(#{item.1} as varchar),#{item.2},#{item.3},#{item.4},#{item.5},cast(#{item.6} as timestamp)
+            ,case when (select count(1) from  ha_custom c where c.custno = cast(#{item.1} as varchar)) = 0 then '用户号不存在'
+            when (select count(1) from ha_meter m where m.meternumber = cast(#{item.3} as integer )) = 0 then '表号不存在'
+            else (select case  when m.meterNumber != #{item.3} then '匹配不到表'
+            when cast(#{item.4} as varchar) is null or cast(#{item.5} as varchar) is null  then '状态或读数为空'
+            else '待导入' end
+            from ha_custom c
+            inner join ha_room r on r.custid = c.custid
+            inner join ha_meter m on m.roomid = r.roomid
+            where c.custno = cast(#{item.1} as varchar)
+            limit 1
+            )
+            end
+            ,cast (#{item.7} as timestamp ))
+        </foreach>
+    </insert>
+
+    <update id="updateMetersRecordImport">
+        update hat_metersRecordImport t set
+        meterId=m.meterid
+        FROM ha_meter m
+        WHERE t.meterNumber=m.meterNumber AND t.check_result='待导入' AND to_char(t.importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </update>
+
+    <delete id="deleteMetersRecordImport">
+        delete from hat_metersRecordImport where to_char(importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </delete>
+
+    <select id="selectMetersRecordImportByImportTime" resultType="com.ktamr.domain.HatMetersRecordImport" >
+        select id,userCode
+        , userName
+        , meterNumber
+        , state
+        , readNumber
+        , readTime
+        , check_result AS checkResult
+        , importTime
+        from hat_metersRecordImport hm
+        where to_char(hm.importTime,'yyyy-mm-dd hh24:mi:ss') = #{importTime}
+    </select>
+
+    <select id="selectMetersRecordImportCount" resultType="java.lang.Integer">
+        select count(1) from hat_metersRecordImport
+        where 1=1
+        <include refid="whereSql"></include>
+    </select>
+
+</mapper>
