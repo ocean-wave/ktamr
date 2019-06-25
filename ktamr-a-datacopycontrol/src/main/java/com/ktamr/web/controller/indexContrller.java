@@ -24,6 +24,13 @@ public class indexContrller {
     @Resource
     private HaOperatorRgnsService haOperatorRgnsService;
 
+    /**
+     * 打开主页
+     * @param mmap
+     * @param session
+     * @param haOperatorRgns
+     * @return
+     */
     @RequestMapping("/index")
     public String index(ModelMap mmap, HttpSession session, HaOperatorRgns haOperatorRgns){
         session.setAttribute("webVersion", Global.getWebVersion());
@@ -31,9 +38,10 @@ public class indexContrller {
         session.setAttribute("haOperator", ShiroUtils.getHaOperator());
         session.setAttribute("operatorCode", ShiroUtils.getOperatorCode());
         session.setAttribute("rgnAndAreaId", ShiroUtils.getRgnAndAreaId());
+        HaOperator haOperator = (HaOperator)session.getAttribute("haOperator");
+        session.setAttribute("haOperatorRgnType",haOperator.getOperatorRgnType());//登录时候获取并存放haOperatorRgnType
 
         //获取用户授权区域字符串 begin
-        HaOperator haOperator = (HaOperator)session.getAttribute("haOperator");
         String operatorCode = (String)session.getAttribute("operatorCode");//第一个参数
         String operatorRgnType = haOperator.getOperatorRgnType();
         if(operatorRgnType!=null){

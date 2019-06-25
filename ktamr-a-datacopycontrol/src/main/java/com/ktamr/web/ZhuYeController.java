@@ -77,8 +77,7 @@ public class ZhuYeController {
         String t_stateNameList="";
         String stateNameList = "建档,无返回,失联,正常,强光干扰,气泡干扰,通讯故障,表具故障,异常,用量异常,开阀,关阀";
         //1、正常表计数'
-        HaOperator haOperator = (HaOperator)session.getAttribute("haOperator");
-        session.setAttribute("haOperatorRgnType",haOperator.getOperatorRgnType());
+
         ck.GetRightCondition("areaNo","area","and",session);
         //获得全部状态
         Map<String, Object> map2 = zhuYeService.getMeterStateCount(zhuYe);
