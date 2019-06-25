@@ -8,11 +8,18 @@ import java.util.Map;
 
 public interface HaMonFreezeService {
 
-    public Integer selectMonFreezeMeterIdCount(HaMeter haMeter);
+    public Integer insertMonFreeze(HaMeter haMeter);
+
+    public Integer insertMonFreezeTwo(String importTime);
 
     public Integer updateMonFreeze(HaMeter haMeter);
 
-    public Integer insertMonFreeze(HaMeter haMeter);
+    public Integer updateMonFreezeTwo(String importTime);
+
+    Integer delHaMonFreeze(Integer meterId);
+
+    public Integer selectMonFreezeMeterIdCount(HaMeter haMeter);
+
 
     /**
      * 查询月冻结抄收记录表信息
@@ -21,5 +28,4 @@ public interface HaMonFreezeService {
      */
     public List<HaMonfreeze> selectAllMonfreeze(Map<String,Object> parms);
 
-    Integer delHaMonFreeze(Integer meterId);
 }

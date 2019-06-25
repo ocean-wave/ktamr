@@ -12,11 +12,17 @@ import java.util.Map;
  */
 public interface HaMonFreezeMapper {
 
-    public Integer selectMonFreezeMeterIdCount(HaMeter haMeter);
+    public Integer insertMonFreeze(HaMeter haMeter);
+
+    public Integer insertMonFreezeTwo(String importTime);
 
     public Integer updateMonFreeze(HaMeter haMeter);
 
-    public Integer insertMonFreeze(HaMeter haMeter);
+    public Integer updateMonFreezeTwo(String importTime);
+
+    Integer delHaMonFreeze(@Param("meterId") Integer meterId);
+
+    public Integer selectMonFreezeMeterIdCount(HaMeter haMeter);
 
     /**
      * 查询月冻结抄收记录表信息
@@ -25,5 +31,4 @@ public interface HaMonFreezeMapper {
      */
     public List<HaMonfreeze> selectAllMonfreeze(Map<String,Object> parms);
 
-    Integer delHaMonFreeze(@Param("meterId") Integer meterId);
 }

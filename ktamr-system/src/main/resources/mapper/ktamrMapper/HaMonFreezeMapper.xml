@@ -13,16 +13,6 @@
         <result column="fDay" property="fDay" javaType="java.util.Date" ></result>
     </resultMap>
 
-    <select id="selectMonFreezeMeterIdCount" resultType="java.lang.Integer"  parameterType="com.ktamr.domain.HaMeter">
-        SELECT Count(meterid) FROM ha_monfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
-    </select>
-
-    <update id="updateMonFreeze"  parameterType="com.ktamr.domain.HaMeter">
-        UPDATE ha_monfreeze SET t_read=#{thNumber},l_read=#{thNumber},readTime=to_date(#{thRTime},'yyyy-mm-dd'),
-        amount=0,state=#{state}
-        WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-CAST(date_part('day', current_date)  as  INTEGER)
-    </update>
-
     <insert id="insertMonFreeze" useGeneratedKeys="true"  keyProperty="resultParams.MonFreezeId"  parameterType="com.ktamr.domain.HaMeter">
         INSERT INTO ha_monfreeze(meterid, meterNumber, centorid, collectorid, fday, lday, readTime, state, t_read, l_read, amount)
         SELECT m.meterId, m.meterNumber, m.centorid, m.collectorid, to_date(#{thRTime},'yyyy-mm-dd')-1,m.fday,
@@ -30,6 +20,47 @@
          from ha_meter m
          WHERE m.meterId=#{meterId}
     </insert>
+
+    <insert id="insertMonFreezeTwo">
+        INSERT INTO ha_monfreeze(meterid, meterNumber, centorid, collectorid, fday, lday, readTime, state, t_read, l_read, amount)
+        SELECT m.meterId
+        , m.meterNumber
+        , m.centorid
+        , m.collectorid
+        , current_date-date_part('day',current_date)::integer
+        , m.fmon
+        , t.readTime
+        , t.state
+        , t.readNumber
+        ,t.readNumber
+        , 0
+        FROM ha_meter m, hat_metersRecordImport t
+        WHERE m.meterId=t.meterId AND t.hasMonFreeze!=1 AND t.check_result='待导入' AND to_char(importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </insert>
+
+    <update id="updateMonFreeze">
+        UPDATE ha_monfreeze SET t_read=#{thNumber},l_read=#{thNumber},readTime=to_date(#{thRTime},'yyyy-mm-dd'),
+        amount=0,state=#{state}
+        WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-CAST(date_part('day', current_date)  as  INTEGER)
+    </update>
+
+    <update id="updateMonFreezeTwo">
+        update ha_monfreeze mf set
+        t_read=t.readNumber, l_read=t.readNumber, readTime=t.readTime, amount=0, state=t.state
+        FROM hat_metersRecordImport t
+        WHERE mf.meterid=t.meterId
+        AND mf.fday=current_date-date_part('day',current_date)::integer
+        AND t.check_result='待导入'
+        AND to_char(importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </update>
+
+    <delete id="delHaMonFreeze">
+        delete from ha_monfreeze where meterid=#{meterId}
+    </delete>
+
+    <select id="selectMonFreezeMeterIdCount" resultType="java.lang.Integer"  parameterType="com.ktamr.domain.HaMeter">
+        SELECT Count(meterid) FROM ha_monfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
+    </select>
 
     <select id="selectAllMonfreeze" resultMap="HaMonFreezeMap" parameterType="java.util.Map">
         select * from (SELECT meterid AS meterId
@@ -48,8 +79,4 @@
         ${multipleConditions}
         order by fday desc
     </select>
-
-    <delete id="delHaMonFreeze">
-        delete from ha_monfreeze where meterid=#{meterId}
-    </delete>
 </mapper>

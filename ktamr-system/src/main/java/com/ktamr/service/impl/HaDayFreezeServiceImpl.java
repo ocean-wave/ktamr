@@ -17,8 +17,13 @@ public class HaDayFreezeServiceImpl implements HaDayFreezeService {
     private HaDayFreezeMapper haDayFreezeMapper;
 
     @Override
-    public Integer selectDayFreezeMeterIdCount(HaMeter haMeter) {
-        return haDayFreezeMapper.selectDayFreezeMeterIdCount(haMeter);
+    public Integer insertDayFreeze(HaMeter haMeter) {
+        return haDayFreezeMapper.insertDayFreeze(haMeter);
+    }
+
+    @Override
+    public Integer insertDayFreezeTwo(String importTime) {
+        return null;
     }
 
     @Override
@@ -27,8 +32,18 @@ public class HaDayFreezeServiceImpl implements HaDayFreezeService {
     }
 
     @Override
-    public Integer insertDayFreeze(HaMeter haMeter) {
-        return haDayFreezeMapper.insertDayFreeze(haMeter);
+    public Integer updateDayFreezeTwo(String importTime) {
+        return haDayFreezeMapper.updateDayFreezeTwo(importTime);
+    }
+
+    @Override
+    public Integer delHaDayFreeze(Integer meterId) {
+        return haDayFreezeMapper.delHaDayFreeze(meterId);
+    }
+
+    @Override
+    public Integer selectDayFreezeMeterIdCount(HaMeter haMeter) {
+        return haDayFreezeMapper.selectDayFreezeMeterIdCount(haMeter);
     }
 
     /**
@@ -49,10 +64,5 @@ public class HaDayFreezeServiceImpl implements HaDayFreezeService {
     @Override
     public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params) {
         return haDayFreezeMapper.selectAllDayfreeze(params);
-    }
-
-    @Override
-    public Integer delHaDayFreeze(Integer meterId) {
-        return haDayFreezeMapper.delHaDayFreeze(meterId);
     }
 }

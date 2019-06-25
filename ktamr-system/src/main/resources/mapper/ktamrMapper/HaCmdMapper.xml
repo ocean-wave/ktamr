@@ -26,16 +26,34 @@
         </association>
     </resultMap>
 
-    <sql id="getRightCondition">
-        <if test=" params.operatorRgnType != null and params.operatorRgnType != '' ">
-            <if test=" params.operatorRgnType == 'rgn' ">
-                and position( LEFT(ce.centorNo,1) in #{params.rgnStr})>0
-            </if>
-            <if test=" params.operatorRgnType == 'area' ">
-                and ce.centorNo in (#{params.areaNo})
-            </if>
+    <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
+        <if test=" deviceType == '1'.toString() ">
+            insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
+            values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
+            <if test=" centorid >= 0  ">#{centorid},</if><if test=" uid != null and uid != '' ">#{uid},</if>
+            <if test=" createTime != null  ">#{createTime},</if>
+            '待执行')
         </if>
-    </sql>
+        <if test=" deviceType == '2'.toString() ">
+            insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
+            SELECT cmd,parms,centorid,#{uid},#{createTime},'待执行'
+            from ha_cmd
+            WHERE id=#{cmdId}
+        </if>
+    </insert>
+
+    <insert id="insertCmdTwo" useGeneratedKeys="true"  keyProperty="resultParams.meterId" parameterType="com.ktamr.domain.HaMeter">
+        insert into ha_cmd(cmd,parms,centorid,uid,createTime,lastBeginTime,lastEndTime,processing,state)
+        select '手工录入单',meterNumber, NULL,#{params.operatorCode},#{params.nowStr},#{params.nowStr}
+        ,#{params.nowStr},'读数:'||#{thNumber}||',状态:'||#{state},'完成'
+        from ha_meter
+        WHERE meterid=#{meterId}
+    </insert>
+
+    <insert id="insertCmdTwo2" useGeneratedKeys="true"  keyProperty="meterId" parameterType="java.util.Map">
+        INSERT INTO ha_cmd(cmd,parms,centorid,uid, createTime,lastBeginTime,lastEndTime,processing,state)
+        values('导入手工抄表数据',#{fileName},0,#{operatorCode},Now(),Now(),Now(),#{msg},'完成')
+    </insert>
 
     <select id="selectCmdId" resultType="java.lang.Integer" parameterType="java.util.Map">
         SELECT id
@@ -45,22 +63,6 @@
         AND centorid=#{centorid}
         AND state != '完成' AND state != '失败'
     </select>
-
-    <insert id="insertCmd" useGeneratedKeys="true"  keyProperty="id" parameterType="java.util.Map">
-        <if test=" deviceType == '1'.toString() ">
-        insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
-        values (<if test=" mcmd != null and mcmd != '' ">#{mcmd},</if><if test=" parms != null and parms != '' ">#{parms},</if>
-          <if test=" centorid >= 0  ">#{centorid},</if><if test=" uid != null and uid != '' ">#{uid},</if>
-          <if test=" createTime != null  ">#{createTime},</if>
-          '待执行')
-        </if>
-        <if test=" deviceType == '2'.toString() ">
-            insert into ha_cmd(cmd,parms,centorid,uid,createtime,state)
-            SELECT cmd,parms,centorid,#{uid},#{createTime},'待执行'
-            from ha_cmd
-            WHERE id=#{cmdId}
-        </if>
-    </insert>
 
     <select id="selectCmdParmsById" parameterType="java.lang.Integer" resultType="java.util.Map">
         SELECT state,processing
@@ -90,14 +92,6 @@
         GROUP BY c.id,c.cmd,c.parms,c.createtime,c.state,c.lastEndTime,c.processing
         ORDER BY c.id DESC
     </select>
-
-    <insert id="insertCmdTwo" useGeneratedKeys="true"  keyProperty="resultParams.meterId" parameterType="com.ktamr.domain.HaMeter">
-        insert into ha_cmd(cmd,parms,centorid,uid,createTime,lastBeginTime,lastEndTime,processing,state)
-        select '手工录入单',meterNumber, NULL,#{params.operatorCode},#{params.nowStr},#{params.nowStr}
-        ,#{params.nowStr},'读数:'||#{thNumber}||',状态:'||#{state},'完成'
-        from ha_meter
-        WHERE meterid=#{meterId}
-    </insert>
 
     <select id="selectCmdLeftJoinTow" resultMap="cmdMap">
         SELECT  c.id AS id
@@ -130,11 +124,11 @@
             AND (o.operator_code IN (
             SELECT operator_code FROM ha_operator
             WHERE operator_upper=#{params.operatorCode} OR operator_code=#{params.operatorCode})
-            OR (c.uid='sys' <include refid="getRightCondition"></include>)
+            OR (c.uid='sys' (LEFT(ce.cetorno,1) = #{rgnAndAreaId} or left(ce.cetorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=" params.operatorLevel != 'normal' and params.operatorLevel !='admin' ">
-            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' <include refid="getRightCondition"></include>)
+            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' (LEFT(ce.cetorno,1) = #{rgnAndAreaId} or left(ce.cetorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=" params.keyWord != null and params.keyWord != ''  ">

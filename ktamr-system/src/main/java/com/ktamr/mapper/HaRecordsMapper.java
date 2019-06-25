@@ -11,14 +11,16 @@ import java.util.Map;
  */
 public interface HaRecordsMapper {
 
+    public Integer insertRecords(HaMeter haMeter);
+
+    public Integer insertRecordsTwo(Map<String,Object> map);
+
     /**
      * 查询抄表记录表与抄表出错记录表信息
      * @param parms Map参数
      * @return 返回泛型集合
      */
     public List<HaRecords> selectRecordsAndErrrecord(Map<String,Object> parms);
-
-    public Integer insertRecords(HaMeter haMeter);
 
     /**
      * 查询两表

@@ -166,7 +166,7 @@
 				"sub": [
 					{
 						"id": "1-6-1",
-						"url": "/handworkmeterreading/deviceTrans",
+						"url": "/handwork/deviceTrans",
 						"name": "手抄器传输",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -175,7 +175,7 @@
 					},
 					{
 						"id": "1-6-2",
-						"url": "/handworkmeterreading/tableTrans",
+						"url": "/handwork/tableTrans",
 						"name": "抄表文件传输",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -184,7 +184,7 @@
 					},
 					{
 						"id": "1-6-3",
-						"url": "/handworkmeterreading/byHand",
+						"url": "/handwork/byHand",
 						"name": "手工录入",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",

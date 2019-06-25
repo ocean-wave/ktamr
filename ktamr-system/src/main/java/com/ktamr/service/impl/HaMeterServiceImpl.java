@@ -20,6 +20,16 @@ public class HaMeterServiceImpl implements HaMeterService {
     private HaMeterMapper haMeterMapper;
 
     @Override
+    public Integer updateMeter(HaMeter haMeter) {
+        return haMeterMapper.updateMeter(haMeter);
+    }
+
+    @Override
+    public Integer updateMeterTwo(String importTime) {
+        return haMeterMapper.updateMeterTwo(importTime);
+    }
+
+    @Override
     public Map<String, Object> selectMeterById(Integer meterid) {
         return haMeterMapper.selectMeterById(meterid);
     }
@@ -92,11 +102,6 @@ public class HaMeterServiceImpl implements HaMeterService {
     @Override
     public List<HaMeter> selectRecordByHand(HaMeter haMeter) {
         return haMeterMapper.selectRecordByHand(haMeter);
-    }
-
-    @Override
-    public Integer updateMeter(HaMeter haMeter) {
-        return haMeterMapper.updateMeter(haMeter);
     }
 
     /**

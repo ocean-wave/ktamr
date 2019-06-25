@@ -9,17 +9,19 @@ import java.util.Map;
 
 public interface HaCmdMapper {
 
-    public Integer selectCmdId(Map<String,Object> cmd);
-
     public Integer insertCmd(Map<String,Object> cmd);
+
+    public Integer insertCmdTwo(HaMeter haMeter);
+
+    public Integer insertCmdTwo2(Map<String,Object> map);
+
+    public Integer selectCmdId(Map<String,Object> cmd);
 
     public Map<String,Object> selectCmdParmsById(Integer id);
 
     public String selectCentorById(Integer centorid);
 
     public List<HaCmd> selectAllCmd(HaCmd haCmd);
-
-    public Integer insertCmdTwo(HaMeter haMeter);
 
     public List<HaCmd> selectCmdLeftJoinTow(HaCmd haCmd);
 

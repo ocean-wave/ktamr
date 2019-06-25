@@ -63,6 +63,13 @@
         WHERE meterid=#{meterId}
     </insert>
 
+    <insert id="insertRecordsTwo" parameterType="com.ktamr.domain.HaMeter">
+        INSERT INTO ha_records(meterId, rate, lf_number, lf_time, th_number, th_time, delta, state, cmdid )
+        SELECT m.meterId, m.rate , m.th_number, m.th_r_time, t.readNumber, t.readTime,t.readNumber-m.th_number, t.state, #{meterId}
+        FROM ha_meter m, hat_metersRecordImport t
+        WHERE t.check_result='待导入' AND m.meterId=t.meterId AND to_char(t.importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </insert>
+
     <select id="selectRecordsAndErrrecordTow" resultMap="haRecords" parameterType="com.ktamr.domain.HaRecords">
         SELECT t1.itemid
             , mi.用户号 AS userNo

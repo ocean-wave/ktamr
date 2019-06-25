@@ -20,19 +20,6 @@ public class HaCmdServiceImpl implements HaCmdService {
     private HaCmdMapper haCmdMapper;
 
     @Override
-    public Integer selectCmdId(String cmd,String centorid) {
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("mcmd",cmd.split(":")[0]);
-        map.put("parms",cmd.substring(cmd.indexOf(":")+1));
-        if(centorid == ""){
-            map.put("centorid",0);
-        }else if (centorid != ""){
-            map.put("centorid",Integer.parseInt(centorid));
-        }
-        return haCmdMapper.selectCmdId(map);
-    }
-
-    @Override
     public Integer insertCmd(String cmd, String centorid) {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("mcmd",cmd.split(":")[0]);
@@ -63,6 +50,29 @@ public class HaCmdServiceImpl implements HaCmdService {
     }
 
     @Override
+    public Integer insertCmdTwo(HaMeter haMeter) {
+        return haCmdMapper.insertCmdTwo(haMeter);
+    }
+
+    @Override
+    public Integer insertCmdTwo2(Map<String, Object> map) {
+        return haCmdMapper.insertCmdTwo2(map);
+    }
+
+    @Override
+    public Integer selectCmdId(String cmd,String centorid) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("mcmd",cmd.split(":")[0]);
+        map.put("parms",cmd.substring(cmd.indexOf(":")+1));
+        if(centorid == ""){
+            map.put("centorid",0);
+        }else if (centorid != ""){
+            map.put("centorid",Integer.parseInt(centorid));
+        }
+        return haCmdMapper.selectCmdId(map);
+    }
+
+    @Override
     public Map<String, Object> selectCmdParmsById(Integer id) {
         return haCmdMapper.selectCmdParmsById(id);
     }
@@ -75,11 +85,6 @@ public class HaCmdServiceImpl implements HaCmdService {
     @Override
     public List<HaCmd> selectAllCmd(HaCmd haCmd) {
         return haCmdMapper.selectAllCmd(haCmd);
-    }
-
-    @Override
-    public Integer insertCmdTwo(HaMeter haMeter) {
-        return haCmdMapper.insertCmdTwo(haMeter);
     }
 
     @Override

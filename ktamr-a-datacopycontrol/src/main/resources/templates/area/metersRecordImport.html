@@ -25,7 +25,7 @@
 			</h3>
 		</div>
 		<div class="panel-body">
-			<form id="form" name="form" class="fupload" method="post" action="/handworkmeterreading/metersRecordImportTwo">
+			<form id="form" name="form" class="fupload" method="post" action="/handwork/metersRecordImportTwo">
 				<p><b>1、请选择要导入的文件：（文件格式：*.xls/*.xlsx）</b></p>
 				<label for="jobData" class="control-label hide" style="float:left;padding-left:15px;">任务数据</label>
 				<div class="row" style="padding:5px 15px;">
@@ -120,7 +120,8 @@
 				});
 			}else {
 				// mulitipart form,如文件上传类
-				var formData = new FormData(this);
+				var formData = new FormData();
+				formData.append("userInfo", document.getElementById("userInfo").files[0]);
 				$.ajax({
 					type: form.attr('method')
 					,url: form.attr('action')
@@ -139,10 +140,10 @@
 					if(strDateTime2(data)){
 						var layerSize = ['650px', '450px'];
 						var queryStr = [
-							"file_name="+$("#filename").text(),
-							"import_time="+data
+							"fileName="+$("#filename").text(),
+							"importTime="+data
 						];
-						parent._myLayui.showLayer("抄表数据确认列表","meters_record_import_list.asp", queryStr, layerSize);
+						parent._myLayui.showLayer("抄表数据确认列表","/handwork/metersRecordImportList", queryStr, layerSize);
 						parent.layer.close(layerIndex); //再执行关闭
 					}else{
 						layer.msg(data, {icon: 5});

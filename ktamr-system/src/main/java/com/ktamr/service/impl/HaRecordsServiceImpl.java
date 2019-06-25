@@ -16,6 +16,16 @@ public class HaRecordsServiceImpl implements HaRecordsService {
     @Autowired
     private HaRecordsMapper haRecordsMapper;
 
+    @Override
+    public Integer insertRecords(HaMeter haMeter) {
+        return haRecordsMapper.insertRecords(haMeter);
+    }
+
+    @Override
+    public Integer insertRecordsTwo(Map<String, Object> map) {
+        return haRecordsMapper.insertRecordsTwo(map);
+    }
+
     /**
      * 查询抄表记录表与抄表出错记录表信息
      * @param parms Map参数
@@ -24,11 +34,6 @@ public class HaRecordsServiceImpl implements HaRecordsService {
     @Override
     public List<HaRecords> selectRecordsAndErrrecord(Map<String,Object> parms) {
         return haRecordsMapper.selectRecordsAndErrrecord(parms);
-    }
-
-    @Override
-    public Integer insertRecords(HaMeter haMeter) {
-        return haRecordsMapper.insertRecords(haMeter);
     }
 
     /**
