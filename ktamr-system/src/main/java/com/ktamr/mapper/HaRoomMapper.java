@@ -47,4 +47,7 @@ public interface HaRoomMapper {
     HaRoom getByHaRoomAreaId(@Param("roomId") Integer roomId);
 
     HaRoom getByHaRoomBuildingId(@Param("roomId") Integer roomId);
+
+    //用户档案模板导出
+    List<HaRoom> customExport(@Param("areaId") Integer areaId);
 }

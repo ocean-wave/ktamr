@@ -139,4 +139,16 @@
     <select id="getByHaRoomBuildingId" resultType="com.ktamr.domain.HaRoom">
         SELECT buildingid as buildingId FROM ha_room WHERE roomid=#{roomId}
     </select>
+
+    <select id="customExport" resultType="com.ktamr.domain.HaRoom">
+        SELECT t.roomid, cu.custno AS 用户编号, cu.name AS 用户名称,
+        t.areaname AS 小区名称, t.bulidname AS 楼栋名称, t.roomname AS 房间名称,
+        m.meterNumber AS 表号, m.meter_channel AS 表通道号, m.meter_sequence AS 表序号,
+        m.vendor_id AS 厂商码, ce.centorNo AS 所属集中器编号, to_hex(co.nconf) AS 所属采集器地址,
+        mt.name AS 表类型,CASE WHEN m.isbranch=0 THEN  '总表' ELSE '分表' END AS 总分表, m.g_number AS 表底数,
+        to_char(m.starttime, 'yyyy-mm-dd hh24:mi:ss') AS 装表时间, p.name AS 收费类型,
+        trim(to_char(m.rate, '9999999999999999')) AS 倍率, cu.sex AS 性别,
+        cu.mobil AS 手机号码 FROM ((((((SELECT r.roomid,r.custid,r.name AS roomname,a.name AS areaname,b.name AS bulidname
+        FROM ha_room r,ha_area a, ha_building b WHERE r.buildingid=b.buildingid AND b.areaid=a.areaid AND a.areaid IN (#{areaId}) ORDER BY a.name,b.name,r.name) t LEFT JOIN ha_meter m ON m.roomid=t.roomid) LEFT JOIN ha_custom cu ON cu.custid=t.custid) LEFT JOIN ha_pricestandard p ON m.pricestand_id=p.pricestand_id) LEFT JOIN ha_meterType mt ON p.meterTypeId=mt.meterTypeId) LEFT JOIN ha_centor ce ON m.centorid=ce.id) LEFT JOIN ha_collector co ON co.collectorid=m.collectorid
+    </select>
 </mapper>

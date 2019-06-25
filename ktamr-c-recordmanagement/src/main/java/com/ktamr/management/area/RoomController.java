@@ -242,4 +242,11 @@ public class RoomController extends BaseController {
         return null;
     }
 
+    @RequestMapping("/CustomerExport")
+    @ResponseBody
+    public Object customerExport(Integer areaId){
+        List<HaRoom> rooms = haRoomService.customExport(areaId);
+        return rooms;
+    }
+
 }

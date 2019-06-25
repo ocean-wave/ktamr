@@ -25,20 +25,20 @@
     </select>
 
     <insert id="addHaConfig">
-        insert into ha_config values (#{S},#{K},#{kname},#{V},#{lastTime},#{uid},#{pos})
+        insert into ha_config values (#{s},#{k},#{kname},#{v},#{lastTime},#{uid},#{pos})
     </insert>
 
     <delete id="deleteHaConfig">
         delete from ha_config where pos = #{pos}
     </delete>
 
-    <update id="updateHaCustom">
+    <update id="updateHaConfig">
         update ha_config
         <trim prefix="set" suffixOverrides="," suffix="where pos = #{pos}">
-            <if test="S != null">s = #{S},</if>
-            <if test="K != null">k = #{K},</if>
+            <if test="s != null">s = #{s},</if>
+            <if test="k != null">k = #{k},</if>
             <if test="kname != null">kname = #{kname},</if>
-            <if test="V != null">v = #{V},</if>
+            <if test="v != null">v = #{v},</if>
             <if test="lastTime != null">lasttime = #{lastTime},</if>
             <if test="uid != null">uid = #{uid},</if>
             <if test="pos != null">pos = #{pos},</if>

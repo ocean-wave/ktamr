@@ -47,4 +47,7 @@ public interface HaRoomService {
     HaRoom getByHaRoomAreaId(Integer roomId);
 
     HaRoom getByHaRoomBuildingId(Integer roomId);
+
+    //用户档案模板导出
+    List<HaRoom> customExport(Integer areaId);
 }

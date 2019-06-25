@@ -57,14 +57,14 @@
             { name: 'k', index: 'k', width: 120, sortable:false ,editable : true },
             { name: 'kname', index: 'kname', width: 120, sortable:false ,editable : true },
             { name: 'v', index: 'v', width: 200, sortable:false ,editable : true },
-            { name: 'lasttime', index: 'lasttime',width: 120 , sortable:false, cellattr:editTimeCellColor },
+            { name: 'lastTime', index: 'lasttime',width: 120 , sortable:false, cellattr:editTimeCellColor },
             { name: 'uid', index: 'uid',width: 100, sortable:false  }
         ];
         GridObj.jqdefaultGridConfig.grouping = true;
         GridObj.jqdefaultGridConfig.gridButtonConfig = {
-            del:false
+            del:true
             ,add:true
-            ,edit:false
+            ,edit:true
         };
         GridObj.drawGrid();
         //GridObj.drawGridPager();

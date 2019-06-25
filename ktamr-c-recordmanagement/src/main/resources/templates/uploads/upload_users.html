@@ -87,7 +87,7 @@
 </div>
 <div th:include="include :: footer"></div>
 <script language="JavaScript">
-    var get_excel_model_url = "../client_trans/jqGridJSON.asp";
+    var get_excel_model_url = "/room/CustomerExport";
     var get_excel_model = "../common/ExcelTemplate/用户表档案导入模板.xls";
 
     function loadFile(file){
@@ -172,17 +172,14 @@
                 ,contentType: 'application/json; charset=utf-8'
                 ,async: false
                 ,data: {
-                    ListNumber: 40
-                    ,exportExcel: "true"
-                    ,exportType: "userInfo"
-                    ,areaIds: $("#areas").val().join(",")
+                    areaId: $("#areas").val().join(",")
                 }
                 ,async:false //同步请求
                 ,beforeSend: function(){
                     loadLayerIndex = showLoadLayer()
                 }
                 ,success: function(data){
-                    var fileUrl = "/uploads/exportToExcel/"+data;
+                    var fileUrl = "/uploads/exportToExcel/1";
                     //alert(fileUrl);
                     clossLoadLayer(loadLayerIndex);
                     window.open(fileUrl);

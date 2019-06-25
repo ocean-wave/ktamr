@@ -213,7 +213,7 @@
             ,layer = layui.layer;
         var _index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
-        var load_option_url = "../devices/load_device_option.asp";
+        var load_option_url = "/room/LoadDeviceOption";
         var op_url = "/room/UpdateRoom";
         var g_areaId = $("#byHaRoomAreaId").val();
         var g_buildingId = $("#byHaRoomBuildingId").val();
@@ -312,7 +312,7 @@
         });
         form.on('select(deviceType)', function(data){
             var areaObj = $(data.elem);
-            g_deviceType = areaObj.val();
+            g_deviceType = $("#deviceType").val();
 
             pageInit();
             $.ajax({
