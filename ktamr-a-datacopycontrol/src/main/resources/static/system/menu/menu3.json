@@ -37,15 +37,6 @@
 						"isShortMenu": "false",
 						"shortIconfont": "",
 						"sub": []
-					},
-					{
-						"id": "3-2-3",
-						"url": "devices/device_addr_set",
-						"name": "设备放码",
-						"iconfont": "fa fa-angle-right",
-						"isShortMenu": "false",
-						"shortIconfont": "",
-						"sub": []
 					}
 				]
 			},
