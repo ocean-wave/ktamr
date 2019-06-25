@@ -1,5 +1,6 @@
 package com.ktamr.service.impl;
 
+import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.domain.zhuYe;
 import com.ktamr.mapper.ZhuYeMapper;
 import com.ktamr.service.ZhuYeService;
@@ -23,8 +24,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer areaCount() {
-        Integer areaCount = zhuYeMapper.areaCount();
+    public Integer areaCount(BaseEntity baseEntity) {
+        Integer areaCount = zhuYeMapper.areaCount(baseEntity);
         if(areaCount!=null){
             return areaCount;
         }
@@ -36,8 +37,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer meterCount() {
-        Integer meterCount = zhuYeMapper.meterCount();
+    public Integer meterCount(BaseEntity baseEntity) {
+        Integer meterCount = zhuYeMapper.meterCount(baseEntity);
         if(meterCount!=null){
             return meterCount;
         }
@@ -49,8 +50,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer notOkCount() {
-        Integer notOkCount = zhuYeMapper.notOkCount();
+    public Integer notOkCount(BaseEntity baseEntity) {
+        Integer notOkCount = zhuYeMapper.notOkCount(baseEntity);
         if(notOkCount!=null){
             return notOkCount;
         }
@@ -62,8 +63,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer notConnectedCount() {
-        Integer notConnectedCount = zhuYeMapper.notConnectedCount();
+    public Integer notConnectedCount(BaseEntity baseEntity) {
+        Integer notConnectedCount = zhuYeMapper.notConnectedCount(baseEntity);
         if(notConnectedCount!=null){
             return notConnectedCount;
         }
@@ -75,8 +76,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer userCount() {
-        Integer userCount = zhuYeMapper.userCount();
+    public Integer userCount(BaseEntity baseEntity) {
+        Integer userCount = zhuYeMapper.userCount(baseEntity);
         if(userCount!=null){
             return userCount;
         }
@@ -88,8 +89,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer ccentorCount() {
-        Integer ccentorCount = zhuYeMapper.ccentorCount();
+    public Integer ccentorCount(BaseEntity baseEntity) {
+        Integer ccentorCount = zhuYeMapper.ccentorCount(baseEntity);
         if(ccentorCount!=null){
             return ccentorCount;
         }
@@ -101,8 +102,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer centorCount() {
-        Integer centorCount = zhuYeMapper.centorCount();
+    public Integer centorCount(BaseEntity baseEntity) {
+        Integer centorCount = zhuYeMapper.centorCount(baseEntity);
         if(centorCount!=null){
             return centorCount;
         }
@@ -114,8 +115,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer collectorCount() {
-        Integer collectorCount = zhuYeMapper.collectorCount();
+    public Integer collectorCount(BaseEntity baseEntity) {
+        Integer collectorCount = zhuYeMapper.collectorCount(baseEntity);
         if(collectorCount!=null){
             return collectorCount;
         }
@@ -127,8 +128,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Map<String, Object> getMeterStateCount(zhuYe zhuYe) {
-        Map<String, Object> map = zhuYeMapper.getMeterStateCount(zhuYe);
+    public Map<String, Object> getMeterStateCount(BaseEntity baseEntity) {
+        Map<String, Object> map = zhuYeMapper.getMeterStateCount(baseEntity);
         if(map!=null){
             return map;
         }
@@ -142,8 +143,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public List<zhuYe> meterStateCountQiTa() {
-        List<zhuYe> meterStateCountQiTa = zhuYeMapper.meterStateCountQiTa();
+    public List<zhuYe> meterStateCountQiTa(BaseEntity baseEntity) {
+        List<zhuYe> meterStateCountQiTa = zhuYeMapper.meterStateCountQiTa(baseEntity);
         if(meterStateCountQiTa!=null){
             return meterStateCountQiTa;
         }
@@ -155,8 +156,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public List<zhuYe> meterStateCountJiZhongQi() {
-        List<zhuYe> meterStateCountJiZhongQi = zhuYeMapper.meterStateCountJiZhongQi();
+    public List<zhuYe> meterStateCountJiZhongQi(BaseEntity baseEntity) {
+        List<zhuYe> meterStateCountJiZhongQi = zhuYeMapper.meterStateCountJiZhongQi(baseEntity);
         if(meterStateCountJiZhongQi!=null){
             return meterStateCountJiZhongQi;
         }
@@ -168,8 +169,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer meterStateCountCaiJiQi1() {
-        Integer meterStateCountCaiJiQi1 = zhuYeMapper.meterStateCountCaiJiQi1();
+    public Integer meterStateCountCaiJiQi1(BaseEntity baseEntity) {
+        Integer meterStateCountCaiJiQi1 = zhuYeMapper.meterStateCountCaiJiQi1(baseEntity);
         if(meterStateCountCaiJiQi1!=null){
             return meterStateCountCaiJiQi1;
         }
@@ -181,8 +182,8 @@ public class ZhuYeServiceImpl implements ZhuYeService {
      * @return
      */
     @Override
-    public Integer meterStateCountCaiJiQi2() {
-        Integer meterStateCountCaiJiQi2 = zhuYeMapper.meterStateCountCaiJiQi2();
+    public Integer meterStateCountCaiJiQi2(BaseEntity baseEntity) {
+        Integer meterStateCountCaiJiQi2 = zhuYeMapper.meterStateCountCaiJiQi2(baseEntity);
         if(meterStateCountCaiJiQi2!=null){
             return meterStateCountCaiJiQi2;
         }

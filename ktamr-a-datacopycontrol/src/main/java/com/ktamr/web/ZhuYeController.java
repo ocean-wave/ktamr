@@ -1,12 +1,14 @@
 package com.ktamr.web;
 
 import com.ktamr.common.Checkright;
+import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.domain.*;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaRngService;
 import com.ktamr.service.ZhuYeService;
 import com.ktamr.util.PageUtil;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,15 +47,20 @@ public class ZhuYeController {
      * @return
      */
     @RequestMapping("/openMainHtml")
-    public String openMainHtml(Model model){
-        Integer areaCount = zhuYeService.areaCount();
-        Integer meterCount = zhuYeService.meterCount();
-        Integer notOkCount = zhuYeService.notOkCount();
-        Integer notConnectedCount = zhuYeService.notConnectedCount();
-        Integer userCount = zhuYeService.userCount();
-        Integer ccentorCount = zhuYeService.ccentorCount();
-        Integer centorCount = zhuYeService.centorCount();
-        Integer collectorCount = zhuYeService.collectorCount();
+    public String openMainHtml(Model model,HttpSession session){
+        BaseEntity baseEntity =new zhuYe();
+        ck.GetRightCondition("areaNo","area","WHERE",session,baseEntity);
+        Integer areaCount = zhuYeService.areaCount(baseEntity);
+        ck.GetRightCondition("areaNo","area","and",session,baseEntity);
+        Integer meterCount = zhuYeService.meterCount(baseEntity);
+        Integer notOkCount = zhuYeService.notOkCount(baseEntity);
+        Integer notConnectedCount = zhuYeService.notConnectedCount(baseEntity);
+        ck.GetRightCondition("a.areaNo","area","WHERE",session,baseEntity);
+        Integer userCount = zhuYeService.userCount(baseEntity);
+        ck.GetRightCondition("ce.centorNo","centor","and",session,baseEntity);
+        Integer ccentorCount = zhuYeService.ccentorCount(baseEntity);
+        Integer centorCount = zhuYeService.centorCount(baseEntity);
+        Integer collectorCount = zhuYeService.collectorCount(baseEntity);
         model.addAttribute("areaCount",areaCount);
         model.addAttribute("meterCount",meterCount);
         model.addAttribute("notOkCount",notOkCount);
@@ -77,10 +84,11 @@ public class ZhuYeController {
         String t_stateNameList="";
         String stateNameList = "建档,无返回,失联,正常,强光干扰,气泡干扰,通讯故障,表具故障,异常,用量异常,开阀,关阀";
         //1、正常表计数'
+        BaseEntity baseEntity =new zhuYe();
+        ck.GetRightCondition("areaNo","area","and",session,baseEntity);
 
-        ck.GetRightCondition("areaNo","area","and",session);
         //获得全部状态
-        Map<String, Object> map2 = zhuYeService.getMeterStateCount(zhuYe);
+        Map<String, Object> map2 = zhuYeService.getMeterStateCount(baseEntity);
         meterStateCount[3]= Integer.parseInt(map2.get("正常").toString());;//2、正常状态计数
         t_stateNameList = t_stateNameList + "'正常'" +",";
         meterStateCount[9]= Integer.parseInt(map2.get("异常").toString());//2、异常状态计数
@@ -93,7 +101,7 @@ public class ZhuYeController {
         t_stateNameList = t_stateNameList + "'开阀'" +",";
 
         //6、其他状态表计数
-        List<zhuYe> zhuYeList = zhuYeService.meterStateCountQiTa();
+        List<zhuYe> zhuYeList = zhuYeService.meterStateCountQiTa(baseEntity);
 
 
 
@@ -150,7 +158,8 @@ public class ZhuYeController {
             }
         }
         //集中器状态统计
-        List<zhuYe> meterStateCountJiZhongQi = zhuYeService.meterStateCountJiZhongQi();
+        ck.GetRightCondition("ce.centorNo","centor","AND",session,baseEntity);
+        List<zhuYe> meterStateCountJiZhongQi = zhuYeService.meterStateCountJiZhongQi(baseEntity);
         Integer[] centorStateCount = new Integer[3];
         for (int i=0;i<meterStateCountJiZhongQi.size();i++){
             Integer total = meterStateCountJiZhongQi.get(i).getTotal();//获取总数
@@ -170,11 +179,12 @@ public class ZhuYeController {
         }
 
         //采集器统计
-        Integer meterStateCountCaiJiQi1 = zhuYeService.meterStateCountCaiJiQi1();
-        Integer meterStateCountCaiJiQi2 = zhuYeService.meterStateCountCaiJiQi2();
+        Integer meterStateCountCaiJiQi1 = zhuYeService.meterStateCountCaiJiQi1(baseEntity);
+        Integer meterStateCountCaiJiQi2 = zhuYeService.meterStateCountCaiJiQi2(baseEntity);
         Integer collectorConnCount=meterStateCountCaiJiQi1;
         Integer collectorDisConnCount=meterStateCountCaiJiQi2;
-        Integer meterCount = zhuYeService.meterCount();
+        ck.GetRightCondition("a.areaNo","area","and",session,baseEntity);
+        Integer meterCount = zhuYeService.meterCount(baseEntity);
 //        model.addAttribute("meterStateCount",meterStateCount);
         Map<String ,Object> map=new HashMap<>();
         map.put("meterStateCount",meterStateCount);

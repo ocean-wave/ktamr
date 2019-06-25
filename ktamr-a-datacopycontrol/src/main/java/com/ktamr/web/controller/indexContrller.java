@@ -47,7 +47,6 @@ public class indexContrller {
         if(operatorRgnType!=null){
             operatorRgnType=operatorRgnType.trim();//第二个参数
         }
-        System.err.println(!operatorRgnType.equals("rgn"));
        if(!operatorRgnType.equals("rgn") && !operatorRgnType.equals("area")){
             session.setAttribute("rgnStr", "");
             session.setAttribute("leftRgnStr", "");
@@ -75,6 +74,8 @@ public class indexContrller {
         //获取用户授权区域字符串 end
         session.setAttribute("rgnStr", rgnStr);
         session.setAttribute("leftRgnStr", leftRgnStr);
+
+
 
         return "index";
     }

@@ -9,42 +9,50 @@
     <!-- 小区总数   -->
     <select id="areaCount" resultType="Integer">
     SELECT Count(areaid) FROM ha_area
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!--表档案总数    -->
     <select id="meterCount" resultType="Integer">
         SELECT Count(m.meterid) FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!--不良表总数    -->
     <select id="notOkCount" resultType="Integer">
        SELECT Count(m.meterid) FROM ha_meter m,ha_area a WHERE (m.state NOT IN ('正常','正确','关阀','建档','集中器无返回','采集器无返回','修改','已更正','已更换','失联') AND m.state NOT LIKE '%用量异常%' AND m.meterNumber >0) AND m.areaid=a.areaid
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!--失联表总数    -->
     <select id="notConnectedCount" resultType="Integer">
         SELECT Count(m.meterid) FROM ha_meter m,ha_area a WHERE m.state='失联' AND m.meterNumber >0 AND m.areaid=a.areaid
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!--用户资料总数    -->
     <select id="userCount" resultType="Integer">
         SELECT Count(t.id) FROM (SELECT cu.custid AS id FROM ((ha_custom cu LEFT JOIN ha_room r ON cu.custid=r.custid) LEFT JOIN ha_building b ON r.buildingid=b.buildingid) LEFT JOIN ha_area a ON a.areaid=b.areaid
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
 						 GROUP BY cu.custid) t
     </select>
 
     <!--集采器总数    -->
     <select id="ccentorCount" resultType="Integer">
         SELECT Count(ce.id) FROM ha_centor ce WHERE Left(ce.description, 3)='KT3'
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!--集中器总数    -->
     <select id="centorCount" resultType="Integer">
        SELECT Count(ce.id) FROM ha_centor ce WHERE Left(ce.description, 3)='KT4'
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!--采集器总数    -->
     <select id="collectorCount" resultType="Integer">
        SELECT Count(co.collectorid) FROM ha_centor ce,ha_collector co WHERE ce.id=co.centorid AND Left(ce.description, 3)='KT4'
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!--  《表状态统计begin》  -->
@@ -73,23 +81,27 @@
      SELECT m.state AS 状态, Count(m.meterid) AS 总数
     FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid
     AND m.meterNumber>0 AND m.state NOT LIKE '%用量异常%' AND m.state NOT LIKE '%重号%'
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     GROUP BY m.state ORDER BY m.state
     </select>
 
     <!--集中器状态统计    -->
     <select id="meterStateCountJiZhongQi" resultMap="zhuYeMap">
     SELECT ce.state AS 状态,Count(ce.id) AS 总数 FROM ha_centor ce WHERE (Left(ce.description,3)='KT4' OR Left(ce.description,3)='KT3')
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     GROUP BY ce.state ORDER BY ce.state DESC
     </select>
 
     <!-- 采集器统计1   -->
     <select id="meterStateCountCaiJiQi1" resultType="Integer">
     SELECT Count(co.collectorid) AS 总数 FROM ha_centor ce,ha_collector co WHERE ce.id=co.centorid AND co.state ~* '^[0-9]'
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
     <!-- 采集器统计2   -->
     <select id="meterStateCountCaiJiQi2" resultType="Integer">
     SELECT Count(co.collectorid) AS 总数 FROM ha_centor ce,ha_collector co WHERE ce.id=co.centorid AND co.state='EE'
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
     <!--  《表状态统计end》  -->
 </mapper>
