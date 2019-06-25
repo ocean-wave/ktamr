@@ -90,10 +90,10 @@ public class CmdAddController extends BaseController {
         return pxePath+"/loadArea";
     }
     @GetMapping("/loadKT300Meter")
-    public String loadKT300Meter(@RequestParam( value = "cmdName") String cmdName,
-                           @RequestParam( value = "centorId") Integer centorId,
-                           @RequestParam( value = "devDescription") String devDescription,
-                           @RequestParam( value = "ccentorAdd") String ccentorAdd,ModelMap mmap){
+    public String loadKT300Meter(@RequestParam( value = "cmdName",required = false) String cmdName,
+                           @RequestParam( value = "centorId",required = false) Integer centorId,
+                           @RequestParam( value = "devDescription",required = false) String devDescription,
+                           @RequestParam( value = "ccentorAdd",required = false) String ccentorAdd,ModelMap mmap){
         mmap.put("cmdName",cmdName);
         mmap.put("centorId",centorId);
         mmap.put("devDescription",devDescription);

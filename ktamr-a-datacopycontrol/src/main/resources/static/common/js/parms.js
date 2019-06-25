@@ -137,9 +137,9 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 					var cmd = cmd_name+":"+getDeviceAdd();
 					submitCmd(getDeviceId(), cmd);
 				}else if(isKT3NB_VIRTUAL()){
-					_myLayui.showLayer(cmd_name, "../OperateDevice/loadKT300Meter.asp", queryStr, layerSize);
+					_myLayui.showLayer(cmd_name, "/systemmaintenance/loadKT300Meter", queryStr, layerSize);
 				}else{
-					_myLayui.showLayer(cmd_name, "../OperateDevice/setKT300Params.asp", queryStr, layerSize);
+					_myLayui.showLayer(cmd_name, "/systemmaintenance/setKT300Params", queryStr, layerSize);
 				}
 				layer.close(index);
 			});
@@ -147,7 +147,7 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 		}else if(cmd_name == "采集器寻表"){
 			layer.confirm('【采集器寻表】为不常用命令，请慎用！确实要执行吗？', {icon:3, title:'提示'},
 			function(index, layero){
-				_myLayui.showLayer(cmd_name, "../OperateDevice/loadCollector.asp", queryStr, layerSize);
+				_myLayui.showLayer(cmd_name, "/systemmaintenance/loadCollector", queryStr, layerSize);
 				layer.close(index);
 			});
 			a = false;
@@ -155,7 +155,7 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 		else if(cmd_name == "小区关阀"){
 			layer.confirm('关闭小区所有表阀门！确实要执行吗？', {icon:3, title:'提示'},
 			function(index, layero){
-				_myLayui.showLayer(cmd_name, "../OperateDevice/loadArea.asp", queryStr, layerSize);
+				_myLayui.showLayer(cmd_name, "/systemmaintenance/loadArea", queryStr, layerSize);
 				layer.close(index);
 			});
 			a = false;

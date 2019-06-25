@@ -31,7 +31,7 @@
 		GridObj.jqdefaultGridConfig.colModel = [
 			{ name: 'areaId',  width: 75, key: true, hidden: true},
 			{ name: 'areaNo', width: 150 },
-			{ name: 'name', width: 150 },
+			{ name: 'cname', width: 150 },
 			{ name: '执行结果', width: 100 }
 		];
 		GridObj.drawGrid();
@@ -98,19 +98,19 @@
 			var rowData = $("#"+GridId).jqGrid('getRowData', rowId);
 			switch(parms.cmdName){
 				case "小区关阀"://小区关阀:小区名称
-					cmd = parms.cmdName +":"+rowData["name"];
+					cmd = parms.cmdName +":"+rowData["cname"];
 					break;
 				case "刷新小区数据"://刷新小区数据:小区名称
-					cmd = parms.cmdName +":"+rowData["name"];
+					cmd = parms.cmdName +":"+rowData["cname"];
 					break;
 				case "读小区设备状态"://读小区设备状态:小区名称
-					cmd = parms.cmdName +":"+rowData["name"];
+					cmd = parms.cmdName +":"+rowData["cname"];
 					break;
 				case "抄收小区"://抄收小区:小区名称
-					cmd = parms.cmdName +":"+rowData["name"];
+					cmd = parms.cmdName +":"+rowData["cname"];
 					break;
 				default:
-					cmd = parms.cmdName +":"+rowData["name"];
+					cmd = parms.cmdName +":"+rowData["cname"];
 					break;
 
 			}

@@ -32,10 +32,6 @@ public class FreezeController extends BaseController {
     @ResponseBody
     public Map<String,Object> freezeListJson(HaDayfreeze parms){
         startPage();
-        int page = ServletUtils.getParameterToInt(Constants.PAGE);
-        int row = ServletUtils.getParameterToInt(Constants.ROWS);
-        parms.getParams().put("page",((page-1)*row));
-        parms.getParams().put("row",row);
         List<HaDayfreeze> listHaDayfreeze = haDayFreezeService.selectFreeze(parms);
         return getDataTable(listHaDayfreeze);
     }

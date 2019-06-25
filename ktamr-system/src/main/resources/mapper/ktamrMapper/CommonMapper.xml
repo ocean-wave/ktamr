@@ -7,6 +7,7 @@
     <!--查询编号类型：noType rgn/area/centor 分别为1位数字/5位数字/10位数字'    -->
     <sql id="GetRightCondition">
         <if test="operator_rgn_type == null and operator_rgn_type == ''">
+
         </if>
             <if test="operator_rgn_type =='rgn'">
                     ${condition}  position(LEFT(${fieldName},1) in '${rgnStr}')>0
