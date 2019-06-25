@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaOperatorRgnsMapper">
+
+    <!-- 查询rgn_code   -->
+    <select id="sql1" resultType="HaOperatorRgns">
+    SELECT rgn_code as rgnCode FROM ha_operator_rgns WHERE operator_code='${operatorCode}'
+    </select>
+
+    <!--查询Left(rgn_code, 1)    -->
+    <select id="sql2" resultType="HaOperatorRgns">
+    SELECT Left(rgn_code, 1) as rgnCode FROM ha_operator_rgns WHERE operator_code='${operatorCode}' GROUP BY Left(rgn_code, 1)
+    </select>
+</mapper>

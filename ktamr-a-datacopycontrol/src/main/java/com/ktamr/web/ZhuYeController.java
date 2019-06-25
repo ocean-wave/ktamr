@@ -1,9 +1,7 @@
 package com.ktamr.web;
 
-import com.ktamr.domain.HaArea;
-import com.ktamr.domain.HaRgn;
-import com.ktamr.domain.zhuYe;
-import com.ktamr.domain.HaMeter;
+import com.ktamr.common.Checkright;
+import com.ktamr.domain.*;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaMeterService;
 import com.ktamr.service.HaRngService;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +37,8 @@ public class ZhuYeController {
     private ZhuYeService zhuYeService;
     @Resource
     private HaMeterService haMeterService;
+    @Resource
+    private Checkright ck;
 
     /**
      * 打开首页
@@ -70,29 +71,28 @@ public class ZhuYeController {
      */
     @RequestMapping("/openMainHtml2")
     @ResponseBody
-    public Map<String ,Object> openMainHtml2(){
+    public Map<String ,Object> openMainHtml2(zhuYe zhuYe, HttpSession session){
         //开始统计图
         Integer[] meterStateCount = new Integer[15];
-
-
-
         String t_stateNameList="";
         String stateNameList = "建档,无返回,失联,正常,强光干扰,气泡干扰,通讯故障,表具故障,异常,用量异常,开阀,关阀";
         //1、正常表计数'
-        meterStateCount[3] = zhuYeService.meterStateCount03();
+        HaOperator haOperator = (HaOperator)session.getAttribute("haOperator");
+        session.setAttribute("haOperatorRgnType",haOperator.getOperatorRgnType());
+        ck.GetRightCondition("areaNo","area","and",session);
+        //获得全部状态
+        Map<String, Object> map2 = zhuYeService.getMeterStateCount(zhuYe);
+        meterStateCount[3]= Integer.parseInt(map2.get("正常").toString());;//2、正常状态计数
         t_stateNameList = t_stateNameList + "'正常'" +",";
-        //2、异常状态计数
-        meterStateCount[9] = zhuYeService.meterStateCount09();
+        meterStateCount[9]= Integer.parseInt(map2.get("异常").toString());//2、异常状态计数
         t_stateNameList = t_stateNameList + "'异常'" +",";
-        //3、无返回数据计数
-        meterStateCount[1] = zhuYeService.meterStateCount01();
+        meterStateCount[1]= Integer.parseInt(map2.get("无返回").toString());//3、无返回数据计数
         t_stateNameList = t_stateNameList + "'无返回'" +",";
-        //4、用量异常计数
-        meterStateCount[10] = zhuYeService.meterStateCount10();
+        meterStateCount[10]=Integer.parseInt(map2.get("用量异常").toString());//4、用量异常计数
         t_stateNameList = t_stateNameList + "'用量异常'" +",";
-        //5、开阀状态计数
-        meterStateCount[11] = zhuYeService.meterStateCount11();
+        meterStateCount[11]=Integer.parseInt(map2.get("开阀").toString());//5、开阀状态计数
         t_stateNameList = t_stateNameList + "'开阀'" +",";
+
         //6、其他状态表计数
         List<zhuYe> zhuYeList = zhuYeService.meterStateCountQiTa();
 

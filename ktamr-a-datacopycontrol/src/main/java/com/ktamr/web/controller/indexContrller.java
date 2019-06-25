@@ -3,6 +3,8 @@ package com.ktamr.web.controller;
 import com.ktamr.common.config.Global;
 import com.ktamr.ShiroUtils;
 import com.ktamr.domain.HaOperator;
+import com.ktamr.domain.HaOperatorRgns;
+import com.ktamr.service.HaOperatorRgnsService;
 import com.ktamr.service.HaOperatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,20 +14,60 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class indexContrller {
 
     @Resource
     private HaOperatorService haOperatorService;
+    @Resource
+    private HaOperatorRgnsService haOperatorRgnsService;
 
     @RequestMapping("/index")
-    public String index(ModelMap mmap, HttpSession session){
+    public String index(ModelMap mmap, HttpSession session, HaOperatorRgns haOperatorRgns){
         session.setAttribute("webVersion", Global.getWebVersion());
         session.setAttribute("version", Global.getVersion());
         session.setAttribute("haOperator", ShiroUtils.getHaOperator());
         session.setAttribute("operatorCode", ShiroUtils.getOperatorCode());
         session.setAttribute("rgnAndAreaId", ShiroUtils.getRgnAndAreaId());
+
+        //获取用户授权区域字符串 begin
+        HaOperator haOperator = (HaOperator)session.getAttribute("haOperator");
+        String operatorCode = (String)session.getAttribute("operatorCode");//第一个参数
+        String operatorRgnType = haOperator.getOperatorRgnType();
+        if(operatorRgnType!=null){
+            operatorRgnType=operatorRgnType.trim();//第二个参数
+        }
+        System.err.println(!operatorRgnType.equals("rgn"));
+       if(!operatorRgnType.equals("rgn") && !operatorRgnType.equals("area")){
+            session.setAttribute("rgnStr", "");
+            session.setAttribute("leftRgnStr", "");
+            return "index";
+        }
+        haOperatorRgns.setOperatorCode(operatorCode);
+        List<HaOperatorRgns> sql1 = haOperatorRgnsService.sql1(haOperatorRgns);
+        String rgnStr = "";
+        String leftRgnStr = "";
+        if(sql1!=null){
+
+            for (int i=0;i<sql1.size();i++){
+                rgnStr=rgnStr+sql1.get(i).getRgnCode()+",";
+            }
+
+            rgnStr= rgnStr.substring(0,rgnStr.lastIndexOf(","));
+        }
+        if (operatorRgnType=="area"){
+            List<HaOperatorRgns> sql2 = haOperatorRgnsService.sql2(haOperatorRgns);
+            for (int i=0;i<sql2.size();i++){
+                leftRgnStr=leftRgnStr+sql2.get(i).getRgnCode()+",";
+            }
+            leftRgnStr= leftRgnStr.substring(0,leftRgnStr.lastIndexOf(",")-1);
+        }
+        //获取用户授权区域字符串 end
+        session.setAttribute("rgnStr", rgnStr);
+        session.setAttribute("leftRgnStr", leftRgnStr);
+
         return "index";
     }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 主页查询的实现层
@@ -121,71 +122,20 @@ public class ZhuYeServiceImpl implements ZhuYeService {
         return null;
     }
 
-
     /**
-     *  1、正常表计数
+     * 开挂板
      * @return
      */
     @Override
-    public Integer meterStateCount03() {
-        Integer meterStateCount03 = zhuYeMapper.meterStateCount03();
-        if(meterStateCount03!=null){
-            return meterStateCount03;
+    public Map<String, Object> getMeterStateCount(zhuYe zhuYe) {
+        Map<String, Object> map = zhuYeMapper.getMeterStateCount(zhuYe);
+        if(map!=null){
+            return map;
         }
         return null;
     }
 
-    /**
-     * 2、异常状态计数
-     * @return
-     */
-    @Override
-    public Integer meterStateCount09() {
-        Integer meterStateCount09 = zhuYeMapper.meterStateCount09();
-        if(meterStateCount09!=null){
-            return meterStateCount09;
-        }
-        return null;
-    }
 
-    /**
-     *  3、无返回数据计数
-     * @return
-     */
-    @Override
-    public Integer meterStateCount01() {
-        Integer meterStateCount01 = zhuYeMapper.meterStateCount01();
-        if(meterStateCount01!=null){
-            return meterStateCount01;
-        }
-        return null;
-    }
-
-    /**
-     * 4、用量异常计数
-     * @return
-     */
-    @Override
-    public Integer meterStateCount10() {
-        Integer meterStateCount10 = zhuYeMapper.meterStateCount10();
-        if(meterStateCount10!=null){
-            return meterStateCount10;
-        }
-        return null;
-    }
-
-    /**
-     * 5、开阀状态计数
-     * @return
-     */
-    @Override
-    public Integer meterStateCount11() {
-        Integer meterStateCount11 = zhuYeMapper.meterStateCount11();
-        if(meterStateCount11!=null){
-            return meterStateCount11;
-        }
-        return null;
-    }
 
     /**
      * 6、其他状态表计数

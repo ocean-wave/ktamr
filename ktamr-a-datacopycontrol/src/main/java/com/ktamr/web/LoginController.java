@@ -4,6 +4,7 @@ import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.StringUtils;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaCentorService;
+import com.ktamr.service.HaOperatorRgnsService;
 import com.ktamr.service.HaOperatorService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -24,6 +25,7 @@ public class LoginController extends BaseController {
 
     @Resource
     private HaCentorService haCentorService;
+
 
     @GetMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response)

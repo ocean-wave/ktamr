@@ -1,11 +1,14 @@
 package com.ktamr.domain;
 
+import com.ktamr.common.core.domain.BaseEntity;
+
 /**
  * 定义主页别名
  */
-public class zhuYe {
+public class zhuYe extends BaseEntity {
     private String state;//状态
     private Integer total;//总数
+
 
 
     public String getState() {

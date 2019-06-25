@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.ZhuYeMapper">
 
+
+
     <!-- 小区总数   -->
     <select id="areaCount" resultType="Integer">
     SELECT Count(areaid) FROM ha_area
@@ -46,30 +48,20 @@
     </select>
 
     <!--  《表状态统计begin》  -->
-    <!--1、正常表计数    -->
-    <select id="meterStateCount03" resultType="Integer">
-    SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR m.state='关阀')
+    <!--一句话统计    -->
+    <select id="getMeterStateCount" resultType="map">
+      SELECT
+      sum(case when (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR m.state='关阀') then 1 else 0 end) as 正常,
+      sum(case when  m.state LIKE '异常%' then 1 else 0 end) 异常,
+      sum(case when  m.state LIKE '%无返回%' then 1 else 0 end) 无返回,
+      sum(case when  m.state LIKE '%用量异常%' then 1 else 0 end) 用量异常,
+      sum(case when  (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position('光通道干扰' in m.state)>0 OR
+                      position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
+          then 1 else 0 end) 开阀
+        FROM ha_meter m inner join ha_area a on m.areaid=a.areaid
+        <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
     </select>
 
-    <!--  2、异常状态计数  -->
-    <select id="meterStateCount09" resultType="Integer">
-        SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND m.state LIKE '异常%'
-    </select>
-
-    <!--  3、无返回数据计数  -->
-    <select id="meterStateCount01" resultType="Integer">
-        SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND m.state LIKE '%无返回%'
-    </select>
-
-    <!--  4、用量异常计数  -->
-    <select id="meterStateCount10" resultType="Integer">
-       SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND m.state LIKE '%用量异常%'
-    </select>
-
-    <!--  5、开阀状态计数  -->
-    <select id="meterStateCount11" resultType="Integer">
-       SELECT Count(m.meterid) AS 总数 FROM ha_meter m,ha_area a WHERE m.areaid=a.areaid AND (position('正常' in m.state)>0 OR position('正确' in m.state)>0 OR position('光通道干扰' in m.state)>0 OR position('强光干扰' in m.state)>0 OR position('气泡干扰' in m.state)>0 OR position('表具故障' in m.state)>0)
-    </select>
 
     <!--主页查询时映射的别名    -->
     <resultMap id="zhuYeMap" type="zhuYe">

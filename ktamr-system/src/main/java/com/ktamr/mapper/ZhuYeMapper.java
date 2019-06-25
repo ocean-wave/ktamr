@@ -3,6 +3,7 @@ package com.ktamr.mapper;
 import com.ktamr.domain.zhuYe;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 定义一个主页查询
@@ -60,34 +61,11 @@ public interface ZhuYeMapper {
     //《表状态统计begin》
 
     /**
-     * 1、正常表计数
+     * 开挂板
      * @return
      */
-    public Integer meterStateCount03();
+    Map<String, Object> getMeterStateCount(zhuYe zhuYe);
 
-    /**
-     *2、异常状态计数
-     * @return
-     */
-    public Integer meterStateCount09();
-
-    /**
-     *3、无返回数据计数
-     * @return
-     */
-    public Integer meterStateCount01();
-
-    /**
-     *4、用量异常计数
-     * @return
-     */
-    public Integer meterStateCount10();
-
-    /**
-     *5、开阀状态计数
-     * @return
-     */
-    public Integer meterStateCount11();
 
     /**
      * 6、其他状态表计数
