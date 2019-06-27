@@ -85,7 +85,7 @@
     GROUP BY m.state ORDER BY m.state
     </select>
 
-    <!--集中器状态统计    -->
+    <!--集中器状态统计  -->
     <select id="meterStateCountJiZhongQi" resultMap="zhuYeMap">
     SELECT ce.state AS 状态,Count(ce.id) AS 总数 FROM ha_centor ce WHERE (Left(ce.description,3)='KT4' OR Left(ce.description,3)='KT3')
         <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>

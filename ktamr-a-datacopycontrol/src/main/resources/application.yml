@@ -6,6 +6,10 @@
 
 #服务配置
 server:
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,application/xhtml+xml,text/html,text/xml,text/plain
+    min-response-size: 1024
   #访问端口号80
   port: 8888
   servlet:
@@ -25,7 +29,7 @@ spring:
     #配置druid路径
     #active: druid
     #配置8884另一个数据库
-    active: druid
+    active: other
     #配置thymeleaf前端模板
   thymeleaf:
     cache: false

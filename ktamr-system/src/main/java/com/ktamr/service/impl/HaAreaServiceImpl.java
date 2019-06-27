@@ -1,5 +1,6 @@
 package com.ktamr.service.impl;
 
+import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.domain.HaArea;
 import com.ktamr.mapper.HaAreaMapper;
 import com.ktamr.service.HaAreaService;
@@ -70,20 +71,18 @@ public class HaAreaServiceImpl implements HaAreaService {
 
     /**
      * 查询小区+分页+条件月份查询
-     * @param haArea
+     * @param baseEntity
      * @return
      */
     @Override
-    public List<HaArea> selectHaAreaList(HaArea haArea) {
-        List<HaArea> haAreaList = haAreaMapper.BselectHaAreaList(haArea);
+    public List<HaArea> selectHaAreaList(BaseEntity baseEntity) {
+        List<HaArea> haAreaList = haAreaMapper.BselectHaAreaList(baseEntity);
         if(haAreaList!=null){
             return haAreaList;
         }
 
         return null;
     }
-
-
 
     /**
      * 查询小区表的名字 用于填充条件查询的下拉框
