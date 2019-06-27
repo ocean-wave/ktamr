@@ -76,7 +76,6 @@
         FROM ha_centor c,ha_area a
         WHERE Left(c.description,3)='KT4'
         AND Left(c.centorNO, 5)=a.areaNO
-       and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -175,7 +174,6 @@
         ,c.endTime AS endTime
         FROM ha_centor c,ha_area a
         WHERE (Left(c.description,4)='GPRS' OR Left(c.description,3)='COM' OR Left(c.description,3)='KT3') AND Left(c.centorNO, 5)=a.areaNO
-        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -236,7 +234,6 @@
         FROM hav_meterinfo mi
         inner join ha_centor c on mi.centorid = c.id
         where c.description='KT3NB VIRTUAL'
-        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -275,7 +272,6 @@
         <if test=" params.nodeIds == 'rgn' and params.nodeIds != '' ">
             AND position( Left(a.areaNo, 1) in #{nodeIds}) > 0
         </if>
-        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         ORDER BY ce.centorNo,ce.addr
     </select>
 

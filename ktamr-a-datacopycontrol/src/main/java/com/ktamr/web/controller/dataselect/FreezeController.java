@@ -2,6 +2,7 @@ package com.ktamr.web.controller.dataselect;
 
 import com.ktamr.common.constant.Constants;
 import com.ktamr.common.utils.ServletUtils;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaDayfreeze;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaDayFreezeService;
@@ -30,9 +31,10 @@ public class FreezeController extends BaseController {
 
     @PostMapping("/freezeListJson")
     @ResponseBody
-    public Map<String,Object> freezeListJson(HaDayfreeze parms){
-        startPage();
-        List<HaDayfreeze> listHaDayfreeze = haDayFreezeService.selectFreeze(parms);
+    public Map<String,Object> freezeListJson(HaDayfreeze params){
+        //startPage();
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
+        List<HaDayfreeze> listHaDayfreeze = haDayFreezeService.selectFreeze(params);
         return getDataTable(listHaDayfreeze);
     }
 }

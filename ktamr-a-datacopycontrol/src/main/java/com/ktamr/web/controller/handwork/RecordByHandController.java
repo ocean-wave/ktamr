@@ -132,6 +132,7 @@ public class RecordByHandController extends BaseController {
             FileUploadUtils.upload(userInfo,userInfo.getOriginalFilename());
             list = importExcelUtil.init(userInfo.getInputStream(),dateString,nonEmptyCell);
         } catch (Exception e) {
+            e.printStackTrace();
             return e.getMessage();
         }
         if(list.size()>0) {
@@ -143,6 +144,8 @@ public class RecordByHandController extends BaseController {
             }
         }
         hatMetersRecordImportService.updateMetersRecordImport(dateString);
+        hatMetersRecordImportService.updateMetersRecordImportTwo(dateString);
+        hatMetersRecordImportService.updateMetersRecordImportThree(dateString);
         return dateString;
     }
 

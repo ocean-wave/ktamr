@@ -55,7 +55,8 @@
             AND mi.表号 >0
             GROUP BY mi.areaid) t ON t.areaid=a.areaid
             WHERE 1=1
-            and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
              <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">
                  and left(a.areaNo,1) = #{params.rgnid}
              </if>
@@ -84,7 +85,8 @@
                 ,name,Right(areaNo, 4)||':'||name as cname
           from ha_area a
           where 1=1
-          and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+        <!--数据范围过滤-->
+        ${params.getRightCondition}
     </select>
 
     <!--在主页概况中统计图根据状态查询一波映射-->

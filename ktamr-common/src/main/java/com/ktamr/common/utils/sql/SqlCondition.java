@@ -52,6 +52,23 @@ public class SqlCondition {
         return sql;
     }
 
+    public static String getRightCondition(String fieldName,String noType,String condition){
+        String haOperatorRgnType = (String) ServletUtils.getSession().getAttribute("haOperatorRgnType");
+        String rgnStr = (String) ServletUtils.getSession().getAttribute("rgnStr");
+        String leftRgnStr = (String) ServletUtils.getSession().getAttribute("leftRgnStr");
+        String sql = "";
+        if("rgn".equals(haOperatorRgnType)){
+            sql = condition+" position(LEFT(" + fieldName +",1) in '"+rgnStr+"')>0 ";
+        }else if("area".equals(haOperatorRgnType)){
+            if("rgn".equals(noType)){
+                sql= condition+" position(LEFT(" + fieldName + ",1) in '"+leftRgnStr+"') >0 ";
+            }else {
+                sql = condition + " position(LEFT(" + fieldName + ",5) in '" + rgnStr + "')>0 ";
+            }
+        }
+        return sql;
+    }
+
     public String getGroupOp() {
         return groupOp;
     }

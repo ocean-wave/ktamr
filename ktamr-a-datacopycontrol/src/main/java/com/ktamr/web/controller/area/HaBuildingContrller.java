@@ -2,6 +2,7 @@ package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaBuildingService;
@@ -23,9 +24,10 @@ public class HaBuildingContrller extends BaseController {
 
     @PostMapping("/buildingsOpManageJson")
     @ResponseBody
-    public Map<String,Object> buildingsOpManageJson(HaBuilding parms){
+    public Map<String,Object> buildingsOpManageJson(HaBuilding params){
         startPage();
-        List<HaBuilding> listHaBuilding = haBuildingService.selectAllBuildingAndCount(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaBuilding> listHaBuilding = haBuildingService.selectAllBuildingAndCount(params);
         return getDataTable(listHaBuilding);
     }
 

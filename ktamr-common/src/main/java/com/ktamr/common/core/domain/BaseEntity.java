@@ -45,71 +45,8 @@ public class BaseEntity implements Serializable {
 
     private String multipleConditions;
 
-    private String rgnAndAreaId;
-
-    private String operator_rgn_type;//GetRightCondition所需参数1获取会话
-
-    private String noType;//GetRightCondition所需参数2
-
-    private String fieldName;//GetRightCondition所需参数3
-
-    private String condition;//GetRightCondition所需参数4连接词
-
-    private String rgnStr;//GetRightCondition所需参数5
-
-    private String leftRgnStr;//GetRightCondition所需参数6
-
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
-    }
-
-    public String getOperator_rgn_type() {
-        return operator_rgn_type;
-    }
-
-    public void setOperator_rgn_type(String operator_rgn_type) {
-        this.operator_rgn_type = operator_rgn_type;
-    }
-
-    public String getNoType() {
-        return noType;
-    }
-
-    public void setNoType(String noType) {
-        this.noType = noType;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public String getRgnStr() {
-        return rgnStr;
-    }
-
-    public void setRgnStr(String rgnStr) {
-        this.rgnStr = rgnStr;
-    }
-
-    public String getLeftRgnStr() {
-        return leftRgnStr;
-    }
-
-    public void setLeftRgnStr(String leftRgnStr) {
-        this.leftRgnStr = leftRgnStr;
     }
 
     public Date getCreateTime() {
@@ -153,22 +90,6 @@ public class BaseEntity implements Serializable {
 
     public void setParams(Map<String, Object> params) {
         this.params = params;
-    }
-
-    public String getRgnAndAreaId() {
-        if (params == null) {
-            params = new HashMap<>();
-        }
-        String str = params.get("rgnAndAreaId") != null ? params.get("rgnAndAreaId").toString() : null;
-        if (StringUtils.isEmpty(str)) {
-            this.rgnAndAreaId = (String) ServletUtils.getSession().getAttribute("rgnAndAreaId");
-            params.put("rgnAndAreaId", rgnAndAreaId);
-        }
-        return str == null ? this.rgnAndAreaId : str;
-    }
-
-    public void setRgnAndAreaId(String rgnAndAreaId) {
-        this.rgnAndAreaId = rgnAndAreaId;
     }
 
     public String getMultipleConditions() {

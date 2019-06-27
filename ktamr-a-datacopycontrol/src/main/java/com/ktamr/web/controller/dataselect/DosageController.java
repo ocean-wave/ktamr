@@ -2,6 +2,7 @@ package com.ktamr.web.controller.dataselect;
 
 import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaMeter;
 import com.ktamr.domain.HaRecords;
 import com.ktamr.service.HaMeterService;
@@ -34,18 +35,20 @@ public class DosageController extends BaseController {
 
     @PostMapping("/dosageRecentlyListJson")
     @ResponseBody
-    public Map<String,Object> dosageRecentlyListJson(HaMeter parms){
+    public Map<String,Object> dosageRecentlyListJson(HaMeter params){
         startPage();
-        List<HaMeter> listHaMeter = haMeterService.selectDosageRecently(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaMeter> listHaMeter = haMeterService.selectDosageRecently(params);
         return getDataTable(listHaMeter);
     }
 
     @PostMapping("/dosageHistoryListJson")
     @ResponseBody
-    public Map<String,Object> dosageHistoryListJson(HaRecords parms){
+    public Map<String,Object> dosageHistoryListJson(HaRecords params){
         startPage();
         long startdate = System.currentTimeMillis();
-        List<HaRecords> listHaMeter = haRecordsService.selectDosageHistory(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaRecords> listHaMeter = haRecordsService.selectDosageHistory(params);
         long enddate = System.currentTimeMillis();
         System.out.println((startdate-enddate)/1000);
         return getDataTable(listHaMeter);

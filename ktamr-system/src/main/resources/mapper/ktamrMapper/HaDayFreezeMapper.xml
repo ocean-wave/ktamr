@@ -123,6 +123,7 @@
             </if>
         ) t
         ORDER BY userDs,fday
+        limit 10000
     </select>
 
 

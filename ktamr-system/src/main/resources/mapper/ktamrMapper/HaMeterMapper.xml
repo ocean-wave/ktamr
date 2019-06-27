@@ -159,7 +159,8 @@
         FROM ha_meter m
         inner join hav_meterinfo mi on mi.meterid = m.meterid
         where 1=1
-        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+        <!--数据范围过滤-->
+        ${params.getRightCondition}
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -244,7 +245,6 @@
         , m.th_r_time AS recentreadtime
         FROM ha_meter m, hav_meterinfo mi, ha_area a
         WHERE m.meterid=mi.meterid AND a.areaid=mi.areaid
-        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.keyWord != null and params.keyWord != '' ">
             and ( mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
             or mi.用户地址 like '%${params.keyWord}%' or to_char(m.meterNumber,'fm99999999999999') like '%${params.keyWord}%'

@@ -110,6 +110,12 @@ public class CmdAddController extends BaseController {
         return pxePath+"/loadCollectorMeter";
     }
 
+    @GetMapping("/setKT300Params")
+    public String setKT300Params(@RequestParam(value = "cmdName") String cmdName){
+
+        return pxePath+"/setKT300Params";
+    }
+
     @PostMapping("/loadCentorMeterJson")
     @ResponseBody
     public Map<String, Object> loadCentorMeterJson(@RequestParam( value = "centorId") Integer centorId){

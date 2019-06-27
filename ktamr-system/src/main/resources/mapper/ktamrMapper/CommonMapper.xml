@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--公共的xml引用 引用的话就加上 com.ktamr.mapper.CommonMapper-->
 <mapper namespace="com.ktamr.mapper.CommonMapper">
+
     <!--查询编号类型：noType rgn/area/centor 分别为1位数字/5位数字/10位数字'    -->
     <sql id="GetRightCondition">
         <if test="operator_rgn_type == null and operator_rgn_type == ''">
@@ -20,7 +21,5 @@
                      ${condition}  position(LEFT(${fieldName},5) in '${rgnStr}')>0
                 </if>
             </if>
-
-
     </sql>
 </mapper>

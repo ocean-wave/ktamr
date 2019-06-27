@@ -16,7 +16,61 @@
         <result property="operatorState" column="operatorState"/>
         <result property="operatorCreatTime" column="operatorCreatTime"/>
         <result property="operatorCompany" column="operatorCompany"/>
+        <result property="operatorCompanyId" column="operatorCompanyId"/>
     </resultMap>
+
+    <select id="selectOperatorByUid" resultMap="HaOperatorMap">
+       Select
+       o.operator_code AS operatorCode
+      ,operator_name AS operatorName
+      ,operator_sex AS operatorSex
+      ,operator_pwd AS operatorPwd
+      ,operator_upper AS operatorUpper
+      ,operator_level AS operatorLevel
+      ,operator_state AS operatorState
+      ,operator_company AS operatorCompany
+      ,operator_rgn_type AS operatorRgnType
+      ,case when o.operator_level = 'admin' then 0 when o.operator_level = 'normal' then 1 when o.operator_level = 'readMan' then 2 when o.operator_level = 'viewMan' then 3 end AS operatorLevelCode
+      From ha_operator o
+      Where o.operator_code = #{uid}
+    </select>
+
+    <select id="selectOperatorCompany" resultMap="HaOperatorMap">
+        select * from (
+	        select
+			operator_code AS operatorCode,
+			operator_company AS operatorCompany,
+			case when operator_company = '镇江水司' then 'sys_zjss'
+			when operator_company =  '泰州水司' then 'sys_tzss'
+			when operator_company =  '南通燃气' then 'sys_ntrq'
+			when operator_company =  '鹤山水司' then 'sys_hsss'
+			when operator_company =  '浦口水司' then 'sys_pkss'
+			when operator_company =  '融安水司' then 'sys_rass'
+			when operator_company =  '句容水司' then 'sys_jrss'
+			when operator_company =  '湖南成聪' then 'sys_hncc'
+			when operator_company =  '宁远水司' then 'sys_nyss'
+			when operator_company =  '安徽全椒' then 'sys_ahqj'
+			when operator_company =  '河池水司' then 'sys_hcss'
+			when operator_company =  '武汉易维' then 'sys_whyw'
+			when operator_company =  '郁南水务' then 'sys_ynsw'
+			when operator_company =  '巴南水司' then 'sys_bnss'
+			when operator_company =  '大竹水司' then 'sys_dzss'
+			when operator_company =  '新田水司' then 'sys_xtss'
+			when operator_company =  '获嘉水司' then 'sys_hjss'
+			when operator_company =  '三川邵阳' then 'sys_scsy'
+			when operator_company =  '三川景德镇' then 'sys_scjdz'
+			when operator_company =  '东莞相思鸟' then 'sys_dgxsn'
+			when operator_company =  '华龙仪表' then 'sys_hlyb'
+			when operator_company =  '佛山威星' then 'sys_fswx'
+			when operator_company =  '广东韶关' then 'sys_gdsg'
+			when operator_company =  '福达' then 'sys_lclxgss'
+			when operator_company =  '安徽来安水司' then 'sys_ahlass'
+			when operator_company =  '吉林桦甸' then 'sys_jlhd'
+			when operator_company =  '湖南新邵' then 'sys_hnxs' end AS operatorCompanyId
+                from ha_operator
+            ) t
+            where (operatorCode = #{id} or #{id} = 'ha') and operatorCompanyId is not null
+    </select>
 
     <select id="HaOperatorList" resultMap="HaOperatorMap">
         select operator_code AS operatorCode,

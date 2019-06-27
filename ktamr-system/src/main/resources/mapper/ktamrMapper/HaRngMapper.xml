@@ -31,7 +31,8 @@
                 haMeterCount
                 FROM ha_rgn n
                 where 1=1
-                and (n.id = left(#{rgnAndAreaId},1) or #{rgnAndAreaId} = '')
+                <!--数据范围过滤-->
+                ${params.getRightCondition}
               <if test=" params.keyWord != null and params.keyWord != ''">
                   and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like
                   '%${params.keyWord}%')
