@@ -1,6 +1,8 @@
 package com.ktamr.mapper;
 
+import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HatDevicesimport;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ public interface HatDevicesimportMapper {
     Integer addHatDevicesimport(HatDevicesimport hatDevicesimport);
 
     //修改设备档案
-    Integer updateHatDevicesimport(HatDevicesimport hatDevicesimport);
+    Integer updateHatDevicesimport(@Param("haCentor") HaCentor haCentor,@Param("hatDevicesimport") HatDevicesimport hatDevicesimport);
 
     //清理零时表
     Integer deleteHatDevicesimport(HatDevicesimport hatDevicesimport);

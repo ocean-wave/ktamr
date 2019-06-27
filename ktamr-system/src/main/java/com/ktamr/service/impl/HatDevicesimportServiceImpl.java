@@ -1,5 +1,6 @@
 package com.ktamr.service.impl;
 
+import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HatDevicesimport;
 import com.ktamr.mapper.HatDevicesimportMapper;
 import com.ktamr.service.HatDevicesimportService;
@@ -22,8 +23,8 @@ public class HatDevicesimportServiceImpl implements HatDevicesimportService {
         return hatDevicesimportMapper.addHatDevicesimport(hatDevicesimport);
     }
 
-    public Integer updateHatDevicesimport(HatDevicesimport hatDevicesimport) {
-        return hatDevicesimportMapper.updateHatDevicesimport(hatDevicesimport);
+    public Integer updateHatDevicesimport(HaCentor haCentor, HatDevicesimport hatDevicesimport) {
+        return hatDevicesimportMapper.updateHatDevicesimport(haCentor,hatDevicesimport);
     }
 
     public Integer deleteHatDevicesimport(HatDevicesimport hatDevicesimport) {

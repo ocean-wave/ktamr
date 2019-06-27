@@ -16,21 +16,21 @@
 
     <!--修改设备档案-->
     <update id="updateHatDevicesimport">
-        update ha_centor c,hat_devicesImport t
-        <trim prefix="set" suffixOverrides="," suffix="where c.areaId=t.areaId AND c.addr=t.deviceName AND t.state='修改' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}">
-            <if test="c.centorId != null">c.centorid=t.deviceid,</if>
-            <if test="c.description != null">c.description=t.description,</if>
-            <if test="c.setupTime != null">c.setuptime=t.setuptime,</if>
-            <if test="c.telNumber != null">c.telnumber=t.tel,</if>
-            <if test="c.remark != null">c.remark=t.remark,</if>
-            <if test="c.centorNo != null">c.centorno=t.areano+Right('00000'+t.deviceid, 5),</if>
-            <if test="c.modifyTime != null">c.modifytime=now(),</if>
-        </trim>
+        update ha_centor c
+            set centorid=cast(t.deviceid as integer),
+            description=t.description,
+            setuptime=t.setuptime,
+            telnumber=t.tel,
+            remark=t.remark,
+            centorno=concat(t.areano,Right(concat('00000',t.deviceid), 5)),
+            modifytime=now()
+            from hat_devicesImport t
+            where c.areaId=t.areaId AND c.addr=t.deviceName AND t.state='修改' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{hatDevicesimport.importTime}
     </update>
 
     <!--清理零时表-->
     <delete id="deleteHatDevicesimport">
-        DELETE * FROM hat_devicesImport WHERE to_char(importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+        DELETE FROM hat_devicesImport WHERE to_char(importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
     </delete>
 
     <!--所属小区校验-->
@@ -138,7 +138,7 @@
     <!--新增设备档案——新增集中器档案和手抄线路档案-->
     <insert id="addCentorsAndHandDevices">
         INSERT INTO ha_centor(centorid,ver,description,rtime,setuptime,addr,endTime,telNumber,remark,centorNo,state,areaid,createTime,modifyTime)
-        SELECT deviceid,'000000',description,'1 03:30',setuptime,devicename,'2049-01-01 00:00:00',
+        SELECT cast(deviceid as integer) as deviceid,'000000',description,'1 03:30',setuptime,devicename,'2049-01-01 00:00:00',
         tel, remark, concat(areano,Right(concat('00000',deviceID), 5)),'建档',areaid,now(),now() FROM hat_devicesImport
         WHERE 'check'='新增' AND importTime=#{importTime}
     </insert>

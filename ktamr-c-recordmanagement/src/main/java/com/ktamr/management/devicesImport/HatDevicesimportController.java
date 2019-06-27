@@ -115,12 +115,10 @@ public class HatDevicesimportController extends BaseController {
     public String device_upload_list(HatDevicesimport hatDevicesimport,String fileName,Model model) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String importTime = sdf.format(hatDevicesimport.getImportTime());
-//        String fileName = hatDevicesimport.getFileName();
         Integer allCount = hatDevicesimportService.queryAllHatDevicesimportCount(hatDevicesimport); //总条目
         Integer addsCount = hatDevicesimportService.addsCount(hatDevicesimport); //新增数
         Integer updsCount = hatDevicesimportService.updsCount(hatDevicesimport); //修改数
         Integer errors = addsCount - updsCount; //错误数
-        String msgTitle = "总条目:<b>" + allCount + "</b>, 新增数:<b><font color='blue'>" + addsCount + "</font></b>, 修改数:<b><font color='green'>" + updsCount + "</font></b>, 出错数:<b><font color='red'>" + errors + "</font></b> (说明:点击确定才完成换表)";
         String msg = "总条目:" + allCount + ", 新增数:" + addsCount + ", 修改数:" + updsCount + ", 出错数:" + errors;
         model.addAttribute("fileName", fileName);
         model.addAttribute("importTime", importTime);
@@ -128,7 +126,6 @@ public class HatDevicesimportController extends BaseController {
         model.addAttribute("addsCount", addsCount);
         model.addAttribute("updsCount", updsCount);
         model.addAttribute("errors", errors);
-        model.addAttribute("msgTitle", msgTitle);
         model.addAttribute("msg", msg);
         return "devices/device_upload_list";
     }
@@ -154,7 +151,7 @@ public class HatDevicesimportController extends BaseController {
         if(op.equals("sure")){
             try {
                 hatDevicesimportService.addCentorsAndHandDevices(hatDevicesimport);
-                hatDevicesimportService.updateHatDevicesimport(hatDevicesimport);
+                hatDevicesimportService.updateHatDevicesimport(haCentor,hatDevicesimport);
                 hatDevicesimportService.deleteHatDevicesimport(hatDevicesimport);
             } catch (Exception e) {
                 e.printStackTrace();

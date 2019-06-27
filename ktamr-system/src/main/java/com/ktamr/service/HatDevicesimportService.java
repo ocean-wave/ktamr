@@ -1,6 +1,7 @@
 package com.ktamr.service;
 
 
+import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HatDevicesimport;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface HatDevicesimportService {
     Integer addHatDevicesimport(HatDevicesimport hatDevicesimport);
 
     //修改设备档案
-    Integer updateHatDevicesimport(HatDevicesimport hatDevicesimport);
+    Integer updateHatDevicesimport(HaCentor haCentor,HatDevicesimport hatDevicesimport);
 
     //清理零时表
     Integer deleteHatDevicesimport(HatDevicesimport hatDevicesimport);
