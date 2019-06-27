@@ -55,7 +55,8 @@
             AND mi.表号 >0
             GROUP BY mi.areaid) t ON t.areaid=a.areaid
             WHERE 1=1
-            and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
              <if test=" params.rgnid != null and params.rgnid != '' and params.rgnid != '-2'  ">
                  and left(a.areaNo,1) = #{params.rgnid}
              </if>
@@ -84,7 +85,8 @@
                 ,name,Right(areaNo, 4)||':'||name as cname
           from ha_area a
           where 1=1
-          and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+        <!--数据范围过滤-->
+        ${params.getRightCondition}
     </select>
 
     <!--在主页概况中统计图根据状态查询一波映射-->
@@ -238,29 +240,29 @@
 
         <trim prefix="where" prefixOverrides="and | or">
 
-            <if test="HaArea.ds != null and HaArea.ds != ''">
-                and ds = #{HaArea.ds}
+            <if test="ds != null and ds != ''">
+                and ds = #{ds}
             </if>
 
-            <if test="HaArea.idsList2  != null and HaArea.idsList2.size()>0">
+            <if test="idsList2  != null and idsList2.size()>0">
                 and LEFT(a.areaNo,1) IN
-                <foreach collection="HaArea.idsList2" item="item" index="index"
+                <foreach collection="idsList2" item="item" index="index"
                          open="(" separator="," close=")">
                     #{item}
                 </foreach>
             </if>
 
-            <if test="HaArea.keyWord!=null and HaArea.keyWord!=''">
-                and (a.areaNo like '%${HaArea.keyWord}' or a.registeredNo like '%${HaArea.keyWord}%' or a.name like
-                '%${HaArea.keyWord}%')
+            <if test="keyWord!=null and keyWord!=''">
+                and (a.areaNo like '%${keyWord}' or a.registeredNo like '%${keyWord}%' or a.name like
+                '%${keyWord}%')
 
             </if>
+            <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
         </trim>
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
         to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n
         ) t
-        <!--多条件查询-->
-        ${HaArea.multipleConditions}
+
     </select>
 
     <!--点击结算上传填充小区根据传入的list集合idsList中的第一个值查询小区名字-->

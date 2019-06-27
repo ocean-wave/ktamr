@@ -136,13 +136,14 @@
         FROM ha_errRecord er1
         ) t1
         where 1=1
+        <!--数据范围过滤-->
+        ${params.getRightCondition}
         <if test=" meterId != null ">
             and t1.meterid = #{meterId}
         </if>
         <if test=" params.startDate != null and params.startDate != '' ">
             AND t1.thTime BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
         </if>
-
     </select>
 
 </mapper>

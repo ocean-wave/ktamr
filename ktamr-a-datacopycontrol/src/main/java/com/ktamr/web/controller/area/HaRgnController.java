@@ -2,6 +2,7 @@ package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaRngService;
@@ -28,9 +29,10 @@ public class HaRgnController extends BaseController {
 
     @PostMapping("/areasOpManageJson")
     @ResponseBody
-    public Map<String,Object> areasOpManageJson(HaRgn haRgn){
+    public Map<String,Object> areasOpManageJson(HaRgn params){
         startPage();
-        List<HaRgn> listHaRng = haRngService.selectAllRngAndCount(haRgn);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
+        List<HaRgn> listHaRng = haRngService.selectAllRngAndCount(params);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"haAreaCount");

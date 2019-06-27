@@ -177,6 +177,9 @@ public class HaCentorServiceImpl implements HaCentorService {
     @Override
     public Integer pad_count1(String operator_codeSession) {
         Integer pad_count1 = haCentorMapper.pad_count1(operator_codeSession);
+        if(pad_count1!=null){
+            return  pad_count1;
+        }
         return null;
     }
 

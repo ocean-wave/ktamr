@@ -6,6 +6,7 @@ import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.DecimalUtils;
 import com.ktamr.common.utils.StringUtils;
 import com.ktamr.common.utils.export.ExportStr;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
@@ -58,7 +59,6 @@ public class ImportExcelUtil {
            if(null == sheet){
                continue;
            }
-           System.out.println(sheet.getLastRowNum());
            for (int j = 1;j<sheet.getLastRowNum();j++){
                topCellCount = getTopCellCount(sheet.getRow(0));
                row = sheet.getRow(j);
@@ -72,8 +72,9 @@ public class ImportExcelUtil {
                    cell = row.getCell(k);
 
                    if(null != cell){
-                       if(j>1){
-                           Object value = getCellValue(cell);
+                       Object value = getCellValue(cell);
+                       map.put(String.valueOf(k+1),value);
+                       if(j>1 && list.size() > 0){
                            Map<String,Object> m = list.get(0);
                            Object value2 = m.get(String.valueOf(k+1));
                            if(null!=value && (value instanceof Date || value2 instanceof Date) && (!(value2 instanceof Date) || !(value instanceof Date)))
@@ -81,7 +82,6 @@ public class ImportExcelUtil {
                            else if(null!=value && (value instanceof Integer || value2 instanceof Integer)  && (!(value2 instanceof Integer) || !(value instanceof Integer)))
                                throw new Exception("第"+(j+1)+"行第"+(k+1)+"列与其他行的类型不一致,请检查");
                        }
-                       map.put(String.valueOf(k+1),getCellValue(cell));
                    }else{
                        map.put(String.valueOf(k+1),null);
                    }
@@ -159,7 +159,7 @@ public class ImportExcelUtil {
                 value = cell.getBooleanCellValue();
                 break;
             case BLANK:
-                value = "";
+                value = null;
                 break;
         }
         return value;

@@ -26,6 +26,25 @@ public class HaCmd extends BaseEntity {
   private HaCentor haCentor;
   private HaOperator haOperator;
 
+  private String xgrws;
+  private String executor;
+
+  public String getXgrws() {
+    return xgrws;
+  }
+
+  public void setXgrws(String xgrws) {
+    this.xgrws = xgrws;
+  }
+
+  public String getExecutor() {
+    return executor;
+  }
+
+  public void setExecutor(String executor) {
+    this.executor = executor;
+  }
+
   public Integer getId() {
     return id;
   }

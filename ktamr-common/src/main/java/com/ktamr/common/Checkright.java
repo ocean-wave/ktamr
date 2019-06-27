@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 @Service
 public class Checkright {
 
+
     /**
      * 查询编号类型：noType rgn/area/centor 分别为1位数字/5位数字/10位数字'
      * @param fieldName
@@ -29,5 +30,4 @@ public class Checkright {
         baseEntity.setRgnStr(rgnStr);
         baseEntity.setLeftRgnStr(leftRgnStr);
     }
-
 }

@@ -28,6 +28,16 @@ public class HatMetersRecordImportServiceImpl implements HatMetersRecordImportSe
     }
 
     @Override
+    public Integer updateMetersRecordImportTwo(String ImportTime) {
+        return HatMetersRecordImportMapper.updateMetersRecordImportTwo(ImportTime);
+    }
+
+    @Override
+    public Integer updateMetersRecordImportThree(String ImportTime) {
+        return HatMetersRecordImportMapper.updateMetersRecordImportThree(ImportTime);
+    }
+
+    @Override
     public Integer deleteMetersRecordImport(String ImportTime) {
         return HatMetersRecordImportMapper.deleteMetersRecordImport(ImportTime);
     }

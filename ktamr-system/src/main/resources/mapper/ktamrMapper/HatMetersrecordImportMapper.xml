@@ -40,6 +40,20 @@
         WHERE t.meterNumber=m.meterNumber AND t.check_result='待导入' AND to_char(t.importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
     </update>
 
+    <update id="updateMetersRecordImportTwo">
+        UPDATE hat_metersRecordImport t0
+        SET check_result='与表内表号重复'
+        FROM hat_metersRecordImport t1
+        WHERE t1.ID!=t0.ID AND t1.meterNumber=t0.meterNumber AND t0.check_result='待导入' AND t0.importTime=t1.importTime AND to_char(t0.importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </update>
+
+    <update id="updateMetersRecordImportThree">
+        UPDATE hat_metersRecordImport t0
+        SET check_result='与表内用户编号重复'
+        FROM hat_metersRecordImport t1
+        WHERE t1.ID!=t0.ID AND t1.meterNumber=t0.meterNumber AND t0.check_result='待导入' AND t0.importTime=t1.importTime AND to_char(t0.importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
+    </update>
+
     <delete id="deleteMetersRecordImport">
         delete from hat_metersRecordImport where to_char(importTime,'yyyy-MM-dd HH24:mi:ss')=#{importTime}
     </delete>

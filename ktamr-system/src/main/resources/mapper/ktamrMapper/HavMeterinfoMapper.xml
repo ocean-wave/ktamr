@@ -401,7 +401,6 @@
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             WHERE 1=1
         </if>
-        and (LEFT(mi.areaNo,1) = #{rgnAndAreaId} or mi.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER ))
         </if>

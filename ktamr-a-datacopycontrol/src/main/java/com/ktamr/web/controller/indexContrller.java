@@ -37,7 +37,6 @@ public class indexContrller {
         session.setAttribute("version", Global.getVersion());
         session.setAttribute("haOperator", ShiroUtils.getHaOperator());
         session.setAttribute("operatorCode", ShiroUtils.getOperatorCode());
-        session.setAttribute("rgnAndAreaId", ShiroUtils.getRgnAndAreaId());
         HaOperator haOperator = (HaOperator)session.getAttribute("haOperator");
         session.setAttribute("haOperatorRgnType",haOperator.getOperatorRgnType());//登录时候获取并存放haOperatorRgnType
 

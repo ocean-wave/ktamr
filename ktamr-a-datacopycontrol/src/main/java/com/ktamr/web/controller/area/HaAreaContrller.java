@@ -2,6 +2,7 @@ package com.ktamr.web.controller.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaAreaService;
@@ -23,8 +24,10 @@ public class HaAreaContrller extends BaseController {
     private HaAreaService haAreaService;
     @PostMapping("/areasOpManageJson")
     @ResponseBody
-    public Map<String,Object> areasOpManageJson(HaArea parms){
-        List<HaArea> listHaArea = haAreaService.selectAllAreaAndCount(parms);
+    public Map<String,Object> areasOpManageJson(HaArea params){
+        startPage();
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
+        List<HaArea> listHaArea = haAreaService.selectAllAreaAndCount(params);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"sumNumber");

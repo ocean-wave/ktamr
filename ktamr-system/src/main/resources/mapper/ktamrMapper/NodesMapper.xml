@@ -17,7 +17,6 @@
         FROM ha_rgn n
         inner JOIN ha_area a ON n.id=LEFT(a.areaNo,1)
         where 1=1
-        and (n.id = left(#{rgnAndAreaId},1) or #{rgnAndAreaId} = '')
         <if test=' parameterType == "collector" '>
             <include refid="collector"></include>
         </if>
@@ -33,7 +32,6 @@
         FROM ha_area a
         LEFT JOIN ha_building b ON b.areaid=a.areaid
         where Left(a.areaNo, 1)= #{id}
-        and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
         <if test=' parameterType == "collector" '>
             <include refid="collector"></include>
         </if>
@@ -93,7 +91,6 @@
             OR ce.description='GPRS'
             OR ce.description='COM')
             and (left(a.areano,1) = #{id} or a.areano = #{id})
-            and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
             GROUP BY ce.id, ce.centorid, ce.centorNo, ce.addr, ce.description
             ORDER BY ce.centorNo,ce.addr
     </select>

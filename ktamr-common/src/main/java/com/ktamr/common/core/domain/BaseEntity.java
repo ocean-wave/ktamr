@@ -45,8 +45,6 @@ public class BaseEntity implements Serializable {
 
     private String multipleConditions;
 
-    private String rgnAndAreaId;
-
     private String operator_rgn_type;//GetRightCondition所需参数1获取会话
 
     private String noType;//GetRightCondition所需参数2
@@ -58,10 +56,67 @@ public class BaseEntity implements Serializable {
     private String rgnStr;//GetRightCondition所需参数5
 
     private String leftRgnStr;//GetRightCondition所需参数6
-
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+
+    public Map<String, Object> getParams() {
+        if (params == null) {
+            params = new HashMap<>();
+        }
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
+
+    public String getMultipleConditions() {
+        if (params == null) {
+            params = new HashMap<>();
+        }
+        String str = params.get("multipleConditions") != null ? params.get("multipleConditions").toString() : null;
+        if (StringUtils.isEmpty(str)) {
+            this.multipleConditions = SqlCondition.getMultipleConditions();
+            params.put("multipleConditions", multipleConditions);
+        }
+        return str == null ? this.multipleConditions : str;
+    }
+
+    public void setMultipleConditions(String multipleConditions) {
+        this.multipleConditions = multipleConditions;
     }
 
     public String getOperator_rgn_type() {
@@ -110,80 +165,5 @@ public class BaseEntity implements Serializable {
 
     public void setLeftRgnStr(String leftRgnStr) {
         this.leftRgnStr = leftRgnStr;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getModifyBy() {
-        return modifyBy;
-    }
-
-    public void setModifyBy(String modifyBy) {
-        this.modifyBy = modifyBy;
-    }
-
-    public Map<String, Object> getParams() {
-        if (params == null) {
-            params = new HashMap<>();
-        }
-        return params;
-    }
-
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
-    }
-
-    public String getRgnAndAreaId() {
-        if (params == null) {
-            params = new HashMap<>();
-        }
-        String str = params.get("rgnAndAreaId") != null ? params.get("rgnAndAreaId").toString() : null;
-        if (StringUtils.isEmpty(str)) {
-            this.rgnAndAreaId = (String) ServletUtils.getSession().getAttribute("rgnAndAreaId");
-            params.put("rgnAndAreaId", rgnAndAreaId);
-        }
-        return str == null ? this.rgnAndAreaId : str;
-    }
-
-    public void setRgnAndAreaId(String rgnAndAreaId) {
-        this.rgnAndAreaId = rgnAndAreaId;
-    }
-
-    public String getMultipleConditions() {
-        if (params == null) {
-            params = new HashMap<>();
-        }
-        String str = params.get("multipleConditions") != null ? params.get("multipleConditions").toString() : null;
-        if (StringUtils.isEmpty(str)) {
-            this.multipleConditions = SqlCondition.getMultipleConditions();
-            params.put("multipleConditions", multipleConditions);
-        }
-        return str == null ? this.multipleConditions : str;
-    }
-
-    public void setMultipleConditions(String multipleConditions) {
-        this.multipleConditions = multipleConditions;
     }
 }

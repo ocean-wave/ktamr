@@ -1,6 +1,7 @@
 package com.ktamr.web.controller.dataselect;
 
 import com.ktamr.common.utils.DateUtils;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaAuditService;
@@ -41,6 +42,7 @@ public class AuditController {
             mmap.put("daterange",startDate+"~"+endDate);
             mmap.put("areaid",params.getAreaId());
         }
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
         List<HaArea> listArea = haAreaService.selectHaAreaIdAndName(params);
         List<String> listStr = haAuditService.selectAudit(params);
         String[] str;

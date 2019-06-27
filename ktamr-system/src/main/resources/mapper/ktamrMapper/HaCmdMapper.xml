@@ -15,8 +15,8 @@
         <result column="lastBeginTime" property="lastBeginTime" javaType="java.util.Date"></result>
         <result column="processing" property="processing" javaType="java.lang.String"></result>
         <result column="tryTimes" property="tryTimes" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
-        <result column="xgrws" property="resultParams.xgrws"></result>
-        <result column="executor" property="resultParams.executor"></result>
+        <result column="xgrws" property="xgrws"></result>
+        <result column="executor" property="executor"></result>
 
         <association property="haOperator" javaType="com.ktamr.domain.HaOperator">
             <result column="operator_name" property="operatorName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -124,11 +124,11 @@
             AND (o.operator_code IN (
             SELECT operator_code FROM ha_operator
             WHERE operator_upper=#{params.operatorCode} OR operator_code=#{params.operatorCode})
-            OR (c.uid='sys' (LEFT(ce.cetorno,1) = #{rgnAndAreaId} or left(ce.cetorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
+            OR (c.uid='sys' or (LEFT(ce.centorno,1) = #{rgnAndAreaId} or left(ce.centorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=" params.operatorLevel != 'normal' and params.operatorLevel !='admin' ">
-            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' (LEFT(ce.cetorno,1) = #{rgnAndAreaId} or left(ce.cetorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
+            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' or (LEFT(ce.centorno,1) = #{rgnAndAreaId} or left(ce.centorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=" params.keyWord != null and params.keyWord != ''  ">

@@ -72,7 +72,8 @@
             LEFT JOIN ha_building b ON r.buildingid=b.buildingid
             LEFT JOIN ha_area a ON a.areaid=b.areaid
             WHERE r.roomid>0
-            and (LEFT(a.areaNo,1) = #{rgnAndAreaId} or a.areaNo = #{rgnAndAreaId} or #{rgnAndAreaId} = '')
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
             <if test=" areaId != null and areaId != -1 ">
                 and a.areaid=#{areaId}
             </if>

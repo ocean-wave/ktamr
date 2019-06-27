@@ -16,6 +16,10 @@ public interface HatMetersRecordImportMapper {
 
     public Integer updateMetersRecordImport(String ImportTime);
 
+    public Integer updateMetersRecordImportTwo(String ImportTime);
+
+    public Integer updateMetersRecordImportThree(String ImportTime);
+
     public Integer deleteMetersRecordImport(String ImportTime);
 
     public String selectLastImportTime();
