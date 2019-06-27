@@ -59,7 +59,7 @@ public class ImportExcelUtil {
            if(null == sheet){
                continue;
            }
-           for (int j = 1;j<sheet.getLastRowNum();j++){
+           for (int j = 1;j<sheet.getLastRowNum()+1;j++){
                topCellCount = getTopCellCount(sheet.getRow(0));
                row = sheet.getRow(j);
 

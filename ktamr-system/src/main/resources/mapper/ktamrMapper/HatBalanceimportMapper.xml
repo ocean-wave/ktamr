@@ -6,8 +6,10 @@
 
     <!--添加状态为待校验    -->
     <insert id="insertHatBalanceimport" >
-        INSERT INTO hat_balanceImport(userCode, userName, meterNumber, balance, state, importTime)
-        values (#{userCode},#{userName},#{meterNumber},#{balance},'待校验',#{importTime})
+        INSERT INTO hat_balanceImport(userCode, userName, meterNumber, balance, state, importTime)values
+        <foreach item="item" index="index" collection="params" separator=",">
+         (#{item.1},#{item.2},#{item.3},#{item.4},'待校验',to_date(#{item.5,jdbcType=DATE},'yyyy-mm-dd'))
+        </foreach>
     </insert>
 
     <!--导入用户编号校验1-->

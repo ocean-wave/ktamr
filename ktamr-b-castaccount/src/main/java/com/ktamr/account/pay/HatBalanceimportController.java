@@ -2,7 +2,9 @@ package com.ktamr.account.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.file.ImportService;
+import com.ktamr.common.utils.imports.ImportExcelUtil;
 import com.ktamr.domain.HaCmd;
 import com.ktamr.domain.HatBalanceimport;
 import com.ktamr.service.HaCmdService;
@@ -21,10 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class HatBalanceimportController extends BaseController {
@@ -55,32 +54,25 @@ public class HatBalanceimportController extends BaseController {
         }
 
         InputStream inputStream = file.getInputStream();
-        List<List<Object>> list = importService.getBankListByExcel(inputStream, file.getOriginalFilename());//读取excel中的数据
-        inputStream.close();
+        //Map<Integer, Object> map = importService.getBankListByExcel(inputStream, file.getOriginalFilename());//读取excel中的数据
+        //List list = importService.getBankListByExcel(inputStream, file.getOriginalFilename());
+        //inputStream.close();
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String time = sdf.format(date);
-        Date importTime = sdf.parse(time);
-        for (int i = 0; i < list.size(); i++) {
-            List<Object> lo = list.get(i);
-            float a1 = Float.parseFloat(lo.get(0).toString());
-            int Code = (int) a1;
-            String userCode = String.valueOf(Code);//获取用户编号
-            String userName = lo.get(1).toString();//获取用户名称
-            float a2 = Float.parseFloat(lo.get(2).toString());
-            int meterNumber = (int) a2;//获取表号
-            float a3 = Float.parseFloat(lo.get(3).toString());
-            int balance = (int) a3;//获取余额
-            //System.out.println("您好，请看，用户编号:" + userCode + ",用户名称:" + userName + ",表号:" + meterNumber + "，余额:" + balance);
-            hatBalanceimport.setUserCode(userCode);
-            hatBalanceimport.setUserName(userName);
-            hatBalanceimport.setMeterNumber(meterNumber);
-            hatBalanceimport.setBalance(balance);
-            hatBalanceimport.setImportTime(importTime);
+
+        String dateString = DateUtils.getTime();
+        Date importTime = sdf.parse(dateString);
+        ImportExcelUtil importExcelUtil = new ImportExcelUtil();
+        List<Map<String,Object>> list2 = new ArrayList<>();
+
+        String[] nonEmptyCell = new String[]{"1","3"};
+        list2 = importExcelUtil.init(inputStream,dateString,nonEmptyCell);
+        //List<Object> lo = list.get(i);
+
             try {
-                Integer integer = hatBalanceimportService.insertHatBalanceimport(hatBalanceimport);
+                Integer integer = hatBalanceimportService.insertHatBalanceimport(list2);
                 hatBalanceimport = new HatBalanceimport();//重新new一下
-                hatBalanceimport.setImportTime(importTime);//重新的设值
+                hatBalanceimport.setImportTime(sdf.parse(dateString));//重新的设值
                 Integer UserNumberCheck1 = hatBalanceimportService.UserNumberCheck1(hatBalanceimport);
                 Integer UserNumberCheck2 = hatBalanceimportService.UserNumberCheck2(hatBalanceimport);
                 Integer TableNumberCheck1 = hatBalanceimportService.TableNumberCheck1(hatBalanceimport);
@@ -93,7 +85,7 @@ public class HatBalanceimportController extends BaseController {
                 e.printStackTrace();
                 return "false";
             }
-        }
+
         Calendar ca = Calendar.getInstance();//之所以要转成Calendar对象，是因为Date的getXXX()方法废弃了。。。
         ca.setTime(importTime);
         return ca.get(Calendar.YEAR) + "-" + (ca.get(Calendar.MONTH) + 1) + "-" + ca.get(Calendar.DATE)
