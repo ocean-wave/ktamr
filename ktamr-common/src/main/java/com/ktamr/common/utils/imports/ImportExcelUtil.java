@@ -59,7 +59,7 @@ public class ImportExcelUtil {
            if(null == sheet){
                continue;
            }
-           for (int j = 1;j<sheet.getLastRowNum();j++){
+           for (int j = 1;j<sheet.getLastRowNum()+1;j++){
                topCellCount = getTopCellCount(sheet.getRow(0));
                row = sheet.getRow(j);
 
@@ -146,7 +146,7 @@ public class ImportExcelUtil {
                 break;
             case NUMERIC:
                 if ("General".equals(cell.getCellStyle().getDataFormatString())) {
-                    value = Integer.parseInt(DecimalUtils.decimal(cell.getNumericCellValue()));
+                    value = String.valueOf(DecimalUtils.decimal(cell.getNumericCellValue()));
                 } else if ("m/d/yy".equals(cell.getCellStyle().getDataFormatString())) {
                     value = cell.getDateCellValue();
                 } else if("m/d/yy h:mm".equals(cell.getCellStyle().getDataFormatString())){

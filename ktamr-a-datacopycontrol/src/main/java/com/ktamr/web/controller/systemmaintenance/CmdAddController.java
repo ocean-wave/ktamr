@@ -111,8 +111,9 @@ public class CmdAddController extends BaseController {
     }
 
     @GetMapping("/setKT300Params")
-    public String setKT300Params(@RequestParam(value = "cmdName") String cmdName){
-
+    public String setKT300Params(@RequestParam(value = "cmdName") String cmdName,ModelMap mmap){
+        mmap.put("cmdName",cmdName);
+        mmap.put("","");
         return pxePath+"/setKT300Params";
     }
 

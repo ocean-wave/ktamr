@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * sql工具类 多条件查询
+ * sql工具类 数据范围过滤
  *
  * @author ktamr
  */
@@ -65,6 +65,16 @@ public class SqlCondition {
             }else {
                 sql = condition + " position(LEFT(" + fieldName + ",5) in '" + rgnStr + "')>0 ";
             }
+        }
+        return sql;
+    }
+
+    public static String getRightCondition(){
+        String operatorCode = (String) ServletUtils.getSession().getAttribute("operatorCode");
+        String haOperatorRgnType = (String) ServletUtils.getSession().getAttribute("haOperatorRgnType");
+        String sql = "";
+        if(!"all".equals(haOperatorRgnType)){
+            sql = " and o.operator_code='"+operatorCode+"'";
         }
         return sql;
     }

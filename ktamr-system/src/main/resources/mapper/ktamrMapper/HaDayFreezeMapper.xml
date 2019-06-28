@@ -103,6 +103,8 @@
                 inner join hav_meterinfo mi on mi.meterid = fz.meterid
                 WHERE 1=1
             </if>
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
             <if test=' params.nodeType == "area" and params.nodeIds != "" '>
                 AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
             </if>

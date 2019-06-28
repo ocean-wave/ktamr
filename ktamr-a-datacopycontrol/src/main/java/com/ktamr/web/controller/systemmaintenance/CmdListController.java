@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +58,56 @@ public class CmdListController extends BaseController {
         mmap.put("cmdid",cmdid);
         mmap.put("cmdName",haCmd.getCmd());
         return pxePath+"/cmdResultListShow";
+    }
+
+    @GetMapping("/htShowlog")
+    public String htShowlog(@RequestParam( value = "cmdid",required = false) Integer cmdid,
+                            @RequestParam( value = "showPercent",required = false) String showPercent,
+                            ModelMap mmap){
+        String path = "E:\\ht_runtime.log";
+        File file = new File(path);
+        BufferedReader reader = null;
+        StringBuffer str = new StringBuffer();
+        StringBuffer str2 = new StringBuffer();
+        int line = 1;
+        int line2 = 1;
+        int strLen = 1;
+        try {
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "GBK");
+            reader = new BufferedReader(isr);
+            reader.read();
+            String tempString = null;
+            while ((tempString = reader.readLine()) != null) {
+                str.append(tempString+"\n");
+                line++;
+            }
+            if("0.1".equals(showPercent)) {
+                strLen = ((int)(str.length()*0.1));
+                line2 = (int)(line*0.1);
+                str2.append(str.substring((int) (str.length() * 0.9)));
+            }else if("0.2".equals(showPercent)){
+                strLen = ((int)(str.length()*0.2));
+                line2 = (int)(line*0.2);
+                str2.append(str.substring((int) (str.length() * 0.8)));
+            }else if("0.5".equals(showPercent)){
+                strLen = ((int)(str.length()*0.5));
+                line2 = (int)(line*0.5);
+                str2.append(str.substring((int) (str.length() * 0.5)));
+            }else{
+                strLen = str.length();
+                line2 = line;
+                str2.append(str.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Float c = Float.parseFloat(showPercent);
+        mmap.put("filePath","文件位置:"+path);
+        mmap.put("percentage",c == 1.0?"查看全文LOG文件：":"查看最后"+((int)(Float.parseFloat(showPercent)*100))+"%LOG文件：");
+        mmap.put("b1","显示内容长度："+strLen+"/ LOG：总长"+str.length()+"");
+        mmap.put("b2","共显示:"+(line2)+"行");
+        mmap.put("showText",str2.toString());
+        return pxePath+"/htShowlog";
     }
 
     @PostMapping("/cmdResultListShow1Json")

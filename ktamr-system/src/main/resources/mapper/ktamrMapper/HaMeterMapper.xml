@@ -204,6 +204,8 @@
         ) t on t.meterId=mi.meterId
         WHERE is_meter_err_state(mi.状态)
         AND mi.表号 >0
+        <!--数据范围过滤-->
+        ${params.getRightCondition}
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
         </if>
@@ -225,6 +227,8 @@
             or to_hex(t.nconf) like '%${params.keyWord}%'
             )
         </if>
+        <!--多条件查询-->
+        ${multipleConditions}
         ORDER BY mi.用户地址, mi.状态, mi.用户号
     </select>
 
