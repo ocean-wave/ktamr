@@ -1,7 +1,6 @@
 package com.ktamr.account.area;
 
 
-import com.ktamr.common.Checkright;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.utils.export.ExportExcelUtil;
@@ -57,8 +56,7 @@ public class HaAreaController extends BaseController {
      */
     @RequestMapping("/area/showList")
     @ResponseBody
-    public Map<String, Object> showList(HaArea haArea, String aareaid, HttpSession session
-                                        ) {
+    public Map<String, Object> showList(HaArea haArea, String aareaid, HttpSession session) {
         startPage();
         String s1 = aareaid;//获取areaid  小区名字
         if (s1 != null && s1 != "") {//判断小区名字如果没有赋值的话就不用查询
@@ -69,8 +67,6 @@ public class HaAreaController extends BaseController {
             }
             haArea.setIdsList2(idsList);
         }
-       /* BaseEntity baseEntity =new HaArea();
-        ck.GetRightCondition("a.areaNo","area","AND",session,baseEntity);*/
         haArea.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
         List<HaArea> haAreaList = haAreaService.selectHaAreaList(haArea);
         return getDataTable(haAreaList);
