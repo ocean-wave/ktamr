@@ -1,6 +1,6 @@
 package com.ktamr.web;
 
-import com.ktamr.common.Checkright;
+
 import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.*;
