@@ -34,6 +34,14 @@ public class ImportExcelUtil {
     private String[] nonEmptyCell;
 
 
+    /**
+     * 查询excel
+     * @param in 文件File
+     * @param dateString 时间
+     * @param nonEmptyCell 带*号下标位置
+     * @return
+     * @throws Exception
+     */
    public List<Map<String,Object>> init(InputStream in,String dateString,String[] nonEmptyCell)throws Exception{
        list = new ArrayList<>();
        this.dateString = dateString;

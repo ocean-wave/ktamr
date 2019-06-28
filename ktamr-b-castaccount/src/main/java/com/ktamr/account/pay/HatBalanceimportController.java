@@ -52,13 +52,13 @@ public class HatBalanceimportController extends BaseController {
         }
         String fileName = file.getOriginalFilename();//获取文件夹名字
         if (fileName.indexOf("xls") < 0) {
-            return "上传文件类型不符合要求，请确定是 (.xls/.xlsx)后缀的Excel 文件";//
+            return "上传文件类型不符合要求，请确定是 (.xls/.xlsx)后缀的Excel 文件";
         }
         InputStream inputStream = file.getInputStream();//获取File
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = DateUtils.getTime();
         Date importTime = sdf.parse(dateString);
-        String[] nonEmptyCell = new String[]{"1","3"};
+        String[] nonEmptyCell = new String[]{"1","3"};//如果excel模板有*号的坐标位置
         List<Map<String,Object>> list2 = importExcelUtil.init(inputStream,dateString,nonEmptyCell);//获取excel里面的信息
             try {
                 Integer integer = hatBalanceimportService.insertHatBalanceimport(list2);
