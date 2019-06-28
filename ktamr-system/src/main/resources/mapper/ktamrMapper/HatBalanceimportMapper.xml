@@ -8,7 +8,7 @@
     <insert id="insertHatBalanceimport" >
         INSERT INTO hat_balanceImport(userCode, userName, meterNumber, balance, state, importTime)values
         <foreach item="item" index="index" collection="params" separator=",">
-         (#{item.1},#{item.2},#{item.3},#{item.4},'待校验',to_date(#{item.5,jdbcType=DATE},'yyyy-mm-dd'))
+         (#{item.1},#{item.2},#{item.3},#{item.4},'待校验',TO_TIMESTAMP(#{item.5}, 'YYYY-MM-DD HH24:MI:SS'))
         </foreach>
     </insert>
 
