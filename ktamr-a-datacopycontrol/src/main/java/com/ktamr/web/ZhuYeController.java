@@ -2,6 +2,7 @@ package com.ktamr.web;
 
 import com.ktamr.common.Checkright;
 import com.ktamr.common.core.domain.BaseEntity;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.*;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaMeterService;
@@ -39,8 +40,6 @@ public class ZhuYeController {
     private ZhuYeService zhuYeService;
     @Resource
     private HaMeterService haMeterService;
-    @Resource
-    private Checkright ck;
 
     /**
      * 打开首页
@@ -49,15 +48,15 @@ public class ZhuYeController {
     @RequestMapping("/openMainHtml")
     public String openMainHtml(Model model,HttpSession session){
         BaseEntity baseEntity =new zhuYe();
-
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("areaNo","area","WHERE"));
         Integer areaCount = zhuYeService.areaCount(baseEntity);
-
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areaNo","area","and"));
         Integer meterCount = zhuYeService.meterCount(baseEntity);
         Integer notOkCount = zhuYeService.notOkCount(baseEntity);
         Integer notConnectedCount = zhuYeService.notConnectedCount(baseEntity);
-
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areaNo","area","WHERE"));
         Integer userCount = zhuYeService.userCount(baseEntity);
-
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("ce.centorNo","centor","and"));
         Integer ccentorCount = zhuYeService.ccentorCount(baseEntity);
         Integer centorCount = zhuYeService.centorCount(baseEntity);
         Integer collectorCount = zhuYeService.collectorCount(baseEntity);
@@ -86,7 +85,7 @@ public class ZhuYeController {
         //1、正常表计数'
         BaseEntity baseEntity =new zhuYe();
         //ck.GetRightCondition("areaNo","area","and",session,baseEntity);
-
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("areaNo","area","and"));
         //获得全部状态
         Map<String, Object> map2 = zhuYeService.getMeterStateCount(baseEntity);
         meterStateCount[3]= Integer.parseInt(map2.get("正常").toString());;//2、正常状态计数
@@ -99,7 +98,7 @@ public class ZhuYeController {
         t_stateNameList = t_stateNameList + "'用量异常'" +",";
         meterStateCount[11]=Integer.parseInt(map2.get("开阀").toString());//5、开阀状态计数
         t_stateNameList = t_stateNameList + "'开阀'" +",";
-
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areaNo","area","AND"));
         //6、其他状态表计数
         List<zhuYe> zhuYeList = zhuYeService.meterStateCountQiTa(baseEntity);
 
@@ -132,14 +131,10 @@ public class ZhuYeController {
                 }else if(state.contains("关阀故障")){
                     meterStateCount[14]=total;
                 }
-
                 if(total>0){
                     t_stateNameList = t_stateNameList +"'"+ state +"',";
                 }
-
-
         }
-
         //状态按照固定的顺序排序
         if(t_stateNameList.length()>0){
             String[] stateNameArray = stateNameList.split(",");
@@ -159,6 +154,7 @@ public class ZhuYeController {
         }
         //集中器状态统计
         //ck.GetRightCondition("ce.centorNo","centor","AND",session,baseEntity);
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("ce.centorNo","centor","AND"));
         List<zhuYe> meterStateCountJiZhongQi = zhuYeService.meterStateCountJiZhongQi(baseEntity);
         Integer[] centorStateCount = new Integer[3];
         for (int i=0;i<meterStateCountJiZhongQi.size();i++){
@@ -183,7 +179,7 @@ public class ZhuYeController {
         Integer meterStateCountCaiJiQi2 = zhuYeService.meterStateCountCaiJiQi2(baseEntity);
         Integer collectorConnCount=meterStateCountCaiJiQi1;
         Integer collectorDisConnCount=meterStateCountCaiJiQi2;
-        //ck.GetRightCondition("a.areaNo","area","and",session,baseEntity);
+        baseEntity.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areaNo","area","and"));
         Integer meterCount = zhuYeService.meterCount(baseEntity);
 //        model.addAttribute("meterStateCount",meterStateCount);
         Map<String ,Object> map=new HashMap<>();

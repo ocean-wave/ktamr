@@ -71,12 +71,12 @@ public class HaAreaServiceImpl implements HaAreaService {
 
     /**
      * 查询小区+分页+条件月份查询
-     * @param baseEntity
+     * @param haArea
      * @return
      */
     @Override
-    public List<HaArea> selectHaAreaList(BaseEntity baseEntity) {
-        List<HaArea> haAreaList = haAreaMapper.BselectHaAreaList(baseEntity);
+    public List<HaArea> selectHaAreaList(HaArea haArea) {
+        List<HaArea> haAreaList = haAreaMapper.BselectHaAreaList(haArea);
         if(haAreaList!=null){
             return haAreaList;
         }

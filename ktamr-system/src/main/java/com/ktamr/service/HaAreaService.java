@@ -41,10 +41,10 @@ public interface HaAreaService {
 
     /**
      * 查询小区表+ 条件查询月份查询
-     * @param baseEntity
+     * @param haArea
      * @return
      */
-    public List<HaArea> selectHaAreaList(BaseEntity baseEntity);
+    public List<HaArea> selectHaAreaList(HaArea haArea);
 
 ;
 
