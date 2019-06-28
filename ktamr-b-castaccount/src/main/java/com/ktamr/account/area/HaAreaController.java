@@ -1,7 +1,6 @@
 package com.ktamr.account.area;
 
 
-import com.ktamr.common.Checkright;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.utils.export.ExportExcelUtil;
@@ -30,8 +29,7 @@ public class HaAreaController extends BaseController {
     private HaAreaService haAreaService;
     @Resource
     private HaRngService haRngService;
-    @Resource
-    private Checkright ck;
+
 
     /**
      * 打开小区结算的页面+并进行小区名字的赋值
