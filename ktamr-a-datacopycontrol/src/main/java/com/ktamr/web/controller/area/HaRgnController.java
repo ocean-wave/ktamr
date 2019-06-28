@@ -31,7 +31,7 @@ public class HaRgnController extends BaseController {
     @ResponseBody
     public Map<String,Object> areasOpManageJson(HaRgn params){
         startPage();
-        //params.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
         List<HaRgn> listHaRng = haRngService.selectAllRngAndCount(params);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();

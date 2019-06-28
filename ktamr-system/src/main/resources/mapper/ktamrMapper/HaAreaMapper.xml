@@ -26,7 +26,7 @@
     </resultMap>
 
 
-    <select id="selectAllAreaAndCount" resultMap="areaMap" parameterType="com.ktamr.domain.HaArea">
+    <select id="selectAllAreaAndCount" resultMap="areaMap">
         select * from (
             SELECT
             a.areaid AS areaId
@@ -257,7 +257,7 @@
                 '%${keyWord}%')
 
             </if>
-            <include refid="com.ktamr.mapper.CommonMapper.GetRightCondition"/>
+            ${params.getRightCondition}
         </trim>
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,a.DS,a.description,a.reserved,
         to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n

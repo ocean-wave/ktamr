@@ -19,6 +19,7 @@ public class HandDeviceTransController extends BaseController {
 
     @GetMapping("/deviceTrans")
     public String deviceTrans(ModelMap mmap){
+
         return pxePath+"/handDeviceTrans";
     }
 }

@@ -137,6 +137,15 @@ public class Global
     }
 
     /**
+     * 获取导出路径
+     * @return
+     */
+    public static String getExportPath()
+    {
+        return getConfig("ktamr.profile") + "export\\";
+    }
+
+    /**
      * 获取上传路径
      */
     public static String getUploadPath()
