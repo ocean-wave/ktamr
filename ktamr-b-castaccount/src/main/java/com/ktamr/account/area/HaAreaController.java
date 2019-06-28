@@ -1,11 +1,14 @@
 package com.ktamr.account.area;
 
 
+import com.ktamr.common.Checkright;
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.domain.zhuYe;
 import com.ktamr.service.HaAreaService;
 import com.ktamr.service.HaRngService;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -25,6 +29,8 @@ public class HaAreaController extends BaseController {
     private HaAreaService haAreaService;
     @Resource
     private HaRngService haRngService;
+    @Resource
+    private Checkright ck;
 
     /**
      * 打开小区结算的页面+并进行小区名字的赋值
@@ -51,8 +57,8 @@ public class HaAreaController extends BaseController {
      */
     @RequestMapping("/area/showList")
     @ResponseBody
-    public Map<String, Object> showList(HaArea haArea, String aareaid
-    ) {
+    public Map<String, Object> showList(HaArea haArea, String aareaid, HttpSession session
+                                        ) {
         startPage();
         String s1 = aareaid;//获取areaid  小区名字
         if (s1 != null && s1 != "") {//判断小区名字如果没有赋值的话就不用查询
@@ -63,7 +69,9 @@ public class HaAreaController extends BaseController {
             }
             haArea.setIdsList2(idsList);
         }
-        List<HaArea> haAreaList = haAreaService.selectHaAreaList(haArea);
+        BaseEntity baseEntity =new HaArea();
+        ck.GetRightCondition("a.areaNo","area","AND",session,baseEntity);
+        List<HaArea> haAreaList = haAreaService.selectHaAreaList(baseEntity);
         return getDataTable(haAreaList);
 
     }

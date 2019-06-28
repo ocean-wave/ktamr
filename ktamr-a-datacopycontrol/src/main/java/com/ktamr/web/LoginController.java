@@ -19,6 +19,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class LoginController extends BaseController {
@@ -26,7 +28,7 @@ public class LoginController extends BaseController {
     @Resource
     private HaCentorService haCentorService;
 
-
+    private String publicUid=null;
     @GetMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response)
     {
@@ -50,26 +52,13 @@ public class LoginController extends BaseController {
     @ResponseBody
     public String login(@RequestParam( value = "uid") String uid,
                         @RequestParam( value = "pwd") String pwd
-                        , ModelMap mmap, HttpSession session){
+                        , ModelMap mmap ){
+        publicUid=uid;
         UsernamePasswordToken token = new UsernamePasswordToken(uid, pwd);
         Subject subject = SecurityUtils.getSubject();
         try
         {
             subject.login(token);
-            //这里获取集中器,集采器,手抄器,DTU 
-            Integer centor_count = haCentorService.centor_count(uid);
-            Integer collector_count = haCentorService.collector_count(uid);
-            Integer pad_count1 = haCentorService.pad_count1(uid);
-            Integer pad_count2 = haCentorService.pad_count2(uid);
-            Integer DTU_count = haCentorService.DTU_count(uid);
-            if(centor_count!=null&&collector_count!=null&&pad_count1!=null&&pad_count2!=null&&DTU_count!=null){
-                session.setAttribute("centor_count",centor_count);
-                session.setAttribute("collector_count",collector_count);
-                session.setAttribute("pad_count1",pad_count1);
-                session.setAttribute("pad_count2",pad_count2);
-                session.setAttribute("DTU_count",DTU_count);
-            }
-
             return "true";
         }
         catch (AuthenticationException e)
@@ -81,5 +70,32 @@ public class LoginController extends BaseController {
             }
             return msg;
         }
+    }
+
+    @PostMapping("/loginGetSession")
+    @ResponseBody
+    public Map<String,Object> loginGetSession(HttpSession session){
+        Map<String,Object> map=new HashMap<>();
+        try {
+            //这里获取集中器,集采器,手抄器,DTU
+            Integer centor_count = haCentorService.centor_count(publicUid);
+            Integer collector_count = haCentorService.collector_count(publicUid);
+            Integer pad_count1 = haCentorService.pad_count1(publicUid);
+            Integer pad_count2 = haCentorService.pad_count2(publicUid);
+            Integer DTU_count = haCentorService.DTU_count(publicUid);
+
+            if(centor_count!=null&&collector_count!=null&&pad_count1!=null&&pad_count2!=null&&DTU_count!=null){
+                map.put("centor_count",centor_count);
+                map.put("collector_count",collector_count);
+                map.put("pad_count1",pad_count1);
+                map.put("pad_count2",pad_count2);
+                map.put("DTU_count",DTU_count);
+            }
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return null;
     }
 }

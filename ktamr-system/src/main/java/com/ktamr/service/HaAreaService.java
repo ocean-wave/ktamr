@@ -1,5 +1,6 @@
 package com.ktamr.service;
 
+import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.domain.HaArea;
 
 import java.util.List;
@@ -40,11 +41,10 @@ public interface HaAreaService {
 
     /**
      * 查询小区表+ 条件查询月份查询
-     * @param haArea
-     * @param haArea
+     * @param baseEntity
      * @return
      */
-    public List<HaArea> selectHaAreaList(HaArea haArea);
+    public List<HaArea> selectHaAreaList(BaseEntity baseEntity);
 
 ;
 

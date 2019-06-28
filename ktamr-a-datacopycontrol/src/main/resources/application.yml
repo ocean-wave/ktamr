@@ -30,6 +30,10 @@ server:
     max-threads: 800
     #配置tomcat初始化线程是30
     min-spare-threads: 30
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,application/xhtml+xml,text/html,text/xml,text/plain
+    min-response-size: 1024
 
 #配置spring
 spring:
@@ -37,7 +41,7 @@ spring:
     #配置druid路径
     #active: druid
     #配置8884另一个数据库
-    active: druid
+    active: other
     #配置thymeleaf前端模板
   thymeleaf:
     cache: false

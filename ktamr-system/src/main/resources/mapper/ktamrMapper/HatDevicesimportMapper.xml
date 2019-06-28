@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HatDevicesimportMapper">
+
+    <select id="HatDevicesimportList" resultType="com.ktamr.domain.HatDevicesimport">
+        SELECT id, state, deviceId, deviceName, description,areaName, setupTime, tel, remark FROM hat_devicesImport
+        WHERE importTime=#{importTime}
+    </select>
+
+    <!--新增导入设备(待校验)-->
+    <insert id="addHatDevicesimport">
+        INSERT INTO hat_devicesImport(id,deviceId,deviceName, description, areaName, setupTime, tel, reMark, state, importTime) VALUES (default , #{deviceId}, #{deviceName}, #{description}, #{areaName}, #{setupTime}, #{tel},#{reMark}, '待校验',#{importTime})
+    </insert>
+
+    <!--修改设备档案-->
+    <update id="updateHatDevicesimport">
+        update ha_centor c
+            set centorid=cast(t.deviceid as integer),
+            description=t.description,
+            setuptime=t.setuptime,
+            telnumber=t.tel,
+            remark=t.remark,
+            centorno=concat(t.areano,Right(concat('00000',t.deviceid), 5)),
+            modifytime=now()
+            from hat_devicesImport t
+            where c.areaId=t.areaId AND c.addr=t.deviceName AND t.state='修改' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{hatDevicesimport.importTime}
+    </update>
+
+    <!--清理零时表-->
+    <delete id="deleteHatDevicesimport">
+        DELETE FROM hat_devicesImport WHERE to_char(importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </delete>
+
+    <!--所属小区校验-->
+    <update id="belongAreaCheck">
+        UPDATE hat_devicesImport t SET areaId=a.areaid, areaNo=a.areaNo ,
+        state=CASE  when a.areaid=null then '匹配不到小区名称'
+        else t.state END from ha_area a
+        WHERE t.areaName=a.name and t.state='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--连接说明校验-->
+    <update id="joinSayCheck">
+        UPDATE hat_devicesImport t SET state='错误的连接说明'
+        WHERE t.description!='KT3NB GPRS' AND t.description!='KT3NB VIRTUAL' AND t.description!='KT410 GPRS' AND t.description!='KT410 COM' AND t.description!='GPRS' AND t.description!='COM' AND t.description!='HAND'
+    </update>
+
+    <!--设备名称校验-->
+    <update id="centorNameCheck">
+        UPDATE hat_devicesImport t0 SET state='与表内设备名称重复'
+        from hat_devicesImport t1 WHERE t1.ID!=t0.ID AND t1.areaId=t0.areaId AND t0.deviceName=t1.deviceName
+        AND t0.state='待校验' AND t0.importTime=t1.importTime AND to_char(t0.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--设备地址校验1-->
+    <update id="centorAddrCheck1">
+        UPDATE hat_devicesImport t
+		SET state=case when position(t.description in 'KT410')>0 then '非法的集中器设备地址' else '非法的手抄线路编号' end
+		WHERE t.deviceID!=null AND (isNumeric(t.deviceID)=false Or cast(t.deviceID as integer)=0 Or length(t.deviceID)>5)
+		AND (position(t.description in 'KT410')>0 OR position(t.description in 'HAND')>0) AND t.state='待校验'
+		AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--设备地址校验2-->
+    <update id="centorAddrCheck2">
+        UPDATE hat_devicesImport t
+		SET state='非法的NB集采器设备地址'
+		WHERE t.deviceID!=null AND (isNumeric(t.deviceID)=false Or cast(t.deviceID as integer)=0 Or length(t.deviceID)>8)
+		AND position(t.description in 'KT3NB')>0 AND t.state='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--设备地址校验3-->
+    <update id="centorAddrCheck3">
+        UPDATE hat_devicesImport t0
+        SET state='与表内设备地址重复' from hat_devicesImport t1
+        WHERE t1.ID!=t0.ID AND t0.deviceID!=null AND t1.areaId=t0.areaId AND t1.deviceID=t0.deviceID
+        AND Left(t1.description, 5)=LEFT(t0.description, 5) AND (LEFT(t0.description, 3)='KT4'
+        OR LEFT(t0.description, 4)='HAND') AND t0.state='待校验' AND t0.importTime=t1.importTime
+        AND to_char(t0.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--设备地址校验4-->
+    <update id="centorAddrCheck4">
+        UPDATE hat_devicesImport t0
+        SET state='与表内设备地址重复' from hat_devicesImport t1
+        WHERE t1.ID!=t0.ID AND t0.deviceID!=null AND t1.deviceID=t0.deviceID
+        AND Left(t1.description, 5)=LEFT(t0.description, 5) AND LEFT(t0.description, 5)='KT3NB' AND t0.state='待校验'
+        AND t0.importTime=t1.importTime AND to_char(t0.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--设备地址校验5-->
+    <update id="centorAddrCheck5">
+        UPDATE hat_devicesImport t
+		SET state='与系统设备地址重复' from ha_centor c
+		WHERE t.deviceID=to_char(c.centorid, '#') AND t.areaId=c.areaid AND Left(t.description, 5)=Left(c.description, 5)
+		AND (LEFT(t.description, 3)='KT4' OR LEFT(t.description, 4)='HAND') AND t.state='待校验'
+		AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--设备地址校验6-->
+    <update id="centorAddrCheck6">
+        UPDATE hat_devicesImport t
+		SET state='与系统设备地址重复' from ha_centor c
+		WHERE t.deviceID=to_char(c.centorid, '#') AND Left(t.description, 5)=Left(c.description, 5)
+		AND LEFT(t.description, 5)='KT3NB' AND t.state='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--判断是新增还是修改-->
+    <update id="checkAddOrUpdate">
+        UPDATE hat_devicesImport t
+        SET state=case when c.addr=null then '新增'else '修改' end  from ha_centor c
+        WHERE (t.areaId=c.areaId AND t.deviceName=c.addr) and  t.state='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--补齐默认数值-->
+    <update id="completeDefaultValues">
+        UPDATE hat_devicesImport t SET setupTime=case when t.setupTime =null then t.importTime else t.setupTime end
+        WHERE (t.state='新增' OR t.state='修改') AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--查询总条目-->
+    <select id="queryAllHatDevicesimportCount" resultType="Integer">
+        SELECT COUNT(*) FROM hat_devicesImport WHERE importTime=#{importTime}
+    </select>
+
+    <!--查询新增数-->
+    <select id="addsCount" resultType="Integer">
+        SELECT COUNT(*) FROM hat_devicesImport WHERE state='新增' AND importTime=#{importTime}
+    </select>
+
+    <!--查询修改数-->
+    <select id="updsCount" resultType="Integer">
+        SELECT COUNT(*) FROM hat_devicesImport WHERE state='修改' AND importTime=#{importTime}
+    </select>
+
+    <!--新增设备档案——新增集中器档案和手抄线路档案-->
+    <insert id="addCentorsAndHandDevices">
+        INSERT INTO ha_centor(centorid,ver,description,rtime,setuptime,addr,endTime,telNumber,remark,centorNo,state,areaid,createTime,modifyTime)
+        SELECT cast(deviceid as integer) as deviceid,'000000',description,'1 03:30',setuptime,devicename,'2049-01-01 00:00:00',
+        tel, remark, concat(areano,Right(concat('00000',deviceID), 5)),'建档',areaid,now(),now() FROM hat_devicesImport
+        WHERE 'check'='新增' AND importTime=#{importTime}
+    </insert>
+</mapper>

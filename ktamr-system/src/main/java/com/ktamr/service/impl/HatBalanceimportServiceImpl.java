@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HatBalanceimportServiceImpl  implements HatBalanceimportService {
@@ -17,12 +18,12 @@ public class HatBalanceimportServiceImpl  implements HatBalanceimportService {
 
     /**
      * 添加状态为待校验
-     * @param hatBalanceimport
+     * @param params
      * @return
      */
     @Override
-    public Integer insertHatBalanceimport(HatBalanceimport hatBalanceimport) {
-        Integer insertHatBalanceimport = hatBalanceimportMapper.insertHatBalanceimport(hatBalanceimport);
+    public Integer insertHatBalanceimport(List<Map<String, Object>> params) {
+        Integer insertHatBalanceimport = hatBalanceimportMapper.insertHatBalanceimport(params);
         if(insertHatBalanceimport!=null){
             return insertHatBalanceimport;
         }

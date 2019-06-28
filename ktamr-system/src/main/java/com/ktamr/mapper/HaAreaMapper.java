@@ -1,5 +1,6 @@
 package com.ktamr.mapper;
 
+import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.domain.HaArea;
 import org.apache.ibatis.annotations.Param;
 
@@ -41,11 +42,10 @@ public interface HaAreaMapper {
 
     /**
      * 查询小区表
-     *
-     * @param haArea
+     * @param baseEntity
      * @return
      */
-    public List<HaArea> BselectHaAreaList(@Param("HaArea") HaArea haArea);
+    public List<HaArea> BselectHaAreaList(BaseEntity baseEntity);
 
 
 

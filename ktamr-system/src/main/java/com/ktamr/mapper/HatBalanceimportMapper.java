@@ -1,17 +1,19 @@
 package com.ktamr.mapper;
 
 import com.ktamr.domain.HatBalanceimport;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HatBalanceimportMapper {
 
     /**
      * 添加状态为待校验
-     * @param hatBalanceimport
+     * @param params
      * @return
      */
-    public Integer insertHatBalanceimport(HatBalanceimport hatBalanceimport);
+    public Integer insertHatBalanceimport(@Param("params") List<Map<String, Object>> params);
 
     /**
      * 导入用户编号校验1

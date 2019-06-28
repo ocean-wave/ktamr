@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="myPage-body">
+<div class="container myContainer">
+    <input type="hidden" id="">
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <form class="form-horizontal" id="jqgridForm" role="form">
+                <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                <div id="jqGridPager"></div>
+            </form>
+        </div>
+    </div>
+    <div class="form-inline" style="margin:5px 5px;text-align: right;padding-right:10px;">
+        <button lay-submit type="button" data-title="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" data-title="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        var g_importTime = "[[${importTime}]]";
+        var g_errors = "[[${errors}]]";
+        var g_msg = "[[${msg}]]";
+        var g_fileName = "[[${fileName}]]";
+        var op_url = "/devicesImport/device_upload_do";
+        var layerIndex = parent.layer.getFrameIndex(window.name);
+
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182,"/devicesImport/EquipmentFilesList");
+        GridObj.jqdefaultGridConfig.caption = "总条目:<b>[[${allCount}]]</b>, 新增数:<b><font color='blue'>[[${addsCount}]]</font></b>, 修改数:<b><font color='green'>[[${updsCount}]]</font></b>, 出错数:<b><font color='red'>[[${errors}]]</font></b> (说明:点击确定才完成导入)";
+        GridObj.jqdefaultGridConfig.postData = {ListNumber: 54, importTime: g_importTime};
+        GridObj.jqdefaultGridConfig.colNames = ['id','校验结果','设备地址','设备名称','连接说明','所属小区名称','安装时间','电话号码','备注'];
+        GridObj.jqdefaultGridConfig.colModel = [
+            { name: 'id',  width: 75, key: true, hidden: true},
+            { name: 'state', width: 120, cellattr: usersInfoCellColor },
+            { name: 'deviceId', align: 'right', width: 80 },
+            { name: 'deviceName', width: 100 },
+            { name: 'description', width: 100 },
+            { name: 'areaName', width: 120 },
+            { name: 'setupTime', width: 150 },
+            { name: 'tel', width: 100 },
+            { name: 'remark', width: 90 }
+        ];
+        GridObj.jqdefaultGridConfig.scroll = true;
+        GridObj.jqdefaultGridConfig.footerrow = true;
+        GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+
+        function submitInfo(sendData){
+            $.ajax({
+                url: op_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        parent.layer.msg("导入设备档案成功！", {icon: 1});
+                    }else{
+                        parent.layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+
+        $(".btn").click(function(){
+            var btnTitle = $(this).data("title");
+            var data = {
+                msg: g_msg,
+                fileName: g_fileName,
+                importTime: g_importTime,
+                op: btnTitle
+            }
+            if(Number(g_errors)>0){
+                layer.confirm("存在错误行资料，确实只导入'新增'和'修改'吗？", {icon:3, title:'提示'},
+                    function(index, layero){
+                        submitInfo(data);
+                        layer.close(index);
+                        parent.layer.close(layerIndex); //再执行关闭
+                    });
+            }else{
+                submitInfo(data);
+                parent.layer.close(layerIndex); //再执行关闭
+            }
+        });
+    });
+</script>
+</body>
+</html>

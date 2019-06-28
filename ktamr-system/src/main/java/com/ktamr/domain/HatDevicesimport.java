@@ -17,7 +17,7 @@ public class HatDevicesimport extends BaseEntity {
   private String areaNo;
   private Integer areaId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
   private Date setupTime;
   private String tel;
   private String reMark;
@@ -25,6 +25,7 @@ public class HatDevicesimport extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date importTime;
+  private String fileName;
 
 
   public Integer getId() {
@@ -122,4 +123,12 @@ public class HatDevicesimport extends BaseEntity {
   public void setImportTime(Date importTime) {
     this.importTime = importTime;
   }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 }

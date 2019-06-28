@@ -165,13 +165,17 @@
         </a>
         <ul class="sub-menu">
             {{# layui.each(menu.sub, function(index, subMenu){ }}
+
             <li>
+
                 <a href="javascript:;" data-url="{{subMenu.url}}" data-title="{{subMenu.name}}"
                    data-id="{{subMenu.id}}">
                     <i class="{{subMenu.iconfont}}"></i>
                     <span>{{subMenu.name}}</span>
                 </a>
+
             </li>
+
             {{# }); }}
         </ul>
         {{# }else{ }}
@@ -242,8 +246,59 @@
 </script>
 
 <script>
-    function horizontalScreen() {
+    //每一个都加上一个监听点击事件
+    var list = document.getElementById('nav');
+    list.addEventListener('click', function (event) {
+        var attrName=$("#nav li:eq(3) a").attr("data-title");
+        var attrName=$("#nav li:eq(3) a").attr("data-title");
 
+        if(attrName=="设备抄控"){
+            showOrHide();
+        }
+    }, false);
+    //设备超控里面的节点是否隐藏或者显示
+    function showOrHide(){
+
+        //会话获取判断
+        var centor_count="<%=session.getAttribute('centor_count')%>";
+        var collector_count="<%=session.getAttribute('collector_count')%>";
+        var pad_count1="<%=session.getAttribute('pad_count1')%>";
+        var pad_count2="<%=session.getAttribute('pad_count2')%>";
+        var DTU_count="<%=session.getAttribute('DTU_count')%>";
+        if(centor_count==0){
+            $(".sub-menu li:eq(1)").hide();
+        }
+        if(collector_count==0){
+            $(".sub-menu li:eq(2)").hide();
+        }
+        if(pad_count1==0  ){
+            $(".sub-menu li:eq(3)").hide();
+        }
+        if( pad_count2==0){
+            $(".sub-menu li:eq(3)").hide();
+        }
+        if(DTU_count==0){
+            $(".sub-menu li:eq(4)").hide();
+        }
+    }
+
+    function horizontalScreen() {
+        var width = document.documentElement.clientWidth;
+        var height =  document.documentElement.clientHeight;
+        //console.log("width,height:",width, height);
+        if( width < height ){
+            $(document.body).width(height);
+            $(document.body).height(width);
+            $(document.body).css('top',  (height-width)/2);
+            $(document.body).css('left',  0-(height-width)/2 );
+            //$(document).css('transform' , 'rotate(90deg)');
+            //$(document).css('transform-origin' , '50% 50%');
+        }else{
+            $(document.body).width(width);
+            $(document.body).height(height);
+            $(document.body).css('top',  0);
+            $(document.body).css('left', 0);
+        }
     }
 
     horizontalScreen();
