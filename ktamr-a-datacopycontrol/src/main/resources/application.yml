@@ -11,18 +11,6 @@ server:
   servlet:
     #配置项目的访问路径(默认是:/)
     context-path: /
-  compression:
-    enabled: true
-    min-response-size: 1024
-    mime-types:
-      - image/png
-      - image/jpeg
-      - image/jpg
-      - text/html
-      - application/javascript
-      - text/css
-      - application/octet-stream
-      - application/json
   tomcat:
     #配置tomcat字符编码是UTF-8
     uri-encoding: UTF-8

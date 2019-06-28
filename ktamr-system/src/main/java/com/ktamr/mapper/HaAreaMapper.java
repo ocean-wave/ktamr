@@ -42,10 +42,10 @@ public interface HaAreaMapper {
 
     /**
      * 查询小区表
-     * @param baseEntity
+     * @param haArea
      * @return
      */
-    public List<HaArea> BselectHaAreaList(BaseEntity baseEntity);
+    public List<HaArea> BselectHaAreaList( HaArea haArea);
 
 
 
