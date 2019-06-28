@@ -159,30 +159,26 @@
         });
 
         $("#templateExport").click(function(){
+            var areaId = $("#areas").val();
             var loadLayerIndex = "";
             if($("#areas").val() == null){
                 window.open(get_excel_model);
                 return false;
             }
-
             $.ajax({
                 url: get_excel_model_url
                 ,type: "POST"
-                ,dataType:'text'
+                ,dataType:'JSON'
                 ,contentType: 'application/json; charset=utf-8'
                 ,async: false
                 ,data: {
-                    areaId: $("#areas").val().join(",")
+                    areaId: areaId
                 }
                 ,async:false //同步请求
                 ,beforeSend: function(){
                     loadLayerIndex = showLoadLayer()
                 }
                 ,success: function(data){
-                    var fileUrl = "/uploads/exportToExcel/1";
-                    //alert(fileUrl);
-                    clossLoadLayer(loadLayerIndex);
-                    window.open(fileUrl);
                 }
             });
         });

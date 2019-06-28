@@ -1,15 +1,24 @@
 package com.ktamr.management.area;
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.export.ExcelUtil;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.domain.*;
 import com.ktamr.service.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +64,7 @@ public class RoomController extends BaseController {
     }
 
     @RequestMapping("/JumpRoomMeterDel")
-    public String JumpRoomMeterDel(Integer meterId,Integer roomId,Model model) {
+    public String JumpRoomMeterDel(Integer meterId, Integer roomId, Model model) {
         HaRoom haRoom = new HaRoom();
         haRoom.setRoomId(roomId);
         HaRoom room = haRoomService.delByIdHaRoom(haRoom);
@@ -63,15 +72,15 @@ public class RoomController extends BaseController {
         haMeter.setMeterId(meterId);
         HaMeter meter = haMeterService.delByIdHaMeter(haMeter);
         HaPricestandard haPricestandards = haPricestandardService.queryPName(meter.getPricestandId());
-        model.addAttribute("room",room);
-        model.addAttribute("meter",meter);
-        model.addAttribute("haPricestandards",haPricestandards);
-        model.addAttribute("meterId",meterId);
+        model.addAttribute("room", room);
+        model.addAttribute("meter", meter);
+        model.addAttribute("haPricestandards", haPricestandards);
+        model.addAttribute("meterId", meterId);
         return "area/room_meter_del";
     }
 
     @RequestMapping("/JumpRoomMeterUpdate")
-    public String JumpRoomMeterUpdate(Integer roomId,Integer meterId,Model model) {
+    public String JumpRoomMeterUpdate(Integer roomId, Integer meterId, Model model) {
         HaRoom haRoom = new HaRoom();
         haRoom.setRoomId(roomId);
         HaRoom room = haRoomService.delByIdHaRoom(haRoom);
@@ -84,28 +93,28 @@ public class RoomController extends BaseController {
         HaRoom byHaRoomBuildingId = haRoomService.getByHaRoomBuildingId(roomId);
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
         HaCentor centor = haCentorService.updateByDeviceType(meter.getCentorId());
-        model.addAttribute("room",room);
-        model.addAttribute("meter",meter);
-        model.addAttribute("haPricestandards",haPricestandards);
-        model.addAttribute("meterId",meterId);
-        model.addAttribute("roomId",roomId);
-        model.addAttribute("pricestandard",pricestandards);
-        model.addAttribute("byHaRoomAreaId",byHaRoomAreaId);
-        model.addAttribute("byHaRoomBuildingId",byHaRoomBuildingId);
-        model.addAttribute("haArea",haArea);
-        model.addAttribute("centor",centor);
+        model.addAttribute("room", room);
+        model.addAttribute("meter", meter);
+        model.addAttribute("haPricestandards", haPricestandards);
+        model.addAttribute("meterId", meterId);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("pricestandard", pricestandards);
+        model.addAttribute("byHaRoomAreaId", byHaRoomAreaId);
+        model.addAttribute("byHaRoomBuildingId", byHaRoomBuildingId);
+        model.addAttribute("haArea", haArea);
+        model.addAttribute("centor", centor);
         return "area/room_meter_update";
     }
 
     @RequestMapping("/JumpRoomDel")
-    public String JumpRoomDel(Integer roomId,Model model){
+    public String JumpRoomDel(Integer roomId, Model model) {
         HaRoom haRoom = new HaRoom();
         haRoom.setRoomId(roomId);
         HaRoom room = haRoomService.delByIdHaRoom(haRoom);
         Integer countNum = haMeterService.meterCountNum(roomId);
-        model.addAttribute("room",room);
-        model.addAttribute("roomId",roomId);
-        model.addAttribute("countNum",countNum);
+        model.addAttribute("room", room);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("countNum", countNum);
         return "area/room_del";
     }
 
@@ -154,12 +163,12 @@ public class RoomController extends BaseController {
 
     @RequestMapping("/RoomMeterDel")
     @ResponseBody
-    public Object roomMeterDel(Integer meterId,HaMeter haMeter){
+    public Object roomMeterDel(Integer meterId, HaMeter haMeter) {
         haMeter.setMeterId(meterId);
         Integer meter = haMeterService.deleteHaMeter(haMeter);
 //        Integer dayFreeze = haDayFreezeService.delHaDayFreeze(meterId);
 //        Integer monFreeze = haMonFreezeService.delHaMonFreeze(meterId);
-        if(meter==1){
+        if (meter == 1) {
             return "true";
         }
         return "false";
@@ -167,9 +176,9 @@ public class RoomController extends BaseController {
 
     @RequestMapping("/RoomDel")
     @ResponseBody
-    public Object roomDel(Integer roomId){
+    public Object roomDel(Integer roomId) {
         Integer roomC = haRoomService.deleteHaRoomC(roomId);
-        if(roomC==1){
+        if (roomC == 1) {
             return "true";
         }
         return "false";
@@ -186,55 +195,55 @@ public class RoomController extends BaseController {
 
     @RequestMapping("/DeviceByWhere")
     @ResponseBody
-    public Object DeviceByWhere(String deviceType){
+    public Object DeviceByWhere(String deviceType) {
         List<HaCentor> haCentors = haCentorService.DeviceByWhere(deviceType);
         return haCentors;
     }
 
     @RequestMapping("/UpdateRoom")
     @ResponseBody
-    public Object updateRoom(String opType,Integer meterId,Integer centorId,Integer collectorId,Integer meterNumber,HaRoom haRoom,HaMeter haMeter){
+    public Object updateRoom(String opType, Integer meterId, Integer centorId, Integer collectorId, Integer meterNumber, HaRoom haRoom, HaMeter haMeter) {
         Object centorDevNo = null;
         Object mMeterSequences = null;
-        Object nconf=null;
-        if(opType.equals("updateMeter")){
+        Object nconf = null;
+        if (opType.equals("updateMeter")) {
             Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
-            if(centorId==null){
+            if (centorId == null) {
                 centorDevNo.equals("X");
-                centorId=null;
-            }else{
+                centorId = null;
+            } else {
                 centorDevNo = haCentorService.centorDevNo(centorId);
                 HaCentor centorDevDescription = haCentorService.centorDevDescription(centorId);
-                if(centorDevDescription.getDescription().substring(0, 5).equals("KT4EW")){
+                if (centorDevDescription.getDescription().substring(0, 5).equals("KT4EW")) {
                     mMeterSequences = haMeterService.mMeterSequence(meterId);
-                    if(((HaMeter) mMeterSequences).getMeterSequence()==0){
-                        mMeterSequences = haMeterService.mMeterSequence2(centorId,centorId);
-                        if(mMeterSequences.equals("") || mMeterSequences.equals(0)){
+                    if (((HaMeter) mMeterSequences).getMeterSequence() == 0) {
+                        mMeterSequences = haMeterService.mMeterSequence2(centorId, centorId);
+                        if (mMeterSequences.equals("") || mMeterSequences.equals(0)) {
                             mMeterSequences.equals(1);
-                        }else if(((HaMeter) mMeterSequences).getMeterSequence()-0>65535){
-                            mMeterSequences=null;
+                        } else if (((HaMeter) mMeterSequences).getMeterSequence() - 0 > 65535) {
+                            mMeterSequences = null;
                         }
                     }
                 }
             }
-            if(collectorId==null || collectorId==-1){
+            if (collectorId == null || collectorId == -1) {
                 nconf.equals("X");
-                collectorId=null;
-            }else{
+                collectorId = null;
+            } else {
                 nconf = haCollectorService.getNconf(collectorId);
             }
-            String addr = centorDevNo.toString()+nconf+meterNumber;
+            String addr = centorDevNo.toString() + nconf + meterNumber;
             haMeter.setAddr(addr);
             haMeter.setMeterNumber(meterNumber);
             haMeter.setMeterId(meterId);
             Integer meter = haMeterService.updateHaMeter(haMeter);
-            if(haRoomC==1 && meter==1){
+            if (haRoomC == 1 && meter == 1) {
                 return "true";
             }
             return false;
-        }else if(opType.equals("changeMeter")){
+        } else if (opType.equals("changeMeter")) {
             Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
-            if(haRoomC==1){
+            if (haRoomC == 1) {
                 return "true";
             }
             return false;
@@ -242,11 +251,76 @@ public class RoomController extends BaseController {
         return null;
     }
 
+    //发送响应流方法
+    public void setResponseHeader(HttpServletResponse response, String fileName) {
+        try {
+            try {
+                fileName = new String(fileName.getBytes(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            response.setContentType("application/octet-stream;charset=UTF-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.addHeader("Pargam", "no-cache");
+            response.addHeader("Cache-Control", "no-cache");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @RequestMapping("/CustomerExport")
     @ResponseBody
-    public Object customerExport(Integer areaId){
-        List<HaRoom> rooms = haRoomService.customExport(areaId);
-        return rooms;
+    public void customerExport(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws Exception {
+        List<HaRoom> rooms = haRoomService.customExport(1);
+
+        //excel标题
+        String[] title = {"用户编号", "*用户名称", "小区名称", "楼栋名称", "房间名称", "表号", "*表通道号", "*表序号", "*厂商码", "所属集中器编号", "所属采集器地址", "*表类型", "*总分表", "表底数", "*装表时间", "收费类型", "*倍率", "*性别", "*手机号码", "*账户余额"};
+
+        //excel文件名
+        String fileName = "kt-userTable" + System.currentTimeMillis() + ".xls";
+
+        //sheet名
+        String sheetName = "sheet1";
+
+        Object[][] content = new Object[rooms.size()][];
+        for (int i = 0; i < rooms.size(); i++) {
+            content[i] = new String[title.length];
+            HaRoom obj = rooms.get(i);
+            content[i][0] = obj.getHaCustom().getCustNo(); //用户编号
+            content[i][1] = obj.getHaCustom().getName(); //用户名称
+            content[i][2] = obj.getHaArea().getHaName(); //小区名称
+            content[i][3] = obj.getHaBuilding().getName(); //楼栋名称
+            content[i][4] = obj.getName(); //房间名称
+            content[i][5] = String.valueOf(obj.getHaMeter().getMeterNumber()); //表号
+            content[i][6] = obj.getHaMeter().getMeterChannel(); //表通道号
+            content[i][7] = obj.getHaMeter().getMeterSequence(); //表序号
+            content[i][8] = String.valueOf(obj.getHaMeter().getVendorId()); //厂商码
+            content[i][9] = obj.getHaCentor().getCentorNo(); //所属集中器编号
+            content[i][10] = obj.getHaCollector().getNconf(); //所属采集器地址
+            content[i][11] = obj.getHaMetertype().getName(); //表类型
+            content[i][12] = obj.getHaMeter().getIsBranch(); //总分表
+            content[i][13] = String.valueOf(obj.getHaMeter().getGnumber()); //表底数
+            content[i][14] = obj.getHaMeter().getStartTime(); //装表时间
+            content[i][15] = obj.getHaPricestandard().getName(); //收费类型
+            content[i][16] = obj.getHaMeter().getRate(); //倍率
+            content[i][17] = obj.getHaCustom().getSex(); //性别
+            content[i][18] = obj.getHaCustom().getMobil(); //手机号码
+        }
+
+        //创建HSSFWorkbook
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, content, null);
+
+        //响应到客户端
+        try {
+            this.setResponseHeader(response, fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

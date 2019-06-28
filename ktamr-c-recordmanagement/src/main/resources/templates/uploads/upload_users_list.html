@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="myPage-body">
+<div class="container myContainer">
+    <div class="row my-form-no-edge">
+        <div class="col-md-12 my-form-no-edge">
+            <form class="form-horizontal" id="jqgridForm" role="form">
+                <table id="jqGrid" rel="jqgridForm" class="jqgrid"></table>
+                <div id="jqGridPager"></div>
+            </form>
+        </div>
+    </div>
+    <div class="form-inline" style="margin:5px 5px;text-align: right;padding-right:10px;">
+        <button lay-submit type="button" id="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        var g_errors = "<%=errors%>";
+        var g_msg = "<%=msg%>";
+        var g_file_name = "<%=file_name%>";
+        var g_import_time = "<%=import_time%>";
+        var op_url = "upload_users_do.asp";
+        var g_import_time = "<%=import_time%>";
+
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182);
+        GridObj.jqdefaultGridConfig.caption = "<%=msgTitle%>";
+        GridObj.jqdefaultGridConfig.postData = {ListNumber: 39, import_time: g_import_time};
+        GridObj.jqdefaultGridConfig.colNames = ['id','校验结果','用户编号','用户名称','小区名称','楼栋名称','房间名称','新表号','原表号','表通道号','表序号','厂商码','所属集中器','所属采集器','表类型','总分表','表底数','装表时间','收费类型','倍率','性别','手机号码'];
+        GridObj.jqdefaultGridConfig.colModel = [
+            { name: 'id',  width: 75, key: true, hidden: true},
+            { name: '校验结果', width: 120, cellattr: usersInfoCellColor },
+            { name: '用户编号', width: 120 },
+            { name: '用户名称', width: 100 },
+            { name: '小区名称', width: 100 },
+            { name: '楼栋名称', align: 'right' ,width: 100 },
+            { name: '房间名称', width: 100 },
+            { name: '新表号', align: 'right', width: 120 },
+            { name: '原表号', align: 'right', width: 120 },
+            { name: '表通道号',align: 'right', width: 60 },
+            { name: '表序号',align: 'right', width: 60 },
+            { name: '厂商码',align: 'right', width: 60 },
+            { name: '所属集中器', width: 80 },
+            { name: '所属采集器', width: 80 },
+            { name: '表类型', width: 60 },
+            { name: '总分表', width: 60 },
+            { name: '表底数',align: 'right', width: 60 },
+            { name: '装表时间', width: 100 },
+            { name: '收费类型', width: 100 },
+            { name: '倍率',align: 'right', width: 50 },
+            { name: '性别', width: 50 },
+            { name: '手机号码', width: 120 }
+        ];
+        GridObj.jqdefaultGridConfig.scroll = true;
+        GridObj.jqdefaultGridConfig.footerrow = true;
+        GridObj.jqdefaultGridConfig.userDataOnFooter = true;
+        GridObj.drawGrid();
+        GridObj.drawGridPager();
+        GridObj.setGridSize();
+        GridObj.gridResize();
+
+        function submitInfo(sendData){
+            $.ajax({
+                url: op_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        parent.layer.msg("导入成功！", {icon: 1});
+                    }else{
+                        parent.layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+
+        $("#close").click(function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            var data = {msg: "cancel", import_time: g_import_time};
+            submitInfo(data);
+            parent.layer.close(index); //再执行关闭
+        });
+        $("#sure").click(function(){
+            var _index = parent.layer.getFrameIndex(window.name);
+
+            var data = {
+                msg: g_msg,
+                file_name: g_file_name,
+                import_time: g_import_time
+            }
+            if(Number(g_errors)>0){
+                layer.confirm('存在错误行资料，确实只导入新增和修改吗？', {icon:3, title:'提示'},
+                    function(index, layero){
+                        submitInfo(data);
+                        layer.close(index);
+                        parent.layer.close(_index); //再执行关闭
+                    });
+            }else{
+                submitInfo(data);
+                parent.layer.close(_index); //再执行关闭
+            }
+        });
+    });
+</script>
+</body>
+</html>

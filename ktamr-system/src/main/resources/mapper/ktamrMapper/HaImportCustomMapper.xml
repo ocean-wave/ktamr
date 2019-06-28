@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HaImportCustomMapper">
+
+    <!--新增用户资料零时表(待校验)-->
+    <insert id="addHatDevicesimport">
+        INSERT INTO ha_importCustom(id,custNo,custName, areaName, buildingName, roomName, meterNo, meterChannel, meterSequence,vendorId,centorNo,collectorNo,meterType,meterIsbranch,meterOriNum,setupTime,priceStandard,meterRate,custSex,custMobile,custBalance,importTime,state) VALUES
+        <foreach item="item" index="index" collection="params" separator=",">
+         (default , #{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5}, #{item.6},#{item.7},#{item.8},#{item.9},#{item.10},#{item.11},#{item.12},#{item.13},#{item.14},#{item.15},#{item.16},#{item.17},#{item.18},#{item.19},TO_TIMESTAMP(#{item.20}, 'YYYY-MM-DD HH24:MI:SS'), '待校验')
+        </foreach>
+    </insert>
+
+    <!--清空导入用户资料零时表-->
+    <delete id="deleteImportCustom">
+        DELETE FROM ha_importCustom WHERE importTime=#{importTime}
+    </delete>
+
+</mapper>

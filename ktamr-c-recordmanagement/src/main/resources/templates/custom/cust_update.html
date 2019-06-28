@@ -180,43 +180,6 @@
             });
         }
 
-        // form.on('select(area)', function(data){
-        //     var areaObj = $(data.elem),
-        //         _areaId = areaObj.val();
-        //
-        //     $.ajax({
-        //         url: "../common/load_select_option.asp"
-        //         ,data: {
-        //             selectType: "building",
-        //             selId: _areaId
-        //         }
-        //         ,async:true //异步请求
-        //         ,success: function(data){
-        //             appendSelectOption("building", data, "");
-        //             $("#room").empty();
-        //             $("#room").append($("<option>").val("").text(""));
-        //             form.render('select');//刷新表单元素
-        //         }
-        //     });
-        // });
-        // form.on('select(building)', function(data){
-        //     var buildingObj = $(data.elem),
-        //         _buildingId = buildingObj.val();
-        //
-        //     $.ajax({
-        //         url: "../common/load_select_option.asp"
-        //         ,data: {
-        //             selectType: "room",
-        //             selId: _buildingId
-        //         }
-        //         ,async:true //异步请求
-        //         ,success: function(data){
-        //             appendSelectOption("room", data, "");
-        //             form.render('select');//刷新表单元素
-        //         }
-        //     });
-        // });
-
         form.on('select(area)', function (data) {
             // var areaObj = $(data.elem),
             //     _areaId = areaObj.val();
@@ -236,8 +199,6 @@
                         $("#building").append(option);
                         for (var i = 0; i < data.length; i++) {
                             $("#building").append("<option value='" + data[i].buildingId + "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
-                            $("#building").append("<option value='" + data[i].buildingId + "'th:selected='"+"${custom.haBuilding.buildingId eq data[i].buildingId}"+ "'>" + data[i].buildingNo + ':' + data[i].name + "</option>");
-
                         }
                         //appendSelectOption("building", data.areaId, "");
                         $("#room").empty();

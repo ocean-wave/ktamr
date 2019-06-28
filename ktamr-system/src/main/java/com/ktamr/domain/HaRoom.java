@@ -18,6 +18,7 @@ public class HaRoom extends BaseEntity {
     private HaPricestandard haPricestandard;
     private HaBuilding haBuilding;
     private HaArea haArea;
+    private HaMetertype haMetertype;
     private String uname;
     private Integer areaid;
     private String keyWord;
@@ -109,6 +110,14 @@ public class HaRoom extends BaseEntity {
 
     public void setHaArea(HaArea haArea) {
         this.haArea = haArea;
+    }
+
+    public HaMetertype getHaMetertype() {
+        return haMetertype;
+    }
+
+    public void setHaMetertype(HaMetertype haMetertype) {
+        this.haMetertype = haMetertype;
     }
 
     public String getUname() {

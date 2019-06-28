@@ -19,10 +19,13 @@
             <id property="custId" column="custId"/>
             <result property="custNo" column="custNo"/>
             <result property="name" column="cname"/>
+            <result property="sex" column="sex"/>
+            <result property="mobil" column="mobil"/>
         </association>
 
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <id property="areaId" column="areaId"/>
+            <result property="haName" column="haName"/>
         </association>
 
         <association property="haMeter" javaType="com.ktamr.domain.HaMeter">
@@ -39,17 +42,21 @@
             <result property="meterChannel" column="meterChannel"/>
             <result property="meterSequence" column="meterSequence"/>
             <result property="startTime" column="startTime"/>
+            <result property="isBranch" column="isBranch"/>
+            <result property="rate" column="rate"/>
         </association>
 
         <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
             <id property="id" column="id"/>
             <result property="addr" column="addr"/>
             <result property="centorId" column="centorId"/>
+            <result property="centorNo" column="centorNo"/>
         </association>
 
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <id property="collectorId" column="collectorId"/>
             <result property="addr" column="caddr"/>
+            <result property="nconf" column="nconf"/>
         </association>
 
         <association property="haPricestandard" javaType="com.ktamr.domain.HaPricestandard">
@@ -60,6 +67,11 @@
         <association property="haBuilding" javaType="com.ktamr.domain.HaBuilding">
             <id property="buildingId" column="buildingId"/>
             <result property="name" column="bname"/>
+        </association>
+
+        <association property="haMetertype" javaType="com.ktamr.domain.HaMetertype">
+            <id property="metertypeId" column="metertypeId"/>
+            <result property="name" column="hmtname"/>
         </association>
     </resultMap>
 
@@ -140,15 +152,15 @@
         SELECT buildingid as buildingId FROM ha_room WHERE roomid=#{roomId}
     </select>
 
-    <select id="customExport" resultType="com.ktamr.domain.HaRoom">
-        SELECT t.roomid, cu.custno AS 用户编号, cu.name AS 用户名称,
-        t.areaname AS 小区名称, t.bulidname AS 楼栋名称, t.roomname AS 房间名称,
-        m.meterNumber AS 表号, m.meter_channel AS 表通道号, m.meter_sequence AS 表序号,
-        m.vendor_id AS 厂商码, ce.centorNo AS 所属集中器编号, to_hex(co.nconf) AS 所属采集器地址,
-        mt.name AS 表类型,CASE WHEN m.isbranch=0 THEN  '总表' ELSE '分表' END AS 总分表, m.g_number AS 表底数,
-        to_char(m.starttime, 'yyyy-mm-dd hh24:mi:ss') AS 装表时间, p.name AS 收费类型,
-        trim(to_char(m.rate, '9999999999999999')) AS 倍率, cu.sex AS 性别,
-        cu.mobil AS 手机号码 FROM ((((((SELECT r.roomid,r.custid,r.name AS roomname,a.name AS areaname,b.name AS bulidname
+    <select id="customExport" resultMap="queryAllRoomMap">
+        SELECT t.roomid, cu.custno AS custNo, cu.name AS cname,
+        t.areaname AS haName, t.bulidname AS bname, t.roomname AS name,
+        m.meterNumber AS meterNumber, m.meter_channel AS meterChannel, m.meter_sequence AS meterSequence,
+        m.vendor_id AS vendorId, ce.centorNo AS centorNo, to_hex(co.nconf) AS nconf,
+        mt.name AS hmtname,m.isbranch AS isBranch, m.g_number AS gnumber,
+        to_char(m.starttime, 'yyyy-mm-dd hh24:mi:ss') AS startTime, p.name AS pname,
+        trim(to_char(m.rate, '9999999999999999')) AS rate, cu.sex AS sex,
+        cu.mobil AS mobil FROM ((((((SELECT r.roomid,r.custid,r.name AS roomname,a.name AS areaname,b.name AS bulidname
         FROM ha_room r,ha_area a, ha_building b WHERE r.buildingid=b.buildingid AND b.areaid=a.areaid AND a.areaid IN (#{areaId}) ORDER BY a.name,b.name,r.name) t LEFT JOIN ha_meter m ON m.roomid=t.roomid) LEFT JOIN ha_custom cu ON cu.custid=t.custid) LEFT JOIN ha_pricestandard p ON m.pricestand_id=p.pricestand_id) LEFT JOIN ha_meterType mt ON p.meterTypeId=mt.meterTypeId) LEFT JOIN ha_centor ce ON m.centorid=ce.id) LEFT JOIN ha_collector co ON co.collectorid=m.collectorid
     </select>
 </mapper>

@@ -11,7 +11,10 @@
 
     <!--新增导入设备(待校验)-->
     <insert id="addHatDevicesimport">
-        INSERT INTO hat_devicesImport(id,deviceId,deviceName, description, areaName, setupTime, tel, reMark, state, importTime) VALUES (default , #{deviceId}, #{deviceName}, #{description}, #{areaName}, #{setupTime}, #{tel},#{reMark}, '待校验',#{importTime})
+        INSERT INTO hat_devicesImport(id,deviceId,deviceName, description, areaName, setupTime, tel, reMark, state, importTime) VALUES
+        <foreach item="item" index="index" collection="params" separator=",">
+         (default , #{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5}, #{item.6},#{item.7}, '待校验',TO_TIMESTAMP(#{item.8}, 'YYYY-MM-DD HH24:MI:SS'))
+        </foreach>
     </insert>
 
     <!--修改设备档案-->

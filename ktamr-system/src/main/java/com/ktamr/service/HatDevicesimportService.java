@@ -3,15 +3,17 @@ package com.ktamr.service;
 
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HatDevicesimport;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HatDevicesimportService {
 
     List<HatDevicesimport> HatDevicesimportList(HatDevicesimport hatDevicesimport);
 
     //新增导入设备(待校验)
-    Integer addHatDevicesimport(HatDevicesimport hatDevicesimport);
+    Integer addHatDevicesimport(List<Map<String, Object>> params);
 
     //修改设备档案
     Integer updateHatDevicesimport(HaCentor haCentor,HatDevicesimport hatDevicesimport);

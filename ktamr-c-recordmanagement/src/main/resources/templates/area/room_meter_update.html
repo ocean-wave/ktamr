@@ -83,7 +83,7 @@
                 <div class="layui-block">
                     <label class="layui-form-label">抄收设备</label>
                     <div class="layui-input-inline mySelect" style="width:150px;">
-                        <select name="deviceType" lay-filter="deviceType">
+                        <select name="deviceType" id="deviceType" lay-filter="deviceType">
                             <option th:selected="${centor.description=='centor'}" value="centor">集中器</option>
                             <option th:selected="${centor.description=='ccentor'}" value="ccentor">集采器</option>
                             <option th:selected="${centor.description=='handDevice'}" value="handDevice">手抄器</option>
@@ -311,9 +311,7 @@
             }
         });
         form.on('select(deviceType)', function(data){
-            var areaObj = $(data.elem);
             g_deviceType = $("#deviceType").val();
-
             pageInit();
             $.ajax({
                 url: load_option_url
