@@ -16,10 +16,10 @@
     <insert id="insertMetersRecordImport" >
         INSERT INTO hat_metersRecordImport(userCode, userName, meterNumber, state, readNumber, readTime, check_result, importTime)
         <foreach item="item" index="index" collection="params" separator="union All">
-            (select cast(#{item.1} as varchar),#{item.2},#{item.3},#{item.4},#{item.5},cast(#{item.6} as timestamp)
+            (select #{item.1},#{item.2},#{item.3}::int8,#{item.4},cast(#{item.5} as integer),cast(#{item.6} as timestamp)
             ,case when (select count(1) from  ha_custom c where c.custno = cast(#{item.1} as varchar)) = 0 then '用户号不存在'
-            when (select count(1) from ha_meter m where m.meternumber = cast(#{item.3} as integer )) = 0 then '表号不存在'
-            else (select case  when m.meterNumber != #{item.3} then '匹配不到表'
+            when (select count(1) from ha_meter m where m.meternumber = #{item.3}::int8) = 0 then '表号不存在'
+            else (select case  when m.meterNumber != #{item.3}::int8 then '匹配不到表'
             when cast(#{item.4} as varchar) is null or cast(#{item.5} as varchar) is null  then '状态或读数为空'
             else '待导入' end
             from ha_custom c

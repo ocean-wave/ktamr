@@ -18,10 +18,6 @@ server:
     max-threads: 800
     #配置tomcat初始化线程是30
     min-spare-threads: 30
-  compression:
-    enabled: true
-    mime-types: application/json,application/xml,application/xhtml+xml,text/html,text/xml,text/plain
-    min-response-size: 1024
 
 #配置spring
 spring:

@@ -49,12 +49,12 @@
 <div th:include="include :: footer"></div>
 <script th:inline="javascript" >
 	function downloadPackage(areaId){
-		var meterTablePackageOp_url = "./meter_table_derived.asp";
+		var url = "/handwork/meterTableDerived";
 		$.ajax({
-			url: meterTablePackageOp_url
+			url: url
 			,type: "POST"
 			,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
-			,data: {areaId: areaId}
+			,data: {areaId: areaId,areaName:}
 			,success: function(data){
 				result = data.split(",");
 				if(result[0] == "true"){

@@ -1,6 +1,7 @@
 package com.ktamr.web.controller.dataselect;
 
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaMeter;
 import com.ktamr.service.HaMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,10 @@ public class NotokController extends BaseController {
 
     @PostMapping("/notokListJson")
     @ResponseBody
-    public Map<String,Object> freezeListJson(HaMeter parms){
+    public Map<String,Object> freezeListJson(HaMeter params){
         startPage();
-        List<HaMeter> listHaMeter = haMeterService.selectNotok(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
+        List<HaMeter> listHaMeter = haMeterService.selectNotok(params);
         return getDataTable(listHaMeter);
     }
 }

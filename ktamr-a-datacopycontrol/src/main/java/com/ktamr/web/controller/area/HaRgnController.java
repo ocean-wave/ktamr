@@ -38,7 +38,7 @@ public class HaRgnController extends BaseController {
         mi.put(0,"haAreaCount");
         mi.put(1,"haCentorCount");
         mi.put(2,"haCollectorCount");
-        mi.put(3,"haMeterCount");
+                mi.put(3,"haMeterCount");
         Map<Integer,Integer> mm = getValuesByKey(listHaRng,mi);
         map2.put("cb","总计:");
         map2.put("haAreaCount",mm.get(0).toString());
@@ -52,9 +52,10 @@ public class HaRgnController extends BaseController {
 
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HaRgn haRgn, ExportExcelUtil exportExcelUtil)
+    public AjaxResult export(HaRgn params, ExportExcelUtil exportExcelUtil)
     {
-        List<HaRgn> list = haRngService.selectAllRngAndCount(haRgn);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
+        List<HaRgn> list = haRngService.selectAllRngAndCount(params);
         return exportExcelUtil.init(list, "大区表数据");
     }
 }

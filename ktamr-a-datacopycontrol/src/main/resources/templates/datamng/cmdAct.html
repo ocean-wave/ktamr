@@ -39,7 +39,8 @@
 		<td><b>集&nbsp;&nbsp;中&nbsp;器</b></td>
 		<td th:text=" ${ listCmd.get(0).getHaCentor().getAddr() } "></td>
 		<td><b>操&nbsp;&nbsp;作&nbsp;员</b></td>
-		<td th:text=" ${ listCmd.get(0).getHaOperator().getOperatorName() } "></td>
+		<td th:if="${ listCmd.get(0).getHaOperator()!= null}" th:text=" ${ listCmd.get(0).getHaOperator().getOperatorName() } "></td>
+		<td th:if="${ listCmd.get(0).getHaOperator()== null}"></td>
 	</tr>
 	<tr>
 		<td><b>执行状态</b></td>

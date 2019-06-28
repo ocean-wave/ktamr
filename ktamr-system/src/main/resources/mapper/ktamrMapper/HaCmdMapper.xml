@@ -124,12 +124,15 @@
             AND (o.operator_code IN (
             SELECT operator_code FROM ha_operator
             WHERE operator_upper=#{params.operatorCode} OR operator_code=#{params.operatorCode})
-            OR (c.uid='sys' or (LEFT(ce.centorno,1) = #{rgnAndAreaId} or left(ce.centorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
+            OR (c.uid='sys' or ''='')
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=" params.operatorLevel != 'normal' and params.operatorLevel !='admin' ">
-            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' or (LEFT(ce.centorno,1) = #{rgnAndAreaId} or left(ce.centorno,5) = #{rgnAndAreaId} or #{rgnAndAreaId} = ''))
+            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' or ''='')
             OR c.uid=#{params.operatorCompanyId})
+        </if>
+        <if test=' params.isSYS !=null and params.isSYS!="" '>
+            AND uid!=#{params.isSYS}
         </if>
         <if test=" params.keyWord != null and params.keyWord != ''  ">
             and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' or c.processing like '%${params.keyWord}%' )

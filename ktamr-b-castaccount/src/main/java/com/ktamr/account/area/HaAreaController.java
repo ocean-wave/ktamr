@@ -1,10 +1,10 @@
 package com.ktamr.account.area;
 
 
-import com.ktamr.common.Checkright;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.core.domain.BaseEntity;
 import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.common.core.domain.AjaxResult;
@@ -29,8 +29,7 @@ public class HaAreaController extends BaseController {
     private HaAreaService haAreaService;
     @Resource
     private HaRngService haRngService;
-    @Resource
-    private Checkright ck;
+
 
     /**
      * 打开小区结算的页面+并进行小区名字的赋值
@@ -69,9 +68,8 @@ public class HaAreaController extends BaseController {
             }
             haArea.setIdsList2(idsList);
         }
-        BaseEntity baseEntity =new HaArea();
-        ck.GetRightCondition("a.areaNo","area","AND",session,baseEntity);
-        List<HaArea> haAreaList = haAreaService.selectHaAreaList(baseEntity);
+        haArea.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaArea> haAreaList = haAreaService.selectHaAreaList(haArea);
         return getDataTable(haAreaList);
 
     }

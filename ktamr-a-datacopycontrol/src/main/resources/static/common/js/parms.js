@@ -397,14 +397,19 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 				}else if(isKT3NB_VIRTUAL()){
 					_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
 				}else{
-					_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
+					_myLayui.showLayer(cmdName, "/systemmaintenance/setKT300Params", _queryStr, _layerSize);
 				}
 				break;
 			case "设置设备地址":
 			case "设IP端口":
 			case "设心跳周期":
 			case "设刷新数据间隔":
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
+				if(isKT3NB_VIRTUAL()){
+					_layerSize = ['650px', '400px'];
+					_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
+				}else{
+					_myLayui.showLayer(cmdName, "/systemmaintenance/setKT300Params", _queryStr, _layerSize);
+				}
 				break;
 			case "单表抄收(60)":
 			//case "单表抄收(66)":

@@ -154,7 +154,7 @@ public class ImportExcelUtil {
                 break;
             case NUMERIC:
                 if ("General".equals(cell.getCellStyle().getDataFormatString())) {
-                    value = Integer.parseInt(DecimalUtils.decimal(cell.getNumericCellValue()));
+                    value = String.valueOf(DecimalUtils.decimal(cell.getNumericCellValue()));
                 } else if ("m/d/yy".equals(cell.getCellStyle().getDataFormatString())) {
                     value = cell.getDateCellValue();
                 } else if("m/d/yy h:mm".equals(cell.getCellStyle().getDataFormatString())){

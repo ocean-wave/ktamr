@@ -144,7 +144,7 @@ public class FileUploadUtils
         return filename;
     }
 
-    private static final File getAbsoluteFile(String uploadDir, String filename) throws IOException
+    public static final File getAbsoluteFile(String uploadDir, String filename) throws IOException
     {
         File desc = new File(File.separator + filename);
 
@@ -155,6 +155,17 @@ public class FileUploadUtils
         if (!desc.exists())
         {
             desc.createNewFile();
+        }
+        return desc;
+    }
+
+    public static final File getMkdirs(String filename) throws IOException
+    {
+        File desc = new File(File.separator + filename);
+
+        if (!desc.exists())
+        {
+            desc.mkdir();
         }
         return desc;
     }

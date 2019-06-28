@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+
+<link href="../../common/css/to_top_or_bottom.css" rel="stylesheet" type="text/css" />
+<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src=""></script>
+<script type="text/javascript" src="../../plugins/jquery/jquery-1.11.0.min.js" th:src="@{/plugins/jquery/jquery-1.11.0.min.js}"></script>
+<script src="../../plugins/to_top_or_bottom/toTopOrBottom.js" type="text/javascript"></script>
+<style type="text/css">
+	.highlight { background: yellow; color: red; }
+	#tip { background: #FFFFCC; border: 1px solid #999; width: 200px; text-align: center; display: none; font-size: 12px; }
+</style>
+<script th:inline="javascript">
+	var g_searchStr = "";
+	var g_tip = "";
+	$(document).ready(function() {
+		var options = {
+			'menucontainer'			: '.TopBottomMenu',
+			'boxsize'				: 40,
+			'boxbackground'			: '#ffffff',
+			'position'				: 'right',
+			'openmenusize'			: 300,
+			'topicon'				: '../../images/up_arrow.png',
+			'menuicon'				: '../../images/menu_icon.png',
+			'bottomicon'			: '../../images/down_arrow.png'
+		}
+		$.fn.dwseeTopBottomMenu(options);
+
+		highlight();
+	});
+	(function($) {
+		$.fn.fixDiv = function(options) {
+			var defaultVal = {
+				top: 10
+			};
+			var obj = $.extend(defaultVal, options);
+			$this = this;
+			var _top = $this.offset().top;
+			var _left = $this.offset().left;
+			$(window).scroll(function() {
+				var _currentTop = $this.offset().top;
+				var _scrollTop = $(document).scrollTop();
+				if (_scrollTop > _top) {
+					$this.offset({
+						top: _scrollTop + obj.top,
+						left: _left
+					});
+				} else {
+					$this.offset({
+						top: _top,
+						left: _left
+					});
+				}
+			});
+			return $this;
+		};
+	})(jQuery);
+	var i = 0;
+	var sCurText;
+	function highlight(){
+		clearSelection();//先清空一下上次高亮显示的内容；
+
+		var flag = 0;
+		var bStart = true;
+		var showTime = 3;
+
+
+		$('#tip').text('');
+		$('#tip').hide();
+		var searchText = g_searchStr;//获取你输入的关键字；
+		//var _searchTop = $('#searchstr').offset().top+30;
+		//var _searchLeft = $('#searchstr').offset().left;
+		if($.trim(searchText)==""){
+			//alert(123);
+			//showTips("请输入查找车站名",_searchTop,3,_searchLeft);
+			return;
+		}
+
+		var regExp = new RegExp(searchText, 'g');//创建正则表达式，g表示全局的，如果不用g，则查找到第一个就不会继续向下查找了；
+		var content = $("#content").text();
+		if (!regExp.test(content)) {
+			//showTips("没有找到命令！",_searchTop,3,_searchLeft);
+			return;
+		} else {
+			if (sCurText != searchText) {
+				i = 0;
+				sCurText = searchText;
+			}
+		}
+
+		$('pre').each(function(){
+			var html = $(this).html();
+			var newHtml = html.replace(regExp, '<span class="highlight">'+searchText+'</span>');//将找到的关键字替换，加上highlight属性；
+
+			$(this).html(newHtml);//更新；
+			flag = 1;
+		});
+
+		if (flag == 1) {
+			if ($(".highlight").size() > 1) {
+				var _top = $(".highlight").eq(i).offset().top+$(".highlight").eq(i).height();
+				var _tip = g_tip;
+				//if(_tip=="") _tip = $(".highlight").eq(i).parent().parent().find("strong").text();
+				var _left = $(".highlight").eq(i).offset().left;
+				var _tipWidth = $("#tip").width();
+				if (_left > $(document).width() - _tipWidth) {
+					_left = _left - _tipWidth;
+				}
+				$("#tip").html(_tip).show();
+				$("#tip").offset({ top: _top, left: _left });
+				//$("#search_btn").val("查找下一个");
+			}else{
+				var _top = $(".highlight").offset().top+$(".highlight").height();
+				var _tip = g_tip;
+				var _left = $(".highlight").offset().left;
+				$('#tip').show();
+				$("#tip").html(_tip).offset({ top: _top, left: _left });
+			}
+			setTimeout( function(){$("#tip").fadeOut();}, ( showTime * 1000 ) );
+			$("html, body").animate({ scrollTop: _top - 50 });
+			//i++;
+			//if (i > $(".highlight").size() - 1) {
+			i = 0;
+			//}
+		}
+	}
+	function clearSelection(){
+		$('pre').each(function(){
+			//找到所有highlight属性的元素；
+			$(this).find('.highlight').each(function(){
+				$(this).replaceWith($(this).html());//将他们的属性去掉；
+			});
+		});
+	}
+	//mask
+	var tipsDiv = '<div class="tipsClass"></div>';
+	$( 'body' ).append( tipsDiv );
+	function showTips( tips, height, time,left ){
+		var windowWidth = document.documentElement.clientWidth;
+		$('.tipsClass').text(tips);
+		$( 'div.tipsClass' ).css({
+			'top' : height + 'px',
+			'left' :left + 'px',
+			'position' : 'absolute',
+			'padding' : '8px 6px',
+			'background': '#000000',
+			'font-size' : 14 + 'px',
+			'font-weight': 900,
+			'margin' : '0 auto',
+			'text-align': 'center',
+			'width' : 'auto',
+			'color' : '#fff',
+			'border-radius':'2px',
+			'opacity' : '0.8' ,
+			'box-shadow':'0px 0px 10px #000',
+			'-moz-box-shadow':'0px 0px 10px #000',
+			'-webkit-box-shadow':'0px 0px 10px #000'
+		}).show();
+		setTimeout( function(){$( 'div.tipsClass' ).fadeOut();}, ( time * 1000 ) );
+	}
+
+</script>
+</head>
+<body>
+<div class="TopBottomMenu">
+	<ul>
+		<li><a href="/systemmaintenance/htShowlog?showPercent=1">全文</a></li>
+		<li><a href="/systemmaintenance/htShowlog?showPercent=0.1">10%显示</a></li>
+		<li><a href="/systemmaintenance/htShowlog?showPercent=0.2">20%显示</a></li>
+		<li><a href="/systemmaintenance/htShowlog?showPercent=0.5">50%显示</a></li>
+	</ul>
+</div>
+<br style="	clear:both;"/>
+<table border="0" width="100%">
+	<tr>
+		<td th:text="${filePath}">
+
+		</td>
+	</tr>
+	<tr>
+		<td  class="text_01">
+			<span class="16Txt" th:text="${percentage}"></span></td>
+	</tr>
+	<tr>
+		<td>
+			<div id="content">
+				<pre><b th:text="${b1}"></b></pre>
+				<pre th:text="${showText}">
+				</pre>
+				<pre><b th:text="${b2}"></b></pre>
+			</div>
+			<div id="tip"></div>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package com.ktamr.common.utils.file;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 文件处理工具类
@@ -95,5 +97,19 @@ public class FileUtils
     public static boolean isValidFilename(String filename)
     {
         return filename.matches(FILENAME_PATTERN);
+    }
+
+    private List<File> getFiles(String path) {
+        List<File> filesList = new ArrayList<File>();
+        File file = new File(path);
+        File[] files = file.listFiles();
+        for (File f : files) {
+            if (f.isFile()) {
+                filesList.add(f);
+            } else {
+                filesList.addAll(getFiles(f.getPath()));
+            }
+        }
+        return filesList;
     }
 }
