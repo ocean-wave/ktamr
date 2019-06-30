@@ -4,17 +4,397 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaImportCustomMapper">
 
+    <resultMap id="HaImportcustomMap" type="com.ktamr.domain.HaImportcustom">
+        <id property="id" column="id"/>
+        <result property="custNo" column="custNo"/>
+        <result property="custName" column="custName"/>
+        <result property="areaName" column="areaName"/>
+        <result property="buildingName" column="buildingName"/>
+        <result property="roomName" column="roomName"/>
+        <result property="meterNo" column="meterNo"/>
+        <result property="meterChannel" column="meterChannel"/>
+        <result property="meterSequence" column="meterSequence"/>
+        <result property="vendorId" column="vendorId"/>
+        <result property="areaId" column="areaId"/>
+        <result property="buildingId" column="buildingId"/>
+        <result property="roomId" column="roomId"/>
+        <result property="centorNo" column="centorNo"/>
+        <result property="collectorNo" column="collectorNo"/>
+        <result property="centorId" column="centorId"/>
+        <result property="collectorId" column="collectorId"/>
+        <result property="state" column="state"/>
+        <result property="meterNoD" column="meterNoD"/>
+        <result property="meterType" column="meterType"/>
+        <result property="meterIsbranch" column="meterIsbranch"/>
+        <result property="meterOriNum" column="meterOriNum"/>
+        <result property="setupTime" column="setupTime"/>
+        <result property="priceStandard" column="priceStandard"/>
+        <result property="meterRate" column="meterRate"/>
+        <result property="custSex" column="custSex"/>
+        <result property="custMobile" column="custMobile"/>
+        <result property="importTime" column="importTime"/>
+        <result property="useMeterSequence" column="useMeterSequence"/>
+        <result property="custBalance" column="custBalance"/>
+
+
+        <association property="haCentor" javaType="com.ktamr.domain.HaCentor">
+            <id property="id" column="id"/>
+            <result property="addr" column="ceAddr"/>
+        </association>
+
+        <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
+            <id property="collectorId" column="collectorId"/>
+            <result property="addr" column="coAddr"/>
+        </association>
+    </resultMap>
+
+    <select id="HaImportcustomList" resultMap="HaImportcustomMap">
+        SELECT i.id, i.state AS state,i.cust_no AS custNo,i.cust_name AS custName, i.area_name AS areaName, i.building_name AS buildingName, i.room_name AS roomName,i.meter_no AS meterNo, i.meter_no_d AS meterNoD,i.meter_channel AS meterChannel, i.meter_sequence AS meterSequence,i.vendor_id AS vendorId,ce.addr AS ceAddr,co.addr AS coAddr, i.meter_type AS meterType, i.meter_isbranch AS meterIsbranch,i.meter_ori_num AS meterOriNum, i.setup_time AS setupTime, i.price_standard AS priceStandard, i.meter_rate AS meterRate, i.cust_sex AS custSex, i.cust_mobile AS custMobile FROM (ha_importCustom i LEFT JOIN ha_centor ce ON i.centor_id=ce.id) LEFT JOIN ha_collector co ON i.collector_id=co.collectorid
+         WHERE i.import_time=#{importTime}
+    </select>
+
     <!--新增用户资料零时表(待校验)-->
-    <insert id="addHatDevicesimport">
-        INSERT INTO ha_importCustom(id,custNo,custName, areaName, buildingName, roomName, meterNo, meterChannel, meterSequence,vendorId,centorNo,collectorNo,meterType,meterIsbranch,meterOriNum,setupTime,priceStandard,meterRate,custSex,custMobile,custBalance,importTime,state) VALUES
+    <insert id="addImportCustom">
+        INSERT INTO ha_importCustom(cust_no, cust_name, area_name, building_name, room_name, meter_no, meter_channel, meter_sequence, vendor_id, centor_no, collector_no, meter_type, meter_isbranch, meter_ori_num, setup_time, price_standard, meter_rate, cust_sex, cust_mobile, cust_balance, import_time, state) VALUES
         <foreach item="item" index="index" collection="params" separator=",">
-         (default , #{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5}, #{item.6},#{item.7},#{item.8},#{item.9},#{item.10},#{item.11},#{item.12},#{item.13},#{item.14},#{item.15},#{item.16},#{item.17},#{item.18},#{item.19},TO_TIMESTAMP(#{item.20}, 'YYYY-MM-DD HH24:MI:SS'), '待校验')
+         (#{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5},#{item.6}::int,#{item.7}::int,#{item.8}::int,#{item.9},#{item.10},#{item.11},#{item.12},#{item.13},#{item.14}::int,#{item.15},#{item.16},#{item.17}::int,#{item.18},#{item.19},#{item.20},TO_TIMESTAMP(#{item.21}, 'YYYY-MM-DD HH24:MI:SS'), '待校验')
         </foreach>
     </insert>
 
     <!--清空导入用户资料零时表-->
     <delete id="deleteImportCustom">
-        DELETE FROM ha_importCustom WHERE importTime=#{importTime}
+        DELETE FROM ha_importCustom WHERE import_time=#{importTime}
     </delete>
 
+    <!--校验用户资料临时表数据-->
+    <update id="checkCustomTemporary">
+        UPDATE ha_importCustom SET
+        	state=CASE
+        		WHEN room_name IS NULL THEN '房间名称为空'
+        		WHEN length(room_name) > 16 THEN '房间名过长'
+        		WHEN meter_no IS NULL OR meter_no&lt;=0 THEN '非法的表号'
+        		WHEN area_name IS NULL THEN '无小区名称'
+        		ELSE state
+        	END
+        WHERE state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--整理数据-->
+    <update id="collationData">
+        UPDATE ha_importCustom SET
+        area_name=Trim(area_name), building_name=Trim(building_name), room_name=Trim(room_name)
+		WHERE state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验1-->
+    <update id="customAddrCheck1">
+        UPDATE ha_importCustom i SET areaid=a.areaid FROM ha_area a WHERE i.state='待校验' AND i.area_name=Trim(a.name) AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验2-->
+    <update id="customAddrCheck2">
+        UPDATE ha_importCustom SET
+        state='匹配不到小区名称'
+        WHERE areaid IS NULL AND state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验3-->
+    <update id="customAddrCheck3">
+        UPDATE ha_importCustom i SET buildingid=b.buildingid FROM ha_building b WHERE i.areaid=b.areaid AND i.building_name=Trim(b.name) AND i.buildingid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验4-->
+    <update id="customAddrCheck4">
+        UPDATE ha_importCustom SET state='匹配不到楼栋名称' WHERE areaid IS NOT NULL AND buildingid IS NULL AND import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验5-->
+    <update id="customAddrCheck5">
+        UPDATE ha_importCustom i0
+        SET state='与表内房间名称重复'
+        FROM ha_importCustom i1
+        WHERE i1.id!=i0.id AND i1.area_name=i0.area_name AND i1.building_name=i0.building_name AND i1.room_name=i0.room_name AND i0.state='待校验' AND i0.import_time=#{importTime} AND i1.import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验6-->
+    <update id="customAddrCheck6">
+        UPDATE ha_importCustom i SET roomid=r.roomid FROM ha_room r WHERE i.buildingid=r.buildingid AND i.room_name=Trim(r.name) AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验7-->
+    <update id="customAddrCheck7">
+        UPDATE ha_importCustom i SET meter_no_d=m.meterNumber FROM ha_meter m WHERE i.roomid=m.roomid AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户地址校验8-->
+    <update id="customAddrCheck8">
+        UPDATE ha_importCustom i SET state='已存在房间资料' WHERE i.cust_no IS NULL AND i.meter_no IS NULL AND i.roomid IS NOT NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户编号校验1-->
+    <update id="customNoCheck1">
+        UPDATE ha_importCustom SET state='非法的用户编号' WHERE cust_no IS NOT NULL AND (NOT isNumeric(cust_no) OR cust_no::int8=0 OR cust_no='0') AND state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--用户编号校验2-->
+    <update id="customNoCheck2">
+        UPDATE ha_importCustom i0 SET state='与表内用户编号重复'
+        FROM ha_importCustom i1
+        WHERE i1.id!=i0.id AND i1.cust_no=i0.cust_no AND i0.state='待校验' AND i0.import_time=#{importTime} AND i0.import_time=i1.import_time
+    </update>
+
+    <!--用户编号校验3-->
+    <update id="customNoCheck3">
+        UPDATE ha_importCustom i SET state='与系统用户编号重复'
+        FROM ha_room r,ha_custom cu
+        WHERE i.roomid=r.roomid AND r.custid!=cu.custid AND i.cust_no=cu.custno AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--表号校验1-->
+    <update id="meterNumCheck1">
+        UPDATE ha_importCustom i0 SET state='与表内表号重复'
+        FROM ha_importCustom i1
+        WHERE i1.id!=i0.id AND i1.meter_no=i0.meter_no AND i0.state='待校验' AND i0.import_time=#{importTime} AND i0.import_time=i1.import_time
+    </update>
+
+    <!--表号校验2-->
+    <update id="meterNumCheck2">
+        UPDATE ha_importCustom i SET
+        centor_id=ce.id,use_meter_sequence=CASE WHEN ce.description='KT4EW GPRS' THEN 1 ELSE 0 END
+        FROM ha_centor ce
+        WHERE Right(i.centor_no, 9)=Right(ce.centorNo, 9) AND i.centor_no IS NOT NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--表号校验3-->
+    <update id="meterNumCheck3">
+        UPDATE ha_importCustom i SET state='与系统表号重复'
+        FROM ha_meter m WHERE
+        i.meter_no=m.meterNumber AND m.areaid=i.areaid AND (m.roomid!=i.roomid OR i.roomid IS NULL) AND
+        i.centor_id=m.centorid AND
+        i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--集中器、采集器校验1-->
+    <update id="centorCollectorCheck1">
+        UPDATE ha_importCustom i SET state='匹配不到集中器' WHERE i.centor_no IS NOT NULL AND i.centor_id IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--集中器、采集器校验2-->
+    <update id="centorCollectorCheck2">
+        UPDATE ha_importCustom i SET collector_id=co.collectorid FROM ha_collector co WHERE Right('0'||i.collector_no, 2)=Right('0'||to_hex(co.nconf), 2) AND co.centorid=i.centor_id AND i.centor_id IS NOT NULL AND i.collector_no IS NOT NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--集中器、采集器校验3-->
+    <update id="centorCollectorCheck3">
+        UPDATE ha_importCustom i SET state='匹配不到采集器' WHERE i.centor_id IS NOT NULL AND i.collector_no IS NOT NULL AND i.collector_id IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--表类型校验1-->
+    <update id="meterTypeCheck1">
+        UPDATE ha_importCustom SET state='匹配不到表类型' WHERE state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--表类型校验2-->
+    <update id="meterTypeCheck2">
+        UPDATE ha_importCustom i SET state='待校验' FROM ha_metertype mt WHERE i.meter_no is not NULL AND i.meter_type is not NULL AND i.meter_type=mt.name AND i.state='匹配不到表类型' AND i.import_time=#{importTime}
+    </update>
+
+    <!--收费类型校验1-->
+    <update id="chargeTypeCheck1">
+        UPDATE ha_importCustom SET state='匹配不到收费类型' WHERE state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--收费类型校验2-->
+    <update id="chargeTypeCheck2">
+        UPDATE ha_importCustom i SET state='待校验' FROM ha_pricestandard p WHERE i.meter_no is not NULL AND i.price_standard is not NULL AND i.price_standard=p.name AND i.state='匹配不到收费类型' AND i.import_time=#{importTime}
+    </update>
+
+    <!--表序号的校验1-->
+    <update id="serialNumber1">
+        UPDATE ha_importCustom SET state='表序号为空'
+        WHERE meter_sequence IS NULL AND use_meter_sequence=1 AND state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--表序号的校验2-->
+    <update id="serialNumber2">
+        UPDATE ha_importCustom SET state='非法的表序号'
+        WHERE use_meter_sequence=1 AND meter_sequence is not NULL AND (meter_sequence&lt;1 Or meter_sequence>65535) AND state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--表序号的校验3-->
+    <update id="serialNumber3">
+        UPDATE ha_importCustom i0
+        SET state='与表内表序号重复' FROM ha_importCustom i1
+        WHERE i1.id!=i0.id AND i0.use_meter_sequence=1 AND i0.meter_sequence is not NULL AND i0.centor_id>0 AND i1.centor_id=i0.centor_id AND i1.meter_sequence=i0.meter_sequence AND i0.state='待校验' AND i0.import_time=#{importTime} AND i0.import_time=i1.import_time
+    </update>
+
+    <!--表序号的校验4-->
+    <update id="serialNumber4">
+        UPDATE ha_importCustom i SET state='与系统表序号重复' FROM ha_meter m
+        WHERE i.use_meter_sequence=1 AND i.centor_id>0 AND ((i.roomid>0 AND m.roomid!=i.roomid) OR i.roomid IS NULL) AND i.centor_id=m.centorid AND i.meter_sequence=m.meter_sequence AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--确定是新增还是修改1-->
+    <update id="checkAddOrUpdate1">
+        UPDATE ha_importCustom i SET state='新增房间资料'
+        WHERE i.meter_no IS NULL AND i.roomid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--确定是新增还是修改2-->
+    <update id="checkAddOrUpdate2">
+        UPDATE ha_importCustom i SET state='新增房间表资料'
+        WHERE i.meter_no>0 AND i.roomid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--确定是新增还是修改3-->
+    <update id="checkAddOrUpdate3">
+        UPDATE ha_importCustom
+        SET state=CASE WHEN meter_no_d IS NULL THEN '新增表资料' ELSE '修改表资料' END
+        WHERE meter_no>0 AND roomid>0 AND state='待校验' AND import_time=#{importTime}
+    </update>
+
+    <!--确定是新增还是修改4-->
+    <update id="checkAddOrUpdate4">
+        UPDATE ha_importCustom i
+        SET state=CASE WHEN r.custid IS NULL THEN '新增用户资料' ELSE '修改用户资料' END
+        FROM ha_room r
+        WHERE i.cust_no IS NOT NULL AND i.roomid>0 AND i.roomid=r.roomid AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+
+    <!--补全新增默认值-->
+    <select id="tpriceStandard" resultType="com.ktamr.domain.HaPricestandard">
+        SELECT name FROM ha_priceStandard LIMIT 1
+    </select>
+
+    <select id="tmeterType" resultType="com.ktamr.domain.HaMetertype">
+        SELECT mt.name FROM ha_meterType mt, ha_priceStandard p WHERE p.meterTypeId=mt.meterTypeId AND p.name=#{tpriceStandard}
+    </select>
+
+    <update id="completeAddDefaultValues">
+        UPDATE ha_importCustom i SET
+        meter_type=CASE WHEN i.meter_type IS NULL THEN #{tmeterType} ELSE i.meter_type END,
+        meter_isbranch=CASE WHEN i.meter_isbranch IS NULL THEN '分表' ELSE i.meter_isbranch END,
+        meter_ori_num=CASE WHEN i.meter_ori_num IS NULL THEN 0 ELSE i.meter_ori_num END,
+        price_standard=CASE WHEN i.price_standard IS NULL THEN #{tpriceStandard} ELSE i.price_standard END,
+        meter_rate=CASE WHEN i.meter_rate IS NULL THEN 100 ELSE i.meter_rate END,
+        setup_time=CASE WHEN i.setup_time IS NULL THEN i.import_time ELSE i.setup_time END
+        WHERE Left(i.state,2)='新增' AND i.meter_no>0 AND i.import_time=#{haImportcustom.importTime}
+    </update>
+
+    <update id="completeAddDefaultValues2">
+        UPDATE ha_importCustom i SET cust_name=CASE WHEN i.cust_name IS NULL THEN '*' ELSE i.cust_name END, cust_sex=CASE WHEN i.cust_sex IS NULL THEN '男' ELSE i.cust_sex END WHERE Left(i.state,2)='新增' AND i.cust_no IS NOT NULL AND i.import_time=#{importTime}
+    </update>
+
+    <!--查询总条目-->
+    <select id="queryAllHaImportCustomCount" resultType="Integer">
+        SELECT COUNT(*) FROM ha_importCustom WHERE import_time=#{importTime}
+    </select>
+
+    <!--查询新增数-->
+    <select id="addsCount" resultType="Integer">
+        SELECT COUNT(*) FROM ha_importCustom WHERE Left(state, 2)='新增' AND import_time=#{importTime}
+    </select>
+
+    <!--查询修改数-->
+    <select id="updsCount" resultType="Integer">
+        SELECT COUNT(*) FROM ha_importCustom WHERE Left(state, 2)='修改' AND import_time=#{importTime}
+    </select>
+
+    <!--用户档案文档导入—新增房间资料-->
+    <insert id="addRoomByExport1">
+        INSERT INTO ha_room(name, buildingid) SELECT Trim(i.room_name),i.buildingid FROM ha_importCustom i WHERE (i.state='新增房间资料' OR i.state='新增房间表资料') AND i.import_time=#{importTime}
+    </insert>
+
+    <update id="addRoomByExport2">
+        UPDATE ha_importCustom i SET roomid=r.roomid FROM ha_room r WHERE i.buildingid=r.buildingid AND room_name=r.name AND (i.state='新增房间资料' OR i.state='新增房间表资料') AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户档案文档导入—新增用户资料-->
+    <insert id="addCustomByExport1">
+        INSERT INTO ha_custom(custno, name, sex, mobil, addr, idname, balance) SELECT i.cust_no, Trim(i.cust_name), i.cust_sex,i.cust_mobile, i.area_name||'-'||i.building_name||'-'||Trim(i.room_name) ,'身份证',i.cust_balance FROM ha_importCustom i,ha_room r WHERE length(i.cust_no)>0 AND i.roomid=r.roomid AND r.custid IS NULL AND (Left(i.state,2)='新增' OR Left(i.state,2)='修改') AND i.import_time=#{importTime}
+    </insert>
+    
+    <update id="addCustomByExport2">
+        UPDATE ha_room r SET custid=cu.custid FROM ha_importCustom i, ha_custom cu WHERE length(i.cust_no)>0 AND i.cust_no=cu.custno AND i.roomid=r.roomid AND (Left(i.state,2)='新增' OR Left(i.state,2)='修改') AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户档案文档导入—修改表的房间关联-->
+    <update id="updateMeterRoomByExport1">
+        UPDATE ha_importCustom i SET state='修改表资料'
+        FROM ha_meter m
+        WHERE i.meter_no=m.meterNumber AND m.roomid IS NULL AND i.roomid > 0 AND
+        (Left(i.state,2)='新增' OR Left(i.state,2)='修改') AND i.import_time=#{importTime}
+    </update>
+
+    <update id="updateMeterRoomByExport2">
+        UPDATE ha_meter m SET
+        meterNumber=i.meter_no,roomid=i.roomid FROM ha_importCustom i WHERE i.roomid > 0 AND
+        (i.meter_no=m.meterNumber AND m.roomid IS NULL) AND i.state='修改表资料' AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户档案文档导入—新增表资料-->
+    <insert id="addMeterByExport">
+        INSERT INTO ha_meter(meterNumber, addr, meter_channel, meter_sequence,areaid, roomid, centorid,
+        collectorid, g_number, lf_number,lf_time, th_number,th_r_time, pricestand_id,
+        rate, isbranch, starttime, state, vendor_id)
+        SELECT i.meter_no,(CASE WHEN ce.centorid IS NULL THEN 'x' ELSE ce.centorid::text END) ||','||
+        (CASE WHEN co.nconf IS NULL THEN 'x' ELSE to_hex(co.nconf) END)||','||i.meter_no::text,
+        i.meter_channel,i.meter_sequence,i.areaid,i.roomid,i.centor_id,i.collector_id,
+        i.meter_ori_num,i.meter_ori_num,i.setup_time,i.meter_ori_num,i.setup_time,
+        p.pricestand_id,i.meter_rate,(CASE WHEN i.meter_isbranch='总表' THEN 0 ELSE 1 END),
+        i.setup_time,'建档',i.vendor_id FROM ((ha_importCustom i LEFT JOIN ha_pricestandard p ON i.price_standard=p.name)
+        LEFT JOIN ha_centor ce ON i.centor_id=ce.id) LEFT JOIN ha_collector co ON i.collector_id=co.collectorid
+        WHERE (i.state='新增房间表资料' OR i.state='新增表资料') AND i.import_time=#{importTime}
+    </insert>
+
+    <!--用户档案文档导入—修改表资料-->
+    <update id="updateMeterByExport1">
+        UPDATE ha_meter m SET meterNumber=i.meter_no,
+        addr= (CASE WHEN i.centor_id>0 THEN ce.centorid::text ELSE 'x' END)||','||
+        (CASE WHEN i.collector_id>0 THEN to_hex(co.nconf)::text ELSE 'x' END)||','||i.meter_no,
+        meter_channel=CASE WHEN i.meter_channel>0 THEN i.meter_channel ELSE m.meter_channel END,
+        meter_sequence=CASE WHEN i.meter_sequence>0 THEN i.meter_sequence ELSE m.meter_sequence END,
+	    areaid=i.areaid,
+	    centorid=CASE WHEN i.centor_id>0 THEN i.centor_id ELSE m.centorid END,
+	    collectorid=CASE WHEN i.collector_id>0 THEN i.collector_id ELSE m.collectorid END,
+	    pricestand_id=CASE WHEN length(i.price_standard)>0 THEN p.pricestand_id ELSE m.pricestand_id END,
+	    rate=CASE WHEN i.meter_rate>0 THEN i.meter_rate ELSE m.rate END,
+	    isbranch=CASE WHEN length(i.meter_isbranch)>0 THEN (CASE WHEN i.meter_isbranch='分表' THEN 1 ELSE 0 END) ELSE m.isbranch END,
+	    starttime=CASE WHEN i.setup_time IS NOT NULL THEN i.setup_time ELSE m.starttime END,
+	    vendor_id=CASE WHEN i.vendor_id>0 THEN i.vendor_id ELSE m.vendor_id END,
+	    g_number=CASE WHEN i.meter_ori_num>0 THEN i.meter_ori_num ELSE m.g_number END
+	    FROM
+	    ha_importCustom i
+	    LEFT OUTER JOIN ha_pricestandard p ON i.price_standard=p.name
+	    LEFT OUTER JOIN ha_centor ce ON i.centor_id=ce.id
+	    LEFT OUTER JOIN ha_collector co ON i.collector_id=co.collectorid
+	    WHERE m.meternumber=i.meter_no AND m.areaid=i.areaid AND i.state='修改表资料' AND i.import_time=#{importTime}
+    </update>
+
+    <update id="updateMeterByExport2">
+        UPDATE ha_meter m SET
+	    lf_number=i.meter_ori_num,
+	    th_number=i.meter_ori_num,
+	    s_number=0
+	    FROM ha_importCustom i
+	    WHERE m.roomid=i.roomid AND
+	    i.state='修改表资料' AND m.state='建档' AND i.meter_ori_num IS NOT NULL AND i.import_time=#{importTime}
+    </update>
+
+    <!--用户档案文档导入—修改用户资料-->
+    <update id="updateCustomByExport1">
+        UPDATE ha_custom c SET
+        	custno=CASE WHEN length(Trim(i.cust_no))>0 THEN Trim(i.cust_no) ELSE custno END,
+        	name=CASE WHEN length(Trim(i.cust_name))>0 THEN Trim(i.cust_name) ELSE c.name END,
+        	mobil=CASE WHEN length(i.cust_mobile)>0 THEN i.cust_mobile ELSE c.mobil END,
+        	sex=CASE WHEN length(i.cust_sex)>0 THEN i.cust_sex ELSE c.sex END,
+             balance=CASE WHEN i.cust_balance is Not NULL THEN balance ELSE i.cust_balance END
+        FROM ha_room r, ha_importCustom i
+        WHERE r.roomid=i.roomid AND c.custid=r.custid AND Left(i.state, 2)='修改' AND i.import_time=#{importTime}
+    </update>
+
+    <update id="updateCustomByExport2">
+        INSERT INTO ha_cmd(cmd,parms,centorid,uid,createTime,lastBeginTime,lastEndTime,processing,state) VALUES ('导入用户表资料',#{fileName}, 0,#{operatorCode}, Now(), Now(), Now(),#{msg},'完成')
+    </update>
 </mapper>

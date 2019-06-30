@@ -33,7 +33,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            <form id="form" name="form" class="fupload" method="post" action="upload_users_todo.asp">
+            <form id="form" name="form" class="fupload" method="post" action="/importCustom/upload_users_todo">
                 <p><b>1、请选择要导入的文件：（文件格式：*.xls/*.xlsx）</b></p>
                 <label for="jobData" class="control-label hide" style="float:left;padding-left:15px;">任务数据</label>
                 <div class="row" style="padding:5px 15px;">
@@ -165,23 +165,9 @@
                 window.open(get_excel_model);
                 return false;
             }
-            $.ajax({
-                url: get_excel_model_url
-                ,type: "POST"
-                ,dataType:'JSON'
-                ,contentType: 'application/json; charset=utf-8'
-                ,async: false
-                ,data: {
-                    areaId: areaId
-                }
-                ,async:false //同步请求
-                ,beforeSend: function(){
-                    loadLayerIndex = showLoadLayer()
-                }
-                ,success: function(data){
-                }
-            });
+            window.location.href="/room/CustomerExport?areaId="+areaId;
         });
+
         $("#form").submit(function(event){
             event.preventDefault();
             var loadLayerIndex = "";
@@ -226,10 +212,10 @@
                     if(strDateTime2(data)){
                         var layerSize = ['650px', '450px'];
                         var queryStr = [
-                            "file_name="+$("#filename").text(),
-                            "import_time="+data
+                            "fileName="+$("#filename").text(),
+                            "importTime="+data
                         ];
-                        showImportList("upload_users_list.asp", queryStr, layerSize);
+                        showImportList("/importCustom/upload_users_list", queryStr, layerSize);
                     }else{
                         layer.msg(data, {icon: 5});
                     }

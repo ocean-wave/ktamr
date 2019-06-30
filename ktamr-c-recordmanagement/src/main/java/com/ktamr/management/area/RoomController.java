@@ -272,7 +272,7 @@ public class RoomController extends BaseController {
     @RequestMapping("/CustomerExport")
     @ResponseBody
     public void customerExport(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws Exception {
-        List<HaRoom> rooms = haRoomService.customExport(1);
+        List<HaRoom> rooms = haRoomService.customExport(areaId);
 
         //excel标题
         String[] title = {"用户编号", "*用户名称", "小区名称", "楼栋名称", "房间名称", "表号", "*表通道号", "*表序号", "*厂商码", "所属集中器编号", "所属采集器地址", "*表类型", "*总分表", "表底数", "*装表时间", "收费类型", "*倍率", "*性别", "*手机号码", "*账户余额"};
@@ -283,29 +283,110 @@ public class RoomController extends BaseController {
         //sheet名
         String sheetName = "sheet1";
 
-        Object[][] content = new Object[rooms.size()][];
+        String[][] content = new String[rooms.size()][];
         for (int i = 0; i < rooms.size(); i++) {
             content[i] = new String[title.length];
             HaRoom obj = rooms.get(i);
-            content[i][0] = obj.getHaCustom().getCustNo(); //用户编号
-            content[i][1] = obj.getHaCustom().getName(); //用户名称
+            try {
+                content[i][0] = obj.getHaCustom().getCustNo(); //用户编号
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][0]="";
+            }
+            try {
+                content[i][1] = obj.getHaCustom().getName(); //用户名称
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][1]="";
+            }
             content[i][2] = obj.getHaArea().getHaName(); //小区名称
             content[i][3] = obj.getHaBuilding().getName(); //楼栋名称
             content[i][4] = obj.getName(); //房间名称
-            content[i][5] = String.valueOf(obj.getHaMeter().getMeterNumber()); //表号
-            content[i][6] = obj.getHaMeter().getMeterChannel(); //表通道号
-            content[i][7] = obj.getHaMeter().getMeterSequence(); //表序号
-            content[i][8] = String.valueOf(obj.getHaMeter().getVendorId()); //厂商码
-            content[i][9] = obj.getHaCentor().getCentorNo(); //所属集中器编号
-            content[i][10] = obj.getHaCollector().getNconf(); //所属采集器地址
-            content[i][11] = obj.getHaMetertype().getName(); //表类型
-            content[i][12] = obj.getHaMeter().getIsBranch(); //总分表
-            content[i][13] = String.valueOf(obj.getHaMeter().getGnumber()); //表底数
-            content[i][14] = obj.getHaMeter().getStartTime(); //装表时间
-            content[i][15] = obj.getHaPricestandard().getName(); //收费类型
-            content[i][16] = obj.getHaMeter().getRate(); //倍率
-            content[i][17] = obj.getHaCustom().getSex(); //性别
-            content[i][18] = obj.getHaCustom().getMobil(); //手机号码
+            try {
+                content[i][5] = String.valueOf(obj.getHaMeter().getMeterNumber()); //表号
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][5]="";
+            }
+            try {
+                content[i][6] = obj.getHaMeter().getMeterChannel().toString(); //表通道号
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][6]="";
+            }
+            try {
+                content[i][7] = obj.getHaMeter().getMeterSequence().toString(); //表序号
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][7]="";
+            }
+            try {
+                content[i][8] = String.valueOf(obj.getHaMeter().getVendorId()); //厂商码
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][8]="";
+            }
+            try {
+                content[i][9] = obj.getHaCentor().getCentorNo(); //所属集中器编号
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][9]="";
+            }
+            try {
+                content[i][10] = obj.getHaCollector().getNconf().toString(); //所属采集器地址
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][10]="";
+            }
+            try {
+                content[i][11] = obj.getHaMetertype().getName(); //表类型
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][11]="";
+            }
+            try {
+                content[i][12] = String.valueOf(obj.getHaMeter().getIsBranch()); //总分表
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][12]="";
+            }
+            try {
+                content[i][13] = String.valueOf(obj.getHaMeter().getGnumber()); //表底数
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][13]="";
+            }
+            try {
+                content[i][14] = String.valueOf(obj.getHaMeter().getStartTime()); //装表时间
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][14]="";
+            }
+
+            try {
+                content[i][15] = obj.getHaPricestandard().getName(); //收费类型
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][15]="";
+            }
+            try {
+                content[i][16] = String.valueOf(obj.getHaMeter().getRate()); //倍率
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][16]="";
+            }
+            try {
+                content[i][17] = obj.getHaCustom().getSex(); //性别
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][17]="";
+            }
+            try {
+                content[i][18] = obj.getHaCustom().getMobil(); //手机号码
+            }catch (Exception e){
+                e.printStackTrace();
+                content[i][18]="";
+            }
         }
 
         //创建HSSFWorkbook

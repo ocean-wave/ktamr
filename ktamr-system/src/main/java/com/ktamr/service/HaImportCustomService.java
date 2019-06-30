@@ -1,19 +1,18 @@
-package com.ktamr.mapper;
+package com.ktamr.service;
 
 import com.ktamr.domain.HaImportcustom;
 import com.ktamr.domain.HaMetertype;
 import com.ktamr.domain.HaPricestandard;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
 
-public interface HaImportCustomMapper {
+public interface HaImportCustomService {
 
     List<HaImportcustom> HaImportcustomList(HaImportcustom haImportcustom);
 
     //新增用户资料零时表(待校验)
-    Integer addImportCustom(@Param("params") List<Map<String, Object>> params);
+    Integer addImportCustom(List<Map<String, Object>> params);
 
     //清空导入用户资料零时表
     Integer deleteImportCustom(HaImportcustom haImportcustom);
@@ -60,10 +59,10 @@ public interface HaImportCustomMapper {
     //表号校验1
     Integer meterNumCheck1(HaImportcustom haImportcustom);
 
-    //表号校验2
+    //表号校验1
     Integer meterNumCheck2(HaImportcustom haImportcustom);
 
-    //表号校验3
+    //表号校验1
     Integer meterNumCheck3(HaImportcustom haImportcustom);
 
     //集中器、采集器校验1
@@ -116,7 +115,7 @@ public interface HaImportCustomMapper {
 
     HaMetertype tmeterType(String tpriceStandard);
 
-    Integer completeAddDefaultValues(@Param("tmeterType") String tmeterType,@Param("tpriceStandard") String tpriceStandard,@Param("haImportcustom") HaImportcustom haImportcustom);
+    Integer completeAddDefaultValues(String tmeterType, String tpriceStandard, HaImportcustom haImportcustom);
 
     Integer completeAddDefaultValues2(HaImportcustom haImportcustom);
 
@@ -155,7 +154,5 @@ public interface HaImportCustomMapper {
     //用户档案文档导入—修改用户资料
     Integer updateCustomByExport1(HaImportcustom haImportcustom);
 
-    Integer updateCustomByExport2(@Param("fileName") String fileName,@Param("operatorCode") String operatorCode,@Param("msg") String msg);
-
-
+    Integer updateCustomByExport2(String fileName,String operatorCode,String msg);
 }

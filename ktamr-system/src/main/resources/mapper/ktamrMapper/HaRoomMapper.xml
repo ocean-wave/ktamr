@@ -156,7 +156,7 @@
         SELECT t.roomid, cu.custno AS custNo, cu.name AS cname,
         t.areaname AS haName, t.bulidname AS bname, t.roomname AS name,
         m.meterNumber AS meterNumber, m.meter_channel AS meterChannel, m.meter_sequence AS meterSequence,
-        m.vendor_id AS vendorId, ce.centorNo AS centorNo, to_hex(co.nconf) AS nconf,
+        m.vendor_id AS vendorId, ce.centorNo AS centorNo, co.nconf AS nconf,
         mt.name AS hmtname,m.isbranch AS isBranch, m.g_number AS gnumber,
         to_char(m.starttime, 'yyyy-mm-dd hh24:mi:ss') AS startTime, p.name AS pname,
         trim(to_char(m.rate, '9999999999999999')) AS rate, cu.sex AS sex,

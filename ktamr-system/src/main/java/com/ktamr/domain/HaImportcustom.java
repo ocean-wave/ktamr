@@ -44,6 +44,11 @@ public class HaImportcustom extends BaseEntity {
   private Integer useMeterSequence;
   private Integer custBalance;
 
+  private HaCentor haCentor;
+  private HaCollector haCollector;
+
+  private String fileName;
+
 
   public Integer getId() {
     return id;
@@ -284,4 +289,28 @@ public class HaImportcustom extends BaseEntity {
   public void setCustBalance(Integer custBalance) {
     this.custBalance = custBalance;
   }
+
+    public HaCentor getHaCentor() {
+        return haCentor;
+    }
+
+    public void setHaCentor(HaCentor haCentor) {
+        this.haCentor = haCentor;
+    }
+
+    public HaCollector getHaCollector() {
+        return haCollector;
+    }
+
+    public void setHaCollector(HaCollector haCollector) {
+        this.haCollector = haCollector;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 }

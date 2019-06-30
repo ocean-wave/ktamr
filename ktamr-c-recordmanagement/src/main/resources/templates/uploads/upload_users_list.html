@@ -24,40 +24,39 @@
     layui.use(['form', 'layer'], function(){
         var form = layui.form
             ,layer = layui.layer;
-        var g_errors = "<%=errors%>";
-        var g_msg = "<%=msg%>";
-        var g_file_name = "<%=file_name%>";
-        var g_import_time = "<%=import_time%>";
-        var op_url = "upload_users_do.asp";
-        var g_import_time = "<%=import_time%>";
+        var g_errors = "[[${errors}]]";
+        var g_msg = "[[${msg}]]";
+        var g_fileName = "[[${fileName}]]";
+        var g_importTime = "[[${importTime}]]";
+        var op_url = "/importCustom/upload_users_do";
 
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182);
-        GridObj.jqdefaultGridConfig.caption = "<%=msgTitle%>";
-        GridObj.jqdefaultGridConfig.postData = {ListNumber: 39, import_time: g_import_time};
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182,"/importCustom/userTableInformation");
+        GridObj.jqdefaultGridConfig.caption = "总条目:<b>[[${allCount}]]</b>, 新增数:<b><font color='blue'>[[${addsCount}]]</font></b>, 修改数:<b><font color='green'>[[${updsCount}]]</font></b>, 出错数:<b><font color='red'>[[${errors}]]</font></b> (说明:点击确定才完成导入)";
+        GridObj.jqdefaultGridConfig.postData = {ListNumber: 39, importTime: g_importTime};
         GridObj.jqdefaultGridConfig.colNames = ['id','校验结果','用户编号','用户名称','小区名称','楼栋名称','房间名称','新表号','原表号','表通道号','表序号','厂商码','所属集中器','所属采集器','表类型','总分表','表底数','装表时间','收费类型','倍率','性别','手机号码'];
         GridObj.jqdefaultGridConfig.colModel = [
             { name: 'id',  width: 75, key: true, hidden: true},
-            { name: '校验结果', width: 120, cellattr: usersInfoCellColor },
-            { name: '用户编号', width: 120 },
-            { name: '用户名称', width: 100 },
-            { name: '小区名称', width: 100 },
-            { name: '楼栋名称', align: 'right' ,width: 100 },
-            { name: '房间名称', width: 100 },
-            { name: '新表号', align: 'right', width: 120 },
-            { name: '原表号', align: 'right', width: 120 },
-            { name: '表通道号',align: 'right', width: 60 },
-            { name: '表序号',align: 'right', width: 60 },
-            { name: '厂商码',align: 'right', width: 60 },
-            { name: '所属集中器', width: 80 },
-            { name: '所属采集器', width: 80 },
-            { name: '表类型', width: 60 },
-            { name: '总分表', width: 60 },
-            { name: '表底数',align: 'right', width: 60 },
-            { name: '装表时间', width: 100 },
-            { name: '收费类型', width: 100 },
-            { name: '倍率',align: 'right', width: 50 },
-            { name: '性别', width: 50 },
-            { name: '手机号码', width: 120 }
+            { name: 'state', width: 120, cellattr: usersInfoCellColor },
+            { name: 'custNo', width: 120 },
+            { name: 'custName', width: 100 },
+            { name: 'areaName', width: 100 },
+            { name: 'buildingName', align: 'right' ,width: 100 },
+            { name: 'roomName', width: 100 },
+            { name: 'meterNo', align: 'right', width: 120 },
+            { name: 'meterNoD', align: 'right', width: 120 },
+            { name: 'meterChannel',align: 'right', width: 60 },
+            { name: 'meterSequence',align: 'right', width: 60 },
+            { name: 'vendorId',align: 'right', width: 60 },
+            { name: 'haCentor.addr', width: 80 },
+            { name: 'haCollector.addr', width: 80 },
+            { name: 'meterType', width: 60 },
+            { name: 'meterIsbranch', width: 60 },
+            { name: 'meterOriNum',align: 'right', width: 60 },
+            { name: 'setupTime', width: 100 },
+            { name: 'priceStandard', width: 100 },
+            { name: 'meterRate',align: 'right', width: 50 },
+            { name: 'custSex', width: 50 },
+            { name: 'custMobile', width: 120 }
         ];
         GridObj.jqdefaultGridConfig.scroll = true;
         GridObj.jqdefaultGridConfig.footerrow = true;
@@ -95,8 +94,8 @@
 
             var data = {
                 msg: g_msg,
-                file_name: g_file_name,
-                import_time: g_import_time
+                fileName: g_fileName,
+                importTime: g_importTime
             }
             if(Number(g_errors)>0){
                 layer.confirm('存在错误行资料，确实只导入新增和修改吗？', {icon:3, title:'提示'},
