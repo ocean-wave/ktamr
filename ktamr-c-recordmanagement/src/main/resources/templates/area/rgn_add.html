@@ -14,24 +14,6 @@
         }
         .mySelect dl{max-height: 170px;}
     </style>
-    <script>
-        function checkRgnName(){
-            $.ajax({
-                type: "POST",
-                url: "/area/CheckRgnName",
-                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-                data: {name: $("#name").val()},
-                dataType: "json",
-                success: function (data) {
-                    if (data == "true") {
-                        layer.msg('大区编号重复', {icon: 5});
-                    } else {
-                        return false;
-                    }
-                }
-            });
-        }
-    </script>
 </head>
 <body class="myPage-body">
 <form id="rgnaddform" class="layui-form my-form-class-single" onsubmit="">
@@ -39,7 +21,7 @@
         <div class="layui-block">
             <label class="layui-form-label">大区名称</label>
             <div class="layui-input-inline my-form-input-single">
-                <input id="name" name="name" lay-verify="required|rgnName" autocomplete="off" placeholder="必填" class="layui-input" onblur="checkRgnName()">
+                <input id="rgnName" name="rgnName" lay-verify="required|rgnName" autocomplete="off" placeholder="必填" class="layui-input">
             </div>
         </div>
     </div>
@@ -77,23 +59,6 @@
         var get_result_url = "/area/AddRgn";
         var name = null;
 
-        // name.blur("blur",function(){
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/area/CheckRgnName",
-        //         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-        //         data: {name: $("#name").val()},
-        //         dataType: "json",
-        //         success: function (data) {
-        //             if (data == "true") {
-        //                 layer.msg('大区编号重复', {icon: 5});
-        //             } else {
-        //                 return false;
-        //             }
-        //         }
-        //     });
-        // }).focus();
-
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url
@@ -120,12 +85,29 @@
         });
 
         form.on('submit(sure)', function (data) {
-            var data = {
-                name: $("#name").val(),
-                shortName: $("#shortName").val(),
-                zCode: $("#zCode").val()
-            };
-            submitInfo(data);
+            form.verify({
+                rgnName: function (value, item) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/area/CheckRgnName",
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        data: {name: $("#rgnName").val()},
+                        async: false,
+                        success: function (data) {
+                            if (data == "true") {
+                                layer.msg('大区名称重复', {icon: 5});
+                            } else {
+                                var data2 = {
+                                    name: $("#rgnName").val(),
+                                    shortName: $("#shortName").val(),
+                                    zCode: $("#zCode").val()
+                                };
+                                submitInfo(data2);
+                            }
+                        }
+                    });
+                }
+            });
         });
 
     });
