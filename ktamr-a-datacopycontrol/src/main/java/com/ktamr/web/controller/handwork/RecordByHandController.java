@@ -1,12 +1,17 @@
 package com.ktamr.web.controller.handwork;
 
 import com.ktamr.ShiroUtils;
+import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.DateUtils;
+import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.utils.file.FileUploadUtils;
 import com.ktamr.common.utils.imports.ImportExcelUtil;
 import com.ktamr.common.utils.imports.ImportUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
+import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaRecords;
 import com.ktamr.domain.HatMetersRecordImport;
 import com.ktamr.service.*;
 import com.ktamr.service.HaCmdService;
@@ -181,6 +186,22 @@ public class RecordByHandController extends BaseController {
                 return "删除失败,请联系管理员";
             }
             return "取消导入";
+        }
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaMeter params,@RequestParam(value = "importTime",required = false) String importTime, ExportExcelUtil exportExcelUtil)
+    {
+        List<HaMeter> list = null;
+        List<HatMetersRecordImport> list2 = null;
+        if(params.getParams().get("exportType").equals("1")){
+            params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+            list =  haMeterService.selectRecordByHand(params);
+            return exportExcelUtil.init(list, "");
+        }else{
+            list2 =  hatMetersRecordImportService.selectMetersRecordImportByImportTime(importTime);
+            return exportExcelUtil.init(list2, "");
         }
     }
 }

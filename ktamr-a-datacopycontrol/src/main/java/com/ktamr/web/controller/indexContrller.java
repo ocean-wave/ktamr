@@ -63,19 +63,16 @@ public class indexContrller {
 
             rgnStr= rgnStr.substring(0,rgnStr.lastIndexOf(","));
         }
-        if (operatorRgnType=="area"){
+        if (operatorRgnType.equals("area")){
             List<HaOperatorRgns> sql2 = haOperatorRgnsService.sql2(haOperatorRgns);
             for (int i=0;i<sql2.size();i++){
                 leftRgnStr=leftRgnStr+sql2.get(i).getRgnCode()+",";
             }
-            leftRgnStr= leftRgnStr.substring(0,leftRgnStr.lastIndexOf(",")-1);
+            leftRgnStr= leftRgnStr.substring(0,leftRgnStr.lastIndexOf(","));
         }
         //获取用户授权区域字符串 end
         session.setAttribute("rgnStr", rgnStr);
         session.setAttribute("leftRgnStr", leftRgnStr);
-
-
-
         return "index";
     }
 

@@ -15,16 +15,16 @@ public class HaDayfreeze extends BaseEntity {
     private Integer collectorId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date fDay;
+    private Date fday;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date lDay;
+    private Date lday;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date readTime;
     private String state;
-    private Integer tRead;
-    private Integer lRead;
-    private Integer aMount;
+    private Integer tread;
+    private Integer lread;
+    private Integer amount;
 
     private HavMeterinfo havMeterinfo;
 
@@ -68,22 +68,6 @@ public class HaDayfreeze extends BaseEntity {
       this.collectorId = collectorId;
     }
 
-    public Date getfDay() {
-      return fDay;
-    }
-
-    public void setfDay(Date fDay) {
-      this.fDay = fDay;
-    }
-
-    public Date getlDay() {
-      return lDay;
-    }
-
-    public void setlDay(Date lDay) {
-      this.lDay = lDay;
-    }
-
     public Date getReadTime() {
       return readTime;
     }
@@ -100,27 +84,43 @@ public class HaDayfreeze extends BaseEntity {
       this.state = state;
     }
 
-    public Integer gettRead() {
-      return tRead;
+    public Date getFday() {
+        return fday;
     }
 
-    public void settRead(Integer tRead) {
-      this.tRead = tRead;
+    public void setFday(Date fday) {
+        this.fday = fday;
     }
 
-    public Integer getlRead() {
-      return lRead;
+    public Date getLday() {
+        return lday;
     }
 
-    public void setlRead(Integer lRead) {
-      this.lRead = lRead;
+    public void setLday(Date lday) {
+        this.lday = lday;
     }
 
-    public Integer getaMount() {
-      return aMount;
+    public Integer getTread() {
+        return tread;
     }
 
-    public void setaMount(Integer aMount) {
-      this.aMount = aMount;
+    public void setTread(Integer tread) {
+        this.tread = tread;
+    }
+
+    public Integer getLread() {
+        return lread;
+    }
+
+    public void setLread(Integer lread) {
+        this.lread = lread;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 }

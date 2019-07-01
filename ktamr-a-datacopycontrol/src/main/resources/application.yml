@@ -30,7 +30,7 @@ spring:
     #配置druid路径
     #active: druid
     #配置8884另一个数据库
-    active: other
+    active: druid
     #配置thymeleaf前端模板
   thymeleaf:
     cache: false

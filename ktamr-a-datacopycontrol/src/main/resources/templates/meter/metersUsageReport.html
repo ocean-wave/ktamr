@@ -119,12 +119,12 @@
 				$("#date_range").val('');
 				$("#keyWord").show();
 				$("#keyWordTwo").hide();
-				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,'/dataselect/dosageRecentlyListJson');
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,'/dataselect/dosage/dosageRecentlyListJson');
 				GridObj.unloadGrid();
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {"params[nodeType]":nodeType,"params[nodeIds]":nodeIds};
+				GridObj.jqdefaultGridConfig.postData = {"params[nodeType]":nodeType,"params[nodeIds]":nodeIds,"params[exportType]":"1"};
 				GridObj.jqdefaultGridConfig.colNames = ['meterId','用户编号','用户名称','用户地址','表号','最近读数','上期结算','本期用量','表状态','最近抄表时间','上期结算时间'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{name: 'meterId',  width: 75, key: true, hidden: true},
@@ -132,14 +132,14 @@
 					{name: 'havMeterinfo.userName', width: 100 },
 					{name: 'havMeterinfo.userDs', width: 140 },
 					{name: 'havMeterinfo.meterNumber', width: 110, align: 'right' },
-					{name: 'thNumber', width: 70, align: 'right' },
-					{name: 'lfNumber', width: 70, align: 'right' },
-					{name: 'sNumber', width: 70, align: 'right' },
-					{name: 'state', width: 90, cellattr: MeterStateCellColor },
-					{name: 'thRTime', width: 150 },
-					{name: 'lfTime', width: 150 }
+					{name: 'havMeterinfo.thNumber', width: 70, align: 'right' },
+					{name: 'havMeterinfo.lfNumber', width: 70, align: 'right' },
+					{name: 'havMeterinfo.snumber', width: 70, align: 'right' },
+					{name: 'havMeterinfo.state', width: 90, cellattr: MeterStateCellColor },
+					{name: 'havMeterinfo.thRTime', width: 150 },
+					{name: 'havMeterinfo.lfTime', width: 150 }
 				];
-				GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "state")};
+				GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "havMeterinfo.state")};
 				GridObj.drawGrid();
 				GridObj.drawGridPager();
 				GridObj.setGridSize();
@@ -152,12 +152,12 @@
 				$("#date_range").val('');
 				$("#keyWord").hide();
 				$("#keyWordTwo").show();
-				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/dataselect/dosageHistoryListJson');
+				var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/dataselect/dosage/dosageHistoryListJson');
 				GridObj.unloadGrid();
 				GridObj.removeGridResize();
 				GridObj.jqdefaultGridConfig.caption = "";
 				GridObj.jqdefaultGridConfig.multiselect = false;
-				GridObj.jqdefaultGridConfig.postData = {meterId:-1};
+				GridObj.jqdefaultGridConfig.postData = {meterId:-1,"params[exportType]":"2"};
 				GridObj.jqdefaultGridConfig.colNames = ['itemId','本次读数','上次读数','抄收用量','表状态','本次抄表时间','上次抄表时间'];
 				GridObj.jqdefaultGridConfig.colModel = [
 					{name: 'itemId',  width: 75, key: true, hidden: true},

@@ -1,5 +1,9 @@
 package com.ktamr.web.controller.dataselect;
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
+import com.ktamr.domain.HaDayfreeze;
 import com.ktamr.domain.HaReplacerecords;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HaReplaceRecordsService;
@@ -14,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/dataselect")
+@RequestMapping("/dataselect/replace")
 public class ReplaceController extends BaseController {
 
     private  String pxePath = "meter";
@@ -22,17 +26,27 @@ public class ReplaceController extends BaseController {
     @Autowired
     private HaReplaceRecordsService haReplaceRecordsService;
 
-    @GetMapping("/replace")
-    public String replace(){
+    @GetMapping("/replaceList")
+    public String replaceList(){
         return pxePath+"/metersReplaceRecords";
     }
 
     @PostMapping("/replaceListJson")
     @ResponseBody
-    public Map<String,Object> replaceListJson(HaReplacerecords parms){
+    public Map<String,Object> replaceListJson(HaReplacerecords params){
         startPage();
-        List<HaReplacerecords> listHaMeter = haReplaceRecordsService.selectReplace(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
+        List<HaReplacerecords> listHaMeter = haReplaceRecordsService.selectReplace(params);
         return getDataTable(listHaMeter);
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaReplacerecords params, ExportExcelUtil exportExcelUtil)
+    {
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
+        List<HaReplacerecords> list = haReplaceRecordsService.selectReplace(params);
+        return exportExcelUtil.init(list, "");
     }
 
 }

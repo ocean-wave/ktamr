@@ -94,7 +94,7 @@
                 $(".search").click();
             }
         });
-        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,"/equipment/nbSurfaceListJson");
+        var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115,"/equipment/nbsurface/nbSurfaceListJson");
         GridObj.unloadGrid();
         GridObj.removeGridResize();
         GridObj.jqdefaultGridConfig.caption = "";
@@ -136,10 +136,9 @@
             var  _pdArray = "";
             var date_range = ['', ''];
             _pdArray = {
-                "keyWord": keyWord,
-                "dataType": "lastData",
-                "nodeType": $("#nodeType").val(),
-                "nodeIds": $("#nodeIds").val(),
+                "params[keyWord]": keyWord,
+                "params[nodeType]": $("#nodeType").val(),
+                "params[nodeIds]": $("#nodeIds").val(),
             };
             fullTextSearch("jqGrid", _pdArray);
         });
@@ -244,23 +243,23 @@
             }
             switch(this.cmdName){
                 case "单抄"://单表抄表:表号
-                    cmd = "单表抄表" +":"+rowData["表号"];
+                    cmd = "单表抄表" +":"+rowData["havMeterinfo.meterNumber"];
                     break;
                 case "开阀补抄"://单表抄表:表号
                 case "关阀补抄"://单表抄表:表号
-                    cmd = "单表抄表" +":"+rowData["表号"];
+                    cmd = "单表抄表" +":"+rowData["havMeterinfo.meterNumber"];
                     break;
                 case "开阀"://开阀:表号
-                    cmd = "开阀" +":"+rowData["表号"];
+                    cmd = "开阀" +":"+rowData["havMeterinfo.meterNumber"];
                     break;
                 case "关阀"://关阀:表号
-                    cmd = "关阀" +":"+rowData["表号"];
+                    cmd = "关阀" +":"+rowData["havMeterinfo.meterNumber"];
                     break;
                 case "校时":
-                    cmd = "校时" +":"+rowData["表号"];
+                    cmd = "校时" +":"+rowData["havMeterinfo.meterNumber"];
                     break;
                 case "读时钟":
-                    cmd = "读时钟" +":"+rowData["表号"];
+                    cmd = "读时钟" +":"+rowData["havMeterinfo.meterNumber"];
                     break;
                 default:
                     cmd = this.cmdName +":0";
@@ -378,7 +377,7 @@
                 ,"ids="+rowIds
                 ,"flagStr="+flagStr
             ];
-            _myLayui.showLayer(cmdName,"/equipment/nbSurfaceMng", _queryStr, _layerSize);
+            _myLayui.showLayer(cmdName,"/equipment/nbsurface/nbSurfaceMng", _queryStr, _layerSize);
         });
     });
 </script>

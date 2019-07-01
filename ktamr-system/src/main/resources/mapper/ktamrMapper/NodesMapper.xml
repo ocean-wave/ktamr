@@ -20,6 +20,8 @@
         <if test=' parameterType == "collector" '>
             <include refid="collector"></include>
         </if>
+        <!--数据范围过滤-->
+        ${getRightCondition}
         GROUP BY n.id,n.name ORDER BY n.id
     </select>
 
@@ -35,11 +37,13 @@
         <if test=' parameterType == "collector" '>
             <include refid="collector"></include>
         </if>
+        <!--数据范围过滤-->
+        ${getRightCondition}
         GROUP BY a.areaid,aname,a.areaNo,a.registeredNo,ds,ar
         ORDER BY ds,ar
     </select>
 
-    <select id="selectAllBuildingNodes" resultType="java.util.Map" parameterType="java.lang.Integer">
+    <select id="selectAllBuildingNodes" resultType="java.util.Map">
         SELECT b.buildingid
         , b.name
         , COUNT(r.roomid) as roomId
@@ -63,6 +67,8 @@
         <if test=" areaType == 'rgn' and id != '' ">
             AND position( Left(a.areaNo, 1) in #{id})>0
         </if>
+        <!--数据范围过滤-->
+        ${getRightCondition}
         GROUP BY ce.id, substring(ce.centorNo, 2, 4)||'-'||substring(ce.centorNo, 6, 5), ce.addr, ce.centorNo, ce.description
         ORDER BY ce.centorNo,ce.addr
     </select>
@@ -90,7 +96,6 @@
             WHERE (Left(ce.description, 3)='KT3'
             OR ce.description='GPRS'
             OR ce.description='COM')
-            and (left(a.areano,1) = #{id} or a.areano = #{id})
             GROUP BY ce.id, ce.centorid, ce.centorNo, ce.addr, ce.description
             ORDER BY ce.centorNo,ce.addr
     </select>

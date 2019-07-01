@@ -18,9 +18,9 @@ public interface NodesService {
 
     public List<Map<String,Object>> selectAllBuildingNodes(Integer id);
 
-    public List<Map<String,Object>> selectAllCentorzNodes(String areaType,String id);
+    public List<Map<String,Object>> selectAllCentorzNodes(Map<String,Object> map);
 
-    public List<Map<String,Object>> selectAllCentorcNodes(String rgnAndAreaId,String id);
+    public List<Map<String,Object>> selectAllCentorcNodes(Map<String,Object> map);
 
     public List<Map<String,Object>> selectAllCollectorNodes(Integer collectorid);
 }

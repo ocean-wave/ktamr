@@ -28,23 +28,29 @@
     </resultMap>
 
     <select id="selectAllGprsdtuAndCount" resultMap="HaGprsdtuMap" parameterType="com.ktamr.domain.HaGprsdtu">
-        SELECT d.uid As uid
-        ,d.telnubmer As telnubmer
-        , d.addr As addr
-        , Count(c.id) As xsjcqsm
-        , d.state As state
-        , d.dscrp As dscrp
-        , to_char(d.oplasttime, 'yyyy-mm-dd hh24:mi:ss') As oplastTime
-        , d.idle As idle
-        FROM (ha_gprsDTU d LEFT JOIN ha_centor c ON d.uid=c.telnumber)
-        LEFT JOIN ha_area a ON Left(c.centorNo, 5)=a.areaNo
-        WHERE length(d.uid)>0
-        <if test=" params.keyWord != null and params.keyWord != ''  ">
-            and (d.uid = #{keyWord} or d.telnubmer like '%${params.keyWord}%' or d.addr like '%${params.keyWord}%' or d.state = #{params.keyWord}
-            or d.dscrp like '%${params.keyWord}%' or to_char(d.oplasttime, 'yyyy-mm-dd') like '%${params.keyWord}%')
-        </if>
-        GROUP BY d.uid,d.telnubmer,d.addr,d.state,d.dscrp,d.oplasttime,d.idle
-        ORDER BY d.uid,d.addr
+       select *  from (SELECT d.uid As uid
+            ,d.telnubmer As telnubmer
+            , d.addr As addr
+            , Count(c.id) As xsjcqsm
+            , d.state As state
+            , d.dscrp As dscrp
+            , to_char(d.oplasttime, 'yyyy-mm-dd hh24:mi:ss') As oplastTime
+            , d.idle As idle
+            FROM (ha_gprsDTU d LEFT JOIN ha_centor c ON d.uid=c.telnumber)
+            LEFT JOIN ha_area a ON Left(c.centorNo, 5)=a.areaNo
+            WHERE length(d.uid)>0
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
+            <if test=" params.keyWord != null and params.keyWord != ''  ">
+                and (d.uid = #{keyWord} or d.telnubmer like '%${params.keyWord}%' or d.addr like '%${params.keyWord}%' or
+                d.state = #{params.keyWord}
+                or d.dscrp like '%${params.keyWord}%' or to_char(d.oplasttime, 'yyyy-mm-dd') like '%${params.keyWord}%')
+            </if>
+            GROUP BY d.uid,d.telnubmer,d.addr,d.state,d.dscrp,d.oplasttime,d.idle
+            ORDER BY d.uid,d.addr
+        ) t
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
     <select id="HaGprsdtuList" resultMap="HaGprsdtuMap">

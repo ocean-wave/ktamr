@@ -144,12 +144,12 @@
             if(deviceType == "allCentor"){
                 $(".centorBtns").show();
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/centorzListJson');
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/concentrator/centorzListJson');
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {"params[nodeType]": nodeType, "params[nodeIds]": nodeIds};
+                GridObj.jqdefaultGridConfig.postData = {"params[nodeType]": nodeType, "params[nodeIds]": nodeIds,"params[exportType]":"1"};
                 GridObj.jqdefaultGridConfig.colNames = ['id','编号','设备区域号','设备地址','安装地点','连接说明','状态','总表数','读入表数','建档表数','无返回表数','最近联断时间','版本','备注','拨号号码','安装时间'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'id',  width: 75, key: true, hidden: true},
@@ -179,12 +179,12 @@
             }else if(deviceType == "centorz"){
                 $(".collectorBtns").show();
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/centorzByIdListJson');
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/concentrator/centorzByIdListJson');
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {"centorId": deviceId};
+                GridObj.jqdefaultGridConfig.postData = {"centorId": deviceId,"params[exportType]":"2"};
                 GridObj.jqdefaultGridConfig.colNames = ['collectorId','centorId','现设备地址','原设备地址','安装地点','版本','表总数','读入表数','建档状态数','无返回表数','状态','中继路由','操作结果'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'haCollector.collectorId',  width: 75, key: true, hidden: true},
@@ -198,7 +198,7 @@
                     { name: 'jdbs', width: 90, align: 'right', cellattr: greatThen0CellColor },
                     { name: 'wfhbs', width: 90, align: 'right', cellattr: greatThen0CellColor},
                     { name: 'state', width: 80, cellattr: collectorStateCellColor },
-                    { name: 'routers', width: 140 },
+                    { name: 'haCollector.routers', width: 140 },
                     { name: '操作结果', width: 100 }
                 ];
                 GridObj.jqdefaultGridConfig.footerrow = true;
@@ -210,12 +210,12 @@
             }else if(deviceType == "collector"){
                 $(".meterBtns").show();
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/centorcByQueryIdListJson');
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/concentrator/centorcByQueryIdListJson');
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {"haCollector.collectorId": deviceId};
+                GridObj.jqdefaultGridConfig.postData = {"haCollector.collectorId": deviceId,"params[exportType]":"3"};
                 GridObj.jqdefaultGridConfig.colNames = ['meterId','centorId','collectorAddr','用户编号','用户名称','用户地址','表号','上期结算','最近读数','本期用量','表状态','最近抄表时间','操作结果'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'havMeterinfo.meterId',  width: 75, key: true, hidden: true},
@@ -480,7 +480,7 @@
                         "ids="+rowIds
                     ];
                 }
-                _myLayui.showLayer(cmdName,"/equipment/deviceMng", _queryStr, _layerSize);
+                _myLayui.showLayer(cmdName,"/equipment/concentrator/deviceMng", _queryStr, _layerSize);
             }else{
                 //console.log(deviceType);
                 //console.log(rowIds);

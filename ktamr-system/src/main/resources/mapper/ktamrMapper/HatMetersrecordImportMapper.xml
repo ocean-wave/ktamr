@@ -59,7 +59,7 @@
     </delete>
 
     <select id="selectMetersRecordImportByImportTime" resultType="com.ktamr.domain.HatMetersRecordImport" >
-        select id,userCode
+        select * from (select id,userCode
         , userName
         , meterNumber
         , state
@@ -69,6 +69,9 @@
         , importTime
         from hat_metersRecordImport hm
         where to_char(hm.importTime,'yyyy-mm-dd hh24:mi:ss') = #{importTime}
+        ) t
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
     <select id="selectMetersRecordImportCount" resultType="java.lang.Integer">

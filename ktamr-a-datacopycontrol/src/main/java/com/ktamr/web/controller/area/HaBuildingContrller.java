@@ -33,9 +33,10 @@ public class HaBuildingContrller extends BaseController {
 
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HaBuilding haBuilding, ExportExcelUtil exportExcelUtil)
+    public AjaxResult export(HaBuilding params, ExportExcelUtil exportExcelUtil)
     {
-        List<HaBuilding> list = haBuildingService.selectAllBuildingAndCount(haBuilding);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaBuilding> list = haBuildingService.selectAllBuildingAndCount(params);
         return exportExcelUtil.init(list,"房间表数据");
     }
 }

@@ -26,7 +26,7 @@ public class HaAreaContrller extends BaseController {
     @ResponseBody
     public Map<String,Object> areasOpManageJson(HaArea params){
         startPage();
-        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
         List<HaArea> listHaArea = haAreaService.selectAllAreaAndCount(params);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
@@ -47,9 +47,10 @@ public class HaAreaContrller extends BaseController {
 
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HaArea haArea, ExportExcelUtil exportExcelUtil)
+    public AjaxResult export(HaArea params, ExportExcelUtil exportExcelUtil)
     {
-        List<HaArea> list = haAreaService.selectAllAreaAndCount(haArea);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaArea> list = haAreaService.selectAllAreaAndCount(params);
         return exportExcelUtil.init(list, "小区表数据");
     }
 

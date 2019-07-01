@@ -1,8 +1,12 @@
 package com.ktamr.web.controller.equipment;
 
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaCentorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/equipment")
+@RequestMapping("/equipment/collector")
 public class CentorcController extends BaseController {
 
     private  String pxePath = "devices";
@@ -28,9 +32,10 @@ public class CentorcController extends BaseController {
 
     @PostMapping("/centorcListJson")
     @ResponseBody
-    public Map<String,Object> centorcListJson(HaCentor parms){
+    public Map<String,Object> centorcListJson(HaCentor params){
         startPage();
-        List<HaCentor> listHaCentor = haCentorService.selectAllCentorcAndCount(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("c.centorno","area","and"));
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorcAndCount(params);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"zbs");
@@ -50,9 +55,10 @@ public class CentorcController extends BaseController {
 
     @PostMapping("/centorcByQueryIdListJson")
     @ResponseBody
-    public Map<String,Object> centorzByCollectoridListJson(HaCentor parms){
+    public Map<String,Object> centorzByCollectoridListJson(HaCentor params){
         startPage();
-        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("c.centorno","area","and"));
+        List<HaCentor> listHaCentor = haCentorService.selectAllCentorzQueryIdAndCount(params);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
         mi.put(0,"lfNumber");
@@ -66,6 +72,20 @@ public class CentorcController extends BaseController {
         Map<String,Object> m =getDataTable(listHaCentor);
         m.put("userdata",map2);
         return m;
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaCentor params, ExportExcelUtil exportExcelUtil)
+    {
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("c.centorno","area","and"));
+        List<HaCentor> list = null;
+        if(params.getParams().get("exportType").equals("1")){
+            list =  haCentorService.selectAllCentorcAndCount(params);
+        }else if(params.getParams().get("exportType").equals("2")){
+            list =  haCentorService.selectAllCentorzQueryIdAndCount(params);
+        }
+        return exportExcelUtil.init(list, "");
     }
 
 }

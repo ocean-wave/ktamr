@@ -31,9 +31,9 @@
 	layui.use(['layer', 'form'], function(){
 		var g_centorId = [[${centorId}]];
         var lastSel;
-        var GridObj = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 150,'/systemmaintenance/loadCollectorJson');
+        var GridObj = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 150,'/systemmaintenance/equipment/loadCollectorJson');
         GridObj.jqdefaultGridConfig.caption = "采集器列表：";
-        GridObj.jqdefaultGridConfig.postData = {"centorId":g_centorId};
+        GridObj.jqdefaultGridConfig.postData = {"centorId":g_centorId,"params[exportType]":"3"};
         GridObj.jqdefaultGridConfig.scroll = true;
         GridObj.jqdefaultGridConfig.colNames = ['collectorId','设备名称','设备类型','设备地址','状态','执行结果'];
         GridObj.jqdefaultGridConfig.colModel = [
