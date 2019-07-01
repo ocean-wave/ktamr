@@ -77,7 +77,7 @@ public interface HaCentorService {
     HaCentor updateByDeviceType(Integer id);
 
     //修改时集中器传值
-    List<HaCentor> DeviceByWhere(String deviceType);
+    List<HaCentor> DeviceByWhere(HaCentor haCentor);
 
     HaCentor centorDevNo(Integer centorId);
 

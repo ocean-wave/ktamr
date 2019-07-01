@@ -4,6 +4,7 @@ import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.utils.export.ExcelUtil;
 import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.*;
 import com.ktamr.service.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -80,19 +81,24 @@ public class RoomController extends BaseController {
     }
 
     @RequestMapping("/JumpRoomMeterUpdate")
-    public String JumpRoomMeterUpdate(Integer roomId, Integer meterId, Model model) {
+    public String JumpRoomMeterUpdate(Integer roomId, Integer meterId, Model model,HaCentor haCentor) {
         HaRoom haRoom = new HaRoom();
         haRoom.setRoomId(roomId);
         HaRoom room = haRoomService.delByIdHaRoom(haRoom);
         HaMeter haMeter = new HaMeter();
         haMeter.setMeterId(meterId);
         HaMeter meter = haMeterService.delByIdHaMeter(haMeter);
+
         HaPricestandard haPricestandards = haPricestandardService.queryPName(meter.getPricestandId());
         List<HaPricestandard> pricestandards = haPricestandardService.queryPriceStandardList();
         HaRoom byHaRoomAreaId = haRoomService.getByHaRoomAreaId(roomId);
         HaRoom byHaRoomBuildingId = haRoomService.getByHaRoomBuildingId(roomId);
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
         HaCentor centor = haCentorService.updateByDeviceType(meter.getCentorId());
+        //查询所对应的全部集采器信息
+        haCentor.setDeviceType(centor.getDeviceType());
+        haCentor.getParams().put("getRightCondition", SqlCondition.getRightCondition("centorNo","centor","and"));
+        List<HaCentor> haCentors = haCentorService.DeviceByWhere(haCentor);
         model.addAttribute("room", room);
         model.addAttribute("meter", meter);
         model.addAttribute("haPricestandards", haPricestandards);
@@ -103,6 +109,7 @@ public class RoomController extends BaseController {
         model.addAttribute("byHaRoomBuildingId", byHaRoomBuildingId);
         model.addAttribute("haArea", haArea);
         model.addAttribute("centor", centor);
+        model.addAttribute("haCentors", haCentors);
         return "area/room_meter_update";
     }
 
@@ -193,13 +200,13 @@ public class RoomController extends BaseController {
         return map;
     }
 
-    @RequestMapping("/DeviceByWhere")
+   /* @RequestMapping("/DeviceByWhere")
     @ResponseBody
-    public Object DeviceByWhere(String deviceType) {
-        List<HaCentor> haCentors = haCentorService.DeviceByWhere(deviceType);
+    public Object DeviceByWhere(HaCentor haCentor) {
+
         return haCentors;
     }
-
+*/
     @RequestMapping("/UpdateRoom")
     @ResponseBody
     public Object updateRoom(String opType, Integer meterId, Integer centorId, Integer collectorId, Integer meterNumber, HaRoom haRoom, HaMeter haMeter) {

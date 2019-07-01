@@ -373,19 +373,15 @@
 
     <!--查看抄收设备-->
     <select id="updateByDeviceType" resultType="com.ktamr.domain.HaCentor">
-        SELECT
-        case
-          when Left(description, 3)='KT4' then 'centor'
-          when Left(description, 4)='GPRS' then 'ccentor'
-          when Left(description, 3)='COM' then 'HAND'
-          when Left(description, 3)='KT3' then 'handDevice'
-        end as description
-        FROM ha_centor WHERE id=#{id}
+        SELECT CASE WHEN Left(description, 3)='KT4' THEN 'centor'
+				WHEN Left(description, 4)='GPRS' OR Left(description, 3)='COM' OR Left(description, 3)='KT3' THEN 'ccentor'
+				WHEN description='HAND' THEN 'handDevice' END as description
+			FROM ha_centor WHERE id=#{id}
     </select>
 
     <!--修改时集中器传值-->
     <select id="DeviceByWhere" resultType="com.ktamr.domain.HaCentor">
-        SELECT id,centorNo||':'||addr FROM ha_centor WHERE 1=1
+        SELECT id,centorNo||':'||addr as addr FROM ha_centor WHERE 1=1
         <if test="deviceType=='centor'">
             and Left(description,3)='KT4'
         </if>
@@ -398,6 +394,7 @@
         <if test="deviceType==null or deviceType==''">
             and id is not NULL
         </if>
+        ${params.getRightCondition}
         ORDER BY centorNo,description
     </select>
 
