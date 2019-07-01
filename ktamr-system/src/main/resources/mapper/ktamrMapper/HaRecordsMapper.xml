@@ -106,44 +106,48 @@
     </select>
 
     <select id="selectDosageHistory" resultMap="haRecords" parameterType="com.ktamr.domain.HaRecords">
-        select
-        t1.itemid AS itemid
-        , t1.thNumber
-        , t1.lfNumber
-        , t1.delta
-        , t1.state
-        , t1.thTime
-        , t1.lfTime
-        from (
-        SELECT rc1.itemid AS itemid
-        , rc1.meterid AS meterid
-        , rc1.th_number AS thNumber
-        , rc1.lf_number AS lfNumber
-        , rc1.delta AS delta
-        , rc1.state AS state
-        , rc1.th_time AS thTime
-        ,rc1.lf_time AS lfTime
-        FROM ha_records rc1
-        UNION ALL
-        SELECT er1.itemid AS itemid
-        , er1.meterid AS meterid
-        ,0 AS thNumber
-        ,0 AS lfNumber
-        , er1.n AS delta
-        , er1.state AS state
-        , er1.readtime AS thTime
-        , er1.readtime AS lfTime
-        FROM ha_errRecord er1
-        ) t1
-        where 1=1
-        <!--数据范围过滤-->
-        ${params.getRightCondition}
-        <if test=" meterId != null ">
-            and t1.meterid = #{meterId}
-        </if>
-        <if test=" params.startDate != null and params.startDate != '' ">
-            AND t1.thTime BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
-        </if>
+        select * from (select
+            t1.itemid AS itemid
+            , t1.thNumber
+            , t1.lfNumber
+            , t1.delta
+            , t1.state
+            , t1.thTime
+            , t1.lfTime
+            from (
+            SELECT rc1.itemid AS itemid
+            , rc1.meterid AS meterid
+            , rc1.th_number AS thNumber
+            , rc1.lf_number AS lfNumber
+            , rc1.delta AS delta
+            , rc1.state AS state
+            , rc1.th_time AS thTime
+            ,rc1.lf_time AS lfTime
+            FROM ha_records rc1
+            UNION ALL
+            SELECT er1.itemid AS itemid
+            , er1.meterid AS meterid
+            ,0 AS thNumber
+            ,0 AS lfNumber
+            , er1.n AS delta
+            , er1.state AS state
+            , er1.readtime AS thTime
+            , er1.readtime AS lfTime
+            FROM ha_errRecord er1
+            ) t1
+            where 1=1
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
+            <if test=" meterId != null ">
+                and t1.meterid = #{meterId}
+            </if>
+            <if test=" params.startDate != null and params.startDate != '' ">
+                AND t1.thTime BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and
+                to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+        ) t
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
 </mapper>

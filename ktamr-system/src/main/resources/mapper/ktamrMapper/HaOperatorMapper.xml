@@ -39,7 +39,7 @@
         select * from (
 	        select
 			operator_code AS operatorCode,
-			operator_company AS operatorCompany,
+			operator_name AS operatorName,
 			case when operator_company = '镇江水司' then 'sys_zjss'
 			when operator_company =  '泰州水司' then 'sys_tzss'
 			when operator_company =  '南通燃气' then 'sys_ntrq'

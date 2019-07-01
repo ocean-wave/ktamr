@@ -133,12 +133,12 @@
             if(deviceType == "allCentor"){
                 $(".centorcBtns").show();
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/centorcListJson');
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/collector/centorcListJson');
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {"params[nodeType]": nodeType, "params[nodeIds]": nodeIds};
+                GridObj.jqdefaultGridConfig.postData = {"params[nodeType]": nodeType, "params[nodeIds]": nodeIds,"params[exportType]":"1"};
                 GridObj.jqdefaultGridConfig.colNames = ['id','编号','设备号','安装地点','连接说明','状态','总表数','读入表数','建档表数','无返回表数','最近联断时间','信号强度','电池电压','版本','备注','拨号号码','安装时间'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'id',  width: 75, key: true, hidden: true},
@@ -169,12 +169,12 @@
             }else if(deviceType == "centorc"){
                 $(".meterBtns").show();
 
-                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/centorcByQueryIdListJson');
+                var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 180,'/equipment/collector/centorcByQueryIdListJson');
                 GridObj.unloadGrid();
                 GridObj.removeGridResize();
                 GridObj.jqdefaultGridConfig.caption = "";
                 GridObj.jqdefaultGridConfig.multiselect = true;
-                GridObj.jqdefaultGridConfig.postData = {"centorId": deviceId};
+                GridObj.jqdefaultGridConfig.postData = {"centorId": deviceId,"params[exportType]":"2"};
                 GridObj.jqdefaultGridConfig.colNames = ['meterId','centorId','centorAddr','用户编号','用户名称','用户地址','表号','上期结算','最近读数','本期用量','表状态','最近抄表时间','操作结果'];
                 GridObj.jqdefaultGridConfig.colModel = [
                     { name: 'havMeterinfo.meterId',  width: 75, key: true, hidden: true},
@@ -420,11 +420,11 @@
             if(deviceType == "allCCentor"){
                 _layerSize = ['455px', '360px'];
                 _queryStr = [
-                    "deviceType=ccentor",
+                    "deviceType=centorc",
                     "cmdName="+cmdName,
                     "ids="+rowIds
                 ];
-                _myLayui.showLayer(cmdName,"./device_mng.asp", _queryStr, _layerSize);
+                _myLayui.showLayer(cmdName,"/equipment/concentrator/deviceMng", _queryStr, _layerSize);
             }else{
                 cmdsObj.cmdName = cmdName;
                 cmdsObj.rowIds = rowIds.split(",");

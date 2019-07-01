@@ -37,10 +37,10 @@
                   and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like
                   '%${params.keyWord}%')
               </if>
+              order by name
         ) t
         <!--多条件查询-->
         ${multipleConditions}
-        order by name
     </select>
 
 

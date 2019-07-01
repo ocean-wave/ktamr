@@ -25,7 +25,7 @@
 				"sub": [
 					{
 						"id": "1-2-1",
-						"url": "/equipment/centorz",
+						"url": "/equipment/concentrator/centorz",
 						"name": "集中器抄控",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -34,7 +34,7 @@
 					},
 					{
 						"id": "1-2-2",
-						"url": "/equipment/centorc",
+						"url": "/equipment/collector/centorc",
 						"name": "集采器抄控",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -61,7 +61,7 @@
 					},
 					{
 						"id": "1-2-5",
-						"url": "/equipment/nbSurfaceList",
+						"url": "/equipment/nbsurface/nbSurfaceList",
 						"name": "NB-单表",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -78,7 +78,7 @@
 				"sub": [
 					{
 						"id": "1-3-1",
-						"url": "/dataselect/dosage",
+						"url": "/dataselect/dosage/dosageRecentlyList",
 						"name": "用量查询",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -87,7 +87,7 @@
 					},
 					{
 						"id": "1-3-2",
-						"url": "/dataselect/freeze",
+						"url": "/dataselect/freeze/freezeList",
 						"name": "冻结查询",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -96,7 +96,7 @@
 					},
 					{
 						"id": "1-3-3",
-						"url": "/dataselect/replace",
+						"url": "/dataselect/replace/replaceList",
 						"name": "换表记录",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -105,7 +105,7 @@
 					},
 					{
 						"id": "1-3-4",
-						"url": "/dataselect/notok",
+						"url": "/dataselect/notok/notokList",
 						"name": "不良表查询",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
@@ -201,7 +201,7 @@
 				"sub": [
 					{
 						"id": "1-7-1",
-						"url": "/systemmaintenance/cmdAdd",
+						"url": "/systemmaintenance/equipment/cmdAdd",
 						"name": "设备抄控管理",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",

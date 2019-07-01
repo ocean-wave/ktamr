@@ -30,13 +30,13 @@ public class NodesServiceImpl implements NodesService {
     }
 
     @Override
-    public List<Map<String, Object>> selectAllCentorzNodes(String areaType,String id) {
-        return nodesMapper.selectAllCentorzNodes(areaType,id);
+    public List<Map<String, Object>> selectAllCentorzNodes(Map<String,Object> map) {
+        return nodesMapper.selectAllCentorzNodes(map);
     }
 
     @Override
-    public List<Map<String, Object>> selectAllCentorcNodes(String rgnAndAreaId,String id) {
-        return nodesMapper.selectAllCentorcNodes(rgnAndAreaId,id);
+    public List<Map<String, Object>> selectAllCentorcNodes(Map<String,Object> map) {
+        return nodesMapper.selectAllCentorcNodes(map);
     }
 
     @Override

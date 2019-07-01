@@ -33,9 +33,9 @@
 <script th:inline="javascript">
 	layui.use(['layer', 'form'], function(){
 		var g_centorId = [[${centorId}]];
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/loadCentorMeterJson');
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/equipment/loadCentorMeterJson');
 		GridObj.jqdefaultGridConfig.caption = "表列表：";
-		GridObj.jqdefaultGridConfig.postData = {"centorId": g_centorId};
+		GridObj.jqdefaultGridConfig.postData = {"centorId": g_centorId,"params[exportType]":"2"};
 		GridObj.jqdefaultGridConfig.multiselect = true;
 		GridObj.jqdefaultGridConfig.colNames = ['meterId','用户编号','用户地址','用户名称','表号','表状态','所属采集器','执行结果'];
 		GridObj.jqdefaultGridConfig.colModel = [

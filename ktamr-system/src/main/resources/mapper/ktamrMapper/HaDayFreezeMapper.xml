@@ -8,11 +8,11 @@
 
         <result column="meterId" property="meterId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="meterNumber" property="meterNumber" javaType="java.lang.Long"></result>
-        <result column="tRead" property="tRead" javaType="java.lang.Integer"></result>
-        <result column="lRead" property="lRead" javaType="java.lang.Integer"></result>
-        <result column="aMount" property="aMount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="tread" property="tread" javaType="java.lang.Integer"></result>
+        <result column="lread" property="lread" javaType="java.lang.Integer"></result>
+        <result column="amount" property="amount" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="fDay" property="fDay" javaType="java.util.Date" ></result>
+        <result column="fday" property="fday" javaType="java.util.Date" ></result>
         <result column="readTime" property="readTime" javaType="java.util.Date" ></result>
         <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
             <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -71,15 +71,15 @@
         SELECT Count(meterid) FROM ha_dayfreeze WHERE meterid=#{meterId} and fday=to_date(#{thRTime},'yyyy-mm-dd')-1
     </select>
 
-    <select id="selectFreeze" resultMap="haDayfreezeMap" parameterType="com.ktamr.domain.HaDayfreeze">
+    <select id="selectFreeze" resultMap="haDayfreezeMap">
         select * from (SELECT fz.meterId
             ,mi.用户号 AS userNo
             , mi.用户名 AS userName
             , mi.用户地址 AS userDs
-            , fz.meterNumber AS meterNumber
-            , fz.t_read AS tRead
-            ,fz.l_read AS lRead
-            ,fz.amount AS aMount
+            , mi.表号 AS meterNumber
+            , fz.t_read AS tread
+            ,fz.l_read AS lread
+            ,fz.amount AS amount
             ,fz.state AS state
             ,fz.fday AS fday
             ,fz.readTime AS readTime
@@ -119,13 +119,17 @@
                 AND fz.readTime BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and
                 to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
             </if>
-            <if test=" params.keyWord != null and params.keyWord != '' ">
-                and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
-                or mi.用户地址 like '%${params.keyWord}%')
+            <if test=' params.keyWord != null and params.keyWord != "" '>
+                and (mi.用户号 like '%${params.keyWord}%'
+                or mi.用户名 like '%${params.keyWord}%'
+                or mi.用户地址 like '%${params.keyWord}%'
+                or mi.表号::varchar(16) like '%${params.keyWord}%'
+                )
             </if>
         ) t
+        <!--多条件查询-->
+        ${multipleConditions}
         ORDER BY userDs,fday
-        limit 10000
     </select>
 
 

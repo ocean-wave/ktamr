@@ -8,7 +8,7 @@
 	<div class="row" style="margin:0;padding:5px 0px 5px 0px;">
 		<div class="col-xs-2 my-form-col">
 			<select id='showListType' class="selectpicker form-control" data-style="btn-default btn-sm">
-				<option  th:each="entries,stat:${operatorCompnayList}" th:value="${entries['operatorCompanyId']}" th:text="${entries['operatorCompany']}"  th:selected="${stat.index eq 0}"></option>
+				<option  th:each="entries,stat:${operatorCompnayList}" th:value="${entries['operatorCompanyId']}" th:text="${entries['operatorName']}"  th:selected="${stat.index eq 0}"></option>
 			</select>
 		</div>
 		<div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">

@@ -120,22 +120,35 @@
         <if test=" params.operatorLevel == 'admin' ">
             AND (c.inter_cmdid is null OR c.inter_cmdid=0)
         </if>
-        <if test=" params.operatorLevel == 'normal' ">
+        <if test=' params.operatorLevel == "normal" '>
             AND (o.operator_code IN (
             SELECT operator_code FROM ha_operator
             WHERE operator_upper=#{params.operatorCode} OR operator_code=#{params.operatorCode})
-            OR (c.uid='sys' or ''='')
+            OR (c.uid='sys'
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
+            )
             OR c.uid=#{params.operatorCompanyId})
         </if>
-        <if test=" params.operatorLevel != 'normal' and params.operatorLevel !='admin' ">
-            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys' or ''='')
+        <if test=' params.operatorLevel != "normal" and params.operatorLevel !="admin" '>
+            AND (o.operator_code=#{params.operatorCode} OR (c.uid='sys'
+            <!--数据范围过滤-->
+            ${params.getRightCondition}
+            )
             OR c.uid=#{params.operatorCompanyId})
         </if>
         <if test=' params.isSYS !=null and params.isSYS!="" '>
             AND uid!=#{params.isSYS}
         </if>
-        <if test=" params.keyWord != null and params.keyWord != ''  ">
-            and (c.cmd like '%${params.keyWord}%' or c.parms like '%${params.keyWord}%' or c.processing like '%${params.keyWord}%' )
+        <if test=' params.keyWord != null and params.keyWord != ""  '>
+            and (c.cmd like '%${params.keyWord}%'
+            or c.parms like '%${params.keyWord}%'
+            or ce.addr like '%${params.keyWord}%'
+            or c.state like '%${params.keyWord}%'
+            or to_char(c.lastBeginTime,'yyyy-MM-dd HH24:mm:ss') like '%${params.keyWord}%'
+            or to_char(c.lastEndTime,'yyyy-MM-dd HH24:mm:ss') like '%${params.keyWord}%'
+            or c.processing like '%${params.keyWord}%'
+            )
         </if>
         ORDER BY c.id DESC
     </select>

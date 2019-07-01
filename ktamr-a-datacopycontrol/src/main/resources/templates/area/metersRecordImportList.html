@@ -32,7 +32,7 @@
 
 		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 182,"/handwork/metersRecordImportListJson");
 		GridObj.jqdefaultGridConfig.caption = [[${msgTitle}]];
-		GridObj.jqdefaultGridConfig.postData = {importTime: g_importTime};
+		GridObj.jqdefaultGridConfig.postData = {importTime: g_importTime,"params[exportType]":"2"};
 		GridObj.jqdefaultGridConfig.colNames = ['id','校验结果','用户编号','用户名称','表号','状态','读数','抄表时间'];
 		GridObj.jqdefaultGridConfig.colModel = [
 			{ name: 'id',  width: 75, key: true, hidden: true},

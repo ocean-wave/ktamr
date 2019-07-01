@@ -214,6 +214,7 @@
 			nodeIdsId: "nodeIds",
 			nodeNamesId: "areaSel",
 			clickCallBack: gridDataReload
+
 		};
 		var tree = new myzTree("areaTree", zOption);
 		tree.dropDownTreeOpen();
@@ -224,8 +225,10 @@
 		dropdownOpen();//bootsrap button group drop down
 
 		var lastSel1="";
-		var Post_Data1 = {"params[deviceType]": "ccentor", "params[operable]": "true"};
-		var GridObj1 = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 149,'/systemmaintenance/cmdAddJson');
+		var dataType = $("#query_type").val();
+		var nodeType = $("#nodeType").val();
+		var Post_Data1 = {"params[nodeType]":$("#nodeType").val(),"params[nodeIds]": $("#nodeIds").val(),"params[deviceType]": "ccentor", "params[operable]": "true","params[exportType]":"1"};
+		var GridObj1 = new myJqGrid("jqGrid1", "jqGridPager1", "jqgridForm1", 149,'/systemmaintenance/equipment/cmdAddJson');
 		GridObj1.jqdefaultGridConfig.caption = "集采器列表：";
 		GridObj1.jqdefaultGridConfig.postData = Post_Data1;
 		GridObj1.jqdefaultGridConfig.scroll = true;

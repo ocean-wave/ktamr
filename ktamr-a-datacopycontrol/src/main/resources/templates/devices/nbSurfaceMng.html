@@ -97,7 +97,7 @@
         <div class="col-md-12">
             <div class="well" style="padding:10px 19px;">
                 <div>
-                    <label>执行状态：</label><span id="cmd_state"><img src="../images/loading-0.gif"></img></span>，<label>执行情况：</label><span id="cmd_description"></span>
+                    <label>执行状态：</label><span id="cmd_state"><img src="../../images/loading-0.gif"></img></span>，<label>执行情况：</label><span id="cmd_description"></span>
                     <a data-toggle="collapse" data-target="#more">详细</a>
                     <div class="pull-right cmd_list" style="display:none;">
                         <a>查看抄收结果</a>
@@ -113,8 +113,8 @@
     </div>
 
     <div class="form-inline my-page-btn" style="display:none;">
-        <button type="button" data-title="确定" class="btn btn-default btn-sm" ><img src="../images/tick.png" />确定</button>
-        <button type="button" data-title="关闭" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+        <button type="button" data-title="确定" class="btn btn-default btn-sm" ><img src="../../images/tick.png" />确定</button>
+        <button type="button" data-title="关闭" class="btn btn-default btn-sm btnMargin"><img src="../../images/cancel.png" />关闭</button>
     </div>
 </div>
 
@@ -247,13 +247,13 @@
             var rowData = parent.$("#"+_this.gridId).jqGrid('getRowData', selRowId);
             switch(this.cmdName){
                 case "校时":
-                    cmd = "校时" +":"+rowData['表号']+","+$("#heartBeat").val();
+                    cmd = "校时" +":"+rowData['havMeterinfo.meterNumber']+","+$("#heartBeat").val();
                     break;
                 case "读时钟":
-                    cmd = "读时钟" +":"+rowData['表号'];
+                    cmd = "读时钟" +":"+rowData['havMeterinfo.meterNumber'];
                     break;
                 case "设心跳维护间隔":
-                    cmd = "设心跳维护间隔" +":"+rowData['表号']+","+$("#intervalHH").val()+","+$("#intervalMM").val()+","+$("#startDateHH").val();
+                    cmd = "设心跳维护间隔" +":"+rowData['havMeterinfo.meterNumber']+","+$("#intervalHH").val()+","+$("#intervalMM").val()+","+$("#startDateHH").val();
                     break;
                 default:
                     cmd = this.cmdName +":0";
@@ -264,7 +264,7 @@
                 url: get_cmdid_url
                 ,type: "POST"
                 ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
-                ,data: {cmd: cmd, centorid: rowData['centorid']}
+                ,data: {cmd: cmd, centorid: rowData['id']}
                 ,success: function(data){
                     if (!isNaN(data)){
                         $("#cmd_state").html("待执行");

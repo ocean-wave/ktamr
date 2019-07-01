@@ -62,7 +62,7 @@
 		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 114,'/systemmaintenance/cmdListJson');
 		//GridObj.jqdefaultGridConfig.caption = "命令执行情况列表：";
 		GridObj.jqdefaultGridConfig.multiselect = true;
-		GridObj.jqdefaultGridConfig.postData = {"params[deviceType]":"ccentor"};
+		GridObj.jqdefaultGridConfig.postData = {"params[deviceType]":"ccentor","params[exportType]":"1"};
 		GridObj.jqdefaultGridConfig.colNames = ['id','命令','参数','设备名称','状态','进度描述','最近开始操作时间','最近结束操作时间','重试次数','执行人'];
 		GridObj.jqdefaultGridConfig.colModel = [
 			{ name: 'id',  width: 75, key: true, hidden: true},

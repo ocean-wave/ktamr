@@ -67,8 +67,8 @@
 		var g_devDescription = [[${devDescription}]];
 		var g_meterType = "10";
 
-		var Post_Data = {centorId: g_centorId};
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/loadKT300MeterJson');
+		var Post_Data = {centorId: g_centorId,"params[exportType]":"5"};
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/equipment/loadKT300MeterJson');
 		GridObj.jqdefaultGridConfig.caption = "表列表：";
 		GridObj.jqdefaultGridConfig.multiselect = true;
 		GridObj.jqdefaultGridConfig.postData = Post_Data;

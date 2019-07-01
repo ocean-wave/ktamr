@@ -22,9 +22,9 @@
 <script th:inline="javascript">
 	layui.use(['layer', 'form'], function(){
 		var g_centorId = [[${centorId}]];
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/loadAreaJson');
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 150,'/systemmaintenance/equipment/loadAreaJson');
 		GridObj.jqdefaultGridConfig.caption = "小区列表：";
-		GridObj.jqdefaultGridConfig.postData = {};
+		GridObj.jqdefaultGridConfig.postData = {"params[exportType]":"4"};
 		GridObj.jqdefaultGridConfig.multiselect = true;
 		GridObj.jqdefaultGridConfig.scroll = true;
 		GridObj.jqdefaultGridConfig.colNames = ['areaId','小区编号','小区名称','执行结果'];

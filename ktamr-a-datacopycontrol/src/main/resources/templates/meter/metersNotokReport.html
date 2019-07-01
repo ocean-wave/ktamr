@@ -113,7 +113,7 @@
 		var dataType = $("#query_type").val();
 		var nodeType = $("#nodeType").val();
 		var nodeIds = $("#nodeIds").val();
-		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115, '/dataselect/notokListJson');
+		var GridObj = new myJqGrid("jqGrid", "jqGridPager", "jqgridForm", 115, '/dataselect/notok/notokListJson');
 		GridObj.unloadGrid();
 		GridObj.removeGridResize();
 		GridObj.jqdefaultGridConfig.caption = "";
@@ -126,13 +126,13 @@
 			{name: 'havMeterinfo.userName', width: 100},
 			{name: 'havMeterinfo.userDs', width: 170},
 			{name: 'havMeterinfo.meterNumber', align: 'right', width: 130},
-			{name: 'thNumber', align: 'right', width: 70},
-			{name: 'lfNumber', align: 'right', width: 70},
-			{name: 'sNumber', align: 'right', width: 70},
-			{name: 'state', width: 100, cellattr: MeterStateCellColor},
+			{name: 'havMeterinfo.thNumber', align: 'right', width: 70},
+			{name: 'havMeterinfo.lfNumber', align: 'right', width: 70},
+			{name: 'havMeterinfo.snumber', align: 'right', width: 70},
+			{name: 'havMeterinfo.state', width: 100, cellattr: MeterStateCellColor},
 			{name: 'havMeterinfo.thRTime', width: 150},
 			{name: 'haCentor.centorNo', width: 120},
-			{name: 'haCollector.resultParams.nconf', width: 120}
+			{name: 'haCollector.snconf', width: 120}
 		];
 		//GridObj.jqdefaultGridConfig.gridComplete = function(){MeterStateRowColor("jqGrid", "表状态")};
 		GridObj.jqdefaultGridConfig.loadComplete = function () {

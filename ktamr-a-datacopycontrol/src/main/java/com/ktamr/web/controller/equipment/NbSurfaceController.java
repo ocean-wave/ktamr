@@ -1,8 +1,11 @@
 package com.ktamr.web.controller.equipment;
 
 
+import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.DateUtils;
+import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.service.HaCentorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/equipment")
+@RequestMapping("/equipment/nbsurface")
 public class NbSurfaceController extends BaseController {
 
     private  String pxePath = "devices";
@@ -41,10 +44,20 @@ public class NbSurfaceController extends BaseController {
 
     @PostMapping("/nbSurfaceListJson")
     @ResponseBody
-    public Map<String,Object> centorcListJson(HaCentor parms){
+    public Map<String,Object> centorcListJson(HaCentor params){
         startPage();
-        List<HaCentor> listHaCentor = haCentorService.selectNbSurfaceCollector(parms);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("c.centorno","area","and"));
+        List<HaCentor> listHaCentor = haCentorService.selectNbSurfaceCollector(params);
         return getDataTable(listHaCentor);
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaCentor params, ExportExcelUtil exportExcelUtil)
+    {
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("c.centorno","area","and"));
+        List<HaCentor> list =  haCentorService.selectNbSurfaceCollector(params);
+        return exportExcelUtil.init(list, "");
     }
 
 }

@@ -1,5 +1,9 @@
 package com.ktamr.web.controller.systemmaintenance;
 
+import com.ktamr.ShiroUtils;
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaCmd;
 import com.ktamr.domain.HaErrrecord;
 import com.ktamr.domain.HaMeterAddr;
@@ -44,9 +48,13 @@ public class CmdListController extends BaseController {
 
     @PostMapping("/cmdListJson")
     @ResponseBody
-    public Map<String, Object> cmdListJson(HaCmd haCmd){
+    public Map<String, Object> cmdListJson(HaCmd params){
         startPage();
-        List<HaCmd> listCmd = haCmdService.selectCmdLeftJoinTow(haCmd);
+        params.getParams().put("operatorLevel", ShiroUtils.getHaOperator().getOperatorLevel());
+        params.getParams().put("operatorCode", ShiroUtils.getOperatorCode());
+        params.getParams().put("operatorCompanyId", ShiroUtils.getHaOperator().getOperatorCompanyId());
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("ce.centorno","area","or"));
+        List<HaCmd> listCmd = haCmdService.selectCmdLeftJoinTow(params);
         return getDataTable(listCmd);
     }
 
@@ -211,5 +219,23 @@ public class CmdListController extends BaseController {
             }
         }
         return "true";
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaCmd params, ExportExcelUtil exportExcelUtil)
+    {
+        List<HaCmd> list = null;
+        if(params.getParams().get("exportType").equals("1")){
+            params.getParams().put("operatorLevel", ShiroUtils.getHaOperator().getOperatorLevel());
+            params.getParams().put("operatorCode", ShiroUtils.getOperatorCode());
+            params.getParams().put("operatorCompanyId", ShiroUtils.getHaOperator().getOperatorCompanyId());
+            params.getParams().put("getRightCondition", SqlCondition.getRightCondition("ce.centorno","area","or"));
+            list =  haCmdService.selectCmdLeftJoinTow(params);
+            return exportExcelUtil.init(list, "");
+        }else{
+            list = null;
+            return exportExcelUtil.init(list, "");
+        }
     }
 }

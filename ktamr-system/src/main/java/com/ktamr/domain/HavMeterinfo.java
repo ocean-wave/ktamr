@@ -31,7 +31,8 @@ public class HavMeterinfo extends BaseEntity {
     private double snumber;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date thRTime;
-    private String lfTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date lfTime;
     private String state;
 
     private HaRecords haRecords;
@@ -276,11 +277,11 @@ public class HavMeterinfo extends BaseEntity {
         this.lfNumber = lfNumber;
     }
 
-    public String getLfTime() {
+    public Date getLfTime() {
         return lfTime;
     }
 
-    public void setLfTime(String lfTime) {
+    public void setLfTime(Date lfTime) {
         this.lfTime = lfTime;
     }
 

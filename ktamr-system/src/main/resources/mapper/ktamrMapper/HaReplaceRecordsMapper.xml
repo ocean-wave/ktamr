@@ -24,50 +24,54 @@
     </resultMap>
 
     <select id="selectReplace" resultMap="haReplaceRecordsMap" parameterType="com.ktamr.domain.HaReplacerecords">
-        SELECT r.recordId AS recordId
-        ,mi.用户号 AS userNo
-        ,mi.用户名 AS userName
-        ,mi.用户地址 AS userDs
-        ,mi.表号 AS meterNumber
-        ,r.oldMeterNumber AS oldMeterNumber
-        ,r.newMeterNumber  AS newMeterNumber
-        ,r.finalRead AS finalRead
-        ,r.oriRead AS oriRead
-        ,r.finalUse AS finalUse
-        ,r.finalState AS finalState
-        ,r.replaceDate AS replaceDate
-        ,r.explain AS explain
-        , r.replaceMan AS replaceMan
-        FROM ha_replaceRecords r
-        LEFT JOIN hav_meterinfo mi ON r.meterId=mi.meterId
-        WHERE r.recordId>0
-        <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
-            AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
-        </if>
-        <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
-            AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
-        </if>
-        <if test=" params.dataType == 'meterOriRead' ">
-            AND r.newMeterNumber is null
-        </if>
-        <if test=" params.dataType == 'meterReplace'">
-            AND length(trim(to_char(r.newMeterNumber, '99999999999999999')))!=0
-        </if>
-        <if test=" params.startDate != null and params.startDate != '' and params.endDate != null and params.endDate != '' ">
-            AND r.replaceDate BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
-        </if>
-        <if test=" params.keyWord != null and params.keyWord != '' ">
-            and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
-            or mi.用户地址 like '%${params.keyWord}%' or trim(to_char(mi.表号, '9999999999999999')) like '%${params.keyWord}%'
-            or trim(to_char(r.oldMeterNumber, '9999999999999999')) like '%${params.keyWord}%'
-            or trim(to_char(r.newMeterNumber, '999999999999999999')) like '%${params.keyWord}%'
-            or trim(to_char(r.finalRead, '999999999999999999')) like '%${params.keyWord}%'
-            or trim(to_char(r.oriRead , '999999999999999999')) like '%${params.keyWord}%'
-            or trim(to_char(r.finalUse, '999999999999999999')) like '%${params.keyWord}%'
-            or r.finalState like  #{params.keyWord} or to_char(r.replaceDate,'yyyy-mm-dd') like '%${params.keyWord}%'
-            or r.explain  like '%${params.keyWord}%' or r.replaceMan like '%${params.keyWord}%' )
-        </if>
-        ORDER BY mi.用户地址,r.replaceDate
+        select * from (SELECT r.recordId AS recordId
+            ,mi.用户号 AS userNo
+            ,mi.用户名 AS userName
+            ,mi.用户地址 AS userDs
+            ,mi.表号 AS meterNumber
+            ,r.oldMeterNumber AS oldMeterNumber
+            ,r.newMeterNumber AS newMeterNumber
+            ,r.finalRead AS finalRead
+            ,r.oriRead AS oriRead
+            ,r.finalUse AS finalUse
+            ,r.finalState AS finalState
+            ,r.replaceDate AS replaceDate
+            ,r.explain AS explain
+            , r.replaceMan AS replaceMan
+            FROM ha_replaceRecords r
+            LEFT JOIN hav_meterinfo mi ON r.meterId=mi.meterId
+            WHERE r.recordId>0
+            <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+                AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
+            </if>
+            <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+                AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
+            </if>
+            <if test=" params.dataType == 'meterOriRead' ">
+                AND r.newMeterNumber is null
+            </if>
+            <if test=" params.dataType == 'meterReplace'">
+                AND length(trim(to_char(r.newMeterNumber, '99999999999999999')))!=0
+            </if>
+            <if test=" params.startDate != null and params.startDate != '' and params.endDate != null and params.endDate != '' ">
+                AND r.replaceDate BETWEEN to_date(#{params.startDate},'yyyy-mm-dd hh24:mi:ss') and
+                to_date(#{params.endDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test=" params.keyWord != null and params.keyWord != '' ">
+                and (mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
+                or mi.用户地址 like '%${params.keyWord}%' or trim(to_char(mi.表号, '9999999999999999')) like '%${params.keyWord}%'
+                or trim(to_char(r.oldMeterNumber, '9999999999999999')) like '%${params.keyWord}%'
+                or trim(to_char(r.newMeterNumber, '999999999999999999')) like '%${params.keyWord}%'
+                or trim(to_char(r.finalRead, '999999999999999999')) like '%${params.keyWord}%'
+                or trim(to_char(r.oriRead , '999999999999999999')) like '%${params.keyWord}%'
+                or trim(to_char(r.finalUse, '999999999999999999')) like '%${params.keyWord}%'
+                or r.finalState like #{params.keyWord} or to_char(r.replaceDate,'yyyy-mm-dd') like '%${params.keyWord}%'
+                or r.explain like '%${params.keyWord}%' or r.replaceMan like '%${params.keyWord}%' )
+            </if>
+            ORDER BY mi.用户地址,r.replaceDate
+        ) t
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
 </mapper>

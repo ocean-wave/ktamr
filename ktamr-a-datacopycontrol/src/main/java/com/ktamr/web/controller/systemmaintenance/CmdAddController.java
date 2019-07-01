@@ -1,5 +1,8 @@
 package com.ktamr.web.controller.systemmaintenance;
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HaCollector;
@@ -18,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/systemmaintenance")
+@RequestMapping("/systemmaintenance/equipment")
 public class CmdAddController extends BaseController {
     private  String pxePath = "datamng";
 
@@ -155,6 +158,37 @@ public class CmdAddController extends BaseController {
         startPage();
         List<HaMeter> listMeter = haMeterService.selectMeterByCollectorId(collectorId);
         return getDataTable(listMeter);
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HaArea haArea,HaCentor params,@RequestParam( value = "centorId",required = false) Integer centorId,
+                             @RequestParam( value = "collectorId",required = false) Integer collectorId, ExportExcelUtil exportExcelUtil)
+    {
+        List<HaCentor> list = null;
+        List<HaCollector> list2 = null;
+        List<HaMeter> list3 = null;
+        List<HaArea> list4 = null;
+        if(params.getParams().get("exportType").equals("1")){
+            params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+            list =  haCentorService.selectCentor(params);
+            return exportExcelUtil.init(list, "");
+        }else if(params.getParams().get("exportType").equals("2")){
+            list3 =  haMeterService.selectMeterByCentorId(centorId);
+            return exportExcelUtil.init(list3, "");
+        }else if(params.getParams().get("exportType").equals("3")) {
+            list2 = haCollectorService.selectCollectorBycentorId(centorId);
+            return exportExcelUtil.init(list2, "");
+        }else if(params.getParams().get("exportType").equals("4")) {
+            list4 = haAreaService.selectHaAreaIdAndName(haArea);
+            return exportExcelUtil.init(list4, "");
+        }else if(params.getParams().get("exportType").equals("5")) {
+            list3 = haMeterService.selectMeterByCentorId(centorId);
+            return exportExcelUtil.init(list3, "");
+        }else {
+            list3 =haMeterService.selectMeterByCollectorId(collectorId);
+            return exportExcelUtil.init(list3, "");
+        }
     }
 
 }
