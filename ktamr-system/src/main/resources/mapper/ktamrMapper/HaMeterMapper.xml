@@ -452,12 +452,12 @@
             <if test="startTime != null">starttime = #{startTime},</if>
             <if test="lastTime != null">lasttime = #{lastTime},</if>
             <if test="isBranch != null">isbranch = #{isBranch},</if>
-            <if test="roomId != null">roomid = #{roomId}</if>
-            <if test="pricestandId != null">pricestand_id = #{pricestandId}</if>
-            <if test="collectorId !=null">collectorid = #{collectorId}</if>
-            <if test="gnumber !=null">g_number = #{gnumber}</if>
-            <if test="offsetN !=null">offset_n = #{offsetN}</if>
-            <if test="meterSequence !=null">meter_sequence = #{meterSequence}</if>
+            <if test="roomId != null">roomid = #{roomId},</if>
+            <if test="pricestandId != null">pricestand_id = #{pricestandId},</if>
+            <if test="collectorId !=null">collectorid = #{collectorId},</if>
+            <if test="gnumber !=null">g_number = #{gnumber},</if>
+            <if test="offsetN !=null">offset_n = #{offsetN},</if>
+            <if test="meterSequence !=null">meter_sequence = #{meterSequence},</if>
         </trim>
     </update>
 

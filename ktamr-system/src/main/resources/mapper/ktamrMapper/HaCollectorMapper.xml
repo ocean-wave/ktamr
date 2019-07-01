@@ -82,4 +82,8 @@
     <select id="getNconf" resultType="com.ktamr.domain.HaCollector">
         SELECT Hex(nconf) FROM ha_collector WHERE collectorid=#{collectorId}
     </select>
+
+    <select id="CollectorByWhere" resultType="com.ktamr.domain.HaCollector">
+        SELECT collectorid,to_hex(nconf)||':'||addr as addr FROM ha_collector where centorid = #{centorId}
+    </select>
 </mapper>

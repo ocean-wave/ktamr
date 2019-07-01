@@ -36,4 +36,7 @@ public interface HaCollectorService {
     List<HaCollector> collectorByDeviceId(Integer deviceId);
 
     HaCollector getNconf(Integer collectorId);
+
+    //修改时采集器传值
+    List<HaCollector> CollectorByWhere(HaCollector haCollector);
 }

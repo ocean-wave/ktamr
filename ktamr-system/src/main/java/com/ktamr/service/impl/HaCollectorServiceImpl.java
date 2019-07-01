@@ -75,4 +75,9 @@ public class HaCollectorServiceImpl implements HaCollectorService {
     public HaCollector getNconf(Integer collectorId) {
         return haCollectorMapper.getNconf(collectorId);
     }
+
+    @Override
+    public List<HaCollector> CollectorByWhere(HaCollector haCollector) {
+        return haCollectorMapper.CollectorByWhere(haCollector);
+    }
 }

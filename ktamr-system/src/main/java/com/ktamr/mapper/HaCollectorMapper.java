@@ -37,4 +37,7 @@ public interface HaCollectorMapper {
     List<HaCollector> collectorByDeviceId(@Param("deviceId") Integer deviceId);
 
     HaCollector getNconf(@Param("collectorId") Integer collectorId);
+
+    //修改时采集器传值
+    List<HaCollector> CollectorByWhere(HaCollector haCollector);
 }

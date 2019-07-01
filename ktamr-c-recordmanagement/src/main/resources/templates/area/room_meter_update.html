@@ -108,6 +108,8 @@
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select id="collector" name="collector" lay-filter="collector" lay-search>
                             <option value=""></option>
+                            <option th:selected="${meter.collectorId eq haCollector.collectorId}" th:each="haCollector : ${haCollectors}"
+                                    th:value="${haCollector.collectorId}" th:text="${haCollector.addr}"></option>
                         </select>
                     </div>
                 </div>
@@ -312,46 +314,66 @@
                 }
             }
         });
+
         form.on('select(deviceType)', function(data){
+            // var deviceTypeObj = $(data.elem);
             g_deviceType = $("#deviceType").val();
+
             pageInit();
             $.ajax({
                 url: load_option_url
                 ,data: {
-                    deviceType: g_deviceType
+                    deviceType: g_deviceType,
+                    roomId: g_roomId,
+                    buildingId: g_buildingId
                 }
+                ,dataType: "json"
                 ,type: "POST"
-                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
-                    appendDeviceOption("centor", data);
+                    $("#centor").empty();
+                    var option = $("<option>").val("").text("");
+                    $("#centor").append(option);
+                    for (var i = 0; i < data.length; i++) {
+                        $("#centor").append("<option value='" + data[i].id + "'>" + data[i].centorNo + ':' + data[i].addr + "</option>");
+                    }
+                    // appendSelectOption("centor", data, "");
                     $("#collector").empty();
                     $("#collector").append($("<option>").val("").text(""));
                     form.render('select');//刷新表单元素
+                    //g_buildingId = "";
                 }
             });
 
         });
         form.on('select(centor)', function(data){
-            var areaObj = $(data.elem);
-            deviceId = areaObj.val();
+            var centorObj = $(data.elem);
+            deviceId = centorObj.val();
 
             $.ajax({
                 url: load_option_url
                 ,data: {
                     deviceType: g_deviceType,
-                    deviceId: deviceId
+                    deviceId: deviceId,
+                    buildingId:g_buildingId,
                 }
+                ,dataType:"json"
                 ,type: "POST"
-                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
                 ,async:true //异步请求
                 ,success: function(data){
-                    appendDeviceOption("collector", data);
+                    // appendSelectOption("collector", data, "");
+                    $("#collector").empty();
+                    $("#collector").append($("<option>").val("").text(""));
+                    for (var i = 0; i < data.length; i++) {
+                        $("#collector").append("<option value='" + data[i].collectorId + "'>" + data[i].nconf + ':' + data[i].addr + "</option>");
+                    }
                     form.render('select');//刷新表单元素
+                    //g_buildingId = "";
                 }
             });
 
         });
+
         form.verify({
             roomName: function(value, item){ //value：表单的值、item：表单的DOM对象
                 var queryData = "";
