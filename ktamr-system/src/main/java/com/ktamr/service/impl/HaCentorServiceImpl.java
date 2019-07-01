@@ -127,8 +127,8 @@ public class HaCentorServiceImpl implements HaCentorService {
     }
 
     @Override
-    public List<HaCentor> DeviceByWhere(String deviceType) {
-        return haCentorMapper.DeviceByWhere(deviceType);
+    public List<HaCentor> DeviceByWhere(HaCentor haCentor) {
+        return haCentorMapper.DeviceByWhere(haCentor);
     }
 
     @Override
