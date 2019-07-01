@@ -72,7 +72,8 @@ public class CmdListController extends BaseController {
     public String htShowlog(@RequestParam( value = "cmdid",required = false) Integer cmdid,
                             @RequestParam( value = "showPercent",required = false) String showPercent,
                             ModelMap mmap){
-        String path = "E:\\ht_runtime.log";
+        String path =this.getClass().getResource("/").getPath();
+        path = path.substring(1,9)+"/ht_runtime.log";
         File file = new File(path);
         BufferedReader reader = null;
         StringBuffer str = new StringBuffer();

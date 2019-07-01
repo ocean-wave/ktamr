@@ -4,6 +4,7 @@ import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.export.*;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HavMeterinfoService;
@@ -47,9 +48,10 @@ public class ThirdPartyController extends BaseController {
 
     @PostMapping("/thirdPartyReportJson")
     @ResponseBody
-    public Map<String, Object> interfaceCmdListJson(HavMeterinfo havMeterinfo){
+    public Map<String, Object> interfaceCmdListJson(HavMeterinfo params){
         startPage();
-        List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("mi.areano","area","and"));
+        List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(params);
         return getDataTable(listMeterinfo);
     }
 
@@ -124,15 +126,16 @@ public class ThirdPartyController extends BaseController {
 
     /**
      * 导出页面表格Excel
-     * @param havMeterinfo
+     * @param params
      * @param exportExcelUtil
      * @return
      */
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(HavMeterinfo havMeterinfo, ExportExcelUtil exportExcelUtil)
+    public AjaxResult export(HavMeterinfo params, ExportExcelUtil exportExcelUtil)
     {
-        List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(havMeterinfo);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("mi.areano","area","and"));
+        List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(params);
         return exportExcelUtil.init(list, "");
     }
 }

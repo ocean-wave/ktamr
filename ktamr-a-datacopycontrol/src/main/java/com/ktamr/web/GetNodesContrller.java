@@ -25,7 +25,7 @@ public class GetNodesContrller extends BaseController {
     @ResponseBody
     public String getAreaNodes(){
         Map<String,Object> map = new HashMap<String, Object>();
-        map.put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
+        map.put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allRgn', name:'全部大区', iconSkin:'icon00', open:true},{ id:'-2', pId:0, LevelType:'allArea', name:'全部小区', iconSkin:'icon00', open:true},{ id:'-3', pId:0, LevelType:'allMeter', name:'全部房间表', iconSkin:'icon00', open:true}";
         List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(map);
         for  (Map<String,Object> haRgn : listHaRgn){
@@ -63,7 +63,7 @@ public class GetNodesContrller extends BaseController {
         if(parameterType!=null){
             map.put("parameterType",parameterType);
         }
-        map.put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
+        map.put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部区域', iconSkin:'icon00',isParent:false}";
         List<Map<String,Object>> listHaRgn = nodesService.selectAllRgnNodes(map);
         for  (Map<String,Object> haRgn : listHaRgn){

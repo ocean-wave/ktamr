@@ -401,6 +401,8 @@
             LEFT JOIN ha_area a ON mi.areaid=a.areaid
             WHERE 1=1
         </if>
+        <!--数据范围过滤-->
+        ${params.getRightCondition}
         <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
             AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER ))
         </if>

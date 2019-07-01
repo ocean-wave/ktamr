@@ -73,9 +73,6 @@ public class indexContrller {
         //获取用户授权区域字符串 end
         session.setAttribute("rgnStr", rgnStr);
         session.setAttribute("leftRgnStr", leftRgnStr);
-
-
-
         return "index";
     }
 
