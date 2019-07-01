@@ -286,7 +286,6 @@ public class CHaRgnController extends BaseController {
     @RequestMapping("/UpdateRgn")
     @ResponseBody
     public Object updateRgn(HaRgn haRgn) {
-        haRgn.setModifyTime(new Date());
         Integer updateHaRgn = haRngService.updateHaRgnC(haRgn);
         if (updateHaRgn == 1) {
             return "true";

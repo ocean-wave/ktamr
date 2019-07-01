@@ -5,13 +5,14 @@ import com.ktamr.domain.HatDevicesimport;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HatDevicesimportMapper {
 
     List<HatDevicesimport> HatDevicesimportList(HatDevicesimport hatDevicesimport);
 
     //新增导入设备(待校验)
-    Integer addHatDevicesimport(HatDevicesimport hatDevicesimport);
+    Integer addHatDevicesimport(@Param("params") List<Map<String, Object>> params);
 
     //修改设备档案
     Integer updateHatDevicesimport(@Param("haCentor") HaCentor haCentor,@Param("hatDevicesimport") HatDevicesimport hatDevicesimport);

@@ -80,7 +80,7 @@ public interface HaCentorMapper {
     HaCentor updateByDeviceType(@Param("id") Integer id);
 
     //修改时集中器传值
-    List<HaCentor> DeviceByWhere(String deviceType);
+    List<HaCentor> DeviceByWhere(HaCentor haCentor);
 
     HaCentor centorDevNo(@Param("centorId") Integer centorId);
 

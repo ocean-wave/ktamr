@@ -4,10 +4,12 @@ import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HatDevicesimport;
 import com.ktamr.mapper.HatDevicesimportMapper;
 import com.ktamr.service.HatDevicesimportService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HatDevicesimportServiceImpl implements HatDevicesimportService {
@@ -19,8 +21,8 @@ public class HatDevicesimportServiceImpl implements HatDevicesimportService {
         return hatDevicesimportMapper.HatDevicesimportList(hatDevicesimport);
     }
 
-    public Integer addHatDevicesimport(HatDevicesimport hatDevicesimport) {
-        return hatDevicesimportMapper.addHatDevicesimport(hatDevicesimport);
+    public Integer addHatDevicesimport(List<Map<String, Object>> params) {
+        return hatDevicesimportMapper.addHatDevicesimport(params);
     }
 
     public Integer updateHatDevicesimport(HaCentor haCentor, HatDevicesimport hatDevicesimport) {

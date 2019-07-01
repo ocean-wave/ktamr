@@ -1,7 +1,9 @@
 package com.ktamr.management.devicesImport;
 
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.file.ImportService;
+import com.ktamr.common.utils.imports.ImportExcelUtil;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HatDevicesimport;
 import com.ktamr.service.HaCentorService;
@@ -37,7 +39,7 @@ public class HatDevicesimportController extends BaseController {
 
     @RequestMapping("/device_upload_todo")
     @ResponseBody
-    public Object device_upload_todo(@RequestParam("userInfo") MultipartFile file, HatDevicesimport hatDevicesimport) throws Exception {
+    public Object device_upload_todo(@RequestParam("userInfo") MultipartFile file, ImportExcelUtil importExcelUtil, HatDevicesimport hatDevicesimport) throws Exception {
         if (file.isEmpty()) {
             return "false";
         }
@@ -45,49 +47,16 @@ public class HatDevicesimportController extends BaseController {
         if (fileName.indexOf("xls") < 0) {
             return "上传文件类型不符合要求，请确定是 (.xls/.xlsx)后缀的Excel 文件";
         }
-        InputStream inputStream = file.getInputStream();
-        List<List<Object>> list = importService.getBankListByExcel(inputStream, file.getOriginalFilename());//读取excel中的数据
-        inputStream.close();
-        Date date = new Date();
+        InputStream inputStream = file.getInputStream();//获取File
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String time = sdf.format(date);
-        Date importTime = sdf.parse(time);
-
-        for (int i = 0; i < list.size(); i++) {
-            List<Object> lo = list.get(i);
-            String deviceId = lo.get(0).toString();//拿到设备地址
-            String deviceName = lo.get(1).toString();//设备名称
-            String description = lo.get(2).toString(); //连接说明
-            String areaName = lo.get(3).toString(); //所属小区名称
-            hatDevicesimport.setDeviceId(deviceId);
-            hatDevicesimport.setDeviceName(deviceName);
-            hatDevicesimport.setDescription(description);
-            hatDevicesimport.setAreaName(areaName);
-            hatDevicesimport.setImportTime(importTime);
+        String dateString = DateUtils.getTime();
+        Date importTime = sdf.parse(dateString);
+        String[] nonEmptyCell = new String[]{"5","6","7"};//如果excel模板有*号的坐标位置
+        List<Map<String,Object>> list2 = importExcelUtil.init(inputStream,dateString,nonEmptyCell);//获取excel里面的信息
             try {
-                if(lo.get(4)!=null){
-                    SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MMM-yyyy");
-                    Object setupTime = sdf2.parse(lo.get(4).toString());//安装时间
-                    hatDevicesimport.setSetupTime((Date) setupTime);
-                }
-                if(lo.get(5)!=null){
-                    String tel = lo.get(5).toString();//电话号码
-                    hatDevicesimport.setTel(tel);
-                }
-                if(lo.get(6)!=null){
-                    String remark = lo.get(6).toString();//备注
-                    hatDevicesimport.setReMark(remark);
-                }
-            } catch (Exception e) {
-                System.out.println("空值");
-                hatDevicesimport.setTel("");
-                hatDevicesimport.setReMark("");
-                hatDevicesimport.setSetupTime(null);
-            }
-            try {
-                hatDevicesimportService.addHatDevicesimport(hatDevicesimport);
+                hatDevicesimportService.addHatDevicesimport(list2);
                 hatDevicesimport = new HatDevicesimport();
-                hatDevicesimport.setImportTime(importTime);
+                hatDevicesimport.setImportTime(sdf.parse(dateString));//重新的设值
                 hatDevicesimportService.belongAreaCheck(hatDevicesimport);
                 hatDevicesimportService.joinSayCheck(hatDevicesimport);
                 hatDevicesimportService.centorNameCheck(hatDevicesimport);
@@ -104,7 +73,6 @@ public class HatDevicesimportController extends BaseController {
                 e.printStackTrace();
                 return "false";
             }
-        }
         Calendar ca = Calendar.getInstance();//之所以要转成Calendar对象，是因为Date的getXXX()方法废弃了。。。
         ca.setTime(importTime);
         return ca.get(Calendar.YEAR) + "-" + (ca.get(Calendar.MONTH) + 1) + "-" + ca.get(Calendar.DATE)

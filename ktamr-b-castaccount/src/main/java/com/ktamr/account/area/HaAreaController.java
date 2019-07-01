@@ -33,7 +33,7 @@ public class HaAreaController extends BaseController {
 
     /**
      * 打开小区结算的页面+并进行小区名字的赋值
-     *
+     * 
      * @return
      */
     @RequestMapping("/area/area_list.html")

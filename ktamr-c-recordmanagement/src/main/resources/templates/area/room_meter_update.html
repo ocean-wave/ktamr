@@ -83,7 +83,7 @@
                 <div class="layui-block">
                     <label class="layui-form-label">抄收设备</label>
                     <div class="layui-input-inline mySelect" style="width:150px;">
-                        <select name="deviceType" lay-filter="deviceType">
+                        <select name="deviceType" id="deviceType" lay-filter="deviceType">
                             <option th:selected="${centor.description=='centor'}" value="centor">集中器</option>
                             <option th:selected="${centor.description=='ccentor'}" value="ccentor">集采器</option>
                             <option th:selected="${centor.description=='handDevice'}" value="handDevice">手抄器</option>
@@ -98,6 +98,8 @@
                     <div class="layui-input-inline mySelect" style="width:150px;">
                         <select id="centor" name="centor" lay-filter="centor" lay-search>
                             <option value=""></option>
+                            <option th:selected="${meter.centorId eq haCentor.id}" th:each="haCentor : ${haCentors}"
+                                    th:value="${haCentor.id}" th:text="${haCentor.addr}"></option>
                         </select>
                     </div>
                 </div>
@@ -221,7 +223,7 @@
         var g_roomName = "<%=roomName%>";
         var g_meterId = $("#meterId").val();
         var g_meterNumber = $("#meterNumber").val();
-        var g_deviceType = "<%=deviceType%>";
+        var g_deviceType = "[[${centor.description}]]";
         var g_opType = "updateMeter";
         $('#setupTime').datetimepicker({
             language: 'zh-CN',//显示中文
@@ -311,9 +313,7 @@
             }
         });
         form.on('select(deviceType)', function(data){
-            var areaObj = $(data.elem);
             g_deviceType = $("#deviceType").val();
-
             pageInit();
             $.ajax({
                 url: load_option_url
@@ -440,20 +440,8 @@
             fullTextSearch("jqGrid", _pdArray);
         });
 
-        var centor = $("#centor");
-        $.ajax({
-            type: "GET",
-            url: "/room/DeviceByWhere",
-            dataType: "json",
-            data:{deviceType:$("#deviceType").val()},
-            success: function (data) {
-                if (data != null) {
-                    for (var i = 0; i < data.length; i++) {
-                        centor.append('<option value="' + data[i].id + '">'+ data[i].centorNo+":"+ data[i].addr + '</option>')
-                    }
-                }
-            }
-        });
+
+
 
         function submitInfo(sendData){
             $.ajax({
