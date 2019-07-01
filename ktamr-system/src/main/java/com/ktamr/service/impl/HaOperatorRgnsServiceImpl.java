@@ -41,4 +41,9 @@ public class HaOperatorRgnsServiceImpl implements HaOperatorRgnsService {
         }
         return null;
     }
+
+    @Override
+    public HaOperatorRgns selRgnCodeStr(String operatorCode) {
+        return haOperatorRgnsMapper.selRgnCodeStr(operatorCode);
+    }
 }

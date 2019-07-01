@@ -351,4 +351,9 @@ public class HaAreaServiceImpl implements HaAreaService {
         return haAreaMapper.delRgnAreaCount(id);
     }
 
+    @Override
+    public List<HaArea> AreaByWhere(HaArea haArea) {
+        return haAreaMapper.AreaByWhere(haArea);
+    }
+
 }

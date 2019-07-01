@@ -153,7 +153,7 @@
     </select>
 
     <select id="selUpperRgnType" resultType="com.ktamr.domain.HaOperator">
-        SELECT operator_rgn_type FROM ha_operator WHERE operator_code=#{operatorCode}
+        SELECT operator_rgn_type as operatorRgnType  FROM ha_operator WHERE operator_code=#{operatorCode}
     </select>
 
     <!--修改密码时验证原密码   -->

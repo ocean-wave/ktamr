@@ -196,4 +196,6 @@ public interface HaAreaService {
 
     //删除大区时看下属小区记录数
     Integer delRgnAreaCount(String id);
+
+    List<HaArea> AreaByWhere(HaArea haArea);
 }

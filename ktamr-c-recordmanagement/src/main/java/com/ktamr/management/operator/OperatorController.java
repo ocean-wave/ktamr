@@ -1,10 +1,13 @@
 package com.ktamr.management.operator;
 
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaOperator;
+import com.ktamr.domain.HaOperatorRgns;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaAreaService;
+import com.ktamr.service.HaOperatorRgnsService;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HaRngService;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,9 @@ public class OperatorController extends BaseController {
     @Resource
     private HaAreaService haAreaService;
 
+    @Resource
+    private HaOperatorRgnsService haOperatorRgnsService;
+
     @RequestMapping("/operator_list")
     public String operator_list() {
         return "operator/operator_list";
@@ -43,13 +49,45 @@ public class OperatorController extends BaseController {
     }
 
     @RequestMapping("/JumpOperatorUpdate")
-    public String jumpoperatorupdate(String operatorCode, Model model) {
-        HaOperator haOperator = haOperatorService.updateByIdHaOperator(operatorCode);
+    public String jumpoperatorupdate(HaOperator haOperator,HaRgn haRgn,HaArea haArea,String operatorCode, Model model) {
+        haOperator = haOperatorService.updateByIdHaOperator(operatorCode);
         HaOperator selUpperRgnType = haOperatorService.selUpperRgnType(haOperator.getOperatorCode());
+        HaOperatorRgns selRgnCodeStr = haOperatorRgnsService.selRgnCodeStr(operatorCode);
+
+        List<HaRgn> rgn2s = haRngService.rgnByWhere(haRgn);
+
+        HaRgn haRgn1 = new HaRgn();
+        haRgn1.getParams().put("getUpperRightCondition",SqlCondition.getUpperRightCondition("id","rgn","where ",haOperator.getOperatorUpper(),selUpperRgnType.getOperatorRgnType()));
+        List<HaRgn> rgns = haRngService.rgnByWhere(haRgn1);
+
+        HaRgn haRgn3 = new HaRgn();
+        haRgn3.getParams().put("getRightCondition",SqlCondition.getRightCondition("id","rgn",""));
+        List<HaRgn> rgn3s = haRngService.rgnByWhere(haRgn3);
+
+        haArea.setTypeName("code");
+        haArea.getParams().put("getUpperRightCondition",SqlCondition.getUpperRightCondition("areaNo","area","",haOperator.getOperatorUpper(),selUpperRgnType.getOperatorRgnType()));
+        List<HaArea> haArea1s = haAreaService.AreaByWhere(haArea);
+
+        HaArea haArea2 = new HaArea();
+        haArea2.setTypeName("code");
+        List<HaArea> haArea2s = haAreaService.AreaByWhere(haArea2);
+
+        HaArea haArea3 = new HaArea();
+        haArea3.setTypeName("code");
+        haArea3.getParams().put("getRightCondition",SqlCondition.getRightCondition("areaNo","area",""));
+        List<HaArea> haArea3s = haAreaService.AreaByWhere(haArea3);
+
         List<HaRgn> queryRgnByRgn = haRngService.queryRgnByRgn();
         List<HaArea> queryAreaByArea = haAreaService.queryAreaByArea();
+        model.addAttribute("rgns",rgns);
+        model.addAttribute("rgn2s",rgn2s);
+        model.addAttribute("rgn3s",rgn3s);
+        model.addAttribute("haArea1s",haArea1s);
+        model.addAttribute("haArea2s",haArea2s);
+        model.addAttribute("haArea3s",haArea3s);
         model.addAttribute("haOperator", haOperator);
         model.addAttribute("selUpperRgnType", selUpperRgnType);
+        model.addAttribute("selRgnCodeStr",selRgnCodeStr);
         model.addAttribute("queryRgnByRgn", queryRgnByRgn);
         model.addAttribute("queryAreaByArea", queryAreaByArea);
         model.addAttribute("operatorCode", operatorCode);

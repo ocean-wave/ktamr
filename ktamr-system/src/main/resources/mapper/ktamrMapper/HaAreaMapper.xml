@@ -564,4 +564,16 @@ WHERE areaid IN ('${areaId}')
     <select id="queryAreaByArea" resultType="com.ktamr.domain.HaArea" parameterType="com.ktamr.domain.HaArea">
         select areaNo,areaNo,name as haName from ha_area a ORDER BY areaNo
     </select>
+
+    <select id="AreaByWhere" resultType="com.ktamr.domain.HaArea">
+        <if test="typeName=='id'">
+            select areaid as areaId, Right(areaNo, 4)||':'||name as haName from ha_area ORDER BY areaNo
+        </if>
+        <if test="typeName=='name'">
+            select name, Right(areaNo, 4)||':'||name as haName from ha_area ORDER BY areaNo
+        </if>
+        <if test="typeName=='code'">
+            select areaNo, Right(areaNo, 4)||':'||name as haName from ha_area ORDER BY areaNo
+        </if>
+    </select>
 </mapper>

@@ -69,6 +69,20 @@ public class SqlCondition {
         return sql;
     }
 
+    public static String getUpperRightCondition(String fieldName,String noType,String condition,String upper_operator_code,String upper_rgn_type){
+        String sql = "";
+        if(upper_rgn_type.equals("rgn") && !upper_operator_code.equals("")){
+            sql = condition+"LEFT(" + fieldName +",1) in (SELECT rgn_code FROM ha_operator_rgns WHERE operator_code='"+upper_operator_code+"')";
+        }else if(upper_rgn_type.equals("area") && !upper_operator_code.equals("")){
+            if(noType.equals("rgn")){
+                sql = condition+"LEFT(" + fieldName +",1) in (SELECT Left(rgn_code, 1) FROM ha_operator_rgns WHERE operator_code='"+upper_operator_code+"' GROUP BY Left(rgn_code, 1))";
+            }else {
+                sql = condition+"LEFT(" + fieldName +",5) in (SELECT rgn_code FROM ha_operator_rgns WHERE operator_code='"+ upper_operator_code +"')";
+            }
+        }
+        return sql;
+    }
+
     public static String getRightCondition(){
         String operatorCode = (String) ServletUtils.getSession().getAttribute("operatorCode");
         String haOperatorRgnType = (String) ServletUtils.getSession().getAttribute("haOperatorRgnType");
