@@ -61,4 +61,7 @@ public interface HaBuildingMapper {
 
     HaBuilding updateByIdHaBuilding(@Param("buildingId") Integer buildingId);
 
+    //修改时所属楼栋传值
+    List<HaBuilding> BuildingByArea(HaBuilding haBuilding);
+
 }

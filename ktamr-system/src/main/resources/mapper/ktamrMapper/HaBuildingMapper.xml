@@ -189,4 +189,16 @@
     <select id="allBuildingCountC" resultType="_int">
         select count(1) from ha_room
     </select>
+
+    <select id="BuildingByArea" resultType="com.ktamr.domain.HaBuilding">
+        <if test="typeName=='id'">
+            select buildingid as buildingId, buildingNo||':'||name as Bname  from ha_building b WHERE areaid=#{areaId} ORDER BY name
+        </if>
+        <if test="typeName=='name'">
+            select name, buildingNo||':'||name as Bname from ha_building WHERE areaid=#{areaId} ORDER BY name
+        </if>
+        <if test="typeName=='code'">
+            select buildingNo, buildingNo||':'||name as Bname from ha_building WHERE areaid=#{areaId} ORDER BY name
+        </if>
+    </select>
 </mapper>

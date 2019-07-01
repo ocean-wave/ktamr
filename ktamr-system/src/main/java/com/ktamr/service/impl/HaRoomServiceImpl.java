@@ -88,4 +88,9 @@ public class HaRoomServiceImpl implements HaRoomService {
     public List<HaRoom> customExport(Integer areaId) {
         return haRoomMapper.customExport(areaId);
     }
+
+    @Override
+    public List<HaRoom> RoomByBuilding(HaRoom haRoom) {
+        return haRoomMapper.RoomByBuilding(haRoom);
+    }
 }

@@ -64,4 +64,9 @@ public class HaBuildingServiceImpl implements HaBuildingService {
         return haBuildingMapper.updateByIdHaBuilding(buildingId);
     }
 
+    @Override
+    public List<HaBuilding> BuildingByArea(HaBuilding haBuilding) {
+        return haBuildingMapper.BuildingByArea(haBuilding);
+    }
+
 }

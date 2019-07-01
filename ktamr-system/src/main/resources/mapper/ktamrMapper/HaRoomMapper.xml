@@ -163,4 +163,13 @@
         cu.mobil AS mobil FROM ((((((SELECT r.roomid,r.custid,r.name AS roomname,a.name AS areaname,b.name AS bulidname
         FROM ha_room r,ha_area a, ha_building b WHERE r.buildingid=b.buildingid AND b.areaid=a.areaid AND a.areaid IN (#{areaId}) ORDER BY a.name,b.name,r.name) t LEFT JOIN ha_meter m ON m.roomid=t.roomid) LEFT JOIN ha_custom cu ON cu.custid=t.custid) LEFT JOIN ha_pricestandard p ON m.pricestand_id=p.pricestand_id) LEFT JOIN ha_meterType mt ON p.meterTypeId=mt.meterTypeId) LEFT JOIN ha_centor ce ON m.centorid=ce.id) LEFT JOIN ha_collector co ON co.collectorid=m.collectorid
     </select>
+
+    <select id="RoomByBuilding" resultType="com.ktamr.domain.HaRoom">
+        <if test="typeName=='id'">
+            select roomid as roomId, name from ha_room WHERE buildingid=#{buildingId} ORDER BY name
+        </if>
+        <if test="typeName=='name'">
+            select name, name from ha_room WHERE buildingid=#{buildingId} ORDER BY name
+        </if>
+    </select>
 </mapper>

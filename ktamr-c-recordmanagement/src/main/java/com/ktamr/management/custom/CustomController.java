@@ -53,12 +53,26 @@ public class CustomController extends BaseController {
     }
 
     @RequestMapping("/JumpCustUpdate")
-    public String jumpcustupdate(Integer areaId, Integer buildingId, Integer custid, HaCustom haCustom, Model model) {
+    public String jumpcustupdate(Integer areaId, Integer buildingId, Integer custid, HaCustom haCustom, Model model,
+                                 HaBuilding haBd,HaRoom haRm) {
         haCustom.setCustId(custid);
         List<HaArea> haArea = haAreaService.queryAllHaAreaC();
         List<HaBuilding> haBuilding = haBuildingService.queryHaBuildingC(areaId);
         List<HaRoom> haRoom = haRoomService.queryRoomC(buildingId);
         HaCustom custom = haCustomService.updateByIdHaCustom(haCustom);
+        //开始传值
+        if(custom!=null){
+            haBd.setTypeName("id");
+            haBd.setAreaId(custom.getHaArea().getAreaId());
+
+            haRm.setTypeName("id");
+            haRm.setBuildingId(custom.getHaBuilding().getBuildingId());
+
+        }
+        List<HaBuilding> haBuildings = haBuildingService.BuildingByArea(haBd);//修改时所属楼栋传值
+        List<HaRoom> haRoomList = haRoomService.RoomByBuilding(haRm);//修改时所属房间传值
+        model.addAttribute("haBuildings",haBuildings);
+        model.addAttribute("haRoomList",haRoomList);
         model.addAttribute("haArea",haArea);
         model.addAttribute("haBuilding",haBuilding);
         model.addAttribute("haRoom",haRoom);
