@@ -50,6 +50,13 @@ public interface HaCentorService {
      */
     public List<HaCentor> selectNbSurfaceCollector(HaCentor parms);
 
+    /**
+     *
+     * @param sql
+     * @return
+     */
+    public HaCentor selectCustomSql(String sql);
+
     public List<HaCentor> selectCentor(HaCentor haCentor);
 
     List<HaCentor> HaCentorList(HaCentor haCentor);

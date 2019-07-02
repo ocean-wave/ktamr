@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head title="区域抄表" th:include="include :: header">
+
+</head>
+<style type="text/css">
+	.layui-form-pane .layui-form-label {
+		padding: 5px 15px;
+		height: 32px;
+	}
+	.layui-input{
+		height: 32px;
+		line-height: 32px;
+	}
+	.my-form-class {
+		margin-left: 60px;
+		margin-top: 25px;
+		padding: 0px;
+	}
+	.my-page-btn {
+		margin: 20px 15px;
+		text-align: left;
+		padding-left: 195px;
+	}
+</style>
+<body class="myPage-body">
+<div class="container" >
+	<form th:if=" ${cmdName == '读日冻结数据'} " class="layui-form layui-form-pane my-form-class">
+		<div class="layui-form-item">
+			<label class="layui-form-label">日期</label>
+			<div class="layui-input-inline">
+				<input id="day" name="day" required  lay-verify="required|day" placeholder="请选择日期" autocomplete="off" class="layui-input" readonly>
+			</div>
+		</div>
+	</form>
+	<form th:if=" ${cmdName == '读月冻结数据'} " class="layui-form layui-form-pane my-form-class">
+		<div class="layui-form-item">
+			<label class="layui-form-label">月份</label>
+			<div class="layui-input-inline">
+				<input id="mon" name="mon" required  lay-verify="required|mon" placeholder="请选择月份" autocomplete="off" class="layui-input" readonly>
+			</div>
+		</div>
+	</form>
+
+	<div class="form-inline my-page-btn">
+		<button lay-submit type="button" id="sure" class="btn btn-default btn-sm btnMargin" ><img src="../../images/tick.png" />确定</button>
+		<button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../../images/cancel.png" />关闭</button>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+	$('#day').datepicker({
+		weekStart: 1,
+		autoclose: true,
+		daysOfWeekHighlighted: "0,6",
+		format: "yyyy-mm-dd",
+		language: "zh-CN",
+		todayHighlight: true
+	});
+	$('#mon').datepicker({
+		weekStart: 1,
+		minViewMode: 1,
+		autoclose: true,
+		daysOfWeekHighlighted: "0,6",
+		format: "yyyy-mm",
+		language: "zh-CN"
+	});
+	layui.use(['layer','form'], function(){
+		var form = layui.form
+				,layer = layui.layer;
+		var cmdName = [[${cmdName}]];
+		/*form.verify({
+		  day: function(value, item){ //value：表单的值、item：表单的DOM对象
+			if(value == ""){
+			  layer.msg("日期不能为空！", {icon: 5});
+			  return '不能为空！';
+			}
+		  }
+		  ,mon: function(value, item){ //value：表单的值、item：表单的DOM对象
+			if(value == ""){
+			  layer.msg("月份不能为空！", {icon: 5});
+			  return '不能为空！';
+			}
+		  }
+		});*/
+		$("#close").click(function(){
+			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+			parent.layer.close(index); //再执行关闭
+		});
+
+		$("#sure").click(function() {
+			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+			var centorId = [[${centorId}]];
+			if (cmdName == "读日冻结数据") {
+				var cmd = cmdName + ":" + $("#day").val();
+				if ($("#day").val() == "") {
+					layer.msg("日期不能为空！", {icon: 5});
+					return false;
+				}
+			} else if (cmdName == "读月冻结数据") {
+				var cmd = cmdName + ":" + $("#mon").val();
+				if ($("#mon").val() == "") {
+					layer.msg("月份不能为空！", {icon: 5});
+					return false;
+				}
+			} else {
+				parent.layui.parms.submitCmd(centorId, cmd);
+				parent.layer.close(index); //再执行关闭
+			}
+		});
+	});
+</script>
+</body>
+</html>

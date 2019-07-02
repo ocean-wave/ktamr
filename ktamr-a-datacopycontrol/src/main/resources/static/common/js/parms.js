@@ -137,9 +137,9 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 					var cmd = cmd_name+":"+getDeviceAdd();
 					submitCmd(getDeviceId(), cmd);
 				}else if(isKT3NB_VIRTUAL()){
-					_myLayui.showLayer(cmd_name, "/systemmaintenance/loadKT300Meter", queryStr, layerSize);
+					_myLayui.showLayer(cmd_name, "/systemmaintenance/equipment/loadKT300Meter", queryStr, layerSize);
 				}else{
-					_myLayui.showLayer(cmd_name, "/systemmaintenance/setKT300Params", queryStr, layerSize);
+					_myLayui.showLayer(cmd_name, "/systemmaintenance/equipment/setKT300Params", queryStr, layerSize);
 				}
 				layer.close(index);
 			});
@@ -147,7 +147,7 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 		}else if(cmd_name == "采集器寻表"){
 			layer.confirm('【采集器寻表】为不常用命令，请慎用！确实要执行吗？', {icon:3, title:'提示'},
 			function(index, layero){
-				_myLayui.showLayer(cmd_name, "/systemmaintenance/loadCollector", queryStr, layerSize);
+				_myLayui.showLayer(cmd_name, "/systemmaintenance/equipment/loadCollector", queryStr, layerSize);
 				layer.close(index);
 			});
 			a = false;
@@ -155,7 +155,7 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 		else if(cmd_name == "小区关阀"){
 			layer.confirm('关闭小区所有表阀门！确实要执行吗？', {icon:3, title:'提示'},
 			function(index, layero){
-				_myLayui.showLayer(cmd_name, "/systemmaintenance/loadArea", queryStr, layerSize);
+				_myLayui.showLayer(cmd_name, "/systemmaintenance/equipment/loadArea", queryStr, layerSize);
 				layer.close(index);
 			});
 			a = false;
@@ -163,12 +163,11 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 		else if(cmd_name == "搜寻集采器"){
 			layer.confirm('【搜寻集采器】为不常用命令，请慎用！确实要执行吗？', {icon:3, title:'提示'},
 			function(index, layero){
-				_myLayui.showLayer(cmd_name, "../OperateDevice/loadDTU.asp", queryStr, layerSize);
+				_myLayui.showLayer(cmd_name, "/systemmaintenance/equipment/loadDTU", queryStr, layerSize);
 				layer.close(index);
 			});
 			a = false;
 		}
-
 		return a;
 	};
 
@@ -296,11 +295,11 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 			case "单表抄表":
 			case "批量控阀":
 				_layerSize = ['1000px', '700px'];
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadCentorMeter", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadCentorMeter", _queryStr, _layerSize);
 				break;
 			case "采集器下载表地址":
 				_layerSize = ['1000px', '700px'];
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadCollectorMeter", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadCollectorMeter", _queryStr, _layerSize);
 				break;
 			case "读采集器状态":
 			case "下载采集器地址":
@@ -311,25 +310,25 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 				_layerSize = ['1000px', '700px'];
 				if(!checkCmd(cmdName, _queryStr, _layerSize))
 					break;
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadCollector", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadCollector", _queryStr, _layerSize);
 				break;
 			case "读取参数":
-				_myLayui.showLayer(cmdName, "/systemmaintenance/readCentorParams", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/readCentorParams", _queryStr, _layerSize);
 				break;
 			case "设集中器地址":
 			case "集中器校时":
 			case "设置参数":
 			case "设心跳周期":
 			case "设IP端口":
-				_myLayui.showLayer(cmdName, "/systemmaintenance/setCentorParams", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/setCentorParams", _queryStr, _layerSize);
 				break;
 			case "设上报时间":
-				_myLayui.showLayer(cmdName, "/systemmaintenance/setCentorParams", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/setCentorParams", _queryStr, _layerSize);
 				break;
 			case "设工作时段":
 			case "设网络时段":
 				_layerSize = ['550px', '350px'];
-				_myLayui.showLayer(cmdName, "/systemmaintenance/setCentorParams", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/setCentorParams", _queryStr, _layerSize);
 				break;
 			case "小区关阀":
 			//case "读小区采集设备状态":
@@ -337,12 +336,12 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 				if(!checkCmd(cmdName, _queryStr, _layerSize)){
 					break;
 				}	
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadArea", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadArea", _queryStr, _layerSize);
 				break;
 			case "读日冻结数据":
 			case "读月冻结数据":
 				_layerSize = ['650px', '450px'];
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadArea", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/readFreeze", _queryStr, _layerSize);
 				break;
 			default:
 				parms = "0";
@@ -395,9 +394,9 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 					parms = deviceAdd;
 					isSubmit = true;
 				}else if(isKT3NB_VIRTUAL()){
-					_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
+					_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadKT300Meter", _queryStr, _layerSize);
 				}else{
-					_myLayui.showLayer(cmdName, "/systemmaintenance/setKT300Params", _queryStr, _layerSize);
+					_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/setKT300Params", _queryStr, _layerSize);
 				}
 				break;
 			case "设置设备地址":
@@ -406,9 +405,9 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 			case "设刷新数据间隔":
 				if(isKT3NB_VIRTUAL()){
 					_layerSize = ['650px', '400px'];
-					_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
+					_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadKT300Meter", _queryStr, _layerSize);
 				}else{
-					_myLayui.showLayer(cmdName, "/systemmaintenance/setKT300Params", _queryStr, _layerSize);
+					_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/setKT300Params", _queryStr, _layerSize);
 				}
 				break;
 			case "单表抄收(60)":
@@ -416,17 +415,16 @@ layui.define(['element','layer','form','myLayui'], function(exports){
 			case "单表抄收5+4":
 			case "批量控阀":
 				_layerSize = ['650px', '400px'];
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadKT300Meter", _queryStr, _layerSize);
 				break;   
 			case "增删表地址":
 				_layerSize = ['700px', '400px'];
 				_queryStr = [
 					"centorId="+getDeviceId(),
 					"cmdName="+cmdName,
-					"devDescription="+devDescription,
-					"ccentorAdd="+deviceAdd
+					"devDescription="+devDescription
 				];
-				_myLayui.showLayer(cmdName, "/systemmaintenance/loadKT300Meter", _queryStr, _layerSize);
+				_myLayui.showLayer(cmdName, "/systemmaintenance/equipment/loadKT300Meter", _queryStr, _layerSize);
 				break;   
 			//case "设机电参数"://用于KT300修改表读数
 			//	_layerSize = ['650px', '400px'];

@@ -106,7 +106,7 @@
 						{ name: 'state', width: 90, cellattr: MeterStateCellColor },
 						{ name: 'readTime', align: 'right', width: 150},
 						{ name: 'yjzqbh', width: 100 },
-						{ name: 'nconf', width: 60 },
+						{ name: 'haCollector.snconf', width: 60 },
 						{ name: 'ddjzqbh', width: 100 },
 						{ name: 'ddjzqId', width: 100, hidden: true },
 						{ name: 'rawCollectorId', width: 60 },
@@ -234,9 +234,9 @@
 			}
 			var rowData = $("#"+GridId).jqGrid('getRowData', rowId);
 			if(rowData["resultParams.ddjzqId"] != "")
-				centorId = rowData["resultParams.ddjzqId"];
+				centorId = rowData["ddjzqId"];
 			if(rowData["resultParams.rawCollectorId"] != "")
-				collectorId = rowData["resultParams.rawCollectorId"];
+				collectorId = rowData["rawCollectorId"];
 			switch(parms.cmdName){
 					//case "删除设备内表地址":
 				case "采集器删表"://采集器删表:采集器设备地址,表号

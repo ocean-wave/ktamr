@@ -27,18 +27,18 @@
 <body class="myPage-body">
 <div class="container">
 	<form class="layui-form layui-form-pane my-form-class">
-		<div th:if=" ${cmdName == '多表数据抄收' or cmdName == '系统检修' cmdName == '搜寻表具' } " class="layui-form-item mySelect">
+		<div th:if=" ${cmdName == '多表数据抄收' or cmdName == '系统检修' or cmdName == '搜寻表具' } " class="layui-form-item mySelect">
 			<label class="layui-form-label">M-BUS端口</label>
 			<div class="layui-input-inline">
 				<!-- //M-BUS端口号10-60 加 KT300设备地址01-99 -->
 				<select id="mbus_port" lay-verify="">
-					<option value="<%=ccentorAdd%>" selected>所有端口</option>
-					<option value="10<%=ccentorAdd%>">端口1</option>
-					<option value="20<%=ccentorAdd%>">端口2</option>
-					<option value="30<%=ccentorAdd%>">端口3</option>
-					<option value="40<%=ccentorAdd%>">端口4</option>
-					<option value="50<%=ccentorAdd%>">端口5</option>
-					<option value="60<%=ccentorAdd%>">端口6</option>
+					<option th:value="${ccentorAdd}" selected>所有端口</option>
+					<option th:value="10${ccentorAdd}">端口1</option>
+					<option th:value="20${ccentorAdd}">端口2</option>
+					<option th:value="30${ccentorAdd}">端口3</option>
+					<option th:value="40${ccentorAdd}">端口4</option>
+					<option th:value="50${ccentorAdd}">端口5</option>
+					<option th:value="60${ccentorAdd}">端口6</option>
 				</select>
 			</div>
 		</div>
@@ -180,10 +180,10 @@
 
 		form.on('submit(sure)', function (data) {
 			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-			var deviceId = "<%=deviceId%>";
-			var cmdName = "<%=cmdName%>";
+			var deviceId = [[${centorId}]];
+			var cmdName = [[${cmdName}]];
 			var cmd = "", parmsNameStr = "";
-			var KT3NBccentorAdd = "<%=KT3NBccentorAdd%>";
+			var KT3NBccentorAdd = [[${KT3NBccentorAdd}]];
 
 			switch(cmdName){
 				case "多表数据抄收":

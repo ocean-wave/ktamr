@@ -342,6 +342,10 @@
         ORDER BY ce.centorNo,ce.addr
     </select>
 
+    <select id="selectCustomSql" resultType="HaCentor">
+        ${sql}
+    </select>
+
     <select id="updateByIdHaCentor" resultMap="haCentorMap">
         SELECT ce.id as id,ce.centorNo AS centorNo,ce.addr AS addr,
         ce.state AS state,

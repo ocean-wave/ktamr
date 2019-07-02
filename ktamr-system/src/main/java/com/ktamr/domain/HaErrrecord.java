@@ -16,7 +16,7 @@ public class HaErrrecord extends BaseEntity {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date readTime;
   private Integer rawCentorId;
-  private Integer rawCollectorId;
+  private String rawCollectorId;
   private Integer meterId;
   private Integer recCentorId;
   private Integer recCollectorId;
@@ -26,7 +26,44 @@ public class HaErrrecord extends BaseEntity {
   private String procRem;
   private Date procTm;
 
+  private String yjzqbh;
+  private String ddjzqbh;
+  private String ddjzqId;
+
   private HavMeterinfo havMeterinfo;
+  private HaCollector haCollector;
+
+  public String getYjzqbh() {
+    return yjzqbh;
+  }
+
+  public void setYjzqbh(String yjzqbh) {
+    this.yjzqbh = yjzqbh;
+  }
+
+  public String getDdjzqbh() {
+    return ddjzqbh;
+  }
+
+  public void setDdjzqbh(String ddjzqbh) {
+    this.ddjzqbh = ddjzqbh;
+  }
+
+  public String getDdjzqId() {
+    return ddjzqId;
+  }
+
+  public void setDdjzqId(String ddjzqId) {
+    this.ddjzqId = ddjzqId;
+  }
+
+  public HaCollector getHaCollector() {
+    return haCollector;
+  }
+
+  public void setHaCollector(HaCollector haCollector) {
+    this.haCollector = haCollector;
+  }
 
   public Integer getN() {
     return n;
@@ -92,11 +129,11 @@ public class HaErrrecord extends BaseEntity {
     this.rawCentorId = rawCentorId;
   }
 
-  public Integer getRawCollectorId() {
+  public String getRawCollectorId() {
     return rawCollectorId;
   }
 
-  public void setRawCollectorId(Integer rawCollectorId) {
+  public void setRawCollectorId(String rawCollectorId) {
     this.rawCollectorId = rawCollectorId;
   }
 

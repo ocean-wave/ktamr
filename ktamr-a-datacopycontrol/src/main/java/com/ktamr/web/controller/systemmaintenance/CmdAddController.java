@@ -95,12 +95,19 @@ public class CmdAddController extends BaseController {
     @GetMapping("/loadKT300Meter")
     public String loadKT300Meter(@RequestParam( value = "cmdName",required = false) String cmdName,
                            @RequestParam( value = "centorId",required = false) Integer centorId,
-                           @RequestParam( value = "devDescription",required = false) String devDescription,
-                           @RequestParam( value = "ccentorAdd",required = false) String ccentorAdd,ModelMap mmap){
+                           @RequestParam( value = "devDescription",required = false) String devDescription,ModelMap mmap){
+        String sql = "SELECT centorid FROM ha_centor WHERE id="+centorId;
+        String sql2 = "SELECT centorid FROM ha_centor WHERE position('KT3NB' in description)>0 AND id="+centorId;
+        HaCentor haCentor = haCentorService.selectCustomSql(sql);
+        String ccentorNo = String.valueOf("00"+haCentor.getCentorId());
+        ccentorNo = ccentorNo.substring(ccentorNo.length()-2);
+        HaCentor haCentor2 = haCentorService.selectCustomSql(sql2);
+        long ccentorAdd = haCentor.getCentorId();
         mmap.put("cmdName",cmdName);
         mmap.put("centorId",centorId);
         mmap.put("devDescription",devDescription);
         mmap.put("ccentorAdd",ccentorAdd);
+        mmap.put("ccentorNo",ccentorNo);
         return pxePath+"/loadKT300Meter";
     }
 
@@ -114,10 +121,36 @@ public class CmdAddController extends BaseController {
     }
 
     @GetMapping("/setKT300Params")
-    public String setKT300Params(@RequestParam(value = "cmdName") String cmdName,ModelMap mmap){
+    public String setKT300Params(@RequestParam(value = "cmdName",required = false) String cmdName,
+                                 @RequestParam(value = "centorId",required = false) Integer centorId,ModelMap mmap){
         mmap.put("cmdName",cmdName);
-        mmap.put("","");
+        mmap.put("centorId",centorId);
+        String sql = "SELECT centorid FROM ha_centor WHERE id="+centorId;
+        String sql2 = "SELECT centorid FROM ha_centor WHERE position('KT3NB' in description)>0 AND id="+centorId;
+        HaCentor haCentor = haCentorService.selectCustomSql(sql);
+        String ccentorAdd = String.valueOf("00"+haCentor.getCentorId());
+        ccentorAdd = ccentorAdd.substring(ccentorAdd.length()-2);
+        HaCentor haCentor2 = haCentorService.selectCustomSql(sql2);
+        long KT3NBccentorAdd = haCentor.getCentorId();
+        mmap.put("ccentorAdd",ccentorAdd);
+        mmap.put("KT3NBccentorAdd",KT3NBccentorAdd);
         return pxePath+"/setKT300Params";
+    }
+
+    @GetMapping("/readFreeze")
+    public String readFreeze(@RequestParam(value = "cmdName",required = false) String cmdName,
+                             @RequestParam(value = "centorId",required = false) String centorId,ModelMap mmap){
+        mmap.put("cmdName",cmdName);
+        mmap.put("centorId",centorId);
+        return pxePath+"/readFreeze";
+    }
+
+    @GetMapping("/loadDTU")
+    public String loadDTU(@RequestParam(value = "cmdName",required = false) String cmdName,
+                             @RequestParam(value = "centorId",required = false) String centorId,ModelMap mmap){
+        mmap.put("cmdName",cmdName);
+        mmap.put("centorId",centorId);
+        return pxePath+"/loadDTU";
     }
 
     @PostMapping("/loadCentorMeterJson")

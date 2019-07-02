@@ -76,6 +76,11 @@ public class HaCentorServiceImpl implements HaCentorService {
     }
 
     @Override
+    public HaCentor selectCustomSql(String sql) {
+        return haCentorMapper.selectCustomSql(sql);
+    }
+
+    @Override
     public List<HaCentor> selectCentor(HaCentor haCentor) {
         return haCentorMapper.selectCentor(haCentor);
     }

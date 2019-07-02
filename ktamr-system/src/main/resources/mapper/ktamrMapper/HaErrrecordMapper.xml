@@ -10,17 +10,20 @@
         <result column="n" property="n" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="readTime" property="readTime" javaType="java.util.Date" ></result>
-        <result column="yjzqbh" property="resultParams.yjzqbh" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-        <result column="nconf" property="resultParams.nconf" javaType="java.lang.String" ></result>
-        <result column="ddjzqbh" property="resultParams.ddjzqbh" javaType="java.lang.String" ></result>
-        <result column="ddjzqId" property="resultParams.ddjzqId" javaType="java.lang.String" ></result>
-        <result column="rawCollectorId" property="resultParams.rawCollectorId" javaType="java.lang.String" ></result>
+        <result column="yjzqbh" property="yjzqbh" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="nconf" property="nconf" javaType="java.lang.String" ></result>
+        <result column="ddjzqbh" property="ddjzqbh" javaType="java.lang.String" ></result>
+        <result column="ddjzqId" property="ddjzqId" javaType="java.lang.String" ></result>
+        <result column="rawCollectorId" property="rawCollectorId" javaType="java.lang.String" ></result>
         <result column="errType" property="errType" javaType="java.lang.String" ></result>
         <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
             <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
-            <result column="meterNumber" property="meterNumber" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+            <result column="meterNumber" property="meterNumber" javaType="java.lang.Long"></result>
+        </association>
+        <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
+            <result column="nconf" property="snconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
     </resultMap>
 
