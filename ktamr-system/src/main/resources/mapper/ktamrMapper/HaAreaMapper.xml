@@ -567,13 +567,15 @@ WHERE areaid IN ('${areaId}')
 
     <select id="AreaByWhere" resultType="com.ktamr.domain.HaArea">
         <if test="typeName=='id'">
-            select areaid as areaId, Right(areaNo, 4)||':'||name as haName from ha_area ORDER BY areaNo
+            select areaid as areaId, Right(areaNo, 4)||':'||name as haName from ha_area
         </if>
         <if test="typeName=='name'">
-            select name, Right(areaNo, 4)||':'||name as haName from ha_area ORDER BY areaNo
+            select name, Right(areaNo, 4)||':'||name as haName from ha_area
         </if>
         <if test="typeName=='code'">
-            select areaNo, Right(areaNo, 4)||':'||name as haName from ha_area ORDER BY areaNo
+            select areaNo , Right(areaNo, 4)||':'||name as haName from ha_area
         </if>
+        ${params.getUpperRightCondition}
+                ORDER BY areaNo
     </select>
 </mapper>

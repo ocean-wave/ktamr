@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,16 +50,50 @@ public class OperatorController extends BaseController {
     }
 
     @RequestMapping("/JumpOperatorUpdate")
-    public String jumpoperatorupdate(HaOperator haOperator,HaRgn haRgn,HaArea haArea,String operatorCode, Model model) {
-        haOperator = haOperatorService.updateByIdHaOperator(operatorCode);
-        HaOperator selUpperRgnType = haOperatorService.selUpperRgnType(haOperator.getOperatorCode());
-        HaOperatorRgns selRgnCodeStr = haOperatorRgnsService.selRgnCodeStr(operatorCode);
+    public String jumpoperatorupdate(HttpSession session, HaOperator haOperator, HaRgn haRgn, HaArea haArea, String operatorCode, Model model) {
+        //开始读取会话
+        String thisOperatorCode = (String)session.getAttribute("operatorCode");
+        HaOperator haOp= (HaOperator)session.getAttribute("haOperator");
+        Integer thisOperatorLeveL = haOp.getOperatorLevelCode();
+        //String thisOperatorRgnType = (String)session.getAttribute("haOperatorRgnType");
+        //结束读取会话
+
+        haOperator = haOperatorService.updateByIdHaOperator(operatorCode);//修改获取haOperator的值
+        haOperator.setOperatorCode(operatorCode);
+        HaOperator haOperators = haOperatorService.HaOperatorGetByID(haOperator);
+        HaOperator selUpperRgnType = haOperatorService.selUpperRgnType(haOperators.getOperatorUpper());
+        List<HaOperatorRgns> selRgnCodeStr = haOperatorRgnsService.selRgnCodeStr(operatorCode);
 
         List<HaRgn> rgn2s = haRngService.rgnByWhere(haRgn);
+        //开启判断模式
+        HaRgn hg = new HaRgn();
+        HaArea ha=new HaArea();
+        List<HaRgn> hgList=null;
+        List<HaArea> haList=null;
+        if(thisOperatorCode.equals(haOperators.getOperatorCode()) && haOperators.getOperatorRgnType().equals("rgn")){
+            hg.getParams().put("getUpperRightCondition",SqlCondition.getUpperRightCondition("id","rgn","where ",haOperators.getOperatorUpper(),selUpperRgnType.getOperatorRgnType()));
+            hgList=haRngService.rgnByWhere(hg);
+        }else if (thisOperatorCode.equals(haOperators.getOperatorCode()) && haOperators.getOperatorRgnType().equals("area")){
+            ha.setTypeName("code");
+            ha.getParams().put("getUpperRightCondition",SqlCondition.getUpperRightCondition("areaNo","area","where ",haOperators.getOperatorUpper(),selUpperRgnType.getOperatorRgnType()));
+            haList= haAreaService.AreaByWhere(ha);
+        }else  if(thisOperatorLeveL<=0 && haOperators.getOperatorRgnType().equals("rgn") ){
+            hgList= haRngService.rgnByWhere(hg);
+        }else if (thisOperatorLeveL<=0 && haOperators.getOperatorRgnType().equals("area") ){
+            ha.setTypeName("code");
+            haList= haAreaService.AreaByWhere(ha);
+        }else if(haOperators.getOperatorRgnType().equals("rgn")){
+            hg.getParams().put("getRightCondition",SqlCondition.getRightCondition("id","rgn","where "));
+            hgList= haRngService.rgnByWhere(hg);
+        }else if(haOperators.getOperatorRgnType().equals("area")){
+            ha.setTypeName("code");
+            ha.getParams().put("getRightCondition",SqlCondition.getRightCondition("areaNo","area","where "));
+            haList= haAreaService.AreaByWhere(ha);
+        }
 
-        HaRgn haRgn1 = new HaRgn();
-        haRgn1.getParams().put("getUpperRightCondition",SqlCondition.getUpperRightCondition("id","rgn","where ",haOperator.getOperatorUpper(),selUpperRgnType.getOperatorRgnType()));
-        List<HaRgn> rgns = haRngService.rgnByWhere(haRgn1);
+        //结束判断模式
+          /*  HaRgn haRgn1213 = new HaRgn();
+         List<HaRgn> rgns = haRngService.rgnByWhere(haRgn1213);
 
         HaRgn haRgn3 = new HaRgn();
         haRgn3.getParams().put("getRightCondition",SqlCondition.getRightCondition("id","rgn",""));
@@ -75,16 +110,19 @@ public class OperatorController extends BaseController {
         HaArea haArea3 = new HaArea();
         haArea3.setTypeName("code");
         haArea3.getParams().put("getRightCondition",SqlCondition.getRightCondition("areaNo","area",""));
-        List<HaArea> haArea3s = haAreaService.AreaByWhere(haArea3);
+        List<HaArea> haArea3s = haAreaService.AreaByWhere(haArea3);*/
 
         List<HaRgn> queryRgnByRgn = haRngService.queryRgnByRgn();
         List<HaArea> queryAreaByArea = haAreaService.queryAreaByArea();
-        model.addAttribute("rgns",rgns);
+      /*  model.addAttribute("rgns",rgns);
         model.addAttribute("rgn2s",rgn2s);
         model.addAttribute("rgn3s",rgn3s);
         model.addAttribute("haArea1s",haArea1s);
         model.addAttribute("haArea2s",haArea2s);
-        model.addAttribute("haArea3s",haArea3s);
+        model.addAttribute("haArea3s",haArea3s);*/
+        model.addAttribute("haOperators",haOperators);
+        model.addAttribute("hgList",hgList);
+        model.addAttribute("haList",haList);
         model.addAttribute("haOperator", haOperator);
         model.addAttribute("selUpperRgnType", selUpperRgnType);
         model.addAttribute("selRgnCodeStr",selRgnCodeStr);
