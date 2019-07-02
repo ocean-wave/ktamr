@@ -140,7 +140,8 @@ public class FileUploadUtils
     public static final String extractFilename(MultipartFile file, String extension)
     {
         String filename = file.getOriginalFilename();
-        filename = DateUtils.datePath() + "/" + encodingFilename(filename) + extension;
+        //filename = DateUtils.datePath() + "/" + encodingFilename(filename) + extension;
+        filename = DateUtils.datePath() + "/" + filename;
         return filename;
     }
 

@@ -70,8 +70,6 @@
         from hat_metersRecordImport hm
         where to_char(hm.importTime,'yyyy-mm-dd hh24:mi:ss') = #{importTime}
         ) t
-        <!--多条件查询-->
-        ${multipleConditions}
     </select>
 
     <select id="selectMetersRecordImportCount" resultType="java.lang.Integer">

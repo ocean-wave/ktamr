@@ -1,5 +1,9 @@
 package com.ktamr.web.controller.smallbox;
 
+import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.export.ExportExcelUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
+import com.ktamr.domain.HaRgn;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.service.HavMeterinfoService;
@@ -41,5 +45,13 @@ public class MetersMngController extends BaseController {
         startPage();
         List<HavMeterinfo> listMeter = havMeterinfoService.selectReadResult(haMeter);
         return getDataTable(listMeter);
+    }
+
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(HavMeterinfo params, ExportExcelUtil exportExcelUtil)
+    {
+        List<HavMeterinfo> list = havMeterinfoService.selectReadResult(params);
+        return exportExcelUtil.init(list, "");
     }
 }

@@ -419,47 +419,47 @@
     </select>
 
     <select id="selectReadResult" resultMap="havMeterinfoMap" parameterType="java.util.Map">
-        SELECT
-        t1.itemId AS itemId
-        , mi.用户号 AS userNo
-        , mi.用户名 AS userName
-        , mi.用户地址 AS userDs
-        , mi.表号 AS meterNumber
-        , t1.thNumber
-        , t1.lfNumber
-        , t1.delta
-        , t1.state
-        , t1.thTime
-        , t1.lfTime
-        FROM hav_meterinfo mi
-        LEFT JOIN (
-        SELECT rc1.itemid AS itemId
-        , rc1.meterid AS meterId
-        , rc1.th_number AS thNumber
-        , rc1.lf_number AS lfNumber
-        , rc1.delta AS delta
-        , rc1.state AS state
-        , rc1.th_time AS thTime
-        ,rc1.lf_time AS lfTime
-        FROM ha_records rc1
-        WHERE rc1.cmdid IN <foreach item="id" index="index" collection="cmdids"
-                                    open="(" separator="," close=")">
-        ${id}
-    </foreach>
-        UNION ALL
-        SELECT er1.itemid AS itemId
-        , er1.meterid AS meterId
-        , er1.n AS thNumber
-        , 0 AS lfNumber
-        , 0 AS delta
-        , er1.state AS state
-        , er1.readtime AS thTime
-        , null AS lfTime
-        FROM ha_errRecord er1
-        WHERE er1.cmdid IN <foreach item="id" index="index" collection="cmdids"
-                                    open="(" separator="," close=")">
-        ${id}
-    </foreach>)
+        select * from (SELECT
+            t1.itemId AS itemId
+            , mi.用户号 AS userNo
+            , mi.用户名 AS userName
+            , mi.用户地址 AS userDs
+            , mi.表号 AS meterNumber
+            , t1.thNumber
+            , t1.lfNumber
+            , t1.delta
+            , t1.state
+            , t1.thTime
+            , t1.lfTime
+            FROM hav_meterinfo mi
+            LEFT JOIN (
+            SELECT rc1.itemid AS itemId
+            , rc1.meterid AS meterId
+            , rc1.th_number AS thNumber
+            , rc1.lf_number AS lfNumber
+            , rc1.delta AS delta
+            , rc1.state AS state
+            , rc1.th_time AS thTime
+            ,rc1.lf_time AS lfTime
+            FROM ha_records rc1
+            WHERE rc1.cmdid IN<foreach item="id" index="index" collection="cmdids"
+                                       open="(" separator="," close=")">
+            ${id}
+        </foreach>
+            UNION ALL
+            SELECT er1.itemid AS itemId
+            , er1.meterid AS meterId
+            , er1.n AS thNumber
+            , 0 AS lfNumber
+            , 0 AS delta
+            , er1.state AS state
+            , er1.readtime AS thTime
+            , null AS lfTime
+            FROM ha_errRecord er1
+            WHERE er1.cmdid IN <foreach item="id" index="index" collection="cmdids"
+                                        open="(" separator="," close=")">
+            ${id}
+        </foreach>)
         t1 ON t1.meterId=mi.meterid
         where 1=1
         <if test=" cmdName == '抄收区域' ">
@@ -473,7 +473,20 @@
             ${id}
         </foreach>
         </if>
+        <if test=" params.keyWord != null and params.keyWord != ''  ">
+            and (mi.用户号 like '%${params.keyWord}%'
+            or mi.用户名 like '%${params.keyWord}%'
+            or mi.用户地址 like '%${params.keyWord}%'
+            or mi.表号::varchar(16) like '%${params.keyWord}%'
+            or t1.state like '%${params.keyWord}%'
+            or to_char(t1.thTime,'yyyy-MM-dd') like '%${params.keyWord}%'
+            or to_char(t1.lfTime,'yyyy-MM-dd') like '%${params.keyWord}%'
+            )
+        </if>
         ORDER BY mi.用户地址,mi.用户号
+        ) t
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
     
     <select id="changeFormByAreaId" resultMap="havMeterinfoMapTwo">

@@ -270,12 +270,13 @@
                 AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
             </if>
             <if test=" params.keyWord != null and params.keyWord != '' ">
-                and ( mi.用户号 like '%${params.keyWord}%' or mi.用户名 like '%${params.keyWord}%'
-                or mi.用户地址 like '%${params.keyWord}%' or to_char(m.meterNumber,'fm99999999999999') like
-                '%${params.keyWord}%'
-                or to_char(mi.最近度数, 'fm9999999999999999') like '%${params.keyWord}%'
-                or to_char(m.lf_number, '99999999999999') like '%${params.keyWord}%'
-                or to_char(m.s_number, '99999999999999') like '%${params.keyWord}%'
+                and ( mi.用户号 like '%${params.keyWord}%'
+                or mi.用户名 like '%${params.keyWord}%'
+                or mi.用户地址 like '%${params.keyWord}%'
+                or m.meterNumber::varchar(16) like '%${params.keyWord}%'
+                or mi.最近度数::varchar(16) like '%${params.keyWord}%'
+                or m.lf_number::varchar(16) like '%${params.keyWord}%'
+                or m.s_number::varchar(16) like '%${params.keyWord}%'
                 or m.state = #{params.keyWord}
                 or to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') like '%${params.keyWord}%')
             </if>
