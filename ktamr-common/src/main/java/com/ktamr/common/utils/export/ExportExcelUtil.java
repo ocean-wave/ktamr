@@ -146,7 +146,7 @@ public class ExportExcelUtil {
 
     private AjaxResult wbWrite(){
         OutputStream out = null;
-        String filename = ExportStr.encodingFileExcelname();
+        String filename = ExportStr.encodingFileExcelnameTwo();
         try {
             out = new FileOutputStream(ExportStr.getAbsoluteFile(filename));
             wb.write(out);

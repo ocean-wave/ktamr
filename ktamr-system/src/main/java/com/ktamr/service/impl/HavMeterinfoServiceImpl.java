@@ -42,13 +42,21 @@ public class HavMeterinfoServiceImpl implements HavMeterinfoService {
             si[0] = 0;
         }
         map = new HashMap<String,Object>();
+        String cmdName = parms.getParams().get("cmdName").toString();
         map.put("cmdName",parms.getParams().get("cmdName").toString());
         map.put("cmdids",si);
         if(ids.length>1) {
             map.put("ids",id);
         }else {
-            map.put("ids", parms.getParams().get("ids").toString());
+            if("抄收小区".equals(cmdName)){
+                id[0] = Integer.parseInt(ids[0]);;
+                map.put("ids", id);
+            }else {
+                map.put("ids", parms.getParams().get("ids").toString());
+            }
         }
+        map.put("params",parms.getParams());
+        map.put("multipleConditions",parms.getMultipleConditions());
         return havMeterinfoMapper.selectReadResult(map);
     }
 

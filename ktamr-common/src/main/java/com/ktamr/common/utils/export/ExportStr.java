@@ -26,6 +26,10 @@ public class ExportStr {
     {
         return UUID.randomUUID().toString() + "_"+ "kt-table"+ DateUtils.dateTimeNow()+".xlsx";
     }
+    public static String encodingFileExcelnameTwo()
+    {
+        return "kt-table"+ DateUtils.dateTimeNow()+".xlsx";
+    }
 
     public static String encodingFileTxtname()
     {

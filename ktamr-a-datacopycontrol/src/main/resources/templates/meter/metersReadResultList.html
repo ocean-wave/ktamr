@@ -70,7 +70,7 @@
 		$(".search").click(function(){
 			var  _pdArray = "";
 			_pdArray = {
-				"keyWord": $("#keyWord").val()
+				"params[keyWord]": $("#keyWord").val()
 			};
 			fullTextSearch("jqGrid", _pdArray);
 		});
