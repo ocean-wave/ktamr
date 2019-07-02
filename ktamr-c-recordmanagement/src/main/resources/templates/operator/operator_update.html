@@ -139,29 +139,13 @@
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="operator_rgn" lay-filter="operator_rgn" lay-verify="operator_rgn" multiple="multiple">
                     <option value=""></option>
-                    <div th:if="${session.haOperator.getOperatorLevelCode()!= haOperator.operatorCode and haOperator.operatorRgnType=='rgn'}">
-                        <option th:selected="${selRgnCodeStr.rgnCode eq rgn.id}" th:each="rgn : ${rgns}"
+                    <div th:if="${haList} != null" th:each="selRgnCodeStrs : ${selRgnCodeStr}">
+                        <option th:selected="${selRgnCodeStrs.rgnCode eq haArea1.areaNo}"  th:each="haArea1 : ${haList}"
+                                th:value="${haArea1.areaNo}" th:text="${haArea1.haName}"></option>
+                    </div>
+                    <div th:if="${hgList} != null">
+                        <option th:selected="${selRgnCodeStr.rgnCode eq rgn.id}" th:each="rgn : ${hgList}"
                                 th:value="${rgn.id}" th:text="${rgn.name}"></option>
-                    </div>
-                    <div th:if="${session.haOperator.getOperatorLevelCode()!= haOperator.operatorCode and haOperator.operatorRgnType=='area'}">
-                        <option th:selected="${selRgnCodeStr.rgnCode eq haArea1.areaId}" th:each="haArea1 : ${haArea1s}"
-                                th:value="${haArea1.areaId}" th:text="${haArea1.haName}"></option>
-                    </div>
-                    <div th:if="${session.haOperator.getOperatorLevelCode()<=0 and haOperator.operatorRgnType=='rgn'}">
-                        <option th:selected="${selRgnCodeStr.rgnCode eq rgn2.id}" th:each="rgn2 : ${rgn2s}"
-                                th:value="${rgn2.id}" th:text="${rgn2.name}"></option>
-                    </div>
-                    <div th:if="${session.haOperator.getOperatorLevelCode()<=0 and haOperator.operatorRgnType=='area'}">
-                        <option th:selected="${selRgnCodeStr.rgnCode eq haArea2.areaId}" th:each="haArea2 : ${haArea2s}"
-                                th:value="${haArea2.areaId}" th:text="${haArea2.haName}"></option>
-                    </div>
-                    <div th:if="${haOperator.operatorRgnType=='rgn'}">
-                        <option th:selected="${selRgnCodeStr.rgnCode eq rgn2.id}" th:each="rgn3 : ${rgn3s}"
-                                th:value="${rgn3.id}" th:text="${rgn3.name}"></option>
-                    </div>
-                    <div th:if="${haOperator.operatorRgnType=='area'}">
-                        <option th:selected="${selRgnCodeStr.rgnCode eq haArea3.areaId}" th:each="haArea3 : ${haArea3s}"
-                                th:value="${haArea3.areaId}" th:text="${haArea3.haName}"></option>
                     </div>
                 </select>
             </div>

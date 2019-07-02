@@ -43,7 +43,7 @@ public class HaOperatorRgnsServiceImpl implements HaOperatorRgnsService {
     }
 
     @Override
-    public HaOperatorRgns selRgnCodeStr(String operatorCode) {
+    public List<HaOperatorRgns> selRgnCodeStr(String operatorCode) {
         return haOperatorRgnsMapper.selRgnCodeStr(operatorCode);
     }
 }

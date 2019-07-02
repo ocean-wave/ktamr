@@ -97,4 +97,9 @@ public class HaOperatorServiceImpl implements HaOperatorService {
         }
         return null;
     }
+
+    @Override
+    public HaOperator HaOperatorGetByID(HaOperator haOperator) {
+        return haOperatorMapper.HaOperatorGetByID(haOperator);
+    }
 }

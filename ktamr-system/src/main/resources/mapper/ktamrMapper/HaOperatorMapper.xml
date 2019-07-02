@@ -165,4 +165,19 @@
     <update id="ChangePWD">
         update ha_operator set operator_pwd=#{operatorPwd} where operator_code=#{operatorCode}
     </update>
+
+    <select id="HaOperatorGetByID" resultMap="HaOperatorMap">
+        select
+        operator_code AS operatorCode
+      ,operator_name AS operatorName
+      ,operator_sex AS operatorSex
+      ,operator_pwd AS operatorPwd
+      ,operator_upper AS operatorUpper
+      ,operator_level AS operatorLevel
+      ,operator_state AS operatorState
+      ,operator_company AS operatorCompany
+      ,operator_rgn_type AS operatorRgnType
+      ,operator_remark as operatorRemark
+        from ha_operator where operator_code=#{operatorCode}
+    </select>
 </mapper>

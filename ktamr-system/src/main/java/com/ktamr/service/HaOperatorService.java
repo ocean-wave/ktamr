@@ -40,4 +40,7 @@ public interface HaOperatorService {
      * @return
      */
     Integer ChangePWD(HaOperator haOperator);
+
+    //修改传值
+    HaOperator HaOperatorGetByID(HaOperator haOperator);
 }
