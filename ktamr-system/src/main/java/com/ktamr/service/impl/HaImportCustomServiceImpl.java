@@ -98,6 +98,11 @@ public class HaImportCustomServiceImpl implements HaImportCustomService {
     }
 
     @Override
+    public Integer customNoCheck4(HaImportcustom haImportcustom) {
+        return haImportCustomMapper.customNoCheck4(haImportcustom);
+    }
+
+    @Override
     public Integer meterNumCheck1(HaImportcustom haImportcustom) {
         return haImportCustomMapper.meterNumCheck1(haImportcustom);
     }
@@ -165,6 +170,16 @@ public class HaImportCustomServiceImpl implements HaImportCustomService {
     @Override
     public Integer serialNumber4(HaImportcustom haImportcustom) {
         return haImportCustomMapper.serialNumber4(haImportcustom);
+    }
+
+    @Override
+    public Integer exportRoomHasForm(HaImportcustom haImportcustom) {
+        return haImportCustomMapper.exportRoomHasForm(haImportcustom);
+    }
+
+    @Override
+    public Integer thinkAddingRoom(HaImportcustom haImportcustom) {
+        return haImportCustomMapper.thinkAddingRoom(haImportcustom);
     }
 
     @Override
@@ -240,6 +255,16 @@ public class HaImportCustomServiceImpl implements HaImportCustomService {
     @Override
     public Integer addCustomByExport2(HaImportcustom haImportcustom) {
         return haImportCustomMapper.addCustomByExport2(haImportcustom);
+    }
+
+    @Override
+    public Integer addCustomByExport3(HaImportcustom haImportcustom) {
+        return haImportCustomMapper.addCustomByExport3(haImportcustom);
+    }
+
+    @Override
+    public Integer cannelMeterRoomByExport(HaImportcustom haImportcustom) {
+        return haImportCustomMapper.cannelMeterRoomByExport(haImportcustom);
     }
 
     @Override

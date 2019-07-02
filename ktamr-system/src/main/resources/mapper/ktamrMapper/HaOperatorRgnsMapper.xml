@@ -16,4 +16,12 @@
     <select id="selRgnCodeStr" resultType="com.ktamr.domain.HaOperatorRgns">
         SELECT rgn_code as rgnCode FROM ha_operator_rgns WHERE operator_code=#{operatorCode}
     </select>
+
+    <insert id="addHaOperatorRgns">
+        insert into ha_operator_rgns(operator_code, rgn_code) values (#{operatorCode},#{rgnCode})
+    </insert>
+
+    <delete id="deleteHaOperatorRgns">
+        DELETE FROM ha_operator_rgns WHERE operator_code=#{operatorCode}
+    </delete>
 </mapper>

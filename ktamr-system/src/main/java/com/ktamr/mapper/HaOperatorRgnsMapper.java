@@ -23,4 +23,8 @@ public interface HaOperatorRgnsMapper {
     public List<HaOperatorRgns> sql2(HaOperatorRgns haOperatorRgns);
 
     List<HaOperatorRgns> selRgnCodeStr(@Param("operatorCode")String operatorCode);
+
+    Integer addHaOperatorRgns(HaOperatorRgns haOperatorRgns);
+
+    Integer deleteHaOperatorRgns(HaOperatorRgns haOperatorRgns);
 }

@@ -54,8 +54,11 @@ public interface HaImportCustomMapper {
     //用户编号校验2
     Integer customNoCheck2(HaImportcustom haImportcustom);
 
-    //用户编号校验3
+    //导入房间用户编号 系统已有房间使用
     Integer customNoCheck3(HaImportcustom haImportcustom);
+
+    //导入新房间用户编号已有房间使用
+    Integer customNoCheck4(HaImportcustom haImportcustom);
 
     //表号校验1
     Integer meterNumCheck1(HaImportcustom haImportcustom);
@@ -93,11 +96,17 @@ public interface HaImportCustomMapper {
     //表序号的校验2
     Integer serialNumber2(HaImportcustom haImportcustom);
 
-    //表序号的校验3
+    //检测同个导入文件中存在相同表号的认为表内表号重复
     Integer serialNumber3(HaImportcustom haImportcustom);
 
-    //表序号的校验4
+    //导入文件中 同集中器 房间存在，序列号相同认为 与系统表序号重复
     Integer serialNumber4(HaImportcustom haImportcustom);
+
+    //导入房间已有表
+    Integer exportRoomHasForm(HaImportcustom haImportcustom);
+
+    //同一大区 相同表号 系统查找不到对应房间认为新增房间修改表资料
+    Integer thinkAddingRoom(HaImportcustom haImportcustom);
 
     //确定是新增还是修改1
     Integer checkAddOrUpdate1(HaImportcustom haImportcustom);
@@ -138,6 +147,11 @@ public interface HaImportCustomMapper {
     Integer addCustomByExport1(HaImportcustom haImportcustom);
 
     Integer addCustomByExport2(HaImportcustom haImportcustom);
+
+    Integer addCustomByExport3(HaImportcustom haImportcustom);
+
+    //取消原关联导入用户编号的房间关联
+    Integer cannelMeterRoomByExport(HaImportcustom haImportcustom);
 
     //用户档案文档导入—修改表的房间关联
     Integer updateMeterRoomByExport1(HaImportcustom haImportcustom);

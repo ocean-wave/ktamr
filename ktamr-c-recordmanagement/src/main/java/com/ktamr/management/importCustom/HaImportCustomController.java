@@ -65,9 +65,9 @@ public class HaImportCustomController extends BaseController {
             haImportCustomService.customNoCheck1(haImportcustom);
             haImportCustomService.customNoCheck2(haImportcustom);
             haImportCustomService.customNoCheck3(haImportcustom);
+            haImportCustomService.customNoCheck4(haImportcustom);
             haImportCustomService.meterNumCheck1(haImportcustom);
             haImportCustomService.meterNumCheck2(haImportcustom);
-            haImportCustomService.meterNumCheck3(haImportcustom);
             haImportCustomService.centorCollectorCheck1(haImportcustom);
             haImportCustomService.centorCollectorCheck2(haImportcustom);
             haImportCustomService.centorCollectorCheck3(haImportcustom);
@@ -79,6 +79,8 @@ public class HaImportCustomController extends BaseController {
             haImportCustomService.serialNumber2(haImportcustom);
             haImportCustomService.serialNumber3(haImportcustom);
             haImportCustomService.serialNumber4(haImportcustom);
+            haImportCustomService.exportRoomHasForm(haImportcustom);
+            haImportCustomService.thinkAddingRoom(haImportcustom);
             haImportCustomService.checkAddOrUpdate1(haImportcustom);
             haImportCustomService.checkAddOrUpdate2(haImportcustom);
             haImportCustomService.checkAddOrUpdate3(haImportcustom);
@@ -142,6 +144,8 @@ public class HaImportCustomController extends BaseController {
             haImportCustomService.addRoomByExport2(haImportcustom);
             haImportCustomService.addCustomByExport1(haImportcustom);
             haImportCustomService.addCustomByExport2(haImportcustom);
+            haImportCustomService.addCustomByExport3(haImportcustom);
+            haImportCustomService.cannelMeterRoomByExport(haImportcustom);
             haImportCustomService.updateMeterRoomByExport1(haImportcustom);
             haImportCustomService.updateMeterRoomByExport2(haImportcustom);
             haImportCustomService.addMeterByExport(haImportcustom);

@@ -57,7 +57,7 @@
     <insert id="addImportCustom">
         INSERT INTO ha_importCustom(cust_no, cust_name, area_name, building_name, room_name, meter_no, meter_channel, meter_sequence, vendor_id, centor_no, collector_no, meter_type, meter_isbranch, meter_ori_num, setup_time, price_standard, meter_rate, cust_sex, cust_mobile, cust_balance, import_time, state) VALUES
         <foreach item="item" index="index" collection="params" separator=",">
-         (#{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5},#{item.6}::int,#{item.7}::int,#{item.8}::int,#{item.9},#{item.10},#{item.11},#{item.12},#{item.13},#{item.14}::int,#{item.15},#{item.16},#{item.17}::int,#{item.18},#{item.19},#{item.20},TO_TIMESTAMP(#{item.21}, 'YYYY-MM-DD HH24:MI:SS'), '待校验')
+         (#{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5},#{item.6}::int,#{item.7}::int,#{item.8}::int,#{item.9}::int,#{item.10},#{item.11},#{item.12},#{item.13},#{item.14}::int,TO_TIMESTAMP(#{item.15}, 'YYYY-MM-DD HH24:MI:SS'),#{item.16},#{item.17}::int,#{item.18},#{item.19},#{item.20}::int,TO_TIMESTAMP(#{item.21}, 'YYYY-MM-DD HH24:MI:SS'),'待校验')
         </foreach>
     </insert>
 
@@ -143,11 +143,18 @@
         WHERE i1.id!=i0.id AND i1.cust_no=i0.cust_no AND i0.state='待校验' AND i0.import_time=#{importTime} AND i0.import_time=i1.import_time
     </update>
 
-    <!--用户编号校验3-->
+    <!--导入房间用户编号 系统已有房间使用-->
     <update id="customNoCheck3">
         UPDATE ha_importCustom i SET state='与系统用户编号重复'
         FROM ha_room r,ha_custom cu
         WHERE i.roomid=r.roomid AND r.custid!=cu.custid AND i.cust_no=cu.custno AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--导入新房间用户编号已有房间使用-->
+    <update id="customNoCheck4">
+        UPDATE ha_importCustom i SET state='与系统用户编号重复'
+        FROM ha_room r,ha_custom cu
+        WHERE cu.custid=r.custid AND i.roomid IS NULL AND  i.cust_no=cu.custno AND i.state='待校验' AND i.import_time=#{importTime}
     </update>
 
     <!--表号校验1-->
@@ -221,36 +228,49 @@
         WHERE use_meter_sequence=1 AND meter_sequence is not NULL AND (meter_sequence&lt;1 Or meter_sequence>65535) AND state='待校验' AND import_time=#{importTime}
     </update>
 
-    <!--表序号的校验3-->
+    <!--检测同个导入文件中存在相同表号的认为表内表号重复-->
     <update id="serialNumber3">
         UPDATE ha_importCustom i0
         SET state='与表内表序号重复' FROM ha_importCustom i1
         WHERE i1.id!=i0.id AND i0.use_meter_sequence=1 AND i0.meter_sequence is not NULL AND i0.centor_id>0 AND i1.centor_id=i0.centor_id AND i1.meter_sequence=i0.meter_sequence AND i0.state='待校验' AND i0.import_time=#{importTime} AND i0.import_time=i1.import_time
     </update>
 
-    <!--表序号的校验4-->
+    <!--导入文件中 同集中器 房间存在，序列号相同认为 与系统表序号重复-->
     <update id="serialNumber4">
         UPDATE ha_importCustom i SET state='与系统表序号重复' FROM ha_meter m
         WHERE i.use_meter_sequence=1 AND i.centor_id>0 AND ((i.roomid>0 AND m.roomid!=i.roomid) OR i.roomid IS NULL) AND i.centor_id=m.centorid AND i.meter_sequence=m.meter_sequence AND i.state='待校验' AND i.import_time=#{importTime}
     </update>
 
+    <!--导入房间已有表-->
+    <update id="exportRoomHasForm">
+        UPDATE ha_importCustom i SET state='与系统房间表重复' FROM ha_meter m
+        WHERE i.roomid=m.roomid and i.meter_no!=m.meternumber AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
+    <!--同一大区 相同表号 系统查找不到对应房间认为新增房间修改表资料-->
+    <update id="thinkAddingRoom">
+        UPDATE ha_importCustom i SET state='新增房间修改表资料'
+        FROM ha_meter m WHERE
+        i.meter_no=m.meterNumber   AND  i.roomid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+    </update>
+
     <!--确定是新增还是修改1-->
     <update id="checkAddOrUpdate1">
         UPDATE ha_importCustom i SET state='新增房间资料'
-        WHERE i.meter_no IS NULL AND i.roomid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+        WHERE i.meter_no IS NULL AND length(i.room_name)>0 AND i.roomid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
     </update>
 
     <!--确定是新增还是修改2-->
     <update id="checkAddOrUpdate2">
         UPDATE ha_importCustom i SET state='新增房间表资料'
-        WHERE i.meter_no>0 AND i.roomid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
+        WHERE i.meter_no>0 AND i.meter_no_d IS NULL AND i.roomid IS NULL AND i.state='待校验' AND i.import_time=#{importTime}
     </update>
 
     <!--确定是新增还是修改3-->
     <update id="checkAddOrUpdate3">
-        UPDATE ha_importCustom
+        UPDATE ha_importCustom i
         SET state=CASE WHEN meter_no_d IS NULL THEN '新增表资料' ELSE '修改表资料' END
-        WHERE meter_no>0 AND roomid>0 AND state='待校验' AND import_time=#{importTime}
+        WHERE i.meter_no>0 AND i.roomid>0 AND i.state='待校验' AND i.import_time=#{importTime}
     </update>
 
     <!--确定是新增还是修改4-->
@@ -314,9 +334,20 @@
     <insert id="addCustomByExport1">
         INSERT INTO ha_custom(custno, name, sex, mobil, addr, idname, balance) SELECT i.cust_no, Trim(i.cust_name), i.cust_sex,i.cust_mobile, i.area_name||'-'||i.building_name||'-'||Trim(i.room_name) ,'身份证',i.cust_balance FROM ha_importCustom i,ha_room r WHERE length(i.cust_no)>0 AND i.roomid=r.roomid AND r.custid IS NULL AND (Left(i.state,2)='新增' OR Left(i.state,2)='修改') AND i.import_time=#{importTime}
     </insert>
-    
+
+    <!--新增房间后把已存在相同用户编号的用户ID更新到房间表,下一步判断存在相同用户编号不需要添加用户记录-->
     <update id="addCustomByExport2">
         UPDATE ha_room r SET custid=cu.custid FROM ha_importCustom i, ha_custom cu WHERE length(i.cust_no)>0 AND i.cust_no=cu.custno AND i.roomid=r.roomid AND (Left(i.state,2)='新增' OR Left(i.state,2)='修改') AND i.import_time=#{importTime}
+    </update>
+
+    <!--修改房间关联到用户 （新增用户情况）-->
+    <update id="addCustomByExport3">
+        UPDATE ha_room r SET custid=cu.custid FROM ha_importCustom i, ha_custom cu WHERE length(i.cust_no)>0 AND i.cust_no=cu.custno AND i.roomid=r.roomid AND (Left(i.state,2)='新增' OR Left(i.state,2)='修改') AND i.import_time=#{importTime}
+    </update>
+
+    <!--取消原关联导入用户编号的房间关联-->
+    <update id="cannelMeterRoomByExport">
+        UPDATE ha_room r SET custid=null FROM ha_importCustom i, ha_custom cu WHERE  r.custid=cu.custid AND length(i.cust_no)>0 AND i.cust_no=cu.custno AND i.roomid!=r.roomid AND (Left(i.state,2)='新增' OR Left(i.state,2)='修改') AND i.import_time=#{importTime}
     </update>
 
     <!--用户档案文档导入—修改表的房间关联-->
@@ -329,8 +360,8 @@
 
     <update id="updateMeterRoomByExport2">
         UPDATE ha_meter m SET
-        meterNumber=i.meter_no,roomid=i.roomid FROM ha_importCustom i WHERE i.roomid > 0 AND
-        (i.meter_no=m.meterNumber AND m.roomid IS NULL) AND i.state='修改表资料' AND i.import_time=#{importTime}
+        meterNumber=i.meter_no,roomid=i.roomid,areaid=i.areaid FROM ha_importCustom i WHERE i.roomid > 0 AND
+        (i.meter_no=m.meterNumber AND (SELECT count(meterid) FROM ha_meter WHERE roomid=i.roomid)&lt;1) AND i.state='修改表资料' AND i.import_time=#{importTime}
     </update>
 
     <!--用户档案文档导入—新增表资料-->

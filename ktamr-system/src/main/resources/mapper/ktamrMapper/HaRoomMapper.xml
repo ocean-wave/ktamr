@@ -21,6 +21,7 @@
             <result property="name" column="cname"/>
             <result property="sex" column="sex"/>
             <result property="mobil" column="mobil"/>
+            <result property="balance" column="balance"/>
         </association>
 
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
@@ -160,7 +161,7 @@
         mt.name AS hmtname,m.isbranch AS isBranch, m.g_number AS gnumber,
         to_char(m.starttime, 'yyyy-mm-dd hh24:mi:ss') AS startTime, p.name AS pname,
         trim(to_char(m.rate, '9999999999999999')) AS rate, cu.sex AS sex,
-        cu.mobil AS mobil FROM ((((((SELECT r.roomid,r.custid,r.name AS roomname,a.name AS areaname,b.name AS bulidname
+        cu.mobil AS mobil,cu.balance AS balance FROM ((((((SELECT r.roomid,r.custid,r.name AS roomname,a.name AS areaname,b.name AS bulidname
         FROM ha_room r,ha_area a, ha_building b WHERE r.buildingid=b.buildingid AND b.areaid=a.areaid AND a.areaid IN (#{areaId}) ORDER BY a.name,b.name,r.name) t LEFT JOIN ha_meter m ON m.roomid=t.roomid) LEFT JOIN ha_custom cu ON cu.custid=t.custid) LEFT JOIN ha_pricestandard p ON m.pricestand_id=p.pricestand_id) LEFT JOIN ha_meterType mt ON p.meterTypeId=mt.meterTypeId) LEFT JOIN ha_centor ce ON m.centorid=ce.id) LEFT JOIN ha_collector co ON co.collectorid=m.collectorid
     </select>
 

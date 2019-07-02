@@ -392,6 +392,12 @@ public class RoomController extends BaseController {
                 e.printStackTrace();
                 content[i][18] = "";
             }
+            try {
+                content[i][19] = String.valueOf(obj.getHaCustom().getBalance()); //余额
+            } catch (Exception e) {
+                e.printStackTrace();
+                content[i][19] = "";
+            }
         }
 
         //创建HSSFWorkbook

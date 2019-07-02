@@ -22,4 +22,8 @@ public interface HaOperatorRgnsService {
     public List<HaOperatorRgns> sql2(HaOperatorRgns haOperatorRgns);
 
     List<HaOperatorRgns> selRgnCodeStr(String operatorCode);
+
+    Integer addHaOperatorRgns(HaOperatorRgns haOperatorRgns);
+
+    Integer deleteHaOperatorRgns(HaOperatorRgns haOperatorRgns);
 }

@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.shiro.util.StringUtils.split;
+
 @Controller
 @RequestMapping("/operator")
 public class OperatorController extends BaseController {
@@ -143,13 +145,28 @@ public class OperatorController extends BaseController {
 
     @RequestMapping("/AddHaOperator")
     @ResponseBody
-    public Object addHaOperator(HaOperator haOperator) {
-        haOperator.setOperatorCreatTime(new Date());
-        Integer haOperators = haOperatorService.addHaOperator(haOperator);
-        if (haOperators == 1) {
-            return "true";
+    public Object addHaOperator(HaOperator haOperator,HaOperatorRgns haOperatorRgns) {
+        HaOperator operator = haOperatorService.updateByIdHaOperator(haOperator.getOperatorCode());
+        if(operator!=null){
+            return "false";
+        }else {
+            haOperator.setOperatorCreatTime(new Date());
+            Integer haOperators = haOperatorService.addHaOperator(haOperator);
+            String operatorRgn = haOperator.getOperatorRgn();
+            if(!operatorRgn.equals("")){
+                String[] operatorRgnArray = split(operatorRgn);
+                for(int i=0;i<operatorRgnArray.length;i++){
+                    String s = operatorRgnArray[i];
+                    haOperatorRgns.setOperatorCode(haOperator.getOperatorCode());
+                    haOperatorRgns.setRgnCode(s);
+                    Integer OperatorRgns = haOperatorRgnsService.addHaOperatorRgns(haOperatorRgns);
+                }
+            }
+            if (haOperators == 1) {
+                return "true";
+            }
+            return "false";
         }
-        return "false";
     }
 
     @RequestMapping("/DeleteHaOperator")
@@ -164,8 +181,23 @@ public class OperatorController extends BaseController {
 
     @RequestMapping("/UpdateHaOperator")
     @ResponseBody
-    public Object updateHaOperator(HaOperator haOperator) {
+    public Object updateHaOperator(HaOperator haOperator,HaOperatorRgns haOperatorRgns) {
         Integer updateHaOperator = haOperatorService.updateHaOperator(haOperator);
+        if(haOperator.getOperatorPwd()!=null){
+            Integer changePWD = haOperatorService.ChangePWD(haOperator);
+        }
+        String operatorRgn = haOperator.getOperatorRgn();
+        haOperatorRgns.setOperatorCode(haOperator.getOperatorCode());
+        haOperatorRgnsService.deleteHaOperatorRgns(haOperatorRgns);
+        if(!operatorRgn.equals("")){
+            String[] operatorRgnArray = split(operatorRgn);
+            for(int i=0;i<operatorRgnArray.length;i++){
+                String s = operatorRgnArray[i];
+                haOperatorRgns.setOperatorCode(haOperator.getOperatorCode());
+                haOperatorRgns.setRgnCode(s);
+                Integer OperatorRgns = haOperatorRgnsService.addHaOperatorRgns(haOperatorRgns);
+            }
+        }
         if (updateHaOperator == 1) {
             return "true";
         }
