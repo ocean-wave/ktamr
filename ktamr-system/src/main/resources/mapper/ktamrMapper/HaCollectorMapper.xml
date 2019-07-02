@@ -7,7 +7,7 @@
     <resultMap id="haCollectorMap" type="com.ktamr.domain.HaCollector">
         <id column="collectorId" property="collectorId"></id>
         <result column="addr" property="addr"></result>
-        <result column="nconf" property="resultParams.nconf"></result>
+        <result column="nconf" property="snconf"></result>
         <result column="ver" property="ver"></result>
         <result column="state" property="state"></result>
     </resultMap>

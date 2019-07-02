@@ -29,6 +29,9 @@
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <result column="nconf" property="snconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
+        <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
+            <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        </association>
         <association property="haPricestandard" javaType="com.ktamr.domain.HaPricestandard">
             <result column="price1" property="price1" javaType="java.lang.Double"></result>
         </association>
@@ -303,7 +306,7 @@
     <select id="selectMeterByCollectorId" resultMap="haMeterMap">
         SELECT m.meterid AS meterId
         , cu.custno AS userNo
-        , r.name AS rname
+        , r.name AS name
         , cu.name AS userName
         , m.meterNumber AS meterNumber
         , to_hex(co.nconf) AS nconf

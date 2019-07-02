@@ -124,6 +124,32 @@
 				]
 			},
 			{
+				"id": "1-4",
+				"url": "",
+				"name": "第三方接口",
+				"iconfont": "fa fa-exchange fa-fw",
+				"sub": [
+					{
+						"id": "1-4-1",
+						"url": "",
+						"name": "接口管理",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					},
+					{
+						"id": "1-4-2",
+						"url": "/thirdPartyInterface/cmd",
+						"name": "接口数据查询",
+						"iconfont": "fa fa-angle-right",
+						"isShortMenu": "false",
+						"shortIconfont": "",
+						"sub": []
+					}
+				]
+			},
+			{
 				"id": "1-5",
 				"url": "/thirdpartydata/party",
 				"name": "第三方数据",
