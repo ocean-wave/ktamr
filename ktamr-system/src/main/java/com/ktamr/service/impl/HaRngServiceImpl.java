@@ -169,4 +169,9 @@ public class HaRngServiceImpl implements HaRngService {
     public List<HaRgn> checkRgnName(HaRgn haRgn) {
         return haRngMapper.checkRgnName(haRgn);
     }
+
+    @Override
+    public List<HaRgn> rgnByWhere(HaRgn haRgn) {
+        return haRngMapper.rgnByWhere(haRgn);
+    }
 }

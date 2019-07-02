@@ -98,4 +98,6 @@ public interface HaRngService {
 
     //判断大区名称是否重复
     List<HaRgn> checkRgnName(HaRgn haRgn);
+
+    List<HaRgn> rgnByWhere(HaRgn haRgn);
 }

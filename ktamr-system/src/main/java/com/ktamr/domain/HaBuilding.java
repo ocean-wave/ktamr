@@ -28,6 +28,16 @@ public class HaBuilding extends BaseEntity {
     private String maddr;
     private String keyWord;
     private HaArea haArea;
+    private String typeName;
+    private String Bname;
+
+    public String getBname() {
+        return Bname;
+    }
+
+    public void setBname(String bname) {
+        Bname = bname;
+    }
 
     public String getCuaddr() {
         return cuaddr;
@@ -143,5 +153,13 @@ public class HaBuilding extends BaseEntity {
 
     public void setHaArea(HaArea haArea) {
         this.haArea = haArea;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

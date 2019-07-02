@@ -62,6 +62,8 @@
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="building" lay-filter="building" lay-verify="required" lay-search th:value="${custom.haBuilding.buildingId}">
                     <option value=""></option>
+                    <option th:selected="${custom.haBuilding.buildingId eq haBuilding.buildingId}" th:each="haBuilding : ${haBuildings}"
+                            th:value="${haBuilding.buildingId}" th:text="${haBuilding.Bname}"></option>
                 </select>
             </div>
         </div>
@@ -70,6 +72,8 @@
             <div class="layui-input-inline mySelect" style="width:170px;">
                 <select id="room" lay-filter="room" lay-verify="required"  lay-search th:value="${custom.haRoom.roomId}">
                     <option value=""></option>
+                    <option th:selected="${custom.haRoom.roomId eq haRoomLists.roomId}" th:each="haRoomLists : ${haRoomList}"
+                            th:value="${haRoomLists.roomId}" th:text="${haRoomLists.name}"></option>
                 </select>
             </div>
         </div>

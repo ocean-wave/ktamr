@@ -50,4 +50,7 @@ public interface HaRoomService {
 
     //用户档案模板导出
     List<HaRoom> customExport(Integer areaId);
+
+    //修改时所属房间传值
+    List<HaRoom> RoomByBuilding(HaRoom haRoom);
 }

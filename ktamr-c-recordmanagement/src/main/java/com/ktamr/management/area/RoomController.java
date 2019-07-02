@@ -81,7 +81,7 @@ public class RoomController extends BaseController {
     }
 
     @RequestMapping("/JumpRoomMeterUpdate")
-    public String JumpRoomMeterUpdate(Integer roomId, Integer meterId, Model model,HaCentor haCentor) {
+    public String JumpRoomMeterUpdate(Integer roomId, Integer meterId, Model model, HaCentor haCentor,HaCollector haCollector) {
         HaRoom haRoom = new HaRoom();
         haRoom.setRoomId(roomId);
         HaRoom room = haRoomService.delByIdHaRoom(haRoom);
@@ -97,8 +97,11 @@ public class RoomController extends BaseController {
         HaCentor centor = haCentorService.updateByDeviceType(meter.getCentorId());
         //查询所对应的全部集采器信息
         haCentor.setDeviceType(centor.getDeviceType());
-        haCentor.getParams().put("getRightCondition", SqlCondition.getRightCondition("centorNo","centor","and"));
+        haCentor.getParams().put("getRightCondition", SqlCondition.getRightCondition("centorNo", "centor", "and"));
         List<HaCentor> haCentors = haCentorService.DeviceByWhere(haCentor);
+        haCollector.setCentorId(meter.getCentorId());
+        haCollector.setCollectorId(meter.getCollectorId());
+        List<HaCollector> haCollectors = haCollectorService.CollectorByWhere(haCollector);
         model.addAttribute("room", room);
         model.addAttribute("meter", meter);
         model.addAttribute("haPricestandards", haPricestandards);
@@ -110,6 +113,7 @@ public class RoomController extends BaseController {
         model.addAttribute("haArea", haArea);
         model.addAttribute("centor", centor);
         model.addAttribute("haCentors", haCentors);
+        model.addAttribute("haCollectors", haCollectors);
         return "area/room_meter_update";
     }
 
@@ -200,13 +204,6 @@ public class RoomController extends BaseController {
         return map;
     }
 
-   /* @RequestMapping("/DeviceByWhere")
-    @ResponseBody
-    public Object DeviceByWhere(HaCentor haCentor) {
-
-        return haCentors;
-    }
-*/
     @RequestMapping("/UpdateRoom")
     @ResponseBody
     public Object updateRoom(String opType, Integer meterId, Integer centorId, Integer collectorId, Integer meterNumber, HaRoom haRoom, HaMeter haMeter) {
@@ -216,10 +213,11 @@ public class RoomController extends BaseController {
         if (opType.equals("updateMeter")) {
             Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
             if (centorId == null) {
-                centorDevNo.equals("X");
+                centorDevNo=("X");
                 centorId = null;
             } else {
-                centorDevNo = haCentorService.centorDevNo(centorId);
+                HaCentor haCentor = haCentorService.centorDevNo(centorId);
+                centorDevNo = haCentor.getCentorId();
                 HaCentor centorDevDescription = haCentorService.centorDevDescription(centorId);
                 if (centorDevDescription.getDescription().substring(0, 5).equals("KT4EW")) {
                     mMeterSequences = haMeterService.mMeterSequence(meterId);
@@ -234,7 +232,7 @@ public class RoomController extends BaseController {
                 }
             }
             if (collectorId == null || collectorId == -1) {
-                nconf.equals("X");
+                nconf=("X");
                 collectorId = null;
             } else {
                 nconf = haCollectorService.getNconf(collectorId);
@@ -296,103 +294,103 @@ public class RoomController extends BaseController {
             HaRoom obj = rooms.get(i);
             try {
                 content[i][0] = obj.getHaCustom().getCustNo(); //用户编号
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][0]="";
+                content[i][0] = "";
             }
             try {
                 content[i][1] = obj.getHaCustom().getName(); //用户名称
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][1]="";
+                content[i][1] = "";
             }
             content[i][2] = obj.getHaArea().getHaName(); //小区名称
             content[i][3] = obj.getHaBuilding().getName(); //楼栋名称
             content[i][4] = obj.getName(); //房间名称
             try {
                 content[i][5] = String.valueOf(obj.getHaMeter().getMeterNumber()); //表号
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][5]="";
+                content[i][5] = "";
             }
             try {
                 content[i][6] = obj.getHaMeter().getMeterChannel().toString(); //表通道号
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][6]="";
+                content[i][6] = "";
             }
             try {
                 content[i][7] = obj.getHaMeter().getMeterSequence().toString(); //表序号
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][7]="";
+                content[i][7] = "";
             }
             try {
                 content[i][8] = String.valueOf(obj.getHaMeter().getVendorId()); //厂商码
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][8]="";
+                content[i][8] = "";
             }
             try {
                 content[i][9] = obj.getHaCentor().getCentorNo(); //所属集中器编号
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][9]="";
+                content[i][9] = "";
             }
             try {
                 content[i][10] = obj.getHaCollector().getNconf().toString(); //所属采集器地址
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][10]="";
+                content[i][10] = "";
             }
             try {
                 content[i][11] = obj.getHaMetertype().getName(); //表类型
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][11]="";
+                content[i][11] = "";
             }
             try {
                 content[i][12] = String.valueOf(obj.getHaMeter().getIsBranch()); //总分表
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][12]="";
+                content[i][12] = "";
             }
             try {
                 content[i][13] = String.valueOf(obj.getHaMeter().getGnumber()); //表底数
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][13]="";
+                content[i][13] = "";
             }
             try {
                 content[i][14] = String.valueOf(obj.getHaMeter().getStartTime()); //装表时间
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][14]="";
+                content[i][14] = "";
             }
 
             try {
                 content[i][15] = obj.getHaPricestandard().getName(); //收费类型
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][15]="";
+                content[i][15] = "";
             }
             try {
                 content[i][16] = String.valueOf(obj.getHaMeter().getRate()); //倍率
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][16]="";
+                content[i][16] = "";
             }
             try {
                 content[i][17] = obj.getHaCustom().getSex(); //性别
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][17]="";
+                content[i][17] = "";
             }
             try {
                 content[i][18] = obj.getHaCustom().getMobil(); //手机号码
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                content[i][18]="";
+                content[i][18] = "";
             }
         }
 

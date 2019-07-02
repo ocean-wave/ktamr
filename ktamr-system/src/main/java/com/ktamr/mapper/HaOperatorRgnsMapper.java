@@ -2,6 +2,7 @@ package com.ktamr.mapper;
 
 
 import com.ktamr.domain.HaOperatorRgns;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface HaOperatorRgnsMapper {
      * @return
      */
     public List<HaOperatorRgns> sql2(HaOperatorRgns haOperatorRgns);
+
+    HaOperatorRgns selRgnCodeStr(@Param("operatorCode")String operatorCode);
 }
