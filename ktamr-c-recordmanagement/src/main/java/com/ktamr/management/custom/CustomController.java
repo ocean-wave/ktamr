@@ -3,6 +3,7 @@ package com.ktamr.management.custom;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.domain.HaCustom;
@@ -94,6 +95,7 @@ public class CustomController extends BaseController {
     @ResponseBody
     public Object custlistjson(HaCustom haCustom) {
         startPage();
+        haCustom.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areaNo","area","AND"));
         List<HaCustom> haCustomsList = haCustomService.HaCustomList(haCustom);
         Map<String, Object> map = getDataTable(haCustomsList);
         return map;

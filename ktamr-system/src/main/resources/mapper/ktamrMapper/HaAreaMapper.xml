@@ -521,19 +521,20 @@ WHERE areaid IN ('${areaId}')
 
         ON t.areaid=a.areaid
         WHERE length(trim(to_char(a.areaid,'9999999')))>0
-        <if test="haArea.rgnIds!=null and haArea.rgnIds != '' and haArea.rgnIds != '-2'">
-            and left(a.areaNo,1) = #{haArea.rgnIds}
+        ${params.getRightCondition}
+        <if test="rgnIds!=null and rgnIds != '' and rgnIds != '-2'">
+            and left(a.areaNo,1) = #{rgnIds}
         </if>
-        <if test="haArea.keyWord !=null and haArea.keyWord !=''">
-            and (a.registeredNo like '%${haArea.keyWord}%' or a.name like '%${haArea.keyWord}%' or a.areaNo like '%${haArea.keyWord}%')
+        <if test="keyWord !=null and keyWord !=''">
+            and (a.registeredNo like '%${keyWord}%' or a.name like '%${keyWord}%' or a.areaNo like '%${keyWord}%')
         </if>
-        <if test="haArea.monthType != null and haArea.monthType != '' ">
-            and a.DS = #{haArea.monthType}
+        <if test="monthType != null and monthType != '' ">
+            and a.DS = #{monthType}
         </if>
-        <!--多条件查询-->
-        ${haArea.multipleConditions}
         GROUP BY a.areaid,a.registeredNo,a.name,a.areaNo,n.name||'-'||a.addr,
         a.DS,a.description,a.reserved,to_char(a.lastsumday,'yyyy-mm-dd hh24:mi:ss'),t.n ORDER BY a.areaNo
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
     <select id="smallAreaCount" resultType="_int">

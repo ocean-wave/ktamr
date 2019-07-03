@@ -5,6 +5,7 @@ package com.ktamr.management.area;
 //import com.ktamr.system.util.PageUtil;
 
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaRgn;
 import com.ktamr.service.HaAreaService;
@@ -74,6 +75,7 @@ public class AreaController extends BaseController {
     @ResponseBody
     public Object queryAllSmallAreaJson(HaArea haArea) {
         startPage();
+        haArea.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
         List<HaArea> allSmallArea = haAreaService.queryAllSmallArea(haArea);
         Map<String, Object> map = getDataTable(allSmallArea);
         int meterCount = 0;

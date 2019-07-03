@@ -143,7 +143,7 @@
                             "fileName="+$("#filename").text(),
                             "importTime="+data
                         ];
-                        parent._myLayui.showLayer("批量换表确认列表","/meter/meters_replace_list", queryStr, layerSize);
+                        parent._myLayui.showLayer("批量换表确认列表","/metersReplace/meters_replace_list", queryStr, layerSize);
                         parent.layer.close(layerIndex); //再执行关闭
                     }else{
                         layer.msg(data, {icon: 5});

@@ -1,6 +1,7 @@
 package com.ktamr.management.area;
 
 import com.ktamr.common.core.domain.BaseController;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaBuilding;
 import com.ktamr.domain.HaRgn;
@@ -56,6 +57,7 @@ public class CHaRgnController extends BaseController {
     @ResponseBody
     public Object areasOpManageJson(HaRgn haRgn) {
         startPage();
+        haRgn.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","WHERE"));
         List<HaRgn> haRgns = haRngService.selectAllRngAndCountC(haRgn);
         Map<String, Object> map = getDataTable(haRgns);
         int areaCount = 0;

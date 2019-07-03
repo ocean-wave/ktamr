@@ -16,4 +16,6 @@ public interface HavMeterinfoService {
 
     List<HavMeterinfo> changeFormByAreaId(HavMeterinfo havMeterinfo);
 
+    HavMeterinfo userAddr(Integer meterid);
+
 }

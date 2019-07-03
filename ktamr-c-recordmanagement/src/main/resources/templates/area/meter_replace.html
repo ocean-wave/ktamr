@@ -20,22 +20,23 @@
 </head>
 <body class="myPage-body">
 <form class="layui-form my-form-class" action="">
-    <input type="hidden" name="meterid" value=<%=meterid%>>
-    <input type="hidden" name="oldMeterNumber" value=<%=meter.m_meterNumber%>>
+    <input type="hidden" id="meterid" name="meterid" th:value="${meterid}">
+    <input type="hidden" id="oldMeterNumber" name="oldMeterNumber" th:value="${meter.meterNumber}">
+    <input type="hidden" id="oldMeterRead" name="oldMeterRead" th:value="${meter.thNumber}">
     <div class="layui-form-item">
         <label class="layui-form-label">所属地址</label>
         <div class="layui-input-inline" style="width:430px;">
-            <input id="meterAddr" name="meterAddr" lay-verify="" autocomplete="off" placeholder="" class="layui-input" readonly="readonly" value="<%=userAddr%>">
+            <input id="meterAddr" name="meterAddr" lay-verify="" autocomplete="off" placeholder="" class="layui-input" readonly="readonly" th:value="${userAddr.addr}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">旧表表号</label>
         <div class="layui-input-inline" style="width:170px;">
-            <input id="oldMeterNumber" name="oldMeterNumber" lay-verify="" autocomplete="off" maxlength="4" placeholder="" class="layui-input" readonly="readonly" value="<%=meter.m_meterNumber%>">
+            <input id="oldMeterNumber" name="oldMeterNumber" lay-verify="" autocomplete="off" maxlength="4" placeholder="" class="layui-input" readonly="readonly" th:value="${meter.meterNumber}">
         </div>
         <label class="layui-form-label">旧表终数</label>
         <div class="layui-input-inline" style="width:170px;">
-            <input id="oldMeterRead" name="oldMeterRead" lay-verify="required|number" autocomplete="off" maxlength="16" placeholder="必填,数字" class="layui-input" value="<%=meter.m_th_number%>">
+            <input id="oldMeterRead" name="oldMeterRead" lay-verify="required|number" autocomplete="off" maxlength="16" placeholder="必填,数字" class="layui-input" th:value="${meter.thNumber}">
         </div>
     </div>
     <div class="layui-form-item">
@@ -51,11 +52,11 @@
     <div class="layui-form-item">
         <label class="layui-form-label">换表时间</label>
         <div class="layui-input-inline" style="width:170px;">
-            <input id="replaceTime" name="replaceTime" lay-verify="required" autocomplete="off" placeholder="必填,时间" class="layui-input" value="<%=nowTime%>" readonly="readonly">
+            <input id="replaceTime" name="replaceTime" lay-verify="required" autocomplete="off" placeholder="必填,时间" class="layui-input" th:value="${#dates.format(nowDate,'yyyy-MM-dd')}" readonly="readonly">
         </div>
         <label class="layui-form-label">换&nbsp;&nbsp;表&nbsp;&nbsp;人</label>
         <div class="layui-input-inline" style="width:170px;">
-            <input id="replaceStaff" name="replaceStaff" lay-verify="required" autocomplete="off" placeholder="必填" class="layui-input" value="<%=Session("operator_code")%>">
+            <input id="replaceStaff" name="replaceStaff" lay-verify="required" autocomplete="off" placeholder="必填" class="layui-input" th:value="${operatorCode}">
         </div>
     </div>
     <div class="layui-form-item">
@@ -81,9 +82,9 @@
             ,layer = layui.layer;
         var get_result_url = "./meter_replace_do.asp";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        var g_oldMeterNumber = "<%=meter.m_meterNumber%>";
-        var g_oldMeterRead = "<%=meter.m_th_number%>";
-        var g_meterId = "<%=meterid%>";
+        var g_oldMeterNumber = $("#oldMeterNumber").val();
+        var g_oldMeterRead = $("#oldMeterRead").val();
+        var g_meterId = $("#meterid").val();
 
         $('#replaceTime').datetimepicker({
             language: 'zh-CN',//显示中文

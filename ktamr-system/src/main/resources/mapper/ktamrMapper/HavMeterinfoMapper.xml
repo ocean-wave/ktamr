@@ -499,4 +499,8 @@
             and m.用户号 like '%${keyWord}%' or m.用户名 like '%${keyWord}%' or m.用户地址 like '%${keyWord}%'
         </if>
     </select>
+
+    <select id="userAddr" resultType="com.ktamr.domain.HavMeterinfo">
+        SELECT mi.用户地址 as addr FROM hav_meterinfo mi WHERE mi.meterid=#{meterid}
+    </select>
 </mapper>
