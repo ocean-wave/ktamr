@@ -76,7 +76,8 @@
        FROM ha_centor c,ha_area a
        WHERE Left(c.description,3)='KT4'
        AND Left(c.centorNO, 5)=a.areaNO
-       <!--数据范围过滤-->${params.getRightCondition}
+       <!--数据范围过滤-->
+       ${params.getRightCondition}
        <if test="
         params.nodeType == 'area' and params.nodeIds != '' ">
                 AND a.areaid IN (cast(#{params.nodeIds} as INTEGER))

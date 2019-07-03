@@ -118,6 +118,8 @@ public class GetNodesContrller extends BaseController {
         String jsonStr = "[{ id:'-1', pId:0, LevelType:'allCentor', name:'全部集采器', iconSkin:'icon00', open:true}";
         Map<String,Object> map = new HashMap<>();
         map.put("getRightCondition", SqlCondition.getRightCondition("ce.centorno","area","and"));
+        map.put("areaType",areaType);
+        map.put("id",id);
         List<Map<String,Object>> listCentor = nodesService.selectAllCentorcNodes(map);
         for  (Map<String,Object> haCentor : listCentor){
             jsonStr = jsonStr + ",{ id:'"+haCentor.get("id")+"', pId:'0', LevelType:'centorc', name:'"+haCentor.get("centorid")+""+haCentor.get("addr")+"("+haCentor.get("meteridcount")+")', description:'"+haCentor.get("description")+"', iconSkin:'pIcon04'}";

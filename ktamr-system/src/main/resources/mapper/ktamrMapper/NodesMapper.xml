@@ -96,6 +96,14 @@
             WHERE (Left(ce.description, 3)='KT3'
             OR ce.description='GPRS'
             OR ce.description='COM')
+            <!--数据范围过滤-->
+            ${getRightCondition}
+            <if test='areaType == "rgn"'>
+                and left(a.areano,1) = #{id}
+            </if>
+            <if test='areaType == "area"'>
+                and a.areaid = cast(#{id} as integer)
+            </if>
             GROUP BY ce.id, ce.centorid, ce.centorNo, ce.addr, ce.description
             ORDER BY ce.centorNo,ce.addr
     </select>

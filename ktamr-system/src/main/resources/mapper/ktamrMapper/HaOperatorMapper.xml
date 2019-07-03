@@ -69,7 +69,7 @@
 			when operator_company =  '湖南新邵' then 'sys_hnxs' end AS operatorCompanyId
                 from ha_operator
             ) t
-            where (operatorCode = #{id} or #{id} = 'ha') and operatorCompanyId is not null
+            where (operatorCode = #{id} or #{id} = 'ha') and (operatorCompanyId is not null)
     </select>
 
     <select id="HaOperatorList" resultMap="HaOperatorMap">

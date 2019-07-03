@@ -79,7 +79,7 @@ public class CentorzController extends BaseController {
     @ResponseBody
     public Map<String,Object> centorzByIdListJson(HaCentor params){
         startPage();
-        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("t.centorno","area","and"));
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("c.centorno","area","and"));
         List<HaCentor> listHaCentor = haCentorService.selectAllCentorzByIdAndCount(params);
         Map<String,String> map2 = new HashMap<String,String>();
         Map<Integer,String> mi = new HashMap<Integer, String>();
