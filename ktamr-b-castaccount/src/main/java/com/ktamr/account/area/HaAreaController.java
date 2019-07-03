@@ -33,14 +33,16 @@ public class HaAreaController extends BaseController {
 
     /**
      * 打开小区结算的页面+并进行小区名字的赋值
-     * 
+     *
      * @return
      */
     @RequestMapping("/area/area_list.html")
-    public String showArea_list(Model model) {
+    public String showArea_list(HaRgn haRgn,String appPage,Model model) {
 
         // List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
-        List<HaRgn> haRgns = haRngService.selectBigNameB();
+        //List<HaRgn> haRgns = haRngService.selectBigNameB();
+        haRgn.getParams().put("getRightCondition", SqlCondition.getRightCondition("id","rgn","where"));
+        List<HaRgn> haRgns = haRngService.rgnByWhere(haRgn);
         if (haRgns != null) {
             model.addAttribute("haRgnsListName", haRgns);
             return "area/area_list.html";
