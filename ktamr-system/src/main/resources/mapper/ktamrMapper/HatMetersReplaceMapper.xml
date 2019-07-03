@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktamr.mapper.HatMetersReplaceMapper">
+
+    <resultMap id="HatMetersreplaceMap" type="com.ktamr.domain.HatMetersreplace">
+        <id property="id" column="id"/>
+        <result property="orimeterNumber" column="orimeterNumber"/>
+        <result property="orimeterId" column="orimeterId"/>
+        <result property="orimeterRead" column="orimeterRead"/>
+        <result property="newmeterNumber" column="newmeterNumber"/>
+        <result property="newmeterRead" column="newmeterRead"/>
+        <result property="replaceTime" column="replaceTime"/>
+        <result property="replaceMan" column="replaceMan"/>
+        <result property="reMark" column="reMark"/>
+        <result property="check" column="check"/>
+        <result property="hasDayFreeze" column="hasDayFreeze"/>
+        <result property="hasMonFreeze" column="hasMonFreeze"/>
+        <result property="importTime" column="importTime"/>
+        <result property="userCode" column="userCode"/>
+
+        <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
+            <id property="meterId" column="meterId"/>
+            <result property="userNo" column="userNo"/>
+            <result property="userName" column="userName"/>
+            <result property="addr" column="addr"/>
+            <result property="state" column="state"/>
+        </association>
+    </resultMap>
+
+    <select id="HatMetersReplaceList" resultMap="HatMetersreplaceMap">
+        SELECT t.oriMeterId AS id, t.check_result AS check, mi.用户号 AS userNo,
+         Left(mi.用户名,16) AS userName, mi.用户地址 AS addr
+          oriMeterNumber::varchar(16) AS orimeterNumber, t.oriMeterRead AS orimeterRead, mi.状态 AS state,
+          t.newMeterNumber AS newmeterNumber, t.newMeterRead AS newmeterRead,
+          to_char(t.replaceTime, 'yyyy-mm-dd hh24:mi:ss') AS replaceTime, t.replaceMan AS replaceMan
+          FROM hat_metersReplace t LEFT JOIN hav_meterinfo mi ON t.oriMeterId=mi.meterid WHERE t.ID>0
+          AND to_char(t.importTime, 'yyyy-mm-dd hh24:mi:ss')=#{importTime}
+          ORDER BY mi.用户地址,mi.用户号
+    </select>
+
+    <!--将excel文档中的数据导入到零时表中-->
+    <insert id="addHatMetersReplace">
+        INSERT INTO hat_metersReplace(userCode,oriMeterNumber, oriMeterRead, newMeterNumber, newMeterRead, replaceTime, replaceMan, remark,check_result, importTime) VALUES
+        <foreach item="item" index="index" collection="params" separator=",">
+            (#{item.1},#{item.2}::float , #{item.3}::int, #{item.4}::float , #{item.5}::int, TO_TIMESTAMP(#{item.6}, 'YYYY-MM-DD HH24:MI:SS'),#{item.7},#{item.8}, '待校验',TO_TIMESTAMP(#{item.9}, 'YYYY-MM-DD HH24:MI:SS'))
+        </foreach>
+    </insert>
+
+    <!--导入用户编号校验1-->
+    <update id="exportCustomNoCheck1">
+        UPDATE hat_metersReplace t
+        SET check_result='非法的用户编号'
+        WHERE t.userCode!=null AND (t.userCode  LIKE '^[0-9]*$'=false  Or t.userCode::int=0) AND t.check_result='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--导入用户编号校验2-->
+    <update id="exportCustomNoCheck2">
+        UPDATE hat_metersReplace t0
+        SET check_result='与表内用户编号重复'
+        from hat_metersReplace t1
+        WHERE t1.ID!=t0.ID AND t0.userCode!=null AND t1.userCode=t0.userCode AND t0.check_result='待校验' AND t0.importTime=t1.importTime AND to_char(t0.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--导入档案内表号校验1-->
+    <update id="exportArchivesMeterNumCheck1">
+        UPDATE hat_metersReplace t
+        SET check_result='非法的旧表表号'
+        WHERE t.oriMeterNumber!=null AND (t.oriMeterNumber LIKE '^[0-9]*$'=false Or t.oriMeterNumber::int=0) AND t.check_result='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--导入档案内表号校验2-->
+    <update id="exportArchivesMeterNumCheck2">
+        UPDATE hat_metersReplace t
+        SET check_result='无新表表号'
+        WHERE t.newMeterNumber=null AND t.check_result='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--导入档案内表号校验3-->
+    <update id="exportArchivesMeterNumCheck3">
+        UPDATE hat_metersReplace t
+        SET check_result='非法的新表表号'
+        WHERE t.newMeterNumber!=null AND t.newMeterNumber LIKE '^[0-9]*$'=false Or t.newMeterNumber::int=0) AND t.check_result='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--导入档案内表号校验4-->
+    <update id="exportArchivesMeterNumCheck4">
+        UPDATE hat_metersReplace t0
+        SET check_result='与表内旧表表号重复'
+        from hat_metersReplace t1
+        WHERE t1.ID!=t0.ID AND t0.oriMeterNumber!=null AND t1.oriMeterNumber=t0.oriMeterNumber AND t0.check_result='待校验' AND t0.importTime=t1.importTime AND to_char(t0.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--导入档案内表号校验5-->
+    <update id="exportArchivesMeterNumCheck5">
+        UPDATE hat_metersReplace t0
+        SET check_result='与表内新表表号重复'
+        from hat_metersReplace t1
+        WHERE t1.ID!=t0.ID AND t0.newMeterNumber!=null AND t1.newMeterNumber=t0.newMeterNumber AND t0.check_result='待校验' AND t0.importTime=t1.importTime AND to_char(t0.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--匹配用户编号-->
+    <update id="matchCustomNo">
+        UPDATE hat_metersReplace t LEFT JOIN hav_meterinfo mi ON t.userCode=mi.用户号
+        SET t.oriMeterId=mi.meterid,
+        t.oriMeterRead=case when t.oriMeterRead is null then mi.最近度数 else t.oriMeterRead end,
+        t.newMeterRead=case when t.newMeterRead is null then mi.最近度数 else t.newMeterRead) end,
+        t.check_result='待更换'
+        WHERE t.userCode!=null AND t.check_result='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--匹配旧表表号-->
+    <update id="matchOldMeterNo">
+        UPDATE hat_metersReplace t LEFT JOIN ha_meter m ON t.oriMeterNumber=m.meterNumber
+        SET t.oriMeterId=m.meterid,
+        t.oriMeterRead=case when t.oriMeterRead is null then m.th_number else t.oriMeterRead end,
+        t.newMeterRead=case when t.newMeterRead is null then m.th_number else t.newMeterRead end,
+        t.check_result='待更换'
+        WHERE t.oriMeterNumber!=null AND t.check_result='待校验' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--补齐默认数值-->
+    <update id="makeUpDefaultNum">
+        UPDATE hat_metersReplace t
+        SET
+        replaceTime=case when t.replaceTime is null then t.importTime else t.replaceTime end,
+        t.replaceMan=case when t.replaceMan is null then #{replaceMan} else t.replaceMan end
+        WHERE t.check_result='待更换' AND to_char(t.importTime, 'YYYY-MM-DD hh:mi:ss')=#{importTime}
+    </update>
+
+    <!--插入一条批量换表命令-->
+    <insert id="addBatchChangeMeter">
+        INSERT INTO ha_cmd(cmd,parms,centorid,uid,lastBeginTime,processing,state) VALUES ('导入批量换表资料',#{fileName},0,#{operatorCode},Now(),#{msg},'完成')"
+    </insert>
+
+    <!--插入旧表最终抄表记录-->
+    <insert id="addOldMeterLastMeterRead">
+
+        <selectKey resultType="Integer" keyProperty="id" >
+            SELECT id.nextval AS id FROM ha_cmd
+        </selectKey>
+
+        INSERT INTO ha_records(meterId, rate, lf_number, lf_time, th_number, th_time, delta, state, cmdid )
+        SELECT m.meterId, m.rate , m.th_number, m.th_r_time, t.oriMeterRead, t.replaceTime,
+        t.oriMeterRead-m.th_number, '已更换',id FROM ha_meter m, hat_metersReplace t
+        WHERE t.check_result='待更换' AND m.meterId=t.oriMeterId AND t.importTime=#{importTime}
+    </insert>
+
+    <!--插入旧表最终日冻结数据(昨日)-->
+    <update id="addOldMeterLastDayFrozen1">
+        UPDATE ha_dayfreeze  SET t_read=t.oriMeterRead,l_read=t.oriMeterRead, readTime=t.replaceTime, amount=0, state='已更换' FROM hat_metersReplace t WHERE meterid=t.oriMeterId AND fday=current_date-1 AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </update>
+
+    <update id="addOldMeterLastDayFrozen2">
+        UPDATE hat_metersReplace t SET hasDayFreeze=1 FROM  ha_dayfreeze df WHERE t.check_result='待更换' AND df.meterid=t.oriMeterId AND df.fday=current_date-1 AND t.importTime=#{importTime}
+    </update>
+
+    <insert id="addOldMeterLastDayFrozen3">
+        INSERT INTO ha_dayfreeze(meterid, meterNumber, centorid, collectorid, fday, lday, readTime, state, t_read, l_read, amount)
+        SELECT m.meterId, m.meterNumber, m.centorid, m.collectorid, current_date-1, m.fday, t.replaceTime, '已更换',t.oriMeterRead,t.oriMeterRead, 0 FROM ha_meter m, hat_metersReplace t WHERE m.meterid=t.oriMeterId AND t.hasDayFreeze!=1 AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </insert>
+
+    <!--插入旧表最终月冻结数据(上月)-->
+    <update id="addOldMeterLastMonthFrozen1">
+        UPDATE ha_monfreeze SET t_read=t.oriMeterRead, l_read=t.oriMeterRead, readTime=t.replaceTime, amount=0, state='已更换' FROM hat_metersReplace t WHERE meterid=t.oriMeterId AND fday=current_date-date_part('day', current_date)::integer AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </update>
+
+    <update id="addOldMeterLastMonthFrozen2">
+	    UPDATE hat_metersReplace t SET hasMonFreeze=1 FROM ha_monfreeze mf WHERE mf.meterid=t.oriMeterId AND mf.fday=current_date-date_part('day', current_date)::integer AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </update>
+
+    <insert id="addOldMeterLastMonthFrozen3">
+	    INSERT INTO ha_monfreeze(meterid, meterNumber, centorid, collectorid, fday, lday, readTime, state, t_read, l_read, amount)
+        SELECT m.meterId, m.meterNumber, m.centorid, m.collectorid, current_date-date_part('day', current_date)::integer, m.fmon, t.replaceTime, '已更换',t.oriMeterRead,t.oriMeterRead, 0 FROM ha_meter m, hat_metersReplace t WHERE m.meterId=t.oriMeterId AND t.hasMonFreeze!=1 AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </insert>
+
+    <!--换表-->
+    <update id="changeMeter">
+        UPDATE ha_meter SET addr=Left(addr,length(addr)-length(meterNumber::VARCHAR(16)))||t.newMeterNumber::VARCHAR(16), meterNumber=t.newMeterNumber,s_number=t.oriMeterRead-lf_number,g_number=t.newMeterRead,lf_number=t.newMeterRead,lf_time=t.replaceTime,th_number=t.newMeterRead,th_r_time=t.replaceTime,fday=current_date-1,fmon=current_date-date_part('day', current_date)::integer, fday_n=t.newMeterRead, fmon_n=t.newMeterRead FROM hat_metersReplace t WHERE meterId=t.oriMeterId AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </update>
+
+    <!--插入换表记录-->
+    <insert id="addChangeMeterNote">
+        INSERT INTO ha_replaceRecords(meterId,oldMeterNumber,newMeterNumber,finalRead,finalUse,finalState,oriRead,replaceDate,replaceMan,explain) SELECT m.meterId,t.oriMeterNumber,m.meterNumber,t.oriMeterRead,m.s_number,m.state,t.newMeterRead,t.replaceTime,t.replaceMan,t.remark FROM ha_meter m, hat_metersReplace t WHERE m.meterId=t.oriMeterId AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </insert>
+
+    <!--完成换表-->
+    <update id="finishChangeMeter">
+        UPDATE ha_meter  SET state='已更换' FROM hat_metersReplace t WHERE meterId=t.oriMeterId AND t.check_result='待更换' AND t.importTime=#{importTime}
+    </update>
+
+    <!--清理零时表-->
+    <delete id="deleteHatMetersReplace">
+        DELETE FROM hat_metersReplace WHERE importTime=#{importTime}
+    </delete>
+
+    <!--总条目数-->
+    <select id="allrows" resultType="INTEGER">
+        SELECT COUNT(*) FROM hat_metersReplace WHERE importTime=#{importTime}
+    </select>
+
+    <!--待换数-->
+    <select id="replaces" resultType="Integer">
+        SELECT COUNT(*) FROM hat_metersReplace WHERE check_result='待更换' AND importTime=#{importTime}
+    </select>
+</mapper>

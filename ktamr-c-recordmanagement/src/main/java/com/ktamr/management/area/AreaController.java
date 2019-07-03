@@ -32,7 +32,9 @@ public class AreaController extends BaseController {
     private HaRngService haRngService;
 
     @RequestMapping("/area_op_manage")
-    public String area_op_manage() {
+    public String area_op_manage(String appPage,Model model) {
+        appPage = "management";
+        model.addAttribute("appPage",appPage);
         return "area/area_op_manage";
     }
 

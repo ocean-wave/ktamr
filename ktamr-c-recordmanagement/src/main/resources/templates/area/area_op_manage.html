@@ -24,9 +24,9 @@
 <div class="container myContainer">
     <div class="row" style="margin:0;padding:5px 0px 5px 0px;">
         <div class="col-xs-2 my-form-col my-tree-class areaTreeDiv">
-            <input id="appPage" type="text" class="input-sm form-control hide" value="<%=appPage%>">
+            <input id="appPage" type="text" class="input-sm form-control hide" th:value="${appPage}">
             <input id="operatorCompany" type="text" class="input-sm form-control hide"
-                   value='<%=Session("operator_company_id")%>'>
+                  th:value="${session.haOperatorCompanyId}">
             <input id="nodeType" type="text" class="input-sm form-control hide" value="">
             <input id="nodeId" type="text" class="input-sm form-control hide" value="">
             <input id="areaSel" name="areaSel" type="text" readonly class="input-sm form-control"
@@ -261,7 +261,7 @@
                     var cols = new Array('总读数', '本期总用量', '不良表数', '最近抄收时间', '结算日期')
                     GridObj.hideCols(cols);
                 }
-            } else if (listType == "area" && appPage == "<%=appPage%>") {
+            } else if (listType == "area" && appPage == "management") {
                 $(".month-type-div").hide();
                 $(".my-btns").hide();
                 $("#nav2").show();
@@ -741,7 +741,7 @@
                 case "换表业务":
                     if (gridIds == "") {
                         _layerSize = ['500px', '380px'];
-                        _myLayui.showLayer("批量换表", "../meter/meters_replace.asp", "", _layerSize);
+                        _myLayui.showLayer("批量换表", "/metersReplace/meters_replace", "", _layerSize);
                     } else {
                         _layerSize = ['560px', '450px'];
                         _queryStr = [

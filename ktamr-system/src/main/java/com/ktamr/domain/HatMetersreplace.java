@@ -27,6 +27,8 @@ public class HatMetersreplace extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date importTime;
   private String userCode;
+  private HavMeterinfo havMeterinfo;
+  private String fileName;
 
   public Integer getId() {
     return id;
@@ -139,4 +141,20 @@ public class HatMetersreplace extends BaseEntity {
   public void setUserCode(String userCode) {
     this.userCode = userCode;
   }
+
+    public HavMeterinfo getHavMeterinfo() {
+        return havMeterinfo;
+    }
+
+    public void setHavMeterinfo(HavMeterinfo havMeterinfo) {
+        this.havMeterinfo = havMeterinfo;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 }
