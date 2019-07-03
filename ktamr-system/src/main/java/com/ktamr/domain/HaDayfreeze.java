@@ -27,6 +27,15 @@ public class HaDayfreeze extends BaseEntity {
     private Integer amount;
 
     private HavMeterinfo havMeterinfo;
+    private String userDs;
+
+    public String getUserDs() {
+        return userDs;
+    }
+
+    public void setUserDs(String userDs) {
+        this.userDs = userDs;
+    }
 
     public Long getMeterNumber() {
       return meterNumber;

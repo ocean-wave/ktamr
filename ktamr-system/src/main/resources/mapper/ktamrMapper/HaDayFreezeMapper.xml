@@ -14,6 +14,7 @@
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="fday" property="fday" javaType="java.util.Date" ></result>
         <result column="readTime" property="readTime" javaType="java.util.Date" ></result>
+        <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <association property="havMeterinfo" javaType="com.ktamr.domain.HavMeterinfo">
             <result column="userNo" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="userName" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -129,7 +130,6 @@
         ) t
         <!--多条件查询-->
         ${multipleConditions}
-        ORDER BY userDs,fday
     </select>
 
 

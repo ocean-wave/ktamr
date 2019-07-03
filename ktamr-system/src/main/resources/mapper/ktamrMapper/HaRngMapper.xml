@@ -34,8 +34,9 @@
                 <!--数据范围过滤-->
                 ${params.getRightCondition}
               <if test=' params.keyWord != null and params.keyWord != ""'>
-                  and (n.shortName like '%${params.keyWord}%' or n.name like '%${params.keyWord}%' or n.zCode like
-                  '%${params.keyWord}%')
+                  and (n.shortName like concat('%', #{params.keyWord}, '%')
+                  or n.name like concat('%', #{params.keyWord}, '%')
+                  or n.zCode like concat('%', #{params.keyWord}, '%'))
               </if>
               order by name
         ) t
