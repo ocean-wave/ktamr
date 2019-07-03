@@ -66,7 +66,7 @@ public class OperatorController extends BaseController {
         HaOperator selUpperRgnType = haOperatorService.selUpperRgnType(haOperators.getOperatorUpper());
         List<HaOperatorRgns> selRgnCodeStr = haOperatorRgnsService.selRgnCodeStr(operatorCode);
 
-        List<HaRgn> rgn2s = haRngService.rgnByWhere(haRgn);
+        //List<HaRgn> rgn2s = haRngService.rgnByWhere(haRgn);
         //开启判断模式
         HaRgn hg = new HaRgn();
         HaArea ha=new HaArea();
@@ -153,7 +153,7 @@ public class OperatorController extends BaseController {
             haOperator.setOperatorCreatTime(new Date());
             Integer haOperators = haOperatorService.addHaOperator(haOperator);
             String operatorRgn = haOperator.getOperatorRgn();
-            if(!operatorRgn.equals("")){
+            if(operatorRgn.length()>0){
                 String[] operatorRgnArray = split(operatorRgn);
                 for(int i=0;i<operatorRgnArray.length;i++){
                     String s = operatorRgnArray[i];
@@ -192,7 +192,7 @@ public class OperatorController extends BaseController {
         String operatorRgn = haOperator.getOperatorRgn();
         haOperatorRgns.setOperatorCode(haOperator.getOperatorCode());
         haOperatorRgnsService.deleteHaOperatorRgns(haOperatorRgns);
-        if(!operatorRgn.equals("")){
+        if(operatorRgn.length()>0){
             String[] operatorRgnArray = split(operatorRgn);
             for(int i=0;i<operatorRgnArray.length;i++){
                 String s = operatorRgnArray[i];
