@@ -155,7 +155,7 @@ function fullTextSearch(jqGridID, postDataArray){
 	var grid = $("#"+jqGridID);
 	var _postData=grid.getGridParam("postData");
 	$.each(postDataArray, function (k, v) { 
-		_postData[k] = v;
+		_postData[k] =  $.trim(v);
 	});
 	grid.jqGrid('setGridParam',{
         page:$("#input_jqGridPager").find("input").val(),

@@ -10,7 +10,7 @@
       },
       {
         "id": "2-1",
-        "url": "/area/area_list.html",
+        "url": "/area/area_list.html?appPage=calculate",
         "name": "结算业务",
         "iconfont": "fa fa-tasks fa-fw"
       },

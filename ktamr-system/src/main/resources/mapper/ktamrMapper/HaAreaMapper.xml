@@ -575,6 +575,7 @@ WHERE areaid IN ('${areaId}')
         <if test="typeName=='code'">
             select areaNo , Right(areaNo, 4)||':'||name as haName from ha_area
         </if>
+        ${params.getRightCondition}
         ${params.getUpperRightCondition}
                 ORDER BY areaNo
     </select>

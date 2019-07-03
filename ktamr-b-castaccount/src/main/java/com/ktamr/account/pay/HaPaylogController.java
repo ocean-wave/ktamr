@@ -6,6 +6,7 @@ import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.utils.export.ExportStr;
 import com.ktamr.common.utils.export.ExportTxtUtil;
+import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaArea;
 import com.ktamr.domain.HaFreeze;
 import com.ktamr.domain.HaPaylog;
@@ -41,7 +42,10 @@ public class HaPaylogController extends BaseController {
      */
     @RequestMapping("/pay/bill_list.html")
     public String showBill_list(HaArea haArea, Model model) {
-        List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
+        haArea.setTypeName("id");
+        haArea.getParams().put("getRightCondition", SqlCondition.getRightCondition("areaNo","area","where "));
+     //   List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
+        List<HaArea> haAreaList = haAreaService.AreaByWhere(haArea);
         if (haAreaList != null) {//判断是否有值
             model.addAttribute("areaListName", haAreaList);
             return "pay/bill_list.html";
@@ -126,7 +130,10 @@ public class HaPaylogController extends BaseController {
      */
     @RequestMapping("/pay/month_report.html")
     public String showMonth_report(HaArea haArea, Model model) {
-        List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
+        haArea.setTypeName("id");
+        haArea.getParams().put("getRightCondition", SqlCondition.getRightCondition("areaNo","area","where "));
+        //   List<HaArea> haAreaList = haAreaService.selectHareaNameList(haArea);
+        List<HaArea> haAreaList = haAreaService.AreaByWhere(haArea);
         if (haAreaList != null) {//判断是否有值
             model.addAttribute("areaListName", haAreaList);
             return "pay/month_report.html";

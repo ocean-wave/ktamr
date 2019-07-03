@@ -32,6 +32,19 @@ public class BaseController {
         return m;
     }
 
+    protected Map<String,Object> getDataTable(List<?> list,List<?> list2)
+    {
+        Map<String,Object> m = new HashMap<String, Object>();
+        long records = new PageInfo(list).getTotal();
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        pageDomain.setTotal(Integer.parseInt(Long.toString(records)));
+        m.put("page",pageDomain.getPage());
+        m.put("rows",list2);
+        m.put("records",records);
+        m.put("total",pageDomain.getTotal());
+        return m;
+    }
+
     protected void startPage()
     {
         PageDomain pageDomain = TableSupport.buildPageRequest();
