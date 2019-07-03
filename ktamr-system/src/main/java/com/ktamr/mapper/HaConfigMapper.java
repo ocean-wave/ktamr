@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface HaConfigMapper {
 
+    String selectPort(@Param("s") String s,@Param("k") String k);
+
     List<HaConfig> queryHaConfig(@Param("haConfig") HaConfig haConfig);
 
     Integer haConfigCount(HaConfig haConfig);

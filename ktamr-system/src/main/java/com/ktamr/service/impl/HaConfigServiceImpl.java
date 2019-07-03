@@ -15,6 +15,11 @@ public class HaConfigServiceImpl implements HaConfigService {
     private HaConfigMapper haConfigMapper;
 
     @Override
+    public String selectPort(String s, String k) {
+        return haConfigMapper.selectPort(s,k);
+    }
+
+    @Override
     public List<HaConfig> queryHaConfig(HaConfig haConfig) {
         return haConfigMapper.queryHaConfig(haConfig);
     }

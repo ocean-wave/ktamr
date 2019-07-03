@@ -4,6 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ktamr.mapper.HaConfigMapper">
 
+    <select id="selectPort" resultType="java.lang.String">
+        SELECT v FROM ha_config WHERE s=#{s} AND k=#{k}
+    </select>
+
     <select id="queryHaConfig" resultType="com.ktamr.domain.HaConfig">
         SELECT pos,s,k,kname,v,to_char(lasttime,'yyyy-mm-dd hh24:mi:ss') as lasttime,uid
         FROM ha_config

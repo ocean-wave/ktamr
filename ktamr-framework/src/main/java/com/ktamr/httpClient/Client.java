@@ -1,6 +1,7 @@
 package com.ktamr.httpClient;
 
 import com.ktamr.common.utils.StringUtils;
+import com.ktamr.service.HaConfigService;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -10,6 +11,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
@@ -19,19 +21,24 @@ import java.io.IOException;
  */
 public class Client {
 
-    public static boolean httpClient(String cmd, String params) {
+    @Autowired
+    private HaConfigService haConfigService;
+
+    public boolean httpClient(String cmd, String params) {
+        String port = haConfigService.selectPort("ht_client_server","listenport");
         String str = getClientStr(cmd)+params;
-        String url = "";
+        String url = "http://localhost:"+port;
         return getClient(str,url);
     }
 
-    public static boolean httpClient(String cmdId) {
+    public boolean httpClient(String cmdId) {
+        String port = haConfigService.selectPort("系统参数","InterListenPort");
         String str = getClientStr("data_upload")+cmdId;
-        String url = "";
+        String url = "http://localhost:"+port;
         return getClient(str,url);
     }
 
-    private static boolean getClient(String str,String url){
+    private boolean getClient(String str,String url){
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String result = "";
         String charset = "gbk";
@@ -67,12 +74,12 @@ public class Client {
         return getResult(result);
     }
 
-    private static String getClientStr(String cmd){
+    private String getClientStr(String cmd){
         String str = "0000000009";
         return str+cmd+":";
     }
 
-    private static boolean getResult(String result){
+    private boolean getResult(String result){
         if(StringUtils.isEmpty(result)){
             return "0000000002ok".equals(result)?true:false;
         }else {

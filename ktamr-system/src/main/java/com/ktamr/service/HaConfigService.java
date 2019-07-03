@@ -1,6 +1,7 @@
 package com.ktamr.service;
 
 import com.ktamr.domain.HaConfig;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  */
 public interface HaConfigService {
 
+    String selectPort(String s, String k);
 
     List<HaConfig> queryHaConfig(HaConfig haConfig);
 
