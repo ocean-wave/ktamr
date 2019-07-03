@@ -15,7 +15,6 @@ import java.util.Map;
 
 @Service
 public class HaCmdServiceImpl implements HaCmdService {
-
     @Autowired
     private HaCmdMapper haCmdMapper;
 

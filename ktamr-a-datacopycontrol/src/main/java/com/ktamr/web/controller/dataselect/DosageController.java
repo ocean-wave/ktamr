@@ -40,7 +40,7 @@ public class DosageController extends BaseController {
     @ResponseBody
     public Map<String,Object> dosageRecentlyListJson(HaMeter params){
         startPage();
-        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("mi.areano","area","and"));
         List<HaMeter> listHaMeter = haMeterService.selectDosageRecently(params);
         return getDataTable(listHaMeter);
     }
@@ -50,7 +50,6 @@ public class DosageController extends BaseController {
     public Map<String,Object> dosageHistoryListJson(HaRecords params){
         startPage();
         long startdate = System.currentTimeMillis();
-        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
         List<HaRecords> listHaMeter = haRecordsService.selectDosageHistory(params);
         long enddate = System.currentTimeMillis();
         System.out.println((startdate-enddate)/1000);

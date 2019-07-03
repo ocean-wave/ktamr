@@ -5,6 +5,7 @@ import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.export.*;
 import com.ktamr.common.utils.sql.SqlCondition;
+import com.ktamr.domain.HaOperator;
 import com.ktamr.domain.HavMeterinfo;
 import com.ktamr.service.HaOperatorService;
 import com.ktamr.service.HavMeterinfoService;
@@ -32,7 +33,14 @@ public class ThirdPartyController extends BaseController {
     @GetMapping("/party")
     public String party(ModelMap mmap){
         String id = (String) ServletUtils.getSession().getAttribute("operatorCode");
-        mmap.put("operatorCompnayList",haOperatorService.selectOperatorCompany(id));
+        List<HaOperator> list = haOperatorService.selectOperatorCompany(id);
+        if(list.size()<=0){
+            HaOperator haOperator = new HaOperator();
+            haOperator.setOperatorCompanyId("");
+            haOperator.setOperatorName("默认格式");
+            list.add(haOperator);
+        }
+        mmap.put("operatorCompnayList",list);
         return pxePath+"/thirdPartyReport";
     }
 

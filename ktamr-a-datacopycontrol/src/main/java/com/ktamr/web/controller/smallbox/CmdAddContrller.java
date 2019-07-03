@@ -1,14 +1,13 @@
 package com.ktamr.web.controller.smallbox;
 
-import com.ktamr.common.soket.Client;
 import com.ktamr.common.utils.StringUtils;
+import com.ktamr.httpClient.Client;
 import com.ktamr.service.HaCmdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Random;
 
 @Controller
 @RequestMapping("/smallbox/haCmd")
@@ -42,15 +41,18 @@ public class CmdAddContrller {
                 return "<span class='fontRed'>sql语句插入失败</span>";
             }
         }
-        String result = Client.getSoketClient(cmd,parms);
-        if(!result.equals("ok")){
-            if(centorid!="") {
-                String centorStr = haCmdService.selectCentorById(Integer.parseInt(centorid));
-                if (centorStr.substring(0, 5).equals("KT3NB")) {
-                    return "<span class='fontGrey'>预执行命令</span>";
+        if("接口数据上传".equals(cmds[0])){
+            return Client.httpClient(str)?"ok":"no";
+        }else {
+            if (!Client.httpClient(cmds[0], parms)) {
+                if (centorid != "") {
+                    String centorStr = haCmdService.selectCentorById(Integer.parseInt(centorid));
+                    if (centorStr.substring(0, 5).equals("KT3NB")) {
+                        return "<span class='fontGrey'>预执行命令</span>";
+                    }
                 }
+                return str;
             }
-            return str;
         }
         return "<span class='fontRed'>后台服务未启动</span>";
     }
