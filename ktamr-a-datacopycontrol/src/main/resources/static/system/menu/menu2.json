@@ -3,7 +3,7 @@
     "list": [
       {
         "id": "0",
-        "url": "main.asp",
+        "url": "/openMainHtml",
         "name": "首页",
         "iconfont": "fa fa-home fa-fw",
         "sub": []

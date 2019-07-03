@@ -13,7 +13,7 @@
     SELECT Left(rgn_code, 1) as rgnCode FROM ha_operator_rgns WHERE operator_code='${operatorCode}' GROUP BY Left(rgn_code, 1)
     </select>
 
-    <select id="selRgnCodeStr" resultType="com.ktamr.domain.HaOperatorRgns">
+    <select id="selRgnCodeStr" resultType="HaOperatorRgns">
         SELECT rgn_code as rgnCode FROM ha_operator_rgns WHERE operator_code=#{operatorCode}
     </select>
 
