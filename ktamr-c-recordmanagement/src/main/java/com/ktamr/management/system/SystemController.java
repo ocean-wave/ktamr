@@ -30,6 +30,7 @@ public class SystemController extends BaseController {
     @ResponseBody
     public Object configlistjson(HaConfig haConfig){
         startPage();
+
         List<HaConfig> haConfigs = haConfigService.queryHaConfig(haConfig);
         Map<String, Object> map = getDataTable(haConfigs);
         return map;

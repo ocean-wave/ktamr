@@ -4,7 +4,11 @@ import com.ktamr.domain.HaConfig;
 
 import java.util.List;
 
+/**
+ * 小可爱提交
+ */
 public interface HaConfigService {
+
 
     List<HaConfig> queryHaConfig(HaConfig haConfig);
 
