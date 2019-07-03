@@ -160,6 +160,9 @@ public class OperatorController extends BaseController {
                     haOperatorRgns.setOperatorCode(haOperator.getOperatorCode());
                     haOperatorRgns.setRgnCode(s);
                     Integer OperatorRgns = haOperatorRgnsService.addHaOperatorRgns(haOperatorRgns);
+                    if(OperatorRgns==1){
+                        return "true";
+                    }
                 }
             }
             if (haOperators == 1) {
@@ -196,6 +199,9 @@ public class OperatorController extends BaseController {
                 haOperatorRgns.setOperatorCode(haOperator.getOperatorCode());
                 haOperatorRgns.setRgnCode(s);
                 Integer OperatorRgns = haOperatorRgnsService.addHaOperatorRgns(haOperatorRgns);
+                if(OperatorRgns==1){
+                    return "true";
+                }
             }
         }
         if (updateHaOperator == 1) {
