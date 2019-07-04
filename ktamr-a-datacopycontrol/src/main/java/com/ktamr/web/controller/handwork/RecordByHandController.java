@@ -88,9 +88,10 @@ public class RecordByHandController extends BaseController {
 
     @PostMapping("/recordByHandJson")
     @ResponseBody
-    public Map<String, Object> interfaceCmdListJson(HaMeter haMeter){
+    public Map<String, Object> interfaceCmdListJson(HaMeter params){
         startPage();
-        List<HaMeter> listMeter = haMeterService.selectRecordByHand(haMeter);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaMeter> listMeter = haMeterService.selectRecordByHand(params);
         return getDataTable(listMeter);
     }
 

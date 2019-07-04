@@ -4,6 +4,7 @@ import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.export.*;
+import com.ktamr.common.utils.export.dataReportTxtUtil;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaOperator;
 import com.ktamr.domain.HavMeterinfo;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -67,15 +67,8 @@ public class ThirdPartyController extends BaseController {
     @ResponseBody
     public AjaxResult exportToTxt(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
         List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
-        String fileName = ExportStr.encodingFileTxtname();
-        ExportTxtUtil exportTextUtil = new ExportTxtUtil();
-        try {
-            exportTextUtil.writeToTxt(fileName,listMeterinfo,name);
-            return AjaxResult.success(fileName);
-        } catch (IOException e){
-            e.printStackTrace();
-            return AjaxResult.error(e.getMessage());
-        }
+        String showListType = havMeterinfo.getParams().get("showListType").toString();
+        return dataReportTxtUtil.exportToTxt(showListType,listMeterinfo,name);
     }
 
     @PostMapping("/exportToDbf")

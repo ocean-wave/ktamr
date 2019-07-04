@@ -9,6 +9,10 @@ import java.util.Date;
 import java.util.List;
 
 public class ExportTxtUtil {
+
+    private String[] label;
+    private String segmentationStr;
+
     public void writeToTxt(String fileName, List<?> list,String[] name) throws IOException {
         OutputStream out = null;
         PrintWriter pw = null;
@@ -16,6 +20,19 @@ public class ExportTxtUtil {
             out = new FileOutputStream(ExportStr.getAbsoluteFile(fileName));
             pw = new PrintWriter(out);
             StringBuffer sb = new StringBuffer();
+            if(label.length>0){
+                for (int i =0;i<label.length;i++){
+                    sb.append(label[i]);
+                    if(i!=label.length-1){
+                        if(segmentationStr!=null){
+                            sb.append(segmentationStr);
+                        }else {
+                            sb.append("|");
+                        }
+                    }
+                }
+                sb.append(System.getProperty("line.separator"));
+            }
             for (Object obj : list) {
                 for(int i = 0;i<name.length;i++){
                     String[] sc = name[i].split("\\.");
@@ -29,7 +46,11 @@ public class ExportTxtUtil {
                             sb.append(value);
                         }
                         if(i!=name.length-1){
-                            sb.append("|");
+                            if(segmentationStr!=null){
+                                sb.append(segmentationStr);
+                            }else {
+                                sb.append("|");
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -74,5 +95,13 @@ public class ExportTxtUtil {
             o = method.invoke(o);
         }
         return o;
+    }
+
+    public void setSegmentationStr(String segmentationStr) {
+        this.segmentationStr = segmentationStr;
+    }
+
+    public void setLabel(String[] label) {
+        this.label = label;
     }
 }

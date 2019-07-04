@@ -314,7 +314,7 @@
             , mi.表号 AS meterNumber
             , mi.最近度数 AS thNumber
             ,mi.抄表时间 AS thRTime
-            , mi.用户名 AS userName
+            , mi.用户号 AS userNo
             , mi.用户地址 AS userDs
             ,'' AS emptyStr
             , '1'||Right('0000000'||mi.用户号, 7) AS defaultOne

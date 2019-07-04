@@ -217,10 +217,10 @@
             AND mi.表号 >0
             <!--数据范围过滤-->
             ${params.getRightCondition}
-            <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            <if test=' params.nodeType == "area" and params.nodeIds != "" '>
                 AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
             </if>
-            <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            <if test=' params.nodeType == "rgn" and params.nodeIds != "" '>
                 AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
             </if>
             <if test=" params.dataType !=null and params.dataType != '' ">
