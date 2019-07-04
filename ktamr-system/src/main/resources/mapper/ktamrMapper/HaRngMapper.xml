@@ -79,24 +79,29 @@
     </resultMap>
 
     <select id="selectAllRngAndCountC" resultType="com.ktamr.domain.HaRgn">
-        SELECT n.id AS id, n.name AS name, n.shortName AS shortName, n.zcode AS zcode,
+        select * from (SELECT n.id AS id, n.name AS name, n.shortName AS shortName, n.zcode AS zcode,
         (SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount,
         (SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount,
-        (SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS haCollectorCount,
-        (SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS haMeterCount,
-        t.n as badMeterCount
-        FROM ((ha_area a LEFT OUTER JOIN ha_meter m ON m.areaid=a.areaid)
-        LEFT JOIN ha_rgn n ON Left(a.areaNo, 1)= n.id)
-        LEFT JOIN
-        (SELECT Count(i.meterid) AS n,Left(i.areano, 1) as areano FROM hav_meterinfo i WHERE i.状态!='正常' AND i.状态!='正确' AND i.状态!='建档' AND i.状态!='集中器无返回' AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正' AND i.状态!='已更换' AND i.状态!='采集器无返回' AND i.状态 NOT LIKE '%用量异常%' AND i.表号 >0
+        (SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND
+        n.id=Left(c.centorNo,1)) AS haCollectorCount,
+        (SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS
+        haMeterCount,
+        t.n as badMeterCount from ha_rgn n LEFT JOIN
+        (SELECT Count(i.meterid) AS n,Left(i.areano, 1) as areano FROM hav_meterinfo i WHERE i.状态!='正常' AND i.状态!='正确'
+        AND i.状态!='建档' AND i.状态!='集中器无返回' AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正' AND i.状态!='已更换' AND
+        i.状态!='采集器无返回' AND i.状态 NOT LIKE '%用量异常%' AND i.表号 >0
         GROUP BY Left(i.areano, 1)) t ON
         Left(t.areano, 1)=n.id
-        <if test="haRgn.keyWord != null and haRgn.keyWord != ''">
-            and (n.id = #{haRgn.keyWord} or n.shortName like '%${haRgn.keyWord}%' or n.name like '%${haRgn.keyWord}%' or n.zCode like '%${haRgn.keyWord}%')
+        <!--数据范围过滤-->
+        ${params.getRightCondition}
+        <if test="keyWord != null and keyWord != ''">
+            and (n.id = #{keyWord} or n.shortName like '%${keyWord}%' or n.name like '%${keyWord}%' or
+            n.zCode like '%${keyWord}%')
         </if>
-        <!--多条件查询-->
-        ${haRgn.multipleConditions}
         group by n.id,t.n
+        )t1
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
     <select id="HaRgnCountC" resultType="Integer">
@@ -199,7 +204,9 @@
 
     <!--查询大区名字为了动态下拉框的值-->
     <select id="selectBigNameB" resultMap="BigNameMap">
-        SELECT r.id,r.name,COUNT(a.areaNo) as areaNo FROM ha_rgn r LEFT JOIN ha_area a ON r.id=LEFT(a.areaNo,1)  GROUP BY r.id,r.name ORDER BY r.name
+        SELECT r.id,r.name,COUNT(a.areaNo) as areaNo
+        FROM ha_rgn r LEFT JOIN ha_area a ON r.id=LEFT(a.areaNo,1)
+        GROUP BY r.id,r.name ORDER BY r.name
     </select>
 
     <!--映射定义公用的下拉框的大区名称-->
@@ -207,13 +214,14 @@
         <result column="rgnid" property="id"/>
         <result column="大区名称" property="name"/>
     </resultMap>
-    <!--定义公用的下拉框的大区名称-->
+    <!--定义公用的下拉框的大区名称 -->
     <select id="selectGongYongBigNameB" resultMap="BselectGongYongBigNameMap">
         SELECT n.id AS rgnid, n.name AS 大区名称, trim(n.shortName) AS 简称, n.zcode AS 行政区号,(SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS 小区数,(SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS 集中器数,(SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND n.id=Left(c.centorNo,1)) AS 采集器数, (SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS 表数 FROM ha_rgn n ORDER BY n.name
     </select>
 
     <select id="rgnByWhere" resultType="com.ktamr.domain.HaRgn">
         SELECT id, name FROM ha_rgn
+         ${params.getRightCondition}
         ${params.getUpperRightCondition}
         ORDER BY id
     </select>

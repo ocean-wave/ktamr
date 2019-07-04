@@ -133,6 +133,7 @@ public class RoomController extends BaseController {
     @ResponseBody
     public Object queryAllRoomJson(HaRoom haRoom) {
         startPage();
+        haRoom.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areaNo","area","AND"));
         List<HaRoom> allRoom = haRoomService.queryAllRoomC(haRoom);
         Map<String, Object> map = getDataTable(allRoom);
         return map;

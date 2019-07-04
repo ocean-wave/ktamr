@@ -69,4 +69,9 @@ public class HavMeterinfoServiceImpl implements HavMeterinfoService {
     public List<HavMeterinfo> changeFormByAreaId(HavMeterinfo havMeterinfo) {
         return havMeterinfoMapper.changeFormByAreaId(havMeterinfo);
     }
+
+    @Override
+    public HavMeterinfo userAddr(Integer meterid) {
+        return havMeterinfoMapper.userAddr(meterid);
+    }
 }

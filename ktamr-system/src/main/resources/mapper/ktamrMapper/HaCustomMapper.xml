@@ -60,20 +60,21 @@
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON b.areaid=a.areaid
         where u.custid is not null
-        <if test="haCustom.nodeType != null and haCustom.nodeType != '' and haCustom.nodeIds != null and haCustom.nodeIds != ''">
-            <if test="haCustom.nodeType == 'area'">
-                AND a.areaid = ${haCustom.nodeIds}
+        ${params.getRightCondition}
+        <if test="nodeType != null and nodeType != '' and nodeIds != null and nodeIds != ''">
+            <if test="nodeType == 'area'">
+                AND a.areaid = ${nodeIds}
             </if>
-            <if test="haCustom.nodeType == 'rgn'">
-                AND POSITION(#{haCustom.nodeIds} in Left(a.areaNo, 1))>0
+            <if test="nodeType == 'rgn'">
+                AND POSITION(#{nodeIds} in Left(a.areaNo, 1))>0
             </if>
         </if>
-        <if test="haCustom.keyWord!=null and haCustom.keyWord !=''">
-            and u.custno like '%${haCustom.keyWord}%' or u.name like '%${haCustom.keyWord}%'
+        <if test="keyWord!=null and keyWord !=''">
+            and u.custno like '%${keyWord}%' or u.name like '%${keyWord}%'
         </if>
-        <!--多条件查询-->
-        ${haCustom.multipleConditions}
         ORDER BY u.custno,a.name,b.name,r.name
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
     <select id="selectHaCustomCount" resultType="Integer">

@@ -102,18 +102,19 @@
         LEFT JOIN ha_building b ON r.buildingid=b.buildingid)
         LEFT JOIN ha_area a ON a.areaid=b.areaid
         WHERE r.roomid>0
-        <if test="haRoom.areaid != null">
-            and a.areaid=#{haRoom.areaid}
+        ${params.getRightCondition}
+        <if test="areaid != null">
+            and a.areaid=#{areaid}
         </if>
-        <if test="haRoom.buildingId != null">
-            and r.buildingid=#{haRoom.buildingId}
+        <if test="buildingId != null">
+            and r.buildingid=#{buildingId}
         </if>
-        <if test="haRoom.keyWord !=null and haRoom.keyWord !=''">
-            and (a.registeredNo like '%${haRoom.keyWord}%' or cu.name like '%${haRoom.keyWord}%' or a.areaNo like '%${haRoom.keyWord}%')
+        <if test="keyWord !=null and keyWord !=''">
+            and (a.registeredNo like '%${keyWord}%' or cu.name like '%${keyWord}%' or a.areaNo like '%${keyWord}%')
         </if>
-        <!--多条件查询-->
-        ${haRoom.multipleConditions}
         ORDER BY a.name||'-'||b.name||'-'||r.name
+        <!--多条件查询-->
+        ${multipleConditions}
     </select>
 
     <select id="allRoomCountC" resultType="_int">

@@ -6,6 +6,7 @@ import com.ktamr.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +80,20 @@ public class SqlCondition {
             }else {
                 sql = condition+"LEFT(" + fieldName +",5) in (SELECT rgn_code FROM ha_operator_rgns WHERE operator_code='"+ upper_operator_code +"')";
             }
+        }
+        return sql;
+    }
+
+    public static String judgeFrom(HttpSession session){
+        String operatorCode = (String)session.getAttribute("operatorCode");
+        String operatorLevel = (String)session.getAttribute("haOperatorLevel");
+        String sql = "";
+        if("admin".equals(operatorLevel)){
+            sql = "from ha_operator where 1=1";
+        }else if("normal".equals(operatorLevel)){
+            sql = "from ha_operator WHERE operator_code IN (SELECT operator_code FROM ha_operator WHERE operator_upper='"+operatorCode+"' OR operator_code='"+operatorCode+"')";
+        }else {
+            sql = "from ha_operator where operator_code='"+operatorCode+"'";
         }
         return sql;
     }

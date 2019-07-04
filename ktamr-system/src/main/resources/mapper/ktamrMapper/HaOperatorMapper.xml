@@ -85,17 +85,17 @@
         WHEN operator_rgn_type='rgn' THEN '大区'
         WHEN operator_rgn_type='area' THEN '小区' end as operatorRgnType,operator_upper as operatorUpper,
         operator_company as operatorCompany, operator_mobile as operatorMobile, operator_remark as operatorRemark,
-        to_char(operator_creattime, 'yyyy-mm-dd hh24:mi:ss') as operatorCreatTime from ha_operator
-        where 1=1
-        <if test="haOperator.keyWord != null and haOperator.keyWord != ''">
-            and operator_name like '%${haOperator.keyWord}%'
-            or operator_company like '%${haOperator.keyWord}%'
-            or operator_upper like '%${haOperator.keyWord}%'
-            or operator_mobile like '%${haOperator.keyWord}%'
-            or operator_remark like '%${haOperator.keyWord}%'
+        to_char(operator_creattime, 'yyyy-mm-dd hh24:mi:ss') as operatorCreatTime
+        ${params.judgeFrom}
+        <if test="keyWord != null and keyWord != ''">
+            and operator_name like '%${keyWord}%'
+            or operator_company like '%${keyWord}%'
+            or operator_upper like '%${keyWord}%'
+            or operator_mobile like '%${keyWord}%'
+            or operator_remark like '%${keyWord}%'
         </if>
         <!--多条件查询-->
-        ${haOperator.multipleConditions}
+        ${multipleConditions}
     </select>
 
     <select id="selectHaOperatorCount" resultType="Integer">

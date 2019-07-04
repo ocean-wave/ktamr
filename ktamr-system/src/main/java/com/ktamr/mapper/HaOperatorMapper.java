@@ -16,7 +16,7 @@ public interface HaOperatorMapper {
 
     public List<HaOperator> selectOperatorCompany(String operatorName);
 
-    List<HaOperator> HaOperatorList(@Param("haOperator") HaOperator haOperator);
+    List<HaOperator> HaOperatorList(HaOperator haOperator);
 
     HaOperator updateByIdHaOperator(@Param("operatorCode") String operatorCode);
 

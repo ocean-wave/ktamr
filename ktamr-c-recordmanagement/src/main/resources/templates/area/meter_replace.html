@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .layui-form-label {
+            padding: 6px 10px;
+            width: 80px;
+        }
+        .layui-input{
+            height: 32px;
+            line-height: 32px;
+        }
+        .mySelect dl{max-height: 170px;}
+        .my-form-class {
+            padding: 15px 10px 0px 10px;
+        }
+    </style>
+</head>
+<body class="myPage-body">
+<form class="layui-form my-form-class" action="">
+    <input type="hidden" id="meterid" name="meterid" th:value="${meterid}">
+    <input type="hidden" id="oldMeterNumber" name="oldMeterNumber" th:value="${meter.meterNumber}">
+    <input type="hidden" id="oldMeterRead" name="oldMeterRead" th:value="${meter.thNumber}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属地址</label>
+        <div class="layui-input-inline" style="width:430px;">
+            <input id="meterAddr" name="meterAddr" lay-verify="" autocomplete="off" placeholder="" class="layui-input" readonly="readonly" th:value="${userAddr.addr}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">旧表表号</label>
+        <div class="layui-input-inline" style="width:170px;">
+            <input id="oldMeterNumber" name="oldMeterNumber" lay-verify="" autocomplete="off" maxlength="4" placeholder="" class="layui-input" readonly="readonly" th:value="${meter.meterNumber}">
+        </div>
+        <label class="layui-form-label">旧表终数</label>
+        <div class="layui-input-inline" style="width:170px;">
+            <input id="oldMeterRead" name="oldMeterRead" lay-verify="required|number" autocomplete="off" maxlength="16" placeholder="必填,数字" class="layui-input" th:value="${meter.thNumber}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新表表号</label>
+        <div class="layui-input-inline" style="width:170px;">
+            <input id="newMeterNumber" name="newMeterNumber" lay-verify="required|number|newMeterNumber" autocomplete="off" placeholder="必填,数字" class="layui-input">
+        </div>
+        <label class="layui-form-label">新表底数</label>
+        <div class="layui-input-inline" style="width:170px;">
+            <input id="newMeterRead" name="newMeterRead" lay-verify="required|number" autocomplete="off" maxlength="16" placeholder="必填,数字" class="layui-input" value="0">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">换表时间</label>
+        <div class="layui-input-inline" style="width:170px;">
+            <input id="replaceTime" name="replaceTime" lay-verify="required" autocomplete="off" placeholder="必填,时间" class="layui-input" th:value="${#dates.format(nowDate,'yyyy-MM-dd')}" readonly="readonly">
+        </div>
+        <label class="layui-form-label">换&nbsp;&nbsp;表&nbsp;&nbsp;人</label>
+        <div class="layui-input-inline" style="width:170px;">
+            <input id="replaceStaff" name="replaceStaff" lay-verify="required" autocomplete="off" placeholder="必填" class="layui-input" th:value="${operatorCode}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">换表说明</label>
+        <div class="layui-input-inline" style="width:170px;">
+            <input id="replaceRemark" name="replaceRemark" lay-verify="" autocomplete="off" placeholder="选填" class="layui-input">
+        </div>
+    </div>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+        </button>
+        提示：期初读数和最新读数会被设置成新表表底数。所以执行换表业务后，要进行一次抄表，得到最新读数。
+    </div>
+    <div class="form-inline my-page-btn">
+        <button lay-submit type="button" id="sure" lay-filter="sure" class="btn btn-default btn-sm btnMargin" ><img src="../images/tick.png" />确定</button>
+        <button type="button" id="close" class="btn btn-default btn-sm btnMargin"><img src="../images/cancel.png" />关闭</button>
+    </div>
+</form>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+        var get_result_url = "./meter_replace_do.asp";
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        var g_oldMeterNumber = $("#oldMeterNumber").val();
+        var g_oldMeterRead = $("#oldMeterRead").val();
+        var g_meterId = $("#meterid").val();
+
+        $('#replaceTime').datetimepicker({
+            language: 'zh-CN',//显示中文
+            format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+            //minView: "secound",//设置只显示到月份
+            initialDate: new Date(),//初始化当前日期
+            autoclose: true,//选中自动关闭
+            todayBtn: true//显示今日按钮
+        });
+
+        form.verify({
+            newMeterNumber: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _newMeterNumber = $("#newMeterNumber").val();
+                queryData = {meterNumber: _newMeterNumber};
+                if(g_oldMeterNumber != _newMeterNumber && isDataRepeat(queryData) == true){
+                    return '表号重复';
+                }
+            }
+        });
+        function submitInfo(sendData){
+            $.ajax({
+                url: get_result_url
+                ,data: sendData
+                ,type: "POST"
+                ,contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                ,async:false //同步请求
+                ,success: function(data){
+                    if(data == "true"){
+                        parent.layer.msg("换表成功！", {icon: 1});
+                        parent.$("#jqGrid").trigger("reloadGrid");
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }
+            });
+        }
+
+        $("#close").click(function(){
+            parent.$("#jqGrid").trigger("reloadGrid");
+            parent.layer.close(index); //再执行关闭
+        });
+
+        form.on('submit(sure)', function (data) {
+            var _centorNo = "";
+            var data = {
+                meterId: g_meterId,
+                oldMeterNumber: $("#oldMeterNumber").val(),
+                oldMeterRead: $("#oldMeterRead").val(),
+                newMeterNumber: $("#newMeterNumber").val(),
+                newMeterRead: $("#newMeterRead").val(),
+                replaceTime: $("#replaceTime").val(),
+                replaceStaff: $("#replaceStaff").val(),
+                replaceRemark: $("#replaceRemark").val()
+            };
+
+            if( Number($("#oldMeterRead").val()) < Number(g_oldMeterRead)){
+                layer.confirm('输入的[旧表终数]小于其最后抄收值，是否继续？', {icon:3, title:'提示'},
+                    function(index, layero){
+                        data.replaceRemark = "抄收读数异常";
+                        submitInfo(data);
+                        layer.close(index);
+                    });
+                return false;
+            }
+            submitInfo(data);
+        });
+
+    });
+</script>
+</body>
+</html>

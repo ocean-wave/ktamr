@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="myPage-body">
+<div class="container" style="width:100%;margin:20px 5px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                批量换表模板下载
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-inline">
+                <label>文件：批量换表导入模板.xls</label>
+                <button type="button" id="templateExport" class="btn btn-default btn-sm btnMargin">下载</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                批量换表文档导入
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form id="form" name="form" class="fupload" method="post" action="/metersReplace/meters_replace_todo">
+                <p><b>1、请选择要导入的文件：（文件格式：*.xls/*.xlsx）</b></p>
+                <label for="jobData" class="control-label hide" style="float:left;padding-left:15px;">任务数据</label>
+                <div class="row" style="padding:5px 15px;">
+                    <div class="col-xs-12 col-sm-4 col-md-4" style="padding:0px 5px;">
+                        <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle">
+                            <button class="btn btn-success btn-sm fileinput-button" type="button">浏览</button>
+                            <input type="file" id="userInfo" name="userInfo" onchange="loadFile(this.files[0])" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+                        </div>
+                        <span id="filename" style="vertical-align: middle">未选择文件</span>
+                    </div>
+                </div>
+                <br/>
+                <div class="row" style="padding:5px 5px;">
+                    <div class="col-xs-2" style="padding:0px 5px;">
+                        <div class="form-group">
+                            <button type="submit" id="formSubmit" class="btn btn-default btn-sm btnMargin">上传</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script language="JavaScript">
+    var get_excel_model_url = "../common/ExcelTemplate/批量换表导入模板.xls";
+    //var submit_file_url = "upload_users_todo.asp";
+
+    function loadFile(file){
+        $("#filename").html(file.name);
+    }
+    layui.config({
+        base : '/common/js/',
+        version: '<%=Application("webVersion")%>'
+    }).extend({
+        myLayui: 'myLayui'
+    });
+    layui.use(['element','layer', 'myLayui'], function(){
+        var element = layui.element,
+            myLayui = layui.myLayui,
+            layer = layui.layer; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        var layerIndex = parent.layer.getFrameIndex(window.name);
+
+        function showLoadLayer(){
+            return layer.msg('努力中...', {icon: 16,shade: [0.5, '#f5f5f5'],scrollbar: false, time:180*1000}) ;
+        }
+        function clossLoadLayer(index){
+            layer.close(index);
+        }
+
+        function checkSubmitForm(){
+            if($("#filename").text() == "未选择文件"){
+                layer.msg("请添加导入文件！", {icon: 5});
+                return false;
+            }
+        }
+        $('.selectpicker').selectpicker({
+            actionsBox: false //去除全选,全不选按键
+            ,noneSelectedText: '没有选择'
+            ,selectAllText: '选择所有'
+            ,deselectAllText: '取消全选'
+            ,liveSearchPlaceholder: '搜索'
+            ,maxOptions: 10 //最多可选数
+        });
+
+        $("#templateExport").click(function(){
+            window.open(get_excel_model_url);
+        });
+
+        $("#form").submit(function(event){
+            event.preventDefault();
+            var loadLayerIndex = "";
+            var form = $(this);
+
+            if(checkSubmitForm()==false)
+                return false;
+
+            if (!form.hasClass('fupload')) {
+                //普通表单
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize()
+                    ,beforeSend: function(){
+                        loadLayerIndex = showLoadLayer()
+                    }
+                }).success(function () {
+                    //成功提交
+                    clossLoadLayer(loadLayerIndex);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //错误信息
+                });
+            }else {
+                // mulitipart form,如文件上传类
+                var formData = new FormData(this);
+                $.ajax({
+                    type: form.attr('method')
+                    ,url: form.attr('action')
+                    ,data: formData
+                    ,mimeType: "multipart/form-data"
+                    ,timeout : 600*1000
+                    ,contentType: false
+                    ,cache: false
+                    ,processData: false
+                    ,beforeSend: function(){
+                        loadLayerIndex = showLoadLayer()
+                    }
+                }).success(function (data) {
+                    //成功提交
+                    clossLoadLayer(loadLayerIndex);
+                    if(strDateTime2(data)){
+                        var layerSize = ['650px', '450px'];
+                        var queryStr = [
+                            "fileName="+$("#filename").text(),
+                            "importTime="+data
+                        ];
+                        parent._myLayui.showLayer("批量换表确认列表","/metersReplace/meters_replace_list", queryStr, layerSize);
+                        parent.layer.close(layerIndex); //再执行关闭
+                    }else{
+                        layer.msg(data, {icon: 5});
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //错误信息
+                });
+            }
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

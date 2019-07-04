@@ -133,7 +133,7 @@
 
     <!--用户编号校验1-->
     <update id="customNoCheck1">
-        UPDATE ha_importCustom SET state='非法的用户编号' WHERE cust_no IS NOT NULL AND (NOT isNumeric(cust_no) OR cust_no::int8=0 OR cust_no='0') AND state='待校验' AND import_time=#{importTime}
+        UPDATE ha_importCustom SET state='非法的用户编号' WHERE cust_no IS NOT NULL AND (NOT isNumeric(cust_no) OR cust_no::int=0 OR cust_no='0') AND state='待校验' AND import_time=#{importTime}
     </update>
 
     <!--用户编号校验2-->
