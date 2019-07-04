@@ -6,7 +6,7 @@
     <style type="text/css">
         .layui-form-label {
             padding: 6px 10px;
-        / / width: 80 px;
+            width: 80 px;
         }
 
         .layui-input {
@@ -272,7 +272,7 @@
                 custNo: $("#cust_no").val(),
                 name: $("#cust_name").val(),
                 sex: $("#cust_sex").val(),
-                room_name: $("#room").find("option:selected").text(),
+                roomName: $("#room").find("option:selected").text(),
                 idName: $("#id_name").val(),
                 idNumber: $("#id_number").val(),
                 tel: $("#cust_tel").val(),
@@ -281,9 +281,7 @@
                 zip: $("#cust_zip").val(),
                 bank: $("#cust_bank").val(),
                 account: $("#cust_account").val(),
-                areaId:$("#area").val(),
                 buildingId:$("#building").val(),
-                roomId:$("#room").val(),
             };
             submitInfo(data);
         });

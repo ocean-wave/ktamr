@@ -34,4 +34,11 @@ public interface HaDayFreezeService {
      */
     public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params);
 
+    //加入日冻结数据
+    HaDayfreeze fdayDataCount(HaDayfreeze haDayfreeze);
+
+    Integer fdayDataCount2(HaDayfreeze haDayfreeze);
+
+    Integer fdayDataCount3(HaDayfreeze haDayfreeze);
+
 }

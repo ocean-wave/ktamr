@@ -55,4 +55,6 @@ public interface HaCmdService {
      * @return
      */
     public Integer insertCommand(HaCmd haCmd);
+
+    Integer addHaCmd(HaCmd haCmd);
 }

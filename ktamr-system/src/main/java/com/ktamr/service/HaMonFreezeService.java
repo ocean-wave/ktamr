@@ -28,4 +28,11 @@ public interface HaMonFreezeService {
      */
     public List<HaMonfreeze> selectAllMonfreeze(Map<String,Object> parms);
 
+    //加入月冻结数据
+    HaMonfreeze fmonDataCount(HaMonfreeze haMonfreeze);
+
+    Integer fmonDataCount2(HaMonfreeze haMonfreeze);
+
+    Integer fmonDataCount3(HaMonfreeze haMonfreeze);
+
 }

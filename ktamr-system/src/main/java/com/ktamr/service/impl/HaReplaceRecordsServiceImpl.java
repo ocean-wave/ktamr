@@ -29,4 +29,9 @@ public class HaReplaceRecordsServiceImpl implements HaReplaceRecordsService {
     public List<HaReplacerecords> selectReplace(HaReplacerecords haReplacerecords) {
         return haReplaceRecordsMapper.selectReplace(haReplacerecords);
     }
+
+    @Override
+    public Integer replaceMeter2(HaReplacerecords haReplacerecords) {
+        return haReplaceRecordsMapper.replaceMeter2(haReplacerecords);
+    }
 }

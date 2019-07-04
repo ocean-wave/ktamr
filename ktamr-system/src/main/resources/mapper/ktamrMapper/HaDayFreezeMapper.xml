@@ -151,4 +151,20 @@
         order by fday desc
     </select>
 
+    <!--加入日冻结数据-->
+    <select id="fdayDataCount" resultType="com.ktamr.domain.HaDayfreeze">
+        SELECT Count(meterid) FROM ha_dayfreeze WHERE meterid=#{meterId} AND to_char(fday, 'yyyy-mm-dd')=to_char(current_date-1,'yyyy-mm-dd')")
+    </select>
+
+    <update id="fdayDataCount2">
+        UPDATE ha_dayfreeze SET t_read=#{orimeterRead},l_read=#{orimeterRead},readTime=now(),amount=0,state='已更换'
+        WHERE meterid=#{meterId} AND to_char(fday, 'yyyy-mm-dd')=to_char(current_date-1, 'YYYY-MM-DD')"
+    </update>
+
+    <insert id="fdayDataCount3">
+        INSERT INTO ha_dayfreeze(meterid, meterNumber, centorid, collectorid, fday, lday, readTime, state, t_read, l_read, amount)
+        SELECT
+        m.meterId, m.meterNumber, m.centorid, m.collectorid, current_date-1, m.fday,now(), '已更换',#{orimeterRead},#{orimeterRead},0 FROM ha_meter m
+		WHERE m.meterId=#{meterId}
+    </insert>
 </mapper>

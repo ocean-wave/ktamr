@@ -150,4 +150,9 @@
         ${multipleConditions}
     </select>
 
+    <insert id="addHaRecords">
+        INSERT INTO ha_records(meterId, rate, lf_number, lf_time, th_number, th_time, delta, state, cmdid )
+        SELECT m.meterId, m.rate ,m.th_number, m.th_r_time,#{orimeterRead},now(),#{orimeterRead}-m.th_number, '已更换',(SELECT nextval('ha_cd_seq'::regclass)) AS cmdid FROM ha_meter m
+	    WHERE m.meterId=#{meterId}
+    </insert>
 </mapper>

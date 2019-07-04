@@ -36,4 +36,6 @@ public interface HaRecordsMapper {
      */
     public List<HaRecords> selectDosageHistory(HaRecords params);
 
+    Integer addHaRecords(HaRecords haRecords);
+
 }

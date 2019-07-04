@@ -147,4 +147,9 @@ public class HaCmdServiceImpl implements HaCmdService {
         }
         return null;
     }
+
+    @Override
+    public Integer addHaCmd(HaCmd haCmd) {
+        return haCmdMapper.addHaCmd(haCmd);
+    }
 }

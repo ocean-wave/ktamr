@@ -79,4 +79,21 @@
         ${multipleConditions}
         order by fday desc
     </select>
+
+    <!--加入月冻结数据-->
+    <select id="fmonDataCount" resultType="com.ktamr.domain.HaMonfreeze">
+        SELECT Count(meterid) FROM ha_monfreeze WHERE meterid=#{meterId} AND fday=current_date - extract(day from current_date)::int
+    </select>
+
+    <update id="fmonDataCount2">
+        UPDATE ha_monfreeze SET t_read=#{orimeterRead},l_read=#{orimeterRead},readTime=now(),amount=0,state='已更换' WHERE meterid=#{meterId} AND fday=current_date - extract(day from current_date)::int
+    </update>
+
+    <insert id="fmonDataCount3">
+        INSERT INTO ha_monfreeze(meterid, meterNumber, centorid, collectorid, fday, lday, readTime, state, t_read, l_read, amount)
+        SELECT
+        m.meterId, m.meterNumber, m.centorid, m.collectorid, current_date - extract(day from current_date)::int, m.fmon,now(), '已更换',#{orimeterRead},#{orimeterRead}, 0 FROM ha_meter m
+		WHERE m.meterId=#{meterId}
+    </insert>
+
 </mapper>

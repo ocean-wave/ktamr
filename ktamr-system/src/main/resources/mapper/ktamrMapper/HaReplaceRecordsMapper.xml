@@ -74,4 +74,9 @@
         ${multipleConditions}
     </select>
 
+    <insert id="replaceMeter2">
+        INSERT INTO ha_replaceRecords(meterId,oldMeterNumber,newMeterNumber,finalRead,finalUse,finalState,oriRead,replaceDate,replaceMan,explain)
+         SELECT m.meterId,#{orimeterNumber},m.meterNumber,#{orimeterRead},m.s_number,m.state,#{newmeterRead},#{replaceTime},#{replaceMan},#{reMark} FROM ha_meter m WHERE m.meterId=#{meterId}
+    </insert>
+
 </mapper>

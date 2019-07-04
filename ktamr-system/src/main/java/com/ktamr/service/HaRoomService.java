@@ -41,6 +41,12 @@ public interface HaRoomService {
 
     HaRoom delByIdHaRoom(HaRoom haRoom);
 
+    HaRoom getByNameHaRoom(Integer buildid,String name);
+
+    Integer DeleteRoomsById(Integer custid);
+
+    Integer SetRelateRoom(Integer custid,Integer roomid);
+
     //拿到最后一个id
     HaRoom getLastId();
 

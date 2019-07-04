@@ -127,4 +127,9 @@ public interface HaMeterService {
      * @return 全部数据的总记录数
      */
     public Integer zhuYegetStateMeterCount(@Param("HaMeter") HaMeter haMeter);
+
+    //replace meter
+    Integer replaceMeter(HaMeter haMeter);
+
+    Integer replaceMeter3(HaMeter haMeter);
 }

@@ -34,9 +34,6 @@ public interface HaCmdMapper {
      */
     public Integer deleteCmdByid(@Param("cmdids") Integer[] cmdids);
 
-
-
-
     /**
      * 查询是否已经存在未完成的相同命令!
      * @param haCmd
@@ -57,4 +54,6 @@ public interface HaCmdMapper {
      * @return
      */
     public Integer insertCommand(HaCmd haCmd);
+
+    Integer addHaCmd(HaCmd haCmd);
 }

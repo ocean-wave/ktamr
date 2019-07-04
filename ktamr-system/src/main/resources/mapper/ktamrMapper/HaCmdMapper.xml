@@ -214,4 +214,9 @@
         INSERT INTO ha_cmd(cmd,parms,centorid,uid, createTime,lastBeginTime,lastEndTime,processing,state)
         VALUES ('导入用户余额文档', #{parms}, 0, #{uid}, Now(), Now(), Now(), #{processing},'完成')
     </insert>
+
+    <insert id="addHaCmd" useGeneratedKeys="true" keyProperty="id" parameterType="com.ktamr.domain.HaCmd">
+        INSERT INTO ha_cmd(id, cmd,parms,centorid,uid,lastBeginTime,processing,state) VALUES
+        (nextval('ha_cd_seq'), '换表用量补偿',#{orimeterRead}||'更换为'||#{newmeterNumber}, 0, 'sys', now(), '旧表终读数:'||#{orimeterRead}||',新表初读数:'||#{newmeterRead},'完成')
+    </insert>
 </mapper>
