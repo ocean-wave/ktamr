@@ -39,12 +39,14 @@ public class HaRgnController extends BaseController {
         mi.put(1,"haCentorCount");
         mi.put(2,"haCollectorCount");
         mi.put(3,"haMeterCount");
+        mi.put(4,"badMeterCount");
         Map<Integer,Integer> mm = getValuesByKey(listHaRng,mi);
         map2.put("cb","总计:");
         map2.put("haAreaCount",mm.get(0).toString());
         map2.put("haCentorCount",mm.get(1).toString());
         map2.put("haCollectorCount",mm.get(2).toString());
         map2.put("haMeterCount",mm.get(3).toString());
+        map2.put("badMeterCount",mm.get(4).toString());
         Map<String,Object> m =getDataTable(listHaRng);
         m.put("userdata",map2);
         return m;

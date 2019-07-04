@@ -53,7 +53,7 @@ public class CmdListController extends BaseController {
         params.getParams().put("operatorLevel", ShiroUtils.getHaOperator().getOperatorLevel());
         params.getParams().put("operatorCode", ShiroUtils.getOperatorCode());
         params.getParams().put("operatorCompanyId", ShiroUtils.getHaOperator().getOperatorCompanyId());
-        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("ce.centorno","area","or"));
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("ce.centorno","area","and"));
         List<HaCmd> listCmd = haCmdService.selectCmdLeftJoinTow(params);
         return getDataTable(listCmd);
     }

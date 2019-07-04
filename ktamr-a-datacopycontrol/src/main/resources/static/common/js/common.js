@@ -243,8 +243,9 @@ function validateFloat(val){//验证小数
 	return patten.test(val);  
 }
 //判断资料是否重复
-function isDataRepeat(queryData){
-	var check_url = "/common/ajax_get_data_is_repeat.asp?";
+//判断资料是否重复
+function isDataRepeat(queryData,url){
+	var check_url = url;
 	var re = "";
 	$.ajax({
 		url: check_url
@@ -254,7 +255,7 @@ function isDataRepeat(queryData){
 		,async:false //同步请求
 		,success: function(data){
 			if(data == "True"){
-				re = true; 
+				re = true;
 			}else{
 				re = false;
 			}

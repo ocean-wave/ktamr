@@ -29,6 +29,7 @@
                 n.id=Left(c.centorNo,1)) AS haCollectorCount
                 ,(SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS
                 haMeterCount
+                ,(SELECT Count(i.meterid) FROM hav_meterinfo i WHERE left(i.areano,1) = n.id and is_meter_err_state(i.状态) GROUP BY Left(i.areano,1)) AS badMeterCount
                 FROM ha_rgn n
                 where 1=1
                 <!--数据范围过滤-->
@@ -38,7 +39,7 @@
                   or n.name like concat('%', #{params.keyWord}, '%')
                   or n.zCode like concat('%', #{params.keyWord}, '%'))
               </if>
-              order by name
+              order by id,badMeterCount
         ) t
         <!--多条件查询-->
         ${multipleConditions}
@@ -171,8 +172,15 @@
     </select>
 
     <!--判断大区名称是否重复-->
-    <select id="checkRgnName" resultType="com.ktamr.domain.HaRgn">
-        SELECT name FROM ha_rgn WHERE name=#{haRgn.name}
+    <select id="checkRgnName" resultType="Integer">
+        select 1
+        from ha_rgn t
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="name != null and name != ''">
+                and  t.name=#{name}
+            </if>
+        </trim>
+        limit 1
     </select>
 
     <!--查询大区表全部信息与小区,集中器,采集器数,表数的数量  B    -->

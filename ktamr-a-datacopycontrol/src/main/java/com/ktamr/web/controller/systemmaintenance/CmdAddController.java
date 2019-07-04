@@ -45,9 +45,10 @@ public class CmdAddController extends BaseController {
 
     @PostMapping("/cmdAddJson")
     @ResponseBody
-    public Map<String, Object> cmdAddJson(HaCentor haCentor){
+    public Map<String, Object> cmdAddJson(HaCentor params){
         startPage();
-        List<HaCentor> listCentor = haCentorService.selectCentor(haCentor);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        List<HaCentor> listCentor = haCentorService.selectCentor(params);
         return getDataTable(listCentor);
     }
 

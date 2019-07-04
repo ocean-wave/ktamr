@@ -99,6 +99,8 @@ public class AreaController extends BaseController {
         Integer area = haAreaService.addHaAreaC(haArea);
         if (area == 1) {
             return "true";
+        }else if (area==0){
+            return  "有重复";
         }
         return "false";
     }
@@ -151,5 +153,20 @@ public class AreaController extends BaseController {
             default:
         }
         return switchAreaFreezeRead;
+    }
+
+    /**
+     * 添加时验证小区编号，小区名字，小区测名
+     * @param haArea
+     * @return
+     */
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaArea haArea){
+        Integer addingCellValidation = haAreaService.addingCellValidation(haArea);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
     }
 }

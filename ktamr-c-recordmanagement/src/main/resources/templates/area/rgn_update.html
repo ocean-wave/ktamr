@@ -62,6 +62,16 @@
         // var g_rgnName = "<%=rgn.m_name%>";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
+        form.verify({
+            rgnName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _rgnName = $("#rgnName").val();
+                queryData = {name: _rgnName};
+                if(g_rgnName != _rgnName && isDataRepeat(queryData,"/area/CheckRgnName") == true){
+                    return '大区名称重复';
+                }
+            }
+        });
+
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url
@@ -88,31 +98,13 @@
         });
 
         form.on('submit(sure)', function (data) {
-            form.verify({
-                rgnName: function (value, item) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/area/CheckRgnName",
-                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                        data: {name: $("#rgnName").val()},
-                        async: false,
-                        success: function (data) {
-                            if (data == "true") {
-                                layer.msg('大区名称重复', {icon: 5});
-                            } else {
-                                var data2 = {
-                                    id: $("#id").val(),
-                                    name: $("#rgnName").val(),
-                                    shortName: $("#shortName").val(),
-                                    zcode: $("#zcode").val()
-                                };
-                                submitInfo(data2);
-                            }
-                        }
-                    });
-
-                }
-            });
+            var data = {
+                id: $("#id").val(),
+                name: $("#rgnName").val(),
+                shortName: $("#shortName").val(),
+                zcode: $("#zcode").val()
+            };
+            submitInfo(data);
         });
     });
 </script>

@@ -51,6 +51,7 @@
             <result column="userDs" property="userDs" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
             <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
+            <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
             <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
             <result column="sNumber" property="snumber" javaType="java.lang.Double"></result>
             <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
@@ -217,10 +218,10 @@
             AND mi.表号 >0
             <!--数据范围过滤-->
             ${params.getRightCondition}
-            <if test=" params.nodeType == 'area' and params.nodeIds != '' ">
+            <if test=' params.nodeType == "area" and params.nodeIds != "" '>
                 AND mi.areaid IN (cast(#{params.nodeIds} as INTEGER))
             </if>
-            <if test=" params.nodeType == 'rgn' and params.nodeIds != '' ">
+            <if test=' params.nodeType == "rgn" and params.nodeIds != "" '>
                 AND position(Left(mi.areaNo, 1) IN #{params.nodeIds})>0
             </if>
             <if test=" params.dataType !=null and params.dataType != '' ">
@@ -245,22 +246,19 @@
     </select>
 
     <select id="selectRecordByHand" resultMap="haMeterMap" parameterType="com.ktamr.domain.HaMeter">
-        select * from (SELECT m.meterid AS meterId
+        select * from (SELECT mi.meterid AS meterId
             , mi.用户号 AS userNo
             , mi.用户名 AS userName
             , mi.用户地址 AS userDs
-            ,m.meterNumber AS meterNumber
-            ,m.th_number AS thNumber
-            ,m.lf_number AS lfNumber
-            ,m.s_number AS sNumber
-            , m.state AS state
-            ,m.th_r_time AS thRTime
-            ,m.lf_time AS lfTime
-            ,m.th_number AS recentRead
-            , m.state AS recentreadstate
-            , m.th_r_time AS recentreadtime
-            FROM ha_meter m, hav_meterinfo mi, ha_area a
-            WHERE m.meterid=mi.meterid AND a.areaid=mi.areaid
+            ,mi.表号 AS meterNumber
+            ,mi.最近度数 AS thNumber
+            ,mi.上期度数 AS lfNumber
+            ,mi.本期用量 AS sNumber
+            ,mi.状态 AS state
+            ,mi.抄表时间 AS thRTime
+            ,mi.上期抄收时间 AS lfTime
+            FROM hav_meterinfo mi
+            WHERE 1=1
             <!--数据范围过滤-->
             ${params.getRightCondition}
             <if test=' params.nodeType == "area" and params.nodeIds != "" '>
@@ -273,12 +271,12 @@
                 and ( mi.用户号 like '%${params.keyWord}%'
                 or mi.用户名 like '%${params.keyWord}%'
                 or mi.用户地址 like '%${params.keyWord}%'
-                or m.meterNumber::varchar(16) like '%${params.keyWord}%'
+                or mi.表号::varchar(16) like '%${params.keyWord}%'
                 or mi.最近度数::varchar(16) like '%${params.keyWord}%'
-                or m.lf_number::varchar(16) like '%${params.keyWord}%'
-                or m.s_number::varchar(16) like '%${params.keyWord}%'
-                or m.state = #{params.keyWord}
-                or to_char(m.th_r_time, 'yyyy-mm-dd hh24:mi:ss') like '%${params.keyWord}%')
+                or mi.上期度数::varchar(16) like '%${params.keyWord}%'
+                or mi.本期用量::varchar(16) like '%${params.keyWord}%'
+                or mi.状态 like '%${params.keyWord}%'
+                or mi.抄表时间 like '%${params.keyWord}%')
             </if>
             ORDER BY mi.用户地址
         ) t

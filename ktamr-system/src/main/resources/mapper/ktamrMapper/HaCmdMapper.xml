@@ -42,7 +42,7 @@
         </if>
     </insert>
 
-    <insert id="insertCmdTwo" useGeneratedKeys="true"  keyProperty="resultParams.meterId" parameterType="com.ktamr.domain.HaMeter">
+    <insert id="insertCmdTwo" useGeneratedKeys="true"  keyProperty="params.meterId">
         insert into ha_cmd(cmd,parms,centorid,uid,createTime,lastBeginTime,lastEndTime,processing,state)
         select '手工录入单',meterNumber, NULL,#{params.operatorCode},#{params.nowStr},#{params.nowStr}
         ,#{params.nowStr},'读数:'||#{thNumber}||',状态:'||#{state},'完成'

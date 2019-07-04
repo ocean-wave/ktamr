@@ -4,6 +4,7 @@ import com.ktamr.common.core.domain.AjaxResult;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.ServletUtils;
 import com.ktamr.common.utils.export.*;
+import com.ktamr.common.utils.export.dataReportTxtUtil;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.HaOperator;
 import com.ktamr.domain.HavMeterinfo;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -65,28 +65,23 @@ public class ThirdPartyController extends BaseController {
 
     @PostMapping("/exportToTxt")
     @ResponseBody
-    public AjaxResult exportToTxt(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
-        List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
-        String fileName = ExportStr.encodingFileTxtname();
-        ExportTxtUtil exportTextUtil = new ExportTxtUtil();
-        try {
-            exportTextUtil.writeToTxt(fileName,listMeterinfo,name);
-            return AjaxResult.success(fileName);
-        } catch (IOException e){
-            e.printStackTrace();
-            return AjaxResult.error(e.getMessage());
-        }
+    public AjaxResult exportToTxt(HavMeterinfo params,@RequestParam( value = "name[]") String[] name){
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("mi.areano","area","and"));
+        List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(params);
+        String showListType = params.getParams().get("showListType").toString();
+        return dataReportTxtUtil.exportToTxt(showListType,listMeterinfo,name);
     }
 
     @PostMapping("/exportToDbf")
     @ResponseBody
-    public AjaxResult exportToDbf(HavMeterinfo havMeterinfo,@RequestParam( value = "name[]") String[] name){
-        List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(havMeterinfo);
-        String showListType = havMeterinfo.getParams().get("showListType").toString();
+    public AjaxResult exportToDbf(HavMeterinfo params,@RequestParam( value = "name[]") String[] name){
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("mi.areano","area","and"));
+        List<HavMeterinfo> listMeterinfo = havMeterinfoService.selectThirdParty(params);
+        String showListType = params.getParams().get("showListType").toString();
         String[] dbfLabel = new String[]{};
         Integer[] dbfWidth = new Integer[]{};
         String[] format = new String[]{};
-        if("sys_zjss".equals(showListType)){
+        if("sys_zjss".equals(showListType) || "".equals(showListType)){
             dbfLabel = new String[]{"USERNO","METERNO","DIZHI","READNUM","READDATE"};
             dbfWidth = new Integer[]{20,20,20,20,8};
             format = new String[]{"CHARACTER","CHARACTER","CHARACTER","CHARACTER","DATE"};
@@ -114,14 +109,15 @@ public class ThirdPartyController extends BaseController {
 
     /**
      * 导出自定义Excel
-     * @param havMeterinfo
+     * @param params
      * @return
      */
     @PostMapping("/exportCustomExcel")
     @ResponseBody
-    public AjaxResult exportCustomExcel(HavMeterinfo havMeterinfo)
+    public AjaxResult exportCustomExcel(HavMeterinfo params)
     {
-        List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(havMeterinfo);
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("mi.areano","area","and"));
+        List<HavMeterinfo> list = havMeterinfoService.selectThirdParty(params);
         ExportGdsgExcel exportGdsgExcel = new ExportGdsgExcel();
         String[] excelLabel = new String[]{"","序号","小区","楼栋","单元","门牌","用户名","铅封号","用户编码","设备编码","口径","流量","压力","瞬时流量","阀门状态","表具状态","电压","温度","上传时间","表具时间"};
         Integer[] excelWidth = new Integer[]{0,100,100,80,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150};
