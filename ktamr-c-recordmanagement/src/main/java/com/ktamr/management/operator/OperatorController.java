@@ -136,8 +136,9 @@ public class OperatorController extends BaseController {
 
     @RequestMapping("/operatorListJson")
     @ResponseBody
-    public Object operatorlistjson(HaOperator haOperator) {
+    public Object operatorlistjson(HaOperator haOperator,HttpSession session) {
         startPage();
+        haOperator.getParams().put("judgeFrom", SqlCondition.judgeFrom(session));
         List<HaOperator> haOperatorsList = haOperatorService.HaOperatorList(haOperator);
         Map<String, Object> map = getDataTable(haOperatorsList);
         return map;

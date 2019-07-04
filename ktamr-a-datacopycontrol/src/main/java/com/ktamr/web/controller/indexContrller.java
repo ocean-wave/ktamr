@@ -40,6 +40,7 @@ public class indexContrller {
         HaOperator haOperator = (HaOperator)session.getAttribute("haOperator");
         session.setAttribute("haOperatorCompanyId",haOperator.getOperatorCompanyId());
         session.setAttribute("haOperatorRgnType",haOperator.getOperatorRgnType());//登录时候获取并存放haOperatorRgnType
+        session.setAttribute("haOperatorLevel",haOperator.getOperatorLevel());
 
         //获取用户授权区域字符串 begin
         String operatorCode = (String)session.getAttribute("operatorCode");//第一个参数
