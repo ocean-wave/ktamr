@@ -80,4 +80,9 @@ public class HaCollectorServiceImpl implements HaCollectorService {
     public List<HaCollector> CollectorByWhere(HaCollector haCollector) {
         return haCollectorMapper.CollectorByWhere(haCollector);
     }
+
+    @Override
+    public Integer addingCellValidation2(HaCollector haCollector) {
+        return haCollectorMapper.addingCellValidation2(haCollector);
+    }
 }

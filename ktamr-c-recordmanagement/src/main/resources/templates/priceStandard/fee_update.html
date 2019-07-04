@@ -18,6 +18,7 @@
 <body class="myPage-body">
 <form class="layui-form my-form-class" action="">
     <input type="hidden" id="feeId" th:value="${feeId}">
+    <input type="hidden" id="pricestandId" th:value="${haFeestandards.pricestandId}">
     <div class="layui-form-item">
         <div class="layui-block">
             <label class="layui-form-label">费用名称</label>
@@ -57,18 +58,18 @@
         var form = layui.form
             ,layer = layui.layer;
         var get_result_url = "/priceStandard/UpdateHaFeestandard";
-        // var g_priceId = "<%=feeStand.m_priceStandId%>";
-        // var g_feeId = "<%=feeStand.m_feeId%>";
-        var g_feeName = "<%=feeStand.m_feeName%>";
+        var g_priceId = $("#pricestandId").val();
+        var g_feeName = "[[haFeestandards.name]]";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
         form.verify({
-            // feeName: function(value, item){ //value：表单的值、item：表单的DOM对象
-            //     queryData = {priceId: g_priceId, feeName: value};
-            //     if(value!=g_feeName && isDataRepeat(queryData) == true){
-            //         return '当前价格下费用名称重复';
-            //     }
-            // },
+            feeName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {pricestandId: g_priceId, name: value};
+                alert(queryData.pricestandId+queryData.name)
+                if(value!=g_feeName && isDataRepeat(queryData,"/priceStandard/addingCellValidation2") == true){
+                    return '当前价格下费用名称重复';
+                }
+            },
             num_gt_0: function(value, item){
                 if(!isNaN(value) && Number(value)<= 0){
                     return '必须大于0';

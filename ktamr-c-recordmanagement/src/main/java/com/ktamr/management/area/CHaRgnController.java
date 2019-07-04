@@ -57,7 +57,7 @@ public class CHaRgnController extends BaseController {
     @ResponseBody
     public Object areasOpManageJson(HaRgn haRgn) {
         startPage();
-        haRgn.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","WHERE"));
+        haRgn.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
         List<HaRgn> haRgns = haRngService.selectAllRngAndCountC(haRgn);
         Map<String, Object> map = getDataTable(haRgns);
         int areaCount = 0;
@@ -318,7 +318,7 @@ public class CHaRgnController extends BaseController {
     @RequestMapping("/CheckRgnName")
     @ResponseBody
     public String checkRgnName(HaRgn haRgn){
-        Integer addingCellValidation = haRngService.checkRgnName(haRgn);
+         Integer addingCellValidation = haRngService.checkRgnName(haRgn);
         if(addingCellValidation==1){
             return "True";
         }

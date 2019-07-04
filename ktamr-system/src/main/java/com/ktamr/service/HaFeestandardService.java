@@ -16,4 +16,6 @@ public interface HaFeestandardService {
 
     Integer deleteHaFeestandard(HaFeestandard haFeestandard);
 
+    public Integer addingCellValidation2(HaFeestandard haFeestandard);
+
 }

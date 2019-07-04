@@ -95,4 +95,14 @@ public class CGprsdtuController extends BaseController {
         }
         return "false";
     }
+
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaGprsdtu haGprsdtu){
+        Integer addingCellValidation = haGprsdtuService.addingCellValidation(haGprsdtu);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
 }

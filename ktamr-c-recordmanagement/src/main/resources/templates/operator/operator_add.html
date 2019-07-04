@@ -205,12 +205,12 @@
 
         form.verify({
             operator_code: function (value, item) { //value：表单的值、item：表单的DOM对象
-                queryData = {operator_code: value};
+                queryData = {operatorCode: value};
                 var uPattern = /^[a-zA-Z0-9_-]{2,28}$/;
                 if (!uPattern.test(value)) {
                     return "用户账号只能为数字、字母或下划线，且长度介于2-28";
                 }
-                if (isDataRepeat(queryData) == true) {
+                if (isDataRepeat(queryData,"/operator/addingCellValidation") == true) {
                     return '用户账号已存在';
                 }
                 if (value == 'sys' || value.substr(0, 4) == "sys_") {

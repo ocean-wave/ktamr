@@ -185,4 +185,15 @@ public class CustomController extends BaseController {
         return haCustoms;
     }
 
+
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaCustom haCustom){
+        Integer addingCellValidation = haCustomService.addingCellValidation(haCustom);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
+
 }

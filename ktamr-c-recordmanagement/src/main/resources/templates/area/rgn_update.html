@@ -59,14 +59,13 @@
             ,layer = layui.layer;
         var get_result_url = "/area/UpdateRgn";
         // var g_rgnId = "<%=rgnId%>";
-        // var g_rgnName = "<%=rgn.m_name%>";
+        var g_rgnName = "[[${rgn.name}]]";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
         form.verify({
             rgnName: function(value, item){ //value：表单的值、item：表单的DOM对象
-                var _rgnName = $("#rgnName").val();
-                queryData = {name: _rgnName};
-                if(g_rgnName != _rgnName && isDataRepeat(queryData,"/area/CheckRgnName") == true){
+                queryData = {name: $("#rgnName").val()};
+                if(isDataRepeat(queryData,"/area/CheckRgnName") == true){
                     return '大区名称重复';
                 }
             }

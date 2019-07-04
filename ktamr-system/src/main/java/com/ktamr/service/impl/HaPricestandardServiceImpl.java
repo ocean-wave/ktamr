@@ -54,4 +54,9 @@ public class HaPricestandardServiceImpl implements HaPricestandardService {
     public List<HaPricestandard> queryPriceStandardList() {
         return haPricestandardMapper.queryPriceStandardList();
     }
+
+    @Override
+    public Integer addingCellValidation(HaPricestandard haPricestandard) {
+        return haPricestandardMapper.addingCellValidation(haPricestandard);
+    }
 }

@@ -22,10 +22,21 @@
     </update>
 
     <select id="UpdateByIdHaFeestandard" resultType="com.ktamr.domain.HaFeestandard">
-        SELECT feeid,name,price1,price2,price3 FROM ha_feeStandard where feeid = #{feeId}
+        SELECT feeid,pricestandid as pricestandId,name,price1,price2,price3 FROM ha_feeStandard where feeid = #{feeId}
     </select>
 
     <delete id="deleteHaFeestandard">
         delete from ha_feestandard where feeid = #{feeId}
     </delete>
+
+    <select id="addingCellValidation2" resultType="Integer">
+        select 1
+        from ha_feestandard f
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="pricestandId != null and pricestandId != '' and name != null and name != ''">
+                and f.pricestandid=#{pricestandId} AND f.name=#{name}
+            </if>
+        </trim>
+        limit 1
+    </select>
 </mapper>

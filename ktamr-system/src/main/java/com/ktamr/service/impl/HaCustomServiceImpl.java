@@ -92,4 +92,9 @@ public class HaCustomServiceImpl implements HaCustomService {
     public Integer deleteHaCustom(HaCustom haCustom) {
         return haCustomMapper.deleteHaCustom(haCustom);
     }
+
+    @Override
+    public Integer addingCellValidation(HaCustom haCustom) {
+        return haCustomMapper.addingCellValidation(haCustom);
+    }
 }

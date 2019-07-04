@@ -180,4 +180,25 @@ public class PriceStandardController extends BaseController {
         return "false";
     }
 
+
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaPricestandard haPricestandard){
+        Integer addingCellValidation = haPricestandardService.addingCellValidation(haPricestandard);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/addingCellValidation2")
+    @ResponseBody
+    public String addingCellValidation2(HaFeestandard haFeestandard){
+        Integer addingCellValidation = haFeestandardService.addingCellValidation2(haFeestandard);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
+
 }

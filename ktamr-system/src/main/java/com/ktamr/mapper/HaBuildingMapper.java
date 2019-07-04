@@ -64,4 +64,11 @@ public interface HaBuildingMapper {
     //修改时所属楼栋传值
     List<HaBuilding> BuildingByArea(HaBuilding haBuilding);
 
+    /**
+     * 添加楼栋时验证一波
+     * @param haBuilding
+     * @return
+     */
+    public Integer addingCellValidation(HaBuilding haBuilding);
+
 }

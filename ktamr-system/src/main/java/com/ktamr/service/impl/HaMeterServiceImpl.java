@@ -255,4 +255,9 @@ public class HaMeterServiceImpl implements HaMeterService {
     public Integer replaceMeter3(HaMeter haMeter) {
         return haMeterMapper.replaceMeter3(haMeter);
     }
+
+    @Override
+    public List<HaMeter> getRowIdMeter(HaMeter haMeter) {
+        return haMeterMapper.getRowIdMeter(haMeter);
+    }
 }

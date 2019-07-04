@@ -262,8 +262,18 @@ case when cu.name is null then '*' else cu.name end AS 用户名称,
             <if test="rechargeTime == null">
                 rechargeTime = now(),
             </if>
-
-
         </trim>
     </update>
+
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_custom c
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="custNo!=null and custNo!=''">
+                and c.custno=#{custNo}
+            </if>
+        </trim>
+        limit 1
+    </select>
+
 </mapper>

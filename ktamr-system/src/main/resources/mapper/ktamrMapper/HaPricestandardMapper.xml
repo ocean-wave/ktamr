@@ -155,4 +155,15 @@
     <select id="queryPriceStandardList" resultMap="HaPricestandardMap">
         select  pricestand_id as pricestandId,name from ha_pricestandard
     </select>
+
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_pricestandard p
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="name != null and name != ''">
+                and  p.name=#{name}
+            </if>
+        </trim>
+        limit 1
+    </select>
 </mapper>

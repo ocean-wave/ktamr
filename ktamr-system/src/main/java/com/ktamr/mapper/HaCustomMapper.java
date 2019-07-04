@@ -44,4 +44,6 @@ public interface HaCustomMapper {
     Integer updateHaCustom(HaCustom haCustom);
 
     Integer deleteHaCustom(HaCustom haCustom);
+
+    public Integer addingCellValidation(HaCustom haCustom);
 }

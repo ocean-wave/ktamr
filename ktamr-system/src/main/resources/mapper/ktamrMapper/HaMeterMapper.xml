@@ -9,6 +9,11 @@
 
         <result column="meterNumber" property="meterNumber" javaType="java.lang.Long" jdbcType="INTEGER"></result>
         <result column="addr" property="addr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="gnumber" property="gnumber"/>
+        <result column="offsetN" property="offsetN"/>
+        <result column="vendorId" property="vendorId"/>
+        <result column="meterChannel" property="meterChannel"/>
+        <result column="meterSequence" property="meterSequence"/>
         <result column="thNumber" property="thNumber" javaType="java.lang.Double"></result>
         <result column="thRTime" property="thRTime" javaType="java.util.Date"></result>
         <result column="lfNumber" property="lfNumber" javaType="java.lang.Double"></result>
@@ -25,12 +30,15 @@
         <result column="state" property="state" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="fmonn" property="fmonn" javaType="java.lang.Double"></result>
         <result column="waterMete" property="waterMete" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="startTime" property="startTime"/>
 
         <association property="haCollector" javaType="com.ktamr.domain.HaCollector">
             <result column="nconf" property="snconf" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         </association>
         <association property="haRoom" javaType="com.ktamr.domain.HaRoom">
+            <id property="roomId" column="roomId"/>
             <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+            <result column="description" property="description"/>
         </association>
         <association property="haPricestandard" javaType="com.ktamr.domain.HaPricestandard">
             <result column="price1" property="price1" javaType="java.lang.Double"></result>
@@ -514,4 +522,11 @@
     <update id="replaceMeter3">
         UPDATE ha_meter SET state='已更换' WHERE meterId=#{meterId}
     </update>
+
+    <select id="getRowIdMeter" resultMap="haMeterMap">
+        SELECT m.meterid, m.g_number AS gnumber, m.offset_n AS offsetN,
+         m.vendor_id AS vendorId, m.meter_channel AS meterChannel, m.meter_sequence AS meterSequence,
+         r.description AS description, to_char(m.starttime, 'yyyy-mm-dd') as startTime
+         FROM ha_meter m LEFT JOIN ha_room r ON m.roomid=r.roomid WHERE m.meterid=#{meterId}
+    </select>
 </mapper>

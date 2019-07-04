@@ -222,7 +222,7 @@
         var g_areaId = $("#byHaRoomAreaId").val();
         var g_buildingId = $("#byHaRoomBuildingId").val();
         var g_roomId = $("#roomId").val();
-        var g_roomName = "<%=roomName%>";
+        var g_roomName = "[[${room.name}]]";
         var g_meterId = $("#meterId").val();
         var g_meterNumber = $("#meterNumber").val();
         var g_deviceType = "[[${centor.description}]]";
@@ -377,9 +377,8 @@
         form.verify({
             roomName: function(value, item){ //value：表单的值、item：表单的DOM对象
                 var queryData = "";
-                queryData = {buildingId: g_buildingId, roomName: value};
-                console.log(g_roomName, value);
-                if(g_roomName != value && isDataRepeat(queryData) == true){
+                queryData = {buildingId: g_buildingId, name: value};
+                if(g_roomName != value && isDataRepeat(queryData,"/room/addingCellValidation") == true){
                     return '房间名称重复';
                 }
             },

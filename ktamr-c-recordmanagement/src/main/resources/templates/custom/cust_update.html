@@ -147,23 +147,24 @@
         var form = layui.form
             ,layer = layui.layer;
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        var g_custno = "[[${custom.custNo}]]";
 
-        // form.verify({
-        //     cust_no: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         var _custno = Number($("#cust_no").val());
-        //         if(Number(g_custno) != _custno){
-        //             queryData = {custNo: _custno};
-        //             if(isDataRepeat(queryData) == true){
-        //                 return '用户编号重复';
-        //             }
-        //         }
-        //     },
-        //     code: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         if(value != "" && isNaN(value)){
-        //             return '输入只能为数字';
-        //         }
-        //     }
-        // });
+        form.verify({
+            cust_no: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _custno = $("#custNo").val();
+                if(Number(g_custno) != _custno){
+                    queryData = {custNo: _custno};
+                    if(isDataRepeat(queryData,"/custom/addingCellValidation") == true){
+                        return '用户编号重复';
+                    }
+                }
+            },
+            code: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(value != "" && isNaN(value)){
+                    return '输入只能为数字';
+                }
+            }
+        });
         function submitInfo(sendData){
             // alert("进来了");
             $.ajax({

@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.shiro.util.StringUtils.split;
+
 @Controller
 @RequestMapping("/room")
 public class RoomController extends BaseController {
@@ -137,6 +139,21 @@ public class RoomController extends BaseController {
         List<HaRoom> allRoom = haRoomService.queryAllRoomC(haRoom);
         Map<String, Object> map = getDataTable(allRoom);
         return map;
+    }
+
+    @RequestMapping("/rowIdMeter")
+    @ResponseBody
+    public Object rowIdMeter(HaMeter haMeter,String rowId){
+        startPage();
+        String[] rowIds = split(rowId);
+        for(int i=0;i<rowIds.length;i++){
+            String rowId1 = rowIds[i];
+            haMeter.setMeterId(Integer.valueOf(rowId1));
+            List<HaMeter> rowIdMeter = haMeterService.getRowIdMeter(haMeter);
+            Map<String, Object> map = getDataTable(rowIdMeter);
+            return map;
+        }
+        return null;
     }
 
     @RequestMapping("/LoadDeviceOption")
@@ -414,6 +431,21 @@ public class RoomController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 添加时验证楼栋名字
+     * @param haRoom
+     * @return
+     */
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaRoom haRoom){
+        Integer addingCellValidation = haRoomService.addingCellValidation(haRoom);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
     }
 
 }

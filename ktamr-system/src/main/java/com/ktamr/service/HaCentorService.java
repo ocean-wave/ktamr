@@ -105,4 +105,11 @@ public interface HaCentorService {
     //查询DTU，根据登录用户id查询
     public Integer DTU_count( String operator_codeSession);
 
+    /**
+     * 添加集中器时验证一波
+     * @param haCentor
+     * @return
+     */
+    public Integer addingCellValidation(HaCentor haCentor);
+
 }

@@ -29,4 +29,6 @@ public interface HaGprsdtuMapper {
     Integer updateHaGprsdtu(HaGprsdtu haGprsdtu);
 
     Integer deleteHaGprsdtu(HaGprsdtu haGprsdtu);
+
+    public Integer addingCellValidation(HaGprsdtu haGprsdtu);
 }

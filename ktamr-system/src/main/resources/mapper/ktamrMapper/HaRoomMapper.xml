@@ -186,4 +186,16 @@
             select name, name from ha_room WHERE buildingid=#{buildingId} ORDER BY name
         </if>
     </select>
+
+    <!--添加房间表时验证一波    -->
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_room r
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="buildingId!=null and buildingId!=''and name != null and name != ''">
+                r.buildingid=#{buildingId} and  r.name=#{name}
+            </if>
+        </trim>
+        limit 1
+    </select>
 </mapper>

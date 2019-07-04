@@ -43,4 +43,6 @@ public interface HaOperatorService {
 
     //修改传值
     HaOperator HaOperatorGetByID(HaOperator haOperator);
+
+    public Integer addingCellValidation(HaOperator haOperator);
 }

@@ -59,4 +59,12 @@ public interface HaRoomMapper {
 
     //修改时所属房间传值
     List<HaRoom> RoomByBuilding(HaRoom haRoom);
+
+    /**
+     * 添加房间表时验证一波
+     * @param haRoom
+     * @return
+     */
+    public Integer addingCellValidation(HaRoom haRoom);
+
 }

@@ -3,6 +3,7 @@ package com.ktamr.mapper;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HaCollector;
 import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaMonfreeze;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -134,4 +135,6 @@ public interface HaMeterMapper {
     Integer replaceMeter(HaMeter haMeter);
 
     Integer replaceMeter3(HaMeter haMeter);
+
+    List<HaMeter> getRowIdMeter(HaMeter haMeter);
 }

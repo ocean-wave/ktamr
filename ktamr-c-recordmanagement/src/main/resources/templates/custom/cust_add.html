@@ -29,7 +29,7 @@
         <div class="layui-block">
             <label class="layui-form-label">用户编号</label>
             <div class="layui-input-inline" style="width:170px;">
-                <input id="cust_no" lay-verify="required|number|cust_no" autocomplete="off" placeholder="数字,必填"
+                <input id="custNo" lay-verify="required|number|cust_no" autocomplete="off" placeholder="数字,必填"
                        class="layui-input" maxlength="20">
             </div>
         </div>
@@ -167,8 +167,8 @@
 
         form.verify({
             cust_no: function (value, item) { //value：表单的值、item：表单的DOM对象
-                queryData = {custNo: Number($("#cust_no").val())};
-                if (isDataRepeat(queryData) == true) {
+                queryData = {custNo: $("#custNo").val()};
+                if (isDataRepeat(queryData,"/custom/addingCellValidation") == true) {
                     return '用户编号重复';
                 }
             },
@@ -269,7 +269,7 @@
 
         form.on('submit(sure)', function (data) {
             var data = {
-                custNo: $("#cust_no").val(),
+                custNo: $("#custNo").val(),
                 name: $("#cust_name").val(),
                 sex: $("#cust_sex").val(),
                 roomName: $("#room").find("option:selected").text(),

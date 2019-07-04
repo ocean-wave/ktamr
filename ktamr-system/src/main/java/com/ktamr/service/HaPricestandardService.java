@@ -24,4 +24,6 @@ public interface HaPricestandardService {
     HaPricestandard queryPName(Integer pricestandardId);
 
     List<HaPricestandard> queryPriceStandardList();
+
+    public Integer addingCellValidation(HaPricestandard haPricestandard);
 }

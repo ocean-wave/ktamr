@@ -55,4 +55,9 @@ public class HaGprsdtuServiceImpl implements HaGprsdtuService {
     public Integer deleteHaGprsdtu(HaGprsdtu haGprsdtu) {
         return haGprsdtuMapper.deleteHaGprsdtu(haGprsdtu);
     }
+
+    @Override
+    public Integer addingCellValidation(HaGprsdtu haGprsdtu) {
+        return haGprsdtuMapper.addingCellValidation(haGprsdtu);
+    }
 }

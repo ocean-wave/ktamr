@@ -102,4 +102,9 @@ public class HaOperatorServiceImpl implements HaOperatorService {
     public HaOperator HaOperatorGetByID(HaOperator haOperator) {
         return haOperatorMapper.HaOperatorGetByID(haOperator);
     }
+
+    @Override
+    public Integer addingCellValidation(HaOperator haOperator) {
+        return haOperatorMapper.addingCellValidation(haOperator);
+    }
 }

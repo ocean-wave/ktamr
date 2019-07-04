@@ -79,4 +79,19 @@ public class CBuildingController extends BaseController{
         }
         return "false";
     }
+
+    /**
+     * 添加时验证楼栋名字
+     * @param haBuilding
+     * @return
+     */
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaBuilding haBuilding){
+        Integer addingCellValidation = haBuildingService.addingCellValidation(haBuilding);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
 }

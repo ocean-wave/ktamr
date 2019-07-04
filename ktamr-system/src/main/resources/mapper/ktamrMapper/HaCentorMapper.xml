@@ -482,4 +482,24 @@ LEFT JOIN ha_area a ON Left(c.centorNo, 5)=a.areaNo
 left join ha_cmd cm on c.id = cm.centorid) left join ha_operator o on cm.uid=o.operator_code
 WHERE length(d.uid)>0 and o.operator_code=#{operator_codeSession}
     </select>
+
+    <!--添加小区时验证一波    -->
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_centor c
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="centorNo != null and centorNo != ''">
+                and  c.centorno=#{centorNo}
+            </if>
+            <if test="deviceType!=null and deviceType!='' and centorId != null and centorId != ''">
+                and Instr(c.description, #{deviceType})>0 AND c.centorid=#{centorId}
+            </if>
+            <if test="addr != null and addr != ''">
+                and  c.addr=#{addr}
+            </if>
+        </trim>
+        limit 1
+    </select>
+
 </mapper>

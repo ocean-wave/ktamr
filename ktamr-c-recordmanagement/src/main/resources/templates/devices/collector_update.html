@@ -98,10 +98,9 @@
         var form = layui.form
             , layer = layui.layer;
         var get_result_url = "/devices/UpdateCollector";
-        var g_deviceId = "<%=collectorObj.m_centorid%>";
-        var g_deviceNo = "<%=collectorObj.m_nconf%>";
-        var g_collectorId = "<%=collectorId%>";
-        var g_addr = "<%=collectorObj.m_addr%>";
+        var g_deviceId = "[[${haCollector.centorId}]]";
+        var g_deviceNo = "[[${haCollector.nconf}]]";
+        var g_addr = "[[${haCollector.addr}]]";
         var g_cmdName = $("#cmdName").val();
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
         function checkCode(value) {
@@ -119,7 +118,7 @@
             deviceAdd: function (value, item) { //value：表单的值、item：表单的DOM对象
                 var _deviceNo = $("#deviceNo").val();
                 queryData = {centorId: g_deviceId, collectorNo: _deviceNo};
-                if (g_deviceNo != _deviceNo && isDataRepeat(queryData) == true) {
+                if (g_deviceNo != _deviceNo && isDataRepeat(queryData,"/devices/addingCellValidation2") == true) {
                     if (g_cmdName == "修改采集器")
                         msg = "设备地址重复";
                     else
@@ -129,8 +128,8 @@
             },
             addr: function (value, item) { //value：表单的值、item：表单的DOM对象
                 var _addr = $("#addr").val();
-                queryData = {collectorAddr: _addr};
-                if (g_addr != _addr && isDataRepeat(queryData) == true) {
+                queryData = {addr: _addr};
+                if (g_addr != _addr && isDataRepeat(queryData,"/devices/addingCellValidation2") == true) {
                     if (g_cmdName == "修改采集器")
                         msg = "安装地址重复";
                     else

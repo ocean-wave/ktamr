@@ -132,4 +132,6 @@ public interface HaMeterService {
     Integer replaceMeter(HaMeter haMeter);
 
     Integer replaceMeter3(HaMeter haMeter);
+
+    List<HaMeter> getRowIdMeter(HaMeter haMeter);
 }

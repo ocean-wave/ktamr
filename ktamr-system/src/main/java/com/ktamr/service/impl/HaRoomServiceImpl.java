@@ -108,4 +108,9 @@ public class HaRoomServiceImpl implements HaRoomService {
     public List<HaRoom> RoomByBuilding(HaRoom haRoom) {
         return haRoomMapper.RoomByBuilding(haRoom);
     }
+
+    @Override
+    public Integer addingCellValidation(HaRoom haRoom) {
+        return haRoomMapper.addingCellValidation(haRoom);
+    }
 }

@@ -62,24 +62,24 @@
             ,layer = layui.layer;
         var get_result_url = "/gprsdtu/updateHaGprsdtu";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        // var g_dtuUid = "<%=dtu.m_uid%>", g_dtuAddr = "<%=dtu.m_addr%>";
+        var g_dtuUid = "[[${gprsdtu.uId}]]", g_dtuAddr = "[[${gprsdtu.addr}]]";
 
-        // form.verify({
-        //     uid: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         var _dtuUid = $("#uid").val();
-        //         queryData = {dtuUid: _dtuUid};
-        //         if(_dtuUid != g_dtuUid && isDataRepeat(queryData) == true){
-        //             return '终端编号重复';
-        //         }
-        //     },
-        //     addr: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         var _dtuAddr = $("#addr").val();
-        //         queryData = {dtuAddr: _dtuAddr};
-        //         if(_dtuAddr != g_dtuAddr  && isDataRepeat(queryData) == true){
-        //             return '安装地址重复';
-        //         }
-        //     }
-        // });
+        form.verify({
+            uid: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _dtuUid = $("#uId").val();
+                queryData = {uId: _dtuUid};
+                if(_dtuUid != g_dtuUid && isDataRepeat(queryData) == true){
+                    return '终端编号重复';
+                }
+            },
+            addr: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _dtuAddr = $("#addr").val();
+                queryData = {addr: _dtuAddr};
+                if(_dtuAddr != g_dtuAddr  && isDataRepeat(queryData) == true){
+                    return '安装地址重复';
+                }
+            }
+        });
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url
