@@ -213,4 +213,11 @@ public interface HaAreaMapper {
     Integer delRgnAreaCount(@Param("id") String id);
 
     List<HaArea> AreaByWhere(HaArea haArea);
+
+    /**
+     * 添加小区时验证一波
+     * @param haArea
+     * @return
+     */
+    public Integer addingCellValidation(HaArea haArea);
 }

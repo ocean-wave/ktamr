@@ -417,7 +417,24 @@ WHERE areaid IN ('${areaId}')
     </update>
 
 
+    <!--添加小区时验证一波    -->
+    <select id="addingCellValidation" resultType="Integer">
+    select 1
+    from ha_area t
+        <trim prefix="where" prefixOverrides="and | or">
 
+            <if test="haName != null and haName != ''">
+                and  t.name=#{haName}
+            </if>
+            <if test="areaNo != null and areaNo != ''">
+                and  t.areano=#{areaNo}
+            </if>
+            <if test="registeredNo != null and registeredNo != ''">
+                and  t.registeredno=#{registeredNo}
+            </if>
+        </trim>
+        limit 1
+    </select>
 
 
     <select id="queryAllHaAreaC" resultType="com.ktamr.domain.HaArea">
@@ -425,7 +442,9 @@ WHERE areaid IN ('${areaId}')
     </select>
 
     <insert id="addHaAreaC">
-       INSERT INTO ha_area(areaNo,name,description,addr,shortName,DS,registeredNo) VALUES(#{rgn}||#{areaNo},#{haName},#{description},#{addr},#{shortName},#{ds},#{registeredNo})
+       INSERT INTO ha_area(areaNo,name,description,addr,shortName,DS,registeredNo)
+       select #{rgn}||#{areaNo},#{haName},#{description},#{addr},#{shortName},#{ds},#{registeredNo}
+       where not EXISTS (select 1 from ha_area t where t.name = #{haName} )
     </insert>
 
     <select id="updateByIdHaAreaC" resultType="com.ktamr.domain.HaArea">

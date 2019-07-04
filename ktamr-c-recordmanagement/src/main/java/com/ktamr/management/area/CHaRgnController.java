@@ -310,12 +310,17 @@ public class CHaRgnController extends BaseController {
         return "";
     }
 
+    /**
+     * 判断大区名称是否重复
+     * @param haRgn
+     * @return
+     */
     @RequestMapping("/CheckRgnName")
     @ResponseBody
-    public Object checkRgnName(HaRgn haRgn){
-        List<HaRgn> haRgns = haRngService.checkRgnName(haRgn);
-        if(haRgns.size()>0){
-            return "true";
+    public String checkRgnName(HaRgn haRgn){
+        Integer addingCellValidation = haRngService.checkRgnName(haRgn);
+        if(addingCellValidation==1){
+            return "True";
         }
         return "false";
     }

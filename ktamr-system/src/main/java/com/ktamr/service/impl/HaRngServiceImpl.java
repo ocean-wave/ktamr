@@ -166,9 +166,18 @@ public class HaRngServiceImpl implements HaRngService {
         return haRngMapper.queryRgnByRgn();
     }
 
+    /**
+     * 判断大区名称是否重复
+     * @param haRgn
+     * @return
+     */
     @Override
-    public List<HaRgn> checkRgnName(HaRgn haRgn) {
-        return haRngMapper.checkRgnName(haRgn);
+    public Integer checkRgnName(HaRgn haRgn) {
+        Integer aRgn = haRngMapper.checkRgnName(haRgn);
+        if(aRgn!=null){
+            return  aRgn;
+        }
+        return -1;
     }
 
     @Override

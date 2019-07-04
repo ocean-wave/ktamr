@@ -105,7 +105,7 @@ public interface HaRngMapper {
     List<HaRgn> queryRgnByRgn();
 
     //判断大区名称是否重复
-    List<HaRgn> checkRgnName(@Param("haRgn") HaRgn haRgn);
+    Integer checkRgnName( HaRgn haRgn);
 
     List<HaRgn> rgnByWhere(HaRgn haRgn);
 

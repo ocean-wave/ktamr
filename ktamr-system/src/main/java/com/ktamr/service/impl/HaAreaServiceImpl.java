@@ -356,4 +356,18 @@ public class HaAreaServiceImpl implements HaAreaService {
         return haAreaMapper.AreaByWhere(haArea);
     }
 
+    /**
+     * 添加小区时验证一波
+     * @param haArea
+     * @return
+     */
+    @Override
+    public Integer addingCellValidation(HaArea haArea) {
+        Integer area = haAreaMapper.addingCellValidation(haArea);
+        if(area!=null){
+            return  area;
+        }
+        return -1;
+    }
+
 }
