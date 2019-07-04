@@ -90,7 +90,7 @@ public class RecordByHandController extends BaseController {
     @ResponseBody
     public Map<String, Object> interfaceCmdListJson(HaMeter params){
         startPage();
-        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+        params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
         List<HaMeter> listMeter = haMeterService.selectRecordByHand(params);
         return getDataTable(listMeter);
     }
@@ -108,8 +108,8 @@ public class RecordByHandController extends BaseController {
     public String RowEditing(HaMeter haMeter){
         haMeter.getParams().put("nowStr",DateUtils.getNowDate());
         haMeter.getParams().put("operatorCode", ShiroUtils.getOperatorCode());
-        Integer meterId = haCmdService.insertCmdTwo(haMeter);
-        Integer itemId = haRecordsService.insertRecords(haMeter);
+        haCmdService.insertCmdTwo(haMeter);
+        haRecordsService.insertRecords(haMeter);
         Integer dayCount = haDayFreezeService.selectDayFreezeMeterIdCount(haMeter);
         if(dayCount>0){
             haDayFreezeService.updateDayFreeze(haMeter);
@@ -197,7 +197,7 @@ public class RecordByHandController extends BaseController {
         List<HaMeter> list = null;
         List<HatMetersRecordImport> list2 = null;
         if(params.getParams().get("exportType").equals("1")){
-            params.getParams().put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
+            params.getParams().put("getRightCondition", SqlCondition.getRightCondition("areano","area","and"));
             list =  haMeterService.selectRecordByHand(params);
             return exportExcelUtil.init(list, "");
         }else{

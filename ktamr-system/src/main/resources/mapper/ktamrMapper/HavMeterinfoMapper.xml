@@ -72,7 +72,7 @@
 
     <select id="selectThirdParty" resultMap="havMeterinfoMapTwo">
         select * from (
-        <if test='params.showListType == "sys_zjss"'>
+        <if test=' params.showListType == "sys_zjss" or  params.showListType == "" '>
             SELECT
             mi.meterid AS meterId
             , mi.用户号 AS userNo

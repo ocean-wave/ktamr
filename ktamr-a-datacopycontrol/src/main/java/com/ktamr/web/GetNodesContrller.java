@@ -31,11 +31,9 @@ public class GetNodesContrller extends BaseController {
         for  (Map<String,Object> haRgn : listHaRgn){
             jsonStr = jsonStr + ",{ id:'" +haRgn.get("id")+ "', pId:0, LevelType:'rgn', name:' "+haRgn.get("id")+"-"  + haRgn.get("name") + "(" + haRgn.get("haareacount") + ")', iconSkin:'pIcon01', isParent:true, children:[";
             map.put("id",haRgn.get("id").toString());
-            map.put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
             List<Map<String,Object>> listMap = nodesService.selectAllAreaNodes(map);
             for(Map<String,Object> m : listMap ){
                 jsonStr = jsonStr +  "{ id:'" + m.get("areaid").toString() + "', pId:'"+ haRgn.get("id") +"', LevelType:'area', name:'" + m.get("ar") +"-"+m.get("aname") + "(" + m.get("bnamecount") +")', iconSkin:'pIcon02', isParent:true, children:[";
-                map.put("getRightCondition", SqlCondition.getRightCondition("a.areano","area","and"));
                 List<Map<String,Object>> listMap2 = nodesService.selectAllBuildingNodes(Integer.parseInt(m.get("areaid").toString()));
                 int i = 1;
                 for (Map<String,Object> m2:listMap2 ){
