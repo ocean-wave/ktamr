@@ -163,8 +163,6 @@ public class CustomController extends BaseController {
     public Object updateHaCustom(HaCustom haCustom,Integer buildingId,String roomName){
         Integer custom = haCustomService.updateHaCustom(haCustom);
         if(custom==1){
-            return "true";
-        }else {
             HaRoom byNameHaRoom = haRoomService.getByNameHaRoom(buildingId, roomName);
             if(byNameHaRoom!=null){
                 haRoomService.DeleteRoomsById();
@@ -172,6 +170,7 @@ public class CustomController extends BaseController {
             }else {
                 return "设置房间["+roomName+"]不成功";
             }
+            return "true";
         }
         return "false";
     }
