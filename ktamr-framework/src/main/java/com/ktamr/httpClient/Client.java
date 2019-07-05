@@ -3,48 +3,49 @@ package com.ktamr.httpClient;
 import com.ktamr.common.utils.StringUtils;
 import com.ktamr.service.HaConfigService;
 import org.apache.http.HttpEntity;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import javax.annotation.Resource;
 
 /**
  * 发送参数到服务器端
  * @author ktamr
  */
+@Component
 public class Client {
 
-    @Autowired
+    @Resource
     private HaConfigService haConfigService;
 
-    public boolean httpClient(String cmd, String params) {
+    public boolean httpClient(String cmd, String params) throws Exception{
         String port = haConfigService.selectPort("ht_client_server","listenport");
         String str = getClientStr(cmd)+params;
-        String url = "http://localhost:"+port;
+        String url = "http://localhost:"+port+"/system/user/hello";;
         return getClient(str,url);
     }
 
-    public boolean httpClient(String cmdId) {
+    public boolean httpClient(String cmdId) throws Exception{
         String port = haConfigService.selectPort("系统参数","InterListenPort");
         String str = getClientStr("data_upload")+cmdId;
-        String url = "http://localhost:"+port;
+        String url = "http://localhost:"+port+"/system/user/hello";
         return getClient(str,url);
     }
 
-    private boolean getClient(String str,String url){
+    private boolean getClient(String str,String url) throws Exception{
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String result = "";
         String charset = "gbk";
         try {
             HttpPost httpPost = new HttpPost(url);
-            StringEntity stringEntity = new StringEntity(str,charset);
+            StringEntity stringEntity = new StringEntity(str);
+            stringEntity.setContentEncoding("gbk");
+            stringEntity.setContentType("text/plain");
             httpPost.setEntity(stringEntity);
             CloseableHttpResponse response = httpclient.execute(httpPost);
             try {
@@ -57,19 +58,8 @@ public class Client {
             } finally {
                 response.close();
             }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
-            try {
-                httpclient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }finally {
+            httpclient.close();
         }
         return getResult(result);
     }

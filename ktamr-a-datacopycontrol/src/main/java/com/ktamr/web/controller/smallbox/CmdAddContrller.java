@@ -15,6 +15,9 @@ public class CmdAddContrller {
     @Autowired
     private HaCmdService haCmdService;
 
+    @Autowired
+    private Client client;
+
     @PostMapping("/cmdAdd")
     @ResponseBody
     public String metersMng(@RequestParam( value = "cmd", required = false) String cmd,
@@ -41,21 +44,24 @@ public class CmdAddContrller {
                 return "<span class='fontRed'>sql语句插入失败</span>";
             }
         }
-        Client client = new Client();
-        if("接口数据上传".equals(cmds[0])){
-            return client.httpClient(str)?"ok":"no";
-        }else {
-            if (!client.httpClient(cmds[0], parms)) {
-                if (centorid != "") {
-                    String centorStr = haCmdService.selectCentorById(Integer.parseInt(centorid));
-                    if (centorStr.substring(0, 5).equals("KT3NB")) {
-                        return "<span class='fontGrey'>预执行命令</span>";
+        try {
+            if ("接口数据上传".equals(cmds[0])) {
+                return client.httpClient(str) ? "ok" : "no";
+            } else {
+                if (!client.httpClient(cmds[0], parms)) {
+                    if (centorid != "") {
+                        String centorStr = haCmdService.selectCentorById(Integer.parseInt(centorid));
+                        if (centorStr.substring(0, 5).equals("KT3NB")) {
+                            return "<span class='fontGrey'>预执行命令</span>";
+                        }
                     }
+                    return str;
                 }
-                return str;
             }
+        }catch (Exception e){
+            return "<span class='fontRed'>后台服务未启动</span>";
         }
-        return "<span class='fontRed'>后台服务未启动</span>";
+        return "<span class='fontRed'>返回值不是ok,请联系管理员</span>";
     }
     @GetMapping("/getCmdAjax")
     @ResponseBody
