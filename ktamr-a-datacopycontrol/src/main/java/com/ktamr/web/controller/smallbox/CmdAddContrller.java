@@ -48,7 +48,7 @@ public class CmdAddContrller {
             if ("接口数据上传".equals(cmds[0])) {
                 return client.httpClient(str) ? "ok" : "no";
             } else {
-                if (!client.httpClient(cmds[0], parms)) {
+                if (client.httpClient(cmds[0], parms)) {
                     if (centorid != "") {
                         String centorStr = haCmdService.selectCentorById(Integer.parseInt(centorid));
                         if (centorStr.substring(0, 5).equals("KT3NB")) {

@@ -72,7 +72,7 @@ public class Client {
     }
 
     private boolean getResult(String result){
-        if(StringUtils.isEmpty(result)){
+        if(!StringUtils.isEmpty(result)){
             return "0000000002ok".equals(result)?true:false;
         }else {
             return false;
