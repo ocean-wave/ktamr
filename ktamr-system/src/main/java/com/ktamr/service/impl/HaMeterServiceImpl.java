@@ -8,6 +8,8 @@ import com.ktamr.service.HaMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,7 @@ import java.util.Map;
  */
 @Service
 public class HaMeterServiceImpl implements HaMeterService {
-    @Autowired
+    @Resource
     private HaMeterMapper haMeterMapper;
 
     @Override
@@ -198,6 +200,9 @@ public class HaMeterServiceImpl implements HaMeterService {
 
     @Override
     public HaMeter orIgNumber(Integer meterId) {
+        if(haMeterMapper.orIgNumber(meterId)==null){
+            return new HaMeter();
+        }
         return haMeterMapper.orIgNumber(meterId);
     }
 
@@ -259,5 +264,25 @@ public class HaMeterServiceImpl implements HaMeterService {
     @Override
     public List<HaMeter> getRowIdMeter(HaMeter haMeter) {
         return haMeterMapper.getRowIdMeter(haMeter);
+    }
+
+    @Override
+    public Integer noCheck(Integer meterId) {
+        return haMeterMapper.noCheck(meterId);
+    }
+
+    @Override
+    public Integer checkButNoSettlement(String startTime,double gnumber,double lfNumber,Integer meterId) {
+        return haMeterMapper.checkButNoSettlement(startTime,gnumber,lfNumber,meterId);
+    }
+
+    @Override
+    public Integer updateNullRoomId(Integer meterId) {
+        return haMeterMapper.updateNullRoomId(meterId);
+    }
+
+    @Override
+    public Integer updateNullRoomId2(Integer roomId, Integer areaId, Integer meterId) {
+        return haMeterMapper.updateNullRoomId2(roomId,areaId,meterId);
     }
 }

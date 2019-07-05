@@ -19,4 +19,7 @@ public interface HaReplaceRecordsService {
     //replace meter
     Integer replaceMeter2(HaReplacerecords haReplacerecords);
 
+    Integer addHaReplaceRecords(double oldMeterNumber,double oriRead,String replaceMan,Integer meterId);
+
+
 }

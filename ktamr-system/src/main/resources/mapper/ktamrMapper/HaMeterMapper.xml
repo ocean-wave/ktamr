@@ -466,7 +466,7 @@
     </delete>
 
     <select id="delByIdHaMeter" resultType="com.ktamr.domain.HaMeter">
-        SELECT addr,rate,starttime,isbranch,roomid,pricestand_id as pricestandId, g_number,lf_number,th_number,state,centorid,meterNumber,collectorid,offset_n FROM ha_meter WHERE meterid=#{haMeter.meterId}
+        SELECT addr,rate,starttime,isbranch,roomid,pricestand_id as pricestandId, g_number,lf_number,th_number,state,centorid,meterNumber,collectorid,offset_n,p_number as pnumber  FROM ha_meter WHERE meterid=#{haMeter.meterId}
     </select>
 
     <select id="meterCountNum" resultType="INTEGER">
@@ -489,6 +489,7 @@
             <if test="gnumber !=null">g_number = #{gnumber},</if>
             <if test="offsetN !=null">offset_n = #{offsetN},</if>
             <if test="meterSequence !=null">meter_sequence = #{meterSequence},</if>
+            <if test="pnumber !=null">p_number = ${pnumber},</if>
         </trim>
     </update>
 
@@ -529,4 +530,22 @@
          r.description AS description, to_char(m.starttime, 'yyyy-mm-dd') as startTime
          FROM ha_meter m LEFT JOIN ha_room r ON m.roomid=r.roomid WHERE m.meterid=#{meterId}
     </select>
+
+    <update id="noCheck">
+        UPDATE ha_meter SET lf_number=g_number, th_number=g_number, s_number=0 WHERE state='建档' AND meterid=#{meterId}
+    </update>
+
+    <update id="checkButNoSettlement">
+        UPDATE ha_meter SET lf_time=TO_TIMESTAMP(#{startTime}, 'YYYY-MM-DD HH24:MI:SS'), lf_number=g_number,
+        s_number = s_number-g_number+#{gnumber} where state!='建档'
+        AND lf_number=#{lfNumber} AND meterid=#{meterId}
+    </update>
+
+    <update id="updateNullRoomId">
+        UPDATE ha_meter SET roomid=NULL WHERE meterid=#{meterId}
+    </update>
+
+    <update id="updateNullRoomId2">
+        UPDATE ha_meter SET roomid=#{roomId}, areaid=#{areaId} WHERE meterid=#{meterId}
+    </update>
 </mapper>

@@ -57,4 +57,6 @@ public interface HaCmdService {
     public Integer insertCommand(HaCmd haCmd);
 
     Integer addHaCmd(HaCmd haCmd);
+
+    Integer addHaCmdMeter(Integer parms,String uid,double processing,double processing2);
 }

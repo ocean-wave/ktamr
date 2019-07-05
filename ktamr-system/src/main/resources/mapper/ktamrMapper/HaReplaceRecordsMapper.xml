@@ -81,4 +81,11 @@
          SELECT m.meterId,#{orimeterNumber},m.meterNumber,#{orimeterRead},m.s_number,m.state,#{newmeterRead},#{replaceTime},#{replaceMan},#{reMark} FROM ha_meter m WHERE m.meterId=#{meterId}
     </insert>
 
+    <insert id="addHaReplaceRecords">
+        INSERT INTO ha_replaceRecords(meterId ,oldMeterNumber,finalRead ,finalUse ,finalState,oriRead,replaceDate,replaceMan,explain)
+		SELECT
+		m.meterId, #{oldMeterNumber}, m.th_number, m.s_number, m.state,#{oriRead},now(),#{replaceMan}, '修改表底数' FROM ha_meter m
+		WHERE m.meterId=#{meterId}
+    </insert>
+
 </mapper>

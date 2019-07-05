@@ -56,4 +56,6 @@ public interface HaCmdMapper {
     public Integer insertCommand(HaCmd haCmd);
 
     Integer addHaCmd(HaCmd haCmd);
+
+    Integer addHaCmdMeter(@Param("parms") Integer parms,@Param("uid") String uid,@Param("processing") double processing,@Param("processing") double processing2);
 }

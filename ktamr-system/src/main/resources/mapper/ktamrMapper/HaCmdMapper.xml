@@ -219,4 +219,9 @@
         INSERT INTO ha_cmd(id, cmd,parms,centorid,uid,lastBeginTime,processing,state) VALUES
         (nextval('ha_cd_seq'), '换表用量补偿',#{orimeterRead}||'更换为'||#{newmeterNumber}, 0, 'sys', now(), '旧表终读数:'||#{orimeterRead}||',新表初读数:'||#{newmeterRead},'完成')
     </insert>
+
+    <insert id="addHaCmdMeter">
+        INSERT INTO ha_cmd (cmd,parms,centorid,uid,lastBeginTime,processing,state)
+         VALUES ('修改表底数',#{parms}, NULL,#{uid},now(),'原底数:'||#{processing}||'新底数:'||#{processing}, '完成')
+    </insert>
 </mapper>

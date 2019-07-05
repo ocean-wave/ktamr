@@ -9,13 +9,14 @@ import com.ktamr.service.HaCmdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class HaCmdServiceImpl implements HaCmdService {
-    @Autowired
+    @Resource
     private HaCmdMapper haCmdMapper;
 
     @Override
@@ -151,5 +152,10 @@ public class HaCmdServiceImpl implements HaCmdService {
     @Override
     public Integer addHaCmd(HaCmd haCmd) {
         return haCmdMapper.addHaCmd(haCmd);
+    }
+
+    @Override
+    public Integer addHaCmdMeter(Integer parms,String uid,double processing,double processing2) {
+        return haCmdMapper.addHaCmdMeter(parms,uid,processing,processing2);
     }
 }

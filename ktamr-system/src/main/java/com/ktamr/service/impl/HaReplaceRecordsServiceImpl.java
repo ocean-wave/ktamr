@@ -6,6 +6,7 @@ import com.ktamr.service.HaReplaceRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class HaReplaceRecordsServiceImpl implements HaReplaceRecordsService {
     /**
      * 注入Mapper
      */
-    @Autowired
+    @Resource
     private HaReplaceRecordsMapper haReplaceRecordsMapper;
 
     /**
@@ -33,5 +34,10 @@ public class HaReplaceRecordsServiceImpl implements HaReplaceRecordsService {
     @Override
     public Integer replaceMeter2(HaReplacerecords haReplacerecords) {
         return haReplaceRecordsMapper.replaceMeter2(haReplacerecords);
+    }
+
+    @Override
+    public Integer addHaReplaceRecords(double oldMeterNumber,double oriRead,String replaceMan, Integer meterId) {
+        return haReplaceRecordsMapper.addHaReplaceRecords(oldMeterNumber,oriRead,replaceMan,meterId);
     }
 }

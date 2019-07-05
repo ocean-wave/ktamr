@@ -7,7 +7,7 @@ spring:
       # 主库数据源
       master:
         url: jdbc:postgresql://localhost:5432/YIMADB
-        username: ymdb
+        username: postgres
         password: 111111
       # 初始连接数
       initialSize: 5

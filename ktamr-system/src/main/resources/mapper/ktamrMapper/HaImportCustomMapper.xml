@@ -57,7 +57,7 @@
     <insert id="addImportCustom">
         INSERT INTO ha_importCustom(cust_no, cust_name, area_name, building_name, room_name, meter_no, meter_channel, meter_sequence, vendor_id, centor_no, collector_no, meter_type, meter_isbranch, meter_ori_num, setup_time, price_standard, meter_rate, cust_sex, cust_mobile, cust_balance, import_time, state) VALUES
         <foreach item="item" index="index" collection="params" separator=",">
-         (#{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5},#{item.6}::int,#{item.7}::int,#{item.8}::int,#{item.9}::int,#{item.10},#{item.11},#{item.12},#{item.13},#{item.14}::int,TO_TIMESTAMP(#{item.15}, 'YYYY-MM-DD HH24:MI:SS'),#{item.16},#{item.17}::int,#{item.18},#{item.19},#{item.20}::int,TO_TIMESTAMP(#{item.21}, 'YYYY-MM-DD HH24:MI:SS'),'待校验')
+         (#{item.1}, #{item.2}, #{item.3}, #{item.4}, #{item.5},#{item.6}::bigint ,#{item.7}::int,#{item.8}::int,#{item.9}::int,#{item.10},#{item.11},#{item.12},#{item.13},#{item.14}::int,TO_TIMESTAMP(#{item.15}, 'YYYY-MM-DD HH24:MI:SS'),#{item.16},#{item.17}::int,#{item.18},#{item.19},#{item.20}::int,TO_TIMESTAMP(#{item.21}, 'YYYY-MM-DD HH24:MI:SS'),'待校验')
         </foreach>
     </insert>
 

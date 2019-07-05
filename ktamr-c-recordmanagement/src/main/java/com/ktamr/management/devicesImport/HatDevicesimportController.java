@@ -86,7 +86,7 @@ public class HatDevicesimportController extends BaseController {
         Integer allCount = hatDevicesimportService.queryAllHatDevicesimportCount(hatDevicesimport); //总条目
         Integer addsCount = hatDevicesimportService.addsCount(hatDevicesimport); //新增数
         Integer updsCount = hatDevicesimportService.updsCount(hatDevicesimport); //修改数
-        Integer errors = addsCount - updsCount; //错误数
+        Integer errors = allCount - addsCount - updsCount; //错误数
         String msg = "总条目:" + allCount + ", 新增数:" + addsCount + ", 修改数:" + updsCount + ", 出错数:" + errors;
         model.addAttribute("fileName", fileName);
         model.addAttribute("importTime", importTime);

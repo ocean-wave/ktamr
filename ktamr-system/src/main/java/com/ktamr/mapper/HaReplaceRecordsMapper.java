@@ -1,6 +1,7 @@
 package com.ktamr.mapper;
 
 import com.ktamr.domain.HaReplacerecords;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface HaReplaceRecordsMapper {
 
     //replace meter
     Integer replaceMeter2(HaReplacerecords haReplacerecords);
+
+    Integer addHaReplaceRecords(@Param("oldMeterNumber") double oldMeterNumber, @Param("oriRead") double oriRead, @Param("replaceMan") String replaceMan, @Param("meterId") Integer meterId);
 
 }

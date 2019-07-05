@@ -487,6 +487,7 @@
         });
         form.on('submit(sure)', function (data) {
             var tip = "";
+            alert($("#primalNumber").val());
             if(checkForm() == false)
                 return false;
 
@@ -495,8 +496,8 @@
                 areaId: g_areaId,
                 buildingId: g_buildingId,
                 roomId: g_roomId,
-                roomName: $("#roomName").val(),
-                roomRemark: $("#roomRemark").val(),
+                name: $("#roomName").val(),
+                description: $("#roomRemark").val(),
                 meterId: g_meterId,
                 meterNumber: $("#meterNumber").val(),
                 deviceType: $("#deviceType").val(),
@@ -504,11 +505,10 @@
                 collectorId: $("#collector").val(),
                 priceStandId: $("#priceStand").val(),
                 rate: $("#rate").val(),
-                setupTime: $("#setupTime").val(),
+                startTime: $("#setupTime").val(),
                 isBranch: $("#isBranch").val(),
-                primalNumber: $("#primalNumber").val(),
+                pnumber: $("#primalNumber").val(),
                 offsetNumber: $("#offsetNumber").val(),
-                meterNumber:g_meterNumber
             };
             var data2 = {
                 opType: "changeMeter",

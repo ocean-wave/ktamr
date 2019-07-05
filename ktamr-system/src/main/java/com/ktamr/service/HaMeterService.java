@@ -5,6 +5,7 @@ import com.ktamr.domain.HaCollector;
 import com.ktamr.domain.HaMeter;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -134,4 +135,14 @@ public interface HaMeterService {
     Integer replaceMeter3(HaMeter haMeter);
 
     List<HaMeter> getRowIdMeter(HaMeter haMeter);
+
+    //没有抄收过
+    Integer noCheck(Integer meterId);
+
+    //'抄收过，没有结算过，修改表底数同时会修改期初读数
+    Integer checkButNoSettlement(String startTime,double gnumber,double lfNumber,Integer meterId);
+
+    Integer updateNullRoomId(Integer meterId);
+
+    Integer updateNullRoomId2(@Param("roomId") Integer roomId,@Param("areaId") Integer areaId,@Param("meterId") Integer meterId);
 }

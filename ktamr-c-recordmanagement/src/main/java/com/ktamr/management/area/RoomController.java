@@ -1,12 +1,14 @@
 package com.ktamr.management.area;
 
 import com.ktamr.common.core.domain.AjaxResult;
+import com.ktamr.common.utils.DateUtils;
 import com.ktamr.common.utils.export.ExcelUtil;
 import com.ktamr.common.utils.export.ExportExcelUtil;
 import com.ktamr.common.core.domain.BaseController;
 import com.ktamr.common.utils.sql.SqlCondition;
 import com.ktamr.domain.*;
 import com.ktamr.service.*;
+import org.apache.ibatis.annotations.Param;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +61,12 @@ public class RoomController extends BaseController {
 
     @Resource
     private HaAreaService haAreaService;
+
+    @Resource
+    private HaReplaceRecordsService haReplaceRecordsService;
+
+    @Resource
+    private HaCmdService haCmdService;
 
     @RequestMapping("/JumpRoomMeterAdd")
     public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Model model) {
@@ -224,10 +235,11 @@ public class RoomController extends BaseController {
 
     @RequestMapping("/UpdateRoom")
     @ResponseBody
-    public Object updateRoom(String opType, Integer meterId, Integer centorId, Integer collectorId, Integer meterNumber, HaRoom haRoom, HaMeter haMeter) {
+    public Object updateRoom(String opType, @Param("meterId") Integer meterId, Integer centorId, Integer collectorId, Integer meterNumber,float pnumber,@Param("selMeterId") Integer selMeterId, HaRoom haRoom, HaMeter haMeter, HttpSession session) {
         Object centorDevNo = null;
         Object mMeterSequences = null;
         Object nconf = null;
+        String operatorCode = (String)session.getAttribute("operatorCode");
         if (opType.equals("updateMeter")) {
             Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
             if (centorId == null) {
@@ -260,6 +272,20 @@ public class RoomController extends BaseController {
             haMeter.setMeterNumber(meterNumber);
             haMeter.setMeterId(meterId);
             Integer meter = haMeterService.updateHaMeter(haMeter);
+
+            HaMeter orIgNumbers = haMeterService.orIgNumber(meterId);
+            HaMeter orImeterNumbers = haMeterService.orImeterNumber(meterId);
+            double orIgNumber = orIgNumbers.getGnumber();
+            long orImeterNumber = orImeterNumbers.getMeterNumber();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String setupTime = sdf.format(haMeter.getStartTime());
+            if(pnumber!=orIgNumber){
+                haReplaceRecordsService.addHaReplaceRecords(orImeterNumber,orIgNumber,operatorCode,meterId);
+                haMeterService.noCheck(meterId);
+                haMeterService.checkButNoSettlement(setupTime,orImeterNumber,pnumber,meterId);
+                haCmdService.addHaCmdMeter(meterNumber,operatorCode,orIgNumber,pnumber);
+            }
             if (haRoomC == 1 && meter == 1) {
                 return "true";
             }
@@ -267,9 +293,15 @@ public class RoomController extends BaseController {
         } else if (opType.equals("changeMeter")) {
             Integer haRoomC = haRoomService.updateHaRoomC(haRoom);
             if (haRoomC == 1) {
+                if(haMeter.getMeterId()!=null){
+                    Integer updateNullRoomId = haMeterService.updateNullRoomId(haMeter.getMeterId());
+                }else {
+                    Integer updateNullRoomId2 = haMeterService.updateNullRoomId2(haMeter.getRoomId(), haMeter.getAreaId(), selMeterId);
+                }
                 return "true";
+            }else {
+                return false;
             }
-            return false;
         }
         return null;
     }

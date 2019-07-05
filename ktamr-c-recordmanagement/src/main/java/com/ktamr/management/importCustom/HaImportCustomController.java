@@ -107,7 +107,7 @@ public class HaImportCustomController extends BaseController {
         Integer allCount = haImportCustomService.queryAllHaImportCustomCount(haImportcustom); //总条目
         Integer addsCount = haImportCustomService.addsCount(haImportcustom); //新增数
         Integer updsCount = haImportCustomService.updsCount(haImportcustom); //修改数
-        Integer errors = addsCount - updsCount; //错误数
+        Integer errors = allCount-addsCount - updsCount; //错误数
         String msg = "总条目:" + allCount + ", 新增数:" + addsCount + ", 修改数:" + updsCount + ", 出错数:" + errors;
         model.addAttribute("fileName", fileName);
         model.addAttribute("importTime", importTime);
