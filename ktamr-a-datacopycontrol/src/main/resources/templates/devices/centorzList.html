@@ -388,20 +388,20 @@
                 case "采集器寻表":
                 case "加采集器":
                 case "删采集器":
-                    cmd = cmdName +":"+ rowData["resultParams.nconf"];
+                    cmd = cmdName +":"+ rowData["haCollector.snconf"];
                     break;
                 case "单表抄表":
                 case "关阀":
                 case "开阀":
-                    cmd = cmdName +":"+ rowData["haMeter.havMeterinfo.meterNumber"];
+                    cmd = cmdName +":"+ rowData["havMeterinfo.meterNumber"];
                     break;
                 case "集中器加表":
                 case "删除表":
-                    cmd = cmdName +":"+ "10"+","+rowData["haMeter.havMeterinfo.meterNumber"]+","+rowData["resultParams.collectorAddr"];
+                    cmd = cmdName +":"+ "10"+","+rowData["havMeterinfo.meterNumber"]+","+rowData["collectorAddr"];
                     break;
                 case "采集器加表":
                 case "采集器删表":
-                    cmd = cmdName +":"+ rowData["resultParams.collectorAddr"] +","+ rowData["haMeter.havMeterinfo.meterNumber"];
+                    cmd = cmdName +":"+ rowData["collectorAddr"] +","+ rowData["havMeterinfo.meterNumber"];
                     break;
                 default:
                     cmd = cmdName +":"+ "0";
