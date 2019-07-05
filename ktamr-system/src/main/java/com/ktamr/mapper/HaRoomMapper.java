@@ -43,9 +43,9 @@ public interface HaRoomMapper {
 
     HaRoom getByNameHaRoom(@Param("buildid") Integer buildid,@Param("name") String name);
 
-    Integer DeleteRoomsById(@Param("custid") Integer custid);
+    Integer DeleteRoomsById();
 
-    Integer SetRelateRoom(@Param("custid") Integer custid,@Param("roomid") Integer roomid);
+    Integer SetRelateRoom(@Param("roomid") Integer roomid);
 
     //拿到最后一个id
     HaRoom getLastId();

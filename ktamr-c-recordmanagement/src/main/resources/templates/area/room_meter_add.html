@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="include :: header">
     <meta charset="UTF-8">
@@ -274,7 +274,7 @@
                     return '表号不能为0';
                 }
                 queryData = {meterNumber: value};
-                if(value && isDataRepeat(queryData) == true){
+                if(value && isDataRepeat(queryData,"/room/addingCellValidation") == true){
                     return '表号重复';
                 }
             },

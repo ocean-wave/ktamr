@@ -75,13 +75,13 @@ public class HaRoomServiceImpl implements HaRoomService {
     }
 
     @Override
-    public Integer DeleteRoomsById(Integer custid) {
-        return haRoomMapper.DeleteRoomsById(custid);
+    public Integer DeleteRoomsById() {
+        return haRoomMapper.DeleteRoomsById();
     }
 
     @Override
-    public Integer SetRelateRoom(Integer custid, Integer roomid) {
-        return haRoomMapper.SetRelateRoom(custid,roomid);
+    public Integer SetRelateRoom(Integer roomid) {
+        return haRoomMapper.SetRelateRoom(roomid);
     }
 
     @Override
