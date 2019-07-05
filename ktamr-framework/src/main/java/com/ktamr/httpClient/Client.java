@@ -44,7 +44,7 @@ public class Client {
         try {
             HttpPost httpPost = new HttpPost(url);
             StringEntity stringEntity = new StringEntity(str);
-            stringEntity.setContentEncoding("gbk");
+            stringEntity.setContentEncoding(charset);
             stringEntity.setContentType("text/plain");
             httpPost.setEntity(stringEntity);
             CloseableHttpResponse response = httpclient.execute(httpPost);
