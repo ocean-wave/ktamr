@@ -390,7 +390,7 @@
                     return '表号不能为0';
                 }
                 queryData = {meterNumber: value};
-                if(g_meterId != "" && Number(g_meterNumber)!=value && isDataRepeat(queryData) == true){
+                if(g_meterId != "" && Number(g_meterNumber)!=value && isDataRepeat(queryData,"/room/addingCellValidation") == true){
                     return '表号重复';
                 }
             },

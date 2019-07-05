@@ -243,46 +243,29 @@ public class CHaRgnController extends BaseController {
             haRgn.setId(id);
             haRgn.setCreateTime(new Date());
             haRgn.setModifyTime(new Date());
-            Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-            if (addHaRgn == 1) {
-                return "true";
-            }
-            return "false";
         } else if (countNumber == 0 && countA == 0) {
             id = "A";
             haRgn.setId(id);
             haRgn.setCreateTime(new Date());
             haRgn.setModifyTime(new Date());
-            Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-            if (addHaRgn == 1) {
-                return "true";
-            }
-            return "false";
         } else if (countUpperCase == 26 && countla == 0) {
             id = "a";
             haRgn.setId(id);
             haRgn.setCreateTime(new Date());
             haRgn.setModifyTime(new Date());
-            Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-            if (addHaRgn == 1) {
-                return "true";
-            }
-            return "false";
         } else {
             if (elseId != null) {
                 id = elseId;
                 haRgn.setId(id);
                 haRgn.setCreateTime(new Date());
                 haRgn.setModifyTime(new Date());
-                Integer addHaRgn = haRngService.addHaRgnC(haRgn);
-                if (addHaRgn == 1) {
-                    return "true";
-                }
-                return "false";
-            } else {
-                return "超过新增数量限制！";
             }
         }
+        Integer addHaRgn = haRngService.addHaRgnC(haRgn);
+        if (addHaRgn == 1) {
+            return "true";
+        }
+        return "false";
     }
 
     @RequestMapping("/UpdateRgn")

@@ -136,15 +136,14 @@ public class CustomController extends BaseController {
         haCustom.setModifyTime(new Date());
         Integer custom = haCustomService.addHaCustom(haCustom);
         if(custom==1){
-            return "true";
-        }else {
             HaRoom byNameHaRoom = haRoomService.getByNameHaRoom(buildingId, roomName);
             if(byNameHaRoom!=null){
-                haRoomService.DeleteRoomsById(haCustom.getCustId());
-                haRoomService.SetRelateRoom(haCustom.getCustId(),byNameHaRoom.getRoomId());
+                haRoomService.DeleteRoomsById();
+                haRoomService.SetRelateRoom(byNameHaRoom.getRoomId());
             }else {
-               return "设置房间["+roomName+"]不成功";
+                return "设置房间["+roomName+"]不成功";
             }
+            return "true";
         }
         return "false";
     }
@@ -168,8 +167,8 @@ public class CustomController extends BaseController {
         }else {
             HaRoom byNameHaRoom = haRoomService.getByNameHaRoom(buildingId, roomName);
             if(byNameHaRoom!=null){
-                haRoomService.DeleteRoomsById(haCustom.getCustId());
-                haRoomService.SetRelateRoom(haCustom.getCustId(),byNameHaRoom.getRoomId());
+                haRoomService.DeleteRoomsById();
+                haRoomService.SetRelateRoom(byNameHaRoom.getRoomId());
             }else {
                 return "设置房间["+roomName+"]不成功";
             }

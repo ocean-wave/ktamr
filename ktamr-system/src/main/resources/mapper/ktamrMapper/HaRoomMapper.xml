@@ -138,11 +138,11 @@
     </select>
 
     <update id="DeleteRoomsById">
-        update ha_room set custid=null where custid=#{custid}
+        update ha_room set custid=null where custid=(SELECT custid from ha_custom order by custid desc limit 1)
     </update>
 
     <update id="SetRelateRoom">
-        UPDATE ha_room  SET custid=#{custid} WHERE roomid=#{roomid}
+        UPDATE ha_room  SET custid=(SELECT custid from ha_custom order by custid desc limit 1) WHERE roomid=#{roomid}
     </update>
 
     <select id="getLastId" resultType="com.ktamr.domain.HaRoom">
@@ -194,6 +194,9 @@
         <trim prefix="where" prefixOverrides="and | or">
             <if test="buildingId!=null and buildingId!=''and name != null and name != ''">
                 r.buildingid=#{buildingId} and  r.name=#{name}
+            </if>
+            <if test="meterNumber!=null and meterNumber!=''">
+                r.meternumber=#{meterNumber}
             </if>
         </trim>
         limit 1
