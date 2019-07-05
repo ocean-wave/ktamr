@@ -353,13 +353,16 @@
             var _this = this, t_array = new Array(), title="", _deviceName = deviceName;
             var selRowId = _this.rowIds[_this.index];
             t_array = cmd.split(":");
+
             if(selRowId == "" || selRowId == undefined){
                 if(t_array[0] == "多表抄收" || t_array[0] == "抄日冻结" || t_array[0] == "抄月冻结"){
                     $(".cmd_list").show();
                 }
                 return false;
             }
+            alert(t_array[0]);
             var rowData = parent.$("#"+_this.gridId).jqGrid('getRowData', selRowId);
+            alert(rowData);
             if(_deviceName == ""){
                 _deviceName = rowData["addr"];
             }

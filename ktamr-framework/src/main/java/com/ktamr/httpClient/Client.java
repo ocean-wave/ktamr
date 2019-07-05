@@ -12,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.nio.charset.Charset;
 
 /**
  * 发送参数到服务器端
@@ -40,12 +41,13 @@ public class Client {
     private boolean getClient(String str,String url) throws Exception{
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String result = "";
-        String charset = "gbk";
+        String charset = "GBK";
         try {
             HttpPost httpPost = new HttpPost(url);
-            StringEntity stringEntity = new StringEntity(str);
-            stringEntity.setContentEncoding(charset);
-            stringEntity.setContentType("text/plain");
+            StringEntity stringEntity = new StringEntity(str, Charset.forName(charset));
+            //stringEntity.setContentEncoding(charset);
+            //stringEntity.setContentType("text/plain");
+            httpPost.addHeader("Content-Type","text/plain;charset=GBK");
             httpPost.setEntity(stringEntity);
             CloseableHttpResponse response = httpclient.execute(httpPost);
             try {
@@ -70,7 +72,7 @@ public class Client {
     }
 
     private boolean getResult(String result){
-        if(StringUtils.isEmpty(result)){
+        if(!StringUtils.isEmpty(result)){
             return "0000000002ok".equals(result)?true:false;
         }else {
             return false;

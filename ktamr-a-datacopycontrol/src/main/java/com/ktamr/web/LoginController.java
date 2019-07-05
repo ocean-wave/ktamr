@@ -72,11 +72,16 @@ public class LoginController extends BaseController {
         }
     }
 
+    /**
+     * 左侧菜单根据以下session的值是否显示
+     * @param session
+     * @return
+     */
     @PostMapping("/loginGetSession")
     @ResponseBody
-    public Map<String,Object> loginGetSession(HttpSession session){
-        Map<String,Object> map=new HashMap<>();
-        try {
+    public Object loginGetSession(HttpSession session){
+
+
             //这里获取集中器,集采器,手抄器,DTU
             Integer centor_count = haCentorService.centor_count(publicUid);
             Integer collector_count = haCentorService.collector_count(publicUid);
@@ -85,17 +90,12 @@ public class LoginController extends BaseController {
             Integer DTU_count = haCentorService.DTU_count(publicUid);
 
             if(centor_count!=null&&collector_count!=null&&pad_count1!=null&&pad_count2!=null&&DTU_count!=null){
-                map.put("centor_count",centor_count);
-                map.put("collector_count",collector_count);
-                map.put("pad_count1",pad_count1);
-                map.put("pad_count2",pad_count2);
-                map.put("DTU_count",DTU_count);
+                 session.setAttribute("centor_count",centor_count);
+                 session.setAttribute("collector_count",collector_count);
+                 session.setAttribute("pad_count1",pad_count1);
+                 session.setAttribute("pad_count2",pad_count2);
+                 session.setAttribute("DTU_count",DTU_count);
             }
-            return map;
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return null;
+        return  "success";
     }
 }

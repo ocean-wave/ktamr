@@ -3,6 +3,7 @@ package com.ktamr.service.impl;
 import com.ktamr.domain.HaBillrecords;
 import com.ktamr.mapper.HaBillrecordsMapper;
 import com.ktamr.service.HaBillrecordsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,7 +12,7 @@ import java.util.List;
 @Service
 public class HaBillrecordsServiceImpl implements HaBillrecordsService {
 
-    @Resource
+    @Autowired
     private HaBillrecordsMapper haBillrecordsMapper;
 
     /**

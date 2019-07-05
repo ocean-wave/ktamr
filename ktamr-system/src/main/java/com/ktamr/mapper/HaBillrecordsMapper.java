@@ -34,7 +34,7 @@ public interface HaBillrecordsMapper {
      * @param haBillrecords
      * @return
      */
-    public List<HaBillrecords> selectYongHuZhangDan(@Param("HaBillrecords") HaBillrecords haBillrecords);
+    public List<HaBillrecords> selectYongHuZhangDan(HaBillrecords haBillrecords);
 
 
 
