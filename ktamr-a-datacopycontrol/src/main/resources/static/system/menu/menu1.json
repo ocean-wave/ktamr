@@ -52,7 +52,7 @@
 					},
 					{
 						"id": "1-2-4",
-						"url": "/equipment/gprsdtu",
+						"url": "/equipment/dtu/gprsdtu",
 						"name": "DTU",
 						"iconfont": "fa fa-angle-right",
 						"isShortMenu": "false",
