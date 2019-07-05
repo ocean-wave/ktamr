@@ -77,28 +77,28 @@
 
 
     <!--查询用户账单的列表根绝custid查询一波-->
-    <select id="selectYongHuZhangDan" resultMap="selectYongHuZhangDanMap">
+    <select id="selectYongHuZhangDan" resultType="HaBillrecords">
         select * from (
-        SELECT b.bId AS bId , b.operation AS operaTion, trim(to_char(b.charge::real, 'FM999999999.00')) AS charge,
+        SELECT b.bId AS bid , b.operation AS operaTion, trim(to_char(b.charge::real, 'FM999999999.00')) AS charge,
         trim(to_char(b.currentBalance::real, 'FM999999999.00')) AS currentBalance, to_char(b.optTime, 'yyyy-mm-dd hh24:mi:ss') AS
         optTime, CASE WHEN b.optMan='sys' THEN '系统' WHEN length(o.operator_name)>0 THEN o.operator_name WHEN
         o.operator_name IS NULL THEN b.optMan end AS caoZuoRen FROM ha_billRecords b LEFT JOIN ha_operator o ON
         b.optMan=o.operator_code
 
         <trim prefix="where" prefixOverrides="and | or">
-            <if test="HaBillrecords.custId !=null">
-                AND b.custid = ${HaBillrecords.custId}
+            <if test="custId !=null">
+                AND b.custid = ${custId}
             </if>
 
-            <if test="HaBillrecords.optType !=null and HaBillrecords.optType !=''">
-                AND POSITION('${HaBillrecords.optType}' in b.operation)>0
+            <if test="optType !=null and optType !=''">
+                AND POSITION('${optType}' in b.operation)>0
             </if>
 
-            <if test="HaBillrecords.kaiShi != null  and HaBillrecords.JieShu != null ">
+            <if test="kaiShi != null  and JieShu != null ">
                 and to_char(b.optTime, 'YYYY-MM-DD hh:mm:ss') between
-                '${HaBillrecords.kaiShi}'
+                '${kaiShi}'
                 and
-                '${HaBillrecords.JieShu}'
+                '${kaiShi}'
             </if>
         </trim>
         ORDER BY to_char(b.optTime, 'yyyy-mm-dd hh24:mi:ss') DESC

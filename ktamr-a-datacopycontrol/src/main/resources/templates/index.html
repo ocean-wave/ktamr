@@ -138,7 +138,12 @@
 			<li data-type="all">关闭所有</li>
 		</ul>
 
-		<input id="xka" type="text" value="<%=Session("DTU_count")%>">
+		<input id="centor_count" type="hidden" th:value='${session.centor_count}'>
+		<input id="collector_count" type="hidden" th:value='${session.collector_count}' >
+		<input id="pad_count1" type="hidden" th:value='${session.pad_count1}' >
+		<input id="pad_count2" type="hidden" th:value='${session.pad_count2}'>
+		<input id="DTU_count" type="hidden"  th:value='${session.DTU_count}'>
+
 </body>
 <!-- 左侧菜单列表模板引擎-->
 <script id="nav-tpl" type="text/html" data-params='{"url":"common/json/menu.json","listid":"nav","icon":"true"}'>
@@ -206,30 +211,26 @@
 <script>
 
 	//每一个都加上一个监听点击事件
-	// var list = document.getElementById('nav');
-	// list.addEventListener('click', function (event) {
-	// 	var attrName=$("#nav li:eq(3) a").attr("data-title");
-	//
-	// 	if(attrName=="集中器抄控"){
-	// 		showOrHide();
-	// 	}
-	// }, false);
+	var list = document.getElementById('nav');
+	list.addEventListener('click', function (event) {
+		var attrName=$("#nav li:eq(3) a").attr("data-title");
+
+		if(attrName=="集中器抄控"){
+			joinLoginGetSession();//进行session获取
+			showOrHide();
+		}
+	}, false);
 
 	//设备超控里面的节点是否隐藏或者显示
 	function showOrHide(){
 
-		$(function() {
-			$.ajax({
-				type : "POST",
-				url : "/loginGetSession",
-				dataType : "json",
-				success : function(data) {
+
 				//会话获取判断
-					var centor_count=data["centor_count"];
-					var collector_count=data["collector_count"];
-					var pad_count1=data["pad_count1"];
-					var pad_count2=data["pad_count2"];
-					var DTU_count=data["DTU_count"];
+					var centor_count=$("#centor_count").val();
+					var collector_count=$("#collector_count").val();
+					var pad_count1=$("#pad_count1").val();
+					var pad_count2=$("#pad_count2").val();
+					var DTU_count=$("#DTU_count").val();
 
 					if(centor_count==0){
 						$(".sub-menu li:eq(1)").hide();
@@ -247,17 +248,27 @@
 						$(".sub-menu li:eq(4)").hide();
 					}
 
-				},
-				error : function() {
-					alert("請求失敗");
-				}
-			});
-		});
-
-
 	}
 
+	/**
+	 * 进入方法并获取sessin
+	 */
+	function  joinLoginGetSession() {
+
+		$(function() {
+			$.ajax({
+				type : "POST",
+				url : "/loginGetSession",
+				dataType : "json",
+				success : function(data) {
+
+				}
+
+			});
+		});
+	}
 	function horizontalScreen(){
+
 		var width = document.documentElement.clientWidth;
 		var height =  document.documentElement.clientHeight;
 		//console.log("width,height:",width, height);
@@ -277,7 +288,8 @@
 	}
 	horizontalScreen();
 	$(window).resize(function(){
-		showOrHide()
+
+		showOrHide();
 		horizontalScreen();
 	});
 </script>

@@ -126,7 +126,6 @@ public class HaCustomController extends BaseController {
 
     /**
      * 打开用户账户列表 并存值
-     *
      * @param haCustom
      * @param model
      * @return

@@ -82,14 +82,8 @@ public class HaBillrecordsController extends BaseController {
      */
     @RequestMapping("/selectYongHuZhangDan")
     @ResponseBody
-    public Object queryHaCustomList(HaBillrecords haBillrecords, String startDate, String endDate
+    public Object queryHaCustomList(HaBillrecords haBillrecords
     ) {
-        if (startDate != null && startDate != "" && endDate != null && endDate != "") {
-            Date start = Tool.RiQiZhuanHua(startDate);
-            Date end = Tool.RiQiZhuanHua(endDate);
-            haBillrecords.setKaiShi(start);
-            haBillrecords.setJieShu(end);
-        }
         startPage();
         List<HaBillrecords> haBillrecordsList = haBillrecordsService.selectYongHuZhangDan(haBillrecords);
         Map<String, Object> map = getDataTable(haBillrecordsList);

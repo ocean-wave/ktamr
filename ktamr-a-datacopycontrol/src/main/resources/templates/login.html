@@ -59,6 +59,7 @@
 <script>
     var show_num = [];//将要生成的随机验证码
     draw(show_num);
+
     /**点击验证码重新生成*/
     $("#canvas").on('click', function () {
         draw(show_num);
@@ -97,7 +98,9 @@
 
             context.rotate(-deg);
             context.translate(-x, -y);
+
         }
+
         for (var i = 0; i <= 5; i++) { //验证码上显示线条
             context.strokeStyle = randomColor();
             context.beginPath();
@@ -114,6 +117,7 @@
             context.lineTo(x + 1, y + 1);
             context.stroke();
         }
+		$("#checkCodeYZM").val(show_num.join(""));//为了测试方便不用每次都输入验证吗
     }
 	layui.config({
 		base : '/common/js/',
