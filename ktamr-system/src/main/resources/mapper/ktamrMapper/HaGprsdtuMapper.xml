@@ -118,4 +118,19 @@
     <delete id="deleteHaGprsdtu">
         delete from ha_gprsdtu where uid = #{uId}
     </delete>
+
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_gprsdtu g
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="uId != null and uId != ''">
+               and g.uid=#{uId}
+            </if>
+            <if test="addr != null and addr != ''">
+                and g.addr=#{addr}
+            </if>
+        </trim>
+        limit 1
+    </select>
 </mapper>

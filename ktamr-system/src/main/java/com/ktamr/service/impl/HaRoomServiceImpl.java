@@ -70,6 +70,21 @@ public class HaRoomServiceImpl implements HaRoomService {
     }
 
     @Override
+    public HaRoom getByNameHaRoom(Integer buildid, String name) {
+        return haRoomMapper.getByNameHaRoom(buildid,name);
+    }
+
+    @Override
+    public Integer DeleteRoomsById(Integer custid) {
+        return haRoomMapper.DeleteRoomsById(custid);
+    }
+
+    @Override
+    public Integer SetRelateRoom(Integer custid, Integer roomid) {
+        return haRoomMapper.SetRelateRoom(custid,roomid);
+    }
+
+    @Override
     public HaRoom getLastId() {
         return haRoomMapper.getLastId();
     }
@@ -92,5 +107,10 @@ public class HaRoomServiceImpl implements HaRoomService {
     @Override
     public List<HaRoom> RoomByBuilding(HaRoom haRoom) {
         return haRoomMapper.RoomByBuilding(haRoom);
+    }
+
+    @Override
+    public Integer addingCellValidation(HaRoom haRoom) {
+        return haRoomMapper.addingCellValidation(haRoom);
     }
 }

@@ -39,4 +39,9 @@ public class HaFeestandardServiceImpl implements HaFeestandardService {
     public Integer deleteHaFeestandard(HaFeestandard haFeestandard) {
         return haFeestandardMapper.deleteHaFeestandard(haFeestandard);
     }
+
+    @Override
+    public Integer addingCellValidation2(HaFeestandard haFeestandard) {
+        return haFeestandardMapper.addingCellValidation2(haFeestandard);
+    }
 }

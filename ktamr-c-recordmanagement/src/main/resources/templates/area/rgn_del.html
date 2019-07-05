@@ -55,6 +55,7 @@
                 ,success: function(data){
                     if(data == "true"){
                         $("#delResult").html("删除成功");
+                        parent.$("#jqGrid").trigger("reloadGrid");
                     }else{
                         var n = Number(data);
                         $("#delResult").html("失败，下属存在"+n+"个小区资料");

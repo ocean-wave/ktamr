@@ -57,7 +57,7 @@ public class CHaRgnController extends BaseController {
     @ResponseBody
     public Object areasOpManageJson(HaRgn haRgn) {
         startPage();
-        haRgn.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","WHERE"));
+        haRgn.getParams().put("getRightCondition", SqlCondition.getRightCondition("n.id","rgn","and"));
         List<HaRgn> haRgns = haRngService.selectAllRngAndCountC(haRgn);
         Map<String, Object> map = getDataTable(haRgns);
         int areaCount = 0;
@@ -310,12 +310,17 @@ public class CHaRgnController extends BaseController {
         return "";
     }
 
+    /**
+     * 判断大区名称是否重复
+     * @param haRgn
+     * @return
+     */
     @RequestMapping("/CheckRgnName")
     @ResponseBody
-    public Object checkRgnName(HaRgn haRgn){
-        List<HaRgn> haRgns = haRngService.checkRgnName(haRgn);
-        if(haRgns.size()>0){
-            return "true";
+    public String checkRgnName(HaRgn haRgn){
+         Integer addingCellValidation = haRngService.checkRgnName(haRgn);
+        if(addingCellValidation==1){
+            return "True";
         }
         return "false";
     }

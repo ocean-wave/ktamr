@@ -307,4 +307,34 @@ public class DevicesController extends BaseController {
         return null;
     }
 
+    /**
+     * 添加时验证集中器
+     * @param haCentor
+     * @return
+     */
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaCentor haCentor){
+        Integer addingCellValidation = haCentorService.addingCellValidation(haCentor);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
+
+    /**
+     * 添加时验证集中器
+     * @param haCollector
+     * @return
+     */
+    @RequestMapping("/addingCellValidation2")
+    @ResponseBody
+    public String addingCellValidation2(HaCollector haCollector){
+        Integer addingCellValidation = haCollectorService.addingCellValidation2(haCollector);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
+
 }

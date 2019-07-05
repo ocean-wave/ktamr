@@ -46,4 +46,7 @@ public interface HaOperatorMapper {
 
     //修改传值
     HaOperator HaOperatorGetByID(HaOperator haOperator);
+
+    public Integer addingCellValidation(HaOperator haOperator);
+
 }

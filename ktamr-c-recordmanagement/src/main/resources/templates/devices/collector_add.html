@@ -114,7 +114,7 @@
             },
             deviceAdd: function (value, item) { //value：表单的值、item：表单的DOM对象
                 queryData = {centorId: g_deviceId, collectorNo: $("#deviceNo").val()};
-                if (isDataRepeat(queryData) == true) {
+                if (isDataRepeat(queryData,"/devices/addingCellValidation2") == true) {
                     if (g_cmdName == "新增采集器")
                         msg = "设备地址重复";
                     else
@@ -123,8 +123,8 @@
                 }
             },
             addr: function (value, item) { //value：表单的值、item：表单的DOM对象
-                queryData = {collectorAddr: $("#addr").val()};
-                if (isDataRepeat(queryData) == true) {
+                queryData = {addr: $("#addr").val()};
+                if (isDataRepeat(queryData,"/devices/addingCellValidation2") == true) {
                     if (g_cmdName == "新增采集器")
                         msg = "安装地址重复";
                     else

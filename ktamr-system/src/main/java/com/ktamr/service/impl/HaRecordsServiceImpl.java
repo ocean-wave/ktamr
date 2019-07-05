@@ -56,4 +56,9 @@ public class HaRecordsServiceImpl implements HaRecordsService {
         return haRecordsMapper.selectDosageHistory(params);
     }
 
+    @Override
+    public Integer addHaRecords(HaRecords haRecords) {
+        return haRecordsMapper.addHaRecords(haRecords);
+    }
+
 }

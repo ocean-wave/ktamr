@@ -65,4 +65,19 @@ public class HaDayFreezeServiceImpl implements HaDayFreezeService {
     public List<HaDayfreeze> selectAllDayfreeze(Map<String,Object> params) {
         return haDayFreezeMapper.selectAllDayfreeze(params);
     }
+
+    @Override
+    public HaDayfreeze fdayDataCount(HaDayfreeze haDayfreeze) {
+        return haDayFreezeMapper.fdayDataCount(haDayfreeze);
+    }
+
+    @Override
+    public Integer fdayDataCount2(HaDayfreeze haDayfreeze) {
+        return haDayFreezeMapper.fdayDataCount2(haDayfreeze);
+    }
+
+    @Override
+    public Integer fdayDataCount3(HaDayfreeze haDayfreeze) {
+        return haDayFreezeMapper.fdayDataCount3(haDayfreeze);
+    }
 }

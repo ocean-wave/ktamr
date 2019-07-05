@@ -50,19 +50,20 @@
             ,layer = layui.layer;
         var get_result_url = "/cbuilding/UpdateHaBuilding";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        var g_areaId = "<%=building.m_areaid%>";
+        var g_areaId = "[[${haBuilding.areaId}]]";
         var g_buildingId = $("#buildingId").val();
-        var g_org_buildingName = "<%=building.m_name%>";
+        var g_org_buildingName = "[[${haBuilding.name}]]";
 
-        // form.verify({
-        //     buildingName: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         var _buildingName = $("#buildingName").val();
-        //         queryData = {areaId: g_areaId, buildingName: _buildingName};
-        //         if(g_org_buildingName != _buildingName && isDataRepeat(queryData) == true){
-        //             return '楼栋名称重复';
-        //         }
-        //     }
-        // });
+        form.verify({
+            buildingName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {areaId: g_areaId,name: $("#buildingName").val()};
+                alert(queryData.areaId+" "+queryData.name)
+                if(value != "" && value !=g_org_buildingName && isDataRepeat(queryData,"/cbuilding/addingCellValidation") == true){
+                    return '楼栋名称重复';
+                }
+            }
+        });
+
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url

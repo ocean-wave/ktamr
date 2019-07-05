@@ -41,6 +41,12 @@ public interface HaRoomMapper {
 
     HaRoom delByIdHaRoom(@Param("haRoom") HaRoom haRoom);
 
+    HaRoom getByNameHaRoom(@Param("buildid") Integer buildid,@Param("name") String name);
+
+    Integer DeleteRoomsById(@Param("custid") Integer custid);
+
+    Integer SetRelateRoom(@Param("custid") Integer custid,@Param("roomid") Integer roomid);
+
     //拿到最后一个id
     HaRoom getLastId();
 
@@ -53,4 +59,12 @@ public interface HaRoomMapper {
 
     //修改时所属房间传值
     List<HaRoom> RoomByBuilding(HaRoom haRoom);
+
+    /**
+     * 添加房间表时验证一波
+     * @param haRoom
+     * @return
+     */
+    public Integer addingCellValidation(HaRoom haRoom);
+
 }

@@ -80,27 +80,20 @@
     </resultMap>
 
     <select id="selectAllRngAndCountC" resultType="com.ktamr.domain.HaRgn">
-        select * from (SELECT n.id AS id, n.name AS name, n.shortName AS shortName, n.zcode AS zcode,
+        SELECT n.id AS id, n.name AS name, n.shortName AS shortName, n.zcode AS zcode,
         (SELECT Count(a1.areaid) FROM ha_area a1 WHERE n.id=Left(a1.areaNo,1)) AS haAreaCount,
         (SELECT Count(c.id) FROM ha_centor c WHERE n.id=Left(c.centorNo,1)) AS haCentorCount,
         (SELECT Count(co.collectorid) FROM ha_collector co,ha_centor c WHERE c.id=co.centorid AND
         n.id=Left(c.centorNo,1)) AS haCollectorCount,
         (SELECT Count(m.meterid) FROM ha_meter m,ha_area a2 WHERE m.areaid=a2.areaid AND n.id=Left(a2.areaNo,1)) AS
-        haMeterCount,
-        t.n as badMeterCount from ha_rgn n LEFT JOIN
-        (SELECT Count(i.meterid) AS n,Left(i.areano, 1) as areano FROM hav_meterinfo i WHERE i.状态!='正常' AND i.状态!='正确'
-        AND i.状态!='建档' AND i.状态!='集中器无返回' AND i.状态!='关阀' AND i.状态!='修改' AND i.状态!='已更正' AND i.状态!='已更换' AND
-        i.状态!='采集器无返回' AND i.状态 NOT LIKE '%用量异常%' AND i.表号 >0
-        GROUP BY Left(i.areano, 1)) t ON
-        Left(t.areano, 1)=n.id
+        haMeterCount
+        from ha_rgn n where 1=1
         <!--数据范围过滤-->
         ${params.getRightCondition}
         <if test="keyWord != null and keyWord != ''">
-            and (n.id = #{keyWord} or n.shortName like '%${keyWord}%' or n.name like '%${keyWord}%' or
-            n.zCode like '%${keyWord}%')
+            and (n.shortName like '%${keyWord}%' or n.name like '%${keyWord}%' or n.zCode like '%${keyWord}%')
         </if>
-        group by n.id,t.n
-        )t1
+        ORDER BY n.name
         <!--多条件查询-->
         ${multipleConditions}
     </select>
@@ -172,8 +165,15 @@
     </select>
 
     <!--判断大区名称是否重复-->
-    <select id="checkRgnName" resultType="com.ktamr.domain.HaRgn">
-        SELECT name FROM ha_rgn WHERE name=#{haRgn.name}
+    <select id="checkRgnName" resultType="Integer">
+        select 1
+        from ha_rgn t
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="name != null and name != ''">
+                and  t.name=#{name}
+            </if>
+        </trim>
+        limit 1
     </select>
 
     <!--查询大区表全部信息与小区,集中器,采集器数,表数的数量  B    -->

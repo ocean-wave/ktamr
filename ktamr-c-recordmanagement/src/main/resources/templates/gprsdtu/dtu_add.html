@@ -61,20 +61,21 @@
             ,layer = layui.layer;
         var get_result_url = "/gprsdtu/AddGprsdtu";
 
-        // form.verify({
-        //     uid: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         queryData = {dtuUid: $("#uid").val()};
-        //         if(isDataRepeat(queryData) == true){
-        //             return '终端编号重复';
-        //         }
-        //     },
-        //     addr: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         queryData = {dtuAddr: $("#addr").val()};
-        //         if(isDataRepeat(queryData) == true){
-        //             return '安装地址重复';
-        //         }
-        //     }
-        // });
+        form.verify({
+            uid: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {uId: $("#uId").val()};
+                if(isDataRepeat(queryData,"/gprsdtu/addingCellValidation") == true){
+                    return '终端编号重复';
+                }
+            },
+            addr: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {addr: $("#addr").val()};
+                if(isDataRepeat(queryData,"/gprsdtu/addingCellValidation") == true){
+                    return '安装地址重复';
+                }
+            }
+        });
+
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url

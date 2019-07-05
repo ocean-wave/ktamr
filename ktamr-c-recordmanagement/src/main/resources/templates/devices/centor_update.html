@@ -195,9 +195,9 @@
         var get_result_url = "/devices/UpdateCentor";
         var g_deviceId = $("#deviceId").val();
         var g_areaNo = $("#uCentorNoFirst5").val();
-        var g_centorNo = "<%=centorObj.m_centorNo%>";
-        var g_centorid = "<%=centorObj.m_centorid%>";
-        var g_addr = "<%=centorObj.m_addr%>";
+        var g_centorNo = "[[${uCentor.centorNo}]]";
+        var g_centorid = "[[${uCentor.centorId}]]";
+        var g_addr = "[[${uCentor.addr}]]";
         var g_cmdName = $("#cmdName").val();
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
@@ -242,32 +242,32 @@
             centorNo: function (value, item) { //value：表单的值、item：表单的DOM对象
                 var _centorNo = g_areaNo + padNumber(value, 5);
                 queryData = {centorNo: _centorNo};
-                if (g_centorNo != _centorNo && isDataRepeat(queryData) == true) {
+                if (g_centorNo != _centorNo && isDataRepeat(queryData,"/devices/addingCellValidation") == true) {
                     return '设备地址重复';
                 }
             },
             centorID: function (value, item) {
                 var isNBccentor = $("#commMode").val().indexOf("KT3NB") >= 0 ? true : false;
                 if (isNBccentor) {
-                    queryData = {deviceType: "KT3NB", centorID: Number(value)};
+                    queryData = {deviceType: "KT3NB", centorId: Number(value)};
                 } else {
                     queryData = {centorNo: g_areaNo + padNumber(value, 5)};
                 }
-                if (Number(g_centorid) != Number(value) && isDataRepeat(queryData) == true) {
+                if (Number(g_centorid) != Number(value) && isDataRepeat(queryData,"/devices/addingCellValidation") == true) {
                     return '设备地址重复';
                 }
             },
             lineNo: function (value, item) { //value：表单的值、item：表单的DOM对象
                 var _lineNo = g_areaNo + padNumber(value, 5);
                 queryData = {centorNo: _lineNo};
-                if (Number(g_centorNo) != Number(_lineNo) && isDataRepeat(queryData) == true) {
+                if (Number(g_centorNo) != Number(_lineNo) && isDataRepeat(queryData,"/devices/addingCellValidation") == true) {
                     return '线路编号重复';
                 }
             },
             addr: function (value, item) { //value：表单的值、item：表单的DOM对象
                 var _addr = $("#addr").val();
-                queryData = {centorAddr: _addr};
-                if (g_addr != _addr && isDataRepeat(queryData) == true) {
+                queryData = {addr: _addr};
+                if (g_addr != _addr && isDataRepeat(queryData,"/devices/addingCellValidation") == true) {
                     return '安装地址重复';
                 }
             },

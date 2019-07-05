@@ -36,13 +36,13 @@
           t.newMeterNumber AS newmeterNumber, t.newMeterRead AS newmeterRead,
           to_char(t.replaceTime, 'yyyy-mm-dd hh24:mi:ss') AS replaceTime, t.replaceMan AS replaceMan
           FROM hat_metersReplace t LEFT JOIN hav_meterinfo mi ON t.oriMeterId=mi.meterid WHERE t.ID>0
-          AND to_char(t.importTime, 'yyyy-mm-dd hh24:mi:ss')=#{importTime}
+          AND importTime =#{importTime}
           ORDER BY mi.用户地址,mi.用户号
     </select>
 
     <!--将excel文档中的数据导入到零时表中-->
     <insert id="addHatMetersReplace">
-        INSERT INTO hat_metersReplace(userCode,oriMeterNumber, oriMeterRead, newMeterNumber, newMeterRead, replaceTime, replaceMan, remark,check_result, importTime) VALUES
+        INSERT INTO hat_metersReplace(userCode,oriMeterNumber,oriMeterRead, newMeterNumber, newMeterRead, replaceTime, replaceMan, remark,check_result, importTime) VALUES
         <foreach item="item" index="index" collection="params" separator=",">
             (#{item.1},#{item.2}::float , #{item.3}::int, #{item.4}::float , #{item.5}::int, TO_TIMESTAMP(#{item.6}, 'YYYY-MM-DD HH24:MI:SS'),#{item.7},#{item.8}, '待校验',TO_TIMESTAMP(#{item.9}, 'YYYY-MM-DD HH24:MI:SS'))
         </foreach>
@@ -138,14 +138,9 @@
 
     <!--插入旧表最终抄表记录-->
     <insert id="addOldMeterLastMeterRead">
-
-        <selectKey resultType="Integer" keyProperty="id" >
-            SELECT id.nextval AS id FROM ha_cmd
-        </selectKey>
-
         INSERT INTO ha_records(meterId, rate, lf_number, lf_time, th_number, th_time, delta, state, cmdid )
         SELECT m.meterId, m.rate , m.th_number, m.th_r_time, t.oriMeterRead, t.replaceTime,
-        t.oriMeterRead-m.th_number, '已更换',id FROM ha_meter m, hat_metersReplace t
+        t.oriMeterRead-m.th_number, '已更换',(select id from ha_cmd order by id desc limit 1) as cmdid FROM ha_meter m, hat_metersReplace t
         WHERE t.check_result='待更换' AND m.meterId=t.oriMeterId AND t.importTime=#{importTime}
     </insert>
 

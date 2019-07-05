@@ -25,8 +25,6 @@
 
 
 
-
-
     <select id="HaCollectorList" resultType="HaCollector">
         SELECT collectorid as collectorId, addr AS addr,
         to_hex(nconf) AS nconf,ver AS ver, state AS state
@@ -86,4 +84,21 @@
     <select id="CollectorByWhere" resultType="com.ktamr.domain.HaCollector">
         SELECT collectorid,to_hex(nconf)||':'||addr as addr FROM ha_collector where centorid = #{centorId}
     </select>
+
+    <!--添加集采器时验证一波    -->
+    <select id="addingCellValidation2" resultType="Integer">
+        select 1
+        from ha_collector c
+        <trim prefix="where" prefixOverrides="and | or">
+
+            <if test="centorId != null and centorId != ''and collectorNo != null and collectorNo != ''">
+                and c.collectorId=#{centorId} AND c.nconf=Cint('H"'+#{collectorNo}+'"')
+            </if>
+            <if test="addr != null and addr != ''">
+                and c.addr=#{addr}
+            </if>
+        </trim>
+        limit 1
+    </select>
+
 </mapper>

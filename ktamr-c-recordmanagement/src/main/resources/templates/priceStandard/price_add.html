@@ -136,8 +136,8 @@
 
         form.verify({
             priceName: function(value, item){ //value：表单的值、item：表单的DOM对象
-                queryData = {priceName: $("#priceName").val()};
-                if(isDataRepeat(queryData) == true){
+                queryData = {name: $("#priceName").val()};
+                if(isDataRepeat(queryData,"/priceStandard/addingCellValidation") == true){
                     return '价格名称重复';
                 }
             },

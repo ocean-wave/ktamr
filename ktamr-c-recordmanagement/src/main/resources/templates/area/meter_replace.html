@@ -52,7 +52,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">换表时间</label>
         <div class="layui-input-inline" style="width:170px;">
-            <input id="replaceTime" name="replaceTime" lay-verify="required" autocomplete="off" placeholder="必填,时间" class="layui-input" th:value="${#dates.format(nowDate,'yyyy-MM-dd')}" readonly="readonly">
+            <input id="replaceTime" name="replaceTime" lay-verify="required" autocomplete="off" placeholder="必填,时间" class="layui-input" th:value="${#dates.format(nowDate,'yyyy-MM-dd HH:mm:ss')}" readonly="readonly">
         </div>
         <label class="layui-form-label">换&nbsp;&nbsp;表&nbsp;&nbsp;人</label>
         <div class="layui-input-inline" style="width:170px;">
@@ -80,7 +80,7 @@
     layui.use(['form', 'layer'], function(){
         var form = layui.form
             ,layer = layui.layer;
-        var get_result_url = "./meter_replace_do.asp";
+        var get_result_url = "/meter/meter_replace_do";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
         var g_oldMeterNumber = $("#oldMeterNumber").val();
         var g_oldMeterRead = $("#oldMeterRead").val();
@@ -132,13 +132,13 @@
             var _centorNo = "";
             var data = {
                 meterId: g_meterId,
-                oldMeterNumber: $("#oldMeterNumber").val(),
-                oldMeterRead: $("#oldMeterRead").val(),
-                newMeterNumber: $("#newMeterNumber").val(),
-                newMeterRead: $("#newMeterRead").val(),
+                orimeterNumber: $("#oldMeterNumber").val(),
+                orimeterRead: $("#oldMeterRead").val(),
+                newmeterNumber: $("#newMeterNumber").val(),
+                newmeterRead: $("#newMeterRead").val(),
                 replaceTime: $("#replaceTime").val(),
-                replaceStaff: $("#replaceStaff").val(),
-                replaceRemark: $("#replaceRemark").val()
+                replaceMan: $("#replaceStaff").val(),
+                reMark: $("#replaceRemark").val()
             };
 
             if( Number($("#oldMeterRead").val()) < Number(g_oldMeterRead)){

@@ -28,4 +28,6 @@ public interface HaGprsdtuService {
     Integer updateHaGprsdtu(HaGprsdtu haGprsdtu);
 
     Integer deleteHaGprsdtu(HaGprsdtu haGprsdtu);
+
+    public Integer addingCellValidation(HaGprsdtu haGprsdtu);
 }

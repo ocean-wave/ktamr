@@ -224,4 +224,14 @@ public class OperatorController extends BaseController {
         }
         return null;
     }
+
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaOperator haOperator){
+        Integer addingCellValidation = haOperatorService.addingCellValidation(haOperator);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
+    }
 }

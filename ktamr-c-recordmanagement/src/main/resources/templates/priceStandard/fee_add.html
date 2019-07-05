@@ -57,14 +57,15 @@
         var form = layui.form
             ,layer = layui.layer;
         // var get_result_url = "./fee_add_do.asp";
+        var g_priceId = "[[${priceId}]]";
 
         form.verify({
-            // feeName: function(value, item){ //value：表单的值、item：表单的DOM对象
-            //     queryData = {priceId: g_priceId, feeName: value};
-            //     if(isDataRepeat(queryData) == true){
-            //         return '当前价格下费用名称重复';
-            //     }
-            // },
+            feeName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {pricestandId: g_priceId, name: value};
+                if(isDataRepeat(queryData,"/priceStandard/addingCellValidation2") == true){
+                    return '当前价格下费用名称重复';
+                }
+            },
             num_gt_0: function(value, item){
                 if(!isNaN(value) && Number(value)<= 0){
                     return '必须大于0';

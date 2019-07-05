@@ -50,4 +50,19 @@ public class HaMonFreezeServiceImpl implements HaMonFreezeService {
     public List<HaMonfreeze> selectAllMonfreeze(Map<String, Object> parms) {
         return haMonFreezeMapper.selectAllMonfreeze(parms);
     }
+
+    @Override
+    public HaMonfreeze fmonDataCount(HaMonfreeze haMonfreeze) {
+        return haMonFreezeMapper.fmonDataCount(haMonfreeze);
+    }
+
+    @Override
+    public Integer fmonDataCount2(HaMonfreeze haMonfreeze) {
+        return haMonFreezeMapper.fmonDataCount2(haMonfreeze);
+    }
+
+    @Override
+    public Integer fmonDataCount3(HaMonfreeze haMonfreeze) {
+        return haMonFreezeMapper.fmonDataCount3(haMonfreeze);
+    }
 }

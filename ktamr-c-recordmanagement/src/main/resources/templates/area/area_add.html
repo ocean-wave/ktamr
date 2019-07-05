@@ -96,20 +96,20 @@
 
         form.verify({
             areaNo: function(value, item){ //value：表单的值、item：表单的DOM对象
-                queryData = {areaNo: $("#rgn").val() + padNumber(value, 4)};
-                if(isDataRepeat(queryData) == true){
+                queryData = {areaNo: value};
+                if(isDataRepeat(queryData,"/area/addingCellValidation") == true){
                     return '小区编号重复';
                 }
             },
             areaName: function(value, item){ //value：表单的值、item：表单的DOM对象
-                queryData = {areaName: value};
-                if(isDataRepeat(queryData) == true){
+                queryData = {haName: value};
+                if(isDataRepeat(queryData,"/area/addingCellValidation") == true){
                     return '小区名称重复';
                 }
             },
             registeredNo: function(value, item){ //value：表单的值、item：表单的DOM对象
                 queryData = {registeredNo: value};
-                if(value !="" && isDataRepeat(queryData) == true){
+                if(value !="" && isDataRepeat(queryData,"/area/addingCellValidation") == true){
                     return '小区册号重复';
                 }
             }

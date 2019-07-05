@@ -40,4 +40,12 @@ public interface HaCollectorMapper {
 
     //修改时采集器传值
     List<HaCollector> CollectorByWhere(HaCollector haCollector);
+
+    /**
+     * 添加采集器时验证一波
+     * @param haCollector
+     * @return
+     */
+    public Integer addingCellValidation2(HaCollector haCollector);
+
 }

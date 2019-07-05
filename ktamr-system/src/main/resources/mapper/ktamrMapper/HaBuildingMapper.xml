@@ -10,6 +10,7 @@
         <result column="maddr" property="maddr" javaType="java.lang.String" jdbcType="VARCHAR"></result>
         <result column="name" property="name"/>
         <result column="description" property="description"/>
+        <result column="areaId" property="areaId"/>
         <association property="haArea" javaType="com.ktamr.domain.HaArea">
             <id column="aareaId" property="areaId"/>
             <result column="haName" property="haName"/>
@@ -141,7 +142,7 @@
     </update>
 
     <select id="updateByIdHaBuilding" resultMap="buildingMap">
-        SELECT b.buildingid as buildingId,b.name as name,b.description as description,
+        SELECT b.buildingid as buildingId,b.areaid as areaId,b.name as name,b.description as description,
         a.areaid as aareaid,a.name as haName FROM ha_building b,ha_area a WHERE b.areaid = a.areaid AND b.buildingid=#{buildingId}
     </select>
 
@@ -200,5 +201,17 @@
         <if test="typeName=='code'">
             select buildingNo, buildingNo||':'||name as Bname from ha_building WHERE areaid=#{areaId} ORDER BY name
         </if>
+    </select>
+
+    <!--添加楼栋时验证一波    -->
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_building b
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="areaId!=null and areaId!=''and name != null and name != ''">
+                b.areaid=#{areaId} and  b.name=#{name}
+            </if>
+        </trim>
+        limit 1
     </select>
 </mapper>

@@ -133,6 +133,18 @@
         select ha_room.name as name,ha_room.description as description,ha_room.buildingid as buildingId,ha_building.name as bname,custid as custId from ha_room,ha_building where ha_room.buildingid = ha_building.buildingid and roomid=#{haRoom.roomId}
     </select>
 
+    <select id="getByNameHaRoom" resultMap="queryAllRoomMap">
+        select ha_room.roomid,ha_room.description,ha_room.buildingid,ha_building.name,ha_room.custid from ha_room,ha_building where ha_room.buildingid = ha_building.buildingid and ha_room.name=#{name} and ha_room.buildingid=#{buildid}
+    </select>
+
+    <update id="DeleteRoomsById">
+        update ha_room set custid=null where custid=#{custid}
+    </update>
+
+    <update id="SetRelateRoom">
+        UPDATE ha_room  SET custid=#{custid} WHERE roomid=#{roomid}
+    </update>
+
     <select id="getLastId" resultType="com.ktamr.domain.HaRoom">
         select roomid from ha_room order by roomid desc limit 1
     </select>
@@ -173,5 +185,17 @@
         <if test="typeName=='name'">
             select name, name from ha_room WHERE buildingid=#{buildingId} ORDER BY name
         </if>
+    </select>
+
+    <!--添加房间表时验证一波    -->
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_room r
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="buildingId!=null and buildingId!=''and name != null and name != ''">
+                r.buildingid=#{buildingId} and  r.name=#{name}
+            </if>
+        </trim>
+        limit 1
     </select>
 </mapper>

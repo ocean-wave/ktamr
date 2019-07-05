@@ -177,4 +177,15 @@
       ,operator_remark as operatorRemark
         from ha_operator where operator_code=#{operatorCode}
     </select>
+
+    <select id="addingCellValidation" resultType="Integer">
+        select 1
+        from ha_operator o
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="operatorCode!=null and operatorCode!=''">
+                and o.operator_code=#{operatorCode}
+            </if>
+        </trim>
+        limit 1
+    </select>
 </mapper>

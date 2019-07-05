@@ -57,12 +57,13 @@
 
         form.verify({
             buildingName: function(value, item){ //value：表单的值、item：表单的DOM对象
-                queryData = {areaId: g_areaId, buildingName: $("#buildingName").val()};
-                if(isDataRepeat(queryData) == true){
+                queryData = {areaId: g_areaId,name: $("#buildingName").val()};
+                if(isDataRepeat(queryData,"/cbuilding/addingCellValidation") == true){
                     return '楼栋名称重复';
                 }
             }
         });
+
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url

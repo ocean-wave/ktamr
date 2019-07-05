@@ -16,4 +16,7 @@ public interface HaReplaceRecordsService {
      */
     public List<HaReplacerecords> selectReplace(HaReplacerecords haReplacerecords);
 
+    //replace meter
+    Integer replaceMeter2(HaReplacerecords haReplacerecords);
+
 }

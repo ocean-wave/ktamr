@@ -130,22 +130,21 @@ public class CustomController extends BaseController {
 
     @RequestMapping("/AddHaCustom")
     @ResponseBody
-    public Object addHaCustom(HaCustom haCustom,Integer areaId,Integer buildingId,Integer roomId){
+    public Object addHaCustom(HaCustom haCustom,Integer buildingId,String roomName){
         haCustom.setBalance(0);
-        HaArea haArea = new HaArea();
-        haArea.setAreaId(areaId);
-        HaBuilding haBuilding = new HaBuilding();
-        haBuilding.setBuildingId(buildingId);
-        HaRoom haRoom = new HaRoom();
-        haRoom.setRoomId(roomId);
-        haCustom.setHaArea(haArea);
-        haCustom.setHaBuilding(haBuilding);
-        haCustom.setHaRoom(haRoom);
         haCustom.setCreateTime(new Date());
         haCustom.setModifyTime(new Date());
         Integer custom = haCustomService.addHaCustom(haCustom);
         if(custom==1){
             return "true";
+        }else {
+            HaRoom byNameHaRoom = haRoomService.getByNameHaRoom(buildingId, roomName);
+            if(byNameHaRoom!=null){
+                haRoomService.DeleteRoomsById(haCustom.getCustId());
+                haRoomService.SetRelateRoom(haCustom.getCustId(),byNameHaRoom.getRoomId());
+            }else {
+               return "设置房间["+roomName+"]不成功";
+            }
         }
         return "false";
     }
@@ -162,10 +161,18 @@ public class CustomController extends BaseController {
 
     @RequestMapping("/updateHaCustom")
     @ResponseBody
-    public Object updateHaCustom(HaCustom haCustom){
+    public Object updateHaCustom(HaCustom haCustom,Integer buildingId,String roomName){
         Integer custom = haCustomService.updateHaCustom(haCustom);
         if(custom==1){
             return "true";
+        }else {
+            HaRoom byNameHaRoom = haRoomService.getByNameHaRoom(buildingId, roomName);
+            if(byNameHaRoom!=null){
+                haRoomService.DeleteRoomsById(haCustom.getCustId());
+                haRoomService.SetRelateRoom(haCustom.getCustId(),byNameHaRoom.getRoomId());
+            }else {
+                return "设置房间["+roomName+"]不成功";
+            }
         }
         return "false";
     }
@@ -176,6 +183,17 @@ public class CustomController extends BaseController {
         haCustom.setCustId(custId);
         List<HaCustom> haCustoms = haCustomService.ByIdHaCustom(custId);
         return haCustoms;
+    }
+
+
+    @RequestMapping("/addingCellValidation")
+    @ResponseBody
+    public String addingCellValidation(HaCustom haCustom){
+        Integer addingCellValidation = haCustomService.addingCellValidation(haCustom);
+        if(addingCellValidation==1){
+            return "True";
+        }
+        return "false";
     }
 
 }

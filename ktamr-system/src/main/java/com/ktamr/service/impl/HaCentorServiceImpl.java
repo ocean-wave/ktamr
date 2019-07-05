@@ -215,4 +215,9 @@ public class HaCentorServiceImpl implements HaCentorService {
         }
         return null;
     }
+
+    @Override
+    public Integer addingCellValidation(HaCentor haCentor) {
+        return haCentorMapper.addingCellValidation(haCentor);
+    }
 }

@@ -57,8 +57,15 @@
         var form = layui.form
             ,layer = layui.layer;
         var get_result_url = "/area/AddRgn";
-        var name = null;
 
+        form.verify({
+            rgnName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {name: $("#rgnName").val()};
+                if(isDataRepeat(queryData,"/area/CheckRgnName") == true){
+                    return '大区名称重复';
+                }
+            }
+        });
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url
@@ -72,44 +79,27 @@
                     }else{
                         layer.msg(data, {icon: 5});
                     }
+
                 }
             });
         }
 
 
         $("#close").click(function(){
-            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+           /* var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
             // parent.tree.refreshParentNode();
             parent.$("#jqGrid").trigger("reloadGrid");
-            parent.layer.close(index); //再执行关闭
+            parent.layer.close(index); //再执行关闭*/
         });
 
         form.on('submit(sure)', function (data) {
-            form.verify({
-                rgnName: function (value, item) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/area/CheckRgnName",
-                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                        data: {name: $("#rgnName").val()},
-                        async: false,
-                        success: function (data) {
-                            if (data == "true") {
-                                layer.msg('大区名称重复', {icon: 5});
-                            } else {
-                                var data2 = {
-                                    name: $("#rgnName").val(),
-                                    shortName: $("#shortName").val(),
-                                    zCode: $("#zCode").val()
-                                };
-                                submitInfo(data2);
-                            }
-                        }
-                    });
-                }
-            });
+            var data = {
+                name: $("#rgnName").val(),
+                shortName: $("#shortName").val(),
+                zCode: $("#zCode").val()
+            };
+            submitInfo(data);
         });
-
     });
 </script>
 </body>

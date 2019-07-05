@@ -69,4 +69,9 @@ public class HaBuildingServiceImpl implements HaBuildingService {
         return haBuildingMapper.BuildingByArea(haBuilding);
     }
 
+    @Override
+    public Integer addingCellValidation(HaBuilding haBuilding) {
+        return haBuildingMapper.addingCellValidation(haBuilding);
+    }
+
 }

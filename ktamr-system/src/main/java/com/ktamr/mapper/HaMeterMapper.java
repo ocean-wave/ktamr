@@ -3,6 +3,7 @@ package com.ktamr.mapper;
 import com.ktamr.domain.HaCentor;
 import com.ktamr.domain.HaCollector;
 import com.ktamr.domain.HaMeter;
+import com.ktamr.domain.HaMonfreeze;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -129,4 +130,11 @@ public interface HaMeterMapper {
      * @return 全部数据的总记录数
      */
     public Integer zhuYegetStateMeterCount(@Param("HaMeter") HaMeter haMeter);
+
+    //replace meter
+    Integer replaceMeter(HaMeter haMeter);
+
+    Integer replaceMeter3(HaMeter haMeter);
+
+    List<HaMeter> getRowIdMeter(HaMeter haMeter);
 }

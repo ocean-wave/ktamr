@@ -114,7 +114,7 @@
         var form = layui.form
             ,layer = layui.layer;
         var get_result_url = "/priceStandard/UpdatePricestandard";
-        // var g_priceName = "<%=pricestand.m_priceName%>";
+        var g_priceName = "[[${haPricestandards.name}]]";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
         $('#startTime').datepicker({
@@ -137,12 +137,12 @@
         });
 
         form.verify({
-            // priceName: function(value, item){ //value：表单的值、item：表单的DOM对象
-            //     queryData = {priceName: value};
-            //     if(g_priceName != value && isDataRepeat(queryData) == true){
-            //         return '价格名称重复';
-            //     }
-            // },
+            priceName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {name: value};
+                if(g_priceName != value && isDataRepeat(queryData,"/priceStandard/addingCellValidation") == true){
+                    return '价格名称重复';
+                }
+            },
             isInterger: function(value, item){
                 if(isNaN(value) || value%1 !== 0){
                     return '必须为整数';

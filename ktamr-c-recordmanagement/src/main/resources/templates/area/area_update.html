@@ -95,28 +95,32 @@
             ,layer = layui.layer;
         var get_result_url = "/area/UpdateArea";
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        var g_areaid="[[${area.areaId}]]",
+            g_areaNo="[[${area.areaNo}]]",
+            g_areaName="[[${area.haName}]]",
+            g_registeredNo="[[${area.registeredNo}]]";
 
-        // form.verify({
-        //     areaNo: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         var _areaNo = $("#rgn").val() + padNumber(value, 4)
-        //         queryData = {areaNo: _areaNo};
-        //         if(g_areaNo != _areaNo && isDataRepeat(queryData) == true){
-        //             return '小区编号重复';
-        //         }
-        //     },
-        //     areaName: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         queryData = {areaName: value};
-        //         if(g_areaName != value && isDataRepeat(queryData) == true){
-        //             return '小区名称重复';
-        //         }
-        //     },
-        //     registeredNo: function(value, item){ //value：表单的值、item：表单的DOM对象
-        //         queryData = {registeredNo: value};
-        //         if(value != "" && value !=g_registeredNo && isDataRepeat(queryData) == true){
-        //             return '小区册号重复';
-        //         }
-        //     }
-        // });
+        form.verify({
+            areaNo: function(value, item){ //value：表单的值、item：表单的DOM对象
+                var _areaNo = value
+                queryData = {areaNo: _areaNo};
+                if(g_areaNo != _areaNo && isDataRepeat(queryData,"/area/addingCellValidation") == true){
+                    return '小区编号重复';
+                }
+            },
+            areaName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {haName: value};
+                if(g_areaName != value && isDataRepeat(queryData,"/area/addingCellValidation") == true){
+                    return '小区名称重复';
+                }
+            },
+            registeredNo: function(value, item){ //value：表单的值、item：表单的DOM对象
+                queryData = {registeredNo: value};
+                if(value != "" && value !=g_registeredNo && isDataRepeat(queryData,"/area/addingCellValidation") == true){
+                    return '小区册号重复';
+                }
+            }
+        });
         function submitInfo(sendData){
             $.ajax({
                 url: get_result_url

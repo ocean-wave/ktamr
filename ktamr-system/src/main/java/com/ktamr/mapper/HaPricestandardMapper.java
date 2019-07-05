@@ -27,4 +27,6 @@ public interface HaPricestandardMapper {
 
     List<HaPricestandard> queryPriceStandardList();
 
+    public Integer addingCellValidation(HaPricestandard haPricestandard);
+
 }
