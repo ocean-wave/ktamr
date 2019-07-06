@@ -509,7 +509,7 @@
 
     <select id="mMeterSequence2" resultType="com.ktamr.domain.HaMeter">
         SELECT MIN(meter_sequence)+1 FROM
-        (SELECT meter_sequence FROM ha_meter WHERE centorid=#{centorId} AND meter_sequence+1 NOT IN (SELECT meter_sequence FROM ha_meter WHERE centorid=#{centorId2} AND isNull(meter_sequence)=false))
+        (SELECT meter_sequence FROM ha_meter WHERE centorid=#{centorId} AND meter_sequence+1 NOT IN (SELECT meter_sequence FROM ha_meter WHERE centorid=#{centorId2} AND meter_sequence!=null)) s
     </select>
 
     <update id="replaceMeter">

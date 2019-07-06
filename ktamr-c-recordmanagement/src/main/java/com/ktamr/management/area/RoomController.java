@@ -69,11 +69,13 @@ public class RoomController extends BaseController {
     private HaCmdService haCmdService;
 
     @RequestMapping("/JumpRoomMeterAdd")
-    public String JumpRoomMeterAdd(String cmdName, Integer buildingId, Model model) {
+    public String JumpRoomMeterAdd(String cmdName,Integer roomId,Integer meterId, Integer buildingId, Model model) {
         List<HaPricestandard> haPricestandardList = haPricestandardService.PriceStandardGenOptionSelected();
         model.addAttribute("haPricestandardList", haPricestandardList);
         model.addAttribute("cmdName", cmdName);
         model.addAttribute("buildingId", buildingId);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("meterId", meterId);
         return "area/room_meter_add";
     }
 
@@ -190,52 +192,53 @@ public class RoomController extends BaseController {
 
     @RequestMapping("/RoomMeterAdd")
     @ResponseBody
-    public Object roomMeterAdd(HaRoom haRoom, HaMeter haMeter) {
-        Integer addHaRoomC = haRoomService.addHaRoomC(haRoom);
-        if (addHaRoomC == 1) {
-            HaRoom lastId = haRoomService.getLastId();
-            haMeter.setRoomId(lastId.getRoomId());
-            Integer addHaMeter = haMeterService.addHaMeter(haMeter);
-            return "true";
+    public Object roomMeterAdd(HaRoom haRoom, HaMeter haMeter,Integer centorId, Integer collectorId) {
+        if(haRoom.getRoomId()==null){
+            Integer addHaRoomC = haRoomService.addHaRoomC(haRoom);
+            if (addHaRoomC == 1) {
+                int meterNumber = new Long(haMeter.getMeterNumber()).intValue();
+                HaRoom byNameHaRoom = haRoomService.getByNameHaRoom(haRoom.getBuildingId(), haRoom.getName());
+                if(meterNumber>0 && byNameHaRoom!=null){
+                    Object centorDevNo = null;
+                    Object mMeterSequences = null;
+                    Object nconf = null;
+                    if(centorId==null){
+                        centorDevNo=("X");
+                        centorId = null;
+                    }else {
+                        HaCentor haCentor = haCentorService.centorDevNo(centorId);
+                        centorDevNo = haCentor.getCentorId();
+                        HaCentor centorDevDescription = haCentorService.centorDevDescription(centorId);
+                        if (centorDevDescription.getDescription().substring(0, 5).equals("KT4EW")) {
+                            mMeterSequences = haMeterService.mMeterSequence2(centorId, centorId);
+                        }if (mMeterSequences==null || mMeterSequences.equals("") || mMeterSequences.equals(0)) {
+                            mMeterSequences=1;
+                        } else if (((HaMeter) mMeterSequences).getMeterSequence() - 0 > 65535) {
+                            mMeterSequences = null;
+                        }if (collectorId == null || collectorId == -1) {
+                            nconf=("X");
+                            collectorId = null;
+                        } else {
+                            nconf = haCollectorService.getNconf(collectorId);
+                        }
+                    }
+                    HaRoom lastId = haRoomService.getLastId();
+                    haMeter.setRoomId(lastId.getRoomId());
+                    Integer addHaMeter = haMeterService.addHaMeter(haMeter);
+                    if(addHaMeter==1){
+                        return "true";
+                    }
+                    return "false";
+                }
+            }
+            return "false";
         }
-        return "false";
-    }
-
-    @RequestMapping("/RoomMeterDel")
-    @ResponseBody
-    public Object roomMeterDel(Integer meterId, HaMeter haMeter) {
-        haMeter.setMeterId(meterId);
-        Integer meter = haMeterService.deleteHaMeter(haMeter);
-//        Integer dayFreeze = haDayFreezeService.delHaDayFreeze(meterId);
-//        Integer monFreeze = haMonFreezeService.delHaMonFreeze(meterId);
-        if (meter == 1) {
-            return "true";
-        }
-        return "false";
-    }
-
-    @RequestMapping("/RoomDel")
-    @ResponseBody
-    public Object roomDel(Integer roomId) {
-        Integer roomC = haRoomService.deleteHaRoomC(roomId);
-        if (roomC == 1) {
-            return "true";
-        }
-        return "false";
-    }
-
-    @RequestMapping("/ChangeForm")
-    @ResponseBody
-    public Object changeForm(HavMeterinfo havMeterinfo) {
-        startPage();
-        List<HavMeterinfo> havMeterinfos = havMeterinfoService.changeFormByAreaId(havMeterinfo);
-        Map<String, Object> map = getDataTable(havMeterinfos);
-        return map;
+        return null;
     }
 
     @RequestMapping("/UpdateRoom")
     @ResponseBody
-    public Object updateRoom(String opType, @Param("meterId") Integer meterId, Integer centorId, Integer collectorId, Integer meterNumber,float pnumber,@Param("selMeterId") Integer selMeterId, HaRoom haRoom, HaMeter haMeter, HttpSession session) {
+    public Object updateRoom(String opType, @Param("meterId") Integer meterId, Integer centorId, Integer collectorId, Integer meterNumber,@Param("selMeterId") Integer selMeterId, HaRoom haRoom, HaMeter haMeter, HttpSession session) {
         Object centorDevNo = null;
         Object mMeterSequences = null;
         Object nconf = null;
@@ -253,8 +256,8 @@ public class RoomController extends BaseController {
                     mMeterSequences = haMeterService.mMeterSequence(meterId);
                     if (((HaMeter) mMeterSequences).getMeterSequence() == 0) {
                         mMeterSequences = haMeterService.mMeterSequence2(centorId, centorId);
-                        if (mMeterSequences.equals("") || mMeterSequences.equals(0)) {
-                            mMeterSequences.equals(1);
+                        if (mMeterSequences==null || mMeterSequences.equals("") || mMeterSequences.equals(0)) {
+                            mMeterSequences=1;
                         } else if (((HaMeter) mMeterSequences).getMeterSequence() - 0 > 65535) {
                             mMeterSequences = null;
                         }
@@ -280,11 +283,11 @@ public class RoomController extends BaseController {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String setupTime = sdf.format(haMeter.getStartTime());
-            if(pnumber!=orIgNumber){
+            if(haMeter.getPnumber()!=orIgNumber){
                 haReplaceRecordsService.addHaReplaceRecords(orImeterNumber,orIgNumber,operatorCode,meterId);
                 haMeterService.noCheck(meterId);
-                haMeterService.checkButNoSettlement(setupTime,orImeterNumber,pnumber,meterId);
-                haCmdService.addHaCmdMeter(meterNumber,operatorCode,orIgNumber,pnumber);
+                haMeterService.checkButNoSettlement(setupTime,orImeterNumber,haMeter.getPnumber(),meterId);
+                haCmdService.addHaCmdMeter(meterNumber,operatorCode,orIgNumber,haMeter.getPnumber());
             }
             if (haRoomC == 1 && meter == 1) {
                 return "true";
@@ -295,15 +298,46 @@ public class RoomController extends BaseController {
             if (haRoomC == 1) {
                 if(haMeter.getMeterId()!=null){
                     Integer updateNullRoomId = haMeterService.updateNullRoomId(haMeter.getMeterId());
-                }else {
-                    Integer updateNullRoomId2 = haMeterService.updateNullRoomId2(haMeter.getRoomId(), haMeter.getAreaId(), selMeterId);
                 }
+                Integer updateNullRoomId2 = haMeterService.updateNullRoomId2(haMeter.getRoomId(), haMeter.getAreaId(), selMeterId);
                 return "true";
             }else {
                 return false;
             }
         }
         return null;
+    }
+
+    @RequestMapping("/RoomMeterDel")
+    @ResponseBody
+    public Object roomMeterDel(Integer meterId, HaMeter haMeter) {
+        haMeter.setMeterId(meterId);
+        Integer meter = haMeterService.deleteHaMeter(haMeter);
+        Integer dayFreeze = haDayFreezeService.delHaDayFreeze(meterId);
+        Integer monFreeze = haMonFreezeService.delHaMonFreeze(meterId);
+        if (meter == 1) {
+            return "true";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/RoomDel")
+    @ResponseBody
+    public Object roomDel(Integer roomId) {
+        Integer roomC = haRoomService.deleteHaRoomC(roomId);
+        if (roomC == 1) {
+            return "true";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/ChangeForm")
+    @ResponseBody
+    public Object changeForm(HavMeterinfo havMeterinfo) {
+        startPage();
+        List<HavMeterinfo> havMeterinfos = havMeterinfoService.changeFormByAreaId(havMeterinfo);
+        Map<String, Object> map = getDataTable(havMeterinfos);
+        return map;
     }
 
     //发送响应流方法

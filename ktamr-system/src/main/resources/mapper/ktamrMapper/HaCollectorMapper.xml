@@ -78,7 +78,7 @@
     </select>
 
     <select id="getNconf" resultType="com.ktamr.domain.HaCollector">
-        SELECT to_hex(nconf) FROM ha_collector WHERE collectorid=#{collectorId}
+        SELECT to_hex(nconf) as nconf FROM ha_collector WHERE collectorid=#{collectorId}
     </select>
 
     <select id="CollectorByWhere" resultType="com.ktamr.domain.HaCollector">

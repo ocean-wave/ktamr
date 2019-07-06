@@ -487,10 +487,8 @@
         });
         form.on('submit(sure)', function (data) {
             var tip = "";
-            alert($("#primalNumber").val());
             if(checkForm() == false)
                 return false;
-
             var data1 = {
                 opType: "updateMeter",
                 areaId: g_areaId,
