@@ -21,7 +21,7 @@ public class HatDevicesimport extends BaseEntity {
   private Date setupTime;
   private String tel;
   private String reMark;
-  private String check;
+  private String state;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date importTime;
@@ -108,15 +108,15 @@ public class HatDevicesimport extends BaseEntity {
     this.reMark = reMark;
   }
 
-  public String getCheck() {
-    return check;
-  }
+    public String getState() {
+        return state;
+    }
 
-  public void setCheck(String check) {
-    this.check = check;
-  }
+    public void setState(String state) {
+        this.state = state;
+    }
 
-  public Date getImportTime() {
+    public Date getImportTime() {
     return importTime;
   }
 
